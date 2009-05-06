@@ -1,0 +1,148 @@
+<ui version="4.0" >
+ <class>SessionEditorDlg</class>
+ <widget class="QDialog" name="SessionEditorDlg" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>737</width>
+    <height>566</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>pppppppppppppp</string>
+  </property>
+  <layout class="QVBoxLayout" >
+   <item>
+    <widget class="QLabel" name="label" >
+     <property name="text" >
+      <string>Include directories</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTreeView" name="m_pDirectoriesT" />
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox" >
+     <property name="title" >
+      <string>Backup</string>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="topMargin" >
+       <number>0</number>
+      </property>
+      <item row="0" column="0" >
+       <widget class="QRadioButton" name="m_pDontCreateBackupRB" >
+        <property name="text" >
+         <string>Don't create backup for modified files</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" >
+       <widget class="QRadioButton" name="m_pCreateBackupRB" >
+        <property name="text" >
+         <string>Create backup for modified files in</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" >
+       <widget class="QLineEdit" name="m_pBackupE" />
+      </item>
+      <item row="1" column="2" >
+       <widget class="QToolButton" name="m_pBackupB" >
+        <property name="text" >
+         <string>...</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" >
+     <item>
+      <widget class="QLabel" name="label_2" >
+       <property name="text" >
+        <string>Settings file name</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="m_pFileNameE" />
+     </item>
+     <item>
+      <widget class="QToolButton" name="m_pFileNameB" >
+       <property name="text" >
+        <string>...</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="m_pScanAtStartupCkB" >
+     <property name="text" >
+      <string>Scan for new and deleted files at startup</string>
+     </property>
+     <property name="checked" >
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="m_pOpenLastCkB" >
+     <property name="text" >
+      <string>Open last session at s&amp;tartup</string>
+     </property>
+     <property name="checked" >
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" >
+     <item>
+      <widget class="QPushButton" name="m_pOpenSessionsB" >
+       <property name="text" >
+        <string>Open the main "Sessions" dialog, to load an existing session</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="m_pOkB" >
+       <property name="text" >
+        <string>O&amp;K</string>
+       </property>
+       <property name="default" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="m_pCancelB" >
+       <property name="text" >
+        <string>Cancel</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

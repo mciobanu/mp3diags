@@ -1,0 +1,683 @@
+/***************************************************************************
+ *   MP3 Insight - diagnosis, repairs and tag editing for MP3 files        *
+ *                                                                         *
+ *   Copyright (C) 2009 by Marian Ciobanu                                  *
+ *   ciobi@inbox.com                                                       *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License version 2 as     *
+ *   published by the Free Software Foundation.                            *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
+
+
+#include  <QHttp>
+#include  <QDesktopServices>
+
+#include  <sys/time.h>
+
+#include  "MusicBrainzDownloader.h"
+
+#include  "Helpers.h"
+#include  "SimpleSaxHandler.h"
+#include  "StoredSettings.h"
+
+
+
+using namespace std;
+using namespace pearl;
+
+#if 1
+using namespace MusicBrainz;
+
+namespace MusicBrainz
+{
+
+/*
+    metadata
+        release-list
+            release
+                track-list
+*/
+struct SearchXmlHandler : public SimpleSaxHandler<SearchXmlHandler>
+{
+    SearchXmlHandler(MusicBrainzDownloader& dlg) : SimpleSaxHandler<SearchXmlHandler>("metadata"), m_dlg(dlg)
+    {
+        Node& meta (getRoot()); meta.onStart = &SearchXmlHandler::onMetaStart;
+            Node& relList (makeNode(meta, "release-list"));
+                Node& rel (makeNode(relList, "release")); rel.onStart = &SearchXmlHandler::onRelStart;
+                    Node& trackList (makeNode(rel, "track-list")); trackList.onStart = &SearchXmlHandler::onTrackListStart;
+    }
+
+private:
+    MusicBrainzDownloader& m_dlg;
+
+    void onMetaStart(const QXmlAttributes& /*attrs*/)
+    {
+        m_dlg.m_nLastLoadedPage = 0;
+    }
+
+    void onRelStart(const QXmlAttributes& attrs)
+    {
+        m_dlg.m_vAlbums.push_back(MusicBrainzAlbumInfo());
+        m_dlg.m_vAlbums.back().m_strId = convStr(attrs.value("id"));
+    }
+
+    void onTrackListStart(const QXmlAttributes& attrs)
+    {
+        m_dlg.m_vAlbums.back().m_nTrackCount = attrs.value("count").toInt();
+    }
+};
+
+
+/*
+    metadata
+        release
+            title
+            asin
+            artist
+                name
+            release-event-list
+                event
+            track-list
+                track
+                    title
+                    artist
+                        name
+            relation-list
+                relation
+*/
+struct AlbumXmlHandler : public SimpleSaxHandler<AlbumXmlHandler>
+{
+    AlbumXmlHandler(MusicBrainzAlbumInfo& albumInfo) : SimpleSaxHandler<AlbumXmlHandler>("metadata"), m_albumInfo(albumInfo)
+    {
+        Node& meta (getRoot()); meta.onEnd = &AlbumXmlHandler::onMetaEnd;
+            Node& rel (makeNode(meta, "release")); rel.onStart = &AlbumXmlHandler::onRelStart;
+                Node& albTitle (makeNode(rel, "title")); albTitle.onChar = &AlbumXmlHandler::onAlbTitleChar;
+                Node& asin (makeNode(rel, "asin")); asin.onChar = &AlbumXmlHandler::onAsinChar;
+                Node& albArtist (makeNode(rel, "artist"));
+                    Node& albArtistName (makeNode(albArtist, "name")); albArtistName.onChar = &AlbumXmlHandler::onAlbArtistNameChar;
+                Node& albRelEvents (makeNode(rel, "release-event-list"));
+                    Node& albEvent (makeNode(albRelEvents, "event")); albEvent.onStart = &AlbumXmlHandler::onAlbEventStart;
+                Node& albTrackList (makeNode(rel, "track-list"));
+                    Node& track (makeNode(albTrackList, "track")); track.onStart = &AlbumXmlHandler::onTrackStart;
+                        Node& trackTitle (makeNode(track, "title")); trackTitle.onChar = &AlbumXmlHandler::onTrackTitleChar;
+                        Node& trackArtist (makeNode(track, "artist"));
+                            Node& trackArtistName (makeNode(trackArtist, "name")); trackArtistName.onChar = &AlbumXmlHandler::onTrackArtistName;
+                Node& relationList (makeNode(rel, "relation-list")); relationList.onStart = &AlbumXmlHandler::onRelationListStart;
+                    Node& relation (makeNode(relationList, "relation")); relation.onStart = &AlbumXmlHandler::onRelationStart;
+    }
+
+private:
+    MusicBrainzAlbumInfo& m_albumInfo;
+    bool m_bTargetIsUrl;
+
+    void onRelStart(const QXmlAttributes& attrs)
+    {
+        CB_ASSERT (m_albumInfo.m_strId == convStr(attrs.value("id")));
+    }
+
+    void onAlbEventStart(const QXmlAttributes& attrs)
+    {
+        string strDate (convStr(attrs.value("date")));
+        if (!strDate.empty())
+        {
+            m_albumInfo.m_strReleased = m_albumInfo.m_strReleased.empty() ? strDate : min(m_albumInfo.m_strReleased, strDate);
+        }
+
+        string strFormat (convStr(attrs.value("format")));
+        if (!strFormat.empty() && string::npos == m_albumInfo.m_strFormat.find(strFormat))
+        {
+            addIfMissing(m_albumInfo.m_strFormat, strFormat);
+        }
+    }
+
+    void onTrackStart(const QXmlAttributes&)
+    {
+        m_albumInfo.m_vTracks.push_back(TrackInfo());
+        char a [10];
+        sprintf(a, "%d", cSize(m_albumInfo.m_vTracks));
+        m_albumInfo.m_vTracks.back().m_strPos = a;
+    }
+
+    void onRelationListStart(const QXmlAttributes& attrs)
+    {
+        m_bTargetIsUrl = "Url" == attrs.value("target-type");
+    }
+
+    void onRelationStart(const QXmlAttributes& attrs)
+    {
+        if (m_bTargetIsUrl)
+        {
+            QString qstrType (attrs.value("type"));
+            if ("AmazonAsin" == qstrType)
+            {
+                m_albumInfo.m_strAmazonLink = convStr(attrs.value("target"));
+            }
+            else if ("CoverArtLink" == qstrType)
+            {
+                string strUrl (convStr(attrs.value("target")));
+                if (beginsWith(strUrl, "http://"))
+                {
+                    m_albumInfo.m_vstrImageNames.push_back(strUrl);
+                }
+                else
+                { //ttt1 perhaps tell the user
+                    qDebug("Unsupported image link");
+                }
+            }
+        }
+    }
+
+
+    void onMetaEnd()
+    {
+        m_albumInfo.m_vpImages.resize(m_albumInfo.m_vstrImageNames.size());
+        m_albumInfo.m_vstrImageInfo.resize(m_albumInfo.m_vstrImageNames.size());
+        if (m_albumInfo.m_strAmazonLink.empty() && !m_albumInfo.m_strAsin.empty())
+        {
+            m_albumInfo.m_strAmazonLink = "http://www.amazon.com/gp/product/" + m_albumInfo.m_strAsin;
+        }
+
+        for (int i = 0, n = cSize(m_albumInfo.m_vTracks); i < n; ++i)
+        {
+            TrackInfo& t (m_albumInfo.m_vTracks[i]);
+            addList(t.m_strArtist, m_albumInfo.m_strArtist);
+        }
+    }
+
+    void onAlbTitleChar(const string& s)
+    {
+        m_albumInfo.m_strTitle = s;
+    }
+
+    void onAsinChar(const string& s)
+    {
+        m_albumInfo.m_strAsin = s;
+        m_albumInfo.m_vstrImageNames.push_back("http://images.amazon.com/images/P/" + s + ".01.LZZZZZZZ.jpg"); // ttt1 "01" is country code for US, perhaps try others //ttt1 perhaps check for duplicates
+    }
+
+    void onAlbArtistNameChar(const string& s)
+    {
+        m_albumInfo.m_strArtist = s;
+    }
+
+    void onTrackTitleChar(const string& s)
+    {
+        m_albumInfo.m_vTracks.back().m_strTitle = s;
+    }
+
+    void onTrackArtistName(const string& s)
+    {
+        m_albumInfo.m_vTracks.back().m_strArtist = s;
+    }
+};
+
+
+void MusicBrainzAlbumInfo::copyTo(AlbumInfo& dest)
+{
+    dest.m_strTitle = m_strTitle;
+    //dest.m_strArtist = m_strArtist;
+    //dest.m_strComposer; // !!! missing
+    //dest.m_strFormat = m_strFormat; // CD, tape, ...
+    //dest.m_strGenre = m_strGenre; // !!! missing
+    dest.m_strReleased = m_strReleased;
+    //dest.m_strNotes; // !!! missing
+    dest.m_vTracks = m_vTracks;
+
+    dest.m_strSourceName = MusicBrainzDownloader::SOURCE_NAME; // Discogs, MusicBrainz, ... ; needed by MainFormDlgImpl;
+    //dest.m_imageInfo; // !!! not set
+}
+
+
+} // namespace MusicBrainz
+
+
+
+//=============================================================================================================================
+//=============================================================================================================================
+//=============================================================================================================================
+
+
+/*override*/ void MusicBrainzDownloader::saveSize()
+{
+    m_settings.saveMusicBrainzSettings(width(), height());
+}
+
+
+/*static*/ const char* MusicBrainzDownloader::SOURCE_NAME ("MusicBrainz");
+
+
+
+MusicBrainzDownloader::MusicBrainzDownloader(QWidget* pParent, SessionSettings& settings) : AlbumInfoDownloaderDlgImpl(pParent, settings), m_nLastReqTime(0)
+{
+    setWindowTitle("Download album data from musicbrainz.org");
+
+    int nWidth, nHeight;
+    m_settings.loadMusicBrainzSettings(nWidth, nHeight);
+    if (nWidth > 400 && nHeight > 400) { resize(nWidth, nHeight); }
+
+    m_pViewAtAmazonL->setText(getAmazonText());
+
+    m_pGenreE->hide(); m_pGenreL->hide();
+    m_pAlbumNotesM->hide();
+
+    m_pVolumeL->hide(); m_pVolumeCbB->hide();
+
+    m_pImgSizeL->setMinimumHeight(m_pImgSizeL->height()*2);
+
+    m_pQHttp->setHost("musicbrainz.org");
+    m_pImageQHttp = new QHttp (this);
+
+    m_pModel = new WebDwnldModel(*this, *m_pTrackListG); // !!! in a way these would make sense to be in the base constructor, but that would cause calls to pure virtual methods
+    m_pTrackListG->setModel(m_pModel);
+
+    connect(m_pImageQHttp, SIGNAL(requestFinished(int, bool)), this, SLOT(onRequestFinished(int, bool)));
+
+    connect(m_pSearchB, SIGNAL(clicked()), this, SLOT(on_m_pSearchB_clicked()));
+
+    connect(m_pViewAtAmazonL, SIGNAL(linkActivated(const QString&)), this, SLOT(onAmazonLinkActivated(const QString&)));
+}
+
+
+MusicBrainzDownloader::~MusicBrainzDownloader()
+{
+    resetNavigation(); // !!! not in base class, because it calls virtual method resetNavigation()
+    clear();
+}
+
+void MusicBrainzDownloader::clear()
+{
+    clearPtrContainer(m_vpImages);
+    m_vAlbums.clear();
+}
+
+
+
+
+/*override*/ bool MusicBrainzDownloader::initSearch(const std::string& strArtist, const std::string& strAlbum)
+{
+    m_pSrchArtistE->setText(convStr((removeParentheses(strArtist))));
+    m_pSrchAlbumE->setText(convStr((removeParentheses(strAlbum))));
+    return !strArtist.empty() || !strAlbum.empty();
+}
+
+
+
+
+/*override*/ std::string MusicBrainzDownloader::createQuery()
+{
+    string s ("/ws/1/release/?type=xml&artist=" + convStr(m_pSrchArtistE->text()) + "&title=" + convStr(m_pSrchAlbumE->text()));
+    //qDebug("qry: %s", s.c_str());
+    if (m_pMatchCountCkB->isChecked())
+    {
+        s += convStr(QString("&count=%1").arg(m_nExpectedTracks));
+    }
+    /*for (string::size_type i = 0; i < s.size(); ++i)
+    {
+        if (' ' == s[i])
+        {
+            s[i] = '+';
+        }
+    }*/
+    //s = "/ws/1/release/?type=xml&artist=Beatles&title=Help";
+    return s;
+}
+
+
+void MusicBrainzDownloader::delay()
+{
+    long long t (getTime());
+    long long nDiff (t - m_nLastReqTime);
+    //qDebug("crt: %lld, prev: %lld, diff: %lld", t, m_nLastReqTime, t - m_nLastReqTime);
+    if (nDiff < 1000)
+    {
+        if (nDiff < 0) { nDiff = 0; }
+        int nWait (999 - (int)nDiff);
+        //qDebug("   wait: %d", nWait);
+        char a [15];
+        sprintf(a, "waiting %dms", nWait + 100);
+        addNote(a);
+        timespec ts;
+        ts.tv_sec = 0;
+        ts.tv_nsec = 100000000; // 0.1s, to be sure
+        nanosleep(&ts, 0);
+        ts.tv_nsec = nWait*1000000;
+        nanosleep(&ts, 0);
+        //qDebug("waiting %d", nWait);
+    }
+
+    m_nLastReqTime = t;
+}
+
+
+long long MusicBrainzDownloader::getTime() // time in milliseconds
+{
+    timeval tv;
+    gettimeofday(&tv, 0);
+    return tv.tv_sec*1000LL + tv.tv_usec/1000;
+}
+
+//==========================================================================================================================
+//==========================================================================================================================
+//==========================================================================================================================
+
+void MusicBrainzDownloader::on_m_pSearchB_clicked()
+{
+    clear();
+    search();
+}
+
+
+
+
+
+//==========================================================================================================================
+//==========================================================================================================================
+//==========================================================================================================================
+
+
+void MusicBrainzDownloader::loadNextPage()
+{
+    CB_ASSERT (!m_pQHttp->hasPendingRequests() && !m_pImageQHttp->hasPendingRequests());
+    ++m_nLastLoadedPage;
+    CB_ASSERT (m_nLastLoadedPage <= m_nTotalPages - 1);
+
+    //m_eState = NEXT;
+    setWaiting(SEARCH);
+    //char a [20];
+    //sprintf(a, "&page=%d", m_nLastLoadedPage + 1);
+    //string s (m_strQuery + a);
+
+    QHttpRequestHeader header ("GET", convStr(m_strQuery));
+    //header.setValue("Host", "www.musicbrainz.org");
+    header.setValue("Host", "musicbrainz.org");
+    //header.setValue("Accept-Encoding", "gzip");
+    delay();
+    //qDebug("--------------\npath %s", header.path().toUtf8().data());
+    //qDebug("qry %s", m_strQuery.c_str());
+    m_pQHttp->request(header);
+    //cout << "sent search " << m_pQHttp->request(header) << " for page " << (m_nLastLoadedPage + 1) << endl;
+}
+
+
+//ttt1 see if it is possible for a track to have its own genre
+
+QString MusicBrainzDownloader::getAmazonText() const
+{
+    if (m_nCrtAlbum < 0 || m_nCrtAlbum >= cSize(m_vAlbums))
+    {
+        return NOT_FOUND_AT_AMAZON;
+    }
+
+    const MusicBrainzAlbumInfo& album (m_vAlbums[m_nCrtAlbum]);
+    if (album.m_strAmazonLink.empty())
+    {
+        return NOT_FOUND_AT_AMAZON;
+    }
+    else
+    {
+        return convStr("<a href=\"" + album.m_strAmazonLink + "\">view at amazon.com</a>");
+    }
+}
+
+void MusicBrainzDownloader::onAmazonLinkActivated(const QString& qstrLink) // !!! it's possible to set openExternalLinks on a QLabel to open links automatically, but this leaves an ugly frame around the text, with it right side missing; also, manual handling is needed to open a built-in browser;
+{
+    m_pViewAtAmazonL->setText("qq"); // !!! the text needs to CHANGE to make the frame disappear
+    m_pViewAtAmazonL->setText(getAmazonText());
+
+    QDesktopServices::openUrl(qstrLink);
+}
+
+
+
+void MusicBrainzDownloader::reloadGui()
+{
+    AlbumInfoDownloaderDlgImpl::reloadGui();
+    m_pViewAtAmazonL->setText(getAmazonText());
+}
+
+
+void MusicBrainzDownloader::requestAlbum(int nAlbum)
+{
+    CB_ASSERT (!m_pQHttp->hasPendingRequests() && !m_pImageQHttp->hasPendingRequests());
+    m_nLoadingAlbum = nAlbum;
+    setWaiting(ALBUM);
+    //string s ("/release/" + m_vAlbums[nAlbum].m_strId + "?f=xml&api_key=e493f8f3c4");
+    string s ("/ws/1/release/" + m_vAlbums[nAlbum].m_strId + "?type=xml&inc=tracks+artist+release-events+url-rels");
+
+    QHttpRequestHeader header ("GET", convStr(s));
+    //header.setValue("Host", "www.discogs.org");
+    header.setValue("Host", "musicbrainz.org");
+    //header.setValue("Accept-Encoding", "gzip");
+    delay();
+    m_pQHttp->request(header);
+    //cout << "sent album " << m_vAlbums[nAlbum].m_strId << " - " << m_pQHttp->request(header) << endl;
+    addNote("getting album info ...");
+}
+
+
+
+void MusicBrainzDownloader::requestImage(int nAlbum, int nImage)
+{
+    CB_ASSERT (!m_pQHttp->hasPendingRequests() && !m_pImageQHttp->hasPendingRequests());
+
+    m_nLoadingAlbum = nAlbum;
+    m_nLoadingImage = nImage;
+    setWaiting(IMAGE);
+    const string& strUrl (m_vAlbums[nAlbum].m_vstrImageNames[nImage]);
+    setImageType(strUrl);
+
+    QUrl url (convStr(strUrl));
+    m_pImageQHttp->setHost(url.host());
+
+    delay(); // probably not needed, because doesn't seem that MusicBrainz would want to store images
+    //connect(m_pImageQHttp, SIGNAL(requestFinished(int, bool)), this, SLOT(onRequestFinished(int, bool)));
+    //qDebug("host: %s, path: %s", url.host().toLatin1().data(), url.path().toLatin1().data());
+    //qDebug("%s", strUrl.c_str());
+    m_pImageQHttp->get(url.path());
+
+    addNote("getting image ...");
+}
+
+
+//==========================================================================================================================
+//==========================================================================================================================
+//==========================================================================================================================
+
+
+/*override*/ QHttp* MusicBrainzDownloader::getWaitingHttp()
+{
+    return IMAGE == m_eWaiting ? m_pImageQHttp : m_pQHttp;
+}
+
+/*override*/ void MusicBrainzDownloader::resetNavigation()
+{
+    m_pImageQHttp->clearPendingRequests();
+    AlbumInfoDownloaderDlgImpl::resetNavigation();
+}
+
+
+/*override*/ WebAlbumInfoBase& MusicBrainzDownloader::album(int i)
+{
+    return m_vAlbums.at(i);
+}
+
+/*override*/ int MusicBrainzDownloader::getAlbumCount() const
+{
+    return cSize(m_vAlbums);
+}
+
+
+/*override*/ QXmlDefaultHandler* MusicBrainzDownloader::getSearchXmlHandler()
+{
+    return new SearchXmlHandler(*this);
+}
+
+/*override*/ QXmlDefaultHandler* MusicBrainzDownloader::getAlbumXmlHandler(int nAlbum)
+{
+    //return new AlbumXmlHandler(m_vAlbums.at(nAlbum));
+    return new AlbumXmlHandler(m_vAlbums.at(nAlbum));
+}
+
+
+/*override*/ const WebAlbumInfoBase* MusicBrainzDownloader::getCrtAlbum() const // returns 0 if there's no album
+{
+    if (m_nCrtAlbum < 0 || m_nCrtAlbum >= cSize(m_vAlbums)) { return 0; }
+    return &m_vAlbums[m_nCrtAlbum];
+}
+
+
+
+
+/*
+
+release-event-list: format="CD"
+
+*/
+
+/*
+Doc:
+http://musicbrainz.org/doc/XMLWebService
+http://musicbrainz.org/doc/MusicBrainzXMLMetaData
+*/
+
+/*
+Examples:
+http://musicbrainz.org/ws/1/release/?type=xml&artist=alizee - search by artist only
+http://musicbrainz.org/ws/1/release/02232360-337e-4a3f-ad20-6cdd4c34288c?type=xml&inc=tracks+artist+release-events+url-rels - release with wikipedia link
+http://musicbrainz.org/ws/1/release/d1cbe1f4-7e49-4d73-bfef-e2c2cde3ba95?type=xml&inc=tracks+artist+release-events+url-rels - release with amazon link
+http://musicbrainz.org/ws/1/release/fa9a32b9-b45b-4b63-92de-f5f6332d9821?type=xml&inc=tracks+artist+release-events+url-rels - release with CoverArtLink link
+http://musicbrainz.org/ws/1/release/6e228dfa-b0c7-4987-a36d-7ac14541ae66?type=xml&inc=tracks+artist+release-events+url-rels - release with CoverArtLink link 2 has URL ending with ".jpg", which works
+
+
+*/
+
+
+
+/*
+
+http://musicbrainz.org/ws/1/release/QQQ?type=xml&inc=tracks+artist+release-events+url-rels
+http://musicbrainz.org/ws/1/release/?type=xml&artist=QQQ&title=QQQ&count=QQQ
+
+
+http://musicbrainz.org/ws/1/release/?type=xml&artist=milea
+
+
+http://musicbrainz.org/ws/1/release/02232360-337e-4a3f-ad20-6cdd4c34288c?type=xml&inc=tracks+artist+release-events+url-rels+discs+ratings  - has "rating" field
+
+
+http://musicbrainz.org/ws/1/release/d1cbe1f4-7e49-4d73-bfef-e2c2cde3ba95?type=xml
+http://musicbrainz.org/ws/1/release/d1cbe1f4-7e49-4d73-bfef-e2c2cde3ba95?type=xml&inc=tracks
+http://musicbrainz.org/ws/1/release/d1cbe1f4-7e49-4d73-bfef-e2c2cde3ba95?type=xml&inc=artist
+http://musicbrainz.org/ws/1/release/d1cbe1f4-7e49-4d73-bfef-e2c2cde3ba95?type=xml&inc=release-events
+http://musicbrainz.org/ws/1/release/d1cbe1f4-7e49-4d73-bfef-e2c2cde3ba95?type=xml&inc=url-rels
+
+http://musicbrainz.org/ws/1/release/d1cbe1f4-7e49-4d73-bfef-e2c2cde3ba95?type=xml&inc=tracks+artist+release-events+url-rels+discs+ratings
+
+?discs,artist-rels,label-rels,release-rels,track-rels,track-level-rels,labels,tags,ratings
+user-tags - passwd
+
+artist counts release-events discs tracks artist-rels label-rels release-rels track-rels discs track-level-rels labels tags
+
+?? rels = "relations"
+
+*/
+
+
+
+/*
+
+// images from Amazon:
+
+http://blog.musicbrainz.org/?m=200402 - One of the conditions under which this content is licensed from Amazon is that we must display the “buy” link whenever we display the cover art
+
+
+http://musicbrainz.org/doc/XMLWebService - API
+
+
+http://musicbrainz.org/ws/1/release/?title=dire+straits&type=xml
+
+http://musicbrainz.org/ws/1/release/?title=<TITLE>&artist=<ARTIST>&type=xml
+
+
+this returns a list of releases, some of which have an ASIN
+
+Then to get the picture:
+http://images.amazon.com/images/P/<ASIN>.01.LZZZZZZZ.jpg
+e.g. http://images.amazon.com/images/P/B00000INM1.01.LZZZZZZZ.jpg
+
+
+(might replace 01 with some other country code)
+
+
+
+Some details here:
+http://narcanti.keyboardsamurais.de/amazon-book-picture.html
+
+-------------------
+
+http://digilib.weblog.ub.rug.nl/node/48  : It doesn't seem to be an official service from Amazon, but it is common knowledge that images can be retrieved from Amazon by sending a URL of a certain form. Such images can be used by libraries too when making lists of books (Latest acquisitions, exhibitions, perhaps even in the catalog).
+
+They are exremely ugly, but they do seem to have a clear pattern. The pattern is as follows:
+    [BaseURL][ASIN].[country-code].[commands]
+
+
+The country code can be a two-letter-code, where 01 is for probing the amazon in the US and Canada (amazon.com), 02 for the UK (amazon.co.uk), 03 for Germany (amazon.de). A full list of country codes I wasn't able to find.
+
+-------------------
+
+http://aaugh.com/imageabuse.html  - most details, including image transformations, adding text, ...
+
+*/
+
+/*
+
+http://musicbrainz.org/doc/XMLWebService
+
+http://musicbrainz.org/ws/1/artist/?type=xml&name=Seicaru&limit=2
+http://musicbrainz.org/ws/1/release/?type=xml&artist=Seicaru
+
+Piece by Piece:
+http://musicbrainz.org/ws/1/release/5c7ff4fc-bc24-4375-b587-c57ad158e361?type=xml
+    <asin>B000HD0YGK</asin>
+
+
+http://www.amazon.com/gp/product/images/B000HD0YGK/ref=dp_otherviews_1?ie=UTF8&s=music&img=1
+http://ecx.images-amazon.com/images/I/51NNqV1VlUL._SS400_.jpg
+
+
+http://musicbrainz.org/doc/CoverArtSites
+http://bugs.musicbrainz.org/browser/mb_server/trunk/cgi-bin/MusicBrainz/Server/CoverArt.pm#L39   - Amazon
+
+
+??? http://www.amazon.com/images/P/B000HD0YGK.01.MZZZZZZZ.jpg
+http://ecx.images-amazon.com/images/P/B000HD0YGK.01.SZZZZZZZ.jpg
+http://ecx.images-amazon.com/images/P/B000HD0YGK.01.MZZZZZZZ.jpg
+http://ecx.images-amazon.com/images/P/B000HD0YGK.01.LZZZZZZZ.jpg
+
+http://images.amazon.com/images/P/B000HD0YGK.01._SCLZZZZZZZ_.jpg
+
+http://wiki.musicbrainz.org/AmazonMatching - obsolete "Amazon Matching"
+
+http://users.musicbrainz.org/~luks/docs/libmusicbrainz3/ - doc; or generate locally with "doxygen Doxyfile"
+
+*/
+
+
+//ttt1 perhaps look at Last.fm for more pictures (see Cover Fetcher for AmaroK 1.4; a brief look at the API seems to indicate that a generic "search" is not possible)
+
+
+//ttt1 detect Qt 4.4 and use QWebView
+#endif
+
+

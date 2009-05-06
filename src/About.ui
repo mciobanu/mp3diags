@@ -1,0 +1,197 @@
+<ui version="4.0" >
+ <class>AboutDlg</class>
+ <widget class="QDialog" name="AboutDlg" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>903</width>
+    <height>477</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>About MP3 Diags</string>
+  </property>
+  <layout class="QVBoxLayout" >
+   <item>
+    <widget class="QWidget" native="1" name="widget" >
+     <layout class="QHBoxLayout" >
+      <item>
+       <widget class="QLabel" name="label" >
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize" >
+         <size>
+          <width>48</width>
+          <height>48</height>
+         </size>
+        </property>
+        <property name="text" >
+         <string/>
+        </property>
+        <property name="pixmap" >
+         <pixmap resource="Mp3TagDoctor.qrc" >:/images/about.svg</pixmap>
+        </property>
+        <property name="scaledContents" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="m_pVersionL" >
+        <property name="font" >
+         <font>
+          <pointsize>19</pointsize>
+          <weight>75</weight>
+          <italic>false</italic>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text" >
+         <string>MP3 Diags 0.7.0.0</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTabWidget" name="tabWidget" >
+     <property name="currentIndex" >
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tab" >
+      <attribute name="title" >
+       <string>About</string>
+      </attribute>
+      <layout class="QHBoxLayout" >
+       <item>
+        <widget class="QWidget" native="1" name="widget_2" >
+         <layout class="QVBoxLayout" >
+          <property name="leftMargin" >
+           <number>20</number>
+          </property>
+          <property name="topMargin" >
+           <number>40</number>
+          </property>
+          <property name="rightMargin" >
+           <number>20</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>20</number>
+          </property>
+          <item>
+           <widget class="QTextBrowser" name="m_pMainTextM" >
+            <property name="frameShape" >
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="openExternalLinks" >
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_2" >
+      <attribute name="title" >
+       <string>GPL V2 (for the program)</string>
+      </attribute>
+      <layout class="QHBoxLayout" >
+       <item>
+        <widget class="QTextBrowser" name="m_pGplV2M" />
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_4" >
+      <attribute name="title" >
+       <string>LGPL V3 (for the icons)</string>
+      </attribute>
+      <layout class="QHBoxLayout" >
+       <item>
+        <widget class="QTextBrowser" name="m_pLgplV3M" />
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_3" >
+      <attribute name="title" >
+       <string>GPL V3 (for the icons)</string>
+      </attribute>
+      <layout class="QHBoxLayout" >
+       <item>
+        <widget class="QTextBrowser" name="m_pGplV3M" />
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" native="1" name="widget_3" >
+     <layout class="QHBoxLayout" >
+      <property name="leftMargin" >
+       <number>0</number>
+      </property>
+      <property name="topMargin" >
+       <number>0</number>
+      </property>
+      <property name="rightMargin" >
+       <number>0</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>0</number>
+      </property>
+      <item>
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="m_pOkB" >
+        <property name="text" >
+         <string>OK</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>m_pOkB</tabstop>
+ </tabstops>
+ <resources>
+  <include location="Mp3TagDoctor.qrc" />
+ </resources>
+ <connections/>
+</ui>

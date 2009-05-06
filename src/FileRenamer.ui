@@ -1,0 +1,303 @@
+<ui version="4.0" >
+ <class>FileRenamerDlg</class>
+ <widget class="QDialog" name="FileRenamerDlg" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1003</width>
+    <height>579</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>MP3 Insight - File renamer</string>
+  </property>
+  <layout class="QVBoxLayout" >
+   <item>
+    <widget class="QWidget" native="1" name="widget_6" >
+     <layout class="QHBoxLayout" >
+      <property name="spacing" >
+       <number>20</number>
+      </property>
+      <property name="leftMargin" >
+       <number>0</number>
+      </property>
+      <property name="topMargin" >
+       <number>0</number>
+      </property>
+      <property name="rightMargin" >
+       <number>0</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QWidget" native="1" name="widget" >
+        <layout class="QHBoxLayout" >
+         <property name="spacing" >
+          <number>3</number>
+         </property>
+         <property name="leftMargin" >
+          <number>0</number>
+         </property>
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <property name="rightMargin" >
+          <number>0</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QToolButton" name="m_pPrevB" >
+           <property name="minimumSize" >
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize" >
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="focusPolicy" >
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="toolTip" >
+            <string>Previous [Ctrl+P]</string>
+           </property>
+           <property name="text" >
+            <string>&lt;</string>
+           </property>
+           <property name="icon" >
+            <iconset resource="Mp3TagDoctor.qrc" >:/images/go-previous.svg</iconset>
+           </property>
+           <property name="iconSize" >
+            <size>
+             <width>36</width>
+             <height>36</height>
+            </size>
+           </property>
+           <property name="shortcut" >
+            <string>Ctrl+P</string>
+           </property>
+           <property name="autoRaise" >
+            <bool>true</bool>
+           </property>
+           <property name="arrowType" >
+            <enum>Qt::NoArrow</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="m_pCrtDirTagEdtE" >
+           <property name="toolTip" >
+            <string>Folder</string>
+           </property>
+           <property name="readOnly" >
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="m_pNextB" >
+           <property name="minimumSize" >
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize" >
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="focusPolicy" >
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="toolTip" >
+            <string>Next [Ctrl+N]</string>
+           </property>
+           <property name="text" >
+            <string>></string>
+           </property>
+           <property name="icon" >
+            <iconset resource="Mp3TagDoctor.qrc" >:/images/go-next.svg</iconset>
+           </property>
+           <property name="iconSize" >
+            <size>
+             <width>36</width>
+             <height>36</height>
+            </size>
+           </property>
+           <property name="shortcut" >
+            <string>Ctrl+N</string>
+           </property>
+           <property name="autoRaise" >
+            <bool>true</bool>
+           </property>
+           <property name="arrowType" >
+            <enum>Qt::NoArrow</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="m_pKeepOriginalCkB" >
+        <property name="toolTip" >
+         <string>If this is checked, a copy of the file is created, and both original and copy are kept</string>
+        </property>
+        <property name="text" >
+         <string>Keep the original file</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="m_pEditPatternsB" >
+        <property name="minimumSize" >
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize" >
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="focusPolicy" >
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="toolTip" >
+         <string>Edit patterns</string>
+        </property>
+        <property name="text" >
+         <string>...</string>
+        </property>
+        <property name="icon" >
+         <iconset resource="Mp3TagDoctor.qrc" >:/images/patterns.svg</iconset>
+        </property>
+        <property name="iconSize" >
+         <size>
+          <width>36</width>
+          <height>36</height>
+         </size>
+        </property>
+        <property name="autoRaise" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="m_pRenameB" >
+        <property name="minimumSize" >
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize" >
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="focusPolicy" >
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="toolTip" >
+         <string>Rename</string>
+        </property>
+        <property name="text" >
+         <string>...</string>
+        </property>
+        <property name="icon" >
+         <iconset resource="Mp3TagDoctor.qrc" >:/images/rename.svg</iconset>
+        </property>
+        <property name="iconSize" >
+         <size>
+          <width>36</width>
+          <height>36</height>
+         </size>
+        </property>
+        <property name="autoRaise" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTableView" name="m_pCurrentAlbumG" />
+   </item>
+   <item>
+    <widget class="QWidget" native="1" name="m_pBtnPanelW" >
+     <layout class="QHBoxLayout" >
+      <property name="leftMargin" >
+       <number>0</number>
+      </property>
+      <property name="topMargin" >
+       <number>0</number>
+      </property>
+      <property name="rightMargin" >
+       <number>0</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="m_pAlbumTypeL" >
+        <property name="text" >
+         <string>alb type</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" native="1" name="m_pButtonsW" >
+        <layout class="QHBoxLayout" >
+         <property name="leftMargin" >
+          <number>0</number>
+         </property>
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <property name="rightMargin" >
+          <number>0</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>0</number>
+         </property>
+         <item>
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="Mp3TagDoctor.qrc" />
+ </resources>
+ <connections/>
+</ui>

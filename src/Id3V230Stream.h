@@ -1,0 +1,112 @@
+/***************************************************************************
+ *   MP3 Insight - diagnosis, repairs and tag editing for MP3 files        *
+ *                                                                         *
+ *   Copyright (C) 2009 by Marian Ciobanu                                  *
+ *   ciobi@inbox.com                                                       *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License version 2 as     *
+ *   published by the Free Software Foundation.                            *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
+
+
+#ifndef Id3V230StreamH
+#define Id3V230StreamH
+
+#include  "Id3V2Stream.h"
+
+
+// Frame of an ID3 V2.3.0 tag
+struct Id3V230Frame : public Id3V2Frame
+{
+    Id3V230Frame(NoteColl& notes, std::istream& in, std::streampos pos, bool bHasUnsynch, std::streampos posNext, StringWrp* pFileName);
+    Id3V230Frame(const std::string& strName, std::vector<char>& vcData); // needed by Id3V230StreamWriter::addBinaryFrame(), so objects created with this constructor don't get serialized; destroys vcData by doing a swap for its own representation
+    /*override*/ ~Id3V230Frame();
+
+    /*override*/ std::string getUtf8String() const;
+    /*override*/ bool discardOnChange() const;
+
+private:
+    friend class boost::serialization::access;
+    Id3V230Frame() {} // serialization-only constructor
+
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int /*nVersion*/)
+    {
+        ar & boost::serialization::base_object<Id3V2Frame>(*this);
+    }
+};
+
+
+
+class Id3V230Stream : public Id3V2StreamBase
+{
+public:
+    Id3V230Stream(int nIndex, NoteColl& notes, std::istream& in, StringWrp* pFileName, bool bAcceptBroken = false);
+    //typedef typename Id3V2Stream<Id3V230Frame>::NotId3V2 NotId3V230;
+
+    DECL_RD_NAME("ID3V2.3.0");
+
+    /*override*/ TagTimestamp getTime(bool* pbFrameExists = 0) const;
+    /*override*/ void setTrackTime(const TagTimestamp&) { throw NotSupportedOp(); }
+
+    /*override*/ SuportLevel getSupport(Feature) const;
+
+private:
+    friend class boost::serialization::access;
+    Id3V230Stream() {} // serialization-only constructor
+
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int /*nVersion*/)
+    {
+        ar & boost::serialization::base_object<Id3V2StreamBase>(*this);
+    }
+};
+
+
+class Id3V240Stream;
+
+class Id3V230StreamWriter
+{
+    std::vector<const Id3V2Frame*> m_vpOwnFrames;
+    std::vector<const Id3V2Frame*> m_vpAllFrames;
+    bool m_bKeepOneValidImg;
+
+public:
+    //enum { KEEP_ALL_IMG, KEEP_ONE_VALID_IMG };
+    Id3V230StreamWriter(Id3V2StreamBase*, bool bKeepOneValidImg); // if bKeepOneValidImg is true, at most an APIC frame is kept, and it has to be valid or at least link;
+    Id3V230StreamWriter(bool bKeepOneValidImg); // if bKeepOneValidImg is true, at most an APIC frame is kept, and it has to be valid or at least link;
+    ~Id3V230StreamWriter();
+
+
+    void removeFrames(const std::string& strName, int nPictureType = -1); // if multiple frames with the same name exist, they are all removed; asserts that nPictureType is -1 for non-APIC frames
+    //void removeApicFrames(const std::vector<char>& vcData, int nPictureType); // an APIC frame is removed iff it has the image in vcData or the type nPictureType (or both)
+    void addTextFrame(const std::string& strName, const std::string& strVal); // strVal is UTF8; the frame will use ASCII if possible and UTF16 otherwise (so if there's a char with a code above 127, UTF16 gets used, to avoid codepage issues for codes between 128 and 255); nothing is added if strVal is empty;
+    void addBinaryFrame(const std::string& strName, std::vector<char>& vcData); // destroys vcData by doing a swap for its own representation; asserts that strName is not APIC
+    void addImage(std::vector<char>& vcData); // if there is an APIC frame with the same image, nothing gets added (even if the image type is not "cover")
+
+    void addNonOwnedFrame(const Id3V2Frame* p);
+
+    void setRecTime(const TagTimestamp& time);
+
+    void write(std::ostream& out) const; // throws WriteError if it cannot write
+
+    bool equalTo(Id3V2StreamBase* pId3V2Stream) const; // returns true if all of these happen: pId3V2Stream is ID3V2.3.0, no unsynch is used, the frames are identical except for their order; padding is ignored;
+    bool contentEqualTo(Id3V2StreamBase* pId3V2Stream) const; // returns true if the frames are identical except for their order; padding, unsynch and version is ignored;
+
+    bool isEmpty() const { return m_vpAllFrames.empty(); }
+};
+
+
+#endif // ifndef Id3V230StreamH
+

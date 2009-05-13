@@ -1,5 +1,5 @@
 /***************************************************************************
- *   MP3 Insight - diagnosis, repairs and tag editing for MP3 files        *
+ *   MP3 Diags - diagnosis, repairs and tag editing for MP3 files          *
  *                                                                         *
  *   Copyright (C) 2009 by Marian Ciobanu                                  *
  *   ciobi@inbox.com                                                       *
@@ -1348,7 +1348,7 @@ e1:
 //========================================================================================================================
 //========================================================================================================================
 
-
+//ttt0 licences in root dir
 
 // based on configuration, either just saves the tags or asks the user for confirmation; returns true iff all tags have been saved or if none needed saving; it should be followed by a reload(), either for the current or for the next/prev album; if bExplicitCall is true, the "ASK" option is turned into "SAVE";
 TagEditorDlgImpl::SaveOpt TagEditorDlgImpl::save(bool bExplicitCall)
@@ -1372,7 +1372,8 @@ TagEditorDlgImpl::SaveOpt TagEditorDlgImpl::save(bool bExplicitCall)
         bHasUnsavedAssgn = bHasUnsavedAssgn || bAssgn;
         bHasUnsavedNonId3V2 = bHasUnsavedNonId3V2 || bNonId3V2;
     }
-
+//ttt1 perhaps separate setting for showing and saving non-id3v2 fields
+//ttt0 if explicit save both, regarding of settings
     if (vpHndlr.empty()) { return SAVED; }
 
     if (

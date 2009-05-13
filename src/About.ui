@@ -34,7 +34,7 @@
          <string/>
         </property>
         <property name="pixmap" >
-         <pixmap resource="Mp3TagDoctor.qrc" >:/images/about.svg</pixmap>
+         <pixmap resource="Mp3Diags.qrc" >:/images/about.svg</pixmap>
         </property>
         <property name="scaledContents" >
          <bool>true</bool>
@@ -191,7 +191,7 @@
   <tabstop>m_pOkB</tabstop>
  </tabstops>
  <resources>
-  <include location="Mp3TagDoctor.qrc" />
+  <include location="Mp3Diags.qrc" />
  </resources>
  <connections/>
 </ui>

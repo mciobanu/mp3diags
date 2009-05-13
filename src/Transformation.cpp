@@ -1,5 +1,5 @@
 /***************************************************************************
- *   MP3 Insight - diagnosis, repairs and tag editing for MP3 files        *
+ *   MP3 Diags - diagnosis, repairs and tag editing for MP3 files          *
  *                                                                         *
  *   Copyright (C) 2009 by Marian Ciobanu                                  *
  *   ciobi@inbox.com                                                       *
@@ -60,7 +60,7 @@ static const char* getDefaultProcOrig()
     static string s;
     if (s.empty())
     {
-        s = getOsTempDir() + "/mp3insight/proc";
+        s = getOsTempDir() + "/mp3diags/proc";
     }
     return s.c_str();
 }
@@ -70,7 +70,7 @@ static const char* getDefaultTemp()
     static string s;
     if (s.empty())
     {
-        s = getOsTempDir() + "/mp3insight/temp";
+        s = getOsTempDir() + "/mp3diags/temp";
     }
     return s.c_str();
 }
@@ -80,7 +80,7 @@ static const char* getDefaultComp()
     static string s;
     if (s.empty())
     {
-        s = getOsTempDir() + "/mp3insight/comp";
+        s = getOsTempDir() + "/mp3diags/comp";
     }
     return s.c_str();
 }

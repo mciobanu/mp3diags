@@ -1,5 +1,5 @@
 /***************************************************************************
- *   MP3 Insight - diagnosis, repairs and tag editing for MP3 files        *
+ *   MP3 Diags - diagnosis, repairs and tag editing for MP3 files          *
  *                                                                         *
  *   Copyright (C) 2009 by Marian Ciobanu                                  *
  *   ciobi@inbox.com                                                       *
@@ -453,6 +453,7 @@ bool Notes::CompNoteByName::operator()(const Note* p1, const Note* p2) const
     return strcmp(p1->getDescription(), p2->getDescription()) < 0;
 }
 
-
+//ttt1 perhaps change color codes to one per group (audio, xing, vbri, ...) and either drop the distinction between errors and warnings or use uppercase labels for errors and / or use a checkered/split background, red frame, or something else
+//ttt1 if not doing the above and users want to add their own notes, perhaps add "info" notes
 
 

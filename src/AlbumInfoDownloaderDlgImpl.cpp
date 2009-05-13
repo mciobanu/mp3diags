@@ -1,5 +1,5 @@
 /***************************************************************************
- *   MP3 Insight - diagnosis, repairs and tag editing for MP3 files        *
+ *   MP3 Diags - diagnosis, repairs and tag editing for MP3 files          *
  *                                                                         *
  *   Copyright (C) 2009 by Marian Ciobanu                                  *
  *   ciobi@inbox.com                                                       *
@@ -137,7 +137,7 @@ void AlbumInfoDownloaderDlgImpl::search()
     m_pImgSizeL->setText("\n");
     m_pViewAtAmazonL->setText(NOT_FOUND_AT_AMAZON);
 
-    m_strQuery = escapeHttp(createQuery()); // e.g. http://www.discogs.com/search?type=all&q=beatles&f=xml&api_key=e493f8f3c4, without page number; to be used by loadNextPage();
+    m_strQuery = escapeHttp(createQuery()); // e.g. http://www.discogs.com/search?type=all&q=beatles&f=xml&api_key=f51e9c8f6c, without page number; to be used by loadNextPage();
     m_nTotalPages = 1; m_nLastLoadedPage = -1;
     m_nCrtAlbum = -1; m_nCrtImage = -1;
     resetNavigation();

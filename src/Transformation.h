@@ -1,5 +1,5 @@
 /***************************************************************************
- *   MP3 Insight - diagnosis, repairs and tag editing for MP3 files        *
+ *   MP3 Diags - diagnosis, repairs and tag editing for MP3 files          *
  *                                                                         *
  *   Copyright (C) 2009 by Marian Ciobanu                                  *
  *   ciobi@inbox.com                                                       *
@@ -287,7 +287,7 @@ class IdentityTransformation : public Transformation
 public:
     /*override*/ Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Doesn't actually change the file, but it creates a copy and it reports that it does change it. This is not as meaningless as it might first seem: if the configuration settings indicate some action (i.e. rename, move or erase) to be taken for processed files, then that action will be performed for these files. While the same can be achieved by changing the settings for unprocessed files, this is easier to use when it is executed on a subset of all the files (filtered or selected)."; }
+    /*override*/ const char* getDescription() const { return "Doesn't actually change the file, but it creates a temporary copy and it reports that it does change it. This is not as meaningless as it might first seem: if the configuration settings indicate some action (i.e. rename, move or erase) to be taken for processed files, then that action will be performed for these files. While the same can be achieved by changing the settings for unprocessed files, this is easier to use when it is executed on a subset of all the files (filtered or selected)."; }
 
     static const char* getClassName() { return "No change"; }
 };

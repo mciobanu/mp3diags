@@ -1,5 +1,5 @@
 /***************************************************************************
- *   MP3 Insight - diagnosis, repairs and tag editing for MP3 files        *
+ *   MP3 Diags - diagnosis, repairs and tag editing for MP3 files          *
  *                                                                         *
  *   Copyright (C) 2009 by Marian Ciobanu                                  *
  *   ciobi@inbox.com                                                       *
@@ -388,8 +388,8 @@ CommonData::CommonData(
         m_pModeAlbumB(pModeAlbumB),
         m_pModeSongB(pModeSongB)
 {
-    m_vpTransf.push_back(new InnerNonAudioRemover());
     m_vpTransf.push_back(new SingleBitRepairer());
+    m_vpTransf.push_back(new InnerNonAudioRemover());
 
     m_vpTransf.push_back(new UnknownDataStreamRemover());
     m_vpTransf.push_back(new BrokenDataStreamRemover());

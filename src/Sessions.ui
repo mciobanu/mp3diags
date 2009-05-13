@@ -10,7 +10,7 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>MP3 Insight - Sessions</string>
+   <string>MP3 Diags - Sessions</string>
   </property>
   <layout class="QVBoxLayout" >
    <item>

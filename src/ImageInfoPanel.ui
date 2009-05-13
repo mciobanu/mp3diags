@@ -120,7 +120,7 @@
          <string>...</string>
         </property>
         <property name="icon" >
-         <iconset resource="Mp3TagDoctor.qrc" >:/images/zoom-in.png</iconset>
+         <iconset resource="Mp3Diags.qrc" >:/images/zoom-in.png</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -154,7 +154,7 @@
          <string>...</string>
         </property>
         <property name="icon" >
-         <iconset resource="Mp3TagDoctor.qrc" >:/images/assign.png</iconset>
+         <iconset resource="Mp3Diags.qrc" >:/images/assign.png</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -173,7 +173,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="Mp3TagDoctor.qrc" />
+  <include location="Mp3Diags.qrc" />
  </resources>
  <connections/>
 </ui>

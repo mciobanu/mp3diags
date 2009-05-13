@@ -1,5 +1,5 @@
 /***************************************************************************
- *   MP3 Insight - diagnosis, repairs and tag editing for MP3 files        *
+ *   MP3 Diags - diagnosis, repairs and tag editing for MP3 files          *
  *                                                                         *
  *   Copyright (C) 2009 by Marian Ciobanu                                  *
  *   ciobi@inbox.com                                                       *
@@ -58,8 +58,8 @@ SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strDi
 {
     commonConstr();
 
-    //setWindowTitle("MP3 Insight - Create a new session or load an existing one");
-    setWindowTitle("MP3 Insight - Create new session");
+    //setWindowTitle("MP3 Diags - Create a new session or load an existing one");
+    setWindowTitle("MP3 Diags - Create new session");
     m_pDontCreateBackupRB->setChecked(true);
     m_pScanAtStartupCkB->setChecked(true);
 
@@ -76,7 +76,7 @@ SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strIn
 {
     commonConstr();
 
-    setWindowTitle("MP3 Insight - Edit session");
+    setWindowTitle("MP3 Diags - Edit session");
     m_pFileNameE->setReadOnly(true);
     m_pFileNameE->setText(convStr(strIniFile));
     m_pFileNameB->hide();
@@ -313,4 +313,4 @@ void SessionEditorDlgImpl::on_m_pOpenSessionsB_clicked()
 //================================================================================================================================================
 //================================================================================================================================================
 
-
+//ttt1 see about dereferenced symlinks

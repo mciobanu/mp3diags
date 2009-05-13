@@ -1,5 +1,5 @@
 /***************************************************************************
- *   MP3 Insight - diagnosis, repairs and tag editing for MP3 files        *
+ *   MP3 Diags - diagnosis, repairs and tag editing for MP3 files          *
  *                                                                         *
  *   Copyright (C) 2009 by Marian Ciobanu                                  *
  *   ciobi@inbox.com                                                       *
@@ -452,11 +452,10 @@ void MusicBrainzDownloader::requestAlbum(int nAlbum)
     CB_ASSERT (!m_pQHttp->hasPendingRequests() && !m_pImageQHttp->hasPendingRequests());
     m_nLoadingAlbum = nAlbum;
     setWaiting(ALBUM);
-    //string s ("/release/" + m_vAlbums[nAlbum].m_strId + "?f=xml&api_key=e493f8f3c4");
+    //string s ("/release/" + m_vAlbums[nAlbum].m_strId + "?f=xml&api_key=f51e9c8f6c");
     string s ("/ws/1/release/" + m_vAlbums[nAlbum].m_strId + "?type=xml&inc=tracks+artist+release-events+url-rels");
 
     QHttpRequestHeader header ("GET", convStr(s));
-    //header.setValue("Host", "www.discogs.org");
     header.setValue("Host", "musicbrainz.org");
     //header.setValue("Accept-Encoding", "gzip");
     delay();
@@ -539,137 +538,9 @@ void MusicBrainzDownloader::requestImage(int nAlbum, int nImage)
 
 
 
-/*
-
-release-event-list: format="CD"
-
-*/
-
-/*
-Doc:
-http://musicbrainz.org/doc/XMLWebService
-http://musicbrainz.org/doc/MusicBrainzXMLMetaData
-*/
-
-/*
-Examples:
-http://musicbrainz.org/ws/1/release/?type=xml&artist=alizee - search by artist only
-http://musicbrainz.org/ws/1/release/02232360-337e-4a3f-ad20-6cdd4c34288c?type=xml&inc=tracks+artist+release-events+url-rels - release with wikipedia link
-http://musicbrainz.org/ws/1/release/d1cbe1f4-7e49-4d73-bfef-e2c2cde3ba95?type=xml&inc=tracks+artist+release-events+url-rels - release with amazon link
-http://musicbrainz.org/ws/1/release/fa9a32b9-b45b-4b63-92de-f5f6332d9821?type=xml&inc=tracks+artist+release-events+url-rels - release with CoverArtLink link
-http://musicbrainz.org/ws/1/release/6e228dfa-b0c7-4987-a36d-7ac14541ae66?type=xml&inc=tracks+artist+release-events+url-rels - release with CoverArtLink link 2 has URL ending with ".jpg", which works
-
-
-*/
-
-
 
 /*
 
-http://musicbrainz.org/ws/1/release/QQQ?type=xml&inc=tracks+artist+release-events+url-rels
-http://musicbrainz.org/ws/1/release/?type=xml&artist=QQQ&title=QQQ&count=QQQ
-
-
-http://musicbrainz.org/ws/1/release/?type=xml&artist=milea
-
-
-http://musicbrainz.org/ws/1/release/02232360-337e-4a3f-ad20-6cdd4c34288c?type=xml&inc=tracks+artist+release-events+url-rels+discs+ratings  - has "rating" field
-
-
-http://musicbrainz.org/ws/1/release/d1cbe1f4-7e49-4d73-bfef-e2c2cde3ba95?type=xml
-http://musicbrainz.org/ws/1/release/d1cbe1f4-7e49-4d73-bfef-e2c2cde3ba95?type=xml&inc=tracks
-http://musicbrainz.org/ws/1/release/d1cbe1f4-7e49-4d73-bfef-e2c2cde3ba95?type=xml&inc=artist
-http://musicbrainz.org/ws/1/release/d1cbe1f4-7e49-4d73-bfef-e2c2cde3ba95?type=xml&inc=release-events
-http://musicbrainz.org/ws/1/release/d1cbe1f4-7e49-4d73-bfef-e2c2cde3ba95?type=xml&inc=url-rels
-
-http://musicbrainz.org/ws/1/release/d1cbe1f4-7e49-4d73-bfef-e2c2cde3ba95?type=xml&inc=tracks+artist+release-events+url-rels+discs+ratings
-
-?discs,artist-rels,label-rels,release-rels,track-rels,track-level-rels,labels,tags,ratings
-user-tags - passwd
-
-artist counts release-events discs tracks artist-rels label-rels release-rels track-rels discs track-level-rels labels tags
-
-?? rels = "relations"
-
-*/
-
-
-
-/*
-
-// images from Amazon:
-
-http://blog.musicbrainz.org/?m=200402 - One of the conditions under which this content is licensed from Amazon is that we must display the “buy” link whenever we display the cover art
-
-
-http://musicbrainz.org/doc/XMLWebService - API
-
-
-http://musicbrainz.org/ws/1/release/?title=dire+straits&type=xml
-
-http://musicbrainz.org/ws/1/release/?title=<TITLE>&artist=<ARTIST>&type=xml
-
-
-this returns a list of releases, some of which have an ASIN
-
-Then to get the picture:
-http://images.amazon.com/images/P/<ASIN>.01.LZZZZZZZ.jpg
-e.g. http://images.amazon.com/images/P/B00000INM1.01.LZZZZZZZ.jpg
-
-
-(might replace 01 with some other country code)
-
-
-
-Some details here:
-http://narcanti.keyboardsamurais.de/amazon-book-picture.html
-
--------------------
-
-http://digilib.weblog.ub.rug.nl/node/48  : It doesn't seem to be an official service from Amazon, but it is common knowledge that images can be retrieved from Amazon by sending a URL of a certain form. Such images can be used by libraries too when making lists of books (Latest acquisitions, exhibitions, perhaps even in the catalog).
-
-They are exremely ugly, but they do seem to have a clear pattern. The pattern is as follows:
-    [BaseURL][ASIN].[country-code].[commands]
-
-
-The country code can be a two-letter-code, where 01 is for probing the amazon in the US and Canada (amazon.com), 02 for the UK (amazon.co.uk), 03 for Germany (amazon.de). A full list of country codes I wasn't able to find.
-
--------------------
-
-http://aaugh.com/imageabuse.html  - most details, including image transformations, adding text, ...
-
-*/
-
-/*
-
-http://musicbrainz.org/doc/XMLWebService
-
-http://musicbrainz.org/ws/1/artist/?type=xml&name=Seicaru&limit=2
-http://musicbrainz.org/ws/1/release/?type=xml&artist=Seicaru
-
-Piece by Piece:
-http://musicbrainz.org/ws/1/release/5c7ff4fc-bc24-4375-b587-c57ad158e361?type=xml
-    <asin>B000HD0YGK</asin>
-
-
-http://www.amazon.com/gp/product/images/B000HD0YGK/ref=dp_otherviews_1?ie=UTF8&s=music&img=1
-http://ecx.images-amazon.com/images/I/51NNqV1VlUL._SS400_.jpg
-
-
-http://musicbrainz.org/doc/CoverArtSites
-http://bugs.musicbrainz.org/browser/mb_server/trunk/cgi-bin/MusicBrainz/Server/CoverArt.pm#L39   - Amazon
-
-
-??? http://www.amazon.com/images/P/B000HD0YGK.01.MZZZZZZZ.jpg
-http://ecx.images-amazon.com/images/P/B000HD0YGK.01.SZZZZZZZ.jpg
-http://ecx.images-amazon.com/images/P/B000HD0YGK.01.MZZZZZZZ.jpg
-http://ecx.images-amazon.com/images/P/B000HD0YGK.01.LZZZZZZZ.jpg
-
-http://images.amazon.com/images/P/B000HD0YGK.01._SCLZZZZZZZ_.jpg
-
-http://wiki.musicbrainz.org/AmazonMatching - obsolete "Amazon Matching"
-
-http://users.musicbrainz.org/~luks/docs/libmusicbrainz3/ - doc; or generate locally with "doxygen Doxyfile"
 
 */
 

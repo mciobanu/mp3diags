@@ -1,5 +1,5 @@
 /***************************************************************************
- *   MP3 Insight - diagnosis, repairs and tag editing for MP3 files        *
+ *   MP3 Diags - diagnosis, repairs and tag editing for MP3 files          *
  *                                                                         *
  *   Copyright (C) 2009 by Marian Ciobanu                                  *
  *   ciobi@inbox.com                                                       *
@@ -207,7 +207,7 @@ void MainFormDlgImpl::loadIgnored()
                 }
             }
 
-            QMessageBox::warning(this, "Error setting up the \"ignored notes\" list", s + "\n\nYou may want to check again the list and add any notes that you want to ignore."); //ttt2 use MP3 Insight icon
+            QMessageBox::warning(this, "Error setting up the \"ignored notes\" list", s + "\n\nYou may want to check again the list and add any notes that you want to ignore."); //ttt2 use MP3 Diags icon
         }
     }
 }
@@ -340,7 +340,7 @@ bool SerLoadThread::scan()
 } // namespace
 
 
-MainFormDlgImpl::MainFormDlgImpl(QWidget* pParent, const string& strSession) : QDialog(pParent), m_settings(strSession), m_nLastKey(0)/*, m_settings("Ciobi", "Mp3Insight_v01")*/ /*, m_nPrevTabIndex(-1), m_bTagEdtWasEntered(false)*/, m_strSession(strSession), m_bShowMaximized(false), m_nScanWidth(0)
+MainFormDlgImpl::MainFormDlgImpl(QWidget* pParent, const string& strSession) : QDialog(pParent), m_settings(strSession), m_nLastKey(0)/*, m_settings("Ciobi", "Mp3Diags_v01")*/ /*, m_nPrevTabIndex(-1), m_bTagEdtWasEntered(false)*/, m_strSession(strSession), m_bShowMaximized(false), m_nScanWidth(0)
 {
     s_pGlobalDlg = this;
     setupUi(this);
@@ -1820,4 +1820,6 @@ Development machine:
 //ttt1 perhaps implement a playlist generator
 
 //ttt1 a "reload" that only looks for new / removed files
+
+//ttt1 handle symbolic links to ancestors
 

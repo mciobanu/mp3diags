@@ -57,11 +57,9 @@ TEMPLATE = app
 CONFIG += warn_on \
 	  thread \
           qt \
- debug \
  debug_and_release
 TARGET = MP3Diags
 DESTDIR = ../bin
-CONFIG -= release
 
 QT += xml \
 network

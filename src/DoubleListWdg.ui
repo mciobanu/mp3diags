@@ -128,7 +128,7 @@
          <string>&lt;</string>
         </property>
         <property name="icon" >
-         <iconset resource="Mp3TagDoctor.qrc" >:/images/arrow-left.svg</iconset>
+         <iconset resource="Mp3Diags.qrc" >:/images/arrow-left.svg</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -168,7 +168,7 @@
          <string>></string>
         </property>
         <property name="icon" >
-         <iconset resource="Mp3TagDoctor.qrc" >:/images/arrow-right.svg</iconset>
+         <iconset resource="Mp3Diags.qrc" >:/images/arrow-right.svg</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -218,7 +218,7 @@
          <enum>Qt::NoFocus</enum>
         </property>
         <property name="icon" >
-         <iconset resource="Mp3TagDoctor.qrc" >:/images/arrow-left-double.svg</iconset>
+         <iconset resource="Mp3Diags.qrc" >:/images/arrow-left-double.svg</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -258,7 +258,7 @@
          <string>>></string>
         </property>
         <property name="icon" >
-         <iconset resource="Mp3TagDoctor.qrc" >:/images/arrow-right-double.svg</iconset>
+         <iconset resource="Mp3Diags.qrc" >:/images/arrow-right-double.svg</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -305,7 +305,7 @@
          <string>...</string>
         </property>
         <property name="icon" >
-         <iconset resource="Mp3TagDoctor.qrc" >:/images/reset_settings.svg</iconset>
+         <iconset resource="Mp3Diags.qrc" >:/images/reset_settings.svg</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -339,7 +339,7 @@
          <string>...</string>
         </property>
         <property name="icon" >
-         <iconset resource="Mp3TagDoctor.qrc" >:/images/undo_settings.svg</iconset>
+         <iconset resource="Mp3Diags.qrc" >:/images/undo_settings.svg</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -384,7 +384,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="Mp3TagDoctor.qrc" />
+  <include location="Mp3Diags.qrc" />
  </resources>
  <connections/>
 </ui>

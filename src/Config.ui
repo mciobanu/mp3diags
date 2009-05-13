@@ -823,7 +823,7 @@
                    <string>...</string>
                   </property>
                   <property name="icon" >
-                   <iconset resource="Mp3TagDoctor.qrc" >:/images/transform1.svg</iconset>
+                   <iconset resource="Mp3Diags.qrc" >:/images/transform1.svg</iconset>
                   </property>
                   <property name="iconSize" >
                    <size>
@@ -934,7 +934,7 @@
                    <string>...</string>
                   </property>
                   <property name="icon" >
-                   <iconset resource="Mp3TagDoctor.qrc" >:/images/transform2.svg</iconset>
+                   <iconset resource="Mp3Diags.qrc" >:/images/transform2.svg</iconset>
                   </property>
                   <property name="iconSize" >
                    <size>
@@ -1045,7 +1045,7 @@
                    <string>...</string>
                   </property>
                   <property name="icon" >
-                   <iconset resource="Mp3TagDoctor.qrc" >:/images/transform3.svg</iconset>
+                   <iconset resource="Mp3Diags.qrc" >:/images/transform3.svg</iconset>
                   </property>
                   <property name="iconSize" >
                    <size>
@@ -1156,7 +1156,7 @@
                    <string>...</string>
                   </property>
                   <property name="icon" >
-                   <iconset resource="Mp3TagDoctor.qrc" >:/images/transform4.svg</iconset>
+                   <iconset resource="Mp3Diags.qrc" >:/images/transform4.svg</iconset>
                   </property>
                   <property name="iconSize" >
                    <size>
@@ -2109,7 +2109,7 @@
   <tabstop>m_pKeepNormOpenCkB</tabstop>
  </tabstops>
  <resources>
-  <include location="Mp3TagDoctor.qrc" />
+  <include location="Mp3Diags.qrc" />
  </resources>
  <connections/>
 </ui>

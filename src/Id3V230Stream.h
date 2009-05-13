@@ -1,5 +1,5 @@
 /***************************************************************************
- *   MP3 Insight - diagnosis, repairs and tag editing for MP3 files        *
+ *   MP3 Diags - diagnosis, repairs and tag editing for MP3 files          *
  *                                                                         *
  *   Copyright (C) 2009 by Marian Ciobanu                                  *
  *   ciobi@inbox.com                                                       *
@@ -26,7 +26,7 @@
 #include  "Id3V2Stream.h"
 
 
-// Frame of an ID3 V2.3.0 tag
+// Frame of an ID3V2.3.0 tag
 struct Id3V230Frame : public Id3V2Frame
 {
     Id3V230Frame(NoteColl& notes, std::istream& in, std::streampos pos, bool bHasUnsynch, std::streampos posNext, StringWrp* pFileName);

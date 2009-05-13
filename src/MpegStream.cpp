@@ -1,5 +1,5 @@
 /***************************************************************************
- *   MP3 Insight - diagnosis, repairs and tag editing for MP3 files        *
+ *   MP3 Diags - diagnosis, repairs and tag editing for MP3 files          *
  *                                                                         *
  *   Copyright (C) 2009 by Marian Ciobanu                                  *
  *   ciobi@inbox.com                                                       *
@@ -594,9 +594,9 @@ static string getSpacedStr(const string& s)
     string strRes;
     switch (m_eVersion)
     {
-    case V10: strRes = "ID3 V1.0"; break;
-    case V11: strRes = "ID3 V1.1"; break;
-    case V11b: strRes = "ID3 V1.1b"; break;
+    case V10: strRes = "ID3V1.0"; break;
+    case V11: strRes = "ID3V1.1"; break;
+    case V11b: strRes = "ID3V1.1b"; break;
     default:
         CB_ASSERT (false);
     }

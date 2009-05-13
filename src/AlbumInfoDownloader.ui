@@ -119,7 +119,7 @@
             </sizepolicy>
            </property>
            <property name="readOnly" >
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -137,6 +137,9 @@
              <horstretch>5</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="readOnly" >
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -156,7 +159,7 @@
             </sizepolicy>
            </property>
            <property name="readOnly" >
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -194,7 +197,7 @@
             </sizepolicy>
            </property>
            <property name="readOnly" >
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -214,7 +217,7 @@
             </sizepolicy>
            </property>
            <property name="readOnly" >
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -487,7 +490,7 @@
                <string>...</string>
               </property>
               <property name="icon" >
-               <iconset resource="Mp3TagDoctor.qrc" >:/images/arrow-left-double.svg</iconset>
+               <iconset resource="Mp3Diags.qrc" >:/images/arrow-left-double.svg</iconset>
               </property>
              </widget>
             </item>
@@ -500,7 +503,7 @@
                <string>p</string>
               </property>
               <property name="icon" >
-               <iconset resource="Mp3TagDoctor.qrc" >:/images/arrow-left.svg</iconset>
+               <iconset resource="Mp3Diags.qrc" >:/images/arrow-left.svg</iconset>
               </property>
              </widget>
             </item>
@@ -513,7 +516,7 @@
                <string>n</string>
               </property>
               <property name="icon" >
-               <iconset resource="Mp3TagDoctor.qrc" >:/images/arrow-right.svg</iconset>
+               <iconset resource="Mp3Diags.qrc" >:/images/arrow-right.svg</iconset>
               </property>
              </widget>
             </item>
@@ -526,7 +529,7 @@
                <string>...</string>
               </property>
               <property name="icon" >
-               <iconset resource="Mp3TagDoctor.qrc" >:/images/arrow-right-double.svg</iconset>
+               <iconset resource="Mp3Diags.qrc" >:/images/arrow-right-double.svg</iconset>
               </property>
              </widget>
             </item>
@@ -652,7 +655,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="Mp3TagDoctor.qrc" />
+  <include location="Mp3Diags.qrc" />
  </resources>
  <connections/>
 </ui>

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   MP3 Insight - diagnosis, repairs and tag editing for MP3 files        *
+ *   MP3 Diags - diagnosis, repairs and tag editing for MP3 files          *
  *                                                                         *
  *   Copyright (C) 2009 by Marian Ciobanu                                  *
  *   ciobi@inbox.com                                                       *
@@ -199,23 +199,23 @@ struct Notes
     DECL_NOTE_INFO(id3v2TextError, ERR, "Error decoding value of text frame while reading an Id3V2 Stream.");
     DECL_NOTE_INFO(id3v2UnsuppVer, SUPPORT, "Unsupported ID3V2 version.");
     DECL_NOTE_INFO(id3v2UnsuppFlag, SUPPORT, "Unsupported ID3V2 tag. Unsupported flag.");
-    DECL_NOTE_INFO(id3v2HasLatin1NonAscii, WARNING, "ID3 V2 tag has text frames using Latin-1 encoding that contain characters with a code above 127. While this is legal, those frames may have their content set or displayed incorrectly by software that uses the local code page instead of Latin-1. Conversion to Unicode (UTF16) is recommended.");
+    DECL_NOTE_INFO(id3v2HasLatin1NonAscii, WARNING, "ID3V2 tag has text frames using Latin-1 encoding that contain characters with a code above 127. While this is legal, those frames may have their content set or displayed incorrectly by software that uses the local code page instead of Latin-1. Conversion to Unicode (UTF16) is recommended.");
     DECL_NOTE_INFO(id3v2EmptyTcon, WARNING, "Empty genre frame (TCON) found.");
     DECL_NOTE_INFO(id3v2MultipleFramesWithSameName, WARNING, "Multiple frame instances, but only the first copy will be used.");
-    DECL_NOTE_INFO(id3v2DuplicatePopm, SUPPORT, "Multiple instances of the POPM frame found in ID3 V2 tag. The current version discards all the instances except the first when processing this tag.");
+    DECL_NOTE_INFO(id3v2DuplicatePopm, SUPPORT, "Multiple instances of the POPM frame found in ID3V2 tag. The current version discards all the instances except the first when processing this tag.");
 
     // apic
-    DECL_NOTE_INFO(id3v2NoApic, WARNING, "ID3 V2 tag doesn't have an APIC frame (which is used to store images).");
-    DECL_NOTE_INFO(id3v2CouldntLoadPic, WARNING, "ID3 V2 tag has an APIC frame (which is used to store images), but the image couldn't be loaded.");
-    //DECL_NOTE_INFO(id3v2LinkNotSupported, SUPPORT, "ID3 V2 tag has an APIC frame (which is used to store images), but it uses a link to an external file, which is not supported.");
-    DECL_NOTE_INFO(id3v2NotCoverPicture, WARNING, "ID3 V2 tag has at least one valid APIC frame (which is used to store images), but no frame has a type that is associated with an album cover.");
+    DECL_NOTE_INFO(id3v2NoApic, WARNING, "ID3V2 tag doesn't have an APIC frame (which is used to store images).");
+    DECL_NOTE_INFO(id3v2CouldntLoadPic, WARNING, "ID3V2 tag has an APIC frame (which is used to store images), but the image couldn't be loaded.");
+    //DECL_NOTE_INFO(id3v2LinkNotSupported, SUPPORT, "ID3V2 tag has an APIC frame (which is used to store images), but it uses a link to an external file, which is not supported.");
+    DECL_NOTE_INFO(id3v2NotCoverPicture, WARNING, "ID3V2 tag has at least one valid APIC frame (which is used to store images), but no frame has a type that is associated with an album cover.");
     DECL_NOTE_INFO(id3v2UnsupApicTextEnc, SUPPORT, "Unsupported text encoding for APIC frame in ID3V2 tag.");
     DECL_NOTE_INFO(id3v2LinkInApic, SUPPORT, "APIC frame uses a link to a file as a MIME Type, which is not supported.");
     DECL_NOTE_INFO(id3v2ErrorLoadingApic, WARNING, "Error loading image in APIC frame.");
     DECL_NOTE_INFO(id3v2ErrorLoadingApicTooShort, WARNING, "Error loading image in APIC frame. The frame is too short anyway to have space for an image.");
     DECL_NOTE_INFO(id3v2PictDescrIgnored, SUPPORT, "Picture description is ignored in the current version.");
-    DECL_NOTE_INFO(id3v2DuplicatePic, ERR, "ID3 V2 tag has multiple APIC frames with the same picture type.");
-    DECL_NOTE_INFO(id3v2MultipleApic, WARNING, "ID3 V2 tag has multiple APIC frames. While this is valid, players usually use only one of them to display an image, discarding the others.");
+    DECL_NOTE_INFO(id3v2DuplicatePic, ERR, "ID3V2 tag has multiple APIC frames with the same picture type.");
+    DECL_NOTE_INFO(id3v2MultipleApic, WARNING, "ID3V2 tag has multiple APIC frames. While this is valid, players usually use only one of them to display an image, discarding the others.");
 
     // id3 v2.3.0
     DECL_NOTE_INFO(noId3V230, WARNING, "No ID3V2.3.0 tag found, although this is the most popular tag for storing song information.");

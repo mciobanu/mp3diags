@@ -1,5 +1,5 @@
 /***************************************************************************
- *   MP3 Insight - diagnosis, repairs and tag editing for MP3 files        *
+ *   MP3 Diags - diagnosis, repairs and tag editing for MP3 files          *
  *                                                                         *
  *   Copyright (C) 2009 by Marian Ciobanu                                  *
  *   ciobi@inbox.com                                                       *
@@ -84,7 +84,7 @@ NoteFilterDlgImpl::NoteFilterDlgImpl(CommonData* pCommonData, QWidget* pParent /
             DoubleList::ADD_ALL | DoubleList::DEL_ALL | DoubleList::RESTORE_OPEN,
             DoubleList::SINGLE_UNSORTABLE,
             "Available notes",
-            "Selected notes",
+            "Include notes",
             this);
 
     m_pListHldr->layout()->addWidget(m_pDoubleList);

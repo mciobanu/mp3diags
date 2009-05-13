@@ -1,5 +1,5 @@
 /***************************************************************************
- *   MP3 Insight - diagnosis, repairs and tag editing for MP3 files        *
+ *   MP3 Diags - diagnosis, repairs and tag editing for MP3 files          *
  *                                                                         *
  *   Copyright (C) 2009 by Marian Ciobanu                                  *
  *   ciobi@inbox.com                                                       *
@@ -34,7 +34,7 @@
 
 using namespace std;
 
-static const char* APP_NAME ("Mp3Insight");
+static const char* APP_NAME ("Mp3Diags");
 static const char* ORGANIZATION ("Ciobi");
 
 GlobalSettings::GlobalSettings()
@@ -192,7 +192,7 @@ int main(int argc, char *argv[])
 
         MainFormDlgImpl mainDlg (0, strStartSession);
         mainDlg.setWindowIcon(QPixmap(":/images/mp3.xpm"));
-        mainDlg.setWindowTitle("MP3 Insight");
+        mainDlg.setWindowTitle("MP3 Diags");
         {
             vector<string> vstrSess;
             bool bOpenLast;

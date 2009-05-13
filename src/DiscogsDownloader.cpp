@@ -1,5 +1,5 @@
 /***************************************************************************
- *   MP3 Insight - diagnosis, repairs and tag editing for MP3 files        *
+ *   MP3 Diags - diagnosis, repairs and tag editing for MP3 files          *
  *                                                                         *
  *   Copyright (C) 2009 by Marian Ciobanu                                  *
  *   ciobi@inbox.com                                                       *
@@ -525,11 +525,11 @@ void DiscogsDownloader::clear()
 
 
 
-// "/search?type=all&q=Beatles+Abbey+Road&f=xml&api_key=e493f8f3c4"
+// "/search?type=all&q=Beatles+Abbey+Road&f=xml&api_key=f51e9c8f6c"
 /*override*/ std::string DiscogsDownloader::createQuery()
 {
     //string s (strArtist + "+" + strAlbum);
-    string s ("/search?type=all&q=" + convStr(m_pSrchArtistE->text()) + "&f=xml&api_key=e493f8f3c4");
+    string s ("/search?type=all&q=" + convStr(m_pSrchArtistE->text()) + "&f=xml&api_key=f51e9c8f6c");
     for (string::size_type i = 0; i < s.size(); ++i)
     {
         if (' ' == s[i])
@@ -595,7 +595,7 @@ void DiscogsDownloader::requestAlbum(int nAlbum)
     CB_ASSERT (!m_pQHttp->hasPendingRequests());
     m_nLoadingAlbum = nAlbum;
     setWaiting(ALBUM);
-    string s ("/release/" + m_vAlbums[nAlbum].m_strId + "?f=xml&api_key=e493f8f3c4");
+    string s ("/release/" + m_vAlbums[nAlbum].m_strId + "?f=xml&api_key=f51e9c8f6c");
 
     QHttpRequestHeader header ("GET", convStr(s));
     header.setValue("Host", "www.discogs.com");
@@ -615,7 +615,7 @@ void DiscogsDownloader::requestImage(int nAlbum, int nImage)
     const string& strName (m_vAlbums[nAlbum].m_vstrImageNames[nImage]);
     setImageType(strName);
 
-    string s ("/image/" + strName + "?api_key=e493f8f3c4");
+    string s ("/image/" + strName + "?api_key=f51e9c8f6c");
 //cout << "  get img " << s << endl;
 
     QHttpRequestHeader header ("GET", convStr(s));
@@ -667,50 +667,4 @@ void DiscogsDownloader::requestImage(int nAlbum, int nImage)
 
 
 
-/*
-
-http://www.discogs.com/search?type=all&q=amy+macdonald+life&f=xml  =>
-http://www.discogs.com/release/1514692?f=xml  =>
-http://www.discogs.com/image/R-1514692-1225327890.jpeg
-
-http://www.discogs.com/search?type=all&q=beatles&f=xml      : <exactresults> as well as <searchresults>
-http://www.discogs.com/search?type=all&q=beatles&page=2&f=xml   : second page
-
-http://www.discogs.com/release/1191835?f=xml&api_key=e493f8f3c4        : a particular release: Roxette/Tourism
-
-http://www.discogs.com/release/749400?f=xml&api_key=e493f8f3c4         : various artists release: Celtic Woman
-
-http://www.discogs.com/search?type=all&q=%22British%20Folk%22&f=xml         : both artist and release
-http://www.discogs.com/search?type=release&q=%22British%20Folk%22&f=xml     : type doesn't really matter, except that the order is changed (for the worse)
-http://www.discogs.com/search?type=release&q=%22British%20Folk%22+harmonica&f=xml : restricting results
-
----------------------------
-
-http://www.discogs.com/artist/Melua?f=xml&api_key=e493f8f3c4                fail
-http://www.discogs.com/search?type=all&q=Melua&f=xml&api_key=e493f8f3c4     OK
-
-http://www.discogs.com/artist/Aphex+Twin?f=xml&api_key=e493f8f3c4
-http://www.discogs.com/artist/Katie+Melua?f=xml&api_key=e493f8f3c4
-
-
-http://www.discogs.com/search?type=all&q=Aphex+Twin+-+Selected+Ambient+Works+85-92&f=xml
-
-http://www.discogs.com/search?type=all&q=Beatles+Abbey&f=xml
-
-http://www.discogs.com/Amy-Macdonald-This-Is-The-Life/release/1514692?f=xml
-
-
-http://www.discogs.com/Roxette-Tourism-1/release/997865
-http://www.discogs.com/search?type=all&q=%22My%20Friend%20Upon%20the%20Road%22&f=xml
-
-
----------------------------
-
-// amy macdonald life
-// Alizée Mes Courants Électriques
-// Charlotte Gainsbourg 5:55
-
-
-*/
-
-
+//ttt1 perhaps make m_pResArtistE editable

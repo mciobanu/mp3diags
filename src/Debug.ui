@@ -82,7 +82,7 @@
             <string>...</string>
            </property>
            <property name="icon" >
-            <iconset resource="Mp3TagDoctor.qrc" >:/images/save_info.svg</iconset>
+            <iconset resource="Mp3Diags.qrc" >:/images/save_info.svg</iconset>
            </property>
            <property name="iconSize" >
             <size>
@@ -157,7 +157,7 @@
             <string>...</string>
            </property>
            <property name="icon" >
-            <iconset resource="Mp3TagDoctor.qrc" >:/images/save_log.svg</iconset>
+            <iconset resource="Mp3Diags.qrc" >:/images/save_log.svg</iconset>
            </property>
            <property name="iconSize" >
             <size>
@@ -231,7 +231,7 @@
             <string>dec</string>
            </property>
            <property name="icon" >
-            <iconset resource="Mp3TagDoctor.qrc" >:/images/decode.svg</iconset>
+            <iconset resource="Mp3Diags.qrc" >:/images/decode.svg</iconset>
            </property>
            <property name="iconSize" >
             <size>
@@ -271,7 +271,7 @@
          <string>tst</string>
         </property>
         <property name="icon" >
-         <iconset resource="Mp3TagDoctor.qrc" >:/images/test.svg</iconset>
+         <iconset resource="Mp3Diags.qrc" >:/images/test.svg</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -348,7 +348,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="Mp3TagDoctor.qrc" />
+  <include location="Mp3Diags.qrc" />
  </resources>
  <connections/>
 </ui>

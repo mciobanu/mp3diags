@@ -1,5 +1,5 @@
 /***************************************************************************
- *   MP3 Insight - diagnosis, repairs and tag editing for MP3 files        *
+ *   MP3 Diags - diagnosis, repairs and tag editing for MP3 files          *
  *                                                                         *
  *   Copyright (C) 2009 by Marian Ciobanu                                  *
  *   ciobi@inbox.com                                                       *
@@ -31,7 +31,7 @@
 
 
 
-// Frame of an ID3 V2 tag
+// Frame of an ID3V2 tag
 struct Id3V2Frame
 {
     char m_szName[5];

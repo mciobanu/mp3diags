@@ -1,5 +1,5 @@
 /***************************************************************************
- *   MP3 Insight - diagnosis, repairs and tag editing for MP3 files        *
+ *   MP3 Diags - diagnosis, repairs and tag editing for MP3 files          *
  *                                                                         *
  *   Copyright (C) 2009 by Marian Ciobanu                                  *
  *   ciobi@inbox.com                                                       *
@@ -46,7 +46,7 @@ RenamerPatternsDlgImpl::RenamerPatternsDlgImpl(QWidget* pParent, SessionSettings
     m_infoM->setTabStopWidth(fontMetrics().width("%ww"));
     QString qsSep (getPathSep());
     m_infoM->setText("%n\ttrack number\n%a\tartist\n%t\ttitle\n%b\talbum\n%y\tyear\n%g\tgenre\n%r\trating (a lowercase letter)\n%c\tcomposer"
-            "\n\nTo include the special characters \"%\", \"[\" and \"]\", preced them by a \"%\": \"%%\", \"%[\" and \"%]\"\n\nThe path should be a full path, starting with a \"/\"");
+            "\n\nTo include the special characters \"%\", \"[\" and \"]\", precede them by a \"%\": \"%%\", \"%[\" and \"%]\"\n\nThe path should be a full path, starting with a \"/\"");
 
     int nWidth, nHeight;
     m_settings.loadRenamerPatternsSettings(nWidth, nHeight);

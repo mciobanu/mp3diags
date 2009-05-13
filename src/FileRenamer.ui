@@ -10,7 +10,7 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>MP3 Insight - File renamer</string>
+   <string>MP3 Diags - File renamer</string>
   </property>
   <layout class="QVBoxLayout" >
    <item>
@@ -73,7 +73,7 @@
             <string>&lt;</string>
            </property>
            <property name="icon" >
-            <iconset resource="Mp3TagDoctor.qrc" >:/images/go-previous.svg</iconset>
+            <iconset resource="Mp3Diags.qrc" >:/images/go-previous.svg</iconset>
            </property>
            <property name="iconSize" >
             <size>
@@ -126,7 +126,7 @@
             <string>></string>
            </property>
            <property name="icon" >
-            <iconset resource="Mp3TagDoctor.qrc" >:/images/go-next.svg</iconset>
+            <iconset resource="Mp3Diags.qrc" >:/images/go-next.svg</iconset>
            </property>
            <property name="iconSize" >
             <size>
@@ -182,7 +182,7 @@
          <string>...</string>
         </property>
         <property name="icon" >
-         <iconset resource="Mp3TagDoctor.qrc" >:/images/patterns.svg</iconset>
+         <iconset resource="Mp3Diags.qrc" >:/images/patterns.svg</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -219,7 +219,7 @@
          <string>...</string>
         </property>
         <property name="icon" >
-         <iconset resource="Mp3TagDoctor.qrc" >:/images/rename.svg</iconset>
+         <iconset resource="Mp3Diags.qrc" >:/images/rename.svg</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -297,7 +297,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="Mp3TagDoctor.qrc" />
+  <include location="Mp3Diags.qrc" />
  </resources>
  <connections/>
 </ui>

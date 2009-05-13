@@ -1,5 +1,5 @@
 /***************************************************************************
- *   MP3 Insight - diagnosis, repairs and tag editing for MP3 files        *
+ *   MP3 Diags - diagnosis, repairs and tag editing for MP3 files          *
  *                                                                         *
  *   Copyright (C) 2009 by Marian Ciobanu                                  *
  *   ciobi@inbox.com                                                       *
@@ -54,6 +54,7 @@ AboutDlgImpl::AboutDlgImpl(QWidget* pParent /*= 0*/) : QDialog(pParent), Ui::Abo
     //{ QAction* p (new QAction(this)); p->setShortcut(QKeySequence("Ctrl+N")); connect(p, SIGNAL(triggered()), this, SLOT(accept())); addAction(p); }
 }
 
+//ttt0 https://apps.sourceforge.net/trac/sourceforge/ticket/631
 
 void AboutDlgImpl::initText(QTextBrowser* p, const char* szFileName)
 {
@@ -74,47 +75,31 @@ AboutDlgImpl::~AboutDlgImpl()
 
 
 
-//ttt0 doc: other reason to use file reader: up/low case
-//ttt0 doc: you may want to use file reader to set genre, year, composer, which are more likely to be missing or wrong at MuscBrainz
-//ttt0 document that m_eCaseForArtists is for composers too
 
-//ttt0 about: zlib
-//ttt0 about: discogs
+
+
 
 
 // exist: mp3 insight, mp3 doctor, mp3 butcher, mp3 toolbox, mp3 mechanic, mp3 workshop;
-//ttt0 melt ? ice ? ? sorcerer ? exorcist ? healer ? ? MP3 Spy
+//ttt melt ? ice ? ? sorcerer ? exorcist ? healer ? ? MP3 Spy
 //"mp3 workshop", "mp3 atelier"
 //workshop synonyms:  foundry, laboratory, mill, plant, studio, works
 // deep understanding
 
+
+
+
+
+
+
+
+
+
 /*
-ttt0 documentation
-
-//ttt0 usage suggestions: 1) don't create transf, keep orig, generate comp => look at comp 2) if ok, create transf in orig dir and move or erase proc orig //ttt0 this suggests a new option for rename: "move if file doesn't yet exist / remove if it exists"; this way only the real orig file is kept and various intermediaries are removed (remember that while one "transform batch" produces a single "proc", multiple edits can be performed, each with its own "orig" file
-
-ttt0 handles mpeg2, mpeg1 layer2, ... but files must end with mp3
-
-all ID3V2 that are created are 2.3.0
-
+Finds problems in MP3 files and helps the user to fix many of them using included tools. Looks at both the audio part (VBR info, quality, normalization) and the tags containing track information (ID3.) Also includes a tag editor and a file renamer.
 */
 
-//ttt0 doc: save in tag edt doesn't save everything, only as configured (regardless of automatic)
-
-// ttt0 doc: tag edt removes POPM, doesn't use email
-//ttt0 doc, after file renaming: can be used to have some meaningful rating (set rating => rename => ... )
 
 
-
-//ttt0 doc bug described at the end of TagEditorDlgImpl::onFileSelSectionMoved
-
-//ttt0 doc: lack of consistency
-//ttt0 doc: duplicate images when they axist with non-"cover" type;
-//ttt0 doc: a single "root"; ttt1 perhaps allow more dirs
-//ttt0 doc UTF8
-//ttt0 doc: boost
-//ttt0 search for http and www, and check links in the code
-
-//ttt0 self-ref using symlinks
 
 

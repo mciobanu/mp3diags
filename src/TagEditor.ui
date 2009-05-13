@@ -10,7 +10,7 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>MP3 Insight - Tag editor</string>
+   <string>MP3 Diags - Tag editor</string>
   </property>
   <layout class="QVBoxLayout" >
    <item>
@@ -55,7 +55,7 @@
          <string>S</string>
         </property>
         <property name="icon" >
-         <iconset resource="Mp3TagDoctor.qrc" >:/images/document-save.svg</iconset>
+         <iconset resource="Mp3Diags.qrc" >:/images/document-save.svg</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -92,7 +92,7 @@
          <string>R</string>
         </property>
         <property name="icon" >
-         <iconset resource="Mp3TagDoctor.qrc" >:/images/edit-undo.svg</iconset>
+         <iconset resource="Mp3Diags.qrc" >:/images/edit-undo.svg</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -145,7 +145,7 @@
          <string>&lt;</string>
         </property>
         <property name="icon" >
-         <iconset resource="Mp3TagDoctor.qrc" >:/images/go-previous.svg</iconset>
+         <iconset resource="Mp3Diags.qrc" >:/images/go-previous.svg</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -230,7 +230,7 @@
          <string>></string>
         </property>
         <property name="icon" >
-         <iconset resource="Mp3TagDoctor.qrc" >:/images/go-next.svg</iconset>
+         <iconset resource="Mp3Diags.qrc" >:/images/go-next.svg</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -289,7 +289,7 @@
          <string>Q</string>
         </property>
         <property name="icon" >
-         <iconset resource="Mp3TagDoctor.qrc" >:/images/discogs.png</iconset>
+         <iconset resource="Mp3Diags.qrc" >:/images/discogs.png</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -326,7 +326,7 @@
          <string>...</string>
         </property>
         <property name="icon" >
-         <iconset resource="Mp3TagDoctor.qrc" >:/images/musicbrainz_logo1.svg</iconset>
+         <iconset resource="Mp3Diags.qrc" >:/images/musicbrainz_logo1.svg</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -379,7 +379,7 @@
          <string>C</string>
         </property>
         <property name="icon" >
-         <iconset resource="Mp3TagDoctor.qrc" >:/images/duplicate_first.svg</iconset>
+         <iconset resource="Mp3Diags.qrc" >:/images/duplicate_first.svg</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -416,7 +416,7 @@
          <string>...</string>
         </property>
         <property name="icon" >
-         <iconset resource="Mp3TagDoctor.qrc" >:/images/sort_asc.svg</iconset>
+         <iconset resource="Mp3Diags.qrc" >:/images/sort_asc.svg</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -453,7 +453,7 @@
          <string>A</string>
         </property>
         <property name="icon" >
-         <iconset resource="Mp3TagDoctor.qrc" >:/images/assgn-some.svg</iconset>
+         <iconset resource="Mp3Diags.qrc" >:/images/assgn-some.svg</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -490,7 +490,7 @@
          <string>...</string>
         </property>
         <property name="icon" >
-         <iconset resource="Mp3TagDoctor.qrc" >:/images/edit-paste.svg</iconset>
+         <iconset resource="Mp3Diags.qrc" >:/images/edit-paste.svg</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -530,7 +530,7 @@
          <string>F</string>
         </property>
         <property name="icon" >
-         <iconset resource="Mp3TagDoctor.qrc" >:/images/patterns.svg</iconset>
+         <iconset resource="Mp3Diags.qrc" >:/images/patterns.svg</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -583,7 +583,7 @@
          <string>...</string>
         </property>
         <property name="icon" >
-         <iconset resource="Mp3TagDoctor.qrc" >:/images/palette.svg</iconset>
+         <iconset resource="Mp3Diags.qrc" >:/images/palette.svg</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -614,7 +614,7 @@
          <string>...</string>
         </property>
         <property name="icon" >
-         <iconset resource="Mp3TagDoctor.qrc" >:/images/configure.svg</iconset>
+         <iconset resource="Mp3Diags.qrc" >:/images/configure.svg</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -761,7 +761,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="Mp3TagDoctor.qrc" />
+  <include location="Mp3Diags.qrc" />
  </resources>
  <connections/>
 </ui>

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   MP3 Insight - diagnosis, repairs and tag editing for MP3 files        *
+ *   MP3 Diags - diagnosis, repairs and tag editing for MP3 files          *
  *                                                                         *
  *   Copyright (C) 2009 by Marian Ciobanu                                  *
  *   ciobi@inbox.com                                                       *
@@ -610,7 +610,7 @@ void FileRenamerDlgImpl::reloadTable()
     const Mp3Handler* p (m_pCommonData->getCrtAlbum().at(0));
     m_pCrtDirTagEdtE->setText(convStr(p->getDir()));
     //m_pCrtDirTagEdtE->hide();
-    //setWindowTitle("MP3 Insight - " + convStr(p->getDir()) + " - File renamer");
+    //setWindowTitle("MP3 Diags - " + convStr(p->getDir()) + " - File renamer");
 
     QItemSelectionModel* pSelModel (m_pCurrentAlbumG->selectionModel());
     pSelModel->clear();
@@ -948,3 +948,7 @@ string Renamer::getNewName(const Mp3Handler* pHndl) const
 {
     return m_pRoot->getVal(pHndl) + ".mp3";
 }
+
+//ttt1 a "pop/rock" genre creates unexpected folder
+//ttt1 timer in normalizer
+//ttt1 look at normalized loudness in tracks, maybe warn

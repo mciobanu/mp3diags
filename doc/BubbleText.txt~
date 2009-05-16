@@ -125,6 +125,10 @@ As data is received from the internet, the status is updated
 
 Press this button to assign the new picture to all the tracks, then save
 
+Press this button to assign this picture to all unassigned tracks (in this case, the last 2 tracks)
+
+The current song is Poison Prince, which was assigned image #1, so this image is shown on a darker background
+
 Based on your settings, changes may be saved automatically when going to another album. Otherwise, you'll have to do it manually
 
 Images displayed here:
@@ -193,7 +197,9 @@ If you want to use the normalization, make sure that this is correct
 
 -----------------------------------
 
+You may want to use this if incorrect names are shown in files using a language other than English
 
+Also used for composers
 
 -----------------------------------
 

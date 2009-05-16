@@ -45,34 +45,52 @@
 
 
 <div class="FreeNormalText RegFnt ChpCol1">
+Only a single image per file is displayed or can be added.
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
 Currently, if asked to save an image that is identical to an existing one except for the picture type, the new image is not saved. This approach looks the least likely to confuse players. If needed, a  transformation that changes picture types can be added.
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-Processing ID3V2 only keeps one copy of the known frames except for images; multiple images are kept, as long as they only they have different image types. The other frames are supposed to have only one instance, except for POPM, so this is the only case where valid data is lost; that is, assuming anybody has files containing multiple POPM frames.
+Links are not supported for images. This is bad if you REALLY need to scan your vinyl collection at 4800dpi and save the result as an uncompressed TIFF. Instead, images are stored inside the MP3s themselves and if they are big they get resized so they take less than 100KB. For now this maximum size is hard-coded.
 </div>
 
-<div class="NormalText RegFnt ChpCol1">
-MP3 Diags expects folders to be albums, having less than 30 files. If this is not the case, it's better to avoid using the tag editor, which might take a long time to load, especially if the files contain images. Even if it gets loaded, it is designed for albums, so it may do things that make no sense for random collections of files (e.g. assigning the same image to all the files.)
+
+
+<div class="FreeNormalText RegFnt ChpCol2">
+The only format available for saving track information is ID3V2.3.0
 </div>
 
-<div class="NormalText RegFnt ChpCol1">
-albums are folders
+<div class="NormalText RegFnt ChpCol2">
+Some text frame formats in ID3V2.4.0 aren't supported yet, including UTF-8. (This can be added esily but I haven't seen a file using it.)
 </div>
 
-<div class="NormalText RegFnt ChpCol1">
-Symbolic links aren't handled nicely. I noticed that they get dereferenced by Qt, which is something I don't like. Also, I haven't tried it myself, but I expect scanning folders that have symbolic links to their ancestors to cause MP3 Diags to keep scanning until it runs out of memory.
+<div class="NormalText RegFnt ChpCol2">
+Processing ID3V2 only keeps one copy of the known frames except for images; multiple images are kept, as long as they only they have different image types (and the settings say to keep them.) The other frames are supposed to have only one instance, except for POPM (which is used for ratings), so this is the only case where valid data is lost; that is, assuming anybody has files containing multiple POPM frames.
 </div>
 
-UTF8
+<div class="NormalText RegFnt ChpCol2">
+The e-mail address in POPM frames is ignored at reading and erased at saving.
+</div>
 
-image type
 
-all ID3V2 that are created are 2.3.0
 
-tag edt removes POPM, doesn't use email
 
-There is no automatic detection of a file being changed by an external tool or removed. You should use the "reload" button to update the file information.
+<div class="FreeNormalText RegFnt ChpCol1">
+MP3 Diags expects folders to be albums, having less than 30 files. If this is not the case, it's better to avoid using the tag editor, which might take a long time to load, especially if the files contain images. Even if the tag editor loads OK, it is designed for albums, so it may do things that make no sense for random collections of files (e.g. assigning the same image to all the files.)
+</div>
+
+
+<div class="FreeNormalText RegFnt ChpCol2">
+Symbolic links aren't handled nicely. I noticed that they get dereferenced by Qt, which is something I don't like. Also, I haven't tried it myself, but I expect scanning folders that have symbolic links to their ancestors to cause MP3 Diags to keep scanning the same files until it runs out of memory.
+</div>
+
+<div class="FreeNormalText RegFnt ChpCol1">
+There is no automatic detection of a file being changed by an external tool or removed. You should use the "reload" button to update the file information. However the changes are detected the next time you start the application (assuming you didn't disable the automatic scanning.)
+</div>
+
+
 
 <div class="SubChapterText RegFnt ChpCol2">
 <table border="0" cellpadding="0" cellspacing="0">

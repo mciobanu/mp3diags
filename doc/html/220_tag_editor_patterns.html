@@ -90,34 +90,52 @@ For the given file name, this pattern retrives these fields:
 
 <div class="NormalText RegFnt ChpCol1">
 <table border="0" cellpadding="0" cellspacing="3" class="NormalText RegFnt ChpCol1">
-    <tr> <td> genre </td> <td> - pop </td> </tr>
-    <tr> <td> artist </td> <td> - artist1 </td> </tr>
-    <tr> <td> album </td> <td> - album1 </td> </tr>
-    <tr> <td> year </td> <td> - 2008 </td> </tr>
-    <tr> <td> track number </td> <td> - 02 </td> </tr>
-    <tr> <td> title </td> <td> - second track </td> </tr>
+    <tr> <td> genre </td> <td> <span class="GenericSpace">pop</span> </td> </tr>
+    <tr> <td> artist </td> <td> <span class="GenericSpace">artist1</span> </td> </tr>
+    <tr> <td> album </td> <td> <span class="GenericSpace">album1</span> </td> </tr>
+    <tr> <td> year </td> <td> <span class="GenericSpace">2008</span> </td> </tr>
+    <tr> <td> track number </td> <td> <span class="GenericSpace">02</span> </td> </tr>
+    <tr> <td> title </td> <td> <span class="GenericSpace">second track</span> </td> </tr>
 </table>
 </div>
+
 
 <div class="FreeNormalText RegFnt ChpCol2">
 Note that the matching is done from the end of the file name, so the beginning of the name (<span class="Reference">/music/mp3</span>) doesn't matter. The pattern would get the same fields for a file named <span class="Reference">/pop/artist1/album1 (2008)/02 second track.mp3</span> or <span class="Reference">/home/user/media/music/mp3/pop/artist1/album1 (2008)/02 second track.mp3</span>.
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol1">
-If a pattern contains the character <span class="Reference">/</span>, "it is file name - based", otherwise it is "text line - based". Besides the source of the text (file name vs. clipboard), another difference is that latter must match perfectly the text, while the former may have errors in any of the strings between consecutive <span class="Reference">/</span> characters and still extract some fields from other parts of the file name. In the example above the pattern <span class="Reference">%g/%a/%b {%y}/%n %t</span> would return no album or year, because <span class="Reference">album1 (2008)</span> doesn't contain<span class="Reference"> {</span>ttt0 or <span class="Reference">}</span>, but would still find the fields genre, artist, track number and title.
+If a pattern contains the character <span class="Reference">/</span>, it is "file name - based", otherwise it is "text line - based". Besides the source of the text (file name vs. clipboard), another difference is that latter must match perfectly the text, while the former may have errors in any of the strings between consecutive <span class="Reference">/</span> characters and still extract some fields from other parts of the file name. In the example above the pattern <span class="Reference">%g/%a/%b {%y}/%n %t</span> would return no album or year, because <span class="Reference">album1 (2008)</span> doesn't contain <img src="1pixel.png" class="ImgNoBorder"/><span class="Reference"> {</span> or <span class="Reference">}</span>, but would still find the genre, the artist, the track number and the title.
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol2">
-Both kinds of patterns are edited in the "Patterns" dialog. Only valid patterns can be saved. Besides the rather obvious <span class="Reference">%</span> followed by a character that is not listed in the sequences above, there's another condition that causes a pattern to be invalid, namely 2 consecutive "unbound placeholders": %n, %y and %r have a fixed format, but the rest are unbound, meaning that they would take any characters as long as there's nothing to tell them where to stop. With 2 unbound placeholders there's no way to tell where one should end and the other should begin. So "%a%t" is invalid (as is any pattern containing it), while <span class="Reference">%a-%t</span> is valid, because "-" is used to identify where the artist name ends and the track title begins. However, <span class="Reference">%y%t</span> is valid, because <span class="Reference">%y</span> is a 4-digit number.
+Both kinds of patterns are edited in the "Patterns" dialog. Only valid patterns can be saved. Besides the rather obvious <span class="Reference">%</span> followed by a character that is not listed in the sequences above, there's another condition that causes a pattern to be invalid, namely 2 consecutive "unbound placeholders": %n, %y and %r have a fixed format, but the rest are unbound, meaning that they would take any characters as long as there's nothing to tell them where to stop. With 2 unbound placeholders there's no way to tell where one should end and the other should begin. So <span class="Reference">%a%t</span> is invalid (as is any pattern containing it), while <span class="Reference">%a-%t</span> is valid, because <span class="Reference">-</span> is used to identify where the artist name ends and the track title begins. However, <span class="Reference">%y%t</span> is valid, because <span class="Reference">%y</span> is a 4-digit number.
 </div>
 
-ttt0 rating
-
-other reason to use file reader: up/low case
-
-you may want to use file reader to set genre, year, composer, which are more likely to be missing or wrong at MuscBrainz
+<div class="FreeNormalText RegFnt ChpCol2">
+Patterns may have optional parts, which are delimited by "[" and "]". One optional part may be embedded in another. (See the predefined patterns for examples.)
+</div>
 
 <div class="SubChapterText RegFnt ChpCol1">
+Some reasons to use patterns even if you find an album on the Internet
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+Your file names may contain more accurate information than what you find online, especially for genre, year, or composer.
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+Your may dislike the character case (upper / lower / ...) of what you find.
+</div>
+
+
+<div class="NormalText RegFnt ChpCol1">
+Your may want to adopt my system of including a song's rating in the file: I use a lowercase letter ("a" for 5 stars, "b" for 4.5, ...) before the track number, which has the advantage that it doesn't need any player support (as long as you play files from the disk, and not from its library.) If I ever move to a player that supports the POPM frame (which is where the rating is stored inside ID3V2), I can easily pull the rating from the file name by using a pattern.
+</div>
+
+
+
+<div class="SubChapterText RegFnt ChpCol2">
 <table border="0" cellpadding="0" cellspacing="0">
     <tr>
         <td class="NavPadLeft"> <a href="210_tag_editor_assign_image.html" title="Tag editor - Assigning images"> <img src="arrow_left_small.png" alt="&lt;&lt;" class="ImgNoBorder"/> </a> </td>

@@ -68,7 +68,7 @@ public:
     Id3V2UnicodeTransformer(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Transforms text frames in ID3V2 encoded as Latin1 to Unicode. The reason to do this is that sometimes non-conforming software treats these frames as they are encoded in a different code page, causing other programs to display unexpected data."; }
+    /*override*/ const char* getDescription() const { return "Transforms text frames in ID3V2 encoded as Latin1 to Unicode (UTF16.) The reason to do this is that sometimes non-conforming software treats these frames as they are encoded in a different code page, causing other programs to display unexpected data."; }
 
     static const char* getClassName() { return "Convert non-ASCII ID3V2 text frames to Unicode"; }
 };

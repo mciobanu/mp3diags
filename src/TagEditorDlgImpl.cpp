@@ -1225,7 +1225,7 @@ public:
         if (p->getMp3Handler() == &h)
         {
             pMp3HandlerTagData = p;
-            goto e1;;
+            goto e1;
         }
     }
 
@@ -1365,7 +1365,10 @@ TagEditorDlgImpl::SaveOpt TagEditorDlgImpl::save(bool bExplicitCall)
         bool bAssgn (false);
         bool bNonId3V2 (false);
         m_pTagWriter->hasUnsaved(i, bAssgn, bNonId3V2);
-        if ((bAssgn && CommonData::DISCARD != m_pCommonData->m_eAssignSave) || (bNonId3V2 && CommonData::DISCARD != m_pCommonData->m_eNonId3v2Save))
+        if (
+                (bAssgn && (bExplicitCall || CommonData::DISCARD != m_pCommonData->m_eAssignSave)) ||
+                (bNonId3V2 && (bExplicitCall || CommonData::DISCARD != m_pCommonData->m_eNonId3v2Save))
+            )
         {
             vpHndlr.push_back(m_pTagWriter->m_vpMp3HandlerTagData[i]->getMp3Handler());
         }
@@ -1373,7 +1376,7 @@ TagEditorDlgImpl::SaveOpt TagEditorDlgImpl::save(bool bExplicitCall)
         bHasUnsavedNonId3V2 = bHasUnsavedNonId3V2 || bNonId3V2;
     }
 //ttt1 perhaps separate setting for showing and saving non-id3v2 fields
-//ttt0 if explicit save both, regarding of settings
+
     if (vpHndlr.empty()) { return SAVED; }
 
     if (

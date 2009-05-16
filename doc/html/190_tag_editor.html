@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="keywords" content="MP3, diags, diagnosis, tag editor, tagger, normalizer" />
+<meta name="description" content="End-user documentation for MP3 Diags, an MP3 analysis tool that also includes correction and tag editing functionality" />
+<title>MP3 Diags</title>
+<link rel="stylesheet" type="text/css" media="screen" href="style.css">
+</head>
+
+<body>
+
+<div class="NormalText RegFnt ChpCol1">
+<table width=100% border="0" cellpadding="5" cellspacing="2" class="TitleText RegFnt">
+    <tr>
+        <td border="0" class="TitleText">
+            <a href="index.html"> <img src="logo.png" border="0" alt="MP3 Diags" /> </a>
+        </td>
+        <td border="0" class="RightAlign">
+            Hosted by SF
+        </td>
+    </tr>
+</table>
+</div>
+
+
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+
+
+
+
+<div class="SubChapterText RegFnt ChpCol2">
+<table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td class="NavPadLeft"> <a href="180_folder_filter.html" title="Folder filter"> <img src="arrow_left_small.png" alt="&lt;&lt;" class="ImgNoBorder"/> </a> </td>
+        <td valign="top"> <a href="030_users_guide.html">User's guide</a> - Tag editor </td>
+        <td class="NavPadRight"> <a href="200_discogs_query.html" title="Querying Discogs or MusicBrainz"> <img src="arrow_right_small.png" alt="&gt;&gt;" class="ImgNoBorder"/> </a> </td>
+    </tr>
+</table>
+</div>
+
+
+<div class="Screenshot RegFnt ChpCol1">
+<img src="190_tag_editor.png" />
+</div>
+
+
+<div class="FreeNormalText RegFnt ChpCol2">
+The main purpose of the tag editor is to get track information (artist, title, album, cover art, track number, release date, genre, rating, and composer) from various sources and write everything to an ID3V2.3.0 tag.
+</div>
+
+<div class="NormalText RegFnt ChpCol2">
+While there are many other tag editors, the one included in MP3 Diags has one advantage in being aware of what other parts of the program are doing. Other advantages over some other tag editors:
+<ul class="ListLev1">
+    <li> besides retrieving album information from the Internet, it can also use a file's name, or text pasted from the clipboard </li>
+    <li> it can add cover art from the Internet, from the clipboard, or from local files </li>
+    <li> it can handle multiple instances of the same tags (e.g. two ID3V2.4.0 tags, each of them storing some information that the other doesn't have)</li>
+</ul>
+
+</div>
+
+
+<div class="FreeNormalText RegFnt ChpCol1">
+To some the idea of tagging MP3 files might sound rather obsolete. The reason for this is that many players create a database with your MP3s and add all sorts of information there. That's nice if you only use one player and that player doesn't have the habit of crashing, destroying the database in the process. Many features of MP3 Diags are designed for a different approach, which is that all the information that can be stored inside MP3 files should be stored there, so we shouldn't care about moving to a different player (this includes a different device) and having to recreate the database. First you make sure the MP3 files are OK, then you can play them in Winamp, Amarok, VLC or whatever you prefer, as well as on your iPod.
+</div>
+
+
+<div class="SubChapterText RegFnt ChpCol2">
+What's on the screen
+</div>
+
+
+<div class="NormalText RegFnt ChpCol2">
+Most of the space is taken up by two tables, one above the other. The one above contains the current album. The values in the cells get written to ID3V2.3.0 tags if the information is saved (which can be done explicitly, with the save button, or automatically, is so <a href="300_config_others.html">configured</a>.
+</div>
+
+<div class="NormalText RegFnt ChpCol2">
+The table below contains the current song. The 9 lines correspond to the 9 fields that the tag editor supports. The columns contain track information as retrieved from various sources:
+<ul class="ListLev1">
+    <li> Existing ID3 or Ape tags </li>
+    <li> Information downloaded from the Internet (from Discogs or from MusicBrainz) </li>
+    <li> Information pasted from the clipboard </li>
+    <li> Information extracted from the file name </li>
+</ul>
+(The last two need <a href="220_tag_editor_patterns.html">patterns</a> to be defined.)
+</div>
+
+<div class="NormalText RegFnt ChpCol2">
+While some sources may not apply to all the files (e.g. one file might have two ID3V2 tags while another has none), for a given album we take the union of all the sources that apply to that album and diplay them all, regardless of a file having a particular source or not. It's just that if a source doesn't apply to a file, all the fields in that sorce will be empty (and there's a special background color to identify such sources.)
+</div>
+
+<div class="SubChapterText RegFnt ChpCol1">
+How does the tag editor work
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+To determine what gets displayed in the "current album" table (and what ultimately gets written to disk), this algorithm is applied for each file:
+<ol class="ListNum1">
+    <li> If a field is marked as "assigned", its value is whatever it was the last time it was set manually and caused the field to become "assigned" </li>
+    <li> Otherwise, for each field: the list with sources is examined from left to right and the first non-null value that is found will also be the value to be displayed in the corresponding cell in "current album" </li>
+</ol>
+
+A field in the "current album" is marked as assigned in either of these cases:
+<ol class="ListNum1">
+    <li> the user presses F2 in a cell and changes the value of a field manually </li>
+    <li> the user clicks on the "Toggle assigned" button, with the sole purpose of fixing the value of a field (or perhaps more fields, because multiple fields can be selected before toggling the state) </li>
+    <li> the user <a href="210_tag_editor_assign_image.html">assigns an image</a> to the files in the album </li>
+</ol>
+
+</div>
+
+<div class="FreeNormalText RegFnt ChpCol2">
+These may sound more complicated than they actually are. In many cases all you'll need to do is drag the column headers of the "current file" table to the left or to the right, download an image from the Internet, assign it, and then save.
+</div>
+
+
+
+<div class="SubChapterText RegFnt ChpCol1">
+<table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td class="NavPadLeft"> <a href="180_folder_filter.html" title="Folder filter"> <img src="arrow_left_small.png" alt="&lt;&lt;" class="ImgNoBorder"/> </a> </td>
+        <td valign="top"> <a href="030_users_guide.html">User's guide</a> - Tag editor </td>
+        <td class="NavPadRight"> <a href="200_discogs_query.html" title="Querying Discogs or MusicBrainz"> <img src="arrow_right_small.png" alt="&gt;&gt;" class="ImgNoBorder"/> </a> </td>
+    </tr>
+</table>
+</div>
+
+
+</body>
+
+</html>
+

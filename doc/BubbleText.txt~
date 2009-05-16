@@ -1,0 +1,249 @@
+1. Specify which folders contain your MP3 files
+
+2. Choose the name of the file where your settings will be stored
+
+3. Press OK
+
+-----------------------------------
+
+The first scan can take a while (40 minutes for 9000 files on an old Athlon64 3500+, but may be similar for newer systems, as the bottleneck is the hard-drive)
+
+If you have a single-core CPU and you need it temporarily for something else, you can use pause / resume
+
+It is OK to press Abort. The files already processed can be used. Next time when scanning / reloading, the process will resume from where it was aborted
+
+-----------------------------------
+
+
+
+File list
+
+Choose between viewing files from all folders or a single folder, or view a single file at a time
+
+Filter by specific note(s) and/or folder(s)
+
+Scan again. You can add/remove folders
+
+
+Note table
+
+The little circles in some cells indicate that a note applies to a file
+
+
+Click on a circle to highlight the corresponding note(s) in the detailed note list
+
+Note labels
+
+Drag the handlers to adjust the space allocated to each screen area
+
+
+Detailed note list - notes associated with the current file
+
+Stream list - streams that make up the current file
+
+Select a stream and press DEL to erase it
+
+-----------------------------------
+
+Apply a single transformation.
+Press SHIFT to process only selected files.
+
+Apply a list of transformations.
+Press SHIFT to process only selected files.
+(the lists can be configured in the configuration dialog)
+
+Tooltips show the content of the lists
+
+Open tag editor
+
+Open normalizer
+
+Open file renamer
+
+Open configuration dialog
+
+
+-----------------------------------
+
+To view all the notes associated with your files, click on the "All notes" button.
+
+-----------------------------------
+
+Press the "Tag details" button to view the tags containing track information for the current file. Note that the text boxes are read-only. Track information is changed using the tag editor.
+
+-----------------------------------
+
+In order for a file to be included by the filter, it has to have at least a note from those in the "Include notes"
+
+To move some files between the "Include" and the "Available" lists, they need to be first selected with the mouse, then one of these 2 buttons should be pressed
+
+If the "Include" list is empty, no filter is applied
+
+These buttons move all the notes
+
+Simply double-clicking on a note in the "Available" list creates a filter that contains only that note
+
+-----------------------------------
+
+In order for a file to be included by the filter, it has to be in one of the "Include folders" or in a subfolder of one
+
+As with the note filter, if the "Include" list is empty, no filter is applied
+
+Simply double-clicking on a folder in the "Available" list creates a filter that contains only that folder
+
+-----------------------------------
+
+Query Discogs for album info and / or cover art
+
+Query MusicBrainz for album info and / or cover art
+
+Copy the value from the first line to the other lines, in selected columns that make sense
+
+Toggle between "assigned" and "non-assigned" states
+
+Paste images or track info (CTRL+V works too)
+
+Edit patterns
+
+See the meaning of the background colors
+
+Press F2 to enter values manually
+
+Drag the column headers to sort the track info sources. A source's priority decreases as it is moved to the right.
+
+-----------------------------------
+
+Navigation buttons skip entries that don't meet the criteria specified in "Filter"
+
+If a result is found, it is possible to save just the image (if there is one), or the full track data
+
+It is possible to manually launch a new search
+
+As data is received from the internet, the status is updated
+
+-----------------------------------
+
+Press this button to assign the new picture to all the tracks, then save
+
+Based on your settings, changes may be saved automatically when going to another album. Otherwise, you'll have to do it manually
+
+Images displayed here:
+  - images embedded in MP3s
+  - JPG or PNG files in the current directory
+  - pasted images
+  - pasted image file names
+  - images downloaded from Discogs
+  - images downloaded from MusicBrainz
+
+
+-----------------------------------
+
+Extracting info from consistently (an correctly) named files is possible, and may be easier than searching for album data on the Internet. This is achieved by using patterns.
+
+Track number, artist name, song title, album, and rating have been computed from the full file name
+
+Patterns may also be used to extract track info from data pasted from the clipboard
+
+-----------------------------------
+
+As files are processed, their name is added to the list
+
+MP3 Diags doesn't do normalization itself, but relies on an external program. Go to the configuration dialog to see or change the relevant settings.
+
+
+-----------------------------------
+
+You may keep the original file
+
+Among other things, the selected pattern adds a "-" between the track number and title
+
+You have to define at least a pattern. It makes sense to have different patterns for "single artist" and "various artists" albums. Press on one of them to select it.
+
+
+-----------------------------------
+
+Switch between "Erase" and "Move if the destination doesn't already exist; erase if it does". Specify a destination folder if you choose the latter option.
+
+
+-----------------------------------
+
+Several notes are ignored by default
+
+Select notes to move them.
+
+-----------------------------------
+
+
+
+Click on the corresponding button to view / edit one of the 4 lists
+
+See how the "Used transformations" list changes
+
+Maximize the window and look at all the descriptions, to get a better understanding of what the various transformations do
+
+-----------------------------------
+
+You may want to adjust the fonts
+
+Configure what should happen with the changed fields
+
+Configure what should happen with the fields whose value is different from the one in the ID3V2 tag (or if no ID3V2 tag exists)
+
+If you want to use the normalization, make sure that this is correct
+
+-----------------------------------
+
+
+
+-----------------------------------
+
+
+
+-----------------------------------
+
+
+
+-----------------------------------
+
+
+
+-----------------------------------
+
+
+
+-----------------------------------
+
+
+
+-----------------------------------
+
+
+
+-----------------------------------
+
+
+
+-----------------------------------
+
+
+
+-----------------------------------
+
+
+
+-----------------------------------
+
+
+
+-----------------------------------
+
+
+
+-----------------------------------
+
+
+
+-----------------------------------
+
+
+

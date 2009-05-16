@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>903</width>
-    <height>477</height>
+    <width>944</width>
+    <height>563</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -52,7 +52,7 @@
          </font>
         </property>
         <property name="text" >
-         <string>MP3 Diags 0.7.0.0</string>
+         <string>MP3 Diags x.y.z</string>
         </property>
         <property name="alignment" >
          <set>Qt::AlignCenter</set>
@@ -76,16 +76,16 @@
         <widget class="QWidget" native="1" name="widget_2" >
          <layout class="QVBoxLayout" >
           <property name="leftMargin" >
-           <number>20</number>
+           <number>10</number>
           </property>
           <property name="topMargin" >
-           <number>40</number>
+           <number>20</number>
           </property>
           <property name="rightMargin" >
-           <number>20</number>
+           <number>10</number>
           </property>
           <property name="bottomMargin" >
-           <number>20</number>
+           <number>10</number>
           </property>
           <item>
            <widget class="QTextBrowser" name="m_pMainTextM" >
@@ -129,6 +129,36 @@
       <layout class="QHBoxLayout" >
        <item>
         <widget class="QTextBrowser" name="m_pGplV3M" />
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_5" >
+      <attribute name="title" >
+       <string>LGPL V2.1 (for Qt)</string>
+      </attribute>
+      <layout class="QHBoxLayout" >
+       <item>
+        <widget class="QTextBrowser" name="m_pLgplV21M" />
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_6" >
+      <attribute name="title" >
+       <string>Boost license</string>
+      </attribute>
+      <layout class="QHBoxLayout" >
+       <item>
+        <widget class="QTextBrowser" name="m_pBoostM" />
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_7" >
+      <attribute name="title" >
+       <string>zlib license</string>
+      </attribute>
+      <layout class="QHBoxLayout" >
+       <item>
+        <widget class="QTextBrowser" name="m_pZlibM" />
        </item>
       </layout>
      </widget>

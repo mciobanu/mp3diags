@@ -63,7 +63,8 @@ public:
     std::string run();
 
     static std::string getDataFileName(const std::string& strIniName);
-    static void removeSession(const std::string& strIniName); // removes both INI and DAT
+    static std::string getLogFileName(const std::string& strIniName);
+    static void removeSession(const std::string& strIniName); // removes INI, DAT, and LOG
 
 public slots:
     /*$PUBLIC_SLOTS$*/

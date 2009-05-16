@@ -35,7 +35,7 @@ class MultiLineTvDelegate : public QItemDelegate
 protected:
     QTableView* m_pTableView;
     mutable int m_nLineHeight, m_nAddPerLine; // needed because of Qt bugs in QFontMetrics::boundingRect() that cause incorrect heights to be returned when the text wraps across several lines (e.g. with some fonts an additional pixel must be added for each line to get the correct value)
-    void calibrate(const QFontMetrics&) const; // sets up m_nLine and m_nTotalAdd
+    void calibrate(const QFontMetrics&, const QFont&) const; // sets up m_nLine and m_nTotalAdd
 public:
     MultiLineTvDelegate(QTableView* pTableView/*, QObject* pParent = 0*/);
 

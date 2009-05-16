@@ -63,7 +63,7 @@ using namespace pearl;
 
 MainFormDlgImpl* getGlobalDlg();  //ttt1 remove
 
-void log(const string& s)
+void log(const string& s) //ttt0 =>trace
 {
     MainFormDlgImpl* p (getGlobalDlg());
     //p->m_pContentM->append(convStr(s));
@@ -129,7 +129,7 @@ void defaultResize(QDialog& dlg)
 {
     QSize s (dlg.size());
     QDialog& mainDlg (*getGlobalDlg());
-    s.rwidth() = max(s.rwidth(), mainDlg.width() - 100);
+    s.rwidth() = max(s.rwidth(), mainDlg.width() - 100); //ttt2  doesn't do what it should for the case when working with small fonts and small resolutions
     s.rheight() = max(s.rheight(), mainDlg.height() - 100);
     dlg.resize(s.width(), s.height());
 }
@@ -268,9 +268,11 @@ struct SerLoadThread : public PausableThread
     bool load()
     {
         m_strErr = m_pCommonData->load(SessionEditorDlgImpl::getDataFileName(m_strSession));
+        m_pCommonData->m_strTransfLog = SessionEditorDlgImpl::getLogFileName(m_strSession);
         return true;
     }
 };
+
 
 struct SerSaveThread : public PausableThread
 {
@@ -1580,6 +1582,7 @@ void MainFormDlgImpl::on_m_pDebugB_clicked()
 {
     DebugDlgImpl dlg (this, m_pCommonData);
     dlg.run();
+    m_settings.saveMiscConfigSettings(m_pCommonData);
 }
 
 
@@ -1614,8 +1617,9 @@ public:
 {
     QKeyEvent* pKeyEvent (dynamic_cast<QKeyEvent*>(pEvent));
     int nKey (0 == pKeyEvent ? 0 : pKeyEvent->key());
-    if (m_pStreamsG != pObj || 0 == pKeyEvent || Qt::Key_Delete != nKey) { return QDialog::eventFilter(pObj, pEvent); }
+    if (m_pStreamsG != pObj || 0 == pKeyEvent || Qt::Key_Delete != nKey || QEvent::ShortcutOverride != pKeyEvent->type()) { return QDialog::eventFilter(pObj, pEvent); }
 
+//qDebug("type %d", pKeyEvent->type());
     QItemSelectionModel* pSelModel (m_pStreamsG->selectionModel());
     QModelIndexList lstSel (pSelModel->selection().indexes());
 

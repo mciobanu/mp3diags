@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="keywords" content="MP3, diags, diagnosis, tag editor, tagger, normalizer" />
+<meta name="description" content="End-user documentation for MP3 Diags, an MP3 analysis tool that also includes correction and tag editing functionality" />
+<title>MP3 Diags</title>
+<link rel="stylesheet" type="text/css" media="screen" href="style.css">
+</head>
+
+<body>
+
+<div class="NormalText RegFnt ChpCol1">
+<table width=100% border="0" cellpadding="5" cellspacing="2" class="TitleText RegFnt">
+    <tr>
+        <td border="0" class="TitleText">
+            <a href="index.html"> <img src="logo.png" border="0" alt="MP3 Diags" /> </a>
+        </td>
+        <td border="0" class="RightAlign">
+            Hosted by SF
+        </td>
+    </tr>
+</table>
+</div>
+
+
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+
+
+
+
+<div class="SubChapterText RegFnt ChpCol2">
+<table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td class="NavPadLeft"> <a href="310_advanced.html" title="Advanced features"> <img src="arrow_left_small.png" alt="&lt;&lt;" class="ImgNoBorder"/> </a> </td>
+        <td valign="top"> Limitations </td>
+        <td class="NavPadRight"> <a href="050_feedback.html" title="Feedback and support"> <img src="arrow_right_small.png" alt="&gt;&gt;" class="ImgNoBorder"/> </a> </td>
+    </tr>
+</table>
+</div>
+
+
+<div class="FreeNormalText RegFnt ChpCol1">
+Currently, if asked to save an image that is identical to an existing one except for the picture type, the new image is not saved. This approach looks the least likely to confuse players. If needed, a  transformation that changes picture types can be added.
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+Processing ID3V2 only keeps one copy of the known frames except for images; multiple images are kept, as long as they only they have different image types. The other frames are supposed to have only one instance, except for POPM, so this is the only case where valid data is lost; that is, assuming anybody has files containing multiple POPM frames.
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+MP3 Diags expects folders to be albums, having less than 30 files. If this is not the case, it's better to avoid using the tag editor, which might take a long time to load, especially if the files contain images. Even if it gets loaded, it is designed for albums, so it may do things that make no sense for random collections of files (e.g. assigning the same image to all the files.)
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+albums are folders
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+Symbolic links aren't handled nicely. I noticed that they get dereferenced by Qt, which is something I don't like. Also, I haven't tried it myself, but I expect scanning folders that have symbolic links to their ancestors to cause MP3 Diags to keep scanning until it runs out of memory.
+</div>
+
+UTF8
+
+image type
+
+all ID3V2 that are created are 2.3.0
+
+tag edt removes POPM, doesn't use email
+
+There is no automatic detection of a file being changed by an external tool or removed. You should use the "reload" button to update the file information.
+
+<div class="SubChapterText RegFnt ChpCol2">
+<table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td class="NavPadLeft"> <a href="310_advanced.html" title="Advanced features"> <img src="arrow_left_small.png" alt="&lt;&lt;" class="ImgNoBorder"/> </a> </td>
+        <td valign="top"> Limitations </td>
+        <td class="NavPadRight"> <a href="050_feedback.html" title="Feedback and support"> <img src="arrow_right_small.png" alt="&gt;&gt;" class="ImgNoBorder"/> </a> </td>
+    </tr>
+</table>
+</div>
+
+
+</body>
+
+</html>
+

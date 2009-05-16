@@ -405,7 +405,7 @@ public:
 
     bool m_bUseAllNotes;
 
-    bool m_bLogEnabled;
+    bool m_bTraceEnabled;
     void log(const std::string& s);
     void clearLog();
     const std::deque<std::string>& getLog() const { return m_vLogs; }
@@ -416,6 +416,9 @@ public:
     SessionSettings& m_settings;
 
     bool m_bKeepOneValidImg;
+
+    std::string m_strTransfLog; // log file with transformations;
+    bool m_bLogTransf;
 
 private:
     std::deque<const Mp3Handler*> m_vpAllHandlers; // owns the pointers; sorted by CmpMp3HandlerPtrByName;

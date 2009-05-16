@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="keywords" content="MP3, diags, diagnosis, tag editor, tagger, normalizer" />
+<meta name="description" content="End-user documentation for MP3 Diags, an MP3 analysis tool that also includes correction and tag editing functionality" />
+<title>MP3 Diags</title>
+<link rel="stylesheet" type="text/css" media="screen" href="style.css">
+</head>
+
+<body>
+
+<div class="NormalText RegFnt ChpCol1">
+<table width=100% border="0" cellpadding="5" cellspacing="2" class="TitleText RegFnt">
+    <tr>
+        <td border="0" class="TitleText">
+            <a href="index.html"> <img src="logo.png" border="0" alt="MP3 Diags" /> </a>
+        </td>
+        <td border="0" class="RightAlign">
+            Hosted by SF
+        </td>
+    </tr>
+</table>
+</div>
+
+
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+
+
+
+
+<div class="SubChapterText RegFnt ChpCol2">
+<table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td class="NavPadLeft"> <a href="120_first_scan.html" title="Scanning MP3 files"> <img src="arrow_left_small.png" alt="&lt;&lt;" class="ImgNoBorder"/> </a> </td>
+        <td valign="top"> <a href="030_users_guide.html">User's guide</a> - Main window </td>
+        <td class="NavPadRight"> <a href="140_main_window_tools.html" title="Main window - Tools"> <img src="arrow_right_small.png" alt="&gt;&gt;" class="ImgNoBorder"/> </a> </td>
+    </tr>
+</table>
+</div>
+
+
+<div class="Screenshot RegFnt ChpCol1">
+<img src="130_main_window.png" />
+</div>
+
+
+<div class="FreeNormalText RegFnt ChpCol2">
+After scanning completes, you see the main window, having a table with files (and quite likely "notes") in the upper part and tables with the "notes" and "streams" of the current file in the lower part of the screen.
+</div>
+
+<div class="NormalText RegFnt ChpCol2">
+A "note" is a message about an MP3 file, usually describing something that is wrong with the file. There are 3 kinds of notes, based on their severity: error, warning and support. You probably want to fix the errors and think about warnings. The "support" notes simply indicate that a valid feature of an MP3 file is recognized as such, but the current version of MP3 Diags can't use it. There is nothing to do about them, except perhaps request for the feature to be supported. The main reason for not supporting a feature is that although I've found documentation about that fature, I don't have any file that uses it, so I don't know if my understanding is correct, and also if anybody actually needs that feature.
+</div>
+
+<div class="NormalText RegFnt ChpCol2">
+To make it easier to tell the notes apart, they are shown on differently colored backgrounds: pink for errors, pale yellow for warnings and cyan for support.
+</div>
+
+<div class="NormalText RegFnt ChpCol2">
+Another thing about notes is that they have a one-letter label, which is used for convenience, to make it easy to track notes from one part of the UI to another, or to report bugs / ask questions. Keep in mind that the background color is also important, as well as the case: "c yellow" has nothing to do with "c pink" or with "C yellow".
+</div>
+
+<div class="NormalText RegFnt ChpCol2">
+Notes may have addresses, which allow them to be connected to particular streams. (If you don't know what an address is, just ignore them.)
+</div>
+
+<div class="NormalText RegFnt ChpCol2">
+Although the order of the labels in the file table may seem random, they are actually sorted: there are several groups of related notes, and the grouping is preserved on the screen, keeping those related notes close together. The groups are:
+<table border="0" cellpadding="0" cellspacing="0" class="NoBrdTableText RegFnt ChpCol2 SubtableSpace">
+    <tr> <td> Audio </td> </tr>
+    <tr> <td> Xing and LAME </td> </tr>
+    <tr> <td> VBRI </td> </tr>
+    <tr> <td> ID3V2 </td> </tr>
+    <tr> <td> APIC </td> </tr>
+    <tr> <td> ID3V2.3.0 </td> </tr>
+    <tr> <td> ID3V2.4.0 </td> </tr>
+    <tr> <td> ID3V1 </td> </tr>
+    <tr> <td> broken streams </td> </tr>
+    <tr> <td> unsupported streams </td> </tr>
+    <tr> <td> unknown streams </td> </tr>
+    <tr> <td> Lyrics </td> </tr>
+    <tr> <td> Ape </td> </tr>
+    <tr> <td> others </td> </tr>
+</table>
+</div>
+
+<div class="FreeNormalText RegFnt ChpCol1">
+MP3 Diags has its own, rather rigid idea about how an MP3 file should look like, and it will show errors or warnings for non-compliant files. A "good" file should contain these streams:
+<ul class="ListLev1">
+    <li> an ID3V2 tag that meets the criteria described in the <a href="190_tag_editor.html">tag editor</a> </li>
+    <li> a LAME or Xing header; optional if the audio is CBR </li>
+    <li> audio data </li>
+    <li> optional ID3V1 tag </li>
+    <li> optional (and ignored) Lyrics tag </li>
+    <li> Ape tag containing normalization undo data </li>
+</ul>
+
+There are further restrictions on the order of the streams:
+<ul class="ListLev1">
+    <li> if the ID3V2 tag is ID3V2.3.0, it must be the first stream in the file </li>
+    <li> the LAME / Xing header is right before the audio </li>
+    <li> ID3V1 and Ape tags are after the audio </li>
+</ul>
+
+</div>
+
+<div class="FreeNormalText RegFnt ChpCol2">
+You may want to ignore some notes, because they are irrelevant in your particular situation. This can be done in the <a href="260_config_ignored_notes.html"> configuration dialog </a>. Several notes are ignored by default. For example, fields in an ID3V1 tag are supposed to be padded with zeroes to the right to fill their fixed-size allocated space, but some tools use spaces instead (well, there are also other sites saying that padding should be done with spaces.) All the tools that I looked at don't really care about this requirement, and work equally well whether the padding is done with spaces or with zeroes. For this reason, several notes about zeroes in ID3V1 tags are ignored by default. If you have a tool that cares about zeroes, you should remove those notes from the "ignored" list.
+</div>
+
+
+
+<div class="SubChapterText RegFnt ChpCol1">
+<table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td class="NavPadLeft"> <a href="120_first_scan.html" title="Scanning MP3 files"> <img src="arrow_left_small.png" alt="&lt;&lt;" class="ImgNoBorder"/> </a> </td>
+        <td valign="top"> <a href="030_users_guide.html">User's guide</a> - Main window </td>
+        <td class="NavPadRight"> <a href="140_main_window_tools.html" title="Main window - Tools"> <img src="arrow_right_small.png" alt="&gt;&gt;" class="ImgNoBorder"/> </a> </td>
+    </tr>
+</table>
+</div>
+
+
+</body>
+
+</html>
+

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="keywords" content="MP3, diags, diagnosis, tag editor, tagger, normalizer" />
+<meta name="description" content="End-user documentation for MP3 Diags, an MP3 analysis tool that also includes correction and tag editing functionality" />
+<title>MP3 Diags</title>
+<link rel="stylesheet" type="text/css" media="screen" href="style.css">
+</head>
+
+<body>
+
+<div class="NormalText RegFnt ChpCol1">
+<table width=100% border="0" cellpadding="5" cellspacing="2" class="TitleText RegFnt">
+    <tr>
+        <td border="0" class="TitleText">
+            <a href="index.html"> <img src="logo.png" border="0" alt="MP3 Diags" /> </a>
+        </td>
+        <td border="0" class="RightAlign">
+            Hosted by SF
+        </td>
+    </tr>
+</table>
+</div>
+
+
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+
+
+
+<div class="SubChapterText RegFnt ChpCol2">
+<table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td class="NavPadLeft"> <a href="008_licence.html" title="Licence and acknowledgements"> <img src="arrow_left_small.png" alt="&lt;&lt;" class="ImgNoBorder"/> </a> </td>
+        <td valign="top"> Getting MP3 Diags </td>
+        <td class="NavPadRight"> <a href="020_mp3_introduction.html" title="Short MP3 introduction"> <img src="arrow_right_small.png" alt="&gt;&gt;" class="ImgNoBorder"/> </a> </td>
+    </tr>
+</table>
+</div>
+
+
+
+<div class="FreeNormalText RegFnt ChpCol1">
+Currently the program is available in source format only, at <a href="http://"> ttt0 </a>. It is likely that binaries will be made available for some Linux distributions, but I have no experience building RPMs or other kinds of packages, so I can't make any estimation for when the binaries might be available. It seems that <a href="https://build.opensuse.org/">openSUSE Build Service</a> is something that might help, but I haven't looked at it. Well, this is an area where I could use some help, if anybody wants to contribute.
+</div>
+
+
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+
+
+
+<div class="SubChapterText RegFnt ChpCol2">
+Requirements
+</div>
+
+
+<div class="NormalText RegFnt ChpCol2">
+The development system is openSUSE 10.3, and I also compiled MP3 Diags on openSUSE 11.1 and it seemed to work fine. I expect most Linux distributions from 2007 or newer to be able to compile and run it. Based on what I know, porting to Windows should be rather trivial as long as MinGW is used, but currently the program should trigger assertion failures (assuming that it compiles at all.) Porting to MSVC is not something that I plan to do. It involves more work than MinGW.
+</div>
+
+<div class="NormalText RegFnt ChpCol2">
+In order to compile the project, these packages should be installed:
+<ul class="ListLev1">
+    <li> g++ </li>
+    <li> libqt4-devel (Qt 4.3.1; something above should be OK too, but there may be some UI glitches, about which <a href="050_feedback.html">I'd like to know</a>) </li>
+    <li> zlib-devel </li>
+    <li> boost-devel </li>
+</ul>
+(Well, this is how the packages are called on openSUSE 10.3; they may have sligtly different names, e.g. g++, libqt4-dev, zlib1g-dev and boost-dev on Ubuntu 9.04)
+</div>
+
+<div class="NormalText RegFnt ChpCol2">
+If you find some other required package, please <a href="050_feedback.html">let me know</a>.
+</div>
+
+
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+
+
+
+<div class="SubChapterText RegFnt ChpCol1">
+Compiling &amp; installing
+</div>
+
+
+<div class="NormalText RegFnt ChpCol1">
+After unpacking the surce to some directory, just run Install.sh in that directory. Note that double-clicking the script in some file browser may work or not, depending on the "current directory" being set properly and on whether a terminal window gets opened so you can type the root password to get the executable copied to /usr/local/bin. Other options are to manually run the 3 commands in <span class="Reference">Install.sh</span> or to compile the project from KDevelop 3.5, if you have it.
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+Uninstallation can be done through <span class="Reference">Uninstall.sh</span>. You probably created some data files, and if you are sure you no longer need them you should remove them manually. Note that the data files come in pairs. Although you only specify an ".ini" file when you start the program for the first time (or when you create a new session), two files get created. The ".ini" only stores settings, while the actual data is stored in a file in the same directory and with the same name but with the extension ".dat".
+</div>
+
+<div class="SubChapterText RegFnt ChpCol2">
+<table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td class="NavPadLeft"> <a href="008_licence.html" title="Licence and acknowledgements"> <img src="arrow_left_small.png" alt="&lt;&lt;" class="ImgNoBorder"/> </a> </td>
+        <td valign="top"> Getting MP3 Diags </td>
+        <td class="NavPadRight"> <a href="020_mp3_introduction.html" title="Short MP3 introduction"> <img src="arrow_right_small.png" alt="&gt;&gt;" class="ImgNoBorder"/> </a> </td>
+    </tr>
+</table>
+</div>
+
+
+</body>
+
+</html>

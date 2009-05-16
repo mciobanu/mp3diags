@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="keywords" content="MP3, diags, diagnosis, tag editor, tagger, normalizer" />
+<meta name="description" content="End-user documentation for MP3 Diags, an MP3 analysis tool that also includes correction and tag editing functionality" />
+<title>MP3 Diags</title>
+
+
+<link rel="stylesheet" type="text/css" media="screen" href="style.css">
+
+<!--
+
+changing the font size for .Code:
+from medium to 13px - just increases width
+
+-->
+
+
+<!--
+===============================================================================================================================================
+Current sizes for most browsers, including IE7, using small/medium/large/ ... fonts. Looks huge on IE6, though, so there's a workaround next
+===============================================================================================================================================
+-->
+
+
+<style type="text/css">
+<!--
+
+
+
+-->
+</style>
+
+<!--
+font-weight: bold; 
+
+.InlineCode     { color: #0000b0; font-style: italic; font-family: 'Courier New'; }
+.InlineCode     { color: #0000b0; font-family: 'Courier New'; font-size: large; }
+
+-->
+
+
+
+
+<!-- ttt0
+===============================================================================================================================================
+Workaround for IE6 (and perhaps earlier); all font sizes are smaller than for the other browsers in order to have a similar appearance.
+===============================================================================================================================================
+-->
+
+
+<!--[if lt IE 7 ]>
+
+<style type="text/css">
+
+.Code           { font-size: x-small; }
+
+.SmalllText     { font-size: x-small; }
+.NormalText     { font-size: small; }
+.SubChapterText { font-size: medium; }
+.ChapterText    { font-size: large; }
+.TitleText      { font-size: x-large; }
+.InclSubChapterText { font-size: medium;  }
+
+</style>
+
+<![endif]-->
+
+
+
+
+
+
+
+
+
+<!--
+===============================================================================================================================================
+                        Original, fixed-size, fonts; Look OK in FF and IE6 but don't allow resizing in IE6
+===============================================================================================================================================
+-->
+
+
+<!--
+
+.Code           { font-family: 'Courier New', 'Lucida Console', 'Andale Mono', 'B&H Lucida Typewriter', 'Lucida Sans Typewriter', Courier, Monospace; font-size: 12px; line-height: 12px;  }
+
+.RegFnt         { font-family:  Arial, Verdana, Helvetica, sans-serif; }
+
+.Comment        { color: #57628a; font-style: italic; }
+.Preproc        { color: #006633; }
+.Keyword        { font-weight: bold; color: #000000; }
+.Integer        { color: #0000ff; }
+.Regular        { color: #000000; }
+.StdType        { font-weight: bold; color: #800000; }
+.StringVal      { color: #dd0000; }
+.StringSpecChar { color: #ff00ff; }
+.Double         { color: #800080; }
+
+.Hlt { background: yellow; font-weight: bold; }
+
+
+.ChpCol1 { background: #ececec; }
+.ChpCol2 { background: #f8f8f8; }
+
+
+.NormalText     { color: #000000; font-size: 14px; padding-bottom: 10px; padding-left: 8px; padding-right: 8px; }
+.SubChapterText { color: #000000; font-weight: bold; font-size: 16px; padding-bottom: 10px; padding-top: 15px; padding-left: 18px; padding-right: 8px; }
+.ChapterText    { color: #000000; font-weight: bold; font-size: 20px; padding-bottom: 12px; padding-top: 18px; padding-left: 28px; padding-right: 8px; }
+.TitleText      { color: #000000; font-weight: bold; font-size: 26px; padding-bottom: 15px; text-align: center; }
+
+.ListLev1  { list-style: disc; }
+.ListLev2  { list-style: circle; }
+
+.ListSpace { padding-bottom: 4px; padding-top: 4px; }
+
+
+-->
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+
+<!--
+word-spacing: 30px;
+border: 5px solid red;
+
+p { padding-top: -8px; }
+
+
+<b><i>mkF</i></b>   - for "inline code"
+
+<span style="text-align: center;"></span>
+
+-->
+
+
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+
+
+
+<div class="NormalText RegFnt ChpCol1">
+
+
+<table width=100% border="0" cellpadding="5" cellspacing="2" class="TitleText RegFnt">
+    <tr>
+        <td border="0" class="TitleText">
+            <img src="logo.png" border="0" alt="MP3 Diags" />
+        </td>
+        <td border="0" class="RightAlign">
+            Hosted by SF
+        </td>
+    </tr>
+</table>
+
+</div>
+
+
+<!--
+            <table>
+                <tr>
+                    <td border="2" class="NormalText ChpCol2">
+                        Hosted by
+                    </td>
+                    <td border="2" class="NormalText ChpCol2">
+                        qq ve rt trvgertv trv tr rtb rtbh
+                    </td>
+                </tr>
+            </table>
+-->
+
+                        <!-- <a href="http://sourceforge.net"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=203477&amp;type=5" width="210" height="62" border="0" alt="SourceForge.net Logo" /></a> -->
+
+
+<!--
+<div class="ChapterText RegFnt ChpCol1" style="text-align: left;">
+</div>
+-->
+
+
+
+
+
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+
+
+
+
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+
+
+<div class="SubChapterText RegFnt ChpCol2">
+Motivation
+</div>
+
+
+<div class="NormalText RegFnt ChpCol2">
+In May 2008 I decided to improve my MP3 collection, by properly tagging all the files (including composer data), adding album cover art, fixing VBR headers, re-ripping albums that have poor sound quality, and more. I tried several programs, but I wasn't happy with how they worked. None of them did all the things that I wanted, and some corrupted the files. Worse, none allowed me to "look inside" an MP3 file, so the best way to see what was wrong with a file was to open it with a hex editor and try to see how some specifications mapped to the various pieces of the file. After a while I decided to give up on the tools I was experimenting with and write my own. The result is MP3 Diags.
+</div>
+
+<div class="NormalText RegFnt ChpCol2">
+There are many programs that create and edit MP3 files, and many of them are broken. As a result, many MP3 files have various issues, ranging from values that are not standards-conforming but that are tolerated by all players and tools (so they look perfectly fine to the end user) to files that play correctly only on some players or even cause players and tools to crash. Many of the tools are quite tolerant of errors in an MP3 file, but some are less so. Also, there are reasons to change a file even if it technically doesn't have errors; for example you may want to add the image on album cover, or the lyrics.
+</div>
+
+
+
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+
+
+
+<div class="SubChapterText RegFnt ChpCol1">
+What is MP3 Diags and what does it do?
+</div>
+
+
+<div class="NormalText RegFnt ChpCol1">
+In a few words, MP3 Diags is a GUI-based application that allows end-users to identify issues with their MP3 files, fix some of the issues and make other changes to MP3 files, including adding track information and album cover art. It also lets you "look inside" an MP3 file.
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+Unlike some programs that are designed to deal with a single topic (like fixing VBR headers or adding cover art), MP3 Diags is a one stop solution that identifies more than 50 different issues in MP3 files and provides the means to fix many of them (well, not everything is fixable; you can't make a 64kbps file sound like a 256kbps one.)
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+Some of the more important issues that are found:
+<ul class="ListLev1">
+    <li> broken tags / headers / audio </li>
+    <li> duplicate tags / headers </li>
+    <li> incorrect placement of tags / headers (ID3V2, ID3V1, LAME, Xing, ...) </li>
+    <li> low quality audio </li>
+    <li> missing VBR header </li>
+    <li> missing track info / cover art </li>
+    <li> broken track info / cover art </li>
+    <li> missing normalization data </li>
+    <li> character encoding issues (for languages other than English) </li>
+</ul>
+
+</div>
+
+
+
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+
+
+<div class="SubChapterText RegFnt ChpCol2">
+<a name="screenshots"/>
+Screenshots
+</div>
+
+<div class="NormalText RegFnt ChpCol2">
+<a href="004_screenshot01.html"> <img src="screenshot1_thumb.png" class="ImgNoBorder"> </a>
+<a href="005_screenshot02.html"> <img src="screenshot2_thumb.png" class="ImgNoBorder"> </a>
+<a href="006_screenshot03.html"> <img src="screenshot3_thumb.png" class="ImgNoBorder"> </a>
+</div>
+
+
+<div class="SubChapterText RegFnt WarnCol">
+<span class="WarnCol"> WARNING</span>
+</div>
+
+<div class="WarnCol NormalText RegFnt">
+<span class="WarnCol"> If you want to use those parts of MP3 Diags functionality that alter existing files, it is highly advisable to back up your files first, because there is a real chance of data loss. It can be caused by both user error and bugs in the program. </span>
+</div>
+
+<div class="WarnCol NormalText RegFnt">
+<span class="WarnCol"> Now if you wonder just how big this chance is, I don't have any answer. The program is currently in beta. As far as I know, there are no bugs that may cause data corruption, but there may be some that I don't know about. I didn't lose any data in my own files, but you'll have to try it for yourself. </span>
+</div>
+
+<div class="WarnCol NormalText RegFnt">
+<span class="WarnCol"> I guess the biggest risk is in a mismatch between what you expect MP3 Diags to do and what it was designed to do. So reading the documentation could help. </span>
+</div>
+
+
+<div class="SubChapterText RegFnt ChpCol1">
+Documentation
+</div>
+
+
+<div class="NormalText RegFnt ChpCol1">
+
+<table border="0" cellpadding="0" cellspacing="0" class="NoBrdTableText RegFnt ChpCol1">
+    <tr> <td> <a href="008_licence.html"> Licence and acknowledgements </a> </td> </tr>
+    <tr> <td> <a href="010_getting_the_program.html"> Getting the program </a> </td> </tr>
+    <tr> <td> <a href="020_mp3_introduction.html"> MP3 introduction </a> </td> </tr>
+    <tr> <td> <a href="030_users_guide.html"> User's guide </a> </td> </tr>
+    <tr> <td>
+        <table border="0" cellpadding="0" cellspacing="0" class="NoBrdTableText RegFnt ChpCol1 SubtableSpace">
+            <tr> <td> <a href="110_first_run.html">First run</a> </td> </tr>
+            <tr> <td> <a href="120_first_scan.html">Scanning MP3 files</a> </td> </tr>
+            <tr> <td> <a href="130_main_window.html">Main window</a> </td> </tr>
+            <tr> <td> <a href="140_main_window_tools.html">Main window - Tools</a> </td> </tr>
+            <tr> <td> <a href="145_transformations_list.html">Transformations - Details</a> </td> </tr>
+            <tr> <td> <a href="150_main_window_all_notes.html">Main window - All notes</a> </td> </tr>
+            <tr> <td> <a href="160_main_window_tag_details.html">Main window - Tag details</a> </td> </tr>
+            <tr> <td> <a href="170_note_filter.html">Note filter</a> </td> </tr>
+            <tr> <td> <a href="180_folder_filter.html">Folder filter</a> </td> </tr>
+            <tr> <td> <a href="190_tag_editor.html">Tag editor</a> </td> </tr>
+            <tr> <td> <a href="200_discogs_query.html">Querying Discogs or MusicBrainz</a> </td> </tr>
+            <tr> <td> <a href="210_tag_editor_assign_image.html">Tag editor - Assigning images</a> </td> </tr>
+            <tr> <td> <a href="220_tag_editor_patterns.html">Tag editor - Patterns</a> </td> </tr>
+            <tr> <td> <a href="230_normalize.html">Normalization</a> </td> </tr>
+            <tr> <td> <a href="240_file_renamer.html">File renamer</a> </td> </tr>
+            <tr> <td> <a href="250_config_files.html">Config - Files</a> </td> </tr>
+            <tr> <td> <a href="260_config_ignored_notes.html">Config - Ignored notes</a> </td> </tr>
+            <tr> <td> <a href="270_config_custom_transf.html">Config - Custom transformations</a> </td> </tr>
+            <tr> <td> <a href="280_config_quality.html">Config - Audio quality</a> </td> </tr>
+            <tr> <td> <a href="290_config_transf_params.html">Config - Transformation parameters</a> </td> </tr>
+            <tr> <td> <a href="300_config_others.html">Config - Others</a> </td> </tr>
+            <tr> <td> <a href="310_advanced.html">Advanced features</a> </td> </tr>
+        </table>
+    </td> </tr>
+    <tr> <td> <a href="040_limitations.html"> Limitations </a> </td> </tr>
+    <tr> <td> <a href="050_feedback.html"> Feedback and support </a> </td> </tr>
+    <tr> <td> <a href="060_notes_for_programmers.html"> Notes for programmers </a> </td> </tr>
+    <tr> <td> <a href="070_miscellaneous.html"> Miscellaneous </a> </td> </tr>
+</table>
+</div>
+
+
+
+<div class="FreeNormalText RegFnt ChpCol2">
+I'd appreciate <a href="050_feedback.html">feedback</a> about your experience with MP3 Diags (things like if it compiles or not, if it crashes, if you'd like a binary available for some platform, parts that you like or dislike, new features ... )<br/>
+</div>
+
+
+<div class="FreeNormalText RegFnt ChpCol2">
+Ciobi, May 2009
+</div>
+<!--
+<span class="NormalText RegFnt ChpCol2" style="padding-left:30px"></span>
+<br/>
+-->
+
+
+</body>
+</html>

@@ -151,6 +151,7 @@ void SessionEditorDlgImpl::on_m_pOkB_clicked()
     {
         QString qstrFile (m_pFileNameE->text());
         if (!qstrFile.isEmpty() && !qstrFile.endsWith(".ini")) { qstrFile += ".ini"; m_pFileNameE->setText(qstrFile); }
+        //m_strIniFile = convStr(QFileInfo(qstrFile).canonicalFilePath());
         m_strIniFile = convStr(qstrFile);
         if (m_strIniFile.empty())
         {
@@ -295,10 +296,18 @@ void SessionEditorDlgImpl::on_m_pFileNameB_clicked()
     return strIniName.substr(0, strIniName.size() - 4) + ".dat";
 }
 
-/*static*/ void SessionEditorDlgImpl::removeSession(const string& strIniName) // removes both INI and DAT
+/*static*/ string SessionEditorDlgImpl::getLogFileName(const string& strIniName)
+{
+    CB_ASSERT (endsWith(strIniName, ".ini"));
+    return strIniName.substr(0, strIniName.size() - 4) + ".log";
+}
+
+
+/*static*/ void SessionEditorDlgImpl::removeSession(const string& strIniName) // removes INI, DAT, and LOG
 {
     QFile::remove(convStr(strIniName)); // ttt2 perhaps check ...
     QFile::remove(convStr(getDataFileName(strIniName)));
+    QFile::remove(convStr(getLogFileName(strIniName)));
 }
 
 

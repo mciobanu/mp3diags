@@ -197,8 +197,9 @@ void SessionSettings::saveMiscConfigSettings(const CommonData* p)
         m_pSettings->setValue("normalizer/command", convStr(p->m_strNormalizeCmd));
         m_pSettings->setValue("main/keepNormWndOpen", p->m_bKeepNormWndOpen);
 
-        m_pSettings->setValue("debug/enableLogging", p->m_bLogEnabled);
+        m_pSettings->setValue("debug/enableTracing", p->m_bTraceEnabled);
         m_pSettings->setValue("debug/useAllNotes", p->m_bUseAllNotes);
+        m_pSettings->setValue("debug/logTransf", p->m_bLogTransf);
         m_pSettings->setValue("main/autoSizeIcons", p->m_bAutoSizeIcons);
         m_pSettings->setValue("main/keepOneValidImg", p->m_bKeepOneValidImg);
 
@@ -258,8 +259,9 @@ void SessionSettings::loadMiscConfigSettings(CommonData* p) const
         p->m_strNormalizeCmd = convStr(m_pSettings->value("normalizer/command", "mp3gain -a -k -p -t").toString());
         p->m_bKeepNormWndOpen = m_pSettings->value("main/keepNormWndOpen", false).toBool();
 
-        p->m_bLogEnabled = m_pSettings->value("debug/enableLogging", false).toBool();
+        p->m_bTraceEnabled = m_pSettings->value("debug/enableTracing", false).toBool();
         p->m_bUseAllNotes = m_pSettings->value("debug/useAllNotes", false).toBool();
+        p->m_bLogTransf = m_pSettings->value("debug/logTransf", false).toBool();
         p->m_bAutoSizeIcons = m_pSettings->value("main/autoSizeIcons", true).toBool();
         p->m_bKeepOneValidImg = m_pSettings->value("main/keepOneValidImg", false).toBool();
 
@@ -272,6 +274,8 @@ void SessionSettings::loadMiscConfigSettings(CommonData* p) const
     }
 }
 
+
+static int MIN_FILE_WIDTH; // minimum width of the "file" field
 
 void CommonData::setGeneralFont(const std::string& strName, int nSize)
 {
@@ -299,6 +303,9 @@ void CommonData::setGeneralFont(const std::string& strName, int nSize)
     n = max(n, QApplication::fontMetrics().width("M"));
     n = max(n, QApplication::fontMetrics().width("m"));
     CELL_WIDTH = n + 5;
+
+    MIN_FILE_WIDTH = QApplication::fontMetrics().width("ABCDEFGHIJKLMNopqrstuvwxyz12345");
+
 
     /*m_pFilesG->horizontalHeader()->setMinimumSectionSize(CELL_WIDTH);
     m_pFilesG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
@@ -373,11 +380,12 @@ CommonData::CommonData(
         m_bChangeGuard(false),
         m_pCodec(0),
         m_bUseAllNotes(false),
-        m_bLogEnabled(false),
+        m_bTraceEnabled(false),
         m_bAutoSizeIcons(true),
         m_nMainWndIconSize(40),
         m_settings(settings),
         m_bKeepOneValidImg(false),
+        m_bLogTransf(false),
         m_vvCustomTransf(CUSTOM_TRANSF_CNT),
         //m_bDirty(false),
 
@@ -1663,7 +1671,13 @@ void CommonData::resizeFilesGCols()
 
     p->setResizeMode(0, QHeaderView::Stretch);
     int n (p->sectionSize(0));
-    if (n < 600) { n = 600; }
+    if (n < MIN_FILE_WIDTH)
+    {
+        //n = 600;
+        n = MIN_FILE_WIDTH;
+        //n = m_pFilesG->width()
+    }
+
     p->setResizeMode(0, QHeaderView::Interactive);
     p->resizeSection(0, n);
 
@@ -1680,7 +1694,7 @@ void CommonData::resizeFilesGCols()
 
 void CommonData::log(const std::string& s)
 {
-    if (m_bLogEnabled)
+    if (m_bTraceEnabled)
     {
         m_vLogs.push_back(s);
     }

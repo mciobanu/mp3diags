@@ -23,7 +23,7 @@
      </property>
      <layout class="QHBoxLayout" >
       <property name="spacing" >
-       <number>20</number>
+       <number>10</number>
       </property>
       <property name="leftMargin" >
        <number>0</number>
@@ -127,9 +127,9 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="QCheckBox" name="m_pEnableLoggingCkB" >
+          <widget class="QCheckBox" name="m_pEnableTracingCkB" >
            <property name="text" >
-            <string>Enable logging</string>
+            <string>Enable tracing</string>
            </property>
           </widget>
          </item>
@@ -151,7 +151,7 @@
             <enum>Qt::NoFocus</enum>
            </property>
            <property name="toolTip" >
-            <string>Save the log</string>
+            <string>Save trace messages</string>
            </property>
            <property name="text" >
             <string>...</string>
@@ -288,6 +288,13 @@
        <widget class="QCheckBox" name="m_pUseAllNotesCkB" >
         <property name="text" >
          <string>Use all notes</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="m_pLogTransfCkB" >
+        <property name="text" >
+         <string>Log transformations</string>
         </property>
        </widget>
       </item>

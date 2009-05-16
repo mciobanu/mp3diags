@@ -71,7 +71,7 @@ class InnerNonAudioRemover : public GenericRemover
 public:
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Removes all non-audio data that is found between audio streams. (In this context, Xing and VBRI streams are considered audio streams.)"; }
+    /*override*/ const char* getDescription() const { return "Removes all non-audio data that is found between audio streams. In this context, VBRI streams are considered audio streams (while Xing streams are not.)"; }
 
     static const char* getClassName() { return "Remove inner non-audio"; }
 };

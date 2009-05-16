@@ -1,0 +1,70 @@
+.Code           { font-family: 'Courier New', 'Andale Mono', 'Lucida Console', 'B&H Lucida Typewriter', 'Lucida Sans Typewriter', Courier, Monospace; font-size: small;  }
+
+.RegFnt         { font-family:  Arial, Verdana, Helvetica, sans-serif; }
+
+.Comment        { color: #57628a; font-style: italic; }
+.Preproc        { color: #006633; }
+.Keyword        { font-weight: bold; color: #000000; }
+.Integer        { color: #0000ff; }
+.Regular        { color: #000000; }
+.StdType        { font-weight: bold; color: #800000; }
+.StringVal      { color: #dd0000; }
+.StringSpecChar { color: #ff00ff; }
+.Double         { color: #800080; }
+
+.Hlt { background: yellow; font-weight: bold; }
+
+
+.ChpCol1 { background: #ececec; }
+.ChpCol2 { background: #f8f8f8; }
+/*.WarnCol { background: #ff5858; color: #000000; }*/
+/*.WarnCol { background: #ff3838; color: #ffffff; }*/
+.WarnCol { background: #ff1818; color: #ffff00; font-weight: bold; }
+/*.WarnCol { background: #ff3838; }*/
+
+
+.InlineCode     { color: #000090; font-style: italic; font-weight: bold; }
+.NoBoldInlineCode     { color: #0000b0; font-style: italic; }
+
+.FileName       { color: #800000; font-style: italic; }
+.Signature      { color: #0080b0; font-style: italic; font-weight: bold; }
+
+.XSmalllText     { color: #000000; font-size: small; padding-bottom: 10px; padding-left: 8px; padding-right: 8px; }
+.XNormalText     { color: #000000; font-size: medium; padding-bottom: 10px; padding-left: 8px; padding-right: 8px; }
+.XSubChapterText { color: #000000; font-weight: bold; font-size: large; padding-bottom: 10px; padding-top: 15px; padding-left: 18px; padding-right: 8px; }
+.XChapterText    { color: #000000; font-weight: bold; font-size: x-large; padding-bottom: 12px; padding-top: 18px; padding-left: 28px; padding-right: 8px; }
+.XTitleText      { color: #000000; font-weight: bold; font-size: xx-large; padding-bottom: 15px; padding-top: 15px; text-align: center; }
+.XInclSubChapterText { color: #000000; font-weight: bold; font-size: large;  }
+
+
+.NormalText     { color: #000000; font-size: medium; font-weight: normal; padding-bottom: 10px; padding-left: 8px; padding-right: 8px; }
+.FreeNormalText { color: #000000; font-size: medium; font-weight: normal; padding-top: 10px; padding-bottom: 10px; padding-left: 8px; padding-right: 8px; }
+.SubChapterText { color: #000000; font-weight: bold; font-size: large; padding-bottom: 10px; padding-top: 15px; padding-left: 18px; padding-right: 8px; }
+.ChapterText    { color: #000000; font-weight: bold; font-size: x-large; padding-bottom: 12px; padding-top: 18px; padding-left: 28px; padding-right: 8px; }
+.TitleText      { color: #000000; font-weight: bold; font-size: medium; padding-top: 10px; text-align: left; }
+.NoBrdTableText { color: #000000; font-size: medium; font-weight: normal; padding-bottom: 0px; padding-left: 8px; padding-right: 8px; } /* for tables without borders */
+.TableText      { color: #000000; font-size: medium; font-weight: normal; padding-bottom: 0px; padding-left: 0px; padding-right: 0px; }
+.Screenshot     { color: #000000; font-weight: bold; padding-bottom: 5px; padding-top: 10px; padding-left: 10px; padding-right: 10px; }
+.Example        { background: #d8d8ff; font-weight: bold; padding-bottom: 3px; padding-top: 3px; padding-left: 10px; padding-right: 10px; }
+.Reference      { background: #d8d8ff; font-weight: bold; }
+
+.RightAlign     { text-align: right; }
+
+
+.ListLev1  { list-style: disc; }
+.ListLev2  { list-style: circle; }
+.ListNum1  { list-style: 1; }
+
+.ListSpace { padding-bottom: 4px; padding-top: 4px; }
+
+.SubtableSpace  { padding-left: 20px; }
+.GenericSpace   { padding-left: 20px; }
+.NavPadLeft     { padding-right: 20px; } /*the left arrow needs padding to the right*/
+.NavPadRight    { padding-left: 20px; }
+
+.ImgNoBorder    { border-style: none; }
+
+a.Warn:link     { color: #ffff50; text-decoration: underline; }
+a.Warn:active   { color: #ffff30; text-decoration: underline; }
+a.Warn:visited  { color: #dddd20; text-decoration: underline; }
+a.Warn:hover    { color: #ffff50; text-decoration: underline; }

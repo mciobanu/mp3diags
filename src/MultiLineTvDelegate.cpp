@@ -24,6 +24,7 @@
 #include  <QHeaderView>
 #include  <QApplication>
 #include  <QScrollBar>
+#include  <QMessageBox>
 
 #include  "MultiLineTvDelegate.h"
 
@@ -40,10 +41,11 @@ MultiLineTvDelegate::MultiLineTvDelegate(QTableView* pTableView/*, QObject* pPar
 }
 
 
+
 QSize MultiLineTvDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
     if (!index.isValid()) { return QSize(); }
-    if (0 == m_nLineHeight) { calibrate(option.fontMetrics); }
+    if (0 == m_nLineHeight) { calibrate(option.fontMetrics, option.font); }
     //cout << option.rect.width() << "x" << option.rect.height() << " ";
     int nMargin (QApplication::style()->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1);
     //cout << "margin=" << nMargin << endl;
@@ -89,6 +91,7 @@ QSize MultiLineTvDelegate::sizeHint(const QStyleOptionViewItem& option, const QM
     if (m_nAddPerLine > 0)
     {
         res.setHeight(res.height() + res.height()/m_nLineHeight - 1);
+        //res.setHeight(res.height() + res.height()/m_nLineHeight); // ??m_nAddPerLine
     }
 //if (s.startsWith("No normal"))
 //qDebug("adj sz %s %d %d", "", res.width(), res.height());
@@ -116,14 +119,27 @@ QSize MultiLineTvDelegate::sizeHint(const QStyleOptionViewItem& option, const QM
 }*/
 
 
-void MultiLineTvDelegate::calibrate(const QFontMetrics& fm) const// sets up m_nLine and m_nTotalAdd
+void MultiLineTvDelegate::calibrate(const QFontMetrics& fm, const QFont& f) const// sets up m_nLine and m_nTotalAdd
 {
     //set snHeights;
     //QString s;
     QRect r (0, 0, 300, 10000);//*/
     QSize res (fm.boundingRect(r, Qt::AlignTop | Qt::TextWordWrap, "a").size());
     m_nAddPerLine = res.height() - fm.lineSpacing();
-    CB_ASSERT (0 <= m_nAddPerLine && m_nAddPerLine <= 1);
+//qDebug("%d ww", m_nAddPerLine);
+
+    //CB_ASSERT (0 <= m_nAddPerLine && m_nAddPerLine <= 1); //ttt1 triggered by "Microsoft Sans Serif 7pt"; see if it can be fixed
+    if (m_nAddPerLine < 0 || m_nAddPerLine > 1)
+    {
+        QString s (QString("%1, %2pt").arg(f.family()).arg(f.pointSize()));
+        static QString s_qstrLastErrFont;
+        if (s != s_qstrLastErrFont)
+        {
+            s_qstrLastErrFont = s;
+            QMessageBox::warning(m_pTableView, "Warning", "The font \"" + s + "\" cannot be displayed correctly. You should go to the Configuration Dialog and choose another general font");
+        }
+    }
+
     m_nLineHeight = fm.lineSpacing();
 //qDebug("%d", m_nLine);
 }

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="keywords" content="MP3, diags, diagnosis, tag editor, tagger, normalizer" />
+<meta name="description" content="End-user documentation for MP3 Diags, an MP3 analysis tool that also includes correction and tag editing functionality" />
+<title>MP3 Diags</title>
+<link rel="stylesheet" type="text/css" media="screen" href="style.css">
+</head>
+
+<body>
+
+<div class="NormalText RegFnt ChpCol1">
+<table width=100% border="0" cellpadding="5" cellspacing="2" class="TitleText RegFnt">
+    <tr>
+        <td border="0" class="TitleText">
+            <a href="index.html"> <img src="logo.png" border="0" alt="MP3 Diags" /> </a>
+        </td>
+        <td border="0" class="RightAlign">
+            Hosted by SF
+        </td>
+    </tr>
+</table>
+</div>
+
+
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+
+
+
+<div class="SubChapterText RegFnt ChpCol2">
+<table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td class="NavPadLeft"> <a href="010_getting_the_program.html" title="Getting the program"> <img src="arrow_left_small.png" alt="&lt;&lt;" class="ImgNoBorder"/> </a> </td>
+        <td valign="top"> Short MP3 introduction </td>
+        <td class="NavPadRight"> <a href="030_users_guide.html" title="User's guide"> <img src="arrow_right_small.png" alt="&gt;&gt;" class="ImgNoBorder"/> </a> </td>
+    </tr>
+</table>
+</div>
+
+
+
+
+<div class="FreeNormalText RegFnt ChpCol1">
+The high-level structure of an MP3 file is quite simple: a sequence of blocks of data, each of them with a well defined function and format. MP3 Diags calls these blocks of data "streams" (for lack of a better word.) Some of the streams are formally known as "headers" or "tags". Here's the list of streams that MP3 Diags handles:
+
+<ol class="ListNum1">
+    <li class="ListSpace"> <b>MPEG audio stream</b>. This is the most important, because it contains the actual audio data. Normally it's also the biggest. MP3 files should contain "MPEG 1 Layer III" data, but sometimes they have something different (e.g. "MPEG 1 Layer II"). MP3 Diags should be able to handle these files as long as they have an ".mp3" extension </li>
+    <li class="ListSpace"> <b>ID3V1 tag</b>. This is an old and quite limited tag that stores track information (artist, title, ...) </li>
+    <li class="ListSpace"> <b>ID3V2 tag</b>. Also stores track information, but it is a lot more flexible than ID3V1 and allows storing of many things that can't be stored in ID3V1, like cover art, rating, or composer. There are several versions of it, and MP3 Diags can read data from ID3V2.3.0 (which seems the most popular) and from ID3V2.4.0, and can write to ID3V2.3.0 </li>
+    <li class="ListSpace"> <b>Ape tag</b>. Another tag that stores track information. I tried to implement reading from it, but I don't have any file that uses the tag for track info, so I don't know how well that works. This tag is also used to store normalization info, which is handled by MP3 Diags and seems to be working fine. </li>
+    <li class="ListSpace"> <b>Lyrics tag</b>. Track info, lyrics, more. The support for this is very limited. No information is read from or written to it, but it doesn't get removed either, so it should be usable by a player after MP3 Diags processes a file that has such a tag. </li>
+    <li class="ListSpace"> <b>Xing header</b>. Information about the audio stream (size, quality, ...). This is important for VBR files, because some players get confused by VBR files that don't have a Xing header. </li>
+    <li class="ListSpace"> <b>LAME header</b>. An improved version of the Xing header, which is found in files created with the popular <a href="http://lame.sourceforge.net/">LAME</a> encoder. Currently MP3 Diags doesn't use the extra features, and threats LAME and Xing headers the same. </li>
+    <li class="ListSpace"> <b>VBRI header</b>. Also for handling VBR files, but many tools don't recognize it, so switching to a Xing header is usually a good idea (and MP3 Diags can do it.) </li>
+    <li class="ListSpace"> <b>Null stream</b>. A sequence of zeroes that doesn't belong to other stream. MP3 files shouldn't contain null streams. </li>
+</ol>
+
+</div>
+
+
+<div class="NormalText RegFnt ChpCol1">
+There shouldn't be multiple instances of a stream type in a file (one audio and at most one ID3V1, at most one ID3V2, ... )
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+There are some restrictions regarding the order in which these streams may come. Among them:
+<ul class="ListLev1">
+    <li> ID3V2.3.0 must be at the beginning of the file </li>
+    <li> ID3V2.4.0 may be at the beginning or at the end of the file </li>
+    <li> The Xing, LAME an VBRI headers should be located right before the audio stream (so there may be only one of them in a file) </li>
+</ul>
+</div>
+
+
+<div class="FreeNormalText RegFnt ChpCol2">
+One important characteristic of an MPEG audio stream is its bitrate, meaning the amount of memory or disk space that is allocated to a second of sound. Bitrates are normally measured in kilobits per second (kbps) and values from 128 to 256 or 320 are usually used in MP3 files. Roughly speaking, the higher the bitrate - the better the quality, but there's more to it. There are various encoders (programs or libraries that create MP3 audio) and some of them are better than others at the same bitrate, meaning that given some input (usually an audio CD or a WAV file) both produce files of a similar size, but one may sound better. Some encoders have parameters that define a tradeoff between the quality of the MP3 it creates and the time it spends to do it. Also, some encoders may be better than others only for some kinds of music.
+</div>
+
+
+<div class="NormalText RegFnt ChpCol2">
+Another thing worth mentioning is that there are 2 kinds of audio: constant bitrate (CBR) and variable bitrate (VBR). This starts from the observation that some parts of a song may sound pretty good when they are compressed at 128kbps, while other parts need 320kbps. There are 2 conflicting needs: on the one hand, we want the files encoded at a high bitrate, so they sound better, yet on the other hand we want them at a low bitrate, so they take less space. VBR offers a nice compromise, by encoding various parts of the file at various bitrates, so on average the whole file has a lower birate than a similarly-sounding CBR file.
+</div>
+
+<div class="NormalText RegFnt ChpCol2">
+While VBR files are nice, they introduce another opportunity for encoders and other tools to mess things up, and some of them gladly take advantage of the offer. While the VBR audio data might be OK, many players need some VBR header in order to play that audio correctly and will misbehave if that header is missing or incorrect. Symptoms may include showing an incorrect duration for a song, being unable to seek, stopping playing a song before it finishes or waiting a lot before playing the next song. Anyway, other players handle the same files without any problem (because figuring out what should have been in the header isn't that hard), so you may rip one CD, try the MP3s on some player and think that everything went OK, and then try another player only to find out that it doesn't like them.
+</div>
+
+<div class="NormalText RegFnt ChpCol2">
+There are 3 kinds of VBR headers: Xing, LAME, and VBRI. MP3 Diags identifies files having an incorrect or missing VBR header, and allows you to create Xing headers, should you need to.
+</div>
+
+
+<div class="FreeNormalText RegFnt ChpCol1">
+Another issue with CDs and audio files in general is that different CDs might have quite different perceived loudness. This gets especially annoying if playing in shuffle / random mode, when you constantly have to reach for your volume control to turn it up or down. This can be nicely taken care of in MP3s, by using "normalization", a process through which the perceived loudness of a file can be adjusted to some standard level (actually this can be done one file at a time or one album at a time.) It's a good idea to normalize your collection, to eliminate the need to turn the volume up and down all the time.
+</div>
+
+
+
+<div class="SubChapterText RegFnt ChpCol2">
+<table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td class="NavPadLeft"> <a href="010_getting_the_program.html" title="Getting the program"> <img src="arrow_left_small.png" alt="&lt;&lt;" class="ImgNoBorder"/> </a> </td>
+        <td valign="top"> Short MP3 introduction </td>
+        <td class="NavPadRight"> <a href="030_users_guide.html" title="User's guide"> <img src="arrow_right_small.png" alt="&gt;&gt;" class="ImgNoBorder"/> </a> </td>
+    </tr>
+</table>
+</div>
+
+
+
+</body>
+
+</html>

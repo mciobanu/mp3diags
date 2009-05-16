@@ -353,6 +353,10 @@ void SessionsDlgImpl::on_m_pEraseB_clicked()
     {
         deleteFile(s);
         deleteFile(SessionEditorDlgImpl::getDataFileName(s));
+        if (fileExists(SessionEditorDlgImpl::getLogFileName(s)))
+        {
+            deleteFile(SessionEditorDlgImpl::getLogFileName(s));
+        }
     }
     catch (...) //ttt1 use specific exceptions
     {
@@ -386,6 +390,10 @@ void SessionsDlgImpl::on_m_pSaveAsB_clicked()
     {
         copyFile2(strCrt, s);
         copyFile2(SessionEditorDlgImpl::getDataFileName(strCrt), SessionEditorDlgImpl::getDataFileName(s));
+        if (fileExists(SessionEditorDlgImpl::getLogFileName(strCrt)))
+        {
+            copyFile2(SessionEditorDlgImpl::getLogFileName(strCrt), SessionEditorDlgImpl::getLogFileName(s));
+        }
     }
     catch (...)
     { //ttt1 show errors

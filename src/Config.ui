@@ -11,8 +11,8 @@
   </property>
   <property name="minimumSize" >
    <size>
-    <width>800</width>
-    <height>500</height>
+    <width>630</width>
+    <height>440</height>
    </size>
   </property>
   <property name="windowTitle" >
@@ -44,7 +44,7 @@
           <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex" >
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="tab" >
           <attribute name="title" >
@@ -1575,7 +1575,7 @@
        <item>
         <widget class="QCheckBox" name="m_pKeepOrigTimeCkB" >
          <property name="text" >
-          <string>Keep original file change time</string>
+          <string>Keep original modification time when changing a file</string>
          </property>
         </widget>
        </item>
@@ -1683,7 +1683,7 @@
              <item>
               <widget class="QGroupBox" name="groupBox_22" >
                <property name="title" >
-                <string>If a field's value is different from than in the ID3V2 tag when exiting an album</string>
+                <string>If a field's value is different from that in the ID3V2 tag when exiting an album</string>
                </property>
                <layout class="QVBoxLayout" >
                 <property name="spacing" >
@@ -1728,6 +1728,9 @@
           <string>Misc</string>
          </property>
          <layout class="QVBoxLayout" >
+          <property name="topMargin" >
+           <number>0</number>
+          </property>
           <item>
            <layout class="QHBoxLayout" >
             <item>
@@ -1950,7 +1953,7 @@
           <item>
            <widget class="QCheckBox" name="m_pKeepNormOpenCkB" >
             <property name="text" >
-             <string>By default keep window open after completion</string>
+             <string>Keep the window open after completion</string>
             </property>
            </widget>
           </item>

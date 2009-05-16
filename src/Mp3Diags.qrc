@@ -58,5 +58,8 @@
       <file>licences/gplv2.txt</file>
       <file>licences/gplv3.txt</file>
       <file>licences/lgplv3.txt</file>
+      <file>licences/lgpl-2.1.txt</file>
+      <file>licences/boost.txt</file>
+      <file>licences/zlib.txt</file>
 </qresource>
 </RCC>

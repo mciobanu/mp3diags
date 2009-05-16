@@ -28,7 +28,7 @@
 #include  <QMessageBox>
 #include  <QHeaderView>
 
-#include  "SerSupport.h"
+//#include  "SerSupport.h"
 
 #include  "DebugDlgImpl.h"
 
@@ -39,9 +39,10 @@
 #include  "LogModel.h"
 //#include  "Serializable.h"
 
-#include  <boost/archive/binary_oarchive.hpp>
+/*#include  <boost/archive/binary_oarchive.hpp>
 #include  <boost/archive/binary_iarchive.hpp>
 #include  <boost/serialization/vector.hpp>
+*/
 
 using namespace std;
 using namespace pearl;
@@ -67,8 +68,9 @@ DebugDlgImpl::DebugDlgImpl(QWidget* pParent, CommonData* pCommonData) : QDialog(
     m_pSortByShortNamesCkB->setChecked(bSortByShortNames);
 
     {
-        m_pEnableLoggingCkB->setChecked(m_pCommonData->m_bLogEnabled);
+        m_pEnableTracingCkB->setChecked(m_pCommonData->m_bTraceEnabled);
         m_pUseAllNotesCkB->setChecked(m_pCommonData->m_bUseAllNotes);
+        m_pLogTransfCkB->setChecked(m_pCommonData->m_bLogTransf);
     }
 
     {
@@ -104,17 +106,17 @@ void DebugDlgImpl::run()
     exec();
 
     m_pCommonData->m_settings.saveDebugSettings(width(), height(), m_pSortByShortNamesCkB->isChecked());
-    m_pCommonData->m_bLogEnabled = m_pEnableLoggingCkB->isChecked();
+    m_pCommonData->m_bTraceEnabled = m_pEnableTracingCkB->isChecked();
     m_pCommonData->m_bUseAllNotes = m_pUseAllNotesCkB->isChecked();
+    m_pCommonData->m_bLogTransf = m_pLogTransfCkB->isChecked();
     //return true;
 }
 
 
 DebugDlgImpl::~DebugDlgImpl()
 {
-
 }
-
+//ttt0 "save downloaded results"
 
 void DebugDlgImpl::on_m_pCloseB_clicked()
 {
@@ -266,7 +268,7 @@ void tstSer01();
 
 void DebugDlgImpl::on_m_pTst01B_clicked()
 {
-    tstSer01();
+    //tstSer01();
 //m_pLogModel->selectTopLeft();
 
     /*TestThread01* p (new TestThread01());
@@ -671,7 +673,7 @@ void tstEmbVec01(bool bSave)
 //========================================================================================================================================================
 //========================================================================================================================================================
 
-#if 1
+#if 0
 
 #include <iostream>
 
@@ -1021,6 +1023,7 @@ int tutorial() {
 }
 #endif
 
+#if 0
 void tstSer01()
 {
     //tstBase01(1 == argc);
@@ -1034,6 +1037,7 @@ void tstSer01()
 
     //tutorial();
 }
+#endif
 
 /*struct TstSer
 {

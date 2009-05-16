@@ -253,7 +253,9 @@ void InnerNonAudioRemover::setupDiscarded(const Mp3Handler& h)
     for (int i = 0, n = cSize(vpStreams); i < n; ++i)
     {
         DataStream* pDataStream (vpStreams[i]);
-        if (0 != dynamic_cast<MpegStream*>(pDataStream))// ttt2 should consider these? : || 0 != dynamic_cast<XingStreamBase*>(pDataStream) || 0 != dynamic_cast<VbriStream*>(pDataStream)) // with them, there's a risk of distroying Xing headers created by Mp3Fixer
+//qDebug("%s", pDataStream->getDisplayName());
+//?? probably want to remove garbage between vbri and audio, but definitely not the 16 bytes between xing and audio
+        if (0 != dynamic_cast<MpegStream*>(pDataStream) || 0 != dynamic_cast<VbriStream*>(pDataStream))// ttt2 should consider these? : || 0 != dynamic_cast<XingStreamBase*>(pDataStream) || 0 != dynamic_cast<VbriStream*>(pDataStream)) // with them, there's a risk of destroying Xing headers created by Mp3Fixer
         {
             if (-1 == nFirstAudioPos)
             {
@@ -267,9 +269,9 @@ void InnerNonAudioRemover::setupDiscarded(const Mp3Handler& h)
 
     for (int i = nFirstAudioPos + 1; i < nLastAudioPos; ++i)
     {
-        if (0 == dynamic_cast<MpegStream*>(vpStreams[i]))
+        if (0 == dynamic_cast<MpegStream*>(vpStreams[i]) && 0 == dynamic_cast<VbriStream*>(vpStreams[i]))
         {
-            m_sStreamsToDiscard.insert(vpStreams[i]);
+            m_sStreamsToDiscard.insert(vpStreams[i]); //ttt0 => m_sp...
         }
     }
 }

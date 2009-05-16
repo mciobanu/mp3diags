@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="keywords" content="MP3, diags, diagnosis, tag editor, tagger, normalizer" />
+<meta name="description" content="End-user documentation for MP3 Diags, an MP3 analysis tool that also includes correction and tag editing functionality" />
+<title>MP3 Diags</title>
+<link rel="stylesheet" type="text/css" media="screen" href="style.css">
+</head>
+
+<body>
+
+<div class="NormalText RegFnt ChpCol1">
+<table width=100% border="0" cellpadding="5" cellspacing="2" class="TitleText RegFnt">
+    <tr>
+        <td border="0" class="TitleText">
+            <a href="index.html"> <img src="logo.png" border="0" alt="MP3 Diags" /> </a>
+        </td>
+        <td border="0" class="RightAlign">
+            Hosted by SF
+        </td>
+    </tr>
+</table>
+</div>
+
+
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+
+
+
+
+<div class="SubChapterText RegFnt ChpCol2">
+<table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td class="NavPadLeft"> <a href="140_main_window_tools.html" title="Main window - Tools"> <img src="arrow_left_small.png" alt="&lt;&lt;" class="ImgNoBorder"/> </a> </td>
+        <td valign="top"> <a href="030_users_guide.html">User's guide</a> - Transformations - Details </td>
+        <td class="NavPadRight"> <a href="150_main_window_all_notes.html" title="Main window - All notes"> <img src="arrow_right_small.png" alt="&gt;&gt;" class="ImgNoBorder"/> </a> </td>
+    </tr>
+</table>
+</div>
+
+
+<div class="FreeNormalText RegFnt ChpCol1">
+These are the transformations that are currently part of MP3 Diags:
+</div>
+
+
+<div class="NormalText RegFnt ChpCol1">
+<table border="1" cellpadding="3" cellspacing="1" class="TableText RegFnt ChpCol1">
+    <tr>
+        <td> Restore flipped bit in audio </td>
+        <td> Sometimes a bit gets flipped in a file. This tries to identify places having this issue in audio frame headers. If found, it fixes the problem. It is most likely to apply to old files that have 2 audio streams, but even then, the odds of it doing anything good are rather slim (but it shouldn't do anything bad either.) I implemented it first for a test, and I decided to include it after seeing that it was able to fix audio issues in several of my old files. </td>
+    </tr>
+    <tr>
+        <td> Remove inner non-audio </td>
+        <td> Removes all non-audio data that is found between audio streams. (In this context, Xing and VBRI streams are considered audio streams.) </td>
+    </tr>
+    <tr>
+        <td> Remove unknown streams </td>
+        <td> Removes all unknown streams. </td>
+    </tr>
+    <tr>
+        <td> Remove broken streams </td>
+        <td> Removes all broken streams. </td>
+    </tr>
+    <tr>
+        <td> Remove unsupported streams </td>
+        <td> Removes all unsupported streams. </td>
+    </tr>
+    <tr>
+        <td> Remove truncated audio streams </td>
+        <td> Removes all truncated audio streams. </td>
+    </tr>
+    <tr>
+        <td> Remove null streams </td>
+        <td> Removes all null streams. </td>
+    </tr>
+    <tr>
+        <td> Remove broken Id3V2 streams </td>
+        <td> Removes broken Id3V2 streams. </td>
+    </tr>
+    <tr>
+        <td> Remove unsupported ID3V2 streams </td>
+        <td> Removes unsupported Id3V2 streams. </td>
+    </tr>
+    <tr>
+        <td> No change </td>
+        <td> Doesn't actually change the file, but it creates a temporary copy and it reports that it does change it. This is not as meaningless as it might first seem: if the configuration settings indicate some action (i.e. rename, move or erase) to be taken for processed files, then that action will be performed for these files. While the same can be achieved by changing the settings for unprocessed files, this is easier to use when it is executed on a subset of all the files (filtered or selected). </td>
+    </tr>
+    <tr>
+        <td> Remove multiple ID3 streams </td>
+        <td> If a file has multiple ID3 streams it keeps only the last ID3V1 and the first ID3V2 stream. </td>
+    </tr>
+    <tr>
+        <td> Remove mismatched Xing headers </td>
+        <td> Sometimes the number of frames in an audio stream is different from the number of frames in a preceding Xing (or Lame) header, usually because the audio stream was damaged. It's probably best for the Xing header to be removed in this case. If the audio is VBR, you may want to try "Repair VBR data" first. </td>
+    </tr>
+    <tr>
+        <td> Pad truncated audio </td>
+        <td> Pads truncated audio frames with 0 to the right. Its usefulness hasn't been determined yet (it might be quite low). </td>
+    </tr>
+    <tr>
+        <td> Repair VBR data </td>
+        <td> If a file contains VBR audio but doesn't have a Xing header, one such header is added. If a VBRI header exists, it is removed. If a Xing header exists but is determined to be incorrect, it is corrected or replaced. Only the first audio stream is considered; if a file contains more than one audio stream, this should be fixed first. </td>
+    </tr>
+    <tr>
+        <td> Rebuild VBR data </td>
+        <td> If a file contains VBR audio, any existing VBRI or Xing headers are removed and a new Xing header is created. Only the first audio stream is considered; if a file contains more than one audio stream, this should be fixed first. </td>
+    </tr>
+    <tr>
+        <td> Remove non-basic ID3V2 frames </td>
+        <td> Removes all ID3V2 frames that aren't used by MP3 Diags. You normally don't want to do such a thing, but it may help if some other program misbehaves because of invalid or unknown frames in an ID3V2 tag. Note that this only keeps the first image in a file that has several images. </td>
+    </tr>
+    <tr>
+        <td> Discard invalid ID3V2 data </td>
+        <td> Copies only ID3V2 frames that seem valid, discarding those that are invalid (e.g. an APIC frame claiming to hold a picture although it doesn't). Handles both loadable and broken ID3V2 tags, in the latter case copying being stopped when a fatal error occurs. </td>
+    </tr>
+    <tr>
+        <td> Convert non-ASCII ID3V2 text frames to Unicode </td>
+        <td> Transforms text frames in ID3V2 encoded as Latin1 to Unicode. The reason to do this is that sometimes non-conforming software treats these frames as they are encoded in a different code page, causing other programs to display unexpected data. You need to <a href="290_config_transf_params.html">configure</a> the locale / codepage. </td>
+    </tr>
+    <tr>
+        <td> Change case for ID3V2 text frames </td>
+        <td> Transforms the case of text frames in ID3V2 tags, according to the <a href="290_config_transf_params.html">global settings</a>. </td>
+    </tr>
+    <tr>
+        <td> Add composer field to the artist field in ID3V2 frames </td>
+        <td> Adds the value of the composer field to the beginning of the artist field in ID3V2 frames. Useful for players that don't use the composer field, if you have the composer info filled in. </td>
+    </tr>
+    <tr>
+        <td> Remove composer field from the artist field in ID3V2 frames </td>
+        <td> "Undo" for "adding composer field." Removes the value of the composer field from the beginning of the artist field in ID3V2 frames, if it was previously added. </td>
+    </tr>
+    <tr>
+        <td> Fill in composer field based on artist in ID3V2 frames </td>
+        <td> Copies to the "Composer" field the beginning of an "Artist" field that is formatted as "Composer [Artist]". Does nothing if the "Artist" field doesn't have this format. </td>
+    </tr>
+</table>
+</div>
+
+</div>
+
+
+
+<div class="SubChapterText RegFnt ChpCol2">
+<table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td class="NavPadLeft"> <a href="140_main_window_tools.html" title="Main window - Tools"> <img src="arrow_left_small.png" alt="&lt;&lt;" class="ImgNoBorder"/> </a> </td>
+        <td valign="top"> <a href="030_users_guide.html">User's guide</a> - Transformations - Details </td>
+        <td class="NavPadRight"> <a href="150_main_window_all_notes.html" title="Main window - All notes"> <img src="arrow_right_small.png" alt="&gt;&gt;" class="ImgNoBorder"/> </a> </td>
+    </tr>
+</table>
+</div>
+
+
+</body>
+
+</html>
+

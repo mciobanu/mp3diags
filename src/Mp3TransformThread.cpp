@@ -82,6 +82,15 @@ struct Mp3TransformThread : public PausableThread
 };
 
 
+
+void logTransformation(const string& strFile, const char* szActionName, const Mp3Handler* pHandler)
+{
+    time_t t (time(0));
+    ofstream out (strFile.c_str(), ios_base::app);
+    out << "<" << pHandler->getName() << "> <" << szActionName << "> - " << ctime(&t); // !!! ctime and a \n
+}
+
+
 bool Mp3TransformThread::transform()
 {
     bool bAborted (false);
@@ -138,6 +147,12 @@ bool Mp3TransformThread::transform()
 
             if (eTransf != Transformation::NOT_CHANGED)
             {
+                CB_ASSERT (!m_pCommonData->m_strTransfLog.empty());
+                if (m_pCommonData->m_bLogTransf)
+                {
+                    logTransformation(m_pCommonData->m_strTransfLog, t.getActionName(), pNewHndl.get());
+                }
+
                 if (pNewHndl.get() == pOrigHndl)
                 {
                     pNewHndl.release();

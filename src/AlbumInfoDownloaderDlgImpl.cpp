@@ -39,6 +39,8 @@
 #include  "ColumnResizer.h"
 
 
+//#include  <fstream>
+
 using namespace std;
 using namespace pearl;
 
@@ -587,7 +589,7 @@ void AlbumInfoDownloaderDlgImpl::onRequestFinished(int /*nId*/, bool bError)
         return;
     }
 
-    // { QByteArray b (qstrXml.toUtf8()); ofstream out ("musicbrainz.xml"); out.write(b.data(), b.size()); }
+    //{ QByteArray b (qstrXml.toUtf8()); ofstream out ("albumdownloader.xml"); out.write(b.data(), b.size()); }
 
     switch (m_eWaiting)
     {

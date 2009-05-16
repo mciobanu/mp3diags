@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="keywords" content="MP3, diags, diagnosis, tag editor, tagger, normalizer" />
+<meta name="description" content="End-user documentation for MP3 Diags, an MP3 analysis tool that also includes correction and tag editing functionality" />
+<title>MP3 Diags</title>
+<link rel="stylesheet" type="text/css" media="screen" href="style.css">
+</head>
+
+<body>
+
+<div class="NormalText RegFnt ChpCol1">
+<table width=100% border="0" cellpadding="5" cellspacing="2" class="TitleText RegFnt">
+    <tr>
+        <td border="0" class="TitleText">
+            <a href="index.html"> <img src="logo.png" border="0" alt="MP3 Diags" /> </a>
+        </td>
+        <td border="0" class="RightAlign">
+            Hosted by SF
+        </td>
+    </tr>
+</table>
+</div>
+
+
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+
+
+
+
+<div class="SubChapterText RegFnt ChpCol2">
+<table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td class="NavPadLeft"> <a href="210_tag_editor_assign_image.html" title="Tag editor - Assigning images"> <img src="arrow_left_small.png" alt="&lt;&lt;" class="ImgNoBorder"/> </a> </td>
+        <td valign="top"> <a href="030_users_guide.html">User's guide</a> - Tag editor - Patterns </td>
+        <td class="NavPadRight"> <a href="230_normalize.html" title="Normalize"> <img src="arrow_right_small.png" alt="&gt;&gt;" class="ImgNoBorder"/> </a> </td>
+    </tr>
+</table>
+</div>
+
+
+<div class="Screenshot RegFnt ChpCol1">
+<img src="220_tag_editor_patterns.png" />
+</div>
+
+
+<div class="FreeNormalText RegFnt ChpCol2">
+In addition to tags stored inside an MP3 file, song information can also be obtained using patterns. In the Tag Editor's context there are 2 kinds of patterns: "file name - based" and "text line - based"; they are used to extract track information from a file's name or from pasted text, respectively. Information retrieved from patterns is displayed alongside that from MP3 tags, in the "current file" table. A pattern is a sequence of characters, the main idea being that a '%' followed by some letters is a placeholder, corresponding to a field, while the other characters are used to separate placeholders from one another. These are the supported placeholders:
+</div>
+
+
+<div class="NormalText RegFnt ChpCol2">
+<table border="0" cellpadding="0" cellspacing="3" class="NormalText RegFnt ChpCol2">
+    <tr> <td> %n </td> <td> - track number </td> </tr>
+    <tr> <td> %a </td> <td> - artist </td> </tr>
+    <tr> <td> %t </td> <td> - title </td> </tr>
+    <tr> <td> %b </td> <td> - album </td> </tr>
+    <tr> <td> %y </td> <td> - year </td> </tr>
+    <tr> <td> %g </td> <td> - genre </td> </tr>
+    <tr> <td> %r </td> <td> - rating (a lowercase letter) </td> </tr>
+    <tr> <td> %c </td> <td> - composer </td> </tr>
+    <tr> <td> %i </td> <td> - ignored (there's no field that would take this value) </td> </tr>
+</table>
+</div>
+
+<div class="FreeNormalText RegFnt ChpCol1">
+Besides these sequences, there are usually "static text" sequences in a pattern. An example: consider the file named
+</div>
+
+<div class="NormalText RegFnt ChpCol1 GenericSpace">
+    <span class="Example">/music/mp3/pop/artist1/album1 (2008)/02 second track.mp3</span>
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+and the pattern
+</div>
+
+<div class="NormalText RegFnt ChpCol1 GenericSpace">
+    <span class="Example">%g/%a/%b (%y)/%n %t</span>
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+For the given file name, this pattern retrives these fields:
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+<table border="0" cellpadding="0" cellspacing="3" class="NormalText RegFnt ChpCol1">
+    <tr> <td> genre </td> <td> - pop </td> </tr>
+    <tr> <td> artist </td> <td> - artist1 </td> </tr>
+    <tr> <td> album </td> <td> - album1 </td> </tr>
+    <tr> <td> year </td> <td> - 2008 </td> </tr>
+    <tr> <td> track number </td> <td> - 02 </td> </tr>
+    <tr> <td> title </td> <td> - second track </td> </tr>
+</table>
+</div>
+
+<div class="FreeNormalText RegFnt ChpCol2">
+Note that the matching is done from the end of the file name, so the beginning of the name (<span class="Reference">/music/mp3</span>) doesn't matter. The pattern would get the same fields for a file named <span class="Reference">/pop/artist1/album1 (2008)/02 second track.mp3</span> or <span class="Reference">/home/user/media/music/mp3/pop/artist1/album1 (2008)/02 second track.mp3</span>.
+</div>
+
+<div class="FreeNormalText RegFnt ChpCol1">
+If a pattern contains the character <span class="Reference">/</span>, "it is file name - based", otherwise it is "text line - based". Besides the source of the text (file name vs. clipboard), another difference is that latter must match perfectly the text, while the former may have errors in any of the strings between consecutive <span class="Reference">/</span> characters and still extract some fields from other parts of the file name. In the example above the pattern <span class="Reference">%g/%a/%b {%y}/%n %t</span> would return no album or year, because <span class="Reference">album1 (2008)</span> doesn't contain<span class="Reference"> {</span>ttt0 or <span class="Reference">}</span>, but would still find the fields genre, artist, track number and title.
+</div>
+
+<div class="FreeNormalText RegFnt ChpCol2">
+Both kinds of patterns are edited in the "Patterns" dialog. Only valid patterns can be saved. Besides the rather obvious <span class="Reference">%</span> followed by a character that is not listed in the sequences above, there's another condition that causes a pattern to be invalid, namely 2 consecutive "unbound placeholders": %n, %y and %r have a fixed format, but the rest are unbound, meaning that they would take any characters as long as there's nothing to tell them where to stop. With 2 unbound placeholders there's no way to tell where one should end and the other should begin. So "%a%t" is invalid (as is any pattern containing it), while <span class="Reference">%a-%t</span> is valid, because "-" is used to identify where the artist name ends and the track title begins. However, <span class="Reference">%y%t</span> is valid, because <span class="Reference">%y</span> is a 4-digit number.
+</div>
+
+ttt0 rating
+
+other reason to use file reader: up/low case
+
+you may want to use file reader to set genre, year, composer, which are more likely to be missing or wrong at MuscBrainz
+
+<div class="SubChapterText RegFnt ChpCol1">
+<table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td class="NavPadLeft"> <a href="210_tag_editor_assign_image.html" title="Tag editor - Assigning images"> <img src="arrow_left_small.png" alt="&lt;&lt;" class="ImgNoBorder"/> </a> </td>
+        <td valign="top"> <a href="030_users_guide.html">User's guide</a> - Tag editor - Patterns </td>
+        <td class="NavPadRight"> <a href="230_normalize.html" title="Normalization"> <img src="arrow_right_small.png" alt="&gt;&gt;" class="ImgNoBorder"/> </a> </td>
+    </tr>
+</table>
+</div>
+
+
+</body>
+
+</html>
+

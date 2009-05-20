@@ -151,7 +151,7 @@ int main(int argc, char *argv[])
     if (0 == nSessCnt)
     { // first run; create a new session and run it
         SessionEditorDlgImpl dlg (0, "", SessionEditorDlgImpl::FIRST_TIME);
-        dlg.setWindowIcon(QPixmap(":/images/mp3.xpm"));
+        dlg.setWindowIcon(QIcon(":/images/logo.svg"));
         strStartSession = dlg.run();
         if (strStartSession.empty())
         {
@@ -178,7 +178,7 @@ int main(int argc, char *argv[])
         if (bOpenSelDlg)
         {
             SessionsDlgImpl dlg (0);
-            dlg.setWindowIcon(QPixmap(":/images/mp3.xpm"));
+            dlg.setWindowIcon(QIcon(":/images/logo.svg"));
 
             strStartSession = dlg.run();
             if (strStartSession.empty())
@@ -191,7 +191,8 @@ int main(int argc, char *argv[])
         CB_ASSERT (!strStartSession.empty());
 
         MainFormDlgImpl mainDlg (0, strStartSession);
-        mainDlg.setWindowIcon(QPixmap(":/images/mp3.xpm"));
+
+        mainDlg.setWindowIcon(QIcon(":/images/logo.svg"));
         mainDlg.setWindowTitle("MP3 Diags");
         {
             vector<string> vstrSess;
@@ -212,7 +213,7 @@ int main(int argc, char *argv[])
 //"undefined reference to `qInitResources_application()'"
 
 
-//ttt0 redo xpm
+//ttt0 sign package
 
 /*
 ttt0 rpmlint:
@@ -254,6 +255,8 @@ E: MP3Diags filename-not-utf8 /usr/share/icons/hicolor/22x22/apps/MP3Diags.png
 E: MP3Diags filename-not-utf8 /usr/share/icons/hicolor/16x16/apps/MP3Diags.png
 E: MP3Diags filename-not-utf8 /usr/share/applications/MP3Diags.desktop
 E: MP3Diags filename-not-utf8 /usr/bin/MP3Diags
+
+
 
 
 */

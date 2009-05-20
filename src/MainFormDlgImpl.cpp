@@ -542,7 +542,7 @@ MainFormDlgImpl::MainFormDlgImpl(QWidget* pParent, const string& strSession) : Q
         ThreadRunnerDlgImpl dlg (p, ThreadRunnerDlgImpl::SHOW_COUNTER, this);
         CB_ASSERT (m_nScanWidth > 400);
         dlg.resize(m_nScanWidth, dlg.height());
-        dlg.setWindowIcon(QPixmap(":/images/mp3.xpm"));
+        dlg.setWindowIcon(QIcon(":/images/logo.svg"));
         //dlg.setWindowTitle(bForce ? "Scanning MP3 files" : "x" : reloading / all / list / "Reloading all MP3 files" : "Reloading selected MP3 files"); //ttt1
         dlg.setWindowTitle("Loading data");
         s_pSerThread = p;
@@ -708,7 +708,7 @@ void MainFormDlgImpl::onShow()
         ThreadRunnerDlgImpl dlg (this, 0, p, ThreadRunnerDlgImpl::SHOW_COUNTER, ThreadRunnerDlgImpl::TRUNCATE_BEGIN, ThreadRunnerDlgImpl::HIDE_PAUSE_ABORT);
         CB_ASSERT (m_nScanWidth > 400);
         dlg.resize(m_nScanWidth, dlg.height());
-        dlg.setWindowIcon(QPixmap(":/images/mp3.xpm"));
+        dlg.setWindowIcon(QIcon(":/images/logo.svg"));
         //dlg.setWindowTitle(bForce ? "Scanning MP3 files" : "x" : reloading / all / list / "Reloading all MP3 files" : "Reloading selected MP3 files"); //ttt1
         dlg.setWindowTitle("Loading data");
         s_pSerThread = p;
@@ -752,7 +752,7 @@ void MainFormDlgImpl::onShow()
     ThreadRunnerDlgImpl dlg (this, 0, p, ThreadRunnerDlgImpl::SHOW_COUNTER, ThreadRunnerDlgImpl::TRUNCATE_BEGIN, ThreadRunnerDlgImpl::HIDE_PAUSE_ABORT);
     CB_ASSERT (m_nScanWidth > 400);
     dlg.resize(m_nScanWidth, dlg.height());
-    dlg.setWindowIcon(QPixmap(":/images/mp3.xpm"));
+    dlg.setWindowIcon(QIcon(":/images/logo.svg"));
     //dlg.setWindowTitle(bForce ? "Scanning MP3 files" : "x" : reloading / all / list / "Reloading all MP3 files" : "Reloading selected MP3 files"); //ttt1
     dlg.setWindowTitle("Saving data");
     s_pSerThread = p;
@@ -972,7 +972,7 @@ void MainFormDlgImpl::scan(FileEnumerator& fileEnum, bool bForce, deque<const Mp
         ThreadRunnerDlgImpl dlg (this, 0, p, ThreadRunnerDlgImpl::SHOW_COUNTER, ThreadRunnerDlgImpl::TRUNCATE_BEGIN);
         CB_ASSERT (m_nScanWidth > 400);
         dlg.resize(m_nScanWidth, dlg.height());
-        dlg.setWindowIcon(QPixmap(":/images/mp3.xpm"));
+        dlg.setWindowIcon(QIcon(":/images/logo.svg"));
         //dlg.setWindowTitle(bForce ? "Scanning MP3 files" : "x" : reloading / all / list / "Reloading all MP3 files" : "Reloading selected MP3 files"); //ttt1
         dlg.setWindowTitle("Scanning MP3 files");
         dlg.exec(); //ttt2 perhaps see if it ended with ok/reject and clear all on reject

@@ -1,6 +1,7 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
-      <file>images/mp3.xpm</file>
+      <file>images/logo.svg</file>
+
       <file>images/configure.svg</file>
       <file>images/decode.svg</file>
       <file>images/filter-folder.svg</file>

@@ -2,7 +2,9 @@
 <file>	<type>	<mtime>
 COPYING	f	2009-05-06T06:54:32Z
 Doxyfile	f	2009-05-06T06:54:38Z
-desktop/MP3Diags.desktop	f	2009-05-19T16:07:08Z
+Install.sh	f	2009-05-11T16:50:01Z
+Uninstall.sh	f	2009-05-11T17:00:03Z
+desktop/MP3Diags.desktop	f	2009-05-20T19:23:29Z
 desktop/MP3Diags16.png	f	2009-05-19T15:54:44Z
 desktop/MP3Diags16.xcf	f	2009-05-19T15:54:27Z
 desktop/MP3Diags22.png	f	2009-05-19T16:02:46Z
@@ -18,7 +20,6 @@ desktop/MP3Diags40.xcf	f	2009-05-19T15:39:30Z
 desktop/MP3Diags48.png	f	2009-05-19T15:49:00Z
 desktop/MP3Diags48.xcf	f	2009-05-19T15:48:45Z
 desktop/MP3DiagsBckg.xcf	f	2009-05-19T15:31:08Z
-desktop/mp3.xcf	f	2008-06-13T09:04:16Z
 doc/050_assert.png	f	2009-05-14T08:48:09Z
 doc/050_assert.xcf	f	2009-05-14T08:47:58Z
 doc/110_first_run.png	f	2009-05-15T15:28:36Z
@@ -91,7 +92,7 @@ doc/html/110_first_run.html	f	2009-05-15T15:20:18Z
 doc/html/110_first_run.png	f	2009-05-15T15:28:36Z
 doc/html/120_first_scan.html	f	2009-05-15T15:20:18Z
 doc/html/120_first_scan.png	f	2009-05-13T12:15:08Z
-doc/html/130_main_window.html	f	2009-05-20T10:50:23Z
+doc/html/130_main_window.html	f	2009-05-20T11:03:48Z
 doc/html/130_main_window.png	f	2009-05-13T12:10:11Z
 doc/html/140_main_window_tools.html	f	2009-05-15T15:20:18Z
 doc/html/140_main_window_tools.png	f	2009-05-13T12:26:00Z
@@ -161,7 +162,7 @@ doc/z_lines2.xcf	f	2009-05-12T09:51:15Z
 mp3diags.kdevelop	f	2009-05-13T10:39:58Z
 mp3diags.kdevses	f	2009-05-16T05:23:06Z
 mp3diags.pro	f	2009-05-06T06:54:32Z
-package/SPECS/MP3Diags.spec	f	2009-05-20T07:18:24Z
+package/SPECS/MP3Diags.spec	f	2009-05-20T19:21:24Z
 src/About.ui	f	2009-05-15T05:59:35Z
 src/AboutDlgImpl.cpp	f	2009-05-14T17:34:59Z
 src/AboutDlgImpl.h	f	2009-05-06T07:26:35Z
@@ -219,9 +220,9 @@ src/LogModel.h	f	2009-05-06T07:30:16Z
 src/LyricsStream.cpp	f	2009-05-06T07:38:24Z
 src/LyricsStream.h	f	2009-05-06T07:30:27Z
 src/MainForm.ui	f	2009-05-15T05:58:30Z
-src/MainFormDlgImpl.cpp	f	2009-05-16T06:25:39Z
+src/MainFormDlgImpl.cpp	f	2009-05-20T12:48:06Z
 src/MainFormDlgImpl.h	f	2009-05-16T06:25:39Z
-src/Mp3Diags.qrc	f	2009-05-14T11:44:33Z
+src/Mp3Diags.qrc	f	2009-05-20T12:46:16Z
 src/Mp3Manip.cpp	f	2009-05-16T06:25:39Z
 src/Mp3Manip.h	f	2009-05-06T07:30:42Z
 src/Mp3TransformThread.cpp	f	2009-05-16T05:49:24Z
@@ -316,11 +317,10 @@ src/images/filter-folder.svg	f	2008-10-12T06:03:49Z
 src/images/filter-note.svg	f	2008-10-12T05:57:33Z
 src/images/go-next.svg	f	2008-01-04T23:54:32Z
 src/images/go-previous.svg	f	2008-01-04T23:54:31Z
+src/images/logo.svg	f	2009-05-20T12:45:16Z
 src/images/mode_album.svg	f	2008-10-12T05:43:42Z
 src/images/mode_all.svg	f	2008-10-11T20:58:59Z
 src/images/mode_file.svg	f	2008-01-04T23:54:42Z
-src/images/mp3.xcf	f	2008-06-13T09:04:16Z
-src/images/mp3.xpm	f	2008-06-13T09:04:33Z
 src/images/musicbrainz_logo1.svg	f	2009-03-27T10:33:05Z
 src/images/normalize.svg	f	2009-03-25T09:27:20Z
 src/images/palette.svg	f	2009-04-11T21:50:34Z
@@ -348,7 +348,7 @@ src/licences/gplv3.txt	f	2008-11-14T09:24:29Z
 src/licences/lgpl-2.1.txt	f	2009-05-14T11:38:15Z
 src/licences/lgplv3.txt	f	2008-11-14T09:24:41Z
 src/licences/zlib.txt	f	2009-05-14T11:42:40Z
-src/main.cpp	f	2009-05-20T10:40:40Z
+src/main.cpp	f	2009-05-20T19:19:45Z
 src/src.pro	f	2009-05-20T10:37:38Z
 templates/cpp	f	2009-05-06T07:21:29Z
 templates/h	f	2009-05-06T07:21:39Z

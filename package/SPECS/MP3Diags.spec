@@ -1,4 +1,4 @@
-Summary: Tool for finding and fixing problems in MP3 files. Includes a tagger.
+Summary: Tool for finding and fixing problems in MP3 files; includes a tagger
 %define version 0.99.0.1
 License: http://www.gnu.org/licenses/gpl-2.0.html
 Group: Applications/Multimedia
@@ -11,23 +11,30 @@ URL: http://mp3diags
 Version: %{version}
 BuildRoot: %{_tmppath}/%{name}-%{version}-build
 
+Packager: Ciobi
+
 BuildRequires: zlib-devel boost-devel libqt4-devel
 #BuildRequires: libqt4-devel
 #BuildRequires: boost-devel
 # ??? ttt0
+
+%if %{?suse_version}
 BuildRequires: update-desktop-files
+%endif
 
 %description
-Finds problems in MP3 files and helps the user to fix many of them using
-included tools. Looks at both the audio part (VBR info, quality,
-normalization) and the tags containing track information (ID3.)
-Also includes a tag editor and a file renamer.
+Finds problems in MP3 files and helps the user to fix many of them. Looks at both the audio part (VBR info, quality, normalization) and the tags containing track information (ID3.)
+
+Has a tag editor, which is capable of downloading album information (including cover art) from MusicBrainz and Discogs, as well as pasting these from the clipboard. Track information can also be extracted from a file's name.
+
+Another component is the file renamer, which can rename files based on the fields in their tags (artist, track number, album, genre, ...)
 
 
 
 %prep
 %setup -q
 
+#ttt0 echo ... > $RPM_BUILD_DIR/MP3Diags-%{version}/src
 
 %build
 qmake
@@ -77,7 +84,10 @@ cp $RPM_BUILD_DIR/MP3Diags-%{version}/desktop/MP3Diags48.png $RPM_BUILD_ROOT%{_d
 #%dir $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps
 #cp $RPM_BUILD_DIR/MP3Diags-%{version}/desktop/MP3Diags48.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps/MP3Diags.png
 
+%if %{?suse_version}
 %suse_update_desktop_file -n MP3Diags
+echo ================ SUSE ================ SUSE ================
+%endif
 #error with suse_update_desktop_file -in MP3Diags , perhaps try suse_update_desktop_file -n -i MP3Diags
 
 
@@ -115,3 +125,8 @@ rm -rf $RPM_BUILD_ROOT
 #?datadir (=/usr/share)
 #/usr/share/applications
 
+
+
+%changelog
+* Tue May 19 2009 ciobi
+- initial version

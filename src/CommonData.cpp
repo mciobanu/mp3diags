@@ -200,6 +200,7 @@ void SessionSettings::saveMiscConfigSettings(const CommonData* p)
         m_pSettings->setValue("debug/enableTracing", p->m_bTraceEnabled);
         m_pSettings->setValue("debug/useAllNotes", p->m_bUseAllNotes);
         m_pSettings->setValue("debug/logTransf", p->m_bLogTransf);
+        m_pSettings->setValue("debug/saveDownloadedData", p->m_bSaveDownloadedData);
         m_pSettings->setValue("main/autoSizeIcons", p->m_bAutoSizeIcons);
         m_pSettings->setValue("main/keepOneValidImg", p->m_bKeepOneValidImg);
 
@@ -262,6 +263,7 @@ void SessionSettings::loadMiscConfigSettings(CommonData* p) const
         p->m_bTraceEnabled = m_pSettings->value("debug/enableTracing", false).toBool();
         p->m_bUseAllNotes = m_pSettings->value("debug/useAllNotes", false).toBool();
         p->m_bLogTransf = m_pSettings->value("debug/logTransf", false).toBool();
+        p->m_bSaveDownloadedData = m_pSettings->value("debug/saveDownloadedData", false).toBool();
         p->m_bAutoSizeIcons = m_pSettings->value("main/autoSizeIcons", true).toBool();
         p->m_bKeepOneValidImg = m_pSettings->value("main/keepOneValidImg", false).toBool();
 
@@ -386,6 +388,7 @@ CommonData::CommonData(
         m_settings(settings),
         m_bKeepOneValidImg(false),
         m_bLogTransf(false),
+        m_bSaveDownloadedData(false),
         m_vvCustomTransf(CUSTOM_TRANSF_CNT),
         //m_bDirty(false),
 
@@ -1692,7 +1695,7 @@ void CommonData::resizeFilesGCols()
 }
 
 
-void CommonData::log(const std::string& s)
+void CommonData::trace(const std::string& s)
 {
     if (m_bTraceEnabled)
     {

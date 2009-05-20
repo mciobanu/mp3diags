@@ -71,6 +71,7 @@ DebugDlgImpl::DebugDlgImpl(QWidget* pParent, CommonData* pCommonData) : QDialog(
         m_pEnableTracingCkB->setChecked(m_pCommonData->m_bTraceEnabled);
         m_pUseAllNotesCkB->setChecked(m_pCommonData->m_bUseAllNotes);
         m_pLogTransfCkB->setChecked(m_pCommonData->m_bLogTransf);
+        m_pSaveDownloadedDataCkB->setChecked(m_pCommonData->m_bSaveDownloadedData);
     }
 
     {
@@ -109,6 +110,7 @@ void DebugDlgImpl::run()
     m_pCommonData->m_bTraceEnabled = m_pEnableTracingCkB->isChecked();
     m_pCommonData->m_bUseAllNotes = m_pUseAllNotesCkB->isChecked();
     m_pCommonData->m_bLogTransf = m_pLogTransfCkB->isChecked();
+    m_pCommonData->m_bSaveDownloadedData = m_pSaveDownloadedDataCkB->isChecked();
     //return true;
 }
 
@@ -116,7 +118,7 @@ void DebugDlgImpl::run()
 DebugDlgImpl::~DebugDlgImpl()
 {
 }
-//ttt0 "save downloaded results"
+
 
 void DebugDlgImpl::on_m_pCloseB_clicked()
 {
@@ -1059,5 +1061,5 @@ TstSer tstSer01;
 
 // -lboost_serialization-mt-1_37
 
-
+//ttt2 if "use all notes" is checked, it keeps rescanning at startup
 

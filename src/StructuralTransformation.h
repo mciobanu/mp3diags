@@ -66,7 +66,7 @@ public:
 class InnerNonAudioRemover : public GenericRemover
 {
     /*override*/ bool matches(DataStream* p) const;
-    std::set<DataStream*> m_sStreamsToDiscard;
+    std::set<DataStream*> m_spStreamsToDiscard;
     void setupDiscarded(const Mp3Handler& h);
 public:
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
@@ -171,7 +171,7 @@ public:
 class MultipleId3StreamRemover : public GenericRemover
 {
     /*override*/ bool matches(DataStream* p) const;
-    std::set<DataStream*> m_sStreamsToDiscard;
+    std::set<DataStream*> m_spStreamsToDiscard;
     void setupDiscarded(const Mp3Handler& h);
 public:
     /*override*/ const char* getActionName() const { return getClassName(); }
@@ -190,7 +190,7 @@ public:
 class MismatchedXingRemover : public GenericRemover
 {
     /*override*/ bool matches(DataStream* p) const;
-    std::set<DataStream*> m_sStreamsToDiscard;
+    std::set<DataStream*> m_spStreamsToDiscard;
     void setupDiscarded(const Mp3Handler& h);
 public:
     /*override*/ const char* getActionName() const { return getClassName(); }

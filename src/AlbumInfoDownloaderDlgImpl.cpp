@@ -39,7 +39,7 @@
 #include  "ColumnResizer.h"
 
 
-//#include  <fstream>
+#include  <fstream>
 
 using namespace std;
 using namespace pearl;
@@ -48,7 +48,9 @@ using namespace pearl;
 extern int CELL_HEIGHT;
 
 
-AlbumInfoDownloaderDlgImpl::AlbumInfoDownloaderDlgImpl(QWidget* pParent, SessionSettings& settings) : QDialog(pParent, 0), Ui::AlbumInfoDownloaderDlg(), m_settings(settings)
+
+
+AlbumInfoDownloaderDlgImpl::AlbumInfoDownloaderDlgImpl(QWidget* pParent, SessionSettings& settings, bool bSaveResults) : QDialog(pParent, 0), Ui::AlbumInfoDownloaderDlg(), m_bSaveResults(bSaveResults), m_nLastCount(0), m_nLastTime(0), m_settings(settings)
 {
     setupUi(this);
 
@@ -442,7 +444,7 @@ void AlbumInfoDownloaderDlgImpl::setImageType(const string& strName)
     }
 }
 
-
+//ttt1 2009.05.18 - once the "format" edit in MusicBrainz dwnld was very narrow; it was OK after the program was restarted, and the issue didn't repeat again
 
 void AlbumInfoDownloaderDlgImpl::onRequestFinished(int /*nId*/, bool bError)
 {
@@ -488,7 +490,6 @@ void AlbumInfoDownloaderDlgImpl::onRequestFinished(int /*nId*/, bool bError)
         QString qstrInfo;
         QPixmap img;
         QByteArray comprImg (b);
-        // { ofstream out ("img.jpg"); const char* p (comprImg.data()); out.write(p, comprImg.size()); }
         if (img.loadFromData(b)) //ttt2 not sure what happens for huge images;
         {
             qstrInfo = QString("Original: %1kB, %2x%3").arg(nAv/1024).arg(img.width()).arg(img.height());
@@ -528,6 +529,8 @@ void AlbumInfoDownloaderDlgImpl::onRequestFinished(int /*nId*/, bool bError)
             m_eLoadingImageCompr = ImageInfo::PNG;
             onImageLoaded(comprImg, SIZE, SIZE, qstrInfo);
         }
+
+        if (m_bSaveResults) { saveDownloadedData(b.data(), b.size(), ImageInfo::JPG == m_eLoadingImageCompr ? "jpg" : "png"); }
 
         return;
     }
@@ -569,7 +572,6 @@ void AlbumInfoDownloaderDlgImpl::onRequestFinished(int /*nId*/, bool bError)
 
         {
             int nUncomprSize (reinterpret_cast<char*>(strm.next_out) - &v[0]);
-            //ofstream out ("discogs.xml"); out.write(&v[0], nUncomprSize); //ttt remove
             v.resize(nUncomprSize + 1);
             v[nUncomprSize] = 0;
             qstrXml = &v[0];
@@ -589,7 +591,11 @@ void AlbumInfoDownloaderDlgImpl::onRequestFinished(int /*nId*/, bool bError)
         return;
     }
 
-    //{ QByteArray b (qstrXml.toUtf8()); ofstream out ("albumdownloader.xml"); out.write(b.data(), b.size()); }
+    if (m_bSaveResults)
+    {
+        QByteArray b1 (qstrXml.toUtf8());
+        saveDownloadedData(b1.data(), b1.size(), "xml");
+    }
 
     switch (m_eWaiting)
     {
@@ -605,6 +611,35 @@ void AlbumInfoDownloaderDlgImpl::onRequestFinished(int /*nId*/, bool bError)
         CB_ASSERT (false);
     }
 }
+
+
+string AlbumInfoDownloaderDlgImpl::getTempName() // time-based, with no extension; doesn't check for existing names, but uses a counter, so files shouldn't get removed (except during daylight saving time changes)
+{
+    time_t t (time(0));
+    if (t == m_nLastTime)
+    {
+        ++m_nLastCount;
+    }
+    else
+    {
+        m_nLastTime = t;
+        m_nLastCount = 0;
+    }
+
+    char a [50];
+    ctime_r(&t, &a[0]);
+    string s;
+    const char* p (&a[0]);
+    for (; 0 != *p; ++p)
+    {
+        char c (*p);
+        if ('\n' == c || '\r' == c) { break; }
+        s += ':' == c ? '.' : c;
+    }
+    sprintf(a, ".%03d", m_nLastCount);
+    return s;
+}
+
 
 
 void AlbumInfoDownloaderDlgImpl::retryNavigation()
@@ -679,7 +714,6 @@ void AlbumInfoDownloaderDlgImpl::onAlbumLoaded(const QString& qstrXml)
     QXmlInputSource src (&bfr);
     if (!rdr.parse(src))
     {
-        // { ofstream out ("err.xml"); out << qstrXml.toUtf8().data(); }
         //CB_ASSERT (false);
         QMessageBox::critical(this, "Error", "Couldn't process the album information. (Usually this means that the server is busy, so trying later might work.)");
         /*if (0 == getAlbumCount())
@@ -703,7 +737,6 @@ void AlbumInfoDownloaderDlgImpl::onImageLoaded(const QByteArray& comprImg, int n
     CB_ASSERT (ImageInfo::INVALID != m_eLoadingImageCompr);
     album(m_nLoadingAlbum).m_vpImages[m_nLoadingImage] = new ImageInfo(-1, ImageInfo::OK, m_eLoadingImageCompr, comprImg, nWidth, nHeight);
     album(m_nLoadingAlbum).m_vstrImageInfo[m_nLoadingImage] = convStr(qstrInfo);
-//ofstream out ("/r/temp/1/tmp2/c pic/b/A/cg.jpg"); const char* p (comprImg.data()); out.write(p, comprImg.size());
 
     m_vpImages.push_back(album(m_nLoadingAlbum).m_vpImages[m_nLoadingImage]);
 
@@ -851,6 +884,14 @@ void AlbumInfoDownloaderDlgImpl::reloadGui()
     }
     trim(r);
     return r;
+}
+
+
+void AlbumInfoDownloaderDlgImpl::saveDownloadedData(const char* p, int nSize, const char* szExt)
+{
+    string s (getTempName() + "." + szExt);
+    ofstream out (s.c_str());
+    out.write(p, nSize);
 }
 
 

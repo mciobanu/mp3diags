@@ -185,6 +185,11 @@ MpegStream::MpegStream(int nIndex, NoteColl& notes, istream& in) : MpegStreamBas
         MP3_NOTE (m_pos, "Stream uses CRC.");
     }*/
 
+    if (MpegFrame::MPEG1 != m_firstFrame.getVersion() || MpegFrame::LAYER3 != m_firstFrame.getLayer())
+    {
+        MP3_NOTE (m_pos, untestedEncoding);
+    }
+
     MP3_TRACE (m_pos, "MpegStream built.");
 
     setRstOk();
@@ -304,10 +309,11 @@ XingStreamBase::XingStreamBase(int nIndex, NoteColl& notes, istream& in) : MpegS
     const int BFR_SIZE (MpegFrame::MPEG_FRAME_HDR_SIZE + 32 + XING_LABEL_SIZE); // MPEG header + side info + "Xing" size //ttt1 not sure if space for CRC16 should be added; then not sure if frame size should be increased by 2 when CRC is found
     char bfr [BFR_SIZE];
 
-    streamsize nRead (read(in, bfr, BFR_SIZE));
-    CB_ASSERT (BFR_SIZE == nRead); // this was supposed to be a valid frame to begin with (otherwise the base class would have thrown)
-
     int nSideInfoSize (m_firstFrame.getSideInfoSize());
+
+    int nBfrSize (MpegFrame::MPEG_FRAME_HDR_SIZE + nSideInfoSize + XING_LABEL_SIZE);
+    streamsize nRead (read(in, bfr, nBfrSize));
+    CB_ASSERT (nBfrSize == nRead); // this was supposed to be a valid frame to begin with (otherwise the base class would have thrown)
 
     char* pLabel (bfr + MpegFrame::MPEG_FRAME_HDR_SIZE + nSideInfoSize);
     MP3_CHECK_T (0 == strncmp("Xing", pLabel, XING_LABEL_SIZE) || 0 == strncmp("Info", pLabel, XING_LABEL_SIZE), m_pos, "Not a Xing stream. Header not found.", NotXingStream());

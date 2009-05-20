@@ -9,164 +9,74 @@
 
 
 <link rel="stylesheet" type="text/css" media="screen" href="style.css">
-
-<!--
-
-changing the font size for .Code:
-from medium to 13px - just increases width
-
--->
-
-
-<!--
-===============================================================================================================================================
-Current sizes for most browsers, including IE7, using small/medium/large/ ... fonts. Looks huge on IE6, though, so there's a workaround next
-===============================================================================================================================================
--->
-
-
-<style type="text/css">
-<!--
-
-
-
--->
-</style>
-
-<!--
-font-weight: bold; 
-
-.InlineCode     { color: #0000b0; font-style: italic; font-family: 'Courier New'; }
-.InlineCode     { color: #0000b0; font-family: 'Courier New'; font-size: large; }
-
--->
-
-
-
-
-<!-- ttt0
-===============================================================================================================================================
-Workaround for IE6 (and perhaps earlier); all font sizes are smaller than for the other browsers in order to have a similar appearance.
-===============================================================================================================================================
--->
-
-
-<!--[if lt IE 7 ]>
-
-<style type="text/css">
-
-.Code           { font-size: x-small; }
-
-.SmalllText     { font-size: x-small; }
-.NormalText     { font-size: small; }
-.SubChapterText { font-size: medium; }
-.ChapterText    { font-size: large; }
-.TitleText      { font-size: x-large; }
-.InclSubChapterText { font-size: medium;  }
-
-</style>
-
-<![endif]-->
-
-
-
-
-
-
-
-
-
-<!--
-===============================================================================================================================================
-                        Original, fixed-size, fonts; Look OK in FF and IE6 but don't allow resizing in IE6
-===============================================================================================================================================
--->
-
-
-<!--
-
-.Code           { font-family: 'Courier New', 'Lucida Console', 'Andale Mono', 'B&H Lucida Typewriter', 'Lucida Sans Typewriter', Courier, Monospace; font-size: 12px; line-height: 12px;  }
-
-.RegFnt         { font-family:  Arial, Verdana, Helvetica, sans-serif; }
-
-.Comment        { color: #57628a; font-style: italic; }
-.Preproc        { color: #006633; }
-.Keyword        { font-weight: bold; color: #000000; }
-.Integer        { color: #0000ff; }
-.Regular        { color: #000000; }
-.StdType        { font-weight: bold; color: #800000; }
-.StringVal      { color: #dd0000; }
-.StringSpecChar { color: #ff00ff; }
-.Double         { color: #800080; }
-
-.Hlt { background: yellow; font-weight: bold; }
-
-
-.ChpCol1 { background: #ececec; }
-.ChpCol2 { background: #f8f8f8; }
-
-
-.NormalText     { color: #000000; font-size: 14px; padding-bottom: 10px; padding-left: 8px; padding-right: 8px; }
-.SubChapterText { color: #000000; font-weight: bold; font-size: 16px; padding-bottom: 10px; padding-top: 15px; padding-left: 18px; padding-right: 8px; }
-.ChapterText    { color: #000000; font-weight: bold; font-size: 20px; padding-bottom: 12px; padding-top: 18px; padding-left: 28px; padding-right: 8px; }
-.TitleText      { color: #000000; font-weight: bold; font-size: 26px; padding-bottom: 15px; text-align: center; }
-
-.ListLev1  { list-style: disc; }
-.ListLev2  { list-style: circle; }
-
-.ListSpace { padding-bottom: 4px; padding-top: 4px; }
-
-
--->
-
-
-
-
-
-
+<!--[if lte IE 6]>  <link rel="stylesheet" type="text/css" href="style_ie6.css" />  <![endif]-->
+<!--[if IE 7]>  <link rel="stylesheet" type="text/css" href="style_ie7.css" />  <![endif]-->
 
 
 
 </head>
 <body>
 
+
+<!-- Z:\windows\suse_10.3\home\ciobi\cpp\Mp3Utils\Mp3TagDoctorQt4\doc\html\index.html -->
+
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+
+
+
 <!--
-word-spacing: 30px;
-border: 5px solid red;
-
-p { padding-top: -8px; }
-
-
-<b><i>mkF</i></b>   - for "inline code"
-
-<span style="text-align: center;"></span>
-
--->
-
-
-<!-- ========================================================================================================== -->
-<!-- ========================================================================================================== -->
-<!-- ========================================================================================================== -->
-<!-- ========================================================================================================== -->
-
-
-
-<div class="NormalText RegFnt ChpCol1">
-
-
-<table width=100% border="0" cellpadding="5" cellspacing="2" class="TitleText RegFnt">
+<div class="HeaderText RegFnt ChpCol1">
+<table width=100% class="HeaderTable">
     <tr>
-        <td border="0" class="TitleText">
-            <img src="logo.png" border="0" alt="MP3 Diags" />
+        <td border="0" class="HeaderText">
+            <img src="logo.png" border="0" alt="MP3 Diags" align=middle />
         </td>
         <td border="0" class="RightAlign">
             Hosted by SF
         </td>
     </tr>
 </table>
-
 </div>
 
+QQQ
+-->
+
+
+<div class="HeaderTableText RegFnt ChpCol1">
+<table width=100% class="HeaderTable">
+    <tr>
+        <td border="0" class="HeaderText">
+            <span class="HeaderPadLeft"><img src="logo.png" border="0" alt="MP3 Diags" align=middle /></span>
+        </td>
+        <td border="0" class="RightAlign">
+            <span class="HeaderPadRight">Hosted by SF</span>
+        </td>
+    </tr>
+</table>
+</div>
+
+<!--
+QQQ
+
+<div class="NormalText RegFnt ChpCol1">
+<table width=100% border="0" cellpadding="5" cellspacing="2" class="TitleText RegFnt">
+    <tr>
+        <td border="0" class="TitleText">
+            <img src="logo.png" border="0" alt="MP3 Diags" align=middle />
+        </td>
+        <td border="0" class="RightAlign">
+            Hosted by SF
+        </td>
+    </tr>
+</table>
+</div>
+
+QQQ
+
+-->
 
 <!--
             <table>
@@ -182,21 +92,6 @@ p { padding-top: -8px; }
 -->
 
                         <!-- <a href="http://sourceforge.net"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=203477&amp;type=5" width="210" height="62" border="0" alt="SourceForge.net Logo" /></a> -->
-
-
-<!--
-<div class="ChapterText RegFnt ChpCol1" style="text-align: left;">
-</div>
--->
-
-
-
-
-
-<!-- ========================================================================================================== -->
-<!-- ========================================================================================================== -->
-<!-- ========================================================================================================== -->
-<!-- ========================================================================================================== -->
 
 
 
@@ -229,14 +124,13 @@ There are many programs that create and edit MP3 files, and many of them are bro
 
 
 <div class="SubChapterText RegFnt ChpCol1">
-<a name="screenshots"/>
-Screenshots
+<a name="screenshots">Screenshots</a>
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-<a href="004_screenshot01.html"> <img src="screenshot1_thumb.png" class="ImgNoBorder"> </a>
-<a href="005_screenshot02.html"> <img src="screenshot2_thumb.png" class="ImgNoBorder"> </a>
-<a href="006_screenshot03.html"> <img src="screenshot3_thumb.png" class="ImgNoBorder"> </a>
+<a href="004_screenshot01.html"><img src="screenshot1_thumb.png" class="ImgNoBorder" align=middle></a> <img src="1pixel.png" class="ImgNoBorder" />
+<a href="005_screenshot02.html"><img src="screenshot2_thumb.png" class="ImgNoBorder" align=middle></a> <img src="1pixel.png" class="ImgNoBorder" />
+<a href="006_screenshot03.html"><img src="screenshot3_thumb.png" class="ImgNoBorder" align=middle></a>
 </div>
 
 

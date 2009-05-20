@@ -271,7 +271,7 @@ void InnerNonAudioRemover::setupDiscarded(const Mp3Handler& h)
     {
         if (0 == dynamic_cast<MpegStream*>(vpStreams[i]) && 0 == dynamic_cast<VbriStream*>(vpStreams[i]))
         {
-            m_sStreamsToDiscard.insert(vpStreams[i]); //ttt0 => m_sp...
+            m_spStreamsToDiscard.insert(vpStreams[i]);
         }
     }
 }
@@ -279,7 +279,7 @@ void InnerNonAudioRemover::setupDiscarded(const Mp3Handler& h)
 
 /*override*/ bool InnerNonAudioRemover::matches(DataStream* p) const
 {
-    return m_sStreamsToDiscard.count(p) > 0;
+    return m_spStreamsToDiscard.count(p) > 0;
 }
 
 
@@ -409,12 +409,12 @@ void InnerNonAudioRemover::setupDiscarded(const Mp3Handler& h)
 
 /*override*/ bool MultipleId3StreamRemover::matches(DataStream* p) const
 {
-    return m_sStreamsToDiscard.count(p) > 0;
+    return m_spStreamsToDiscard.count(p) > 0;
 }
 
 void MultipleId3StreamRemover::setupDiscarded(const Mp3Handler& h)
 {
-    m_sStreamsToDiscard.clear();
+    m_spStreamsToDiscard.clear();
     vector<DataStream*> v1, v2;
 
     const vector<DataStream*>& vpStreams (h.getStreams());
@@ -434,12 +434,12 @@ void MultipleId3StreamRemover::setupDiscarded(const Mp3Handler& h)
 
     if (cSize(v1) > 1)
     {
-        m_sStreamsToDiscard.insert(v1.begin(), v1.end() - 1);
+        m_spStreamsToDiscard.insert(v1.begin(), v1.end() - 1);
     }
 
     if (cSize(v2) > 1)
     {
-        m_sStreamsToDiscard.insert(v2.begin() + 1, v2.end());
+        m_spStreamsToDiscard.insert(v2.begin() + 1, v2.end());
     }
 }
 
@@ -447,12 +447,12 @@ void MultipleId3StreamRemover::setupDiscarded(const Mp3Handler& h)
 
 /*override*/ bool MismatchedXingRemover::matches(DataStream* p) const
 {
-    return m_sStreamsToDiscard.count(p) > 0;
+    return m_spStreamsToDiscard.count(p) > 0;
 }
 
 void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
 {
-    m_sStreamsToDiscard.clear();
+    m_spStreamsToDiscard.clear();
 
     const vector<DataStream*>& vpStreams (h.getStreams());
     for (int i = 0, n = cSize(vpStreams); i < n - 1; ++i)
@@ -463,7 +463,7 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
             MpegStream* pAudio (dynamic_cast<MpegStream*>(vpStreams[i + 1]));
             if (0 != pAudio && pXing->getFrameCount() != pAudio->getFrameCount())
             {
-                m_sStreamsToDiscard.insert(pXing);
+                m_spStreamsToDiscard.insert(pXing);
             }
         }
     }

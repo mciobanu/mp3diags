@@ -1,6 +1,26 @@
+Creating the lines:
+
+The lines have their own layer
+
+1. draw in a "helper", normally invisible, layer (so make it temporarily visible)
+2. copy the layer
+3. paste as new
+4. scale layer up 400%
+5. fit image to layer
+6. create 1 white layer and one transparent layer; move down the white layer
+7. select enlarged layer, set opacity to 15%
+8. select new layer, and draw lines over the ones in the enlarged layer; params: color 0,0,128; tool: "paint fuzzy brush strokes", brush: "circle fuzzy 17 (17x17)" (last but one);
+9. copy+paste to duplicate layer
+10. scale layer to 25%
+11. copy layer, paste in the original picture, move down; make invisible the helper layer (but don't erase it; it might be useful later)
+
+To add new lines: first create new layers, at the end merge them with the helper and the "actual" layer
+
+===========================================================================
+
 1. Specify which folders contain your MP3 files
 
-2. Choose the name of the file where your settings will be stored
+2. Press this button to choose the name of the file where your settings will be stored
 
 3. Press OK
 
@@ -119,7 +139,8 @@ If a result is found, it is possible to save just the image (if there is one), o
 
 It is possible to manually launch a new search
 
-As data is received from the internet, the status is updated
+//As data is received from the internet, the status is updated
+The interaction with the databse is logged here
 
 -----------------------------------
 

@@ -7,6 +7,8 @@
 <meta name="description" content="End-user documentation for MP3 Diags, an MP3 analysis tool that also includes correction and tag editing functionality" />
 <title>MP3 Diags</title>
 <link rel="stylesheet" type="text/css" media="screen" href="style.css">
+<!--[if lte IE 6]>  <link rel="stylesheet" type="text/css" href="style_ie6.css" />  <![endif]-->
+<!--[if IE 7]>  <link rel="stylesheet" type="text/css" href="style_ie7.css" />  <![endif]-->
 </head>
 
 <body>
@@ -33,16 +35,16 @@
 
 
 
-<div class="SubChapterText RegFnt ChpCol2">
+<div class="NavPadTable RegFnt ChpCol2">
 <!--
 <span class="NormalText"> <a href="130_main_window.html" title="Main window"> &lt;&lt; </a> </span> <a href="030_users_guide.html">User's guide</a> - Main window - Tools <span class="NormalText"> <a href="150_main_window_all_notes.html" title="Main window - All notes"> &gt;&gt; </a> </span>
 
 
-<span class="NormalText"> <a href="130_main_window.html" title="Main window"> <img src="arrow_left_small.png" alt="&lt;&lt;" class="ImgNoBorder"/> </a> </span> <a href="030_users_guide.html">User's guide</a> - Main window - Tools <span class="NormalText"> <a href="150_main_window_all_notes.html" title="Main window - All notes"> &gt;&gt; </a> </span>
+<span class="NormalText"> <a href="130_main_window.html" title="Main window"> <img src="arrow_left_small.png" alt="&lt;&lt;" class="ImgNoBorder" /> </a> </span> <a href="030_users_guide.html">User's guide</a> - Main window - Tools <span class="NormalText"> <a href="150_main_window_all_notes.html" title="Main window - All notes"> &gt;&gt; </a> </span>
 
 class="TitleText RegFnt"
 
-<a href="130_main_window.html" title="Main window"> <img src="arrow_left_small.png" alt="&lt;&lt;" class="ImgNoBorder"/> </a>
+<a href="130_main_window.html" title="Main window"> <img src="arrow_left_small.png" alt="&lt;&lt;" class="ImgNoBorder" /> </a>
 <a href="030_users_guide.html">User's guide</a> - Main window - Tools
 <a href="150_main_window_all_notes.html" title="Main window - All notes"> &gt;&gt; </a>
 
@@ -52,9 +54,9 @@ border="0" class="RightAlign"
 -->
 <table border="0" cellpadding="0" cellspacing="0">
     <tr>
-        <td class="NavPadLeft"> <a href="130_main_window.html" title="Main window"> <img src="arrow_left_small.png" alt="&lt;&lt;" class="ImgNoBorder"/> </a> </td>
-        <td valign="top"> <a href="030_users_guide.html">User's guide</a> - Main window - Tools </td>
-        <td class="NavPadRight"> <a href="145_transformations_list.html" title="Transformations - Details"> <img src="arrow_right_small.png" alt="&gt;&gt;" class="ImgNoBorder"/> </a> </td>
+        <td class="NavPadLeft"> <a href="130_main_window.html" title="Main window"> <img src="arrow_left_small.png" class="ImgNoBorder" align="absmiddle" /> </a> </td>
+        <td valign="middle" class="NavBarText"> <a href="030_users_guide.html">User's guide</a> - Main window - Tools </td>
+        <td class="NavPadRight"> <a href="145_transformations_list.html" title="Transformations - Details"> <img src="arrow_right_small.png" class="ImgNoBorder" align="absmiddle" /> </a> </td>
     </tr>
 </table>
 
@@ -113,14 +115,45 @@ Several points need to be made about the custom transformation lists:
 There are a number of files involved in applying a transformation to a file. Besides the original file and the modified one, "comparison" files may be created in some cases and "temporary" files may be created too, their name containing the name of the transformation that created them. These are disabled by default, but may be enabled in the <a href="250_config_files.html">configuration dialog</a> to gain a better understanding of what is happening, or for debug purposes.
 </div>
 
+<!--
+qqq <a href="145_transformations_list.html"> <img src="arrow_right_small.png" class="ImgNoBorder" /> </a> QQQ <br/>
+qqq <a href="145_transformations_list.html"> <img src="logo.png" class="ImgNoBorder" /> </a> QQQ <br/>
+qqq <a href="145_transformations_list.html"> <img src="arrow_right_small.png" class="ImgNoBorder" align=middle /> </a> QQQ <br/>
+qqq <a href="145_transformations_list.html"> <img src="logo.png" class="ImgNoBorder" align=middle /> </a> QQQ <br/>
+
+qqq <a href="145_transformations_list.html"> <img src="arrow_right_small.png" border=0 /> </a>   <br/>
+qqq <a href="145_transformations_list.html"> <img src="logo.png" border=0 /> </a> QQQ <br/>
+
+qqq <a href="145_transformations_list.html"> <img src="arrow_right_small.png" border=0 align=middle /> </a> middle <br/>
+qqq <a href="145_transformations_list.html"> <img src="logo.png" border=0 align=middle /> </a> QQQ <br/>
 
 
-<div class="SubChapterText RegFnt ChpCol1">
+qqq <a href="145_transformations_list.html"> <img src="arrow_right_small.png" border=0 align=TEXTTOP /> </a> TEXTTOP <br/>
+qqq <a href="145_transformations_list.html"> <img src="logo.png" border=0 align=TEXTTOP /> </a> QQQ <br/>
+
+qqq <a href="145_transformations_list.html"> <img src="arrow_right_small.png" border=0 align=TOP /> </a> TOP <br/>
+qqq <a href="145_transformations_list.html"> <img src="logo.png" border=0 align=TOP /> </a> QQQ <br/>
+
+qqq <a href="145_transformations_list.html"> <img src="arrow_right_small.png" border=0 align=ABSMIDDLE /> </a> ABSMIDDLE <br/>
+qqq <a href="145_transformations_list.html"> <img src="logo.png" border=0 align=ABSMIDDLE /> </a> QQQ <br/>
+
+qqq <a href="145_transformations_list.html"> <img src="arrow_right_small.png" border=0 align=BOTTOM /> </a> BOTTOM <br/>
+qqq <a href="145_transformations_list.html"> <img src="logo.png" border=0 align=BOTTOM /> </a> QQQ <br/>
+
+qqq <a href="145_transformations_list.html"> <img src="arrow_right_small.png" border=0 align=ABSBOTTOM /> </a> ABSBOTTOM <br/>
+qqq <a href="145_transformations_list.html"> <img src="logo.png" border=0 align=ABSBOTTOM /> </a> QQQ <br/>
+
+qqq <a href="145_transformations_list.html"> <img src="arrow_right_small.png" border=0 align=BASELINE /> </a> BASELINE <br/>
+qqq <a href="145_transformations_list.html"> <img src="logo.png" border=0 align=BASELINE /> </a> QQQ <br/>
+
+-->
+
+<div class="NavPadTable RegFnt ChpCol1">
 <table border="0" cellpadding="0" cellspacing="0">
     <tr>
-        <td class="NavPadLeft"> <a href="130_main_window.html" title="Main window"> <img src="arrow_left_small.png" alt="&lt;&lt;" class="ImgNoBorder"/> </a> </td>
-        <td valign="top"> <a href="030_users_guide.html">User's guide</a> - Main window - Tools </td>
-        <td class="NavPadRight"> <a href="145_transformations_list.html" title="Transformations - Details"> <img src="arrow_right_small.png" alt="&gt;&gt;" class="ImgNoBorder"/> </a> </td>
+        <td class="NavPadLeft"> <a href="130_main_window.html" title="Main window"> <img src="arrow_left_small.png" class="ImgNoBorder" align="absmiddle" /> </a> </td>
+        <td valign="middle" class="NavBarText"> <a href="030_users_guide.html">User's guide</a> - Main window - Tools </td>
+        <td class="NavPadRight"> <a href="145_transformations_list.html" title="Transformations - Details"> <img src="arrow_right_small.png" class="ImgNoBorder" align="absmiddle" /> </a> </td>
     </tr>
 </table>
 </div>

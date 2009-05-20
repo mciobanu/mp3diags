@@ -7,6 +7,8 @@
 <meta name="description" content="End-user documentation for MP3 Diags, an MP3 analysis tool that also includes correction and tag editing functionality" />
 <title>MP3 Diags</title>
 <link rel="stylesheet" type="text/css" media="screen" href="style.css">
+<!--[if lte IE 6]>  <link rel="stylesheet" type="text/css" href="style_ie6.css" />  <![endif]-->
+<!--[if IE 7]>  <link rel="stylesheet" type="text/css" href="style_ie7.css" />  <![endif]-->
 </head>
 
 <body>
@@ -33,12 +35,12 @@
 
 
 
-<div class="SubChapterText RegFnt ChpCol2">
+<div class="NavPadTable RegFnt ChpCol2">
 <table border="0" cellpadding="0" cellspacing="0">
     <tr>
-        <td class="NavPadLeft"> <a href="210_tag_editor_assign_image.html" title="Tag editor - Assigning images"> <img src="arrow_left_small.png" alt="&lt;&lt;" class="ImgNoBorder"/> </a> </td>
-        <td valign="top"> <a href="030_users_guide.html">User's guide</a> - Tag editor - Patterns </td>
-        <td class="NavPadRight"> <a href="230_normalize.html" title="Normalize"> <img src="arrow_right_small.png" alt="&gt;&gt;" class="ImgNoBorder"/> </a> </td>
+        <td class="NavPadLeft"> <a href="210_tag_editor_assign_image.html" title="Tag editor - Assigning images"> <img src="arrow_left_small.png" class="ImgNoBorder" align="absmiddle" /> </a> </td>
+        <td valign="middle" class="NavBarText"> <a href="030_users_guide.html">User's guide</a> - Tag editor - Patterns </td>
+        <td class="NavPadRight"> <a href="230_normalize.html" title="Normalize"> <img src="arrow_right_small.png" class="ImgNoBorder" align="absmiddle" /> </a> </td>
     </tr>
 </table>
 </div>
@@ -105,7 +107,7 @@ Note that the matching is done from the end of the file name, so the beginning o
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol1">
-If a pattern contains the character <span class="Reference">/</span>, it is "file name - based", otherwise it is "text line - based". Besides the source of the text (file name vs. clipboard), another difference is that latter must match perfectly the text, while the former may have errors in any of the strings between consecutive <span class="Reference">/</span> characters and still extract some fields from other parts of the file name. In the example above the pattern <span class="Reference">%g/%a/%b {%y}/%n %t</span> would return no album or year, because <span class="Reference">album1 (2008)</span> doesn't contain <img src="1pixel.png" class="ImgNoBorder"/><span class="Reference"> {</span> or <span class="Reference">}</span>, but would still find the genre, the artist, the track number and the title.
+If a pattern contains the character <span class="Reference">/</span>, it is "file name - based", otherwise it is "text line - based". Besides the source of the text (file name vs. clipboard), another difference is that latter must match perfectly the text, while the former may have errors in any of the strings between consecutive <span class="Reference">/</span> characters and still extract some fields from other parts of the file name. In the example above the pattern <span class="Reference">%g/%a/%b {%y}/%n %t</span> would return no album or year, because <span class="Reference">album1 (2008)</span> doesn't contain <img src="1pixel.png" class="ImgNoBorder" /><span class="Reference"> {</span> or <span class="Reference">}</span>, but would still find the genre, the artist, the track number and the title.
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol2">
@@ -130,17 +132,17 @@ Your may dislike the character case (upper / lower / ...) of what you find.
 
 
 <div class="NormalText RegFnt ChpCol1">
-Your may want to adopt my system of including a song's rating in the file: I use a lowercase letter ("a" for 5 stars, "b" for 4.5, ...) before the track number, which has the advantage that it doesn't need any player support (as long as you play files from the disk, and not from its library.) If I ever move to a player that supports the POPM frame (which is where the rating is stored inside ID3V2), I can easily pull the rating from the file name by using a pattern.
+Your may want to adopt my system of including a song's rating in the file: I use a lowercase letter ("a" for 5 stars, "b" for 4.5 stars, ...) before the track number, which has the advantage that it doesn't need any player support (as long as you play files from the disk, and not from its library.) If I ever move to a player that supports the POPM frame (which is where the rating is stored inside ID3V2), I can easily pull the rating from the file name by using a pattern.
 </div>
 
 
 
-<div class="SubChapterText RegFnt ChpCol2">
+<div class="NavPadTable RegFnt ChpCol2">
 <table border="0" cellpadding="0" cellspacing="0">
     <tr>
-        <td class="NavPadLeft"> <a href="210_tag_editor_assign_image.html" title="Tag editor - Assigning images"> <img src="arrow_left_small.png" alt="&lt;&lt;" class="ImgNoBorder"/> </a> </td>
-        <td valign="top"> <a href="030_users_guide.html">User's guide</a> - Tag editor - Patterns </td>
-        <td class="NavPadRight"> <a href="230_normalize.html" title="Normalization"> <img src="arrow_right_small.png" alt="&gt;&gt;" class="ImgNoBorder"/> </a> </td>
+        <td class="NavPadLeft"> <a href="210_tag_editor_assign_image.html" title="Tag editor - Assigning images"> <img src="arrow_left_small.png" class="ImgNoBorder" align="absmiddle" /> </a> </td>
+        <td valign="middle" class="NavBarText"> <a href="030_users_guide.html">User's guide</a> - Tag editor - Patterns </td>
+        <td class="NavPadRight"> <a href="230_normalize.html" title="Normalization"> <img src="arrow_right_small.png" class="ImgNoBorder" align="absmiddle" /> </a> </td>
     </tr>
 </table>
 </div>

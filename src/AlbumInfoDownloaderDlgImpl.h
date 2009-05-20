@@ -73,6 +73,11 @@ class AlbumInfoDownloaderDlgImpl : public QDialog, protected Ui::AlbumInfoDownlo
     void next(); // meant to be called only by retryNavigation()
     void previous();
 
+    bool m_bSaveResults;
+    int m_nLastCount;
+    time_t m_nLastTime;
+    std::string getTempName(); // time-based, with no extension; doesn't check for existing names, but uses a counter, so files shouldn't get removed (except during daylight saving time changes)
+    void saveDownloadedData(const char*, int nSize, const char* szExt);
 protected:
     bool m_bSaveImageOnly;
 
@@ -142,7 +147,7 @@ protected:
 
     int m_nExpectedTracks;
 
-    AlbumInfoDownloaderDlgImpl(QWidget* pParent, SessionSettings& settings);
+    AlbumInfoDownloaderDlgImpl(QWidget* pParent, SessionSettings& settings, bool bSaveResults);
 
     static const char* NOT_FOUND_AT_AMAZON;
 public:

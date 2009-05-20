@@ -120,7 +120,7 @@ private:
 
     int m_nLastKey;
 
-    friend void log(const std::string& s);
+    friend void trace(const std::string& s);
     CommonData* m_pCommonData;
 
     QWidget* m_pTagDetailsW; // this gets erased and recreated each time the current file changes

@@ -63,7 +63,7 @@ using namespace pearl;
 
 MainFormDlgImpl* getGlobalDlg();  //ttt1 remove
 
-void log(const string& s) //ttt0 =>trace
+void trace(const string& s)
 {
     MainFormDlgImpl* p (getGlobalDlg());
     //p->m_pContentM->append(convStr(s));
@@ -71,7 +71,7 @@ void log(const string& s) //ttt0 =>trace
     //p->m_pCommonData->m_qstrContent += "\n";
     if (0 != p)
     {
-        p->m_pCommonData->log(s);
+        p->m_pCommonData->trace(s);
     }
 }
 
@@ -1024,8 +1024,8 @@ void MainFormDlgImpl::scan(bool bForce)
 
     qDebug("%s", s.c_str());
 
-    log("");
-    log("************************* " + s);
+    trace("");
+    trace("************************* " + s);
     //exportAsText();
 }
 

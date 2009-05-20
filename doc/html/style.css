@@ -36,7 +36,6 @@
 .XTitleText      { color: #000000; font-weight: bold; font-size: xx-large; padding-bottom: 15px; padding-top: 15px; text-align: center; }
 .XInclSubChapterText { color: #000000; font-weight: bold; font-size: large;  }
 
-
 .NormalText     { color: #000000; font-size: medium; font-weight: normal; padding-bottom: 10px; padding-left: 8px; padding-right: 8px; }
 .FreeNormalText { color: #000000; font-size: medium; font-weight: normal; padding-top: 10px; padding-bottom: 10px; padding-left: 8px; padding-right: 8px; }
 .SubChapterText { color: #000000; font-weight: bold; font-size: large; padding-bottom: 10px; padding-top: 15px; padding-left: 18px; padding-right: 8px; }
@@ -44,6 +43,13 @@
 .TitleText      { color: #000000; font-weight: bold; font-size: medium; padding-top: 10px; text-align: left; }
 .NoBrdTableText { color: #000000; font-size: medium; font-weight: normal; padding-bottom: 0px; padding-left: 8px; padding-right: 8px; } /* for tables without borders */
 .TableText      { color: #000000; font-size: medium; font-weight: normal; padding-bottom: 0px; padding-left: 0px; padding-right: 0px; }
+.HeaderText     { color: #000000; font-size: medium; font-weight: normal; padding-top: 0px; padding-bottom: 0px; padding-left: 0px; padding-right: 0px; }
+.HeaderTable    { color: #000000; border: 0; border-spacing: 0px; padding: 0px; }
+/*.HeaderTableText { color: #000000; font-size: medium; font-weight: normal; padding-top: 10px; padding-bottom: 10px; padding-left: 10px; padding-right: 10px; }*/
+.HeaderTableText { color: #000000; font-size: medium; font-weight: normal; padding-top: 10px; padding-bottom: 10px; padding-left: 0px; padding-right: 0px; }
+/*.NormalText     { color: #000000; font-size: medium; font-weight: normal; padding-bottom: 10px; padding-left: 8px; padding-right: 8px; }*/
+/*.NavBarText     { color: #000000; font-weight: bold; font-size: large; padding-bottom: 10px; padding-top: 10px; padding-left: 18px; padding-right: 8px; }*/
+.NavBarText     { color: #000000; font-weight: bold; font-size: large; padding-bottom: 0px; padding-top: 0px; padding-left: 0px; padding-right: 0px; }
 .Screenshot     { color: #000000; font-weight: bold; padding-bottom: 5px; padding-top: 10px; padding-left: 10px; padding-right: 10px; }
 .Example        { background: #d8d8ff; font-weight: bold; padding-bottom: 3px; padding-top: 3px; padding-left: 10px; padding-right: 10px; }
 .Reference      { background: #d8d8ff; font-weight: bold; }
@@ -61,6 +67,9 @@
 .GenericSpace   { padding-left: 20px; }
 .NavPadLeft     { padding-right: 20px; } /*the left arrow needs padding to the right*/
 .NavPadRight    { padding-left: 20px; }
+.NavPadTable    { padding-bottom: 10px; padding-top: 10px; padding-left: 18px; padding-right: 10px; }
+.HeaderPadLeft  { padding-left: 10px; }
+.HeaderPadRight { padding-right: 10px; }
 
 .ImgNoBorder    { border-style: none; }
 

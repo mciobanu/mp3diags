@@ -36,11 +36,11 @@
 
 
 //#define CB_CHECK(COND, MSG) { if (!(COND)) { throw std::runtime_error(MSG); } }
-#define CB_CHECK1(COND, EXCP) { if (!(COND)) { ::log(#EXCP); throw EXCP; } }
+#define CB_CHECK1(COND, EXCP) { if (!(COND)) { ::trace(#EXCP); throw EXCP; } }
 //#define CB_THROW(MSG) { throw std::runtime_error(MSG); }
-#define CB_THROW1(EXCP) { ::log(#EXCP); throw EXCP; }
-//#define CB_ASSERT(COND) { if (!(COND)) { ::log("assert"); throw std::runtime_error("assertion failure"); } }
-#define CB_ASSERT(COND) { if (!(COND)) { assertBreakpoint(); ::log("assert"); logAssert(__FILE__, __LINE__, #COND); ::exit(1); } }
+#define CB_THROW1(EXCP) { ::trace(#EXCP); throw EXCP; }
+//#define CB_ASSERT(COND) { if (!(COND)) { ::trace("assert"); throw std::runtime_error("assertion failure"); } }
+#define CB_ASSERT(COND) { if (!(COND)) { assertBreakpoint(); ::trace("assert"); logAssert(__FILE__, __LINE__, #COND); ::exit(1); } }
 
 ////#include  <CbLibCall.h>
 
@@ -124,8 +124,8 @@ void CB_LIB_CALL releasePtr(T*& p)
 
 
 
-#define LOG(A) { std::ostringstream sTrM; sTrM << A; ::log(sTrM.str()); }
-void log(const std::string& s);
+#define TRACE(A) { std::ostringstream sTrM; sTrM << A; ::trace(sTrM.str()); }
+void trace(const std::string& s);
 
 void logAssert(const char* szFile, int nLine, const char* szCond);
 

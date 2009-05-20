@@ -88,7 +88,7 @@ class MusicBrainzDownloader : public AlbumInfoDownloaderDlgImpl
 
     QString getAmazonText() const;
 public:
-    MusicBrainzDownloader(QWidget* pParent, SessionSettings& settings);
+    MusicBrainzDownloader(QWidget* pParent, SessionSettings& settings, bool bSaveResults);
     ~MusicBrainzDownloader();
     /*$PUBLIC_FUNCTIONS$*/
 

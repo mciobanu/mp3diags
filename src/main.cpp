@@ -212,5 +212,49 @@ int main(int argc, char *argv[])
 //"undefined reference to `qInitResources_application()'"
 
 
+//ttt0 redo xpm
 
+/*
+ttt0 rpmlint:
+
+
+MP3Diags.x86_64: W: no-changelogname-tag
+MP3Diags.src: W: no-changelogname-tag
+There is no %changelog tag in your spec file. To insert it, just insert a
+'%changelog' in your spec file and rebuild it.
+
+MP3Diags.src: W: source-or-patch-not-bzipped MP3Diags-0.99.0.1.tar.gz
+A source archive or patch in your package is not bzipped (doesn't have the
+.bz2 extension). Files bigger than 100k should be bzip2'ed in order to save
+space. To bzip2 a patch, use bzip2. To bzip2 a source tarball, use bznew
+
+MP3Diags.x86_64: E: summary-ended-with-dot (Badness: 89) Tool for finding and fixing problems in MP3 files. Includes a tagger.
+MP3Diags.src: E: summary-ended-with-dot (Badness: 89) Tool for finding and fixing problems in MP3 files. Includes a tagger.
+Summary ends with a dot.
+
+----------------
+
+???
+
+rpmlint -v ../RPMS/x86_64/MP3Diags-0.99.0.1-1.x86_64.rpm
+W: MP3Diags untranslated-desktop-file /usr/share/applications/MP3Diags.desktop
+W: MP3Diags summary-ended-with-dot Tool for finding and fixing problems in MP3 files. Includes a tagger.
+I: MP3Diags checking
+E: MP3Diags tag-not-utf8 Summary
+E: MP3Diags tag-not-utf8 %description
+E: MP3Diags no-packager-tag
+E: MP3Diags no-changelogname-tag
+E: MP3Diags invalid-desktopfile /usr/share/applications/MP3Diags.desktop value "Audio;AudioVideo;AudioVideoEditing" for string list key "Categories" in group "Desktop Entry" does not have a semicolon (';') as trailing character
+E: MP3Diags filename-not-utf8 /usr/share/icons/hicolor/48x48/apps/MP3Diags.png
+E: MP3Diags filename-not-utf8 /usr/share/icons/hicolor/40x40/apps/MP3Diags.png
+E: MP3Diags filename-not-utf8 /usr/share/icons/hicolor/36x36/apps/MP3Diags.png
+E: MP3Diags filename-not-utf8 /usr/share/icons/hicolor/32x32/apps/MP3Diags.png
+E: MP3Diags filename-not-utf8 /usr/share/icons/hicolor/24x24/apps/MP3Diags.png
+E: MP3Diags filename-not-utf8 /usr/share/icons/hicolor/22x22/apps/MP3Diags.png
+E: MP3Diags filename-not-utf8 /usr/share/icons/hicolor/16x16/apps/MP3Diags.png
+E: MP3Diags filename-not-utf8 /usr/share/applications/MP3Diags.desktop
+E: MP3Diags filename-not-utf8 /usr/bin/MP3Diags
+
+
+*/
 

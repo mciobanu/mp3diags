@@ -490,7 +490,7 @@ return;//*/
     bool bOk;
 
     {
-        DiscogsDownloader dlg (this, m_pCommonData->m_settings);
+        DiscogsDownloader dlg (this, m_pCommonData->m_settings, m_pCommonData->m_bSaveDownloadedData);
 
         //dlg.exec();
         //dlg.getInfo("Beatles", "Help");
@@ -540,7 +540,7 @@ void TagEditorDlgImpl::on_m_pQueryMusicBrainzB_clicked()
     bool bOk;
 
     {
-        MusicBrainzDownloader dlg (this, m_pCommonData->m_settings);
+        MusicBrainzDownloader dlg (this, m_pCommonData->m_settings, m_pCommonData->m_bSaveDownloadedData);
 
         //dlg.exec();
         //dlg.getInfo("Beatles", "Help");

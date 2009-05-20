@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+#Icon=arts
+#Icon=applications-multimedia
+Icon=MP3Diags
+Exec=MP3Diags
+#DocPath=
+Comment=MP3 Diags - diagnosis and repair tool
+Name=MP3 Diags
+Categories=Audio;AudioVideo;AudioVideoEditing
+
+#audio-mpeg

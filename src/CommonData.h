@@ -406,7 +406,7 @@ public:
     bool m_bUseAllNotes;
 
     bool m_bTraceEnabled;
-    void log(const std::string& s);
+    void trace(const std::string& s);
     void clearLog();
     const std::deque<std::string>& getLog() const { return m_vLogs; }
 
@@ -419,6 +419,8 @@ public:
 
     std::string m_strTransfLog; // log file with transformations;
     bool m_bLogTransf;
+
+    bool m_bSaveDownloadedData;
 
 private:
     std::deque<const Mp3Handler*> m_vpAllHandlers; // owns the pointers; sorted by CmpMp3HandlerPtrByName;

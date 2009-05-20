@@ -77,7 +77,7 @@ class DiscogsDownloader : public AlbumInfoDownloaderDlgImpl
     /*override*/ void saveSize();
 
 public:
-    DiscogsDownloader(QWidget* pParent, SessionSettings& settings);
+    DiscogsDownloader(QWidget* pParent, SessionSettings& settings, bool bSaveResults);
     ~DiscogsDownloader();
     /*$PUBLIC_FUNCTIONS$*/
 

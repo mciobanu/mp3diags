@@ -81,7 +81,7 @@ Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const Q
 
     if (!in)
     {
-        log("Couldn't open file: " + strFileName);
+        trace("Couldn't open file: " + strFileName);
         CB_THROW1(FileNotFound());
     }
 
@@ -90,8 +90,8 @@ Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const Q
     out << "************************* " << strFileName << " ************************* memory: " << getMemUsage() << "; time: " << ctime(&t);
     string s (out.str());
     s.erase(s.size() - 1); // needed because ctime() uses a terminating '\n'
-    log("");
-    log(s);
+    trace("");
+    trace(s);
 
     cout << s << endl;
 
@@ -340,9 +340,9 @@ void Mp3Handler::parse(std::ifstream& in) // ttt2 this function is a mess; needs
         try
         {
             m_vpAllStreams.push_back(new MpegStream(nIndex, m_notes, in));
-            log("enter checkLastFrameInMpegStream()");
+            trace("enter checkLastFrameInMpegStream()");
             checkLastFrameInMpegStream(in);
-            log("exit checkLastFrameInMpegStream()");
+            trace("exit checkLastFrameInMpegStream()");
             pos += m_vpAllStreams.back()->getSize();
             ++nIndex;
             continue;
@@ -824,7 +824,7 @@ streampos getNextStream(istream& in, streampos pos)
     }
 e1:
     pos += i;
-    /*if (g_bVerbose)*/ { LOG("stream found at 0x" << hex << pos << dec); }
+    /*if (g_bVerbose)*/ { TRACE("stream found at 0x" << hex << pos << dec); }
 
     // !!! no need to call rst.setOk(); we want the read pointer to be restored
     return pos;
@@ -837,7 +837,7 @@ e1:
     for (vector<DataStream*>::const_iterator it = m_vpAllStreams.begin(), end = m_vpAllStreams.end(); it != end; ++it)
     {
         //cout << " " << (*it)->getName();
-        LOG((*it)->getInfo());
+        TRACE((*it)->getInfo());
     }
     //cout << endl;
 }

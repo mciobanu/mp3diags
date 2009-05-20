@@ -600,7 +600,7 @@ void Id3V2StreamBase::checkFrames(NoteColl& notes) // various checks to be calle
         //eImageStatus = ImageInfo::ERROR_LOADING;
     }
 
-    log("The picture could be loaded before but now this is no longer possible. The most likely reason is that the file was moved or changed by an external application.");
+    trace("The picture could be loaded before but now this is no longer possible. The most likely reason is that the file was moved or changed by an external application.");
 
     return ImageInfo(-1, ImageInfo::ERROR_LOADING);
 }

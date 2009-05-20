@@ -475,9 +475,9 @@ private:
 /*static*/ const char* DiscogsDownloader::SOURCE_NAME ("Discogs");
 
 
-DiscogsDownloader::DiscogsDownloader(QWidget* pParent, SessionSettings& settings) : AlbumInfoDownloaderDlgImpl(pParent, settings)
+DiscogsDownloader::DiscogsDownloader(QWidget* pParent, SessionSettings& settings, bool bSaveResults) : AlbumInfoDownloaderDlgImpl(pParent, settings, bSaveResults)
 {
-    setWindowTitle("Download album data from discogs.com");
+    setWindowTitle("Download album data from Discogs.com");
 
     int nWidth, nHeight;
     m_settings.loadDiscogsSettings(nWidth, nHeight);

@@ -258,9 +258,9 @@ void MusicBrainzAlbumInfo::copyTo(AlbumInfo& dest)
 
 
 
-MusicBrainzDownloader::MusicBrainzDownloader(QWidget* pParent, SessionSettings& settings) : AlbumInfoDownloaderDlgImpl(pParent, settings), m_nLastReqTime(0)
+MusicBrainzDownloader::MusicBrainzDownloader(QWidget* pParent, SessionSettings& settings, bool bSaveResults) : AlbumInfoDownloaderDlgImpl(pParent, settings, bSaveResults), m_nLastReqTime(0)
 {
-    setWindowTitle("Download album data from musicbrainz.org");
+    setWindowTitle("Download album data from MusicBrainz.org");
 
     int nWidth, nHeight;
     m_settings.loadMusicBrainzSettings(nWidth, nHeight);

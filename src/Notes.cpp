@@ -89,6 +89,7 @@ static const char* s_szPlaceholderDescr ("<Placeholder for a note that can no lo
 }
 
 
+//ttt1 if one of the addNote() is missing, the program just crashes instead of showing an assertion; the reason seems to be that the UI will ask for the color of an invalid note;
 /*static*/ void Notes::initVec()
 {
     static bool s_bInit (false);
@@ -109,6 +110,7 @@ static const char* s_szPlaceholderDescr ("<Placeholder for a note that can no lo
     addNote(&Notes::audioTooShort()); // e
     addNote(&Notes::diffBitrateInFirstFrame()); // e
     addNote(&Notes::noMp3Gain()); // w
+    addNote(&Notes::untestedEncoding()); // s
 
     // xing
     addNote(&Notes::twoLame()); // e
@@ -400,10 +402,10 @@ void NoteColl::add(Note* pNote)
     }
 
 
-    log(pNote->getPosHex() + string(": ") + pNote->getDescription());
+    trace(pNote->getPosHex() + string(": ") + pNote->getDescription());
     if (!pNote->getDetail().empty())
     {
-        log(pNote->getDetail()); // ttt2 perhaps log the description only if the detail is empty (so strDetail would be expected to hold all the info in strDescription)
+        trace(pNote->getDetail()); // ttt2 perhaps log the description only if the detail is empty (so strDetail would be expected to hold all the info in strDescription)
     }
 
     // try to avoid adding duplicates by comparing pNote to the last 10 notes

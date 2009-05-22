@@ -52,7 +52,8 @@ SOURCES += main.cpp \
  ConfigDlgImpl.cpp \
  DataStream.cpp \
  DebugDlgImpl.cpp \
- DirFilterDlgImpl.cpp
+ DirFilterDlgImpl.cpp \
+ Version.cpp
 TEMPLATE = app
 CONFIG += warn_on \
 	  thread \
@@ -140,6 +141,7 @@ SessionEditor.ui \
 Sessions.ui \
 TagEditor.ui \
 ThreadRunner.ui
+
 
 
 

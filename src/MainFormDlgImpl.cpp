@@ -1253,7 +1253,7 @@ void MainFormDlgImpl::on_m_pNormalizeB_clicked()
         }
     }
 
-    NormalizeDlgImpl dlg (this, m_pCommonData->m_bKeepNormWndOpen, m_settings);
+    NormalizeDlgImpl dlg (this, m_pCommonData->m_bKeepNormWndOpen, m_settings, m_pCommonData);
     dlg.normalize(convStr(m_pCommonData->m_strNormalizeCmd), l);
 
     reload(bSel, FORCE);

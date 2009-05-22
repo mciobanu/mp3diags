@@ -2,8 +2,8 @@
 <file>	<type>	<mtime>
 COPYING	f	2009-05-06T06:54:32Z
 Doxyfile	f	2009-05-06T06:54:38Z
-Install.sh	f	2009-05-11T16:50:01Z
-Uninstall.sh	f	2009-05-11T17:00:03Z
+Install.sh	f	2009-05-22T05:39:38Z
+Uninstall.sh	f	2009-05-22T05:36:21Z
 desktop/MP3Diags.desktop	f	2009-05-20T19:23:29Z
 desktop/MP3Diags16.png	f	2009-05-19T15:54:44Z
 desktop/MP3Diags16.xcf	f	2009-05-19T15:54:27Z
@@ -80,10 +80,10 @@ doc/html/004_screenshot01.html	f	2009-05-15T15:20:19Z
 doc/html/005_screenshot02.html	f	2009-05-15T15:20:19Z
 doc/html/006_screenshot03.html	f	2009-05-15T15:20:19Z
 doc/html/008_licence.html	f	2009-05-15T15:45:47Z
-doc/html/010_getting_the_program.html	f	2009-05-15T15:13:04Z
+doc/html/010_getting_the_program.html	f	2009-05-22T05:26:03Z
 doc/html/020_mp3_introduction.html	f	2009-05-15T15:13:29Z
 doc/html/030_users_guide.html	f	2009-05-15T15:20:18Z
-doc/html/040_limitations.html	f	2009-05-18T13:56:11Z
+doc/html/040_limitations.html	f	2009-05-22T06:30:25Z
 doc/html/050_assert.png	f	2009-05-14T08:48:09Z
 doc/html/050_feedback.html	f	2009-05-18T13:43:19Z
 doc/html/060_notes_for_programmers.html	f	2009-05-15T15:20:19Z
@@ -92,7 +92,7 @@ doc/html/110_first_run.html	f	2009-05-15T15:20:18Z
 doc/html/110_first_run.png	f	2009-05-15T15:28:36Z
 doc/html/120_first_scan.html	f	2009-05-15T15:20:18Z
 doc/html/120_first_scan.png	f	2009-05-13T12:15:08Z
-doc/html/130_main_window.html	f	2009-05-20T11:03:48Z
+doc/html/130_main_window.html	f	2009-05-21T07:00:29Z
 doc/html/130_main_window.png	f	2009-05-13T12:10:11Z
 doc/html/140_main_window_tools.html	f	2009-05-15T15:20:18Z
 doc/html/140_main_window_tools.png	f	2009-05-13T12:26:00Z
@@ -108,7 +108,7 @@ doc/html/180_folder_filter.png	f	2009-05-06T19:48:41Z
 doc/html/190_tag_editor.html	f	2009-05-15T15:20:18Z
 doc/html/190_tag_editor.png	f	2009-05-13T12:42:42Z
 doc/html/1pixel.png	f	2009-05-13T17:26:27Z
-doc/html/200_discogs_query.html	f	2009-05-18T09:59:15Z
+doc/html/200_discogs_query.html	f	2009-05-21T04:48:48Z
 doc/html/200_discogs_query.png	f	2009-05-18T10:02:06Z
 doc/html/210_tag_editor_assign_image.html	f	2009-05-15T15:20:19Z
 doc/html/210_tag_editor_assign_image.png	f	2009-05-14T13:51:53Z
@@ -130,14 +130,13 @@ doc/html/290_config_transf_params.html	f	2009-05-15T15:20:19Z
 doc/html/290_config_transf_params.png	f	2009-05-14T06:15:38Z
 doc/html/300_config_others.html	f	2009-05-15T15:20:19Z
 doc/html/300_config_others.png	f	2009-05-14T07:11:53Z
-doc/html/310_advanced.html	f	2009-05-15T20:43:14Z
+doc/html/310_advanced.html	f	2009-05-21T07:21:33Z
 doc/html/310_debug.png	f	2009-05-14T07:37:05Z
 doc/html/310_sessions.png	f	2009-05-14T07:53:37Z
 doc/html/310_sessions_btn.png	f	2009-05-14T07:37:29Z
 doc/html/arrow_left_small.png	f	2009-05-11T05:55:55Z
 doc/html/arrow_right_small.png	f	2009-05-11T06:13:54Z
 doc/html/index.html	f	2009-05-15T15:13:35Z
-doc/html/index.old.html	f	2009-05-08T10:01:19Z
 doc/html/logo.png	f	2009-05-14T11:20:47Z
 doc/html/screenshot1.png	f	2009-05-09T08:01:37Z
 doc/html/screenshot1_thumb.png	f	2009-05-09T08:47:56Z
@@ -159,12 +158,12 @@ doc/screenshot3.png	f	2009-05-09T08:13:16Z
 doc/screenshot3_thumb.png	f	2009-05-09T08:48:55Z
 doc/z_lines.xcf	f	2009-05-12T09:38:40Z
 doc/z_lines2.xcf	f	2009-05-12T09:51:15Z
-mp3diags.kdevelop	f	2009-05-13T10:39:58Z
-mp3diags.kdevses	f	2009-05-16T05:23:06Z
+mp3diags.kdevelop	f	2009-05-21T22:22:27Z
+mp3diags.kdevses	f	2009-05-21T22:22:20Z
 mp3diags.pro	f	2009-05-06T06:54:32Z
-package/SPECS/MP3Diags.spec	f	2009-05-20T19:21:24Z
+package/SPECS/MP3Diags.spec	f	2009-05-21T19:35:20Z
 src/About.ui	f	2009-05-15T05:59:35Z
-src/AboutDlgImpl.cpp	f	2009-05-14T17:34:59Z
+src/AboutDlgImpl.cpp	f	2009-05-21T08:37:38Z
 src/AboutDlgImpl.h	f	2009-05-06T07:26:35Z
 src/AlbumInfoDownloader.ui	f	2009-05-07T12:48:31Z
 src/AlbumInfoDownloaderDlgImpl.cpp	f	2009-05-18T10:07:30Z
@@ -220,12 +219,12 @@ src/LogModel.h	f	2009-05-06T07:30:16Z
 src/LyricsStream.cpp	f	2009-05-06T07:38:24Z
 src/LyricsStream.h	f	2009-05-06T07:30:27Z
 src/MainForm.ui	f	2009-05-15T05:58:30Z
-src/MainFormDlgImpl.cpp	f	2009-05-20T12:48:06Z
+src/MainFormDlgImpl.cpp	f	2009-05-21T07:41:17Z
 src/MainFormDlgImpl.h	f	2009-05-16T06:25:39Z
 src/Mp3Diags.qrc	f	2009-05-20T12:46:16Z
 src/Mp3Manip.cpp	f	2009-05-16T06:25:39Z
 src/Mp3Manip.h	f	2009-05-06T07:30:42Z
-src/Mp3TransformThread.cpp	f	2009-05-16T05:49:24Z
+src/Mp3TransformThread.cpp	f	2009-05-21T07:51:23Z
 src/Mp3TransformThread.h	f	2009-05-06T07:30:48Z
 src/MpegFrame.cpp	f	2009-05-06T07:38:49Z
 src/MpegFrame.h	f	2009-05-06T07:30:54Z
@@ -236,8 +235,8 @@ src/MultiLineTvDelegate.h	f	2009-05-15T06:25:51Z
 src/MusicBrainzDownloader.cpp	f	2009-05-18T08:57:16Z
 src/MusicBrainzDownloader.h	f	2009-05-16T20:50:14Z
 src/Normalize.ui	f	2009-03-17T11:12:18Z
-src/NormalizeDlgImpl.cpp	f	2009-05-06T07:39:12Z
-src/NormalizeDlgImpl.h	f	2009-05-06T07:31:23Z
+src/NormalizeDlgImpl.cpp	f	2009-05-21T07:50:34Z
+src/NormalizeDlgImpl.h	f	2009-05-21T07:38:56Z
 src/NoteFilter.ui	f	2008-10-20T10:52:11Z
 src/NoteFilterDlgImpl.cpp	f	2009-05-06T19:51:31Z
 src/NoteFilterDlgImpl.h	f	2009-05-06T07:31:28Z
@@ -275,7 +274,7 @@ src/StreamsModel.h	f	2009-05-06T07:32:41Z
 src/StructuralTransformation.cpp	f	2009-05-16T06:19:14Z
 src/StructuralTransformation.h	f	2009-05-16T06:19:14Z
 src/TagEditor.ui	f	2009-05-06T07:53:41Z
-src/TagEditorDlgImpl.cpp	f	2009-05-16T20:51:44Z
+src/TagEditorDlgImpl.cpp	f	2009-05-21T07:52:04Z
 src/TagEditorDlgImpl.h	f	2009-05-06T07:32:53Z
 src/TagEdtPatternsDlgImpl.cpp	f	2009-05-06T07:40:53Z
 src/TagEdtPatternsDlgImpl.h	f	2009-05-06T07:32:58Z
@@ -290,6 +289,7 @@ src/Transformation.cpp	f	2009-05-06T07:44:30Z
 src/Transformation.h	f	2009-05-12T07:47:19Z
 src/UniqueNotesModel.cpp	f	2009-05-06T07:41:23Z
 src/UniqueNotesModel.h	f	2009-05-06T07:33:22Z
+src/Version.cpp	f	2009-05-21T08:38:22Z
 src/Widgets.cpp	f	2009-05-06T07:41:29Z
 src/Widgets.h	f	2009-05-06T07:33:28Z
 src/images/COPYING - GPL V3.txt	f	2008-11-14T09:41:43Z
@@ -348,7 +348,7 @@ src/licences/gplv3.txt	f	2008-11-14T09:24:29Z
 src/licences/lgpl-2.1.txt	f	2009-05-14T11:38:15Z
 src/licences/lgplv3.txt	f	2008-11-14T09:24:41Z
 src/licences/zlib.txt	f	2009-05-14T11:42:40Z
-src/main.cpp	f	2009-05-20T19:19:45Z
-src/src.pro	f	2009-05-20T10:37:38Z
+src/main.cpp	f	2009-05-22T06:19:07Z
+src/src.pro	f	2009-05-22T06:21:29Z
 templates/cpp	f	2009-05-06T07:21:29Z
 templates/h	f	2009-05-06T07:21:39Z

@@ -20,6 +20,8 @@
  ***************************************************************************/
 
 
+#include  <string>
+
 #include  <QProcess>
 #include  <QScrollBar>
 #include  <QMessageBox>
@@ -30,13 +32,16 @@
 #include  "Widgets.h"
 #include  "StoredSettings.h"
 
+#include  "CommonData.h"
 
 ////#include  <QFile> // ttt remove
 
 
+using namespace std;
 
 
-NormalizeDlgImpl::NormalizeDlgImpl(QWidget* pParent, bool bKeepOpen, SessionSettings& settings) : QDialog(pParent, 0), Ui::NormalizeDlg(), m_bFinished(false), m_settings(settings)
+
+NormalizeDlgImpl::NormalizeDlgImpl(QWidget* pParent, bool bKeepOpen, SessionSettings& settings, const CommonData* pCommonData) : QDialog(pParent, 0), Ui::NormalizeDlg(), m_bFinished(false), m_settings(settings), m_pCommonData(pCommonData)
 {
     setupUi(this);
     m_pKeepOpenCkM->setChecked(bKeepOpen);
@@ -52,12 +57,23 @@ NormalizeDlgImpl::~NormalizeDlgImpl()
 }
 
 
+void logTransformation(const string& strLogFile, const char* szActionName, const string& strMp3File);
+
+
 void NormalizeDlgImpl::normalize(const QString& qstrProg, const QStringList& lFiles)
 {
     m_pProc = new QProcess(this);
     connect(m_pProc, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onFinished()));
     connect(m_pProc, SIGNAL(readyReadStandardOutput()), this, SLOT(onOutputTxt()));
     connect(m_pProc, SIGNAL(readyReadStandardError()), this, SLOT(onErrorTxt()));
+
+    if (m_pCommonData->m_bLogTransf)
+    {
+        for (int i = 0; i < lFiles.size(); ++i)
+        {
+            logTransformation(m_pCommonData->m_strTransfLog, "Normalize", convStr(lFiles[i]));
+        }
+    }
 
     QStringList l (qstrProg.split(" ", QString::SkipEmptyParts)); // ttt2 perhaps accomodate params that contain spaces, but mp3gain doesn't seem to need them;
     QString qstrName (l.front());
@@ -158,6 +174,7 @@ void NormalizeDlgImpl::onFinished()
 {
     if (m_bFinished) { return; } // !!! needed because sometimes terminating with kill() triggers onFinished() and sometimes it doesn't
     m_bFinished = true;
+    // !!! doesn't need to destroy m_pProc and QAction, because they will be destroyed anyway when the dialog will be destroyed, which is going to be pretty soon
     if (m_pKeepOpenCkM->isChecked())
     {
         addText("==================================\nFinished");

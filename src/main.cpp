@@ -213,10 +213,10 @@ int main(int argc, char *argv[])
 //"undefined reference to `qInitResources_application()'"
 
 
-//ttt0 sign package
+//ttt1 perhaps sign package
 
 /*
-ttt0 rpmlint:
+rpmlint:
 
 
 MP3Diags.x86_64: W: no-changelogname-tag
@@ -257,7 +257,11 @@ E: MP3Diags filename-not-utf8 /usr/share/applications/MP3Diags.desktop
 E: MP3Diags filename-not-utf8 /usr/bin/MP3Diags
 
 
+local build on 10.3:
 
+WARNING: Category "Audio" is unknown !
+WARNING: it is ignored, until you registered a Category at adrian@suse.de .
 
 */
+
 

@@ -61,14 +61,6 @@ Links are not supported for images. This is bad if you REALLY need to scan your 
 
 
 <div class="FreeNormalText RegFnt ChpCol2">
-The only format available for saving track information is ID3V2.3.0
-</div>
-
-<div class="NormalText RegFnt ChpCol2">
-Some text frame formats in ID3V2.4.0 aren't supported yet, including UTF-8. (This can be added esily but I haven't seen a file using it.)
-</div>
-
-<div class="NormalText RegFnt ChpCol2">
 Processing ID3V2 only keeps one copy of the known frames except for images; multiple images are kept, as long as they only they have different image types (and the settings say to keep them.) The other frames are supposed to have only one instance, except for POPM (which is used for ratings), so this is the only case where valid data is lost; that is, assuming anybody has files containing multiple POPM frames.
 </div>
 
@@ -77,7 +69,16 @@ The e-mail address in POPM frames is ignored at reading and erased at saving.
 </div>
 
 
-ttt0 doesn't detect missing frames
+<div class="FreeNormalText RegFnt ChpCol1">
+The only format available for saving track information is ID3V2.3.0
+</div>
+
+
+<div class="FreeNormalText RegFnt ChpCol2">
+Some text frame formats in ID3V2.4.0 aren't supported yet, including UTF-8. (This can be added easily but I haven't seen a file using it.)
+</div>
+
+
 
 <div class="FreeNormalText RegFnt ChpCol1">
 MP3 Diags expects folders to be albums, having less than 30 files. If this is not the case, it's better to avoid using the tag editor, which might take a long time to load, especially if the files contain images. Even if the tag editor loads OK, it is designed for albums, so it may do things that make no sense for random collections of files (e.g. assigning the same image to all the files.)
@@ -92,7 +93,14 @@ Symbolic links aren't handled nicely. I noticed that they get dereferenced by Qt
 There is no automatic detection of a file being changed by an external tool or removed. You should use the "reload" button to update the file information. However the changes are detected the next time you start the application (assuming you didn't disable the automatic scanning.)
 </div>
 
-ttt0 UTF-8 file system
+<div class="FreeNormalText RegFnt ChpCol2">
+It is possible for audio frames to store some of their data in the neighbouring frames, but I haven't looked into how to detect when this is happening. Currently MP3 Diags only reads the header of the audio frames (which doesn't have neighbour information.) As a result, it doesn't detect that some frames are missing or should be deleted.
+</div>
+
+<div class="FreeNormalText RegFnt ChpCol1">
+The function calls to the file system (open file, search for files, ...) provide and expect UTF-8-encoded file names. This is important if you have file names using non-English characters (or rather non-ASCII, to be more correct.) I have no idea how big this issue is, because the test systems use UTF-8. It may be that the file names are displayed incorrectly, but the files are still processed, or it may lead to more serious errors. So please <a href="050_feedback.html">tell me</a> if you seem to encounter errors related to this or if you can provide more insight into UTF-8 handling.
+</div>
+
 
 <div class="NavPadTable RegFnt ChpCol2">
 <table border="0" cellpadding="0" cellspacing="0">

@@ -24,6 +24,7 @@
 
 #include  "AboutDlgImpl.h"
 
+extern const char* APP_VER;
 
 AboutDlgImpl::AboutDlgImpl(QWidget* pParent /*= 0*/) : QDialog(pParent), Ui::AboutDlg()
 {
@@ -50,7 +51,7 @@ AboutDlgImpl::AboutDlgImpl(QWidget* pParent /*= 0*/) : QDialog(pParent), Ui::Abo
         "Home page: <a href=\"http://www.sourceforge.com/\">http://www.sourceforge.com</a><p/>"
         "Documentation: <a href=\"http://www.sourceforge.com/\">http://www.sourceforge.com</a>"); //ttt0
 
-    m_pVersionL->setText("MP3 Diags 0.99.0.1");
+    m_pVersionL->setText(QString("MP3 Diags ") + APP_VER);
 
     initText(m_pGplV2M, ":/licences/gplv2.txt");
     initText(m_pGplV3M, ":/licences/gplv3.txt");

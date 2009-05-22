@@ -37,6 +37,15 @@ using namespace std;
 //using namespace pearl;
 
 
+void logTransformation(const string& strLogFile, const char* szActionName, const string& strMp3File)
+{
+    time_t t (time(0));
+    ofstream out (strLogFile.c_str(), ios_base::app);
+    out << "<" << strMp3File << "> <" << szActionName << "> - " << ctime(&t); // !!! ctime and a \n
+}
+
+
+
 namespace {
 
 
@@ -83,11 +92,9 @@ struct Mp3TransformThread : public PausableThread
 
 
 
-void logTransformation(const string& strFile, const char* szActionName, const Mp3Handler* pHandler)
+void logTransformation(const string& strLogFile, const char* szActionName, const Mp3Handler* pHandler)
 {
-    time_t t (time(0));
-    ofstream out (strFile.c_str(), ios_base::app);
-    out << "<" << pHandler->getName() << "> <" << szActionName << "> - " << ctime(&t); // !!! ctime and a \n
+    ::logTransformation(strLogFile, szActionName, pHandler->getName());
 }
 
 

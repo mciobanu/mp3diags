@@ -13,19 +13,24 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-build
 
 Packager: Ciobi
 
-BuildRequires: zlib-devel boost-devel libqt4-devel
 #BuildRequires: libqt4-devel
 #BuildRequires: boost-devel
 # ??? ttt0
 
-%if %{?suse_version}
+%if 0%{?suse_version} > 0000
+BuildRequires: zlib-devel boost-devel libqt4-devel
 BuildRequires: update-desktop-files
+%endif
+
+%if 0%{?fedora} || 0%{?fedora_version}
+#BuildRequires: qt-devel qt-config
+BuildRequires: qt-devel zlib-devel boost-devel gcc-c++
 %endif
 
 %description
 Finds problems in MP3 files and helps the user to fix many of them. Looks at both the audio part (VBR info, quality, normalization) and the tags containing track information (ID3.)
 
-Has a tag editor, which is capable of downloading album information (including cover art) from MusicBrainz and Discogs, as well as pasting these from the clipboard. Track information can also be extracted from a file's name.
+Has a tag editor, which is capable of downloading album information (including cover art) from MusicBrainz and Discogs, as well as pasting data from the clipboard. Track information can also be extracted from a file's name.
 
 Another component is the file renamer, which can rename files based on the fields in their tags (artist, track number, album, genre, ...)
 
@@ -37,7 +42,15 @@ Another component is the file renamer, which can rename files based on the field
 #ttt0 echo ... > $RPM_BUILD_DIR/MP3Diags-%{version}/src
 
 %build
+
+%if 0%{?suse_version}
 qmake
+%endif
+
+%if 0%{?fedora} || 0%{?fedora_version}
+qmake-qt4
+%endif
+
 make
 strip $RPM_BUILD_DIR/MP3Diags-%{version}/bin/MP3Diags
 
@@ -84,9 +97,11 @@ cp $RPM_BUILD_DIR/MP3Diags-%{version}/desktop/MP3Diags48.png $RPM_BUILD_ROOT%{_d
 #%dir $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps
 #cp $RPM_BUILD_DIR/MP3Diags-%{version}/desktop/MP3Diags48.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps/MP3Diags.png
 
-%if %{?suse_version}
+
+
+%if 0%{?suse_version} > 0000
 %suse_update_desktop_file -n MP3Diags
-echo ================ SUSE ================ SUSE ================
+#echo ================ SUSE ================ SUSE ================
 %endif
 #error with suse_update_desktop_file -in MP3Diags , perhaps try suse_update_desktop_file -n -i MP3Diags
 

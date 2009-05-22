@@ -122,13 +122,13 @@
       <programargs/>
       <directoryradio>executable</directoryradio>
       <runarguments>
-        <MP3Diags/>
+        <MP3Diags></MP3Diags>
       </runarguments>
       <cwd>
         <MP3Diags>/home/ciobi/cpp/Mp3Utils/MP3Diags/..</MP3Diags>
       </cwd>
       <debugarguments>
-        <MP3Diags/>
+        <MP3Diags></MP3Diags>
       </debugarguments>
     </run>
     <general>

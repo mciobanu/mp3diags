@@ -68,14 +68,37 @@ The development system is openSUSE 10.3, and I also compiled MP3 Diags on openSU
 
 <div class="NormalText RegFnt ChpCol2">
 In order to compile the project, these packages should be installed:
-<ul class="ListLev1">
-    <li> g++ </li>
-    <li> libqt4-devel (Qt 4.3.1; something above should be OK too, but there may be some UI glitches, about which <a href="050_feedback.html">I'd like to know</a>) </li>
-    <li> zlib-devel </li>
-    <li> boost-devel </li>
-</ul>
-(Well, this is how the packages are called on openSUSE 10.3; they may have sligtly different names, e.g. g++, libqt4-dev, zlib1g-dev and boost-dev on Ubuntu 9.04)
 </div>
+
+<div class="NormalText RegFnt ChpCol2 GenericSpace">
+<table border="1" cellpadding="3" cellspacing="1" class="TableText RegFnt ChpCol1">
+    <tr>
+        <td> <b>Generic name</b> </td>
+        <td> C++ compiler, Qt4 development, zlib development, Boost development </td>
+    </tr>
+    <tr>
+        <td> <b>openSUSE 10.3, openSUSE 11.1</b> </td>
+        <td> g++, libqt4-devel, zlib-devel, boost-devel </td>
+    </tr>
+    <tr>
+        <td> <b>Ubuntu 9.04</b> </td>
+        <td> g++, libqt4-dev, zlib1g-dev, boost-dev </td>
+    </tr>
+    <tr>
+        <td> <b>Fedora 10</b> </td>
+        <td> gcc-c++, qt-devel, zlib-devel, boost-devel </td>
+    </tr>
+    <tr>
+        <td> <b>Others</b> </td>
+        <td> to be determined </td>
+    </tr>
+</table>
+</div>
+
+<div class="NormalText RegFnt ChpCol2">
+Qt 4.3.1 is the one that was used for development. Something above should be OK too, but there may be some UI glitches, about which <a href="050_feedback.html">I'd like to know</a>.
+</div>
+
 
 <div class="NormalText RegFnt ChpCol2">
 If you find some other required package, please <a href="050_feedback.html">let me know</a>.
@@ -95,11 +118,11 @@ Compiling &amp; installing
 
 
 <div class="NormalText RegFnt ChpCol1">
-After unpacking the surce to some directory, just run Install.sh in that directory. Note that double-clicking the script in some file browser may work or not, depending on the "current directory" being set properly and on whether a terminal window gets opened so you can type the root password to get the executable copied to /usr/local/bin. Other options are to manually run the 3 commands in <span class="Reference">Install.sh</span>, or to compile the project from KDevelop 3.5, if you have it.
+After unpacking the surce to some directory, just run Install.sh in that directory. Note that double-clicking the script in some file browser may work or not, depending on the "current directory" being set properly and on whether a terminal window gets opened so you can type the root password to get the executable copied to /usr/local/bin. Other options are to manually run the relevant 3 commands in <span class="Reference">Install.sh</span>, or to compile the project from KDevelop 3.5, if you have it (though you might still have to change the name of qmake.)
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-Uninstallation can be done through <span class="Reference">Uninstall.sh</span>. You probably created some data files, and if you are sure you no longer need them you should remove them manually. Note that the data files come in pairs. Although you only specify an ".ini" file when you start the program for the first time (or when you create a new session ttt0 link), two files get created. The ".ini" only stores settings, while the actual data is stored in a file in the same directory and with the same name but with the extension ".dat".
+Uninstallation can be done through <span class="Reference">Uninstall.sh</span>. You probably created some data files, and if you are sure you no longer need them you should remove them manually. Note that the data files come in pairs. Although you only specify an ".ini" file when you start the program for the first time (or when you <a href="310_advanced.html">create a new session</a>), two files get created. The ".ini" only stores settings, while the actual data is stored in a file in the same directory and with the same name but with the extension ".dat".
 </div>
 
 <div class="NavPadTable RegFnt ChpCol2">

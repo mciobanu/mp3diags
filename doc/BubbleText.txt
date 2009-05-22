@@ -140,7 +140,7 @@ If a result is found, it is possible to save just the image (if there is one), o
 It is possible to manually launch a new search
 
 //As data is received from the internet, the status is updated
-The interaction with the databse is logged here
+The interaction with the database is logged here
 
 -----------------------------------
 
@@ -180,7 +180,7 @@ MP3 Diags doesn't do normalization itself, but relies on an external program. Go
 
 You may keep the original file
 
-Among other things, the selected pattern adds a "-" between the track number and title
+Among other things, the selected pattern adds a "-" between the track number and title and removes the rating
 
 You have to define at least a pattern. It makes sense to have different patterns for "single artist" and "various artists" albums. Press on one of them to select it.
 

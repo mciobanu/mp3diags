@@ -213,6 +213,12 @@ int main(int argc, char *argv[])
 //"undefined reference to `qInitResources_application()'"
 
 
+
+
+
+
+
+
 //ttt1 perhaps sign package
 
 /*

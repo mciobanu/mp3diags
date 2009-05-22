@@ -5,23 +5,24 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="keywords" content="MP3, diags, diagnosis, tag editor, tagger, normalizer" />
 <meta name="description" content="End-user documentation for MP3 Diags, an MP3 analysis tool that also includes correction and tag editing functionality" />
-<title>MP3 Diags</title>
+<title>MP3 Diags - Main window - Tools</title>
 <link rel="stylesheet" type="text/css" media="screen" href="style.css">
 <!--[if lte IE 6]>  <link rel="stylesheet" type="text/css" href="style_ie6.css" />  <![endif]-->
 <!--[if IE 7]>  <link rel="stylesheet" type="text/css" href="style_ie7.css" />  <![endif]-->
 </head>
 
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
 <body>
 
-<div class="NormalText RegFnt ChpCol1">
-<table width=100% border="0" cellpadding="5" cellspacing="2" class="TitleText RegFnt">
+<div class="HeaderTableText RegFnt ChpCol1">
+<table width=100% class="HeaderTable">
     <tr>
-        <td border="0" class="TitleText">
-            <a href="index.html"> <img src="logo.png" border="0" alt="MP3 Diags" /> </a>
+        <td border="0" class="HeaderText">
+            <span class="HeaderPadLeft"><a href="index.html"><img src="logo.png" border="0" alt="MP3 Diags" align=middle /></a></span>
         </td>
-        <td border="0" class="RightAlign">
-            Hosted by SF
-        </td>
+        <!-- <td border="0" class="RightAlign"><span class="HeaderPadRight">Hosted by SF</span></td> -->
     </tr>
 </table>
 </div>
@@ -69,21 +70,21 @@ border="0" class="RightAlign"
 
 
 <div class="FreeNormalText RegFnt WarnCol">
-<span class="WarnCol"> Before going any further, I should state the obvious: if you like your files and they don't bother you, then you probably shouldn't change them. Anyway, if MP3 Diags finds errors, it is possible for you to have problems playing those files with other players or processing them with other tools, but it's still probably a good idea to delay any changes until they seem to be needed. When you start to make changes, it's probably best to just back up all your files before proceeding. Or you may want to use the backup facilities that MP3 Diags provide, by using the simple option provided at startup or by playing with various options in the <a href="250_config_files.html" class="Warn">configuration</a>. </span>
+<span class="WarnCol"> Before going any further, I should state the obvious: if you like your files and they don't bother you, then you probably shouldn't change them. Anyway, if MP3 Diags finds errors, it is possible for you to have problems playing those files with other players or processing them with other tools. Still, it's a good idea to delay any changes until they seem to be needed. When you start to make changes, it's probably best to just back up all your files before proceeding. Or you may want to use the backup functionality that MP3 Diags provides, by using the simple option provided at startup or by playing with various options in the <a href="250_config_files.html" class="Warn">configuration</a>. </span>
 </div>
 
 
 
 
 <div class="FreeNormalText RegFnt ChpCol2">
-There are two ways to change a file in MP3 Diags: saving ID3V2 tags in the <a href="190_tag_editor.html">tag editor</a> and applying a "transformation" (or a "transformation list"); there are some configuration settings that determine what happens with the files when transformations are applied, and, because saving changes in the tag editor is treated internally as just another transformation, these settings also concern saving ID3V2. (Well, there's also a third way to change files, the <a href="230_normalize.html">normalization</a>, but that's done by an external program, so it's a different story. All that MP3 Diags does with the files when asked to do a normalization is rescan them after calling the external program.)
+There are two ways to change a file in MP3 Diags: saving ID3V2 tags in the <a href="190_tag_editor.html">tag editor</a> and applying a "transformation" (or a "transformation list"); there are some configuration settings that determine what happens with the files when transformations are applied, and, because saving from the tag editor is treated internally as just another transformation, these settings also concern saving ID3V2. (Well, there's also a third way to change files, the <a href="230_normalize.html">normalization</a>, but that's done by an external program, so it's a different story. All that MP3 Diags does with the files when asked to do a normalization is rescan them after calling the external program.)
 </div>
 
 
 <div class="FreeNormalText RegFnt ChpCol1">
 There are more than 20 transformations that can be applied to an MP3 file or to a group of files. There are 2 ways to apply transformations:
 <ol class="ListNum1">
-    <li> Pick a single transformation from the menu that opens when clicking on the "Apply a single transformation button" </li>
+    <li> Pick a single transformation from the menu that opens when clicking on the "Apply a single transformation" button </li>
     <li> Click on one of the four buttons corresponding to the four "Custom transformation lists" </li>
 </ol>
 
@@ -92,11 +93,11 @@ Normally transformations are applied to all the files that are visible (well, or
 
 
 <div class="FreeNormalText RegFnt ChpCol2">
-You can get an idea about what the "custom transformation lists" are good for by looking at the default values (either by holding the mouse over the buttons, to show tooltips, or by going to the <a href="270_config_custom_transf.html">configuration</a>). The point is that for some of the 20+ transformations it makes sense to apply them sequentially to a file to achieve a "higher goal". In the default configuration, the first custom button fixes the audio part of a file, the second takes care of the ID3V2 tag, while the third cleans up the rest of the file.
+You can get an idea about what the "custom transformation lists" are good for by looking at the default values (either by holding the mouse over the buttons, to show tooltips, or by going to the <a href="270_config_custom_transf.html">configuration</a>.) The point is that for some of the 20+ transformations it makes sense to apply them sequentially to a file to achieve a "higher goal". In the default configuration, the first custom button fixes the audio part of a file, the second takes care of the ID3V2 tag, while the third cleans up the rest of the file.
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-So why use three lists when one could do everything? Well, because I feel more comfortable this way. Personally, I like to review the effects of some changes before going any further, and this grouping seems to work best for me. Anyway, the fourth list is empty by default, and you can configure it as well as the first three to do whatever you want.
+So why use three lists when one could do everything? Well, because I feel more comfortable this way. Personally, I like to review the effects of some changes before going any further, and this grouping seems to work best for me. Anyway, the fourth list is empty by default, and you can configure it, as well as the first three, to do whatever you want.
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol1">
@@ -158,6 +159,29 @@ qqq <a href="145_transformations_list.html"> <img src="logo.png" border=0 align=
 </table>
 </div>
 
+
+
+<!-- Start of StatCounter Code -->
+
+    <script type="text/javascript">
+        var sc_project=4765268;
+        var sc_invisible=1;
+        var sc_partition=54;
+        var sc_click_stat=1;
+        var sc_security="b8120652";
+    </script>
+
+    <script type="text/javascript" src="http://www.statcounter.com/counter/counter.js"></script>
+
+    <noscript>
+        <div class="statcounter">
+            <a title="website statistics" href="http://www.statcounter.com/" target="_blank">
+                <img class="statcounter" src="http://c.statcounter.com/4765268/0/b8120652/1/" alt="website statistics" >
+            </a>
+        </div>
+    </noscript>
+
+<!-- End of StatCounter Code -->
 
 </body>
 

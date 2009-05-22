@@ -1757,7 +1757,7 @@
                <item>
                 <widget class="QCheckBox" name="m_pScanAtStartupCkB" >
                  <property name="text" >
-                  <string>Scan for new and deleted files at startup</string>
+                  <string>Scan for new, modified, and deleted files at startup</string>
                  </property>
                 </widget>
                </item>

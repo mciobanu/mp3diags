@@ -5,23 +5,24 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="keywords" content="MP3, diags, diagnosis, tag editor, tagger, normalizer" />
 <meta name="description" content="End-user documentation for MP3 Diags, an MP3 analysis tool that also includes correction and tag editing functionality" />
-<title>MP3 Diags</title>
+<title>MP3 Diags - Tag editor - Patterns</title>
 <link rel="stylesheet" type="text/css" media="screen" href="style.css">
 <!--[if lte IE 6]>  <link rel="stylesheet" type="text/css" href="style_ie6.css" />  <![endif]-->
 <!--[if IE 7]>  <link rel="stylesheet" type="text/css" href="style_ie7.css" />  <![endif]-->
 </head>
 
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
 <body>
 
-<div class="NormalText RegFnt ChpCol1">
-<table width=100% border="0" cellpadding="5" cellspacing="2" class="TitleText RegFnt">
+<div class="HeaderTableText RegFnt ChpCol1">
+<table width=100% class="HeaderTable">
     <tr>
-        <td border="0" class="TitleText">
-            <a href="index.html"> <img src="logo.png" border="0" alt="MP3 Diags" /> </a>
+        <td border="0" class="HeaderText">
+            <span class="HeaderPadLeft"><a href="index.html"><img src="logo.png" border="0" alt="MP3 Diags" align=middle /></a></span>
         </td>
-        <td border="0" class="RightAlign">
-            Hosted by SF
-        </td>
+        <!-- <td border="0" class="RightAlign"><span class="HeaderPadRight">Hosted by SF</span></td> -->
     </tr>
 </table>
 </div>
@@ -111,7 +112,7 @@ If a pattern contains the character <span class="Reference">/</span>, it is "fil
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol2">
-Both kinds of patterns are edited in the "Patterns" dialog. Only valid patterns can be saved. Besides the rather obvious <span class="Reference">%</span> followed by a character that is not listed in the sequences above, there's another condition that causes a pattern to be invalid, namely 2 consecutive "unbound placeholders": %n, %y and %r have a fixed format, but the rest are unbound, meaning that they would take any characters as long as there's nothing to tell them where to stop. With 2 unbound placeholders there's no way to tell where one should end and the other should begin. So <span class="Reference">%a%t</span> is invalid (as is any pattern containing it), while <span class="Reference">%a-%t</span> is valid, because <span class="Reference">-</span> is used to identify where the artist name ends and the track title begins. However, <span class="Reference">%y%t</span> is valid, because <span class="Reference">%y</span> is a 4-digit number.
+Both kinds of patterns are edited in the "Patterns" dialog. Only valid patterns can be saved. Besides the rather obvious <span class="Reference">%</span> followed by a character that is not part of the placeholder list above, there's another condition that causes a pattern to be invalid, namely 2 consecutive "unbound placeholders": %n, %y and %r have a fixed format, but the rest are unbound, meaning that they would take any characters as long as there's nothing to tell them where to stop. With 2 unbound placeholders there's no way to tell where one should end and the other should begin. So <span class="Reference">%a%t</span> is invalid (as is any pattern containing it), while <span class="Reference">%a-%t</span> is valid, because <span class="Reference">-</span> is used to identify where the artist name ends and the track title begins. However, <span class="Reference">%y%t</span> is valid, because <span class="Reference">%y</span> is a 4-digit number.
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol2">
@@ -119,7 +120,7 @@ Patterns may have optional parts, which are delimited by "[" and "]". One option
 </div>
 
 <div class="SubChapterText RegFnt ChpCol1">
-Some reasons to use patterns even if you find an album on the Internet
+Some reasons to use patterns even if you find album info on the Internet
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
@@ -147,6 +148,29 @@ Your may want to adopt my system of including a song's rating in the file: I use
 </table>
 </div>
 
+
+
+<!-- Start of StatCounter Code -->
+
+    <script type="text/javascript">
+        var sc_project=4765268;
+        var sc_invisible=1;
+        var sc_partition=54;
+        var sc_click_stat=1;
+        var sc_security="b8120652";
+    </script>
+
+    <script type="text/javascript" src="http://www.statcounter.com/counter/counter.js"></script>
+
+    <noscript>
+        <div class="statcounter">
+            <a title="website statistics" href="http://www.statcounter.com/" target="_blank">
+                <img class="statcounter" src="http://c.statcounter.com/4765268/0/b8120652/1/" alt="website statistics" >
+            </a>
+        </div>
+    </noscript>
+
+<!-- End of StatCounter Code -->
 
 </body>
 

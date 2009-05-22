@@ -5,23 +5,24 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="keywords" content="MP3, diags, diagnosis, tag editor, tagger, normalizer" />
 <meta name="description" content="End-user documentation for MP3 Diags, an MP3 analysis tool that also includes correction and tag editing functionality" />
-<title>MP3 Diags</title>
+<title>MP3 Diags - Short MP3 introduction</title>
 <link rel="stylesheet" type="text/css" media="screen" href="style.css">
 <!--[if lte IE 6]>  <link rel="stylesheet" type="text/css" href="style_ie6.css" />  <![endif]-->
 <!--[if IE 7]>  <link rel="stylesheet" type="text/css" href="style_ie7.css" />  <![endif]-->
 </head>
 
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
 <body>
 
-<div class="NormalText RegFnt ChpCol1">
-<table width=100% border="0" cellpadding="5" cellspacing="2" class="TitleText RegFnt">
+<div class="HeaderTableText RegFnt ChpCol1">
+<table width=100% class="HeaderTable">
     <tr>
-        <td border="0" class="TitleText">
-            <a href="index.html"> <img src="logo.png" border="0" alt="MP3 Diags" /> </a>
+        <td border="0" class="HeaderText">
+            <span class="HeaderPadLeft"><a href="index.html"><img src="logo.png" border="0" alt="MP3 Diags" align=middle /></a></span>
         </td>
-        <td border="0" class="RightAlign">
-            Hosted by SF
-        </td>
+        <!-- <td border="0" class="RightAlign"><span class="HeaderPadRight">Hosted by SF</span></td> -->
     </tr>
 </table>
 </div>
@@ -51,12 +52,12 @@
 The high-level structure of an MP3 file is quite simple: a sequence of blocks of data, each of them with a well defined function and format. MP3 Diags calls these blocks of data "streams" (for lack of a better word.) Some of the streams are formally known as "headers" or "tags". Here's the list of streams that MP3 Diags handles:
 
 <ol class="ListNum1">
-    <li class="ListSpace"> <b>MPEG audio stream</b>. This is the most important, because it contains the actual audio data. Normally it's also the biggest. MP3 files should contain "MPEG 1 Layer III" data, but sometimes they have something different (e.g. "MPEG 1 Layer II"). MP3 Diags should be able to handle these files as long as they have an ".mp3" extension </li>
+    <li class="ListSpace"> <b>MPEG audio stream</b>. This is the most important, because it contains the actual audio data. Normally it's also the biggest. MP3 files should contain "MPEG 1 Layer III" data, but sometimes they have something different (e.g. "MPEG 1 Layer II"). MP3 Diags should be able to handle these files as long as they have an ".mp3" extension. Note, though, that very little testing was done for files that are not "MPEG 1 Layer III". </li>
     <li class="ListSpace"> <b>ID3V1 tag</b>. This is an old and quite limited tag that stores track information (artist, title, ...) </li>
     <li class="ListSpace"> <b>ID3V2 tag</b>. Also stores track information, but it is a lot more flexible than ID3V1 and allows storing of many things that can't be stored in ID3V1, like cover art, rating, or composer. There are several versions of it, and MP3 Diags can read data from ID3V2.3.0 (which seems the most popular) and from ID3V2.4.0, and can write to ID3V2.3.0 </li>
     <li class="ListSpace"> <b>Ape tag</b>. Another tag that stores track information. I tried to implement reading from it, but I don't have any file that uses the tag for track info, so I don't know how well that works. This tag is also used to store normalization info, which is handled by MP3 Diags and seems to be working fine. </li>
     <li class="ListSpace"> <b>Lyrics tag</b>. Track info, lyrics, more. The support for this is very limited. No information is read from or written to it, but it doesn't get removed either, so it should be usable by a player after MP3 Diags processes a file that has such a tag. </li>
-    <li class="ListSpace"> <b>Xing header</b>. Information about the audio stream (size, quality, ...). This is important for VBR files, because some players get confused by VBR files that don't have a Xing header. </li>
+    <li class="ListSpace"> <b>Xing header</b>. Information about the audio stream (size, quality, ...). Some players get confused by VBR files that don't have a Xing header, so it should be added if it's missing. </li>
     <li class="ListSpace"> <b>LAME header</b>. An improved version of the Xing header, which is found in files created with the popular <a href="http://lame.sourceforge.net/">LAME</a> encoder. Currently MP3 Diags doesn't use the extra features, and threats LAME and Xing headers the same. </li>
     <li class="ListSpace"> <b>VBRI header</b>. Also for handling VBR files, but many tools don't recognize it, so switching to a Xing header is usually a good idea (and MP3 Diags can do it.) </li>
     <li class="ListSpace"> <b>Null stream</b>. A sequence of zeroes that doesn't belong to other stream. MP3 files shouldn't contain null streams. </li>
@@ -115,6 +116,30 @@ Another issue with CDs and audio files in general is that different CDs might ha
 
 
 
+
+<!-- Start of StatCounter Code -->
+
+    <script type="text/javascript">
+        var sc_project=4765268;
+        var sc_invisible=1;
+        var sc_partition=54;
+        var sc_click_stat=1;
+        var sc_security="b8120652";
+    </script>
+
+    <script type="text/javascript" src="http://www.statcounter.com/counter/counter.js"></script>
+
+    <noscript>
+        <div class="statcounter">
+            <a title="website statistics" href="http://www.statcounter.com/" target="_blank">
+                <img class="statcounter" src="http://c.statcounter.com/4765268/0/b8120652/1/" alt="website statistics" >
+            </a>
+        </div>
+    </noscript>
+
+<!-- End of StatCounter Code -->
+
 </body>
 
 </html>
+

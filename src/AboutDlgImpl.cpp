@@ -48,8 +48,7 @@ AboutDlgImpl::AboutDlgImpl(QWidget* pParent /*= 0*/) : QDialog(pParent), Ui::Abo
         "Using original and modified icons from the <a href=\"http://www.oxygen-icons.org/\">Oxygen Project</a> for <a href=\"http://www.kde.org/\">KDE 4</a>, distributed under <a href=\"http://www.gnu.org/licenses/lgpl.html\">LGPL V3</a><p/>"
         "Using web services provided by <a href=\"http://www.discogs.com/\">Discogs</a> to retrieve album data<p/>"
         "Using web services provided by <a href=\"http://musicbrainz.org/\">MusicBrainz</a> to retrieve album data<p/><p/>"
-        "Home page: <a href=\"http://www.sourceforge.com/\">http://www.sourceforge.com</a><p/>"
-        "Documentation: <a href=\"http://www.sourceforge.com/\">http://www.sourceforge.com</a>"); //ttt0
+        "Home page and documentation: <a href=\"http://web.clicknet.ro/mciobanu/mp3diags\">http://web.clicknet.ro/mciobanu/mp3diags</a><p/>");
 
     m_pVersionL->setText(QString("MP3 Diags ") + APP_VER);
 

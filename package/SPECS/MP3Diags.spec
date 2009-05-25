@@ -30,9 +30,9 @@ BuildRequires: qt-devel zlib-devel boost-devel gcc-c++
 %description
 Finds problems in MP3 files and helps the user to fix many of them. Looks at both the audio part (VBR info, quality, normalization) and the tags containing track information (ID3.)
 
-Has a tag editor, which is capable of downloading album information (including cover art) from MusicBrainz and Discogs, as well as pasting data from the clipboard. Track information can also be extracted from a file's name.
+Has a tag editor, which can download album information (including cover art) from MusicBrainz and Discogs, as well as paste data from the clipboard. Track information can also be extracted from a file's name.
 
-Another component is the file renamer, which can rename files based on the fields in their tags (artist, track number, album, genre, ...)
+Another component is the file renamer, which can rename files based on the fields in their ID3V2 tag (artist, track number, album, genre, ...)
 
 
 
@@ -143,5 +143,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon May 25 2009 ciobi
+- improved font handling
+- minor UI tweaks
+
 * Tue May 19 2009 ciobi
 - initial version

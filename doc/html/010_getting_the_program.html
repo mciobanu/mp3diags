@@ -76,7 +76,7 @@ Requirements
 
 
 <div class="NormalText RegFnt ChpCol2">
-The development system is openSUSE 10.3, and I also compiled MP3 Diags on openSUSE 11.1 and it seemed to work fine. I expect most Linux distributions from 2007 or newer to be able to compile and run it. Based on what I know, porting to Windows should be rather trivial as long as MinGW is used, but currently the program should trigger assertion failures (assuming that it compiles at all.) Porting to MSVC is not something that I plan to do. It involves more work than MinGW.
+The development system is openSUSE 10.3, and I also compiled MP3 Diags on openSUSE 11.1 and it seemed to work fine. I expect most Linux distributions from 2007 or newer to be able to compile and run it (perhaps after some Install.sh tweaks.) Based on what I know, porting to Windows should be rather trivial as long as MinGW is used, but currently the program should trigger assertion failures (assuming that it compiles at all.) Porting to MSVC is not something that I plan to do. It involves more work than MinGW.
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
@@ -95,7 +95,7 @@ In order to compile the project, these packages should be installed:
     </tr>
     <tr>
         <td> <b>Ubuntu 9.04</b> </td>
-        <td> g++, libqt4-dev, zlib1g-dev, boost-dev </td>
+        <td> g++, libqt4-dev, zlib1g-dev, libboost1.35-dev </td>
     </tr>
     <tr>
         <td> <b>Fedora 10</b> </td>
@@ -110,6 +110,11 @@ In order to compile the project, these packages should be installed:
 
 <div class="NormalText RegFnt ChpCol2">
 Qt 4.3.1 is the one that was used for development. Something above should be OK too, but there may be some UI glitches, about which <a href="050_feedback.html">I'd like to know</a>.
+</div>
+
+
+<div class="NormalText RegFnt ChpCol2">
+If you want to use GCC 4.4 or above, you need Boost 1.37 or later (see <a href="http://bugs.xmms2.xmms.se/view.php?id=2215">http://bugs.xmms2.xmms.se/view.php?id=2215</a>.)
 </div>
 
 

@@ -88,10 +88,19 @@ QSize MultiLineTvDelegate::sizeHint(const QStyleOptionViewItem& option, const QM
 //qDebug("sz %s %d %d", "", res.width(), res.height());
     res.setWidth(nColWidth);
 //res.setHeight(res.height() + 6);
-    if (m_nAddPerLine > 0)
+    /*if (1 == m_nAddPerLine)
     {
         res.setHeight(res.height() + res.height()/m_nLineHeight - 1);
         //res.setHeight(res.height() + res.height()/m_nLineHeight); // ??m_nAddPerLine
+    }
+    else if (2 == m_nAddPerLine)
+    {
+        res.setHeight(res.height() + 2*res.height()/m_nLineHeight - 2);
+    }
+    else
+    */if (m_nAddPerLine > 0)
+    {
+        res.setHeight(res.height() + m_nAddPerLine*(res.height()/m_nLineHeight - 1));
     }
 //if (s.startsWith("No normal"))
 //qDebug("adj sz %s %d %d", "", res.width(), res.height());
@@ -119,7 +128,7 @@ QSize MultiLineTvDelegate::sizeHint(const QStyleOptionViewItem& option, const QM
 }*/
 
 
-void MultiLineTvDelegate::calibrate(const QFontMetrics& fm, const QFont& f) const// sets up m_nLine and m_nTotalAdd
+void MultiLineTvDelegate::calibrate(const QFontMetrics& fm, const QFont& /*f*/) const// sets up m_nLine and m_nTotalAdd
 {
     //set snHeights;
     //QString s;
@@ -129,7 +138,7 @@ void MultiLineTvDelegate::calibrate(const QFontMetrics& fm, const QFont& f) cons
 //qDebug("%d ww", m_nAddPerLine);
 
     //CB_ASSERT (0 <= m_nAddPerLine && m_nAddPerLine <= 1); //ttt1 triggered by "Microsoft Sans Serif 7pt"; see if it can be fixed
-    if (m_nAddPerLine < 0 || m_nAddPerLine > 1)
+    /*if (m_nAddPerLine < 0 || m_nAddPerLine > 1)
     {
         QString s (QString("%1, %2pt").arg(f.family()).arg(f.pointSize()));
         static QString s_qstrLastErrFont;
@@ -138,7 +147,7 @@ void MultiLineTvDelegate::calibrate(const QFontMetrics& fm, const QFont& f) cons
             s_qstrLastErrFont = s;
             QMessageBox::warning(m_pTableView, "Warning", "The font \"" + s + "\" cannot be displayed correctly. You should go to the Configuration Dialog and choose another general font");
         }
-    }
+    }*/
 
     m_nLineHeight = fm.lineSpacing();
 //qDebug("%d", m_nLine);

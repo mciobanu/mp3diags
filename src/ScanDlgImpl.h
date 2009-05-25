@@ -54,6 +54,7 @@ protected slots:
 
     void on_m_pScanB_clicked() { accept(); }
     void on_m_pCancelB_clicked() { reject(); }
+    void onShow();
 };
 
 #endif

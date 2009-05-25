@@ -22,6 +22,7 @@
 
 #include  <sstream>
 #include  <iomanip>
+#include  <cstdio>
 
 #include  "DataStream.h"
 

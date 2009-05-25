@@ -10,6 +10,12 @@ if [ -f /etc/fedora-release ] ; then
 fi
 
 $QMake
+if [ $? -ne 0 ] ; then exit 1 ; fi
+
 make
+if [ $? -ne 0 ] ; then exit 1 ; fi
+
+strip bin/MP3Diags
+
 sudo cp bin/MP3Diags /usr/local/bin
 

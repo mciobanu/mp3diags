@@ -48,6 +48,7 @@ void SessionEditorDlgImpl::commonConstr() // common code for both constructors
     m_pDirectoriesT->setModel(m_pDirModel);
     m_pDirectoriesT->expand(m_pDirModel->index("/"));
     m_pDirectoriesT->header()->hide();
+    m_pDirectoriesT->header()->setStretchLastSection(false); m_pDirectoriesT->header()->setResizeMode(0, QHeaderView::ResizeToContents);
 
     m_bOpenLastSession = true;
 }

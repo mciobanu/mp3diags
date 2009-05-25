@@ -887,3 +887,4 @@ void ConfigDlgImpl::selectDir(QLineEdit* pEdt)
 
 //ttt2 dir config: perhaps something simpler, with a "more options" button
 
+//ttt1 Font style is ignored (see DejaVu Sans / Light on machines with antialiased fonts)

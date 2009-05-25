@@ -63,7 +63,7 @@ FilesModel::FilesModel(CommonData* pCommonData) : QAbstractTableModel(pCommonDat
 }
 
 
-/*extern*/ int CELL_WIDTH (1); // these get calculated based on the current font; however, they are also used 
+/*extern*/ int CELL_WIDTH (1); // these get calculated based on the current font; however, they are also used
 /*extern*/ int CELL_HEIGHT (1);
 
 /*override*/ QVariant FilesModel::data(const QModelIndex& index, int nRole) const
@@ -319,6 +319,10 @@ void FilesModel::matchSelToNotes()
     QColor colBkg (colSev);
     QColor colFg (option.palette.color(QPalette::Active, QPalette::Highlight)); //ttt3 not necessarily "Active"
     //QColor colFg (Qt::black); //ttt3 not necessarily "Active"
+    if (colFg.green() >= 160 && colFg.red() >= 160)
+    {
+        colFg = QColor(0, 0, 0);
+    }
 
     if (bSel)
     {

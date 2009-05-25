@@ -304,7 +304,7 @@ void CommonData::setGeneralFont(const std::string& strName, int nSize)
     int n (QApplication::fontMetrics().width("W")); // ttt1 switch to W', M' and m' when needed
     n = max(n, QApplication::fontMetrics().width("M"));
     n = max(n, QApplication::fontMetrics().width("m"));
-    CELL_WIDTH = n + 5;
+    CELL_WIDTH = n + 6; //ttt2 hard-coded "6"; see how to get the correct value
 
     MIN_FILE_WIDTH = QApplication::fontMetrics().width("ABCDEFGHIJKLMNopqrstuvwxyz12345");
 

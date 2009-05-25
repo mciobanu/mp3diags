@@ -21,6 +21,7 @@
 
 
 #include  <QTreeView>
+#include  <QScrollBar>
 
 #include  "CheckedDir.h"
 
@@ -234,9 +235,12 @@ void CheckedDirModel::expandNode(const QString& s, QTreeView* pTreeView)
         ++n;
     }
 
-    pTreeView->scrollTo(index(s, QAbstractItemView::PositionAtCenter));
-    //pTreeView->scrollTo(index(s, QAbstractItemView::PositionAtTop));
-    //pTreeView->scrollTo(index(s, QAbstractItemView::PositionAtBottom));
+//qDebug("%d %d", pTreeView->width(), pTreeView->height());
+    pTreeView->scrollTo(index(s), QAbstractItemView::PositionAtCenter);
+    pTreeView->horizontalScrollBar()->setValue(0); // !!! needed because PositionAtCenter scrolls horizontally as well, which is strange for dirs with large names
+    //pTreeView->scrollTo(index(s), QAbstractItemView::EnsureVisible);
+    //pTreeView->scrollTo(index(s), QAbstractItemView::PositionAtTop);
+    //pTreeView->scrollTo(index(s), QAbstractItemView::PositionAtBottom);
 }
 
 

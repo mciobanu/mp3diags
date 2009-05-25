@@ -115,6 +115,7 @@ SessionsDlgImpl::SessionsDlgImpl(QWidget* pParent) : QDialog(pParent), Ui::Sessi
     m_pDirectoriesT->setModel(m_pCheckedDirModel);
     m_pCheckedDirModel->setFilter(QDir::AllDirs | QDir::NoDotAndDotDot | QDir::Hidden | QDir::Drives);
     m_pCheckedDirModel->setSorting(QDir::IgnoreCase);
+    m_pDirectoriesT->header()->setStretchLastSection(false); m_pDirectoriesT->header()->setResizeMode(0, QHeaderView::ResizeToContents);
 
     QPalette grayPalette (m_pDirectoriesT->palette());
     grayPalette.setColor(QPalette::Base, grayPalette.color(QPalette::Disabled, QPalette::Window));

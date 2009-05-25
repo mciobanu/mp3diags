@@ -44,9 +44,11 @@ ScanDlgImpl::ScanDlgImpl(QWidget* pParent, CommonData* pCommonData) : QDialog(pP
     m_pDirsT->setModel(m_pDirModel);
     m_pDirsT->expand(m_pDirModel->index("/"));
     m_pDirsT->header()->hide();
+    m_pDirsT->header()->setStretchLastSection(false); m_pDirsT->header()->setResizeMode(0, QHeaderView::ResizeToContents);
 
-    m_pDirModel->setDirs(pCommonData->getIncludeDirs(), pCommonData->getExcludeDirs(), m_pDirsT);
+    //m_pDirModel->setDirs(pCommonData->getIncludeDirs(), pCommonData->getExcludeDirs(), m_pDirsT);
     //m_pDirModel->expandNodes(m_pDirsT);
+    QTimer::singleShot(1, this, SLOT(onShow()));
 }
 
 
@@ -54,6 +56,11 @@ ScanDlgImpl::~ScanDlgImpl()
 {
 }
 
+
+void ScanDlgImpl::onShow()
+{
+    m_pDirModel->setDirs(m_pCommonData->getIncludeDirs(), m_pCommonData->getExcludeDirs(), m_pDirsT); // !!! needed here because on the constructor the tree view doesn't have the right size; //ttt1 perhaps do the same in SessionEditorDlgImpl / see which approach is better
+}
 
 // if returning true, it also calls CommonData::setDirs()
 bool ScanDlgImpl::run(bool& bForce)

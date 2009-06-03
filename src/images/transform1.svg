@@ -18,7 +18,7 @@
    inkscape:version="0.45.1"
    sodipodi:docname="transform1.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   sodipodi:docbase="/home/ciobi/cpp/Mp3Utils/Mp3TagDoctorQt4/src/images">
+   sodipodi:docbase="/home/ciobi/cpp/Mp3Utils/MP3Diags/src/images">
   <metadata
      id="metadata198">
     <rdf:RDF>
@@ -1209,15 +1209,8 @@
        id="path3178"
        style="fill:url(#linearGradient6134);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter6906)" />
   </g>
-  <text
-     xml:space="preserve"
+  <path
      style="font-size:72px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-     x="82.490776"
-     y="134.63206"
-     id="text2573"><tspan
-       sodipodi:role="line"
-       id="tspan2575"
-       x="82.490776"
-       y="134.63206"
-       style="font-size:96px">1</tspan></text>
+     d="M 118.2564,134.63206 L 109.8189,134.63206 L 109.8189,80.86644 C 107.78763,82.803992 105.11575,84.74149 101.80328,86.67894 C 98.52201,88.616486 95.568888,90.069609 92.943901,91.038315 L 92.943901,82.882065 C 97.662636,80.663369 101.78763,77.975871 105.3189,74.819565 C 108.85012,71.663378 111.35012,68.600881 112.8189,65.632065 L 118.2564,65.632065 L 118.2564,134.63206"
+     id="text2573" />
 </svg>

@@ -315,7 +315,7 @@ void FilesModel::matchSelToNotes()
     bool bCrt (0 != (QStyle::State_HasFocus & option.state));
     bool bActive (0 != (QStyle::State_Active & option.state)); // "active" is true if the parent window has keyboard focus
 
-    QColor colSev (getNoteColor(*pNote));  //ttt2 perhaps try to derive all these colors from the global pallette (e.g. option.palette.highlight(), option.palette.highlightedText(), ...)
+    /*QColor colSev (getNoteColor(*pNote));  //ttt2 perhaps try to derive all these colors from the global pallette (e.g. option.palette.highlight(), option.palette.highlightedText(), ...)
     QColor colBkg (colSev);
     QColor colFg (option.palette.color(QPalette::Active, QPalette::Highlight)); //ttt3 not necessarily "Active"
     //QColor colFg (Qt::black); //ttt3 not necessarily "Active"
@@ -329,6 +329,22 @@ void FilesModel::matchSelToNotes()
         QColor c (colBkg);
         colBkg = colFg;
         colFg = c;
+    }*/
+
+    QColor colSev (getNoteColor(*pNote));  //ttt2 perhaps try to derive all these colors from the global pallette (e.g. option.palette.highlight(), option.palette.highlightedText(), ...)
+    QColor colSel (option.palette.color(QPalette::Active, QPalette::Highlight)); //ttt3 not necessarily "Active"
+
+    QColor colFg, colBkg;
+
+    colBkg = bSel ? colSel : colSev;
+    if (colSel.green() >= 160 && colSel.red() >= 160)
+    { // for better contrast we use something dark if the "highlight" color is light
+        //colFg = QColor(0, 0, 0);
+        colFg = option.palette.color(QPalette::Active, QPalette::HighlightedText);
+    }
+    else
+    {
+        colFg = bSel ? colSev : colSel;
     }
 
     pPainter->fillRect(option.rect, colBkg);

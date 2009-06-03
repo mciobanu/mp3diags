@@ -35,11 +35,20 @@
 
 
 <div class="NavPadTable RegFnt ChpCol2">
-<table border="0" cellpadding="0" cellspacing="0">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" >
     <tr>
-        <td class="NavPadLeft"> <a href="008_licence.html" title="Licence and acknowledgements"> <img src="arrow_left_small.png" class="ImgNoBorder" align="absmiddle" /> </a> </td>
-        <td valign="middle" class="NavBarText"> Getting MP3 Diags </td>
+        <!--
+        <td align="left" class="NavPadLeft"> <a href="index.html" title="Home"> <img src="arrow_left_small.png" class="ImgNoBorder" align="absmiddle" /> </a> </td>
+        <td align="left" class="NavPadLeft"> <a href="index.html"><img src="arrow_left_small.png" class="ImgNoBorder" align="absmiddle" /> </a> <a href="index.html"> Home </a> </td>
+        -->
+        <td width="30%" align="left"> <a href="index.html"><img src="arrow_left_small.png" class="ImgNoBorder NavPadLeft" align="absmiddle" /> </a> <a href="index.html"> Home </a> </td>
+        <th width="40%" align="center" valign="middle" class="NavBarText"> Getting MP3 Diags </td>
+        <!--
         <td class="NavPadRight"> <a href="020_mp3_introduction.html" title="Short MP3 introduction"> <img src="arrow_right_small.png" class="ImgNoBorder" align="absmiddle" /> </a> </td>
+        <td align="right" class="NavPadRight"> <a href="020_mp3_introduction.html"> <img src="arrow_right_small.png" class="ImgNoBorder" align="absmiddle" /> </a> </td>
+        <td align="right" class="NavPadRight"> <a href="020_mp3_introduction.html"> Short MP3 introduction</a> <a href="020_mp3_introduction.html"> <img src="arrow_right_small.png" class="ImgNoBorder" align="absmiddle" /> </a> </td>
+        -->
+        <td width="30%" align="right"> <a href="020_mp3_introduction.html"> Short MP3 introduction</a> <a href="020_mp3_introduction.html"> <img src="arrow_right_small.png" class="ImgNoBorder NavPadRight" align="absmiddle" /> </a> </td>
     </tr>
 </table>
 </div>
@@ -47,18 +56,118 @@
 
 
 <div class="FreeNormalText RegFnt ChpCol1">
-MP3 Diags is supposed to be hosted on SourceForge, but there are some issues. Until these issues are sorted out, I'm using my ISP's web hosting for documentation and source code and <a href="https://build.opensuse.org/">openSUSE Build Service</a> for binaries.
+MP3 Diags is supposed to be hosted on SourceForge, but there are some issues. Until these issues are sorted out, I'm using my ISP's web hosting for documentation and source tarball, and <a href="https://build.opensuse.org/">openSUSE Build Service</a> for Linux binaries and source RPMs. So here's what is currently available:
+</div>
+<!-- <div class="FreeNormalText RegFnt ChpCol1">
+MP3 Diags is supposed to be hosted on SourceForge, but there are some issues. Until these issues are sorted out, I'm using my ISP's web hosting for documentation, source tarball, and Windows binaries; and <a href="https://build.opensuse.org/">openSUSE Build Service</a> for Linux binaries and source RPMs. So here's what is currently available:
+</div>
+-->
+<div class="FreeNormalText RegFnt ChpCol2">
+<b><!-- Linux source code-->Source code</b>: <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3Diags-QQQVERQQQ.tar.gz">MP3Diags-QQQVERQQQ.tar.gz</a>
+</div>
+
+<div class="FreeNormalText RegFnt ChpCol1">
+<b><!-- Linux binaries -->Binaries</b>:
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-Currently the program is available in source format <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3Diags.tar.gz">here</a>. There are binaries available for some Linux distributions <a href="http://download.opensuse.org/repositories/home:/ciobi/">here</a>. For now it's only openSUSE and Fedora. Since this is my first attempt at creating distributable binaries, I'm not very confident about their quality. So this is an area where I could use some help, the biggest issue being building for other platforms.
+<table border="1" cellpadding="5" cellspacing="2" class="RegFnt ChpCol2">
+    <tr>
+        <td> openSUSE 10.3 </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_10.3/"> Repository </a> </td>
+        <td> <a class="NoUnderline" href="http://software.opensuse.org/ymp/home:ciobi/openSUSE_10.3/MP3Diags.ymp"> 1-Click Install </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_10.3/i586/"> 32 bit RPM </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_10.3/x86_64/"> 64 bit RPM </a> </td>
+    </tr>
+    <tr>
+        <td> openSUSE 11.0 </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.0/"> Repository </a> </td>
+        <td> <a class="NoUnderline" href="http://software.opensuse.org/ymp/home:ciobi/openSUSE_11.0/MP3Diags.ymp"> 1-Click Install </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.0/i586/"> 32 bit RPM </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.0/x86_64/"> 64 bit RPM </a> </td>
+    </tr>
+    <tr>
+        <td> openSUSE 11.1 </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.1/"> Repository </a> </td>
+        <td> <a class="NoUnderline" href="http://software.opensuse.org/ymp/home:ciobi/openSUSE_11.1/MP3Diags.ymp"> 1-Click Install </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.1/i586/"> 32 bit RPM </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.1/x86_64/"> 64 bit RPM </a> </td>
+    </tr>
+    <tr>
+        <td> Fedora 9 </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_9/"> Repository </a> </td>
+        <td> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_9/i386/"> 32 bit RPM </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_9/x86_64/"> 64 bit RPM </a> </td>
+    </tr>
+    <tr>
+        <td> Fedora 10 </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_10/"> Repository </a> </td>
+        <td> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_10/i386/"> 32 bit RPM </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_10/x86_64/"> 64 bit RPM </a> </td>
+    </tr>
+    <tr>
+        <td> Ubuntu 8.10 </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_8.10/"> Repository </a> (<a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/xUbuntu_8.10/">mirror</a>)</td>
+        <td> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_8.10/i386/mp3diags_QQQVERQQQ_i386.deb"> 32 bit DEB </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_8.10/amd64/mp3diags_QQQVERQQQ_amd64.deb"> 64 bit DEB </a> </td>
+    </tr>
+    <tr>
+        <td> Ubuntu 9.04 </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/"> Repository </a> (<a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/xUbuntu_9.04/">mirror</a>)</td>
+        <td> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/i386/mp3diags_QQQVERQQQ_i386.deb"> 32 bit DEB </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/amd64/mp3diags_QQQVERQQQ_amd64.deb"> 64 bit DEB </a> </td>
+    </tr>
+</table>
 </div>
 
-<div class="NormalText RegFnt ChpCol1">
-If for some reason you don't want to look at the documentation online, you can download it <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3DiagsDoc.tar.gz">here</a>.
+
+<!-- Query mirrors: http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/Packages?mirrorlist -->
+
+<!--
+http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/
+http://widehat.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/
+-->
+
+<!--
+<div class="FreeNormalText RegFnt ChpCol2">
+<b>Windows (see more about the Windows port at the <a href="#Windows_details">bottom of the page</a>)</b>:
+<ul>
+    <li> Windows source: <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3DiagsWndSrc-QQQVERQQQ.zip">MP3DiagsWndSrc-QQQVERQQQ.zip</a> </li>
+    <li> Windows 32bit executable: <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3DiagsWnd-QQQVERQQQ.zip">MP3DiagsWnd-QQQVERQQQ.zip</a> (you also need the DLLs, which should be unpacked in the same directory as the executable)</li>
+    <li> DLLs: <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3DiagsWnd-DLLs.zip">MP3DiagsWnd-DLLs.zip</a> </li>
+</ul>
 </div>
 
-<div class="NormalText RegFnt ChpCol1">
+<div class="FreeNormalText RegFnt ChpCol1">
+The source files are the same for Linux and Windows, but the archives are different because of some bugs preventing the Qt for Windows from using several of the button images that are available in Linux. Also, the install scripts are different.
+</div>
+-->
+
+<div class="FreeNormalText RegFnt ChpCol2">
+Since this is my first attempt at creating distributable binaries, I'm not very confident about their quality. So this is an area where I could use some help, especially in creating binaries for other platforms.
+</div>
+
+
+<div class="FreeNormalText RegFnt ChpCol1">
+I tested the Ubuntu 9.04 32bit installation and it seemed OK except for a warning about the package not being authenticated, because it's not digitally signed. I'll look into this in the near future. However, the program installs and runs OK if you ignore that warning. You can read about adding repositories on Ubuntu <a href="https://help.ubuntu.com/community/Repositories/Ubuntu">here</a>. The command I used when prompted for the "APT line" was:
+</div>
+
+<div class="NormalText RegFnt ChpCol1 GenericSpace">
+<span class="Reference">deb http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/ ./</span>
+</div>
+
+
+
+
+<div class="FreeNormalText RegFnt ChpCol2">
+If for some reason you don't want to look at the documentation online, you can download it <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3DiagsDoc-QQQVERQQQ.tar.gz">here</a>.
+</div>
+
+<div class="FreeNormalText RegFnt ChpCol1">
 Announcements about new releases will be made at the <a href="http://mp3diags.blogspot.com/">MP3 Diags blog</a>, which should be used temporarily for any kind of support and feedback.
 </div>
 
@@ -76,7 +185,7 @@ Requirements
 
 
 <div class="NormalText RegFnt ChpCol2">
-The development system is openSUSE 10.3, and I also compiled MP3 Diags on openSUSE 11.1 and it seemed to work fine. I expect most Linux distributions from 2007 or newer to be able to compile and run it (perhaps after some Install.sh tweaks.) Based on what I know, porting to Windows should be rather trivial as long as MinGW is used, but currently the program should trigger assertion failures (assuming that it compiles at all.) Porting to MSVC is not something that I plan to do. It involves more work than MinGW.
+The development system is openSUSE 10.3. I also compiled MP3 Diags on openSUSE 11.1 and on Ubuntu 9.04, and it seemed to work fine. I expect most Linux distributions from 2007 or newer to be able to compile and run it (perhaps after some Install.sh tweaks.)
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
@@ -143,39 +252,44 @@ After unpacking the surce to some directory, just run Install.sh in that directo
 Uninstallation can be done through <span class="Reference">Uninstall.sh</span>. You probably created some data files, and if you are sure you no longer need them you should remove them manually. Note that the data files come in pairs. Although you only specify an ".ini" file when you start the program for the first time (or when you <a href="310_advanced.html">create a new session</a>), two files get created. The ".ini" only stores settings, while the actual data is stored in a file in the same directory and with the same name but with the extension ".dat".
 </div>
 
+
+
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+
+
+<!--
+
+<div class="SubChapterText RegFnt ChpCol2">
+<a name="Windows_details">The Windows version</a>
+</div>
+
+<div class="NormalText RegFnt ChpCol2">
+I got a Windows version (sort of) working. It crashed several times for no apparent reason, so I recommend using Linux instead, if at all possible. It uses Qt 4.5.1 and the MinGW that comes with it (3.4.2.) Porting to MSVC is not something that I plan to do. I did the Windows version more out of curiosity; I have no need to use it. As such, the only way for me to find out about Windows-specific bugs is to have somebody report them.
+</div>
+
+
+<div class="NormalText RegFnt ChpCol2">
+As for the creating the executable, it was quite frustrating. There is Compile.bat ttt0; Couldn't get the debugger to work, so I used "good old" tracing to a file - an experience I'm not keen on repeating anytime soon.
+</div>
+
+-->
+
+
 <div class="NavPadTable RegFnt ChpCol2">
-<table border="0" cellpadding="0" cellspacing="0">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" >
     <tr>
-        <td class="NavPadLeft"> <a href="008_licence.html" title="Licence and acknowledgements"> <img src="arrow_left_small.png" class="ImgNoBorder" align="absmiddle" /> </a> </td>
-        <td valign="middle" class="NavBarText"> Getting MP3 Diags </td>
-        <td class="NavPadRight"> <a href="020_mp3_introduction.html" title="Short MP3 introduction"> <img src="arrow_right_small.png" class="ImgNoBorder" align="absmiddle" /> </a> </td>
+        <td width="30%" align="left"> <a href="index.html"><img src="arrow_left_small.png" class="ImgNoBorder NavPadLeft" align="absmiddle" /> </a> <a href="index.html"> Home </a> </td>
+        <th width="40%" align="center" valign="middle" class="NavBarText"> Getting MP3 Diags </td>
+        <td width="30%" align="right"> <a href="020_mp3_introduction.html"> Short MP3 introduction</a> <a href="020_mp3_introduction.html"> <img src="arrow_right_small.png" class="ImgNoBorder NavPadRight" align="absmiddle" /> </a> </td>
     </tr>
 </table>
 </div>
 
 
-
-<!-- Start of StatCounter Code -->
-
-    <script type="text/javascript">
-        var sc_project=4765268;
-        var sc_invisible=1;
-        var sc_partition=54;
-        var sc_click_stat=1;
-        var sc_security="b8120652";
-    </script>
-
-    <script type="text/javascript" src="http://www.statcounter.com/counter/counter.js"></script>
-
-    <noscript>
-        <div class="statcounter">
-            <a title="website statistics" href="http://www.statcounter.com/" target="_blank">
-                <img class="statcounter" src="http://c.statcounter.com/4765268/0/b8120652/1/" alt="website statistics" >
-            </a>
-        </div>
-    </noscript>
-
-<!-- End of StatCounter Code -->
+<!--QQQStatCounterQQQ-->
 
 </body>
 

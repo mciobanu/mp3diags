@@ -143,9 +143,3 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Mon May 25 2009 ciobi
-- improved font handling
-- minor UI tweaks
-
-* Tue May 19 2009 ciobi
-- initial version

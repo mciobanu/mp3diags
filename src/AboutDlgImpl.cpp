@@ -93,19 +93,45 @@ AboutDlgImpl::~AboutDlgImpl()
 // deep understanding
 
 
+//ttt0 copy from assert msg, put there desktop, distr, ...
 
 
+/*
 
 
+//bjam --toolset=gcc
+//PATH=D:\Qt\2009.02\mingw\bin;%PATH%
+bjam serialization toolset=gcc
 
 
+bjam toolset=gcc serialization release
 
+http://stackoverflow.com/questions/760323/why-does-my-qt4-5-app-open-a-console-window-under-windows
+http://stackoverflow.com/questions/718447/adding-external-library-into-qt-creator-project
+http://stackoverflow.com/questions/199092/compiling-a-qt-program-in-windows-xp-with-mingws-g
+*/
 
 /*
 Finds problems in MP3 files and helps the user to fix many of them using included tools. Looks at both the audio part (VBR info, quality, normalization) and the tags containing track information (ID3.) Also includes a tag editor and a file renamer.
 */
 
 
+//PATH=D:\Qt\2009.02\qt\bin;%PATH%
 
+//ttt0 doc windows install
 
+/*
+ttt1
+dpkg-deb: building package `mp3diags' in `../mp3diags_0.99.01.009_i386.deb'.
+dpkg-genchanges >../mp3diags_0.99.01.009_i386.changes
+parsechangelog/debian: warning: debian/changelog(l9): found change data where expected next heading or eof
+LINE: * improved font handling
+parsechangelog/debian: warning: debian/changelog(l15): found change data where expected next heading or eof
+LINE: * initial version
+parsechangelog/debian: warning: debian/changelog(l9): found change data where expected next heading or eof
+LINE: * improved font handling
+parsechangelog/debian: warning: debian/changelog(l15): found change data where expected next heading or eof
+LINE: * initial version
+dpkg-genchanges: warning: the current version (0.99.01.009) is smaller than the previous one (unknown1)
 
+*/

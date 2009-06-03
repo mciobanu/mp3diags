@@ -18,7 +18,7 @@
    inkscape:version="0.45.1"
    sodipodi:docname="transform2.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   sodipodi:docbase="/home/ciobi/cpp/Mp3Utils/Mp3TagDoctorQt4/src/images">
+   sodipodi:docbase="/home/ciobi/cpp/Mp3Utils/MP3Diags/src/images">
   <metadata
      id="metadata198">
     <rdf:RDF>
@@ -1209,15 +1209,8 @@
        id="path3178"
        style="fill:url(#linearGradient6134);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter6906)" />
   </g>
-  <text
-     xml:space="preserve"
+  <path
      style="font-size:72px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-     x="81.671875"
-     y="135"
-     id="text2573"><tspan
-       sodipodi:role="line"
-       id="tspan2575"
-       x="81.671875"
-       y="135"
-       style="font-size:96px">2</tspan></text>
+     d="M 130,126.89062 L 130,135 L 84.578125,135 C 84.515622,132.96875 84.843747,131.01563 85.5625,129.14062 C 86.718745,126.04688 88.562493,123.00001 91.09375,120 C 93.656238,117.00002 97.343734,113.53127 102.15625,109.59375 C 109.62497,103.46878 114.67184,98.625036 117.29688,95.0625 C 119.92184,91.468794 121.23434,88.078172 121.23438,84.890625 C 121.23434,81.546928 120.03121,78.734431 117.625,76.453125 C 115.24997,74.140686 112.14059,72.984437 108.29688,72.984375 C 104.23435,72.984437 100.98436,74.203186 98.546875,76.640625 C 96.109361,79.078181 94.874987,82.453178 94.84375,86.765625 L 86.171875,85.875 C 86.76562,79.406306 88.999993,74.484436 92.875,71.109375 C 96.749985,67.703192 101.9531,66.000069 108.48438,66 C 115.07809,66.000069 120.29684,67.828192 124.14062,71.484375 C 127.98433,75.140685 129.9062,79.67193 129.90625,85.078125 C 129.9062,87.828172 129.3437,90.531294 128.21875,93.1875 C 127.0937,95.843789 125.21871,98.640661 122.59375,101.57812 C 119.99996,104.51566 115.67184,108.5469 109.60938,113.67188 C 104.54685,117.92189 101.29686,120.81251 99.859375,122.34375 C 98.421858,123.84376 97.234359,125.35938 96.296875,126.89062 L 130,126.89062"
+     id="text2573" />
 </svg>

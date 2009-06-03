@@ -1,0 +1,16 @@
+
+  * Ubuntu binaries
+  * minor UI tweaks
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Mon, 01 June 2009 10:00:00 +0200
+
+
+  * improved font handling
+  * minor UI tweaks
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Mon, 25 May 2009 10:00:00 +0200
+
+
+  * initial version
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Tue, 19 May 2009 10:00:00 +0200

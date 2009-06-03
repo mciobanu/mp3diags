@@ -444,7 +444,7 @@ void ColumnResizer::computeColInfo()
         }
 
         ColInfo& inf (m_vColInfo[j]);
-        inf.m_nLargeAvg = nSum*1.0/nLargeElemsCnt;
+        inf.m_nLargeAvg = int(nSum*1.0/nLargeElemsCnt);
         inf.m_dLargeDev = nDev*1.0/nSum;
         inf.m_nMinWidth = m_intf.getMinWidthDataHdr(j);
         if (inf.m_nLargeAvg < inf.m_nMinWidth)
@@ -458,10 +458,10 @@ void ColumnResizer::computeColInfo()
         }
         else
         {
-            inf.m_nAskSmall = (int)inf.m_nLargeAvg*(1 + inf.m_dLargeDev/2);
+            inf.m_nAskSmall = int(inf.m_nLargeAvg*(1 + inf.m_dLargeDev/2));
             inf.m_dPrioSmall = 1 - inf.m_dLargeDev*0.8;
             //inf.m_dPrioSmall *= log(5) - log(inf.m_nLargeAvg*1.0 / m_nTableWidth + 0.02) + 0.5; // narrow colums get increased priority
-            inf.m_nAskLarge =  (int)inf.m_nLargeAvg*(1 + inf.m_dLargeDev*2);
+            inf.m_nAskLarge = int(inf.m_nLargeAvg*(1 + inf.m_dLargeDev*2));
             inf.m_dPrioLarge = 1 - inf.m_dLargeDev*0.8;
         }
     }

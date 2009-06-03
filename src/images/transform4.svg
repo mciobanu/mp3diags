@@ -18,7 +18,7 @@
    inkscape:version="0.45.1"
    sodipodi:docname="transform4.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   sodipodi:docbase="/home/ciobi/cpp/Mp3Utils/Mp3TagDoctorQt4/src/images">
+   sodipodi:docbase="/home/ciobi/cpp/Mp3Utils/MP3Diags/src/images">
   <metadata
      id="metadata198">
     <rdf:RDF>
@@ -1209,15 +1209,8 @@
        id="path3178"
        style="fill:url(#linearGradient6134);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter6906)" />
   </g>
-  <text
-     xml:space="preserve"
+  <path
      style="font-size:72px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-     x="85.96875"
-     y="134.78125"
-     id="text2573"><tspan
-       sodipodi:role="line"
-       id="tspan2575"
-       x="85.96875"
-       y="134.78125"
-       style="font-size:96px">4</tspan></text>
+     d="M 117,134.78125 L 117,118.32812 L 87.1875,118.32812 L 87.1875,110.59375 L 118.54688,66.0625 L 125.4375,66.0625 L 125.4375,110.59375 L 134.71875,110.59375 L 134.71875,118.32812 L 125.4375,118.32812 L 125.4375,134.78125 L 117,134.78125 M 117,110.59375 L 117,79.609375 L 95.484375,110.59375 L 117,110.59375"
+     id="text2573" />
 </svg>

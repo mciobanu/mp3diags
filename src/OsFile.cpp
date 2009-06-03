@@ -25,7 +25,13 @@
 #include  <cerrno>
 #include  <algorithm>
 
-#include  <glob.h>
+#ifndef WIN32
+    #include  <glob.h>
+#else
+    #include <QFileInfo>
+    #include <QDateTime>
+#endif
+
 #include  <sys/stat.h>
 #include  <utime.h>
 //#include  <sys/types.h>
@@ -62,7 +68,9 @@ public:
     bool m_bOpen;
     //const char* m_szCurrentPath;
 
+#ifndef WIN32
     struct stat64 m_crtStat;
+#endif
 
     //glob_t m_findData;
     //size_t m_nCrtMatch;
@@ -99,6 +107,7 @@ CB_LIB_CALL FileSearcher::operator bool() const
     return m_pImpl->m_bOpen;
 }
 
+#ifndef WIN32
 
 bool CB_LIB_CALL FileSearcher::isFile() const
 {
@@ -123,6 +132,25 @@ bool CB_LIB_CALL FileSearcher::isSymLink() const
     return S_ISLNK(m_pImpl->m_crtStat.st_mode);
     //return false;
 }
+
+#else
+
+bool CB_LIB_CALL FileSearcher::isFile() const
+{
+    return QFileInfo(convStr(getName())).isFile();
+}
+
+bool CB_LIB_CALL FileSearcher::isDir() const
+{
+    return QFileInfo(convStr(getName())).isDir();
+}
+
+
+bool CB_LIB_CALL FileSearcher::isSymLink() const
+{
+    return false;
+}
+#endif
 
 
 // it's easier to use the constructor, but sometimes may be more convenient to leave the object in an outer loop
@@ -234,7 +262,11 @@ bool CB_LIB_CALL FileSearcher::goToNextValidEntry()
         const char* p (m_pImpl->m_pEnt->d_name);
         if (0 == strcmp(".", p) || 0 == strcmp("..", p)) { continue; }
 
+#ifndef WIN32
         if (0 != lstat64((m_strDir + m_pImpl->m_pEnt->d_name).c_str(), &m_pImpl->m_crtStat)) { continue; } //ttt1 see if seeking the next is the best way to deal with this error
+#else
+        if (!QFileInfo(convStr(m_strDir + m_pImpl->m_pEnt->d_name)).exists()) { continue; } //ttt1 see if seeking the next is the best way to deal with this error
+#endif
         return true;
     }
 
@@ -273,20 +305,33 @@ string CB_LIB_CALL FileSearcher::getName() const
 long long CB_LIB_CALL FileSearcher::getSize() const
 {
     CB_CHECK1 (*this, InvalidOperation()/*"getSize() may only be called on an open searcher"*/);
+#ifndef WIN32
     return (long long)m_pImpl->m_crtStat.st_size;
+#else
+    return QFileInfo(convStr(getName())).size();
+#endif
 }
 
-
+#if 0
 long long CB_LIB_CALL FileSearcher::getCreationTime() const
 {
     CB_CHECK1 (*this, InvalidOperation()/*"getCreationTime() may only be called on an open searcher"*/);
-    return m_pImpl->m_crtStat.st_mtime;
+#ifndef WIN32
+    return m_pImpl->m_crtStat.st_mtime; //ttt probably wrong; see who uses it
+#else
+    return QFileInfo(convStr(getName())).lastModified().toTime_t(); //ttt3 32bit  //ttt wrong; see who uses it
+#endif
 }
+#endif
 
 long long CB_LIB_CALL FileSearcher::getChangeTime() const
 {
     CB_CHECK1 (*this, InvalidOperation()/*"getChangeTime() may only be called on an open searcher"*/);
+#ifndef WIN32
     return m_pImpl->m_crtStat.st_mtime;
+#else
+    return QFileInfo(convStr(getName())).lastModified().toTime_t(); //ttt3 32bit
+#endif
 }
 
 /*int CB_LIB_CALL FileSearcher::getAttribs() const
@@ -378,24 +423,29 @@ bool CB_LIB_CALL dirExists(const std::string& strDir)
 }
 
 
-void CB_LIB_CALL createDir(const char* szFileName)
+void CB_LIB_CALL createDir(const char* szDirName)
 {
-    if (0 == *szFileName) { return; } // the root dir always exists
+    if (0 == *szDirName) { return; } // the root dir always exists
 
-    checkDirName(szFileName);
+    checkDirName(szDirName);
 
-    if (dirExists(szFileName))
+    if (dirExists(szDirName))
     {
         return;
     }
 
-    char* p (rindex(szFileName, getPathSep()));
+    char* p (strrchr(szDirName, getPathSep()));
     CB_CHECK1 (0 != p, CannotCreateDir());
-    string strParent (szFileName, p - szFileName);
+    string strParent (szDirName, p - szDirName);
     createDir(strParent.c_str());
-    mkdir(szFileName, S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
+    mkdir(szDirName
+#ifndef WIN32
+           , S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
+#else
+#endif
+        );
 
-    CB_CHECK1 (dirExists(szFileName), CannotCreateDir());
+    CB_CHECK1 (dirExists(szDirName), CannotCreateDir());
 }
 
 
@@ -406,7 +456,22 @@ void CB_LIB_CALL createDirForFile(const std::string& strFile)
     createDir(strFile.substr(0, n).c_str());
 }
 
-
+// does nothing on Linux; replaces "D:" with "/D" on Windows, only when "D:" isn't at the beggining of the string;
+string replaceDriveLetter(const string& strFile)
+{
+#ifndef WIN32
+    return strFile;
+#else
+    string s (strFile);
+    for (string::size_type n = 2;;  )
+    {
+        n = s.find(':', n);
+        if (string::npos == n) { return s; }
+        s[n] = s[n - 1];
+        s[n - 1] = '/';
+    }
+#endif
+}
 
 // adds a path separator at the end if none is present; throws IncorrectDirName on invalid file names
 string getSepTerminatedDir(const string& strDir)

@@ -23,7 +23,15 @@
 #include  <QHttp>
 #include  <QDesktopServices>
 
+#ifndef WIN32
+#else
+    #include  <windows.h>
+    #include  <QDateTime>
+#endif
+
 #include  <sys/time.h>
+
+#include  <QDateTime>
 
 #include  "MusicBrainzDownloader.h"
 
@@ -347,12 +355,17 @@ void MusicBrainzDownloader::delay()
         char a [15];
         sprintf(a, "waiting %dms", nWait + 100);
         addNote(a);
+
+#ifndef WIN32
         timespec ts;
         ts.tv_sec = 0;
         ts.tv_nsec = 100000000; // 0.1s, to be sure
         nanosleep(&ts, 0);
         ts.tv_nsec = nWait*1000000;
         nanosleep(&ts, 0);
+#else
+        Sleep(nWait + 100);
+#endif
         //qDebug("waiting %d", nWait);
     }
 
@@ -362,9 +375,23 @@ void MusicBrainzDownloader::delay()
 
 long long MusicBrainzDownloader::getTime() // time in milliseconds
 {
+    QDateTime t (QDateTime::currentDateTime());
+    long long nRes (t.toTime_t()); //ttt3 32bit
+    nRes *= 1000;
+    nRes += t.time().msec();
+    return nRes;
+#if 0
+    qDebug("t1 %lld", nRes);
+#ifndef WIN32
     timeval tv;
     gettimeofday(&tv, 0);
+qDebug("t2 %lld", tv.tv_sec*1000LL + tv.tv_usec/1000);
     return tv.tv_sec*1000LL + tv.tv_usec/1000;
+#else
+    QDateTime t (QDateTime::currentDateTime());
+    return t.toTime_t(); //ttt3 32bit
+#endif
+#endif
 }
 
 //==========================================================================================================================

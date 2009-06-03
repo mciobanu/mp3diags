@@ -156,7 +156,7 @@ void SessionEditorDlgImpl::on_m_pOkB_clicked()
         m_strIniFile = convStr(qstrFile);
         if (m_strIniFile.empty())
         {
-            QMessageBox::critical(this, "Error", "You need to specify a file name for storing the session data.");
+            QMessageBox::critical(this, "Error", "You need to specify the name of the settings file.");
             return;
         }
     }

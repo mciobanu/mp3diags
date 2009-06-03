@@ -35,6 +35,7 @@
 using namespace std;
 using namespace pearl;
 
+
 static const string& getOsTempDir() // ttt3 these static variables are not really thread safe, but in this case it doesn't matter, because they all get called from a single thread (the UI thread)
 {
     static string s;
@@ -186,7 +187,12 @@ void TransfConfig::splitOrigName(const string& strOrigSrcName, std::string& strR
     CB_CHECK1 (beginsWith(strOrigSrcName, m_strSrcDir), IncorrectPath());
 
     strRelDir = strOrigSrcName.substr(m_strSrcDir.size());
+#ifndef WIN32
     CB_CHECK1 (beginsWith(strRelDir, getPathSepAsStr()), IncorrectPath());
+#else
+    //CB_CHECK1 (beginsWith(strRelDir, getPathSepAsStr()), IncorrectPath()); //ttt1 see if it's OK to skip this test on Windows; it probably is, because it's more of an assert and the fact that it's not triggered on Linux should be enough
+#endif
+
 
     string::size_type nLastSep (strRelDir.find_last_of(getPathSep()));
     string::size_type nLastPer (strRelDir.find_last_of('.'));
@@ -217,7 +223,7 @@ int TransfConfig::getOptionValue(Option eOption) const
     string strRes;
     if (!bAlwaysRename)
     {
-        strRes = s1 + s2;
+        strRes = replaceDriveLetter(s1 + s2);
         if (!fileExists(strRes))
         {
             createDirForFile(strRes);
@@ -230,7 +236,7 @@ int TransfConfig::getOptionValue(Option eOption) const
 
     if (!bAlwaysUseCounter && !strLabel2.empty())
     {
-        strRes = s1 + strLabel2 + s2;
+        strRes = replaceDriveLetter(s1 + strLabel2 + s2);
         if (!fileExists(strRes))
         {
             createDirForFile(strRes);
@@ -243,7 +249,7 @@ int TransfConfig::getOptionValue(Option eOption) const
         {
             ostringstream out;
             out << "." << setfill('0') << setw(3) << i;
-            strRes = s1 + strLabel2 + out.str() + s2;
+            strRes = replaceDriveLetter(s1 + strLabel2 + out.str() + s2);
         }
 
         if (!fileExists(strRes))
@@ -275,7 +281,7 @@ string TransfConfig::getRenamedName(const std::string& strOrigSrcName, const std
 
     if (!bAlwaysRename)
     { // aside from the new folder, no renaming takes places if this new name isn't in use
-        strRes = strNewRootDir + strRelDir + strBaseName + strExt;
+        strRes = replaceDriveLetter(strNewRootDir + strRelDir + strBaseName + strExt);
         if (!fileExists(strRes) || bAllowDup)
         {
             createDirForFile(strRes);
@@ -576,7 +582,7 @@ TransfConfig::TransfFile TransfConfig::getCompNames(string strOrigSrcName, const
         ostringstream out;
         //out << m_strCompDir << strRelDir << strBaseName << ".2(after " << strOpName << ")." << setfill('0') << setw(3) << i << strExt;
         out << m_strCompDir << strRelDir << strBaseName << "." << setfill('0') << setw(3) << i << "b (after " << strOpName << ")" << strExt;
-        strAfter = out.str();
+        strAfter = replaceDriveLetter(out.str());
     }
 
     createDirForFile(strAfter);

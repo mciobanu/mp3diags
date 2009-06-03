@@ -126,6 +126,7 @@ void CB_LIB_CALL releasePtr(T*& p)
 
 #define TRACE(A) { std::ostringstream sTrM; sTrM << A; ::trace(sTrM.str()); }
 void trace(const std::string& s);
+void logToFile(const std::string& s);
 
 void logAssert(const char* szFile, int nLine, const char* szCond);
 

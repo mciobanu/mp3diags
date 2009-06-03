@@ -50,7 +50,7 @@ public:
     std::string CB_LIB_CALL getShortName() const; // returns the short name found; throws if nothing found //ttt1 have short/long/default (default is for "../tst/1" and is what is implemented now; long should be "/dir/tst/1") //ttt1 take a look at QDir and QDirModel
     int CB_LIB_CALL getAttribs() const; //ddd maybe filter out volume attributes / or include UNIX attribs
     long long CB_LIB_CALL getSize() const; //(nSize << 32) | sr.sr.FindData.nFileSizeLow
-    long long CB_LIB_CALL getCreationTime() const; //int64FromFileDateTime(sr.sr.FindData.ftCreationTime)  //ttt1 replace "long long" with a class representing time with nanosecond resolution, with conversions to what various OSs are using for various tasks
+    //long long CB_LIB_CALL getCreationTime() const; //int64FromFileDateTime(sr.sr.FindData.ftCreationTime)  //ttt1 replace "long long" with a class representing time with nanosecond resolution, with conversions to what various OSs are using for various tasks
     long long CB_LIB_CALL getChangeTime() const; //int64FromFileDateTime(sr.sr.FindData.ftLastWriteTime),
     bool CB_LIB_CALL isFile() const;
     bool CB_LIB_CALL isDir() const; //ttt1 not OK in UNIX; see about symlinks, ... { return !isFile(); }
@@ -95,6 +95,7 @@ void CB_LIB_CALL createDir(const char* szFileName);
 
 void CB_LIB_CALL createDirForFile(const std::string& strFile); // creates the directory where the given file can be created
 
+std::string replaceDriveLetter(const std::string& strFile); // does nothing on Linux; replaces "D:" with "/D" on Windows, only when "D:" isn't at the beggining of the string;
 
 // returns true if there is a file with that name;
 // returns false if the name doesn't exist or it's a directory; doesn't throw

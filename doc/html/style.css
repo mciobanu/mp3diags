@@ -34,7 +34,7 @@
 .XSubChapterText { color: #000000; font-weight: bold; font-size: large; padding-bottom: 10px; padding-top: 15px; padding-left: 18px; padding-right: 8px; }
 .XChapterText    { color: #000000; font-weight: bold; font-size: x-large; padding-bottom: 12px; padding-top: 18px; padding-left: 28px; padding-right: 8px; }
 .XTitleText      { color: #000000; font-weight: bold; font-size: xx-large; padding-bottom: 15px; padding-top: 15px; text-align: center; }
-.XInclSubChapterText { color: #000000; font-weight: bold; font-size: large;  }
+.XInclSubChapterText { color: #000000; font-weight: bold; font-size: large; }
 
 .NormalText     { color: #000000; font-size: medium; font-weight: normal; padding-bottom: 10px; padding-left: 8px; padding-right: 8px; }
 .FreeNormalText { color: #000000; font-size: medium; font-weight: normal; padding-top: 10px; padding-bottom: 10px; padding-left: 8px; padding-right: 8px; }
@@ -67,7 +67,8 @@
 .GenericSpace   { padding-left: 20px; }
 .NavPadLeft     { padding-right: 20px; } /*the left arrow needs padding to the right*/
 .NavPadRight    { padding-left: 20px; }
-.NavPadTable    { padding-bottom: 10px; padding-top: 10px; padding-left: 18px; padding-right: 10px; }
+.NavPad         { padding-right: 20px; padding-left: 20px; }
+.NavPadTable    { padding-bottom: 10px; padding-top: 10px; padding-left: 18px; padding-right: 18px; }
 .HeaderPadLeft  { padding-left: 10px; }
 .HeaderPadRight { padding-right: 10px; }
 
@@ -77,3 +78,5 @@ a.Warn:link     { color: #ffff50; text-decoration: underline; }
 a.Warn:active   { color: #ffff30; text-decoration: underline; }
 a.Warn:visited  { color: #dddd20; text-decoration: underline; }
 a.Warn:hover    { color: #ffff50; text-decoration: underline; }
+
+a.NoUnderline   { text-decoration:none; }

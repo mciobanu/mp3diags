@@ -30,6 +30,12 @@
 #include  <QTimer>
 #include  <QDesktopWidget>
 
+#ifndef WIN32
+#else
+    #include  <windows.h>
+    #include  <QDateTime>
+#endif
+
 #include  "MainFormDlgImpl.h"
 
 #include  "DirFilterDlgImpl.h"
@@ -99,10 +105,14 @@ void logAssert(const char* szFile, int nLine, const char* szCond)
         {
             if (s_bMainAssertOut) { break; }
             //sleep(1);
+#ifndef WIN32
             timespec ts;
             ts.tv_sec = 0;
             ts.tv_nsec = 100000000; // 0.1s
             nanosleep(&ts, 0);
+#else
+            Sleep(100);
+#endif
         }
     }
     else

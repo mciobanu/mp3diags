@@ -1,0 +1,15 @@
+Source: mp3diags
+Section: sound
+Priority: optional
+Maintainer: Marian Ciobanu <ciobi@inbox.com>
+Build-Depends: debhelper (>= 4.1.16), libqt4-dev, zlib1g-dev, libboost1.35-dev
+
+Package: mp3diags
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: Tool for finding and fixing problems in MP3 files; includes a tagger
+ Finds problems in MP3 files and helps the user to fix many of them. Looks at both the audio part (VBR info, quality, normalization) and the tags containing track information (ID3.)
+ .
+ Has a tag editor, which can download album information (including cover art) from MusicBrainz and Discogs, as well as paste data from the clipboard. Track information can also be extracted from a file's name.
+ .
+ Another component is the file renamer, which can rename files based on the fields in their ID3V2 tag (artist, track number, album, genre, ...)

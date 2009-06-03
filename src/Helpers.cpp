@@ -25,6 +25,12 @@
 #include  <sstream>
 #include  <iomanip>
 
+#ifndef WIN32
+#else
+    #include  <windows.h>
+    #include  <psapi.h>
+#endif
+
 #include  <QWidget>
 #include  <QUrl>
 
@@ -232,6 +238,7 @@ void printHex(const string& s, ostream& out, bool bShowAsciiCode = true) //ttt3 
 // the total memory currently used by the current process, in kB
 long getMemUsage()
 {
+#ifndef WIN32
     //pid_t
     int n ((int)getpid());
     char a [30];
@@ -247,6 +254,29 @@ long getMemUsage()
         }
     }
     return 0;
+#else
+    PROCESS_MEMORY_COUNTERS pmc;
+    if (GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc)))
+    {
+        return pmc.WorkingSetSize;
+    }
+
+    return 0;
+#endif
+
+}
+
+
+void logToFile(const string& s) //tttc make sure it is disabled in public releases
+{
+    ofstream out (
+#ifndef WIN32
+            "/tmp/Mp3DiagsLog.txt",
+#else
+            "C:/Mp3DiagsLog.txt",
+#endif
+            ios_base::app);
+    out << s << endl;
 }
 
 

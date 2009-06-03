@@ -233,45 +233,63 @@
           </attribute>
           <layout class="QVBoxLayout" >
            <item>
-            <widget class="QRadioButton" name="m_pPODontChangeRB" >
-             <property name="text" >
-              <string>Don't Change</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QRadioButton" name="m_pPOEraseRB" >
-             <property name="text" >
-              <string>Erase</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QRadioButton" name="m_pPOMoveAlwaysChangeRB" >
-             <property name="text" >
-              <string>Move and change the name</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QRadioButton" name="m_pPOMoveChangeIfNeededRB" >
-             <property name="text" >
-              <string>Move but change the name only if a name collision would occur</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QRadioButton" name="m_pPOChangeNameRB" >
-             <property name="text" >
-              <string>Change name</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QRadioButton" name="m_pPOMoveOrEraseRB" >
-             <property name="text" >
-              <string>Move if the destination doesn't already exist; erase if it does</string>
-             </property>
+            <widget class="QWidget" native="1" name="widget_15" >
+             <layout class="QVBoxLayout" >
+              <property name="leftMargin" >
+               <number>0</number>
+              </property>
+              <property name="topMargin" >
+               <number>0</number>
+              </property>
+              <property name="rightMargin" >
+               <number>0</number>
+              </property>
+              <property name="bottomMargin" >
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QRadioButton" name="m_pPODontChangeRB" >
+                <property name="text" >
+                 <string>Don't Change</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="m_pPOEraseRB" >
+                <property name="text" >
+                 <string>Erase</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="m_pPOMoveAlwaysChangeRB" >
+                <property name="text" >
+                 <string>Move and change the name</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="m_pPOMoveChangeIfNeededRB" >
+                <property name="text" >
+                 <string>Move but change the name only if a name collision would occur</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="m_pPOChangeNameRB" >
+                <property name="text" >
+                 <string>Change name</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="m_pPOMoveOrEraseRB" >
+                <property name="text" >
+                 <string>Move if the destination doesn't already exist; erase if it does</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </widget>
            </item>
            <item>
@@ -393,38 +411,56 @@
           </attribute>
           <layout class="QVBoxLayout" >
            <item>
-            <widget class="QRadioButton" name="m_pUODontChangeRB" >
-             <property name="text" >
-              <string>Don't Change</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QRadioButton" name="m_pUOEraseRB" >
-             <property name="text" >
-              <string>Erase</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QRadioButton" name="m_pUOMoveAlwaysChangeRB" >
-             <property name="text" >
-              <string>Move and change the name</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QRadioButton" name="m_pUOMoveChangeIfNeededRB" >
-             <property name="text" >
-              <string>Move but change the name only if a name collision would occur</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QRadioButton" name="m_pUOChangeNameRB" >
-             <property name="text" >
-              <string>Change name</string>
-             </property>
+            <widget class="QWidget" native="1" name="widget_16" >
+             <layout class="QVBoxLayout" >
+              <property name="leftMargin" >
+               <number>0</number>
+              </property>
+              <property name="topMargin" >
+               <number>0</number>
+              </property>
+              <property name="rightMargin" >
+               <number>0</number>
+              </property>
+              <property name="bottomMargin" >
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QRadioButton" name="m_pUODontChangeRB" >
+                <property name="text" >
+                 <string>Don't Change</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="m_pUOEraseRB" >
+                <property name="text" >
+                 <string>Erase</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="m_pUOMoveAlwaysChangeRB" >
+                <property name="text" >
+                 <string>Move and change the name</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="m_pUOMoveChangeIfNeededRB" >
+                <property name="text" >
+                 <string>Move but change the name only if a name collision would occur</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="m_pUOChangeNameRB" >
+                <property name="text" >
+                 <string>Change name</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </widget>
            </item>
            <item>
@@ -546,24 +582,42 @@
           </attribute>
           <layout class="QVBoxLayout" >
            <item>
-            <widget class="QRadioButton" name="m_pProcDontCreateRB" >
-             <property name="text" >
-              <string>Don't create</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QRadioButton" name="m_pProcCreateAlwaysChangeRB" >
-             <property name="text" >
-              <string>Create and change the name</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QRadioButton" name="m_pProcCreateChangeIfNeededRB" >
-             <property name="text" >
-              <string>Create but change the name only if a name collision would occur</string>
-             </property>
+            <widget class="QWidget" native="1" name="widget_17" >
+             <layout class="QVBoxLayout" >
+              <property name="leftMargin" >
+               <number>0</number>
+              </property>
+              <property name="topMargin" >
+               <number>0</number>
+              </property>
+              <property name="rightMargin" >
+               <number>0</number>
+              </property>
+              <property name="bottomMargin" >
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QRadioButton" name="m_pProcDontCreateRB" >
+                <property name="text" >
+                 <string>Don't create</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="m_pProcCreateAlwaysChangeRB" >
+                <property name="text" >
+                 <string>Create and change the name</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="m_pProcCreateChangeIfNeededRB" >
+                <property name="text" >
+                 <string>Create but change the name only if a name collision would occur</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </widget>
            </item>
            <item>

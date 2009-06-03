@@ -23,7 +23,12 @@
 #include  <memory>
 
 #include  <zlib.h>
-#include  <sys/time.h>
+
+#ifndef WIN32
+    #include  <sys/time.h>
+#else
+    #include  <QTime>
+#endif
 
 #include  <QHttp>
 #include  <QMessageBox>
@@ -32,6 +37,7 @@
 #include  <QPainter>
 #include  <QScrollBar>
 #include  <QHeaderView>
+#include  <QTime>
 
 #include  "AlbumInfoDownloaderDlgImpl.h"
 
@@ -627,7 +633,11 @@ string AlbumInfoDownloaderDlgImpl::getTempName() // time-based, with no extensio
     }
 
     char a [50];
+#ifndef WIN32
     ctime_r(&t, &a[0]);
+#else
+    strcpy(a, ctime(&t)); //ttt2 try to get rid of ctime
+#endif
     string s;
     const char* p (&a[0]);
     for (; 0 != *p; ++p)
@@ -750,13 +760,9 @@ void AlbumInfoDownloaderDlgImpl::addNote(const char* szNote)
     QString q (m_pDownloadsM->toPlainText());
     if (!q.isEmpty()) { q += "\n"; }
     {
-        //time_t t (time(0));
-        tm t;
-        timeval tv;
-        gettimeofday(&tv, 0);
-        localtime_r(&tv.tv_sec, &t);
+        QTime t (QTime::currentTime());
         char a [15];
-        sprintf(a, "%02d:%02d:%02d.%03d ", t.tm_hour, t.tm_min, t.tm_sec, int(tv.tv_usec/1000));
+        sprintf(a, "%02d:%02d:%02d.%03d ", t.hour(), t.minute(), t.second(), t.msec());
         q += a;
     }
     q += szNote;

@@ -25,6 +25,7 @@
 #include  <QApplication>
 #include  <QSettings>
 #include  <QFileInfo>
+#include  <QMessageBox>
 
 #include  "MainFormDlgImpl.h"
 #include  "SessionEditorDlgImpl.h"
@@ -173,38 +174,49 @@ int main(int argc, char *argv[])
 
     bool bOpenSelDlg (strStartSession.empty() || !bOpenLast);
 
-    for (;;)
+    //try
     {
-        if (bOpenSelDlg)
+        for (;;)
         {
-            SessionsDlgImpl dlg (0);
-            dlg.setWindowIcon(QIcon(":/images/logo.svg"));
-
-            strStartSession = dlg.run();
-            if (strStartSession.empty())
+            if (bOpenSelDlg)
             {
-                return 0;
+                SessionsDlgImpl dlg (0);
+                dlg.setWindowIcon(QIcon(":/images/logo.svg"));
+
+                strStartSession = dlg.run();
+                if (strStartSession.empty())
+                {
+                    return 0;
+                }
             }
+            bOpenSelDlg = true;
+
+            CB_ASSERT (!strStartSession.empty());
+
+            MainFormDlgImpl mainDlg (0, strStartSession);
+
+            mainDlg.setWindowIcon(QIcon(":/images/logo.svg"));
+            mainDlg.setWindowTitle("MP3 Diags");
+            {
+                vector<string> vstrSess;
+                bool bOpenLast;
+                string s;
+                GlobalSettings st;
+                st.loadSessions(vstrSess, s, bOpenLast);
+                st.saveSessions(vstrSess, strStartSession, bOpenLast);
+                nSessCnt = cSize(vstrSess);
+            }
+            if (MainFormDlgImpl::OPEN_SESS_DLG != mainDlg.run()) { return 0; }
         }
-        bOpenSelDlg = true;
-
-        CB_ASSERT (!strStartSession.empty());
-
-        MainFormDlgImpl mainDlg (0, strStartSession);
-
-        mainDlg.setWindowIcon(QIcon(":/images/logo.svg"));
-        mainDlg.setWindowTitle("MP3 Diags");
-        {
-            vector<string> vstrSess;
-            bool bOpenLast;
-            string s;
-            GlobalSettings st;
-            st.loadSessions(vstrSess, s, bOpenLast);
-            st.saveSessions(vstrSess, strStartSession, bOpenLast);
-            nSessCnt = cSize(vstrSess);
-        }
-        if (MainFormDlgImpl::OPEN_SESS_DLG != mainDlg.run()) { return 0; }
     }
+    /*catch (...) // ttt1 see if this can be handled; it seems that nothing can be done if an exception leaves a slot / event handler, but maybe there are ways around
+    {
+        //QMessageBox dlg (QMessageBox::Critical, "Error", "Caught generic exception. Exiting ...", QMessageBox::Close, 0, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint);
+
+        //dlg.exec();
+        //qDebug("out - err");
+    }*/
+
     /*mainDlg.show();
     return app.exec();*/
 }

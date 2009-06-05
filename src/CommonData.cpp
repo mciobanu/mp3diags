@@ -1145,6 +1145,8 @@ const QColor& ERROR_COLOR()
 // color based on severity
 QColor getNoteColor(const Note& note)
 {
+    //ttt0 this should determine if it's in an assert, and return white if so, because note is probably invalid (but then other calls for note would cause a crash anyway)
+
     //CB_ASSERT (0 <= eSev && eSev < 4);
     switch (note.getSeverity())
     {

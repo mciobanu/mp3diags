@@ -1,3 +1,7 @@
+* Thu Jun 04 2009 Marian Ciobanu <ciobi@inbox.com>
+- fixed a bug that could cause removal of audio data
+- fixed a bug that prevented single-image-saving from working
+
 * Mon Jun 01 2009 Marian Ciobanu <ciobi@inbox.com>
 - Ubuntu binaries
 - minor UI tweaks

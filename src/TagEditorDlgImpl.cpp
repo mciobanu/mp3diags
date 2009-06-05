@@ -1405,7 +1405,7 @@ TagEditorDlgImpl::SaveOpt TagEditorDlgImpl::save(bool bExplicitCall)
         if (2 == nOpt) { return CANCELLED; }
     }
 
-    Id3V230Writer wrt (m_pTagWriter, m_pCommonData->m_bKeepNormWndOpen);
+    Id3V230Writer wrt (m_pTagWriter, m_pCommonData->m_bKeepOneValidImg);
     vector<Transformation*> vpTransf;
     vpTransf.push_back(&wrt);
 

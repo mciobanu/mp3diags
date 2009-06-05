@@ -56,18 +56,15 @@
 
 
 <div class="FreeNormalText RegFnt ChpCol1">
-MP3 Diags is supposed to be hosted on SourceForge, but there are some issues. Until these issues are sorted out, I'm using my ISP's web hosting for documentation and source tarball, and <a href="https://build.opensuse.org/">openSUSE Build Service</a> for Linux binaries and source RPMs. So here's what is currently available:
-</div>
-<!-- <div class="FreeNormalText RegFnt ChpCol1">
 MP3 Diags is supposed to be hosted on SourceForge, but there are some issues. Until these issues are sorted out, I'm using my ISP's web hosting for documentation, source tarball, and Windows binaries; and <a href="https://build.opensuse.org/">openSUSE Build Service</a> for Linux binaries and source RPMs. So here's what is currently available:
 </div>
--->
+
 <div class="FreeNormalText RegFnt ChpCol2">
-<b><!-- Linux source code-->Source code</b>: <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3Diags-QQQVERQQQ.tar.gz">MP3Diags-QQQVERQQQ.tar.gz</a>
+<b>Linux source code</b>: <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3Diags-QQQVERQQQ.tar.gz">MP3Diags-QQQVERQQQ.tar.gz</a>
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol1">
-<b><!-- Linux binaries -->Binaries</b>:
+<b>Linux binaries</b>:
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
@@ -132,20 +129,22 @@ http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/
 http://widehat.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/
 -->
 
-<!--
+
 <div class="FreeNormalText RegFnt ChpCol2">
 <b>Windows (see more about the Windows port at the <a href="#Windows_details">bottom of the page</a>)</b>:
 <ul>
     <li> Windows source: <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3DiagsWndSrc-QQQVERQQQ.zip">MP3DiagsWndSrc-QQQVERQQQ.zip</a> </li>
-    <li> Windows 32bit executable: <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3DiagsWnd-QQQVERQQQ.zip">MP3DiagsWnd-QQQVERQQQ.zip</a> (you also need the DLLs, which should be unpacked in the same directory as the executable)</li>
-    <li> DLLs: <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3DiagsWnd-DLLs.zip">MP3DiagsWnd-DLLs.zip</a> </li>
+    <li> Windows 32bit installer: <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3DiagsSetup-QQQVERQQQ.exe">MP3DiagsSetup-QQQVERQQQ.exe</a> </li>
+    <li> Windows 32bit executable and DLLs: <a href="http://web.clicknet.ro/mciobanu/mp3diags/Mp3DiagsWindows-QQQVERQQQ.zip">Mp3DiagsWindows-QQQVERQQQ.zip</a> and <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3DiagsWnd-DLLs.zip">MP3DiagsWnd-DLLs.zip</a>; they should be unpacked in the same directory</li>
 </ul>
+
+You need either the installer or the pair "executable and DLLs".
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol1">
 The source files are the same for Linux and Windows, but the archives are different because of some bugs preventing the Qt for Windows from using several of the button images that are available in Linux. Also, the install scripts are different.
 </div>
--->
+
 
 <div class="FreeNormalText RegFnt ChpCol2">
 Since this is my first attempt at creating distributable binaries, I'm not very confident about their quality. So this is an area where I could use some help, especially in creating binaries for other platforms.
@@ -153,7 +152,7 @@ Since this is my first attempt at creating distributable binaries, I'm not very 
 
 
 <div class="FreeNormalText RegFnt ChpCol1">
-I tested the Ubuntu 9.04 32bit installation and it seemed OK except for a warning about the package not being authenticated, because it's not digitally signed. I'll look into this in the near future. However, the program installs and runs OK if you ignore that warning. You can read about adding repositories on Ubuntu <a href="https://help.ubuntu.com/community/Repositories/Ubuntu">here</a>. The command I used when prompted for the "APT line" was:
+I tested the Ubuntu 9.04 32bit .deb installation and it seemed OK except for a warning about the package not being authenticated, because it's not digitally signed. I'll look into this in the near future. However, the program installs and runs OK if you ignore that warning. You can read about adding repositories on Ubuntu <a href="https://help.ubuntu.com/community/Repositories/Ubuntu">here</a>. The command I used when prompted for the "APT line" was:
 </div>
 
 <div class="NormalText RegFnt ChpCol1 GenericSpace">
@@ -260,25 +259,39 @@ Uninstallation can be done through <span class="Reference">Uninstall.sh</span>. 
 <!-- ========================================================================================================== -->
 
 
-<!--
+
 
 <div class="SubChapterText RegFnt ChpCol2">
-<a name="Windows_details">The Windows version</a>
+<a name="Windows_details">About the Windows version</a>
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-I got a Windows version (sort of) working. It crashed several times for no apparent reason, so I recommend using Linux instead, if at all possible. It uses Qt 4.5.1 and the MinGW that comes with it (3.4.2.) Porting to MSVC is not something that I plan to do. I did the Windows version more out of curiosity; I have no need to use it. As such, the only way for me to find out about Windows-specific bugs is to have somebody report them.
+After some fiddling with Qt, GCC, and Boost, I got a Windows version (sort of) working. The first executable crashed several times for no apparent reason. After changing some icon files that didn't show up properly the crashes no longer happened, but I don't feel very confident that the problem is gone, so I recommend using Linux instead, if at all possible. At any rate, I did process some 1600 songs to fix issues in the audio part and then I corrected the ID3V2 tags and added images for 35 of my albums and everything went OK, no crash whatsoever. But, as they say, your mileage may vary.
 </div>
-
 
 <div class="NormalText RegFnt ChpCol2">
-As for the creating the executable, it was quite frustrating. There is Compile.bat ttt0; Couldn't get the debugger to work, so I used "good old" tracing to a file - an experience I'm not keen on repeating anytime soon.
+One thing that bothers me is a 1-second delay between the time when the frame of a window appears and the time the content of that window is shown properly. This makes MP3 Diags appear as running on some emulator. I (sort of) got used to it, though.
 </div>
 
--->
+<div class="NormalText RegFnt ChpCol2">
+I tested a previous version of the executable on XP SP1, XP SP2, XP SP3 and some Vista Home. For some reason the SP3 machine was unable to display any text, showing little rectangles instead; however, I suspect that this is related to something wrong with that particular machine, because the other ones ran OK (well, except for the random crash I talked about.) I didn't yet test the latest version on XP SP3 or on Vista, but hopefully I'll do it soon.
+</div>
+
+<div class="NormalText RegFnt ChpCol2">
+Another thing that should be mentioned is that the path separator is the forward slash '/', as on Unix, and not the backslash '\'. This is by design.
+</div>
+
+<div class="NormalText RegFnt ChpCol2">
+As for creating the executable - it was quite frustrating. Fortunately, now it's over. If you want to build it yourself, there is <span class="Reference">build.bat</span>, but, as pointed out in README.TXT, you'll have to change some paths manually. I couldn't get the debugger to work, so I used "good old" tracing to a file - an experience I'm not keen on repeating anytime soon.
+</div>
+
+<div class="NormalText RegFnt ChpCol2">
+The executable that I provide uses Qt 4.5.1 from Qt SDK 2009.02, and was compiled with the MinGW that comes with it (3.4.2.) I did the Windows version more out of curiosity; I have no need to use it. As such, the only way for me to find out about Windows-specific bugs is to have somebody report them.
+</div>
 
 
-<div class="NavPadTable RegFnt ChpCol2">
+
+<div class="NavPadTable RegFnt ChpCol1">
 <table border="0" cellpadding="0" cellspacing="0" width="100%" >
     <tr>
         <td width="30%" align="left"> <a href="index.html"><img src="arrow_left_small.png" class="ImgNoBorder NavPadLeft" align="absmiddle" /> </a> <a href="index.html"> Home </a> </td>

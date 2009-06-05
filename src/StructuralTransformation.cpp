@@ -246,6 +246,8 @@ static streampos findNearMpegFrameAtRight(streampos pos, istream& in, MpegStream
 
 void InnerNonAudioRemover::setupDiscarded(const Mp3Handler& h)
 {
+    m_spStreamsToDiscard.clear();
+
     const vector<DataStream*>& vpStreams (h.getStreams());
     int nFirstAudioPos (-1);
     int nLastAudioPos (-1);
@@ -279,7 +281,9 @@ void InnerNonAudioRemover::setupDiscarded(const Mp3Handler& h)
 
 /*override*/ bool InnerNonAudioRemover::matches(DataStream* p) const
 {
-    return m_spStreamsToDiscard.count(p) > 0;
+    bool b (m_spStreamsToDiscard.count(p) > 0);
+    CB_ASSERT (!b || (0 == dynamic_cast<MpegStream*>(p) && 0 == dynamic_cast<VbriStream*>(p)));
+    return b;
 }
 
 

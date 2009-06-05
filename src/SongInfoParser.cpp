@@ -167,7 +167,11 @@ struct TrackNoReader : public BoundReader
 
     /*override*/ void set(vector<string>& v)
     {
-        v[TagReader::TRACK_NUMBER].assign(m_pcLeft, m_pcRight - m_pcLeft);
+        //v[TagReader::TRACK_NUMBER].assign(m_pcLeft, m_pcRight - m_pcLeft);
+        string s;
+        s.assign(m_pcLeft, m_pcRight - m_pcLeft);
+        if ("00" == s) { s.clear(); }
+        v[TagReader::TRACK_NUMBER] = s;
     }
 
 private:

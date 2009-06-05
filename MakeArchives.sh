@@ -78,6 +78,10 @@ function createWindowsSrc
     #cp -p mp3diags.pro $LongDestDir
     #cp -p Uninstall.sh $LongDestDir
     cp -p Windows/SVGs/* $LongDestDir/src/images
+    rm -f $LongDestDir/src/src.pro
+    cp -p Windows/build.bat $LongDestDir
+    cp -p Windows/README.TXT $LongDestDir
+    cp -p Windows/Mp3DiagsWindows.pro $LongDestDir/src
 
     echo const char* APP_VER '("'$Ver'");'> $LongDestDir/src/Version.cpp
     echo >> $LongDestDir/src/Version.cpp

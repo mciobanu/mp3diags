@@ -18,11 +18,13 @@ Packager: Ciobi
 # ??? ttt0
 
 %if 0%{?suse_version} > 0000
+Requires: libqt4-x11
 BuildRequires: zlib-devel boost-devel libqt4-devel
 BuildRequires: update-desktop-files
 %endif
 
 %if 0%{?fedora} || 0%{?fedora_version}
+Requires: qt-x11
 #BuildRequires: qt-devel qt-config
 BuildRequires: qt-devel zlib-devel boost-devel gcc-c++
 %endif

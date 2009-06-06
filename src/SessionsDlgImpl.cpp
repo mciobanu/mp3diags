@@ -382,7 +382,7 @@ void SessionsDlgImpl::on_m_pSaveAsB_clicked()
     if (1 != fileNames.size()) { return; }
 
     string s (convStr(fileNames.first()));
-    CB_ASSERT (endsWith(s, ".ini"));
+    if (!endsWith(s, ".ini")) { s += ".ini"; }
 
     string strCrt (getCrtSession());
     if (s == strCrt) { return; }

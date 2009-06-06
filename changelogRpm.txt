@@ -1,3 +1,7 @@
+* Sat Jun 06 2009 Marian Ciobanu <ciobi@inbox.com>
+- added missing dependency for SVG icons
+- fixed a bug in "Save as ..."
+
 * Thu Jun 04 2009 Marian Ciobanu <ciobi@inbox.com>
 - fixed a bug that could cause removal of audio data
 - fixed a bug that prevented single-image-saving from working

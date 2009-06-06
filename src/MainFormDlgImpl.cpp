@@ -1836,4 +1836,5 @@ Development machine:
 //ttt1 a "reload" that only looks for new / removed files
 
 //ttt1 handle symbolic links to ancestors
-
+//ttt0 switch to album mode, go to tag editor, go to next album, change something in a song, save, close; the saved song appears in the list
+//ttt0 "maximize" icon on Gnome / Windows

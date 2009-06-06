@@ -22,11 +22,14 @@
         <td border="0" class="HeaderText">
             <span class="HeaderPadLeft"><a href="index.html"><img src="logo.png" border="0" alt="MP3 Diags" align=middle /></a></span>
         </td>
-        <!-- <td border="0" class="RightAlign"><span class="HeaderPadRight">Hosted by SF</span></td> -->
+        <!-- sf_hosting -->
     </tr>
 </table>
 </div>
 
+<!--
+<td border="0" class="HeaderText HeaderPadRight RightAlign"><a href="http://sourceforge.net/projects/mp3diags"><img border="0" align=middle src="http://sflogo.sourceforge.net/sflogo.php?group_id=260878&amp;type=12" width="120" height="30" alt="Get MP3 Diags at SourceForge.net. Fast, secure and Free Open Source software downloads" /></a></td>
+-->
 
 <!-- ========================================================================================================== -->
 <!-- ========================================================================================================== -->
@@ -106,17 +109,27 @@ MP3 Diags is supposed to be hosted on SourceForge, but there are some issues. Un
     </tr>
     <tr>
         <td> Ubuntu 8.10 </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_8.10/"> Repository </a> (<a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/xUbuntu_8.10/">mirror</a>)</td>
+        <!-- <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_8.10/"> Repository </a> (<a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/xUbuntu_8.10/">mirror</a>)</td> -->
+        <td> <a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/xUbuntu_8.10/"> Repository </a> </td>
         <td> </td>
         <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_8.10/i386/mp3diags_QQQVERQQQ_i386.deb"> 32 bit DEB </a> </td>
         <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_8.10/amd64/mp3diags_QQQVERQQQ_amd64.deb"> 64 bit DEB </a> </td>
     </tr>
     <tr>
         <td> Ubuntu 9.04 </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/"> Repository </a> (<a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/xUbuntu_9.04/">mirror</a>)</td>
+        <!-- <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/"> Repository </a> (<a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/xUbuntu_9.04/">mirror</a>)</td> -->
+        <td> <a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/xUbuntu_9.04/"> Repository </a> </td>
         <td> </td>
         <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/i386/mp3diags_QQQVERQQQ_i386.deb"> 32 bit DEB </a> </td>
         <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/amd64/mp3diags_QQQVERQQQ_amd64.deb"> 64 bit DEB </a> </td>
+    </tr>
+    <tr>
+        <td> Debian 5.0 </td>
+        <!-- <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Debian_5.0/"> Repository </a> (<a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/Debian_5.0/">mirror</a>)</td> -->
+        <td> <a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/Debian_5.0/"> Repository </a> </td>
+        <td> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Debian_5.0/i386/mp3diags_QQQVERQQQ_i386.deb"> 32 bit DEB </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Debian_5.0/amd64/mp3diags_QQQVERQQQ_amd64.deb"> 64 bit DEB </a> </td>
     </tr>
 </table>
 </div>
@@ -152,11 +165,21 @@ Since this is my first attempt at creating distributable binaries, I'm not very 
 
 
 <div class="FreeNormalText RegFnt ChpCol1">
+<b>Ubuntu and Debian notes</b>:
+</div>
+
+
+<div class="NormalText RegFnt ChpCol1">
 I tested the Ubuntu 9.04 32bit .deb installation and it seemed OK except for a warning about the package not being authenticated, because it's not digitally signed. I'll look into this in the near future. However, the program installs and runs OK if you ignore that warning. You can read about adding repositories on Ubuntu <a href="https://help.ubuntu.com/community/Repositories/Ubuntu">here</a>. The command I used when prompted for the "APT line" was:
 </div>
 
 <div class="NormalText RegFnt ChpCol1 GenericSpace">
-<span class="Reference">deb http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/ ./</span>
+<span class="Reference">deb http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/xUbuntu_9.04/ ./</span>
+</div>
+
+
+<div class="NormalText RegFnt ChpCol1">
+Currently the Ubuntu and Debian repositories are on a mirror server, so it takes some time for the latest packages to propagate. This is in the hope that new versions will be found automatically by Synaptic. (The repository on the main server uses redirection, which apparently isn't supported by Synaptic.) If new versions don't show up as available, please let me know.
 </div>
 
 

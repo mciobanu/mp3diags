@@ -23,8 +23,9 @@
 #include  "PaletteDlgImpl.h"
 
 #include  "TagEditorDlgImpl.h"
+#include  "Helpers.h"
 
-PaletteDlgImpl::PaletteDlgImpl(QWidget* pParent) : QDialog(pParent, 0), Ui::PaletteDlg()
+PaletteDlgImpl::PaletteDlgImpl(QWidget* pParent) : QDialog(pParent, getNoResizeWndFlags()), Ui::PaletteDlg() // not a "thread window", but doesn't need resizing anyway
 {
     setupUi(this);
 

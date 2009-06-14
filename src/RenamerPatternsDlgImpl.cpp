@@ -33,7 +33,7 @@ using namespace std;
 
 
 
-RenamerPatternsDlgImpl::RenamerPatternsDlgImpl(QWidget* pParent, SessionSettings& settings) : QDialog(pParent, 0), Ui::PatternsDlg(), m_settings(settings)
+RenamerPatternsDlgImpl::RenamerPatternsDlgImpl(QWidget* pParent, SessionSettings& settings) : QDialog(pParent, getDialogWndFlags()), Ui::PatternsDlg(), m_settings(settings)
 {
     setupUi(this);
     m_pAddPredefB->hide();

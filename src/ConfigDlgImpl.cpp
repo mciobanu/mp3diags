@@ -193,7 +193,7 @@ public:
 
 
 ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, QWidget* pParent, bool bFull) :
-        QDialog(pParent, 0),
+        QDialog(pParent, getDialogWndFlags()),
         Ui::ConfigDlg(),
         NoteListPainter("<all notes>"),
         m_transfCfg(transfCfg),
@@ -779,7 +779,7 @@ void ConfigDlgImpl::on_m_pCancelB_clicked()
 void ConfigDlgImpl::on_m_pChangeGenFontB_clicked()
 {
     bool bOk;
-    QFont font = QFontDialog::getFont(&bOk, m_generalFont, this);
+    QFont font = QFontDialog::getFont(&bOk, m_generalFont, this); //ttt1 see if possible to remove "What's this" button
     if (!bOk) { return; }
 
     m_generalFont = font;

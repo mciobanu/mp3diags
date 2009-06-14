@@ -33,7 +33,7 @@ using namespace pearl;
 
 
 
-ScanDlgImpl::ScanDlgImpl(QWidget* pParent, CommonData* pCommonData) : QDialog(pParent, 0), Ui::ScanDlg(), m_pCommonData(pCommonData)
+ScanDlgImpl::ScanDlgImpl(QWidget* pParent, CommonData* pCommonData) : QDialog(pParent, getDialogWndFlags()), Ui::ScanDlg(), m_pCommonData(pCommonData)
 {
     setupUi(this);
 

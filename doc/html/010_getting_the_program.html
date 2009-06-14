@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="keywords" content="MP3, diags, diagnosis, tag editor, tagger, normalizer" />
+<meta name="keywords" content="MP3, diags, diagnosis, tag editor, tagger, normalizer, repair, VBR" />
 <meta name="description" content="End-user documentation for MP3 Diags, an MP3 analysis tool that also includes correction and tag editing functionality" />
 <title>MP3 Diags - Getting MP3 Diags</title>
 <link rel="stylesheet" type="text/css" media="screen" href="style.css">
@@ -59,15 +59,15 @@
 
 
 <div class="FreeNormalText RegFnt ChpCol1">
-MP3 Diags is supposed to be hosted on SourceForge, but there are some issues. Until these issues are sorted out, I'm using my ISP's web hosting for documentation, source tarball, and Windows binaries; and <a href="https://build.opensuse.org/">openSUSE Build Service</a> for Linux binaries and source RPMs. So here's what is currently available:
+There are both source files and binaries, for several Linux platforms, as well as for 32bit Windows. On this page there are all the links to the current packages. If you need some older version, you can go to the <a href="http://sourceforge.net/project/showfiles.php?group_id=260878">main download page</a> at SourceForge (note, though, that it doesn't have any Linux binaries.) The Linux binaries that I provide are built and hosted by the <a href="https://build.opensuse.org/">openSUSE Build Service</a>. Here's what is currently available:
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol2">
-<b>Linux source code</b>: <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3Diags-QQQVERQQQ.tar.gz">MP3Diags-QQQVERQQQ.tar.gz</a>
+<b>Linux source code</b>: <a href="http://sourceforge.net/project/showfiles.php?group_id=260878&amp;package_id=320492">MP3Diags.tar.gz</a>. See also the notes <a href="#Subversion_info">below</a> about using Subversion.
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol1">
-<b>Linux binaries</b>:
+<b>Linux binaries built and packaged by me</b>:
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
@@ -76,62 +76,76 @@ MP3 Diags is supposed to be hosted on SourceForge, but there are some issues. Un
         <td> openSUSE 10.3 </td>
         <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_10.3/"> Repository </a> </td>
         <td> <a class="NoUnderline" href="http://software.opensuse.org/ymp/home:ciobi/openSUSE_10.3/MP3Diags.ymp"> 1-Click Install </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_10.3/i586/"> 32 bit RPM </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_10.3/x86_64/"> 64 bit RPM </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_10.3/i586/"> i586 .rpm </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_10.3/x86_64/"> x86_64 .rpm </a> </td>
     </tr>
     <tr>
         <td> openSUSE 11.0 </td>
         <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.0/"> Repository </a> </td>
         <td> <a class="NoUnderline" href="http://software.opensuse.org/ymp/home:ciobi/openSUSE_11.0/MP3Diags.ymp"> 1-Click Install </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.0/i586/"> 32 bit RPM </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.0/x86_64/"> 64 bit RPM </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.0/i586/"> i586 .rpm </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.0/x86_64/"> x86_64 .rpm </a> </td>
     </tr>
     <tr>
         <td> openSUSE 11.1 </td>
         <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.1/"> Repository </a> </td>
         <td> <a class="NoUnderline" href="http://software.opensuse.org/ymp/home:ciobi/openSUSE_11.1/MP3Diags.ymp"> 1-Click Install </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.1/i586/"> 32 bit RPM </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.1/x86_64/"> 64 bit RPM </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.1/i586/"> i586 .rpm </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.1/x86_64/"> x86_64 .rpm </a> </td>
     </tr>
     <tr>
         <td> Fedora 9 </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_9/"> Repository </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_9/"> Home directory </a> </td>
         <td> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_9/i386/"> 32 bit RPM </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_9/x86_64/"> 64 bit RPM </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_9/i386/"> i386 .rpm </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_9/x86_64/"> x86_64 .rpm </a> </td>
     </tr>
     <tr>
         <td> Fedora 10 </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_10/"> Repository </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_10/"> Home directory </a> </td>
         <td> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_10/i386/"> 32 bit RPM </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_10/x86_64/"> 64 bit RPM </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_10/i386/"> i386 .rpm </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_10/x86_64/"> x86_64 .rpm </a> </td>
     </tr>
     <tr>
         <td> Ubuntu 8.10 </td>
         <!-- <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_8.10/"> Repository </a> (<a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/xUbuntu_8.10/">mirror</a>)</td> -->
         <td> <a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/xUbuntu_8.10/"> Repository </a> </td>
         <td> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_8.10/i386/mp3diags_QQQVERQQQ_i386.deb"> 32 bit DEB </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_8.10/amd64/mp3diags_QQQVERQQQ_amd64.deb"> 64 bit DEB </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_8.10/i386/mp3diags_QQQVERQQQ_i386.deb"> i386 .deb </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_8.10/amd64/mp3diags_QQQVERQQQ_amd64.deb"> x86_64 .deb </a> </td>
     </tr>
     <tr>
         <td> Ubuntu 9.04 </td>
         <!-- <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/"> Repository </a> (<a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/xUbuntu_9.04/">mirror</a>)</td> -->
         <td> <a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/xUbuntu_9.04/"> Repository </a> </td>
         <td> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/i386/mp3diags_QQQVERQQQ_i386.deb"> 32 bit DEB </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/amd64/mp3diags_QQQVERQQQ_amd64.deb"> 64 bit DEB </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/i386/mp3diags_QQQVERQQQ_i386.deb"> i386 .deb </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/amd64/mp3diags_QQQVERQQQ_amd64.deb"> x86_64 .deb </a> </td>
     </tr>
     <tr>
         <td> Debian 5.0 </td>
         <!-- <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Debian_5.0/"> Repository </a> (<a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/Debian_5.0/">mirror</a>)</td> -->
         <td> <a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/Debian_5.0/"> Repository </a> </td>
         <td> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Debian_5.0/i386/mp3diags_QQQVERQQQ_i386.deb"> 32 bit DEB </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Debian_5.0/amd64/mp3diags_QQQVERQQQ_amd64.deb"> 64 bit DEB </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Debian_5.0/i386/mp3diags_QQQVERQQQ_i386.deb"> i386 .deb </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Debian_5.0/amd64/mp3diags_QQQVERQQQ_amd64.deb"> x86_64 .deb </a> </td>
     </tr>
 </table>
+</div>
+
+<div class="FreeNormalText RegFnt ChpCol2">
+<b>Other Linux binaries</b>:
+</div>
+
+
+<div class="NormalText RegFnt ChpCol2">
+Christian Marillat from <a href="http://www.debian-multimedia.org/">http://www.debian-multimedia.org/</a> notified me that he's building MP3 Diags for Debian 5.0. It can be found in the "unstable" branch. Besides the program being built by somebody who actually knows something about building and did it many times before, you can find there binaries for many other platforms in addition to x86 and AMD64. You can download the i386 package from <a href="http://www.debian-multimedia.org/dists/unstable/main/binary-i386/package/mp3diags.php">this page</a>, but you probably want to add the repository, so you are notified automatically about new releases (see the debian-multimedia.org <a href="http://www.debian-multimedia.org/">home page</a> for instructions about how to add the repository.)
+</div>
+
+
+<div class="NormalText RegFnt ChpCol2">
+Hopefully more platforms will get their own custom builds in the future.
 </div>
 
 
@@ -143,54 +157,56 @@ http://widehat.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/
 -->
 
 
-<div class="FreeNormalText RegFnt ChpCol2">
+<div class="FreeNormalText RegFnt ChpCol1">
 <b>Windows (see more about the Windows port at the <a href="#Windows_details">bottom of the page</a>)</b>:
 <ul>
-    <li> Windows source: <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3DiagsWndSrc-QQQVERQQQ.zip">MP3DiagsWndSrc-QQQVERQQQ.zip</a> </li>
-    <li> Windows 32bit installer: <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3DiagsSetup-QQQVERQQQ.exe">MP3DiagsSetup-QQQVERQQQ.exe</a> </li>
-    <li> Windows 32bit executable and DLLs: <a href="http://web.clicknet.ro/mciobanu/mp3diags/Mp3DiagsWindows-QQQVERQQQ.zip">Mp3DiagsWindows-QQQVERQQQ.zip</a> and <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3DiagsWnd-DLLs.zip">MP3DiagsWnd-DLLs.zip</a>; they should be unpacked in the same directory</li>
+    <li> <a href="http://sourceforge.net/project/showfiles.php?group_id=260878&amp;package_id=325509">Windows source</a> </li>
+    <li> <a href="http://sourceforge.net/project/showfiles.php?group_id=260878&amp;package_id=325510">Windows 32bit installer</a> </li>
+    <li> <a href="http://sourceforge.net/project/showfiles.php?group_id=260878&amp;package_id=325840">Windows 32bit executable</a> and <a href="http://sourceforge.net/project/showfiles.php?group_id=260878&amp;package_id=325841">Windows 32bit DLLs</a>; they should be unpacked in the same directory</li>
 </ul>
 
-You need either the installer or the pair "executable and DLLs".
+If you don't want to compile from sources, you need either the installer or the pair "executable and DLLs". (If you don't know what they are, you probably want the installer.)
 </div>
 
-<div class="FreeNormalText RegFnt ChpCol1">
+<div class="FreeNormalText RegFnt ChpCol2">
 The source files are the same for Linux and Windows, but the archives are different because of some bugs preventing the Qt for Windows from using several of the button images that are available in Linux. Also, the install scripts are different.
 </div>
 
 
-<div class="FreeNormalText RegFnt ChpCol2">
-Since this is my first attempt at creating distributable binaries, I'm not very confident about their quality. So this is an area where I could use some help, especially in creating binaries for other platforms.
+<div class="FreeNormalText RegFnt ChpCol1">
+Since this is my first attempt at creating distributable binaries, I'm not very confident that they are of good quality. One known issue is that they are not signed. Another issue is that the dependecies might not be best (e.g. the package requires some version of a library while most users have a different, incompatible version.) So this is an area where I could use some help, especially in creating binaries for non-openSUSE platforms.
 </div>
 
 
-<div class="FreeNormalText RegFnt ChpCol1">
+<div class="FreeNormalText RegFnt ChpCol2">
 <b>Ubuntu and Debian notes</b>:
 </div>
 
 
-<div class="NormalText RegFnt ChpCol1">
-I tested the Ubuntu 9.04 32bit .deb installation and it seemed OK except for a warning about the package not being authenticated, because it's not digitally signed. I'll look into this in the near future. However, the program installs and runs OK if you ignore that warning. You can read about adding repositories on Ubuntu <a href="https://help.ubuntu.com/community/Repositories/Ubuntu">here</a>. The command I used when prompted for the "APT line" was:
+<div class="NormalText RegFnt ChpCol2">
+I tested the Ubuntu 9.04 i386 .deb installation and it seemed OK except for a warning about the package not being authenticated, because it's not digitally signed. I'll look into this in the near future. However, the program installs and runs OK if you ignore that warning. You can read about adding repositories on Ubuntu <a href="https://help.ubuntu.com/community/Repositories/Ubuntu">here</a>. The command I used when prompted for the "APT line" was:
 </div>
 
-<div class="NormalText RegFnt ChpCol1 GenericSpace">
+<div class="NormalText RegFnt ChpCol2 GenericSpace">
 <span class="Reference">deb http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/xUbuntu_9.04/ ./</span>
 </div>
 
 
-<div class="NormalText RegFnt ChpCol1">
+<div class="NormalText RegFnt ChpCol2">
 Currently the Ubuntu and Debian repositories are on a mirror server, so it takes some time for the latest packages to propagate. This is in the hope that new versions will be found automatically by Synaptic. (The repository on the main server uses redirection, which apparently isn't supported by Synaptic.) If new versions don't show up as available, please let me know.
 </div>
 
 
 
+<div class="FreeNormalText RegFnt ChpCol1">
+<b>Documentation</b>: If for some reason you don't want to look at the documentation online, you can download it <a href="http://sourceforge.net/project/showfiles.php?group_id=260878&amp;package_id=325850">here</a>.
+</div>
+
+
+
 
 <div class="FreeNormalText RegFnt ChpCol2">
-If for some reason you don't want to look at the documentation online, you can download it <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3DiagsDoc-QQQVERQQQ.tar.gz">here</a>.
-</div>
-
-<div class="FreeNormalText RegFnt ChpCol1">
-Announcements about new releases will be made at the <a href="http://mp3diags.blogspot.com/">MP3 Diags blog</a>, which should be used temporarily for any kind of support and feedback.
+<b>New releases</b>: Announcements about new releases will be made at the <a href="http://mp3diags.blogspot.com/">MP3 Diags blog</a>.
 </div>
 
 
@@ -201,21 +217,21 @@ Announcements about new releases will be made at the <a href="http://mp3diags.bl
 
 
 
-<div class="SubChapterText RegFnt ChpCol2">
+<div class="SubChapterText RegFnt ChpCol1">
 Requirements
 </div>
 
 
-<div class="NormalText RegFnt ChpCol2">
+<div class="NormalText RegFnt ChpCol1">
 The development system is openSUSE 10.3. I also compiled MP3 Diags on openSUSE 11.1 and on Ubuntu 9.04, and it seemed to work fine. I expect most Linux distributions from 2007 or newer to be able to compile and run it (perhaps after some Install.sh tweaks.)
 </div>
 
-<div class="NormalText RegFnt ChpCol2">
+<div class="NormalText RegFnt ChpCol1">
 In order to compile the project, these packages should be installed:
 </div>
 
-<div class="NormalText RegFnt ChpCol2 GenericSpace">
-<table border="1" cellpadding="3" cellspacing="1" class="TableText RegFnt ChpCol1">
+<div class="NormalText RegFnt ChpCol1 GenericSpace">
+<table border="1" cellpadding="3" cellspacing="1" class="TableText RegFnt ChpCol2">
     <tr>
         <td> <b>Generic names</b> </td>
         <td> C++ compiler, Qt4 development, zlib development, Boost development </td>
@@ -239,17 +255,17 @@ In order to compile the project, these packages should be installed:
 </table>
 </div>
 
-<div class="NormalText RegFnt ChpCol2">
+<div class="NormalText RegFnt ChpCol1">
 Qt 4.3.1 is the one that was used for development. Something above should be OK too, but there may be some UI glitches, about which <a href="050_feedback.html">I'd like to know</a>.
 </div>
 
 
-<div class="NormalText RegFnt ChpCol2">
+<div class="NormalText RegFnt ChpCol1">
 If you want to use GCC 4.4 or above, you need Boost 1.37 or later (see <a href="http://bugs.xmms2.xmms.se/view.php?id=2215">http://bugs.xmms2.xmms.se/view.php?id=2215</a>.)
 </div>
 
 
-<div class="NormalText RegFnt ChpCol2">
+<div class="NormalText RegFnt ChpCol1">
 If you find some other required package, please <a href="050_feedback.html">let me know</a>.
 </div>
 
@@ -261,17 +277,47 @@ If you find some other required package, please <a href="050_feedback.html">let 
 
 
 
-<div class="SubChapterText RegFnt ChpCol1">
+<div class="SubChapterText RegFnt ChpCol2">
 Compiling &amp; installing
 </div>
 
 
-<div class="NormalText RegFnt ChpCol1">
+<div class="NormalText RegFnt ChpCol2">
 After unpacking the surce to some directory, just run Install.sh in that directory. Note that double-clicking the script in some file browser may work or not, depending on the "current directory" being set properly and on whether a terminal window gets opened so you can type the root password to get the executable copied to /usr/local/bin. Other options are to manually run the relevant 3 commands in <span class="Reference">Install.sh</span>, or to compile the project from KDevelop 3.5, if you have it (though you might still have to change the name of qmake.)
 </div>
 
-<div class="NormalText RegFnt ChpCol1">
+<div class="NormalText RegFnt ChpCol2">
 Uninstallation can be done through <span class="Reference">Uninstall.sh</span>. You probably created some data files, and if you are sure you no longer need them you should remove them manually. Note that the data files come in pairs. Although you only specify an ".ini" file when you start the program for the first time (or when you <a href="310_advanced.html">create a new session</a>), two files get created. The ".ini" only stores settings, while the actual data is stored in a file in the same directory and with the same name but with the extension ".dat".
+</div>
+
+
+
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+
+
+
+
+<div class="SubChapterText RegFnt ChpCol1">
+<a name="Subversion_info">Subversion information</a>
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+The source code may also be downloaded from the Subversion server provided by SourceForge, by using this command:
+</div>
+
+<div class="NormalText RegFnt ChpCol1 GenericSpace">
+<span class="Reference">svn export https://mp3diags.svn.sourceforge.net/svnroot/mp3diags</span>
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+Builds created from code from this server are supposed to be of the same quality as official releases. Changes are tested before checking in.
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+The Subversion repository is supposed to store all the tools that are needed to build the project, not just the source code. So you can find there the documentation, installer and build scripts, Windows-specific icons, and desktop integration files. The build scripts can be used as a starting point for creating binary packages for other .rpm or Debian - based distributions.
 </div>
 
 
@@ -289,7 +335,7 @@ Uninstallation can be done through <span class="Reference">Uninstall.sh</span>. 
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-After some fiddling with Qt, GCC, and Boost, I got a Windows version (sort of) working. The first executable crashed several times for no apparent reason. After changing some icon files that didn't show up properly the crashes no longer happened, but I don't feel very confident that the problem is gone, so I recommend using Linux instead, if at all possible. At any rate, I did process some 1600 songs to fix issues in the audio part and then I corrected the ID3V2 tags and added images for 35 of my albums and everything went OK, no crash whatsoever. But, as they say, your mileage may vary.
+It took some fiddling with Qt, GCC, and Boost, to get a Windows version working. The first executable crashed several times for no apparent reason. After changing some icon files that didn't show up properly the crashes no longer happened, but I don't feel very confident that the problem is gone, so I recommend using Linux instead, if at all possible. At any rate, I did process some 1600 songs with the Windows port to fix issues in the audio part, and then I corrected the ID3V2 tags and added images for 35 of my albums and everything went OK, no crash whatsoever. But, as they say, your mileage may vary.
 </div>
 
 <div class="NormalText RegFnt ChpCol2">

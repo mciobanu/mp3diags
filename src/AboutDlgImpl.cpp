@@ -24,9 +24,11 @@
 
 #include  "AboutDlgImpl.h"
 
+#include  "Helpers.h"
+
 extern const char* APP_VER;
 
-AboutDlgImpl::AboutDlgImpl(QWidget* pParent /*= 0*/) : QDialog(pParent), Ui::AboutDlg()
+AboutDlgImpl::AboutDlgImpl(QWidget* pParent /*= 0*/) : QDialog(pParent, getDialogWndFlags()), Ui::AboutDlg()
 {
     setupUi(this);
 
@@ -63,7 +65,7 @@ AboutDlgImpl::AboutDlgImpl(QWidget* pParent /*= 0*/) : QDialog(pParent), Ui::Abo
     //{ QAction* p (new QAction(this)); p->setShortcut(QKeySequence("Ctrl+N")); connect(p, SIGNAL(triggered()), this, SLOT(accept())); addAction(p); }
 }
 
-//ttt0 https://apps.sourceforge.net/trac/sourceforge/ticket/631
+
 
 void AboutDlgImpl::initText(QTextBrowser* p, const char* szFileName)
 {
@@ -118,7 +120,7 @@ Finds problems in MP3 files and helps the user to fix many of them using include
 
 //PATH=D:\Qt\2009.02\qt\bin;%PATH%
 
-//ttt0 doc windows install
+
 
 /*
 ttt1
@@ -135,3 +137,5 @@ LINE: * initial version
 dpkg-genchanges: warning: the current version (0.99.01.009) is smaller than the previous one (unknown1)
 
 */
+
+

@@ -1,3 +1,12 @@
+* Sun Jun 14 2009 Marian Ciobanu <ciobi@inbox.com>
+- added support for UTF8 in ID3V240
+- added maximize button to most windows in Windows (but could not get this to work with Gnome)
+- removed "What's this" button from most windows
+- now the main window shows the session name if more than 1 session was defined
+- now the main window shows up maximized in Gnome and Windows if it was maximized when it was closed
+- changed documentation links to point to new site, at SourceForge
+- minor documentation improvements
+
 * Sat Jun 06 2009 Marian Ciobanu <ciobi@inbox.com>
 - added missing dependency for SVG icons
 - fixed a bug in "Save as ..."

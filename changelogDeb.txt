@@ -1,4 +1,5 @@
 
+  * added UTF8 support in ID3V2.4.0 frames
   * added missing dependency for SVG icons
   * fixed a bug that could cause removal of audio data
   * fixed a bug that prevented single-image-saving from working
@@ -7,4 +8,4 @@
   * improved font handling
   * initial version
 
- -- Marian Ciobanu <ciobi@inbox.com>  Sat, 06 Jun 2009 10:00:00 +0200
+ -- Marian Ciobanu <ciobi@inbox.com>  Sun, 14 Jun 2009 10:00:00 +0200

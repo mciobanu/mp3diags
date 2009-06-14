@@ -316,5 +316,10 @@ inline std::string convStr(const QString& s) { return s.toUtf8().data(); } //ttt
 std::vector<std::string> convStr(const std::vector<QString>&);
 std::vector<QString> convStr(const std::vector<std::string>&);
 
+
+Qt::WindowFlags getMainWndFlags();   // minimize, maximize, no "what's this"
+Qt::WindowFlags getDialogWndFlags(); // minimize, no "what's this"
+Qt::WindowFlags getNoResizeWndFlags(); // no "what's this"; the window may be resizable, but the min/max icons aren't shown
+
 #endif // ifndef HelpersH
 

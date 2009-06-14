@@ -352,7 +352,8 @@ bool SerLoadThread::scan()
 } // namespace
 
 
-MainFormDlgImpl::MainFormDlgImpl(QWidget* pParent, const string& strSession) : QDialog(pParent), m_settings(strSession), m_nLastKey(0)/*, m_settings("Ciobi", "Mp3Diags_v01")*/ /*, m_nPrevTabIndex(-1), m_bTagEdtWasEntered(false)*/, m_strSession(strSession), m_bShowMaximized(false), m_nScanWidth(0)
+
+MainFormDlgImpl::MainFormDlgImpl(QWidget* pParent, const string& strSession) : QDialog(pParent, getMainWndFlags()), m_settings(strSession), m_nLastKey(0)/*, m_settings("Ciobi", "Mp3Diags_v01")*/ /*, m_nPrevTabIndex(-1), m_bTagEdtWasEntered(false)*/, m_strSession(strSession), m_bShowMaximized(false), m_nScanWidth(0)
 {
     s_pGlobalDlg = this;
     setupUi(this);
@@ -637,13 +638,29 @@ void MainFormDlgImpl::initializeUi()
 
     if (nWidth > 400 && nHeight > 400)
     {
-        resize(nWidth, nHeight);
+        QRect r (QApplication::desktop()->availableGeometry());
+        const int nApprox (16);
+
+#ifndef WIN32
+        int nTitleHeight(0);
+#else
+        int nTitleHeight(GetSystemMetrics(SM_CYSIZE)); // ttt2 actually there's a pixel missing but not obvious where to get it from; nApprox should allow enough tolerance, though
+#endif
+
+        if (r.width() - nWidth < nApprox && r.height() - nHeight - nTitleHeight < nApprox) //ttt1 no idea how this works on Vista (+Aero)
+        {
+            m_bShowMaximized = true;
+        }
+        else
+        {
+            resize(nWidth, nHeight);
+        }
     }
     else
     {
         //QRect r (QApplication::desktop()->availableGeometry());
         //qDebug("%d %d %d %d", r.x(), r.y(), r.width(), r.height());
-        m_bShowMaximized = true;
+        m_bShowMaximized = true; // ttt2 perhaps implement m_bShowMaximized for all windows
     }
 
     m_pCommonData->m_nMainWndIconSize = nIconSize;
@@ -715,7 +732,7 @@ void MainFormDlgImpl::onShow()
         string strErr;
         SerLoadThread* p (new SerLoadThread(m_pCommonData, m_strSession, strErr));
 
-        ThreadRunnerDlgImpl dlg (this, 0, p, ThreadRunnerDlgImpl::SHOW_COUNTER, ThreadRunnerDlgImpl::TRUNCATE_BEGIN, ThreadRunnerDlgImpl::HIDE_PAUSE_ABORT);
+        ThreadRunnerDlgImpl dlg (this, getNoResizeWndFlags(), p, ThreadRunnerDlgImpl::SHOW_COUNTER, ThreadRunnerDlgImpl::TRUNCATE_BEGIN, ThreadRunnerDlgImpl::HIDE_PAUSE_ABORT);
         CB_ASSERT (m_nScanWidth > 400);
         dlg.resize(m_nScanWidth, dlg.height());
         dlg.setWindowIcon(QIcon(":/images/logo.svg"));
@@ -759,7 +776,7 @@ void MainFormDlgImpl::onShow()
     string strErr;
     SerSaveThread* p (new SerSaveThread(m_pCommonData, m_strSession, strErr));
 //Qt::WindowStaysOnTopHint
-    ThreadRunnerDlgImpl dlg (this, 0, p, ThreadRunnerDlgImpl::SHOW_COUNTER, ThreadRunnerDlgImpl::TRUNCATE_BEGIN, ThreadRunnerDlgImpl::HIDE_PAUSE_ABORT);
+    ThreadRunnerDlgImpl dlg (this, getNoResizeWndFlags(), p, ThreadRunnerDlgImpl::SHOW_COUNTER, ThreadRunnerDlgImpl::TRUNCATE_BEGIN, ThreadRunnerDlgImpl::HIDE_PAUSE_ABORT);
     CB_ASSERT (m_nScanWidth > 400);
     dlg.resize(m_nScanWidth, dlg.height());
     dlg.setWindowIcon(QIcon(":/images/logo.svg"));
@@ -979,7 +996,7 @@ void MainFormDlgImpl::scan(FileEnumerator& fileEnum, bool bForce, deque<const Mp
     {
         Mp3ProcThread* p (new Mp3ProcThread(fileEnum, bForce, m_pCommonData, vpExisting));
 
-        ThreadRunnerDlgImpl dlg (this, 0, p, ThreadRunnerDlgImpl::SHOW_COUNTER, ThreadRunnerDlgImpl::TRUNCATE_BEGIN);
+        ThreadRunnerDlgImpl dlg (this, getNoResizeWndFlags(), p, ThreadRunnerDlgImpl::SHOW_COUNTER, ThreadRunnerDlgImpl::TRUNCATE_BEGIN);
         CB_ASSERT (m_nScanWidth > 400);
         dlg.resize(m_nScanWidth, dlg.height());
         dlg.setWindowIcon(QIcon(":/images/logo.svg"));
@@ -1837,4 +1854,3 @@ Development machine:
 
 //ttt1 handle symbolic links to ancestors
 //ttt0 switch to album mode, go to tag editor, go to next album, change something in a song, save, close; the saved song appears in the list
-//ttt0 "maximize" icon on Gnome / Windows

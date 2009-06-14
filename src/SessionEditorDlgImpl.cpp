@@ -55,7 +55,7 @@ void SessionEditorDlgImpl::commonConstr() // common code for both constructors
 
 
 // used for creating a new session;
-SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strDir, bool bFirstTime) : QDialog(pParent), Ui::SessionEditorDlg(), m_strDir(strDir), m_bNew(true)
+SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strDir, bool bFirstTime) : QDialog(pParent, getDialogWndFlags()), Ui::SessionEditorDlg(), m_strDir(strDir), m_bNew(true)
 {
     commonConstr();
 
@@ -73,7 +73,7 @@ SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strDi
 
 
 // used for editing an existing session;
-SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strIniFile) : QDialog(pParent), Ui::SessionEditorDlg(), m_bNew(false)
+SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strIniFile) : QDialog(pParent, getDialogWndFlags()), Ui::SessionEditorDlg(), m_bNew(false)
 {
     commonConstr();
 

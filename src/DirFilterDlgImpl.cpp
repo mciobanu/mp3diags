@@ -137,7 +137,7 @@ void DirFilterDlgImpl::populateLists()
 
 
 DirFilterDlgImpl::DirFilterDlgImpl(CommonData* pCommonData, QWidget* pParent /*=0*/) :
-        QDialog(pParent),
+        QDialog(pParent, getDialogWndFlags()),
         ListPainter("<all folders>"),
         m_pCommonData(pCommonData)
 {

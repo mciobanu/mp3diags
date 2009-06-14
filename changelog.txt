@@ -1,0 +1,52 @@
+---------------------------------------------------------------------------
+
+14.06.2009 - 0.99.02.012
+- added support for UTF8 in ID3V240
+- added maximize button to most windows in Windows (but could not get this to work with Gnome)
+- removed "What's this" button from most windows
+- now the main window shows the session name if more than 1 session was defined
+- now the main window shows up maximized in Gnome and Windows if it was maximized when it was closed
+- changed documentation links to point to new site, at SourceForge
+- minor documentation improvements
+
+---------------------------------------------------------------------------
+
+06.06.2009 - 0.99.02.011
+- added dependency to guarantee that SVG icons can be displayed on non-KDE desktops
+- fixed an assertion in "Sessions / Save as"
+- doc comment changes to prepare for moving to SourceForge
+
+---------------------------------------------------------------------------
+
+04.06.2009 - 0.99.02.010
+- fixed a bug that could result in removal of audio data when using the "Remove inner non-audio" transformation
+- first Windows version
+- fixed incorrect handling of the option to keep a single image in an ID3V2 tag
+
+---------------------------------------------------------------------------
+
+03.06.2009 - 0.99.01.009
+- added scripts for Ubuntu builds
+- made compilable on Windows
+- added some Windows-specific icons, to replace those that are displayed incorrectly
+- improved ColumnResizer
+- switched text in SVGs to "path", to avoid issues related to missing fonts
+- fixed Config / Files so it's no longer possible to only to uncheck all radio buttons
+- better handling of light background colors in the Notes table
+- fixed a bug that could result in erased files when the disk becomes full
+- change header / footer layout in the documentation
+
+---------------------------------------------------------------------------
+
+25.05.2009 - 0.99.0.008
+- increased cell width for notes, to look OK with more fonts
+- added an #include so gcc 4.4 can compile the project
+- now using black instead of "selection" color for notes if the contrast with the background is too low
+- improved the workaround that is needed for multiline text, so now it can handle all fonts (previously a message used to show up telling the user to change the font)
+- added horizontal scrollbar to directory trees
+- install.sh now exits errors
+
+---------------------------------------------------------------------------
+
+22.05.2009 - 0.99.0.007
+- first public version; most of the 1.0 features implemented and functional (what's left is an option to write ID3V2 tags "in place", to be used if the tag editor seems too slow; this may lead to data loss in cases of program / computer crash)

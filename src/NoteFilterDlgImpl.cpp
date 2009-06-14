@@ -55,7 +55,7 @@ using namespace pearl;
 
 
 NoteFilterDlgImpl::NoteFilterDlgImpl(CommonData* pCommonData, QWidget* pParent /*=0*/) :
-        QDialog(pParent),
+        QDialog(pParent, getDialogWndFlags()),
         NoteListPainter("<all notes>"),
         m_pCommonData(pCommonData)
 {

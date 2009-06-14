@@ -194,7 +194,7 @@ CurrentAlbumDelegate::CurrentAlbumDelegate(QWidget* pParent, CommonData* pCommon
 
 
 
-FileRenamerDlgImpl::FileRenamerDlgImpl(QWidget* pParent, CommonData* pCommonData) : QDialog(pParent, 0), Ui::FileRenamerDlg(), m_pCommonData(pCommonData)
+FileRenamerDlgImpl::FileRenamerDlgImpl(QWidget* pParent, CommonData* pCommonData) : QDialog(pParent, getDialogWndFlags()), Ui::FileRenamerDlg(), m_pCommonData(pCommonData)
 {
     setupUi(this);
 
@@ -541,7 +541,7 @@ void FileRenamerDlgImpl::on_m_pRenameB_clicked()
     {
         RenameThread* pThread (new RenameThread(vpHndl, bKeepOrig, pRenamer, this, m_pCommonData, vpDel, vpAdd));
 
-        ThreadRunnerDlgImpl dlg (this, 0, pThread, ThreadRunnerDlgImpl::SHOW_COUNTER, ThreadRunnerDlgImpl::TRUNCATE_BEGIN);
+        ThreadRunnerDlgImpl dlg (this, getNoResizeWndFlags(), pThread, ThreadRunnerDlgImpl::SHOW_COUNTER, ThreadRunnerDlgImpl::TRUNCATE_BEGIN);
         dlg.setWindowTitle(QString(bKeepOrig ? "Copying" : "Renaming") + (bAll ? " all the" : " selected") + " files in the current album");
         dlg.exec();
     }

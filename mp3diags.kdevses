@@ -1,146 +1,134 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="43" >
-  <Doc0 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/DataStream.h" >
-   <View0 Encoding="" line="0" Type="Source" />
+ <DocsAndViews NumberOfDocuments="40" >
+  <Doc0 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/DataStream.h" >
+   <View0 Encoding="" Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/DataStream.cpp" >
+  <Doc1 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/DataStream.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/CommonTypes.h" >
+  <Doc2 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/CommonTypes.h" >
    <View0 Encoding="" Type="Source" />
   </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/CommonTypes.cpp" >
+  <Doc3 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/CommonTypes.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/TagEditorDlgImpl.h" >
+  <Doc4 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/TagEditorDlgImpl.h" >
    <View0 Encoding="" Type="Source" />
   </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/TagEditorDlgImpl.cpp" >
-   <View0 Encoding="" line="1350" Type="Source" />
+  <Doc5 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/TagEditorDlgImpl.cpp" >
+   <View0 Encoding="" Type="Source" />
   </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/TagWriter.h" >
+  <Doc6 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/TagWriter.h" >
    <View0 Encoding="" Type="Source" />
   </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/TagWriter.cpp" >
+  <Doc7 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/TagWriter.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/MainFormDlgImpl.h" >
+  <Doc8 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/MainFormDlgImpl.h" >
    <View0 Encoding="" Type="Source" />
   </Doc8>
-  <Doc9 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/MainFormDlgImpl.cpp" >
-   <View0 Encoding="" line="1255" Type="Source" />
+  <Doc9 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/MainFormDlgImpl.cpp" >
+   <View0 Encoding="" line="354" Type="Source" />
   </Doc9>
-  <Doc10 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/CommonData.h" >
-   <View0 Encoding="" line="420" Type="Source" />
+  <Doc10 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/CommonData.h" >
+   <View0 Encoding="" Type="Source" />
   </Doc10>
-  <Doc11 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/CommonData.cpp" >
-   <View0 Encoding="" line="389" Type="Source" />
+  <Doc11 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/CommonData.cpp" >
+   <View0 Encoding="" Type="Source" />
   </Doc11>
-  <Doc12 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/Mp3Manip.h" >
+  <Doc12 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/Mp3Manip.h" >
    <View0 Encoding="" Type="Source" />
   </Doc12>
-  <Doc13 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/Mp3Manip.cpp" >
+  <Doc13 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/Mp3Manip.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc13>
-  <Doc14 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/StructuralTransformation.h" >
+  <Doc14 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/StructuralTransformation.h" >
    <View0 Encoding="" Type="Source" />
   </Doc14>
-  <Doc15 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/StructuralTransformation.cpp" >
+  <Doc15 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/StructuralTransformation.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc15>
-  <Doc16 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/Transformation.h" >
+  <Doc16 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/Transformation.h" >
    <View0 Encoding="" Type="Source" />
   </Doc16>
-  <Doc17 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/Transformation.cpp" >
+  <Doc17 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/Transformation.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc17>
-  <Doc18 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/MpegStream.h" >
+  <Doc18 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/MpegStream.h" >
    <View0 Encoding="" Type="Source" />
   </Doc18>
-  <Doc19 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/MpegStream.cpp" >
+  <Doc19 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/MpegStream.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc19>
-  <Doc20 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/MpegFrame.h" >
+  <Doc20 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/MpegFrame.h" >
    <View0 Encoding="" Type="Source" />
   </Doc20>
-  <Doc21 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/MpegFrame.cpp" >
+  <Doc21 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/MpegFrame.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc21>
-  <Doc22 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/Id3Transf.h" >
+  <Doc22 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/Id3Transf.h" >
    <View0 Encoding="" Type="Source" />
   </Doc22>
-  <Doc23 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/Id3Transf.cpp" >
+  <Doc23 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/Id3Transf.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc23>
-  <Doc24 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/Helpers.h" >
+  <Doc24 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/Helpers.h" >
    <View0 Encoding="" Type="Source" />
   </Doc24>
-  <Doc25 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/Helpers.cpp" >
+  <Doc25 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/Helpers.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc25>
-  <Doc26 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/OsFile.h" >
+  <Doc26 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/OsFile.h" >
    <View0 Encoding="" Type="Source" />
   </Doc26>
-  <Doc27 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/OsFile.cpp" >
+  <Doc27 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/OsFile.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc27>
-  <Doc28 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/Mp3Diags.qrc" >
+  <Doc28 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/Mp3Diags.qrc" >
    <View0 Encoding="" Type="Source" />
   </Doc28>
-  <Doc29 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/ConfigDlgImpl.h" >
+  <Doc29 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/ConfigDlgImpl.h" >
    <View0 Encoding="" Type="Source" />
   </Doc29>
-  <Doc30 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/ConfigDlgImpl.cpp" >
+  <Doc30 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/ConfigDlgImpl.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc30>
-  <Doc31 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/Notes.h" >
+  <Doc31 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/Notes.h" >
    <View0 Encoding="" Type="Source" />
   </Doc31>
-  <Doc32 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/Notes.cpp" >
+  <Doc32 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/Notes.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc32>
-  <Doc33 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/main.cpp" >
-   <View0 Encoding="" line="255" Type="Source" />
+  <Doc33 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/main.cpp" >
+   <View0 Encoding="" Type="Source" />
   </Doc33>
-  <Doc34 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/StoredSettings.h" >
+  <Doc34 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/StoredSettings.h" >
    <View0 Encoding="" Type="Source" />
   </Doc34>
-  <Doc35 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/StoredSettings.cpp" >
-   <View0 Encoding="" line="31" Type="Source" />
+  <Doc35 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/StoredSettings.cpp" >
+   <View0 Encoding="" Type="Source" />
   </Doc35>
-  <Doc36 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/AboutDlgImpl.h" >
+  <Doc36 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/AboutDlgImpl.h" >
    <View0 Encoding="" Type="Source" />
   </Doc36>
-  <Doc37 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/AboutDlgImpl.cpp" >
-   <View0 Encoding="" line="40" Type="Source" />
+  <Doc37 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/AboutDlgImpl.cpp" >
+   <View0 Encoding="" Type="Source" />
   </Doc37>
-  <Doc38 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/Mp3TransformThread.h" >
+  <Doc38 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/Mp3TransformThread.h" >
    <View0 Encoding="" Type="Source" />
   </Doc38>
-  <Doc39 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/Mp3TransformThread.cpp" >
-   <View0 Encoding="" line="159" Type="Source" />
+  <Doc39 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/mp3diags/src/Mp3TransformThread.cpp" >
+   <View0 Encoding="" line="371" Type="Source" />
   </Doc39>
-  <Doc40 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/NormalizeDlgImpl.cpp" >
-   <View0 Encoding="" line="190" Type="Source" />
-  </Doc40>
-  <Doc41 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/NormalizeDlgImpl.h" >
-   <View0 Encoding="" line="39" Type="Source" />
-  </Doc41>
-  <Doc42 NumberOfViews="1" URL="file:///home/ciobi/cpp/Mp3Utils/MP3Diags/src/Version.cpp" >
-   <View0 Encoding="" line="22" Type="Source" />
-  </Doc42>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
    <breakpointList>
-    <breakpoint0 location="/home/ciobi/cpp/Mp3Utils/MP3Diags/src/StructuralTransformation.cpp:637" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+    <breakpoint0 location="/home/ciobi/cpp/Mp3Utils/MP3Diags/src/MpegStream.cpp:281" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint0>
-    <breakpoint1 location="/home/ciobi/cpp/Mp3Utils/MP3Diags/src/MpegStream.cpp:281" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
-     <tracedExpressions/>
-    </breakpoint1>
    </breakpointList>
    <showInternalCommands value="0" />
   </kdevdebugger>
@@ -152,7 +140,7 @@
    <bookmarks>
     <bookmark url="/home/ciobi/cpp/Mp3Utils/MP3Diags/src/CommonData.cpp" >
      <mark line="279" />
-     <mark line="1680" />
+     <mark line="1682" />
     </bookmark>
    </bookmarks>
   </kdevbookmarks>

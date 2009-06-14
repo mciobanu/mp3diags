@@ -32,6 +32,7 @@
 #include  "SessionsDlgImpl.h"
 #include  "Helpers.h"
 #include  "StoredSettings.h"
+#include  "OsFile.h"
 
 using namespace std;
 
@@ -195,8 +196,6 @@ int main(int argc, char *argv[])
 
             MainFormDlgImpl mainDlg (0, strStartSession);
 
-            mainDlg.setWindowIcon(QIcon(":/images/logo.svg"));
-            mainDlg.setWindowTitle("MP3 Diags");
             {
                 vector<string> vstrSess;
                 bool bOpenLast;
@@ -206,6 +205,18 @@ int main(int argc, char *argv[])
                 st.saveSessions(vstrSess, strStartSession, bOpenLast);
                 nSessCnt = cSize(vstrSess);
             }
+            mainDlg.setWindowIcon(QIcon(":/images/logo.svg"));
+            if (1 == nSessCnt)
+            {
+                mainDlg.setWindowTitle("MP3 Diags");
+            }
+            else
+            {
+                string::size_type n (strStartSession.rfind(getPathSep()));
+                string s (strStartSession.substr(n + 1, strStartSession.size() - n - 3 - 2));
+                mainDlg.setWindowTitle("MP3 Diags - " + convStr(s));
+            }
+
             if (MainFormDlgImpl::OPEN_SESS_DLG != mainDlg.run()) { return 0; }
         }
     }

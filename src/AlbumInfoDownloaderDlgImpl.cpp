@@ -56,7 +56,7 @@ extern int CELL_HEIGHT;
 
 
 
-AlbumInfoDownloaderDlgImpl::AlbumInfoDownloaderDlgImpl(QWidget* pParent, SessionSettings& settings, bool bSaveResults) : QDialog(pParent, 0), Ui::AlbumInfoDownloaderDlg(), m_bSaveResults(bSaveResults), m_nLastCount(0), m_nLastTime(0), m_settings(settings)
+AlbumInfoDownloaderDlgImpl::AlbumInfoDownloaderDlgImpl(QWidget* pParent, SessionSettings& settings, bool bSaveResults) : QDialog(pParent, getDialogWndFlags()), Ui::AlbumInfoDownloaderDlg(), m_bSaveResults(bSaveResults), m_nLastCount(0), m_nLastTime(0), m_settings(settings)
 {
     setupUi(this);
 

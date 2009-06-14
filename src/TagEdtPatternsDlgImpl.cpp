@@ -32,7 +32,7 @@
 using namespace std;
 
 
-TagEdtPatternsDlgImpl::TagEdtPatternsDlgImpl(QWidget* pParent, SessionSettings& settings, const vector<string>& vstrPredef) : QDialog(pParent, 0), Ui::PatternsDlg(), m_settings(settings), m_vstrPredef(vstrPredef)
+TagEdtPatternsDlgImpl::TagEdtPatternsDlgImpl(QWidget* pParent, SessionSettings& settings, const vector<string>& vstrPredef) : QDialog(pParent, getDialogWndFlags()), Ui::PatternsDlg(), m_settings(settings), m_vstrPredef(vstrPredef)
 {
     setupUi(this);
 

@@ -84,7 +84,7 @@ SessionsModel::SessionsModel(std::vector<std::string>& vstrSessions) : m_vstrSes
 extern int CELL_HEIGHT;
 const QFont& getDefaultFont();
 
-SessionsDlgImpl::SessionsDlgImpl(QWidget* pParent) : QDialog(pParent), Ui::SessionsDlg(), m_sessionsModel(m_vstrSessions)
+SessionsDlgImpl::SessionsDlgImpl(QWidget* pParent) : QDialog(pParent, getDialogWndFlags()), Ui::SessionsDlg(), m_sessionsModel(m_vstrSessions)
 {
     {
         QApplication::setFont(getDefaultFont());

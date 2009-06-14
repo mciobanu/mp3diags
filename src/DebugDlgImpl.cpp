@@ -49,7 +49,7 @@ using namespace pearl;
 
 
 
-DebugDlgImpl::DebugDlgImpl(QWidget* pParent, CommonData* pCommonData) : QDialog(pParent, 0), Ui::DebugDlg(), m_pCommonData(pCommonData)
+DebugDlgImpl::DebugDlgImpl(QWidget* pParent, CommonData* pCommonData) : QDialog(pParent, getDialogWndFlags()), Ui::DebugDlg(), m_pCommonData(pCommonData)
 {
     setupUi(this);
 

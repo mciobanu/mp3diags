@@ -353,7 +353,7 @@ bool transform(const deque<const Mp3Handler*>& vpHndlr, vector<Transformation*>&
     bool bWriteError;
     {
         Mp3TransformThread* pThread (new Mp3TransformThread(pCommonData, transfConfig, vpHndlr, vpDel, vpAdd, vpTransf));
-        ThreadRunnerDlgImpl dlg (pParent, 0, pThread, ThreadRunnerDlgImpl::SHOW_COUNTER, ThreadRunnerDlgImpl::TRUNCATE_BEGIN);
+        ThreadRunnerDlgImpl dlg (pParent, getNoResizeWndFlags(), pThread, ThreadRunnerDlgImpl::SHOW_COUNTER, ThreadRunnerDlgImpl::TRUNCATE_BEGIN);
         dlg.setWindowTitle(convStr(strTitle));
         dlg.exec();
         strErrorFile = pThread->m_strErrorFile;

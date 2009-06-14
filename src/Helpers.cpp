@@ -601,3 +601,16 @@ vector<QString> convStr(const vector<string>& v)
     return u;
 }
 
+
+#ifndef WIN32
+    Qt::WindowFlags getMainWndFlags() { return Qt::WindowTitleHint; } // !!! these are incorrect, but seem the best option; the values used for Windows are supposed to be OK; they work as expected with KDE but not with Gnome (asking for maximize button not only fails to sho it, but causes the "Close" button to disappear as well); Since in KDE min/max buttons are shown when needed anyway, it's sort of OK // ttt0 see if there is workaround/fix
+    Qt::WindowFlags getDialogWndFlags() { return Qt::WindowTitleHint; }
+    Qt::WindowFlags getNoResizeWndFlags() { return Qt::WindowTitleHint; }
+#else
+    Qt::WindowFlags getMainWndFlags() { return Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowMinimizeButtonHint; } // minimize, maximize, no "what's this"
+    Qt::WindowFlags getDialogWndFlags() { return Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint; } // minimize, no "what's this"
+    Qt::WindowFlags getNoResizeWndFlags() { return Qt::WindowTitleHint; } // no "what's this"
+#endif
+
+
+

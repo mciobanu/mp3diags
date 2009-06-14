@@ -41,7 +41,7 @@ using namespace std;
 
 
 
-NormalizeDlgImpl::NormalizeDlgImpl(QWidget* pParent, bool bKeepOpen, SessionSettings& settings, const CommonData* pCommonData) : QDialog(pParent, 0), Ui::NormalizeDlg(), m_bFinished(false), m_settings(settings), m_pCommonData(pCommonData)
+NormalizeDlgImpl::NormalizeDlgImpl(QWidget* pParent, bool bKeepOpen, SessionSettings& settings, const CommonData* pCommonData) : QDialog(pParent, getDialogWndFlags()), Ui::NormalizeDlg(), m_bFinished(false), m_settings(settings), m_pCommonData(pCommonData)
 {
     setupUi(this);
     m_pKeepOpenCkM->setChecked(bKeepOpen);

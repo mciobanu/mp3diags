@@ -3,11 +3,11 @@
 COPYING	f	2009-05-06T06:54:32Z
 Doxyfile	f	2009-05-06T06:54:38Z
 Install.sh	f	2009-05-25T10:47:42Z
-MakeArchives.sh	f	2009-06-14T08:41:04Z
-Release.txt	f	2009-06-14T07:38:51Z
+MakeArchives.sh	f	2009-06-15T14:57:01Z
+Release.txt	f	2009-06-16T11:58:30Z
 Uninstall.sh	f	2009-05-22T05:36:21Z
-Windows/MP3Diags.nsi	f	2009-06-04T15:57:05Z
-Windows/Mp3DiagsWindows.pro	f	2009-05-27T09:06:50Z
+Windows/MP3Diags.nsi	f	2009-06-16T15:33:42Z
+Windows/Mp3DiagsWindows.pro	f	2009-06-16T11:49:22Z
 Windows/README.TXT	f	2009-05-31T11:23:18Z
 Windows/SVGs/edit-paste.svg	f	2009-05-28T11:24:41Z
 Windows/SVGs/file-rename.svg	f	2009-05-28T09:50:31Z
@@ -15,7 +15,7 @@ Windows/SVGs/go-next.svg	f	2009-05-28T09:41:16Z
 Windows/SVGs/go-previous.svg	f	2009-05-28T09:53:37Z
 Windows/SVGs/session.svg	f	2009-05-28T09:56:07Z
 Windows/build.bat	f	2009-05-31T10:37:44Z
-changelog.txt	f	2009-06-14T12:09:54Z
+changelog.txt	f	2009-06-16T15:32:21Z
 changelogDeb.txt	f	2009-06-14T08:56:04Z
 changelogRpm.txt	f	2009-06-14T12:11:25Z
 desktop/MP3Diags.desktop	f	2009-05-20T19:23:29Z
@@ -99,7 +99,7 @@ doc/html/005_screenshot02.html	f	2009-06-06T16:52:52Z
 doc/html/006_screenshot03.html	f	2009-06-06T16:52:52Z
 doc/html/008_licence.html	f	2009-06-06T14:29:30Z
 doc/html/010_getting_the_program.html	f	2009-06-14T07:24:37Z
-doc/html/020_mp3_introduction.html	f	2009-06-14T06:26:09Z
+doc/html/020_mp3_introduction.html	f	2009-06-15T07:20:35Z
 doc/html/030_users_guide.html	f	2009-06-10T12:53:33Z
 doc/html/040_limitations.html	f	2009-06-06T14:31:00Z
 doc/html/050_assert.png	f	2009-05-14T08:48:09Z

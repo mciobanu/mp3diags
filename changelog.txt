@@ -1,5 +1,11 @@
 ---------------------------------------------------------------------------
 
+16.06.2009 - 0.99.02.013
+- Windows-only: new Boost Serialization library, compiled with multithreading support
+- Windows-only: new install script, so now the setup has a more modern look and allows the user to run the program when the install completes
+
+---------------------------------------------------------------------------
+
 14.06.2009 - 0.99.02.012
 - added support for UTF8 in ID3V240
 - added maximize button to most windows in Windows (but could not get this to work with Gnome)

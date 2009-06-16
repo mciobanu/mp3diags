@@ -47,14 +47,13 @@
 
 
 
-
 <div class="FreeNormalText RegFnt ChpCol1">
 The high-level structure of an MP3 file is quite simple: a sequence of blocks of data, each of them with a well defined function and format. MP3 Diags calls these blocks of data "streams" (for lack of a better word.) Some of the streams are formally known as "headers" or "tags". Here's the list of streams that MP3 Diags handles:
 
 <ol class="ListNum1">
     <li class="ListSpace"> <b>MPEG audio stream</b>. This is the most important, because it contains the actual audio data. Normally it's also the biggest. MP3 files should contain "MPEG 1 Layer III" data, but sometimes they have something different (e.g. "MPEG 1 Layer II"). MP3 Diags should be able to handle these files as long as they have an ".mp3" extension. Note, though, that very little testing was done for files that are not "MPEG 1 Layer III".</li>
     <li class="ListSpace"> <b>ID3V1 tag</b>. This is an old and quite limited tag that stores track information (artist, title, ...) </li>
-    <li class="ListSpace"> <b>ID3V2 tag</b>. Also stores track information, but it is a lot more flexible than ID3V1 and allows storing of many things that can't be stored in ID3V1, like cover art, rating, or composer. There are several versions of it, and MP3 Diags can read data from ID3V2.3.0 (which seems the most popular) and from ID3V2.4.0, and can write to ID3V2.3.0 </li>
+    <li class="ListSpace"> <b>ID3V2 tag</b>. Also stores track information, but it is a lot more flexible than ID3V1 and allows storing of many things that can't be stored in ID3V1, like cover art, rating, or composer. An ID3V2 tag is made up of a header and a number of <b>frames</b>, each frame storing a particular value (artist, title, ...) There are several versions of it, and MP3 Diags can read data from ID3V2.3.0 (which seems the most popular) and from ID3V2.4.0, and can write to ID3V2.3.0 </li>
     <li class="ListSpace"> <b>Ape tag</b>. Another tag that stores track information. I tried to implement reading from it, but I don't have any file that uses the tag for track info, so I don't know how well that works. This tag is also used to store normalization info, which is handled by MP3 Diags and seems to be working fine. </li>
     <li class="ListSpace"> <b>Lyrics tag</b>. Track info, lyrics, more. The support for this is very limited. No information is read from or written to it, but it doesn't get removed either, so it should be usable by a player after MP3 Diags processes a file that has such a tag. </li>
     <li class="ListSpace"> <b>Xing header</b>. Information about the audio stream (size, quality, ...). Some players get confused by VBR files that don't have a Xing header, so it should be added if it's missing. </li>

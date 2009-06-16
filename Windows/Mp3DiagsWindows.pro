@@ -140,6 +140,6 @@ RESOURCES += Mp3Diags.qrc
 INCLUDEPATH += H:/temp/boost_1_39_0 D:/zlib123-dll/include
 
 #LIBS += -L/path/to -lpsapi
-LIBS += -LH:/temp/boost_1_39_0/bin.v2/libs/serialization/build/gcc-mingw-3.4.2/release -lboost_serialization-mgw34-1_39
+LIBS += -LH:/temp/boost_1_39_0/bin.v2/libs/serialization/build/gcc-mingw-3.4.2/release/threading-multi -lboost_serialization-mgw34-mt-1_39
 LIBS += -LD:/zlib123-dll/lib -lzdll
 LIBS += -lpsapi

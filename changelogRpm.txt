@@ -1,3 +1,6 @@
+* Thu Jun 18 2009 Marian Ciobanu <ciobi@inbox.com>
+- the tag editor loads albums much faster than before; this is most visible when navigating to the next / previous album
+
 * Sun Jun 14 2009 Marian Ciobanu <ciobi@inbox.com>
 - added support for UTF8 in ID3V240
 - added maximize button to most windows in Windows (but could not get this to work with Gnome)

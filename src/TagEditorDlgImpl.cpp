@@ -1584,3 +1584,27 @@ bool CurrentAlbumDelegate::closeEditor() // closes the editor opened with F2, sa
 //======================================================================================================================
 
 //ttt0 paste single line should change single cell
+
+/*
+ttt0 tag editor performance:
+
+TagWriter::reloadAll() is called twice when going to a new album, but that's not very important, because reloading no longer takes a lot of time; if there are no images it's very fast, but even with images it's no big deal;
+
+most time is used in rescanning a modified file, in Mp3Handler::parse(), as this example of saving a modified song shows:
+    save: 0.23" (copying streams from one file to another, totalling some 60MB)
+    read ID3: 0.29" (because it parses images)
+    read MPEG audio: 1.10"
+
+OTOH TagWriter::reloadAll() typically takes less than 0.10" for a whole album, even when pictures are present; what makes this slower is having pictures in the current directory, because they get rescanned at each reload, while the ones inside the MP3s don't. So eliminating the duplicate call wouldn't achieve much. The duplicate was needed at some point in time because of some Qt bug (or so it looked like); not sure if it's really needed, but removing it is almost guaranteed to result in some bugs (like randomly resizing the image panel) that are not consistently reproducible.)
+
+
+Rescanning of saved files might be eliminated if speed is so important, but it seems a bad idea; the main reason is that without rescanning the notes and the streams are going to be out of synch, and this is fundamentally unsolvable. Marking such files as "dirty" doesn't seem a very good idea, and could be quite confusing and hard to get right. Not marking them is worse. Perhaps "fast editor" option ...
+
+
+A less important performance issue is in ImageInfoPanelWdgImpl::ImageInfoPanelWdgImpl(): assigning of an image to a label takes more than 0.2"
+
+
+ttt0 perhaps "Scan images in the current folder", checked by default
+
+*/
+

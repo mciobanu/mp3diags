@@ -50,7 +50,9 @@ AboutDlgImpl::AboutDlgImpl(QWidget* pParent /*= 0*/) : QDialog(pParent, getDialo
         "Using original and modified icons from the <a href=\"http://www.oxygen-icons.org/\">Oxygen Project</a> for <a href=\"http://www.kde.org/\">KDE 4</a>, distributed under <a href=\"http://www.gnu.org/licenses/lgpl.html\">LGPL V3</a><p/>"
         "Using web services provided by <a href=\"http://www.discogs.com/\">Discogs</a> to retrieve album data<p/>"
         "Using web services provided by <a href=\"http://musicbrainz.org/\">MusicBrainz</a> to retrieve album data<p/><p/>"
-        "Home page and documentation: <a href=\"http://web.clicknet.ro/mciobanu/mp3diags\">http://web.clicknet.ro/mciobanu/mp3diags</a><p/>");
+        "Home page and documentation: <a href=\"http://mp3diags.sourceforge.net/\">http://mp3diags.sourceforge.net/</a><p/>"
+        "Feedback and support: <a href=\"http://sourceforge.net/forum/forum.php?forum_id=947206\">Open Discussion Forum</a> or <a href=\"http://sourceforge.net/forum/forum.php?forum_id=947207\">Help Forum</a> at SourceForge"
+        );
 
     m_pVersionL->setText(QString("MP3 Diags ") + APP_VER);
 
@@ -138,4 +140,6 @@ dpkg-genchanges: warning: the current version (0.99.01.009) is smaller than the 
 
 */
 
-
+//ttt0 windows setup: uninstall previous version
+//ttt0 normalize in Windows has flashing / duplicated output
+//ttt0 warn: picture downloaded but not assigned; or pehaps just assign, but this overwrites existing pictures even if the user doesn't want to;

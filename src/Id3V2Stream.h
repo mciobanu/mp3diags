@@ -63,11 +63,13 @@ struct Id3V2Frame
 
     enum ApicStatus { NO_APIC, ERROR, USES_LINK, NOT_SUPPORTED, OK };
     ApicStatus m_eApicStatus;
+    enum PictureType { OTHER = 0, ICON = 1, COVER = 3 };
     int m_nPictureType; // for APIC only (cover, back, ...)
     int m_nImgOffset;   // for APIC only
     int m_nImgSize;     // for APIC only
-    ImageInfo::Compr m_eCompr;
-    enum PictureType { OTHER = 0, ICON = 1, COVER = 3 };
+    ImageInfo::Compr m_eCompr;   // for APIC only
+    short m_nWidth;     // for APIC only
+    short m_nHeight;    // for APIC only
 
 private:
     Id3V2Frame(const Id3V2Frame&);
@@ -76,14 +78,14 @@ private:
 protected:
     enum { NO_UNSYNCH, HAS_UNSYNCH };
     Id3V2Frame(std::streampos pos, bool bHasUnsynch, StringWrp* pFileName);
-    Id3V2Frame() {} // serialization-only constructor
+    Id3V2Frame() : m_nWidth(-1), m_nHeight(-1) {} // serialization-only constructor
 
     static std::string utf8FromBomUtf16(const char* pData, int nSize); // returns a UTF8 string from a buffer containing a UTF16 sting starting with BOM
 
 private:
     friend class boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int /*nVersion*/)
+    void serialize(Archive& ar, const unsigned int nVersion)
     {
         ar & m_szName;
         ar & m_nMemDataSize;
@@ -104,8 +106,16 @@ private:
         ar & m_nImgOffset;
         ar & m_nImgSize;
         ar & m_eCompr;
+
+        if (nVersion > 0)
+        {
+            ar & m_nWidth;
+            ar & m_nHeight;
+        }
     }
 };
+
+BOOST_CLASS_VERSION(Id3V2Frame, 1);
 
 
 // Makes that frame data available, loading it from the file when necessary. This is needed for pictures or other large frames that would take too much space if they were stored in the memory, so they get discarded after the constructor completes.

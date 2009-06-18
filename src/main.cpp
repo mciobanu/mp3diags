@@ -34,6 +34,8 @@
 #include  "StoredSettings.h"
 #include  "OsFile.h"
 
+//#include  "Profiler.h"
+
 using namespace std;
 
 static const char* APP_NAME ("Mp3Diags");
@@ -119,6 +121,8 @@ int main(int argc, char *argv[])
 /*      QCoreApplication app(argc, argv);
       qDebug("Hello from Qt 4!");
       return 0;*/
+    //DEFINE_PROF_ROOT("mp3diags");
+    //PROF("root");
 
     Q_INIT_RESOURCE(Mp3Diags); // base name of the ".qrc" file
     QApplication app(argc, argv);

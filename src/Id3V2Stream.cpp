@@ -163,7 +163,9 @@ Id3V2Frame::Id3V2Frame(streampos pos, bool bHasUnsynch, StringWrp* pFileName) :
         m_nPictureType(-1),
         m_nImgOffset(-1),
         m_nImgSize(-1),
-        m_eCompr(ImageInfo::INVALID)
+        m_eCompr(ImageInfo::INVALID),
+        m_nWidth(-1),
+        m_nHeight(-1)
 {
 }
 
@@ -583,13 +585,21 @@ void Id3V2StreamBase::checkFrames(NoteColl& notes) // various checks to be calle
         //CB_CHECK (pixmap.loadFromData(pBinData, m_nImgSize));
 
         // make sure the data is still available and correct (the file might have been modified externally)
-        QPixmap pic;
-        if (pic.loadFromData(reinterpret_cast<const unsigned char*>(pBinData), m_pPicFrame->m_nImgSize))
+        if (-1 == m_pPicFrame->m_nWidth)
         {
-            QByteArray b (QByteArray::fromRawData(pBinData, m_pPicFrame->m_nImgSize));
-            b.append('x'); b.resize(b.size() - 1); // !!! these are needed because fromRawData() doesn't create copies of the memory used for the byte array
-            return ImageInfo(m_pPicFrame->m_nPictureType, m_eImageStatus, m_pPicFrame->m_eCompr, b, pic.width(), pic.height());
+            QPixmap pic;
+            if (!pic.loadFromData(reinterpret_cast<const unsigned char*>(pBinData), m_pPicFrame->m_nImgSize)) // this takes a lot of time
+            {
+                goto e1;
+            }
+            m_pPicFrame->m_nWidth = short(pic.width());
+            m_pPicFrame->m_nHeight = short(pic.height());
         }
+
+        QByteArray b (QByteArray::fromRawData(pBinData, m_pPicFrame->m_nImgSize));
+        b.append('x'); b.resize(b.size() - 1); // !!! these are needed because fromRawData() doesn't create copies of the memory used for the byte array
+        return ImageInfo(m_pPicFrame->m_nPictureType, m_eImageStatus, m_pPicFrame->m_eCompr, b, m_pPicFrame->m_nWidth, m_pPicFrame->m_nHeight);
+
         //QBuffer bfr (&res.m_compressedImg);
         //bfr.
         //res.m_compressedImg = QByteArray(fromRawData
@@ -599,7 +609,7 @@ void Id3V2StreamBase::checkFrames(NoteColl& notes) // various checks to be calle
     {
         //eImageStatus = ImageInfo::ERROR_LOADING;
     }
-
+e1:
     trace("The picture could be loaded before but now this is no longer possible. The most likely reason is that the file was moved or changed by an external application.");
 
     return ImageInfo(-1, ImageInfo::ERROR_LOADING);
@@ -649,6 +659,8 @@ void Id3V2StreamBase::preparePictureHlp(NoteColl& notes, Id3V2Frame* pFrame, con
         pFrame->m_nImgSize = nSize;
         pFrame->m_nImgOffset = pImgData - pFrameData;
         pFrame->m_eApicStatus = Id3V2Frame::OK;
+        pFrame->m_nWidth = short(img.width());
+        pFrame->m_nHeight = short(img.height());
         if (0 == strcmp("image/jpeg", szMimeType) || 0 == strcmp("image/jpg", szMimeType))
         {
             pFrame->m_eCompr = ImageInfo::JPG;

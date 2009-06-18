@@ -335,7 +335,7 @@ The Subversion repository is supposed to store all the tools that are needed to 
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-It took some fiddling with Qt, GCC, and Boost, to get a Windows version working. The first executable crashed several times for no apparent reason. After changing some icon files that didn't show up properly the crashes no longer happened, but I don't feel very confident that the problem is gone, so I recommend using Linux instead, if at all possible. At any rate, I did process some 1600 songs with the Windows port to fix issues in the audio part, and then I corrected the ID3V2 tags and added images for 35 of my albums and everything went OK, no crash whatsoever. But, as they say, your mileage may vary.
+It took some fiddling with Qt, GCC, and Boost, to get a Windows version working. The first executable crashed several times for no apparent reason. Later I identified a setting that might cause the crash; version 0.99.02.013 was the first to include a fix. While I didn't experience the crash after that, I don't feel very confident that the problem is gone, so I recommend using Linux instead, if at all possible. At any rate, I did process some 1600 songs with the Windows port to fix issues in the audio part, and then I corrected the ID3V2 tags and added images for 85 of my albums and everything went OK, no crash whatsoever. But, as they say, your mileage may vary.
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
@@ -343,11 +343,11 @@ One thing that bothers me is a 1-second delay between the time when the frame of
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-I tested a previous version of the executable on XP SP1, XP SP2, XP SP3 and some Vista Home. For some reason the SP3 machine was unable to display any text, showing little rectangles instead; however, I suspect that this is related to something wrong with that particular machine, because the other ones ran OK (well, except for the random crash I talked about.) I didn't yet test the latest version on XP SP3 or on Vista, but hopefully I'll do it soon.
+I tested a previous version of the executable on XP SP1, XP SP2, XP SP3 and some Vista Home. For some reason the SP3 machine was unable to display any text, showing little rectangles instead; however, I suspect that this is related to something wrong with that particular machine, because the other ones ran OK (well, except for the random crash I talked about.) I didn't yet test more recent versions on XP SP3 or on Vista, but hopefully I'll do it soon. I did test Windows 7 RC, though, and it looked and ran pretty good.
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-Another thing that should be mentioned is that the path separator is the forward slash '/', as on Unix, and not the backslash '\'. This is by design.
+Another thing that should be mentioned is that the path separator is the forward slash '/', as on Unix, and not the backslash '\'. This is by design. (Or rather it's the default and I didn't bother to change it.)
 </div>
 
 <div class="NormalText RegFnt ChpCol2">

@@ -1,5 +1,10 @@
 ---------------------------------------------------------------------------
 
+18.06.2009 - 0.99.02.014
+- the tag editor loads albums much faster than before; this is most visible when navigating to the next / previous album
+
+---------------------------------------------------------------------------
+
 16.06.2009 - 0.99.02.013
 - Windows-only: new Boost Serialization library, compiled with multithreading support
 - Windows-only: new install script, so now the setup has a more modern look and allows the user to run the program when the install completes

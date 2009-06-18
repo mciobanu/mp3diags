@@ -25,6 +25,7 @@
 #include  "ImageInfoPanelWdgImpl.h"
 
 #include  "Helpers.h"
+//#include  "Profiler.h"
 
 using namespace std;
 //using namespace pearl;
@@ -37,13 +38,16 @@ ImageInfoPanelWdgImpl::ImageInfoPanelWdgImpl(QWidget* pParent, const ImageInfo& 
         m_imageInfo(imageInfo),
         m_nPos(nPos)
 {
+//PROF("ImageInfoPanelWdgImpl::ImageInfoPanelWdgImpl");
     CB_ASSERT (nPos >= 0 /*&& nPos < cSize(vImageInfo)*/);
     setupUi(this);
     m_pPosL->setText(QString("# %1").arg(nPos + 1));
     m_pSizeL->setText(QString("%1kB").arg(imageInfo.getSize()/1024));
 
     m_pDimL->setText(QString("%1x%2").arg(imageInfo.getWidth()).arg(imageInfo.getHeight()));
-    m_pThumbL->setPixmap(imageInfo.getPixmap(IMG_SIZE));
+//PROFD(4);
+    m_pThumbL->setPixmap(imageInfo.getPixmap(IMG_SIZE)); //ttt1p performance issue; doesn't look like much can be done, though
+//PROFD(5);
 }
 
 ImageInfoPanelWdgImpl::~ImageInfoPanelWdgImpl()
@@ -52,7 +56,7 @@ ImageInfoPanelWdgImpl::~ImageInfoPanelWdgImpl()
 
 void ImageInfoPanelWdgImpl::on_m_pFullB_clicked()
 {
-    QDialog dlg (this);
+    QDialog dlg (this, getNoResizeWndFlags());
 
     QGridLayout* pGridLayout (new QGridLayout(&dlg));
     dlg.setLayout(pGridLayout);

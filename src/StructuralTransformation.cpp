@@ -696,4 +696,10 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
 //================================================================================================================================
 //================================================================================================================================
 
-
+/* ttt1 see about file flushing:
+    http://support.microsoft.com/default.aspx/kb/148505
+    - fdatasync() - like fsync() but doesn't change metadata (e.g. mtime) so it's faster
+    - since the C++ Library has nothing to do flushing, perhaps this would work: standalone "commit(const ofstream&)" and/or "commit(const string&)" ; also, we don't want to commit all the files; or perhaps "commit(ofstream&)" is needed, which would first close the file
+    - there's also out.rdbud()->pubsync(), but what it does is OS-dependent
+    - use external disk / flash, to see the LED, for testing
+*/

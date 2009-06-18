@@ -318,7 +318,7 @@ std::vector<QString> convStr(const std::vector<std::string>&);
 
 
 Qt::WindowFlags getMainWndFlags();   // minimize, maximize, no "what's this"
-Qt::WindowFlags getDialogWndFlags(); // minimize, no "what's this"
+Qt::WindowFlags getDialogWndFlags(); // maximize, no "what's this"
 Qt::WindowFlags getNoResizeWndFlags(); // no "what's this"; the window may be resizable, but the min/max icons aren't shown
 
 #endif // ifndef HelpersH

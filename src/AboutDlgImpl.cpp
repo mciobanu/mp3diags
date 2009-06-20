@@ -140,6 +140,6 @@ dpkg-genchanges: warning: the current version (0.99.01.009) is smaller than the 
 
 */
 
-//ttt0 windows setup: uninstall previous version
+
 //ttt0 normalize in Windows has flashing / duplicated output
 //ttt0 warn: picture downloaded but not assigned; or pehaps just assign, but this overwrites existing pictures even if the user doesn't want to;

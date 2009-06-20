@@ -3,8 +3,8 @@
 COPYING	f	2009-05-06T06:54:32Z
 Doxyfile	f	2009-05-06T06:54:38Z
 Install.sh	f	2009-05-25T10:47:42Z
-MakeArchives.sh	f	2009-06-15T14:57:01Z
-Release.txt	f	2009-06-18T20:17:36Z
+MakeArchives.sh	f	2009-06-19T14:45:30Z
+Release.txt	f	2009-06-20T05:55:49Z
 Uninstall.sh	f	2009-05-22T05:36:21Z
 Windows/MP3Diags.nsi	f	2009-06-16T15:33:42Z
 Windows/Mp3DiagsWindows.pro	f	2009-06-16T11:49:22Z
@@ -14,10 +14,10 @@ Windows/SVGs/file-rename.svg	f	2009-05-28T09:50:31Z
 Windows/SVGs/go-next.svg	f	2009-05-28T09:41:16Z
 Windows/SVGs/go-previous.svg	f	2009-05-28T09:53:37Z
 Windows/SVGs/session.svg	f	2009-05-28T09:56:07Z
-Windows/build.bat	f	2009-05-31T10:37:44Z
-changelog.txt	f	2009-06-18T20:20:07Z
-changelogDeb.txt	f	2009-06-18T20:17:24Z
-changelogRpm.txt	f	2009-06-18T20:19:59Z
+Windows/build.bat	f	2009-06-19T07:22:14Z
+changelog.txt	f	2009-06-20T06:34:55Z
+changelogDeb.txt	f	2009-06-20T06:22:49Z
+changelogRpm.txt	f	2009-06-20T06:29:08Z
 desktop/MP3Diags.desktop	f	2009-05-20T19:23:29Z
 desktop/MP3Diags16.png	f	2009-05-19T15:54:44Z
 desktop/MP3Diags16.xcf	f	2009-05-19T15:54:27Z
@@ -98,7 +98,8 @@ doc/html/004_screenshot01.html	f	2009-06-06T16:52:52Z
 doc/html/005_screenshot02.html	f	2009-06-06T16:52:52Z
 doc/html/006_screenshot03.html	f	2009-06-06T16:52:52Z
 doc/html/008_licence.html	f	2009-06-06T14:29:30Z
-doc/html/010_getting_the_program.html	f	2009-06-18T20:37:57Z
+doc/html/010_getting_the_program.html	f	2009-06-20T07:40:10Z
+doc/html/015_changelog.html	f	2009-06-20T08:19:55Z
 doc/html/020_mp3_introduction.html	f	2009-06-15T07:20:35Z
 doc/html/030_users_guide.html	f	2009-06-10T12:53:33Z
 doc/html/040_limitations.html	f	2009-06-06T14:31:00Z
@@ -164,7 +165,7 @@ doc/html/screenshot2.png	f	2009-05-09T08:02:49Z
 doc/html/screenshot2_thumb.png	f	2009-05-09T08:48:29Z
 doc/html/screenshot3.png	f	2009-05-09T08:13:16Z
 doc/html/screenshot3_thumb.png	f	2009-05-09T08:48:55Z
-doc/html/style.css	f	2009-05-30T14:40:28Z
+doc/html/style.css	f	2009-06-20T05:51:40Z
 doc/html/style_ie6.css	f	2009-05-15T13:47:00Z
 doc/html/style_ie7.css	f	2009-05-15T12:58:31Z
 doc/logo.01.png	f	2009-05-08T08:45:11Z
@@ -191,7 +192,7 @@ package/deb/debian.control	f	2009-06-06T07:28:46Z
 package/deb/debian.rules	f	2009-05-31T07:33:35Z
 package/subversion/linux_downloads.html	f	2009-06-10T07:26:41Z
 src/About.ui	f	2009-05-15T05:59:35Z
-src/AboutDlgImpl.cpp	f	2009-06-18T19:57:54Z
+src/AboutDlgImpl.cpp	f	2009-06-19T07:54:54Z
 src/AboutDlgImpl.h	f	2009-05-06T07:26:35Z
 src/AlbumInfoDownloader.ui	f	2009-05-07T12:48:31Z
 src/AlbumInfoDownloaderDlgImpl.cpp	f	2009-06-14T11:50:47Z
@@ -207,7 +208,7 @@ src/CommonData.h	f	2009-05-16T20:47:31Z
 src/CommonTypes.cpp	f	2009-05-06T07:36:46Z
 src/CommonTypes.h	f	2009-05-06T07:27:02Z
 src/Config.ui	f	2009-05-31T06:21:15Z
-src/ConfigDlgImpl.cpp	f	2009-06-14T11:51:56Z
+src/ConfigDlgImpl.cpp	f	2009-06-19T07:57:01Z
 src/ConfigDlgImpl.h	f	2009-05-06T07:28:31Z
 src/DataStream.cpp	f	2009-05-25T08:06:12Z
 src/DataStream.h	f	2009-05-06T07:28:38Z
@@ -272,7 +273,7 @@ src/Notes.cpp	f	2009-05-18T13:36:19Z
 src/Notes.h	f	2009-05-18T13:11:50Z
 src/NotesModel.cpp	f	2009-05-06T07:39:34Z
 src/NotesModel.h	f	2009-05-06T07:31:33Z
-src/OsFile.cpp	f	2009-05-31T09:15:25Z
+src/OsFile.cpp	f	2009-06-19T07:27:14Z
 src/OsFile.h	f	2009-05-31T09:10:25Z
 src/Palette.ui	f	2009-03-12T14:09:29Z
 src/PaletteDlgImpl.cpp	f	2009-06-14T12:06:25Z
@@ -290,7 +291,7 @@ src/SessionEditor.ui	f	2009-05-22T10:44:58Z
 src/SessionEditorDlgImpl.cpp	f	2009-06-14T11:59:50Z
 src/SessionEditorDlgImpl.h	f	2009-05-15T19:36:46Z
 src/Sessions.ui	f	2009-05-06T07:47:25Z
-src/SessionsDlgImpl.cpp	f	2009-06-14T11:59:50Z
+src/SessionsDlgImpl.cpp	f	2009-06-19T07:56:07Z
 src/SessionsDlgImpl.h	f	2009-05-06T07:32:13Z
 src/SimpleSaxHandler.h	f	2009-05-06T07:32:20Z
 src/SongInfoParser.cpp	f	2009-06-04T11:18:26Z

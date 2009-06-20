@@ -85,8 +85,8 @@ function createWindowsSrc
     rm -f -r $LongDestDir/src/.svn
     rm -f -r $LongDestDir/src/images/.svn
     rm -f -r $LongDestDir/src/licences/.svn
-    cp -p COPYING $LongDestDir
-    cp -p changelog.txt $LongDestDir
+    cat COPYING | unix2dos > $LongDestDir/COPYING
+    cat changelog.txt | unix2dos > $LongDestDir/changelog.txt
     #cp -p Install.sh $LongDestDir
     #cp mp3diags.kdevelop $LongDestDir
     #cat mp3diags.kdevelop | grep -v "cwd" | grep -v "home" > $LongDestDir/mp3diags.kdevelop
@@ -163,7 +163,7 @@ function createClicknetDoc
 
     #cp -pr doc/html/*.html $LongDestDir
     for i in $( ls doc/html/*.html | sed 's%.*/%%' ); do
-        cat doc/html/$i | sed 's%QQQStatCounterQQQ% Start of StatCounter Code --> <script type="text/javascript"> var sc_project=4765268; var sc_invisible=1; var sc_partition=54; var sc_click_stat=1; var sc_security="b8120652"; </script> <script type="text/javascript" src="http://www.statcounter.com/counter/counter.js"></script> <noscript> <div class="statcounter"> <a title="website statistics" href="http://www.statcounter.com/" target="_blank"> <img class="statcounter" src="http://c.statcounter.com/4765268/0/b8120652/1/" alt="website statistics" > </a> </div> </noscript> <!-- End of StatCounter Code %' > $LongDestDir/$i
+        cat doc/html/$i | sed 's%QQQStatCounterQQQ% Start of StatCounter Code --> <script type="text/javascript"> var sc_project=4841840; var sc_invisible=1; var sc_partition=56; var sc_click_stat=1; var sc_security="644c2333"; </script> <script type="text/javascript" src="http://www.statcounter.com/counter/counter.js"></script><noscript><div class="statcounter"><a title="free hit counter" href="http://www.statcounter.com/free_hit_counter.html" target="_blank"><img class="statcounter" src="http://c.statcounter.com/4841840/0/644c2333/1/" alt="free hit counter" ></a></div></noscript><!-- End of StatCounter Code %' > $LongDestDir/$i
     done
     fixVersion $LongDestDir/010_getting_the_program.html
 

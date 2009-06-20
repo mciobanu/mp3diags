@@ -568,7 +568,7 @@ void initDefaultCustomTransf(int k, vector<vector<int> >& vv, CommonData* pCommo
         v.push_back(pCommonData->getTransfPos(Id3V2Rescuer::getClassName()));
         v.push_back(pCommonData->getTransfPos(UnsupportedId3V2Remover::getClassName()));
         v.push_back(pCommonData->getTransfPos(MultipleId3StreamRemover::getClassName()));
-        v.push_back(pCommonData->getTransfPos(Id3V1ToId3V2Copier::getClassName()));
+        //v.push_back(pCommonData->getTransfPos(Id3V1ToId3V2Copier::getClassName()));
         break;
 
     case 2:

@@ -21,7 +21,7 @@
 /*.WarnCol { background: #ff3838; color: #ffffff; }*/
 .WarnCol { background: #ff1818; color: #ffff00; font-weight: bold; }
 /*.WarnCol { background: #ff3838; }*/
-
+.NoteCol { background: #000040; color: #ffffff; font-size: small; }
 
 .InlineCode     { color: #000090; font-style: italic; font-weight: bold; }
 .NoBoldInlineCode     { color: #0000b0; font-style: italic; }
@@ -78,5 +78,10 @@ a.Warn:link     { color: #ffff50; text-decoration: underline; }
 a.Warn:active   { color: #ffff30; text-decoration: underline; }
 a.Warn:visited  { color: #dddd20; text-decoration: underline; }
 a.Warn:hover    { color: #ffff50; text-decoration: underline; }
+
+a.Note:link     { color: #ffffc0; text-decoration: underline; }
+a.Note:active   { color: #ffffb0; text-decoration: underline; }
+a.Note:visited  { color: #dddd80; text-decoration: underline; }
+a.Note:hover    { color: #ffffd0; text-decoration: underline; }
 
 a.NoUnderline   { text-decoration:none; }

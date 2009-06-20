@@ -1,4 +1,5 @@
 
+  * made compilable on Fedora 11 and added Fedora 11 build
   * the tag editor loads albums much faster than before
   * added UTF8 support in ID3V2.4.0 frames
   * added missing dependency for SVG icons

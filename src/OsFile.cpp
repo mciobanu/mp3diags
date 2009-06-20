@@ -434,7 +434,7 @@ void CB_LIB_CALL createDir(const char* szDirName)
         return;
     }
 
-    char* p (strrchr(szDirName, getPathSep()));
+    const char* p (strrchr(szDirName, getPathSep()));
     CB_CHECK1 (0 != p, CannotCreateDir());
     string strParent (szDirName, p - szDirName);
     createDir(strParent.c_str());

@@ -1,3 +1,7 @@
+* Sat Jun 20 2009 Marian Ciobanu <ciobi@inbox.com>
+- made compilable on Fedora 11 and added Fedora 11 build
+- copying missing ID3V1 fields to ID3V2 no longer part of the default custom transformation list 2
+
 * Thu Jun 18 2009 Marian Ciobanu <ciobi@inbox.com>
 - the tag editor loads albums much faster than before; this is most visible when navigating to the next / previous album
 

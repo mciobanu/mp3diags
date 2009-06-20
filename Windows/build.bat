@@ -7,3 +7,4 @@ mingw32-make.exe -w release
 cd ..
 mkdir bin
 copy src\release\Mp3DiagsWindows.exe bin
+copy changelog.txt bin\changelog.txt

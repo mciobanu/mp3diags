@@ -1,5 +1,13 @@
 ---------------------------------------------------------------------------
 
+21.06.2009 - 0.99.02.016
+- fixed an assertion failure that was triggered by an unsupported text
+    encoding in APIC
+- added support for UTF8 text encoding in APIC
+- made the documentation look slightly better on IE6
+
+---------------------------------------------------------------------------
+
 20.06.2009 - 0.99.02.015
 - made compilable on Fedora 11 and added Fedora 11 build
 - copying missing ID3V1 fields to ID3V2 no longer part of the default

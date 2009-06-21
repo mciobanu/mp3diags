@@ -1,3 +1,8 @@
+* Sun Jun 21 2009 Marian Ciobanu <ciobi@inbox.com>
+- fixed an assertion failure that was triggered by an unsupported text encoding in APIC
+- added support for UTF8 text encoding in APIC
+- made the documentation look slightly better on IE6
+
 * Sat Jun 20 2009 Marian Ciobanu <ciobi@inbox.com>
 - made compilable on Fedora 11 and added Fedora 11 build
 - copying missing ID3V1 fields to ID3V2 no longer part of the default custom transformation list 2

@@ -1,4 +1,6 @@
 
+  * fixed an assertion failure that was triggered by an unsupported text encoding in APIC
+  * added support for UTF8 text encoding in APIC
   * made compilable on Fedora 11 and added Fedora 11 build
   * the tag editor loads albums much faster than before
   * added UTF8 support in ID3V2.4.0 frames
@@ -10,4 +12,4 @@
   * improved font handling
   * initial version
 
- -- Marian Ciobanu <ciobi@inbox.com>  Thu, 18 Jun 2009 10:00:00 +0200
+ -- Marian Ciobanu <ciobi@inbox.com>  Sun, 21 Jun 2009 10:00:00 +0200

@@ -1,5 +1,6 @@
 /*.NormalText     { color: #0000ff; font-size: medium; font-weight: normal; padding-bottom: 10px; padding-left: 8px; padding-right: 8px; }*/
 
+.Code           { font-family: 'Courier New', 'Andale Mono', 'Lucida Console', 'B&H Lucida Typewriter', 'Lucida Sans Typewriter', Courier, Monospace; font-size: x-small; }
 
 .NormalText     { color: #000000; font-size: small; font-weight: normal; padding-bottom: 10px; padding-left: 8px; padding-right: 8px; }
 .FreeNormalText { color: #000000; font-size: small; font-weight: normal; padding-top: 10px; padding-bottom: 10px; padding-left: 8px; padding-right: 8px; }
@@ -21,5 +22,7 @@
 
 
 
+.NavTable       { /*width:"95%";*/ }
+.NoteCol        { background: #000040; color: #ffffff; font-size: x-small; }
 
 

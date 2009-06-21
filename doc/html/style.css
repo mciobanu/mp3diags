@@ -1,4 +1,4 @@
-.Code           { font-family: 'Courier New', 'Andale Mono', 'Lucida Console', 'B&H Lucida Typewriter', 'Lucida Sans Typewriter', Courier, Monospace; font-size: small;  }
+.Code           { font-family: 'Courier New', 'Andale Mono', 'Lucida Console', 'B&H Lucida Typewriter', 'Lucida Sans Typewriter', Courier, Monospace; font-size: small; }
 
 .RegFnt         { font-family:  Arial, Verdana, Helvetica, sans-serif; }
 
@@ -73,6 +73,9 @@
 .HeaderPadRight { padding-right: 10px; }
 
 .ImgNoBorder    { border-style: none; }
+
+/*.NavTable       { border: 0px; border-spacing: 0px; padding: 0px; width:"100%"; }*/
+.NavTable       { }
 
 a.Warn:link     { color: #ffff50; text-decoration: underline; }
 a.Warn:active   { color: #ffff30; text-decoration: underline; }

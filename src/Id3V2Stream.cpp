@@ -619,10 +619,10 @@ e1:
 
 /*static*/ const char* Id3V2StreamBase::decodeApic(NoteColl& notes, streampos pos, const char* pData, const char*& szMimeType, int& nPictureType, const char*& szDescription)
 {
-    MP3_CHECK (0 == pData[0], pos, id3v2UnsupApicTextEnc, NotSupTextEnc()); // !!! there's no need for StreamIsUnsupported here, because this error is not fatal, and it isn't allowed to propagate, therefore doesn't cause a stream to be Unsupported; //ttt1 review, support
+    MP3_CHECK (0 == pData[0] || 3 == pData[0], pos, id3v2UnsupApicTextEnc, NotSupTextEnc()); // !!! there's no need for StreamIsUnsupported here, because this error is not fatal, and it isn't allowed to propagate, therefore doesn't cause a stream to be Unsupported; //ttt1 review, support
     ++pData;
-    szMimeType = pData;
-    int nMimeSize (strlen(pData));
+    szMimeType = pData; // ttt3 type 0 is Latin1, while type 3 is UTF8, so this isn't quite right; however, MIME types should probably be plain ASCII, so it's the same; and anyway, we only recognize JPEG and PNG, which are ASCII
+    int nMimeSize (strlen(pData)); //ttt1 doesn't work for corrupted pData, when there is no 0 terminator
 
     pData += 1 + nMimeSize;
     nPictureType = *pData++;
@@ -767,6 +767,7 @@ void Id3V2StreamBase::preparePicture(NoteColl& notes) // initializes fields used
     {
     case Id3V2Frame::USES_LINK: m_eImageStatus = ImageInfo::USES_LINK; return;
     case Id3V2Frame::ERROR: m_eImageStatus = ImageInfo::ERROR_LOADING; return;
+    case Id3V2Frame::NOT_SUPPORTED: m_eImageStatus = ImageInfo::ERROR_LOADING; return;
     default: CB_ASSERT(false); // all cases should have been covered
     }
 

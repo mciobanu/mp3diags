@@ -321,5 +321,9 @@ Qt::WindowFlags getMainWndFlags();   // minimize, maximize, no "what's this"
 Qt::WindowFlags getDialogWndFlags(); // maximize, no "what's this"
 Qt::WindowFlags getNoResizeWndFlags(); // no "what's this"; the window may be resizable, but the min/max icons aren't shown
 
+
+QString getSystemInfo();
+
+
 #endif // ifndef HelpersH
 

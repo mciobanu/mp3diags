@@ -1,15 +1,74 @@
+mp3diags (0.99.02.017) testing; urgency=low
+
+  * always use multithreaded Boost libraries (single-threaded ones may lead to crashes)
+  * improved assert dialog; now it has more data, which can be copied and even emailed directly
+  * the tag editor shows a warning in some cases when a user action would result in discarded images
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Wed, 24 Jun 2009 15:00:00 +0200
+
+mp3diags (0.99.02.016) testing; urgency=low
 
   * fixed an assertion failure that was triggered by an unsupported text encoding in APIC
   * added support for UTF8 text encoding in APIC
-  * made compilable on Fedora 11 and added Fedora 11 build
-  * the tag editor loads albums much faster than before
-  * added UTF8 support in ID3V2.4.0 frames
-  * added missing dependency for SVG icons
-  * fixed a bug that could cause removal of audio data
-  * fixed a bug that prevented single-image-saving from working
-  * Ubuntu binaries
-  * minor UI tweaks
-  * improved font handling
-  * initial version
+  * made the documentation look slightly better on IE6
 
  -- Marian Ciobanu <ciobi@inbox.com>  Sun, 21 Jun 2009 10:00:00 +0200
+
+mp3diags (0.99.02.015) testing; urgency=low
+
+  * made compilable on Fedora 11 and added Fedora 11 build
+  * copying missing ID3V1 fields to ID3V2 no longer part of the default custom transformation list 2
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Sat, 20 Jun 2009 10:00:00 +0200
+
+mp3diags (0.99.02.014) testing; urgency=low
+
+  * the tag editor loads albums much faster than before; this is most visible when navigating to the next / previous album
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Thu, 18 Jun 2009 10:00:00 +0200
+
+mp3diags (0.99.02.012) testing; urgency=low
+
+  * added support for UTF8 in ID3V240
+  * added maximize button to most windows in Windows (but could not get this to work with Gnome)
+  * removed "What's this" button from most windows
+  * now the main window shows the session name if more than 1 session was defined
+  * now the main window shows up maximized in Gnome and Windows if it was maximized when it was closed
+  * changed documentation links to point to new site, at SourceForge
+  * minor documentation improvements
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Sun, 14 Jun 2009 10:00:00 +0200
+
+mp3diags (0.99.02.011) testing; urgency=low
+
+  * added missing dependency for SVG icons
+  * fixed a bug in "Save as ..."
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Sat, 06 Jun 2009 10:00:00 +0200
+
+mp3diags (0.99.02.010) testing; urgency=low
+
+  * fixed a bug that could cause removal of audio data
+  * fixed a bug that prevented single-image-saving from working
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Thu, 04 Jun 2009 10:00:00 +0200
+
+mp3diags (0.99.02.009) testing; urgency=low
+
+  * Ubuntu binaries
+  * minor UI tweaks
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Wed, 03 Jun 2009 10:00:00 +0200
+
+mp3diags (0.99.02.008) testing; urgency=low
+
+  * improved font handling
+  * minor UI tweaks
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Mon, 25 May 2009 10:00:00 +0200
+
+mp3diags (0.99.02.007) testing; urgency=low
+
+  * initial version
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Tue, 19 May 2009 10:00:00 +0200

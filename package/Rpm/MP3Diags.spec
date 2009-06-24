@@ -45,6 +45,8 @@ Another component is the file renamer, which can rename files based on the field
 
 %build
 
+./AdjustMt.sh
+
 %if 0%{?suse_version}
 qmake
 %endif

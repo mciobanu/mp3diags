@@ -863,6 +863,7 @@ void TagWriter::reloadAll(string strCrt, ReloadOption eReloadOption)
         m_vnMovedTo.clear();
         m_vstrPastedValues.clear();
         m_vAlbumInfo.clear();
+        m_snUnassignedImages.clear();
     }
 
 
@@ -978,7 +979,7 @@ void TagWriter::reloadAll(string strCrt, ReloadOption eReloadOption)
     clearPtrContainer(v);
 
     if (CLEAR == eReloadOption)
-    { // add images
+    { // add images from crt dir
         if (n > 0)
         { // scan crt dir for images //ttt2 this needs rewrite if an album means something else than a directory
             CursorOverrider crs ();
@@ -993,7 +994,7 @@ void TagWriter::reloadAll(string strCrt, ReloadOption eReloadOption)
                     QString qs (convStr(s));
                     if (qs.endsWith(".jpg", Qt::CaseInsensitive) || qs.endsWith(".jpeg", Qt::CaseInsensitive) || qs.endsWith(".png", Qt::CaseInsensitive))
                     {
-                        addImgFromFile(qs);
+                        addImgFromFile(qs, CONSIDER_ASSIGNED);
                     }
                 }
 
@@ -1277,6 +1278,7 @@ void TagWriter::onAssignImage(int nPos)
             p->setData(TagReader::IMAGE, a);
         }
     }
+    m_snUnassignedImages.erase(nPos);
 
     //m_pCommonData->m_pCurrentAlbumG->repaint();
     reloadAll("", DONT_CLEAR);
@@ -1367,7 +1369,7 @@ void TagWriter::copyFirst()
 }
 
 
-bool TagWriter::addImgFromFile(const QString& qs)
+bool TagWriter::addImgFromFile(const QString& qs, bool bConsiderAssigned)
 {
     QFile f (qs);
     bool bRes (false);
@@ -1402,8 +1404,19 @@ bool TagWriter::addImgFromFile(const QString& qs)
 
             ImageInfo img (-1, ImageInfo::OK, eCompr, comprImg, nWidth, nHeight);
             //int nSize (m_imageColl.size());
+            int nPrevSize (m_imageColl.size());
             int nPos (m_imageColl.addImage(img));
             CB_ASSERT (-1 != nPos);
+
+            if (nPrevSize != m_imageColl.size())
+            {
+                CB_ASSERT (m_imageColl.size() == nPos + 1);
+                if (!bConsiderAssigned)
+                {
+                    m_snUnassignedImages.insert(nPos);
+                }
+            }
+
             /*if (nSize == m_imageColl.size()) // !!! it seemed to make sense to warn the user about duplicates; however, this is also triggered when entering a directory that has contains images after one of those images is assigned to a file;
             {
                 CursorOverrider crs (Qt::ArrowCursor);
@@ -1426,7 +1439,7 @@ void TagWriter::paste()
         ImageInfo img (-1, ImageInfo::OK, pic);
         //ttt1 only reason to change image widget is because images were loaded, so perhaps adjust signals; (keep in mind first time, though)
         //emit imagesChanged();
-        addImage(img);
+        addImage(img, CONSIDER_UNASSIGNED);
         return;
     }
 
@@ -1441,9 +1454,9 @@ void TagWriter::paste()
                 qs.remove(0, 7);
             }
 
-            if (qs.startsWith(getPathSep())) // ttt1 see if it makes sense to open files without full name //ttt1 OS-specific
+            if (qs.startsWith(getPathSep())) // ttt1 see if it makes sense to open files without full name //ttt0 OS-specific
             {
-                if (addImgFromFile(qs))
+                if (addImgFromFile(qs, CONSIDER_UNASSIGNED))
                 {
                     emit imagesChanged();
                     return;
@@ -1495,11 +1508,20 @@ void TagWriter::sort()
 }
 
 
-int TagWriter::addImage(const ImageInfo& img) // returns the index of the image; if it already exists it's not added again; if it's invalid returns -1
+int TagWriter::addImage(const ImageInfo& img, bool bConsiderAssigned) // returns the index of the image; if it already exists it's not added again; if it's invalid returns -1
 {
-    int n (m_imageColl.addImage(img));
+    int nPrevSize (m_imageColl.size());
+    int nPos (m_imageColl.addImage(img));
+    if (nPrevSize != m_imageColl.size())
+    {
+        CB_ASSERT (m_imageColl.size() == nPos + 1);
+        if (!bConsiderAssigned)
+        {
+            m_snUnassignedImages.insert(nPos);
+        }
+    }
     emit imagesChanged();
-    return n;
+    return nPos;
 }
 
 

@@ -176,8 +176,8 @@ class TagEditorDlgImpl : public QDialog, private Ui::TagEditorDlg
     TransfConfig& m_transfConfig;
 
     enum SaveOpt { SAVED, DISCARDED, CANCELLED, PARTIALLY_SAVED };
-    enum { IMPLICIT, EXPLICIT };
-    SaveOpt save(bool bExplicitCall); // based on configuration, either just saves the tags or asks the user for confirmation; returns true iff all tags have been saved or if none needed saving; it should be followed by a reload(), either for the current or for the next/prev album; if bExplicitCall is true, the "ASK" option is turned into "SAVE";
+    enum { EXPLICIT, IMPLICIT };
+    SaveOpt save(bool bImplicitCall); // based on configuration, either just saves the tags or asks the user for confirmation; returns true iff all tags have been saved or if none needed saving; it should be followed by a reload(), either for the current or for the next/prev album; if bImplicitCall is false, the "ASK" option is turned into "SAVE";
 
     bool closeEditor(/*const std::string& strAction*/) { return m_pAlbumDel->closeEditor(); } // closes the editor opened with F2, saving the data; returns false if there was some error and it couldn't close //ttt1 perhaps use strAction for a more personalize message
 

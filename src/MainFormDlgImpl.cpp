@@ -31,6 +31,7 @@
 #include  <QDesktopWidget>
 
 #ifndef WIN32
+    //#include <sys/utsname.h>
 #else
     #include  <windows.h>
     #include  <QDateTime>
@@ -65,7 +66,7 @@ using namespace std;
 using namespace pearl;
 
 
-
+//ttt0 try to switch from QDialog to QWidget, to see if min/max in gnome show up; or add Qt::Dialog flag
 
 MainFormDlgImpl* getGlobalDlg();  //ttt1 remove
 
@@ -84,6 +85,73 @@ void trace(const string& s)
 static QString s_strAssertTitle ("Assertion failure");
 static QString s_strAssertMsg;
 static bool s_bMainAssertOut;
+
+static QString replaceDblQuotes(const QString& s)
+{
+    QString s1 (s);
+    for (;;)
+    {
+        int k (s1.indexOf('\"'));
+        if (-1 == k) { break; }
+        s1.replace(k, 1, "&quot;");
+    }
+
+    for (;;)
+    {
+        int k (s1.indexOf('#')); //ttt1 this is not right, but everything after # gets truncated, even if "&num;" is used; see if # can be included
+        if (-1 == k) { break; }
+        s1.replace(k, 1, " ");
+    }
+
+    return s1;
+}
+
+extern const char* APP_VER;
+
+
+
+static void showAssertDlg(QWidget* pParent)
+{
+    //QMessageBox dlg (QMessageBox::Critical, s_strAssertTitle, s_strAssertMsg, QMessageBox::Close, 0, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint); // ttt1 this might fail / crash, as it may be called from a secondary thread
+
+//getDialogWndFlags
+    QDialog dlg (pParent, Qt::Dialog | getNoResizeWndFlags() | Qt::WindowStaysOnTopHint); // Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint |
+    //QDialog dlg (pParent, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint);
+
+    dlg.setWindowTitle(s_strAssertTitle);
+    dlg.setWindowIcon(QIcon(":/images/logo.svg"));
+    QVBoxLayout* pLayout (new QVBoxLayout(&dlg));
+    //delete dlg.layout();
+    //dlg.setLayout(pLayout);
+    /*QLabel* pTitle (new QLabel(&dlg));
+    pTitle->setText(s_strAssertTitle);
+    pLayout->addWidget(pTitle);*/
+
+    QTextBrowser* pContent (new QTextBrowser(&dlg));
+
+    QString qstrVer (QString("Version: MP3 Diags %1. Word size: %2 bit. OS: ").arg(APP_VER).arg(QSysInfo::WordSize));
+    qstrVer += getSystemInfo();
+
+
+    pContent->setOpenExternalLinks(true);
+    QString s ("<p/>Please notify <a href=\"mailto:ciobi@inbox.com?subject=000 MP3 Diags assertion failure&body=" + replaceDblQuotes(Qt::escape(s_strAssertMsg + " " + qstrVer)) + "\">ciobi@inbox.com</a> about this. (If your email client is properly configured, it's enough to click on the account name and then send.) <p/>Alternatively, you can report the bug at the <a href=\"http://sourceforge.net/forum/forum.php?forum_id=947207\">MP3 Diags Help Forum</a> (<a href=\"http://sourceforge.net/forum/forum.php?forum_id=947207\">http://sourceforge.net/forum/forum.php?forum_id=947207</a>)");
+
+//qDebug("%s", s.toUtf8().data());
+    pContent->setHtml(Qt::escape(s_strAssertMsg) + s + "<p/>" + qstrVer);
+    pLayout->addWidget(pContent);
+
+    QHBoxLayout btnLayout;
+    btnLayout.addStretch(0);
+    QPushButton* pBtn (new QPushButton("Exit", &dlg));
+    btnLayout.addWidget(pBtn);
+    QObject::connect(pBtn, SIGNAL(clicked()), &dlg, SLOT(accept()));
+
+    pLayout->addLayout(&btnLayout);
+
+    dlg.resize(780, 300);
+
+    dlg.exec();
+}
 
 void logAssert(const char* szFile, int nLine, const char* szCond)
 {
@@ -117,17 +185,19 @@ void logAssert(const char* szFile, int nLine, const char* szCond)
     }
     else
     {
-        QMessageBox dlg (QMessageBox::Critical, s_strAssertTitle, s_strAssertMsg, QMessageBox::Close, 0, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint); // ttt1 this might fail / crash, as it may be called from a secondary thread
+        /*QMessageBox dlg (QMessageBox::Critical, s_strAssertTitle, s_strAssertMsg, QMessageBox::Close, 0, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint); // ttt1 this might fail / crash, as it may be called from a secondary thread
 
-        dlg.exec();
+        dlg.exec();*/
+        showAssertDlg(0);
     }
 }
 
 void MainFormDlgImpl::onShowAssert()
 {
-    QMessageBox dlg (QMessageBox::Critical, s_strAssertTitle, s_strAssertMsg, QMessageBox::Close, this, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint);
+    /*QMessageBox dlg (QMessageBox::Critical, s_strAssertTitle, s_strAssertMsg, QMessageBox::Close, this, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint);
 
-    dlg.exec();
+    dlg.exec();*/
+    showAssertDlg(this);
 
     s_bMainAssertOut = true;
 }
@@ -355,6 +425,8 @@ bool SerLoadThread::scan()
 
 MainFormDlgImpl::MainFormDlgImpl(QWidget* pParent, const string& strSession) : QDialog(pParent, getMainWndFlags()), m_settings(strSession), m_nLastKey(0)/*, m_settings("Ciobi", "Mp3Diags_v01")*/ /*, m_nPrevTabIndex(-1), m_bTagEdtWasEntered(false)*/, m_strSession(strSession), m_bShowMaximized(false), m_nScanWidth(0)
 {
+//CB_ASSERT("345" == "ab");
+//CB_ASSERT(false);
     s_pGlobalDlg = this;
     setupUi(this);
 
@@ -1519,6 +1591,7 @@ void MainFormDlgImpl::on_m_pModeSongB_clicked()
 
 void MainFormDlgImpl::on_m_pPrevB_clicked()
 {
+//CB_ASSERT("345" == "ab");
     m_pCommonData->previous();
     //updateWidgets();
     m_pFilesG->setFocus();

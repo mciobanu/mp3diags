@@ -90,6 +90,8 @@ AboutDlgImpl::~AboutDlgImpl()
 
 
 
+
+
 // exist: mp3 insight, mp3 doctor, mp3 butcher, mp3 toolbox, mp3 mechanic, mp3 workshop;
 //ttt melt ? ice ? ? sorcerer ? exorcist ? healer ? ? MP3 Spy
 //"mp3 workshop", "mp3 atelier"
@@ -97,7 +99,6 @@ AboutDlgImpl::~AboutDlgImpl()
 // deep understanding
 
 
-//ttt0 copy from assert msg, put there desktop, distr, ...
 
 
 /*

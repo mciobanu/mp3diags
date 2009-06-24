@@ -296,7 +296,7 @@ class TagWriter : public QObject
     std::vector<int> m_vnMovedTo; // the position on screen corresponding to m_pCommonData->m_vpViewHandlers elements after they are sorted by track number
 
     void sortSongs(); // sorts by track number; shows a warning if issues are detected (should be exactly one track number, from 1 to the track count)
-    bool addImgFromFile(const QString& qs);
+    bool addImgFromFile(const QString& qs, bool bConsiderAssigned); // see also addImage()
 
     std::vector<std::string> m_vstrPastedValues;
 
@@ -307,6 +307,7 @@ class TagWriter : public QObject
     ImageColl m_imageColl;
 
     bool m_bShowedNonSeqWarn;
+    std::set<int> m_snUnassignedImages;
 
 public:
     TagWriter(CommonData* pCommonData, QWidget* pParentWnd);
@@ -375,12 +376,15 @@ public:
 
     void eraseFields(const std::vector<std::pair<int, int> >& vFields);
 
-    int addImage(const ImageInfo& img); // returns the index of the image; if it already exists it's not added again; if it's invalid returns -1
+    enum ConsiderAssigned { CONSIDER_UNASSIGNED, CONSIDER_ASSIGNED };
+    int addImage(const ImageInfo& img, bool bConsiderAssigned); // returns the index of the image; if it already exists it's not added again; if it's invalid returns -1 // "unassigned" images cause warnings when going to another album
     void addImgWidget(ImageInfoPanelWdgImpl*);
     const ImageColl& getImageColl() const { return m_imageColl; }
     void selectImg(int n);
 
     void clearShowedNonSeqWarn() { m_bShowedNonSeqWarn = false; }
+    int getUnassignedImagesCount() const { return int(m_snUnassignedImages.size()); }
+
 private slots:
     void onAssignImage(int);
 

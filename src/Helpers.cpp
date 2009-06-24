@@ -26,9 +26,12 @@
 #include  <iomanip>
 
 #ifndef WIN32
+    #include  <QDir>
+    #include <sys/utsname.h>
 #else
     #include  <windows.h>
     #include  <psapi.h>
+    #include  <QSettings>
 #endif
 
 #include  <QWidget>
@@ -527,7 +530,7 @@ char getPathSep()
 const string& getPathSepAsStr()
 {
     static string s ("/");
-    return s; // ttt1 linux-specific
+    return s; // ttt1 linux-specific // ttt1 look at QDir::fromNativeSeparators
 }
 
 
@@ -613,4 +616,66 @@ vector<QString> convStr(const vector<string>& v)
 #endif
 
 
+#if 0
+//ttt1 add desktop, distribution, WM, ...
+#ifndef WIN32
+    utsname info;
+    uname(&info);
+
+    cat /proc/version
+    cat /etc/issue
+    dmesg | grep "Linux version"
+    cat /etc/*-release
+*/
+    cat /etc/*_version
+
+*/
+#else
+//
+#endif
+#endif
+
+QString getSystemInfo() //ttt1 perhaps store this at startup, so fewer things may go wrong fhen the assertion handler needs it
+{
+    QString s;
+#ifndef WIN32
+    QDir dir ("/etc");
+
+    QStringList filters;
+    filters << "*-release" << "*_version";
+    dir.setNameFilters(filters);
+    QStringList lFiles (dir.entryList(QDir::Files));
+    utsname utsInfo;
+    uname(&utsInfo);
+    s += utsInfo.sysname; s += " ";
+    s += utsInfo.release; s += " ";
+    s += utsInfo.version; s += " ";
+    for (int i = 0; i < lFiles.size(); ++i)
+    {
+        //qDebug("%s", lFiles[i].toUtf8().data());
+        if ("lsb-release" != lFiles[i])
+        {
+            QFile f ("/etc/" + lFiles[i]);
+            f.open(QIODevice::ReadOnly);
+            QByteArray b (f.read(1000));
+            s += b;
+            s += " ";
+        }
+    }
+//ttt0 search /proc for kwin, metacity, ...
+//ttt0 Qt version, Boost version
+//ttt0 add this to "about"
+
+#else
+    //qstrVer += QString(" Windows version ID: %1").arg(QSysInfo::WinVersion);
+    QSettings settings ("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", QSettings::NativeFormat);
+    //qstrVer += QString(" Windows version: %1").arg(WIN32);
+    s += QString(" Windows version: %1 %2 Build %3 %4").arg(settings.value("ProductName").toString())
+               .arg(settings.value("CSDVersion").toString())
+               .arg(settings.value("CurrentBuildNumber").toString())
+               .arg(settings.value("BuildLab").toString());
+
+#endif
+    return s;
+}
 

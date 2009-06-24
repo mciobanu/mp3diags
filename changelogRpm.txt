@@ -1,3 +1,8 @@
+* Wed Jun 24 2009 Marian Ciobanu <ciobi@inbox.com>
+- always use multithreaded libraries (single-threaded ones may lead to crashes)
+- improved assert dialog; now it has more data, which can be copied and even emailed directly
+- the tag editor shows a warning in some cases when a user action would result in discarded images
+
 * Sun Jun 21 2009 Marian Ciobanu <ciobi@inbox.com>
 - fixed an assertion failure that was triggered by an unsupported text encoding in APIC
 - added support for UTF8 text encoding in APIC
@@ -27,7 +32,7 @@
 - fixed a bug that could cause removal of audio data
 - fixed a bug that prevented single-image-saving from working
 
-* Mon Jun 01 2009 Marian Ciobanu <ciobi@inbox.com>
+* Wed Jun 03 2009 Marian Ciobanu <ciobi@inbox.com>
 - Ubuntu binaries
 - minor UI tweaks
 

@@ -508,7 +508,7 @@ return;//*/
 
         if (0 != pImageInfo)
         {
-            nImgPos = m_pTagWriter->addImage(*pImageInfo);
+            nImgPos = m_pTagWriter->addImage(*pImageInfo, 0 == pAlbumInfo ? TagWriter::CONSIDER_UNASSIGNED : TagWriter::CONSIDER_ASSIGNED);
 
             delete pImageInfo;
         }
@@ -558,7 +558,7 @@ void TagEditorDlgImpl::on_m_pQueryMusicBrainzB_clicked()
 
         if (0 != pImageInfo)
         {
-            nImgPos = m_pTagWriter->addImage(*pImageInfo);
+            nImgPos = m_pTagWriter->addImage(*pImageInfo, 0 == pAlbumInfo ? TagWriter::CONSIDER_UNASSIGNED : TagWriter::CONSIDER_ASSIGNED);
 
             //resizeTagEditor();
             delete pImageInfo;
@@ -1347,11 +1347,11 @@ e1:
 //========================================================================================================================
 //========================================================================================================================
 //========================================================================================================================
-
+//ttt0: mark a single cell as assigned, paste image, save; the image is lost
 //ttt1 perhaps all licences in root dir
 
 // based on configuration, either just saves the tags or asks the user for confirmation; returns true iff all tags have been saved or if none needed saving; it should be followed by a reload(), either for the current or for the next/prev album; if bExplicitCall is true, the "ASK" option is turned into "SAVE";
-TagEditorDlgImpl::SaveOpt TagEditorDlgImpl::save(bool bExplicitCall)
+TagEditorDlgImpl::SaveOpt TagEditorDlgImpl::save(bool bImplicitCall)
 {
     string strCrt (m_pTagWriter->getCurrentName());
 
@@ -1366,8 +1366,8 @@ TagEditorDlgImpl::SaveOpt TagEditorDlgImpl::save(bool bExplicitCall)
         bool bNonId3V2 (false);
         m_pTagWriter->hasUnsaved(i, bAssgn, bNonId3V2);
         if (
-                (bAssgn && (bExplicitCall || CommonData::DISCARD != m_pCommonData->m_eAssignSave)) ||
-                (bNonId3V2 && (bExplicitCall || CommonData::DISCARD != m_pCommonData->m_eNonId3v2Save))
+                (bAssgn && (!bImplicitCall || CommonData::DISCARD != m_pCommonData->m_eAssignSave)) ||
+                (bNonId3V2 && (!bImplicitCall || CommonData::DISCARD != m_pCommonData->m_eNonId3v2Save))
             )
         {
             vpHndlr.push_back(m_pTagWriter->m_vpMp3HandlerTagData[i]->getMp3Handler());
@@ -1377,10 +1377,22 @@ TagEditorDlgImpl::SaveOpt TagEditorDlgImpl::save(bool bExplicitCall)
     }
 //ttt1 perhaps separate setting for showing and saving non-id3v2 fields
 
-    if (vpHndlr.empty()) { return SAVED; }
+    {
+        int nUnassignedImagesCnt (m_pTagWriter->getUnassignedImagesCount());
+        if (bImplicitCall && nUnassignedImagesCnt > 0)
+        {
+            int nOpt (showMessage(this, QMessageBox::Question, 1, 1, "Confirm", (nUnassignedImagesCnt > 1 ? QString("You added %1 images but then you didn't assign them to any songs. What do you want to do?").arg(nUnassignedImagesCnt) : QString("You added an image but then you didn't assign it to any song. What do you want to do?")), "&Discard", "&Cancel"));
+            if (1 == nOpt) { return CANCELLED; }
+        }
+    }
+
+    if (vpHndlr.empty())
+    {
+        return SAVED;
+    }
 
     if (
-            !bExplicitCall &&
+            bImplicitCall &&
             (
                 (bHasUnsavedAssgn && CommonData::ASK == m_pCommonData->m_eAssignSave) ||
                 (bHasUnsavedNonId3V2 && CommonData::ASK == m_pCommonData->m_eNonId3v2Save)
@@ -1591,7 +1603,7 @@ ttt0 tag editor performance:
 TagWriter::reloadAll() is called twice when going to a new album, but that's not very important, because reloading no longer takes a lot of time; if there are no images it's very fast, but even with images it's no big deal;
 
 most time is used in rescanning a modified file, in Mp3Handler::parse(), as this example of saving a modified song shows:
-    save: 0.23" (copying streams from one file to another, totalling some 60MB)
+    save: 0.23" (copying streams from one file to another)
     read ID3: 0.29" (because it parses images)
     read MPEG audio: 1.10"
 

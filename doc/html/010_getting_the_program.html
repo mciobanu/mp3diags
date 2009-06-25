@@ -291,14 +291,19 @@ Compiling &amp; installing
 
 
 <div class="NormalText RegFnt ChpCol2">
-After unpacking the surce to some directory, just run Install.sh in that directory. Note that double-clicking the script in some file browser may work or not, depending on the "current directory" being set properly and on whether a terminal window gets opened so you can type the root password to get the executable copied to /usr/local/bin. Other options are to manually run the relevant 3 commands in <span class="Reference">Install.sh</span>, or to compile the project from KDevelop 3.5, if you have it (though you might still have to change the name of qmake.)
+After unpacking the surce to some directory, just run <span class="Reference">Install.sh</span> in that directory. Note that double-clicking the script in some file browser may work or not, depending on the "current directory" being set properly and on whether a terminal window gets opened so you can type the root password to get the executable copied to /usr/local/bin. Other options are to manually run the relevant commands in <span class="Reference">Install.sh</span>, or to compile the project from KDevelop 3.5, if you have it (though you might have to first change the name of qmake and/or the serialization library.) If you don't use <span class="Reference">Install.sh</span>, pay attention to having the right serialization library. I think the default is OK for most platforms, but in some cases the file src/src.pro should have <span class="Reference">LIBS += -lboost_serialization</span> rather than <span class="Reference">LIBS += -lboost_serialization-mt</span>. Running <span class="Reference">Install.sh</span> or just <span class="Reference">AdjustMt.sh</span> sets the correct value.
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
 Uninstallation can be done through <span class="Reference">Uninstall.sh</span>. You probably created some data files, and if you are sure you no longer need them you should remove them manually. Note that the data files come in pairs. Although you only specify an ".ini" file when you start the program for the first time (or when you <a href="310_advanced.html">create a new session</a>), two files get created. The ".ini" only stores settings, while the actual data is stored in a file in the same directory and with the same name but with the extension ".dat".
 </div>
 
+<!--
 
+I didn't find much on this subject on the net, but (see <a href="http://lists.alioth.debian.org/pipermail/pkg-lyx-devel/2009-May/003244.html">this link</a> for some more details.)
+
+http://osdir.com/ml/linux.debian.devel.games.devel/2007-08/msg00211.html
+-->
 
 <!-- ========================================================================================================== -->
 <!-- ========================================================================================================== -->
@@ -325,7 +330,7 @@ Builds created from code from this server are supposed to be of the same quality
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-The Subversion repository is supposed to store all the tools that are needed to build the project, not just the source code. So you can find there the documentation, installer and build scripts, Windows-specific icons, and desktop integration files. The build scripts can be used as a starting point for creating binary packages for other .rpm or Debian - based distributions.
+The Subversion repository is supposed to store all the tools that are needed to build the project, not just the source code. So you can find there the documentation, installer and build scripts, Windows-specific icons, and desktop integration files. The build scripts can be used as a starting point for creating binary packages for other .rpm or Debian - based distributions. Before trying to compile on openSUSE 10.3 (and perhaps other distributions), you should run <span class="Reference">AdjustMt.sh</span> or <span class="Reference">Install.sh</span>
 </div>
 
 

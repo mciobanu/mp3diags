@@ -1,3 +1,9 @@
+mp3diags (0.99.02.018) testing; urgency=low
+
+  * made -mt suffix default for Boost Serialization
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Wed, 24 Jun 2009 22:00:00 +0200
+
 mp3diags (0.99.02.017) testing; urgency=low
 
   * always use multithreaded Boost libraries (single-threaded ones may lead to crashes)

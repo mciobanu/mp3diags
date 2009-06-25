@@ -1,21 +1,24 @@
-* Wed Jun 24 2009 Marian Ciobanu <ciobi@inbox.com>
+* Wed Jun 24 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.02.018
+- made -mt suffix default for Boost Serialization
+
+* Wed Jun 24 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.02.017
 - always use multithreaded libraries (single-threaded ones may lead to crashes)
 - improved assert dialog; now it has more data, which can be copied and even emailed directly
 - the tag editor shows a warning in some cases when a user action would result in discarded images
 
-* Sun Jun 21 2009 Marian Ciobanu <ciobi@inbox.com>
+* Sun Jun 21 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.02.016
 - fixed an assertion failure that was triggered by an unsupported text encoding in APIC
 - added support for UTF8 text encoding in APIC
 - made the documentation look slightly better on IE6
 
-* Sat Jun 20 2009 Marian Ciobanu <ciobi@inbox.com>
+* Sat Jun 20 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.02.015
 - made compilable on Fedora 11 and added Fedora 11 build
 - copying missing ID3V1 fields to ID3V2 no longer part of the default custom transformation list 2
 
-* Thu Jun 18 2009 Marian Ciobanu <ciobi@inbox.com>
+* Thu Jun 18 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.02.014
 - the tag editor loads albums much faster than before; this is most visible when navigating to the next / previous album
 
-* Sun Jun 14 2009 Marian Ciobanu <ciobi@inbox.com>
+* Sun Jun 14 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.02.012
 - added support for UTF8 in ID3V240
 - added maximize button to most windows in Windows (but could not get this to work with Gnome)
 - removed "What's this" button from most windows
@@ -24,21 +27,21 @@
 - changed documentation links to point to new site, at SourceForge
 - minor documentation improvements
 
-* Sat Jun 06 2009 Marian Ciobanu <ciobi@inbox.com>
+* Sat Jun 06 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.02.011
 - added missing dependency for SVG icons
 - fixed a bug in "Save as ..."
 
-* Thu Jun 04 2009 Marian Ciobanu <ciobi@inbox.com>
+* Thu Jun 04 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.02.010
 - fixed a bug that could cause removal of audio data
 - fixed a bug that prevented single-image-saving from working
 
-* Wed Jun 03 2009 Marian Ciobanu <ciobi@inbox.com>
+* Wed Jun 03 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.02.009
 - Ubuntu binaries
 - minor UI tweaks
 
-* Mon May 25 2009 Marian Ciobanu <ciobi@inbox.com>
+* Mon May 25 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.02.008
 - improved font handling
 - minor UI tweaks
 
-* Tue May 19 2009 Marian Ciobanu <ciobi@inbox.com>
+* Tue May 19 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.02.007
 - initial version

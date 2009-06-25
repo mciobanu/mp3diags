@@ -1,5 +1,10 @@
 ---------------------------------------------------------------------------
 
+24.06.2009 - 0.99.02.018
+- made -mt suffix default for Boost Serialization
+
+---------------------------------------------------------------------------
+
 24.06.2009 - 0.99.02.017
 - always use multithreaded libraries
 - improved assert dialog; now it has more data, which can be copied and

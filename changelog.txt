@@ -1,5 +1,18 @@
 ---------------------------------------------------------------------------
 
+29.06.2009 - 0.99.02.019
+- downloaded images are no longer lost when saving in the tag editor
+- duration is now shown for audio streams
+- fixed assertion caused by files with too many streams
+- assertion instructs reports to be made on forum instead of email
+- number of files that might get changed is shown before processing
+    multiple files
+- assert message includes more info about the OS
+- multiple ID3 stream remover no longer included by default in second list
+- some changes to .spec file in the hope it will work on Mandriva
+
+---------------------------------------------------------------------------
+
 24.06.2009 - 0.99.02.018
 - made -mt suffix default for Boost Serialization
 

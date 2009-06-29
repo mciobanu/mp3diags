@@ -218,7 +218,12 @@ void MpegStream::removeLastFrame()
 /*override*/ std::string MpegStream::getInfo() const
 {
     ostringstream out;
-    out << m_firstFrame.getSzVersion() << " " << m_firstFrame.getSzLayer() << ", " << m_firstFrame.getSzChannelMode() << ", " <<
+    int nDur (int(m_nSize*8.0/m_nBitrate)); //ttt0 try on 22 or 48 kHz
+    int nMin (nDur/60);
+    int nSec (nDur - nMin*60);
+    char a [15];
+    sprintf(a, "%d:%02d", nMin, nSec);
+    out << a << ", " << m_firstFrame.getSzVersion() << " " << m_firstFrame.getSzLayer() << ", " << m_firstFrame.getSzChannelMode() << ", " <<
         m_firstFrame.getFrequency() << "Hz, " << m_nBitrate << "bps " << (m_bVbr ? "VBR" : "CBR") << ", CRC=" <<
         boolAsYesNo(m_firstFrame.getCrcUsage()) << ", frame count=" << m_nFrameCount;
     out << "; last frame" << (m_bRemoveLastFrameCalled ? " removed; it was" : "") << " located at 0x" << hex << m_posLastFrame << dec;

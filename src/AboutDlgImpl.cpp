@@ -143,4 +143,13 @@ dpkg-genchanges: warning: the current version (0.99.01.009) is smaller than the 
 
 
 //ttt0 normalize in Windows has flashing / duplicated output
-//ttt0 warn: picture downloaded but not assigned; or pehaps just assign, but this overwrites existing pictures even if the user doesn't want to;
+//ttt0 terminate program if mem alloc fails
+//ttt0 next album in tag editor should care about filters (perhaps have a separate "filtered album list" which gets filled in when opening tag edt)
+//ttt0 search (...), add std::bad_alloc
+//ttt0 length in MPEG audio
+//ttt0 2-letter labels
+//ttt0 switch to QFile; see source for flush();
+//ttt0 perhaps tab with changelog
+//ttt0 "save as" doesn't work in Windows in root dir
+//ttt0 doc: use case: compare images, id3v2 tags
+//ttt0 red circle for errors

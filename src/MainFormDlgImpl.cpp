@@ -86,7 +86,7 @@ static QString s_strAssertTitle ("Assertion failure");
 static QString s_strAssertMsg;
 static bool s_bMainAssertOut;
 
-static QString replaceDblQuotes(const QString& s)
+/*static QString replaceDblQuotes(const QString& s)
 {
     QString s1 (s);
     for (;;)
@@ -104,7 +104,7 @@ static QString replaceDblQuotes(const QString& s)
     }
 
     return s1;
-}
+}*/
 
 extern const char* APP_VER;
 
@@ -134,10 +134,12 @@ static void showAssertDlg(QWidget* pParent)
 
 
     pContent->setOpenExternalLinks(true);
-    QString s ("<p/>Please notify <a href=\"mailto:ciobi@inbox.com?subject=000 MP3 Diags assertion failure&body=" + replaceDblQuotes(Qt::escape(s_strAssertMsg + " " + qstrVer)) + "\">ciobi@inbox.com</a> about this. (If your email client is properly configured, it's enough to click on the account name and then send.) <p/>Alternatively, you can report the bug at the <a href=\"http://sourceforge.net/forum/forum.php?forum_id=947207\">MP3 Diags Help Forum</a> (<a href=\"http://sourceforge.net/forum/forum.php?forum_id=947207\">http://sourceforge.net/forum/forum.php?forum_id=947207</a>)");
+    //QString s ("<p/>Please notify <a href=\"mailto:ciobi@inbox.com?subject=000 MP3 Diags assertion failure&body=" + replaceDblQuotes(Qt::escape(s_strAssertMsg + " " + qstrVer)) + "\">ciobi@inbox.com</a> about this. (If your email client is properly configured, it's enough to click on the account name and then send.) <p/>Alternatively, you can report the bug at the <a href=\"http://sourceforge.net/forum/forum.php?forum_id=947207\">MP3 Diags Help Forum</a> (<a href=\"http://sourceforge.net/forum/forum.php?forum_id=947207\">http://sourceforge.net/forum/forum.php?forum_id=947207</a>)");
+
+    QString s ("<p/>Please report this issue to the <a href=\"http://sourceforge.net/forum/forum.php?forum_id=947207\">MP3 Diags Help Forum</a> (<a href=\"http://sourceforge.net/forum/forum.php?forum_id=947207\">http://sourceforge.net/forum/forum.php?forum_id=947207</a>). Make sure to include the data below, as well as any other detail that seems relevant (what might have caused the failure, steps to reproduce it, ...)<p/><p/><hr/><p/>");
 
 //qDebug("%s", s.toUtf8().data());
-    pContent->setHtml(Qt::escape(s_strAssertMsg) + s + "<p/>" + qstrVer);
+    pContent->setHtml(Qt::escape(s_strAssertMsg) + s + Qt::escape(s_strAssertMsg) + "<p/>" + qstrVer);
     pLayout->addWidget(pContent);
 
     QHBoxLayout btnLayout;
@@ -148,7 +150,7 @@ static void showAssertDlg(QWidget* pParent)
 
     pLayout->addLayout(&btnLayout);
 
-    dlg.resize(780, 300);
+    dlg.resize(750, 300);
 
     dlg.exec();
 }
@@ -425,6 +427,7 @@ bool SerLoadThread::scan()
 
 MainFormDlgImpl::MainFormDlgImpl(QWidget* pParent, const string& strSession) : QDialog(pParent, getMainWndFlags()), m_settings(strSession), m_nLastKey(0)/*, m_settings("Ciobi", "Mp3Diags_v01")*/ /*, m_nPrevTabIndex(-1), m_bTagEdtWasEntered(false)*/, m_strSession(strSession), m_bShowMaximized(false), m_nScanWidth(0)
 {
+//int x (2); CB_ASSERT(x > 4);
 //CB_ASSERT("345" == "ab");
 //CB_ASSERT(false);
     s_pGlobalDlg = this;
@@ -744,6 +747,7 @@ void MainFormDlgImpl::initializeUi()
         m_pNotesG->horizontalHeader()->resizeSection(0, nNotesGW0); // ttt2 apparently a call to resizeColumnsToContents() in NotesModel::updateCurrentNotes() should make columns 0 and 2 have the right size, but that's not the case at all; (see further notes there)
         m_pNotesG->horizontalHeader()->resizeSection(2, nNotesGW2);
         m_pNotesG->horizontalHeader()->setResizeMode(1, QHeaderView::Stretch);
+        //m_pNotesG->horizontalHeader()->setResizeMode(2, QHeaderView::Stretch);
     }
 
     {
@@ -1461,7 +1465,18 @@ void MainFormDlgImpl::transform(std::vector<Transformation*>& vpTransf, bool bAl
     QString qstrListInfo;
     if (bAll)
     {
-        qstrListInfo = "all the files shown in the file list";
+        char bfr [10];
+
+        int nCnt (cSize(m_pCommonData->getViewHandlers()));
+        if (nCnt < 10)
+        {
+            strcpy(bfr, "the");
+        }
+        else
+        {
+            sprintf(bfr, "%d", nCnt);
+        }
+        qstrListInfo = QString("all %1 files shown in the file list").arg(bfr);
     }
     else
     {

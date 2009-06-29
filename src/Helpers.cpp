@@ -635,6 +635,17 @@ vector<QString> convStr(const vector<string>& v)
 #endif
 #endif
 
+static void removeStr(string& main, const string& sub)
+{
+    for (;;)
+    {
+        string::size_type n (main.find(sub));
+        if (string::npos == n) { return; }
+        main.erase(n, sub.size());
+    }
+}
+
+
 QString getSystemInfo() //ttt1 perhaps store this at startup, so fewer things may go wrong fhen the assertion handler needs it
 {
     QString s;
@@ -656,11 +667,48 @@ QString getSystemInfo() //ttt1 perhaps store this at startup, so fewer things ma
         if ("lsb-release" != lFiles[i])
         {
             QFile f ("/etc/" + lFiles[i]);
-            f.open(QIODevice::ReadOnly);
-            QByteArray b (f.read(1000));
-            s += b;
-            s += " ";
+            if (f.open(QIODevice::ReadOnly))
+            {
+                QByteArray b (f.read(1000));
+                s += b;
+                s += " ";
+            }
         }
+    }
+
+    QFile f ("/etc/issue");
+    if (f.open(QIODevice::ReadOnly))
+    {
+        QByteArray b (f.read(1000));
+        string s1 (b.data());
+
+        removeStr(s1, "Welcome to");
+        removeStr(s1, "Kernel");
+        trim(s1);
+
+        string::size_type n (s1.find('\\'));
+        if (string::npos != n)
+        {
+            s1.erase(n);
+        }
+        trim(s1);
+
+        if (endsWith(s1, "-"))
+        {
+            s1.erase(s1.size() - 1);
+            trim(s1);
+        }
+
+        s += convStr(s1);
+//qDebug("a: %s", s.toUtf8().data());
+        s.replace('\n', ' ');
+        /*for (;;)
+        {
+            string::size_type n (s.find('\n'));
+            if (string::npos == n) { break; }
+            s1[n] = ' ';
+        }*/
+//qDebug("b: %s", s.toUtf8().data());
     }
 //ttt0 search /proc for kwin, metacity, ...
 //ttt0 Qt version, Boost version
@@ -678,4 +726,4 @@ QString getSystemInfo() //ttt1 perhaps store this at startup, so fewer things ma
 #endif
     return s;
 }
-
+//ttt0 use /etc/issue

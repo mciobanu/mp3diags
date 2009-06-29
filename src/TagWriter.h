@@ -318,13 +318,17 @@ public:
     //enum Clear { DONT_CLEAR, CLEAR };
     //enum UpdateSel { UPDATE_SEL, DONT_UPDATE_SEL };
     //enum ReloadOption { CLEAR, UPDATE_SEL, DONT_UPDATE_SEL };
-    enum ReloadOption { CLEAR, DONT_CLEAR };
+    //enum ReloadOption { CLEAR, DONT_CLEAR };
+    //enum KeepUnassgnImg { REMOVE_UNASSGN_IMG, KEEP_UNASSGN_IMG };
+    enum ClearData { DONT_CLEAR_DATA, CLEAR_DATA };
+    enum ClearAssigned { DONT_CLEAR_ASSGN, CLEAR_ASSGN };
 
     // called in 3 cases: 1) when going to a new album; 2) when changing the order of readers; 3) when adding/changing/removing TrackTextReaders; all require the reader list to be updated (there are 3 kinds of readers: 1) those that the current album uses, which are stored in Mp3Handler; 2) TrackTextReader instances, which are built manually from m_vpTrackTextParsers; and 3) those with data read from the web);
     // nPos tells which should be the current file; if nPos is <0 it is ignored and the current file remains the same; a value <0 should only be used when changing reader priorities;
     // if eReloadOption is CLEAR, everyting is reloaded; if it's something else, the call is supposed to be for the same album, after changing tag priorities, so ASSIGNED values shouldn't change; if it's UPDATE_SEL, the selection is changed to the first cell for the current song; if it's DONT_UPDATE_SEL the selection isn't changed
 // if strCrt is empty and eReloadOption is DONT_CLEAR, the current position is kept; if strCrt is empty and eReloadOption is CLEAR, the current position is first song;
-    void reloadAll(std::string strCrt, ReloadOption eReloadOption);
+    //void reloadAll(std::string strCrt, ReloadOption eReloadOption/*, bool bKeepUnassgnImg*/); // bKeepUnassgnImg matters only if eReloadOption is CLEAR
+    void reloadAll(std::string strCrt, bool bClearData, bool bClearAssgn);
 
     void setCrt(const std::string& strCrt); // makes current a file with a given name; if name is not found (may also be empty), makes current the first file; doesn't cause the grid selection to change;
     void setCrt(int nCrt); // asserts nCrt is valid; doesn't cause the grid selection to change;

@@ -383,7 +383,7 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
     widget_4->layout()->update();
     widget->layout()->update();*/
 
-    m_pTagWriter->reloadAll("", TagWriter::CLEAR);
+    m_pTagWriter->reloadAll("", TagWriter::CLEAR_DATA, TagWriter::CLEAR_ASSGN);
     selectMainCrt();
 
     resizeIcons();
@@ -848,7 +848,7 @@ void TagEditorDlgImpl::on_m_pReloadB_clicked()
         int k (showMessage(this, QMessageBox::Warning, 1, 1, "Warning", "Reloading the current album causes all unsaved changes to be lost. Really reload?", "Reload", "Cancel"));
         if (0 != k) { return; }
     }
-    m_pTagWriter->reloadAll(m_pTagWriter->getCurrentName(), TagWriter::CLEAR);
+    m_pTagWriter->reloadAll(m_pTagWriter->getCurrentName(), TagWriter::CLEAR_DATA, TagWriter::CLEAR_ASSGN);
     updateAssigned();
 }
 
@@ -940,7 +940,7 @@ void TagEditorDlgImpl::on_m_pNextB_clicked()
     if (m_pCommonData->nextAlbum())
     {
         m_pTagWriter->clearShowedNonSeqWarn();
-        m_pTagWriter->reloadAll("", TagWriter::CLEAR);
+        m_pTagWriter->reloadAll("", TagWriter::CLEAR_DATA, TagWriter::CLEAR_ASSGN);
         clearSelection(); // actually here it selects the first cell
     }
 }
@@ -955,7 +955,7 @@ void TagEditorDlgImpl::on_m_pPrevB_clicked()
     if (m_pCommonData->prevAlbum())
     {
         m_pTagWriter->clearShowedNonSeqWarn();
-        m_pTagWriter->reloadAll("", TagWriter::CLEAR);
+        m_pTagWriter->reloadAll("", TagWriter::CLEAR_DATA, TagWriter::CLEAR_ASSGN);
         clearSelection(); // actually here it selects the first cell
     }
 }
@@ -1170,7 +1170,7 @@ void TagEditorDlgImpl::eraseSelFields() // erases the values in the selected fie
     m_pAssgnBtnWrp->setState(m_pTagWriter->updateAssigned(vector<pair<int, int> >())); // we don't want to keep any previous value
     updateAssigned(); // needed for the "assign" button to work, because the previous line cleared m_pTagWriter->m_sSelOrigVal
 
-    m_pTagWriter->reloadAll(m_pTagWriter->getCurrentName(), TagWriter::DONT_CLEAR); //ttt1 way too many ugly calls, including 2 required calls to m_pAssgnBtnWrp->setState(); restructure the whole "assigned" thing;
+    m_pTagWriter->reloadAll(m_pTagWriter->getCurrentName(), TagWriter::DONT_CLEAR_DATA, TagWriter::DONT_CLEAR_ASSGN); //ttt1 way too many ugly calls, including 2 required calls to m_pAssgnBtnWrp->setState(); restructure the whole "assigned" thing;
     /*
         some details (not completely up-to-date):
             TagWriter::toggleAssigned() should be called when the user clicks on the assign button; changes status of selected cells and returns the new state of m_pAssignedB
@@ -1422,8 +1422,9 @@ TagEditorDlgImpl::SaveOpt TagEditorDlgImpl::save(bool bImplicitCall)
     vpTransf.push_back(&wrt);
 
     bool bRes (transform(vpHndlr, vpTransf, "Saving ID3V2.3.0 tags", this, m_pCommonData, m_transfConfig));
-    m_pTagWriter->reloadAll(strCrt, TagWriter::CLEAR); //ttt1 don't clear
+    m_pTagWriter->reloadAll(strCrt, TagWriter::DONT_CLEAR_DATA, TagWriter::CLEAR_ASSGN);
     //m_pTagWriter->updateAssigned(vector<pair<int, int> >());
+
     m_pAssgnBtnWrp->setState(m_pTagWriter->updateAssigned(vector<pair<int, int> >())); // we don't want to keep any previous value
     updateAssigned(); // needed for the "assign" button to work, because the previous line cleared m_pTagWriter->m_sSelOrigVal
     return bRes ? SAVED : PARTIALLY_SAVED;

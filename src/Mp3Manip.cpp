@@ -235,6 +235,9 @@ void Mp3Handler::parse(std::ifstream& in) // ttt2 this function is a mess; needs
     streampos pos (0);
     while (pos < m_posEnd)
     {
+        in.clear();
+        in.seekg(pos);
+
         //if (m_vpAllStreams.size() > 48)
         if (cSize(m_vpAllStreams) > 1000) //ttt2 perhaps make this configurable
         {
@@ -259,9 +262,6 @@ void Mp3Handler::parse(std::ifstream& in) // ttt2 this function is a mess; needs
             pos = m_posEnd;
             break;
         }
-
-        in.clear();
-        in.seekg(pos);
 
         bool bBrokenMpegFrameFound (false);
         //bool bBrokenId3V2Found (false); //ttt1 use; or perhaps replace it with something else: keep the streams as Unknown, but have a flag to tell that they seem to be a broken "something"; then perhaps drop BrokenFrame as well
@@ -512,9 +512,9 @@ e1:
     //CB_ASSERT (!m_vpAllStreams.empty());
     CB_ASSERT (pos == m_posEnd);
     pos = 0;
-    for (vector<DataStream*>::iterator it = m_vpAllStreams.begin(), end = m_vpAllStreams.end(); it != end; ++it)
+    for (int i = 0; i < cSize(m_vpAllStreams); ++i)
     {
-        DataStream* p (*it);
+        DataStream* p (m_vpAllStreams[i]);
         //cout << p->getInfo() << endl;
         CB_ASSERT(p->getPos() == pos);
         pos += p->getSize();

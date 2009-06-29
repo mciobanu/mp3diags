@@ -224,6 +224,8 @@ NotesGDelegate::NotesGDelegate(CommonData* pCommonData) : MultiLineTvDelegate(pC
     if (0 == index.column())
     {
         myOption.displayAlignment |= Qt::AlignHCenter;
+        //myOption.font = m_pCommonData->getGeneralFont();
+        //myOption.font.setPixelSize(9);
     }
 
     if (2 == index.column())

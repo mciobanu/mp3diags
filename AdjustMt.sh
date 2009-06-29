@@ -17,7 +17,11 @@ if [ $noMt -eq 1 ] ; then
     if [ $? -eq 0 ] ; then # we don't want to change a file that was already changed
         cat src/src.pro | sed 's%lboost_serialization-mt%lboost_serialization%' > src/src.pro1
         mv -f src/src.pro1 src/src.pro
-        echo removed -mt suffix
+        echo "removed -mt suffix"
+    else
+        echo "-mt library doesn't exist, but src.pro has been modified already"
     fi
+else
+    echo "-mt library exists; nothing to do"
 fi
 

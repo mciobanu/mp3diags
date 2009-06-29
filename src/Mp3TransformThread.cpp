@@ -336,7 +336,7 @@ bool Mp3TransformThread::transform()
 
     return !bAborted;
 }
-
+//ttt0 try to avoid rescanning the last file in a transform when intermediaries are removed;
 
 } // namespace
 

@@ -754,7 +754,7 @@ void TagWriter::addAlbumInfo(const AlbumInfo& albumInfo)
         }
     }
 
-    reloadAll("", DONT_CLEAR);
+    reloadAll("", DONT_CLEAR_DATA, DONT_CLEAR_ASSGN);
 }
 
 
@@ -846,17 +846,18 @@ const Mp3HandlerTagData* TagWriter::getCrtMp3HandlerTagData() const
 }
 
 
-void TagWriter::reloadAll(string strCrt, ReloadOption eReloadOption)
+//void TagWriter::reloadAll(string strCrt, ReloadOption eReloadOption/*, bool bKeepUnassgnImg*/)
+void TagWriter::reloadAll(string strCrt, bool bClearData, bool bClearAssgn)
 {
     CursorOverrider crs;
 
-    if (strCrt.empty() && DONT_CLEAR == eReloadOption)
+    if (strCrt.empty() && !bClearData)
     {
         strCrt = getCurrentName();
     }
 
     vector<Mp3HandlerTagData*> v; v.swap(m_vpMp3HandlerTagData);
-    if (CLEAR == eReloadOption)
+    if (bClearData)
     {
         clearPtrContainer(v);
         m_imageColl.clear();
@@ -900,7 +901,7 @@ void TagWriter::reloadAll(string strCrt, ReloadOption eReloadOption)
 
                 mReaderCount[pRd->getName()] = max(mReaderCount[pRd->getName()], m[pRd->getName()]);
 
-                if (CLEAR == eReloadOption)
+                if (bClearData)
                 { // add images
                     try
                     {
@@ -953,7 +954,7 @@ void TagWriter::reloadAll(string strCrt, ReloadOption eReloadOption)
             const Mp3Handler* p (vpHndl[i]);
             m_vpMp3HandlerTagData[k] = new Mp3HandlerTagData(this, p, k, i, k < nPastedSize ? m_vstrPastedValues[k] : "");
             //cout << "k=" << k << ", i=" << i << ", val=" << (k < nPastedSize ? m_vstrPastedValues[k] : "") << endl;
-            if (!v.empty())
+            if (!v.empty() && !bClearAssgn)
             { // copy existing value and status for "assigned" elements
                 const Mp3HandlerTagData& src (*v[k]);
                 Mp3HandlerTagData& dest (*m_vpMp3HandlerTagData[k]);
@@ -978,7 +979,7 @@ void TagWriter::reloadAll(string strCrt, ReloadOption eReloadOption)
 
     clearPtrContainer(v);
 
-    if (CLEAR == eReloadOption)
+    if (bClearData)
     { // add images from crt dir
         if (n > 0)
         { // scan crt dir for images //ttt2 this needs rewrite if an album means something else than a directory
@@ -1108,7 +1109,7 @@ bool TagWriter::updatePatterns(const std::vector<std::pair<std::string, int> >& 
         vNew.swap(m_vSortedKnownTagReaders);
     }
 
-    reloadAll("", DONT_CLEAR);
+    reloadAll("", DONT_CLEAR_DATA, DONT_CLEAR_ASSGN);
 
     return bRes;
 }
@@ -1170,7 +1171,7 @@ void TagWriter::moveReader(int nOldVisualIndex, int nNewVisualIndex)
         m_vSortedKnownTagReaders.insert(it, inf);
     }
 
-    reloadAll("", DONT_CLEAR);
+    reloadAll("", DONT_CLEAR_DATA, DONT_CLEAR_ASSGN);
 }
 
 
@@ -1281,7 +1282,7 @@ void TagWriter::onAssignImage(int nPos)
     m_snUnassignedImages.erase(nPos);
 
     //m_pCommonData->m_pCurrentAlbumG->repaint();
-    reloadAll("", DONT_CLEAR);
+    reloadAll("", DONT_CLEAR_DATA, DONT_CLEAR_ASSGN);
 }
 
 
@@ -1335,7 +1336,7 @@ AssgnBtnWrp::State TagWriter::toggleAssigned(AssgnBtnWrp::State eCrtState)
         CB_ASSERT(false);
     }
 
-    reloadAll("", DONT_CLEAR);
+    reloadAll("", DONT_CLEAR_DATA, DONT_CLEAR_ASSGN);
 //cout << " <<< toggleAssigned()\n"; printContainer(m_sSelOrigVal, cout, "\n");
     return eRes;
 }
@@ -1365,7 +1366,7 @@ void TagWriter::copyFirst()
         }
     }
 
-    reloadAll("", DONT_CLEAR);
+    reloadAll("", DONT_CLEAR_DATA, DONT_CLEAR_ASSGN);
 }
 
 
@@ -1491,7 +1492,7 @@ void TagWriter::paste()
             }
             /*m_pCurrentAlbumModel->emitLayoutChanged();
             m_pCurrentFileModel->emitLayoutChanged();*/
-            reloadAll("", DONT_CLEAR);
+            reloadAll("", DONT_CLEAR_DATA, DONT_CLEAR_ASSGN);
 
             return;
         }

@@ -41,13 +41,22 @@ Another component is the file renamer, which can rename files based on the field
 %prep
 %setup -q
 
-#ttt0 echo ... > $RPM_BUILD_DIR/MP3Diags-%{version}/src
+
 
 %build
 
 ./AdjustMt.sh
 
-%if 0%{?suse_version}
+qmake --version
+which qmake
+ls /usr/lib/qt4/bin
+
+#%if 0%{?mandriva_version} > 2006
+#export PATH=/usr/lib/qt4/bin:$PATH
+#export QTDIR=%{_prefix}/lib/qt4/
+#%endif
+
+%if 0%{?suse_version} || 0%{?mandriva_version}
 qmake
 %endif
 
@@ -59,6 +68,7 @@ make
 strip $RPM_BUILD_DIR/MP3Diags-%{version}/bin/MP3Diags
 
 %install
+# ttt1 perhaps look at http://doc.trolltech.com/4.3/qmake-variable-reference.html#installs and use INSTALLS += ...
 echo mkdir $RPM_BUILD_ROOT%{_bindir}
 mkdir -p $RPM_BUILD_ROOT%{_bindir}
 cp $RPM_BUILD_DIR/MP3Diags-%{version}/bin/MP3Diags $RPM_BUILD_ROOT%{_bindir}

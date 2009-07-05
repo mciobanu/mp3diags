@@ -25,6 +25,8 @@
 #include  <sstream>
 #include  <iomanip>
 
+#include  <boost/version.hpp>
+
 #ifndef WIN32
     #include  <QDir>
     #include <sys/utsname.h>
@@ -73,29 +75,32 @@ void appendFilePart(istream& in, ostream& out, streampos pos, streamoff nSize)
 
 
 
-// prints to cout the content of a memory location, as ASCII and hex;
+// prints to stdout the content of a memory location, as ASCII and hex;
 // GDB has a tendency to not see char arrays and other local variables; actually GCC seems to be the culprit (bug 34767);
 void inspect(const void* q, int nSize)
 {
+    ostringstream out;
     const char* p ((const char*)q);
     for (int i = 0; i < nSize; ++i)
     {
         char c (p[i]);
         if (c < 32 || c > 126) { c = '.'; }
-        cout << c;
+        out << c;
     }
-    cout << "\n(";
+    out << "\n(";
 
-    cout << hex << setfill('0');
+    out << hex << setfill('0');
     bool b (false);
     for (int i = 0; i < nSize; ++i)
     {
-        if (b) { cout << " "; }
+        if (b) { out << " "; }
         b = true;
         unsigned char c (p[i]);
-        cout << setw(2) << (int)c;
+        out << setw(2) << (int)c;
     }
-    cout << dec << ")\n";
+    out << dec << ")\n";
+    qDebug("%s", out.str().c_str());
+    //logToFile(out.str());
 }
 
 
@@ -272,13 +277,21 @@ long getMemUsage()
 
 void logToFile(const string& s) //tttc make sure it is disabled in public releases
 {
-    ofstream out (
 #ifndef WIN32
+    ofstream out (
             "/tmp/Mp3DiagsLog.txt",
-#else
-            "C:/Mp3DiagsLog.txt",
-#endif
             ios_base::app);
+#else
+    char a [500];
+    int n (GetModuleFileNameA(NULL, a, 500)); //ttt3 using GetModuleFileNameA isn't quite right, but since it's a debug function ...
+    a[n - 4] = 0;
+    ofstream out (
+            //"C:/Mp3DiagsLog.txt",
+            //"Mp3DiagsLog.txt",
+            //"C:/temp/Mp3DiagsLog.txt",
+            (string(a) + "Log.txt").c_str(),
+            ios_base::app);
+#endif
     out << s << endl;
 }
 
@@ -645,10 +658,13 @@ static void removeStr(string& main, const string& sub)
     }
 }
 
+extern const char* APP_VER;
+
 
 QString getSystemInfo() //ttt1 perhaps store this at startup, so fewer things may go wrong fhen the assertion handler needs it
 {
-    QString s;
+    QString s ("OS: ");
+
 #ifndef WIN32
     QDir dir ("/etc");
 
@@ -701,7 +717,6 @@ QString getSystemInfo() //ttt1 perhaps store this at startup, so fewer things ma
 
         s += convStr(s1);
 //qDebug("a: %s", s.toUtf8().data());
-        s.replace('\n', ' ');
         /*for (;;)
         {
             string::size_type n (s.find('\n'));
@@ -711,8 +726,7 @@ QString getSystemInfo() //ttt1 perhaps store this at startup, so fewer things ma
 //qDebug("b: %s", s.toUtf8().data());
     }
 //ttt0 search /proc for kwin, metacity, ...
-//ttt0 Qt version, Boost version
-//ttt0 add this to "about"
+
 
 #else
     //qstrVer += QString(" Windows version ID: %1").arg(QSysInfo::WinVersion);
@@ -724,6 +738,8 @@ QString getSystemInfo() //ttt1 perhaps store this at startup, so fewer things ma
                .arg(settings.value("BuildLab").toString());
 
 #endif
+    s.replace('\n', ' ');
+    s = QString("Version: MP3 Diags %1.\nWord size: %2 bit.\nQt version: %3.\nBoost build version: %4\n").arg(APP_VER).arg(QSysInfo::WordSize).arg(qVersion()).arg(BOOST_LIB_VERSION) + s; //ttt0 see if possible to get actual boost version (if libs are binary compatible)
     return s;
 }
-//ttt0 use /etc/issue
+

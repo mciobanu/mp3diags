@@ -106,7 +106,6 @@ static bool s_bMainAssertOut;
     return s1;
 }*/
 
-extern const char* APP_VER;
 
 
 
@@ -129,8 +128,7 @@ static void showAssertDlg(QWidget* pParent)
 
     QTextBrowser* pContent (new QTextBrowser(&dlg));
 
-    QString qstrVer (QString("Version: MP3 Diags %1. Word size: %2 bit. OS: ").arg(APP_VER).arg(QSysInfo::WordSize));
-    qstrVer += getSystemInfo();
+    QString qstrVer (getSystemInfo());
 
 
     pContent->setOpenExternalLinks(true);

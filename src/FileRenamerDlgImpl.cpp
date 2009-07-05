@@ -446,6 +446,7 @@ bool RenameThread::proc()
         {
             qstrErr = "Source not found";
         }
+        catch (const std::bad_alloc&) { throw; }
         catch (...)
         {
             qstrErr = "Unknown error";
@@ -753,10 +754,23 @@ struct FieldPattern : public PatternBase
     {
         const Id3V2StreamBase* p (pHndl->getId3V2Stream());
         if (0 == p) { return ""; }
-        return p->getValue(m_eFeature);
+        return fixName(p->getValue(m_eFeature));
     }
 private:
     TagReader::Feature m_eFeature;
+    string fixName(string s) const
+    {
+        for (;;)
+        {
+#ifndef WIN32
+            string::size_type n (s.find_first_of("/\"\\*?<>|")); //ttt2 even in Unix, it might be a good idea to not allow ":" as well in some cases, depending on the file system
+#else
+            string::size_type n (s.find_first_of("/\"\\*?<>|:"));
+#endif
+            if (string::npos == n) { return s; }
+            s[n] = '_';
+        }
+    }
 };
 
 struct YearPattern : public PatternBase
@@ -852,9 +866,20 @@ Renamer::Renamer(const std::string& strPattern) : m_strPattern(strPattern), m_pR
 {
     auto_ptr<SequencePattern> ap (m_pRoot);
     const char* p (strPattern.c_str());
-    SequencePattern* pSeq (m_pRoot); // this is either m_pRoot or a new sequence, for optional elements
+
+#ifndef WIN32
+#else
+    if (cSize(strPattern) < 3 || ((p[0] < 'a' || p[0] > 'z') && (p[0] < 'A' || p[0] > 'Z')) || p[1] != ':') // ttt2 allow network drives as well
+    {
+        throw InvalidPattern("A pattern must begin with \"<drive>:" + getPathSepAsStr() + "\"");
+    }
+    p += 2;
+    m_pRoot->addPattern(new StaticPattern(strPattern.substr(0, 2)));
+#endif
+
+    SequencePattern* pSeq (m_pRoot); // pSeq is either m_pRoot or a new sequence, for optional elements
     if (0 == *p) { throw InvalidPattern("A pattern cannot be empty"); }
-    if (getPathSep() != *p) { throw InvalidPattern("A pattern must begin with '/'"); } // ttt1 Linux-specific
+    if (getPathSep() != *p) { throw InvalidPattern("A pattern must begin with '" + getPathSepAsStr() + "'"); }
 
     auto_ptr<SequencePattern> optAp;
 
@@ -949,6 +974,5 @@ string Renamer::getNewName(const Mp3Handler* pHndl) const
     return m_pRoot->getVal(pHndl) + ".mp3";
 }
 
-//ttt1 a "pop/rock" genre creates unexpected folder
 //ttt1 timer in normalizer
 //ttt1 look at normalized loudness in tracks, maybe warn

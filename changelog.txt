@@ -1,5 +1,14 @@
 ---------------------------------------------------------------------------
 
+05.07.2009 - 0.99.02.020
+- added sysinfo to "about" dialog
+- more details in sysinfo
+- made file renamer work on Windows
+- file renamer now replaces invalid characters in file names
+- made logger work on Windows 7 (and probably Vista)
+
+---------------------------------------------------------------------------
+
 29.06.2009 - 0.99.02.019
 - downloaded images are no longer lost when saving in the tag editor
 - duration is now shown for audio streams

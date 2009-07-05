@@ -29,6 +29,15 @@ Requires: qt-x11
 BuildRequires: qt-devel zlib-devel boost-devel gcc-c++
 %endif
 
+%if 0%{?mandriva_version}
+BuildRequires:  kdelibs4-devel
+BuildRequires:  libboost-devel
+BuildRequires:  zlib-devel
+Requires:       qt4-common
+%endif
+
+
+
 %description
 Finds problems in MP3 files and helps the user to fix many of them. Looks at both the audio part (VBR info, quality, normalization) and the tags containing track information (ID3.)
 
@@ -47,16 +56,21 @@ Another component is the file renamer, which can rename files based on the field
 
 ./AdjustMt.sh
 
-qmake --version
-which qmake
-ls /usr/lib/qt4/bin
 
 #%if 0%{?mandriva_version} > 2006
 #export PATH=/usr/lib/qt4/bin:$PATH
 #export QTDIR=%{_prefix}/lib/qt4/
 #%endif
 
-%if 0%{?suse_version} || 0%{?mandriva_version}
+%if 0%{?suse_version}
+qmake
+%endif
+
+%if 0%{?mandriva_version}
+#export PATH=/usr/lib/qt4/bin:$PATH
+#export QTDIR=%{_prefix}/lib/qt4/
+#ls /usr/lib/qt4/bin
+#/usr/lib/qt4/bin/qmake
 qmake
 %endif
 

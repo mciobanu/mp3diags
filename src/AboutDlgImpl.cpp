@@ -63,6 +63,8 @@ AboutDlgImpl::AboutDlgImpl(QWidget* pParent /*= 0*/) : QDialog(pParent, getDialo
     initText(m_pBoostM, ":/licences/boost.txt");
     initText(m_pZlibM, ":/licences/zlib.txt");
 
+    m_pSysInfoM->setText(getSystemInfo());
+
     m_pMainTextM->setFocus();
     //{ QAction* p (new QAction(this)); p->setShortcut(QKeySequence("Ctrl+N")); connect(p, SIGNAL(triggered()), this, SLOT(accept())); addAction(p); }
 }
@@ -109,7 +111,7 @@ AboutDlgImpl::~AboutDlgImpl()
 bjam serialization toolset=gcc
 
 
-bjam toolset=gcc serialization release
+bjam toolset=gcc serialization threading=multi release
 
 http://stackoverflow.com/questions/760323/why-does-my-qt4-5-app-open-a-console-window-under-windows
 http://stackoverflow.com/questions/718447/adding-external-library-into-qt-creator-project
@@ -143,13 +145,12 @@ dpkg-genchanges: warning: the current version (0.99.01.009) is smaller than the 
 
 
 //ttt0 normalize in Windows has flashing / duplicated output
-//ttt0 terminate program if mem alloc fails
 //ttt0 next album in tag editor should care about filters (perhaps have a separate "filtered album list" which gets filled in when opening tag edt)
-//ttt0 search (...), add std::bad_alloc
-//ttt0 length in MPEG audio
 //ttt0 2-letter labels
 //ttt0 switch to QFile; see source for flush();
 //ttt0 perhaps tab with changelog
-//ttt0 "save as" doesn't work in Windows in root dir
 //ttt0 doc: use case: compare images, id3v2 tags
 //ttt0 red circle for errors
+//ttt0 perhaps transform to convert unknown images to "cover"
+//ttt0 perhaps something to remove image files after assigning them, or at least show them in a different color; it was suggested to add a "-" button to remove images, below the "v" for "assigning them", but not sure it's such great idea; perhaps some option to delete local images that were assigned (but perhaps the unassigned CD scan should go as well);
+

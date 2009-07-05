@@ -1,3 +1,10 @@
+* Sun Jul 05 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.02.018
+- file renamer now replaces invalid characters in file names
+- duration is now shown for audio streams
+- fixed assertion caused by files with too many streams
+- multiple ID3 stream remover no longer included by default in second list
+- some changes to .spec file in the hope it will work on Mandriva
+
 * Wed Jun 24 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.02.018
 - made -mt suffix default for Boost Serialization
 

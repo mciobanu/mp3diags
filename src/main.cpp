@@ -35,6 +35,8 @@
 #include  "OsFile.h"
 
 //#include  "Profiler.h"
+#include  <cstdio>
+#include  <iostream>
 
 using namespace std;
 
@@ -116,6 +118,23 @@ const QFont& getDefaultFont()
 }
 
 
+//static char* s_pFreeMem (new char[1000000]);
+static char* s_pFreeMem (new char[10000]);
+
+// to test this use "ulimit -v 200000" and uncomment the allocations for char[1000000] below
+//
+//ttt2 if the GUI got started, this doesn't seem to get called, regardless of the size of s_pFreeMem
+void newHandler()
+{
+    delete[] s_pFreeMem;
+    //puts("inside new handler");
+    cerr << "inside new handler" << endl;
+    cerr.flush();
+    throw bad_alloc();
+    return;
+}
+
+
 int main(int argc, char *argv[])
 {
 /*      QCoreApplication app(argc, argv);
@@ -124,8 +143,19 @@ int main(int argc, char *argv[])
     //DEFINE_PROF_ROOT("mp3diags");
     //PROF("root");
 
+    void (*nh)() = set_new_handler(newHandler);
+    cerr << "previous new handler: " << (void*)nh << endl;
+    //for (int i = 0; i < 200; ++i) { new char[1000000]; }
+
     Q_INIT_RESOURCE(Mp3Diags); // base name of the ".qrc" file
     QApplication app(argc, argv);
+
+    { // by default on Windows the selection is hard to see in the main window, because it's some gray;
+        QPalette pal (QApplication::palette());
+        pal.setColor(QPalette::Highlight, pal.color(QPalette::Active, QPalette::Highlight));
+        pal.setColor(QPalette::HighlightedText, pal.color(QPalette::Active, QPalette::HighlightedText));
+        QApplication::setPalette(pal);
+    }
 
     if (argc > 1)
     {

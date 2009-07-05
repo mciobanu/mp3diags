@@ -705,3 +705,4 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
 */
 
 //ttt0 remove ID3V1
+//ttt0 convert img type to "cover"

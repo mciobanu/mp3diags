@@ -190,6 +190,7 @@ Id3V240Frame::Id3V240Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
             MP3_THROW (pos, id3v240UnsuppText, StreamIsUnsupported(Id3V240Stream::getClassDisplayName(), "ID3V2.4.0 tag containing a text frame named " + getReadableName() + " using unsupported characters or unsupported text encoding.")); //ttt2 not specific enough; this might need reviewing in the future
         }
     }
+    catch (const std::bad_alloc&) { throw; }
     catch (...)
     {
         throw;
@@ -323,6 +324,7 @@ Id3V240Stream::Id3V240Stream(int nIndex, NoteColl& notes, istream& in, StringWrp
             pos += p->m_nDiskHdrSize + p->m_nDiskDataSize;
         }
     }
+    catch (const std::bad_alloc&) { throw; }
     catch (...)
     {
         if (bAcceptBroken)

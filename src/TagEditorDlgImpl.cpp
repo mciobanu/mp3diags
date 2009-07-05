@@ -1347,7 +1347,7 @@ e1:
 //========================================================================================================================
 //========================================================================================================================
 //========================================================================================================================
-//ttt0: mark a single cell as assigned, paste image, save; the image is lost
+
 //ttt1 perhaps all licences in root dir
 
 // based on configuration, either just saves the tags or asks the user for confirmation; returns true iff all tags have been saved or if none needed saving; it should be followed by a reload(), either for the current or for the next/prev album; if bExplicitCall is true, the "ASK" option is turned into "SAVE";

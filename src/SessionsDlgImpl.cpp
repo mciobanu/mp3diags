@@ -359,6 +359,7 @@ void SessionsDlgImpl::on_m_pEraseB_clicked()
             deleteFile(SessionEditorDlgImpl::getLogFileName(s));
         }
     }
+    catch (const std::bad_alloc&) { throw; }
     catch (...) //ttt1 use specific exceptions
     {
         QMessageBox::critical(this, "Error", "Failed to remove the data files associated with this session"); // maybe the files were already deleted ...
@@ -396,6 +397,7 @@ void SessionsDlgImpl::on_m_pSaveAsB_clicked()
             copyFile2(SessionEditorDlgImpl::getLogFileName(strCrt), SessionEditorDlgImpl::getLogFileName(s));
         }
     }
+    catch (const std::bad_alloc&) { throw; }
     catch (...)
     { //ttt1 show errors
     }

@@ -218,7 +218,7 @@ void MpegStream::removeLastFrame()
 /*override*/ std::string MpegStream::getInfo() const
 {
     ostringstream out;
-    int nDur (int(m_nSize*8.0/m_nBitrate)); //ttt0 try on 22 or 48 kHz
+    int nDur (int(m_nSize*8.0/m_nBitrate));
     int nMin (nDur/60);
     int nSec (nDur - nMin*60);
     char a [15];

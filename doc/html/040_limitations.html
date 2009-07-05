@@ -78,7 +78,7 @@ The only format available for saving track information is ID3V2.3.0
 
 
 <div class="FreeNormalText RegFnt ChpCol2">
-Some text frame formats in ID3V2.4.0 aren't supported yet, including UTF-8. (This can be added easily but I haven't seen a file using it.)
+Some text frame formats in ID3V2.4.0 aren't supported yet (though they can be added easily, if needed.)
 </div>
 
 
@@ -103,6 +103,16 @@ It is possible for audio frames to store some of their data in the neighbouring 
 <div class="FreeNormalText RegFnt ChpCol1">
 The function calls to the file system (open file, search for files, ...) provide and expect UTF-8-encoded file names. This is important if you have file names using non-English characters (or rather non-ASCII, to be more correct.) I have no idea how big this issue is, because the test systems use UTF-8. It may be that the file names are displayed incorrectly, but the files are still processed, or it may lead to more serious errors. So please <a href="050_feedback.html">tell me</a> if you seem to encounter errors related to this or if you can provide more insight into UTF-8 handling.
 </div>
+
+<div class="FreeNormalText RegFnt ChpCol2">
+On Windows the path separator is usually the forward slash '/', as on Unix, and not the backslash '\'. However, '\' is shown in file open / directory selection dialogs, because they are native Windows dialogs.
+</div>
+
+
+<div class="FreeNormalText RegFnt ChpCol1">
+On Windows MP3 Diags doesn't even look at a file whose name contains characters with a code above 127, so file names in foreign languages are affected. This is caused by a limitation in MinGW, the Windows port of the GCC compiler that I use. I don't know if the ancient MinGW 3.4.2 can be persuaded to use UTF-8 for file names, but I suspect it can't. If anybody knows different, please tell me.
+</div>
+
 
 
 <div class="NavPadTable RegFnt ChpCol2">

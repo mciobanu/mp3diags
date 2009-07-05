@@ -81,6 +81,8 @@ Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const Q
 
     if (!in)
     {
+        qDebug("Couldn't open file \"%s\"", strFileName.c_str());
+        //inspect(strFileName.c_str(), cSize(strFileName) + 1);
         trace("Couldn't open file: " + strFileName);
         CB_THROW1(FileNotFound());
     }
@@ -161,6 +163,7 @@ void Mp3Handler::checkLastFrameInMpegStream(std::ifstream& in)
             delete p;
             break;
         }
+        catch (const std::bad_alloc&) { throw; }
         catch (...) //ttt2 replace "..." with something app-specific, to avoid catching system exceptions
         {
             in.clear();
@@ -174,6 +177,7 @@ void Mp3Handler::checkLastFrameInMpegStream(std::ifstream& in)
             delete p;
             break;
         }
+        catch (const std::bad_alloc&) { throw; }
         catch (...) //ttt2 replace "..." with something app-specific, to avoid catching system exceptions
         {
             in.clear();
@@ -187,6 +191,7 @@ void Mp3Handler::checkLastFrameInMpegStream(std::ifstream& in)
             delete p;
             break;
         }
+        catch (const std::bad_alloc&) { throw; }
         catch (...) //ttt2 replace "..." with something app-specific, to avoid catching system exceptions
         {
             in.clear();
@@ -200,6 +205,7 @@ void Mp3Handler::checkLastFrameInMpegStream(std::ifstream& in)
             delete p;
             break;
         }
+        catch (const std::bad_alloc&) { throw; }
         catch (...) //ttt2 replace "..." with something app-specific, to avoid catching system exceptions
         {
             in.clear();
@@ -279,6 +285,7 @@ void Mp3Handler::parse(std::ifstream& in) // ttt2 this function is a mess; needs
         }
         catch (const StreamIsBroken& ex) { if (0 == szBrokenName) { szBrokenName = ex.getStreamName(); strBrokenInfo = ex.getInfo(); } }
         catch (const StreamIsUnsupported& ex) { if (0 == szUnsupportedName) { szUnsupportedName = ex.getStreamName(); strUnsupportedInfo = ex.getInfo(); } }
+        catch (const std::bad_alloc&) { throw; }
         catch (...) {} //ttt2 replace "..." with something app-specific, to avoid catching system exceptions
         in.clear(); in.seekg(pos);
 
@@ -291,6 +298,7 @@ void Mp3Handler::parse(std::ifstream& in) // ttt2 this function is a mess; needs
         }
         catch (const StreamIsBroken& ex) { if (0 == szBrokenName) { szBrokenName = ex.getStreamName(); strBrokenInfo = ex.getInfo(); } }
         catch (const StreamIsUnsupported& ex) { if (0 == szUnsupportedName) { szUnsupportedName = ex.getStreamName(); strUnsupportedInfo = ex.getInfo(); } }
+        catch (const std::bad_alloc&) { throw; }
         catch (...) {} //ttt2 replace "..." with something app-specific, to avoid catching system exceptions
         in.clear(); in.seekg(pos);
 
@@ -310,6 +318,7 @@ void Mp3Handler::parse(std::ifstream& in) // ttt2 this function is a mess; needs
         }
         catch (const StreamIsBroken& ex) { if (0 == szBrokenName) { szBrokenName = ex.getStreamName(); strBrokenInfo = ex.getInfo(); } }
         catch (const StreamIsUnsupported& ex) { if (0 == szUnsupportedName) { szUnsupportedName = ex.getStreamName(); strUnsupportedInfo = ex.getInfo(); } }
+        catch (const std::bad_alloc&) { throw; }
         catch (...) {} //ttt2 replace "..." with something app-specific, to avoid catching system exceptions
         in.clear(); in.seekg(pos);
 
@@ -322,6 +331,7 @@ void Mp3Handler::parse(std::ifstream& in) // ttt2 this function is a mess; needs
         }
         catch (const StreamIsBroken& ex) { if (0 == szBrokenName) { szBrokenName = ex.getStreamName(); strBrokenInfo = ex.getInfo(); } }
         catch (const StreamIsUnsupported& ex) { if (0 == szUnsupportedName) { szUnsupportedName = ex.getStreamName(); strUnsupportedInfo = ex.getInfo(); } }
+        catch (const std::bad_alloc&) { throw; }
         catch (...) {} //ttt2 replace "..." with something app-specific, to avoid catching system exceptions
         in.clear(); in.seekg(pos);
 
@@ -334,6 +344,7 @@ void Mp3Handler::parse(std::ifstream& in) // ttt2 this function is a mess; needs
         }
         catch (const StreamIsBroken& ex) { if (0 == szBrokenName) { szBrokenName = ex.getStreamName(); strBrokenInfo = ex.getInfo(); } }
         catch (const StreamIsUnsupported& ex) { if (0 == szUnsupportedName) { szUnsupportedName = ex.getStreamName(); strUnsupportedInfo = ex.getInfo(); } }
+        catch (const std::bad_alloc&) { throw; }
         catch (...) {} //ttt2 replace "..." with something app-specific, to avoid catching system exceptions
         in.clear(); in.seekg(pos);
 
@@ -357,6 +368,7 @@ void Mp3Handler::parse(std::ifstream& in) // ttt2 this function is a mess; needs
         }
         catch (const StreamIsBroken& ex) { if (0 == szBrokenName) { szBrokenName = ex.getStreamName(); strBrokenInfo = ex.getInfo(); } }
         catch (const StreamIsUnsupported& ex) { if (0 == szUnsupportedName) { szUnsupportedName = ex.getStreamName(); strUnsupportedInfo = ex.getInfo(); } }
+        catch (const std::bad_alloc&) { throw; }
         catch (...) {} //ttt2 replace "..." with something app-specific, to avoid catching system exceptions
         in.clear(); in.seekg(pos);
 
@@ -369,6 +381,7 @@ void Mp3Handler::parse(std::ifstream& in) // ttt2 this function is a mess; needs
         }
         catch (const StreamIsBroken& ex) { if (0 == szBrokenName) { szBrokenName = ex.getStreamName(); strBrokenInfo = ex.getInfo(); } }
         catch (const StreamIsUnsupported& ex) { if (0 == szUnsupportedName) { szUnsupportedName = ex.getStreamName(); strUnsupportedInfo = ex.getInfo(); } }
+        catch (const std::bad_alloc&) { throw; }
         catch (...) {} //ttt2 replace "..." with something app-specific, to avoid catching system exceptions
         in.clear(); in.seekg(pos);
 
@@ -381,6 +394,7 @@ void Mp3Handler::parse(std::ifstream& in) // ttt2 this function is a mess; needs
         }
         catch (const StreamIsBroken& ex) { if (0 == szBrokenName) { szBrokenName = ex.getStreamName(); strBrokenInfo = ex.getInfo(); } }
         catch (const StreamIsUnsupported& ex) { if (0 == szUnsupportedName) { szUnsupportedName = ex.getStreamName(); strUnsupportedInfo = ex.getInfo(); } }
+        catch (const std::bad_alloc&) { throw; }
         catch (...) {} //ttt2 replace "..." with something app-specific, to avoid catching system exceptions
         in.clear(); in.seekg(pos);
 
@@ -393,6 +407,7 @@ void Mp3Handler::parse(std::ifstream& in) // ttt2 this function is a mess; needs
         }
         catch (const StreamIsBroken& ex) { if (0 == szBrokenName) { szBrokenName = ex.getStreamName(); strBrokenInfo = ex.getInfo(); } }
         catch (const StreamIsUnsupported& ex) { if (0 == szUnsupportedName) { szUnsupportedName = ex.getStreamName(); strUnsupportedInfo = ex.getInfo(); } }
+        catch (const std::bad_alloc&) { throw; }
         catch (...) {} //ttt2 replace "..." with something app-specific, to avoid catching system exceptions
         in.clear(); in.seekg(pos);
 
@@ -405,6 +420,7 @@ void Mp3Handler::parse(std::ifstream& in) // ttt2 this function is a mess; needs
         }
         catch (const StreamIsBroken& ex) { if (0 == szBrokenName) { szBrokenName = ex.getStreamName(); strBrokenInfo = ex.getInfo(); } }
         catch (const StreamIsUnsupported& ex) { if (0 == szUnsupportedName) { szUnsupportedName = ex.getStreamName(); strUnsupportedInfo = ex.getInfo(); } }
+        catch (const std::bad_alloc&) { throw; }
         catch (...) {} //ttt2 replace "..." with something app-specific, to avoid catching system exceptions
         in.clear(); in.seekg(pos);
 

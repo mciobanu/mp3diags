@@ -102,6 +102,16 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="tab_8" >
+      <attribute name="title" >
+       <string>System info</string>
+      </attribute>
+      <layout class="QHBoxLayout" >
+       <item>
+        <widget class="QTextBrowser" name="m_pSysInfoM" />
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="tab_2" >
       <attribute name="title" >
        <string>GPL V2 (for the program)</string>

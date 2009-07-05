@@ -1,3 +1,12 @@
+mp3diags (0.99.02.020) testing; urgency=low
+
+  * file renamer now replaces invalid characters in file names
+  * duration is now shown for audio streams
+  * fixed assertion caused by files with too many streams
+  * multiple ID3 stream remover no longer included by default in second list
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Sun, 05 Jul 2009 22:00:00 +0200
+
 mp3diags (0.99.02.018) testing; urgency=low
 
   * made -mt suffix default for Boost Serialization

@@ -409,7 +409,17 @@ bool CB_LIB_CALL dirExists(const std::string& strDir)
     checkDirName(strDir);
 
     struct stat s;
-    if (stat(strDir.c_str(), &s) < 0)
+    string strDir1 (strDir);
+
+#ifndef WIN32
+#else
+    if (2 == cSize(strDir1))
+    {
+        strDir1 += getPathSepAsStr();
+    }
+#endif
+
+    if (stat(strDir1.c_str(), &s) < 0)
     { // nothing exists
         return false;
     }

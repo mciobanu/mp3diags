@@ -27,6 +27,7 @@
 
 #include  <QItemDelegate>
 #include  <QAbstractTableModel>
+#include  <QHeaderView>
 
 //=====================================================================================================================
 //=====================================================================================================================
@@ -77,7 +78,7 @@ class FilesGDelegate : public QItemDelegate
     Q_OBJECT
 
 public:
-    FilesGDelegate(CommonData* pCommonData, QObject* pParent = 0) : QItemDelegate(pParent), m_pCommonData(pCommonData) {}
+    FilesGDelegate(CommonData* pCommonData, QObject* pParent) : QItemDelegate(pParent), m_pCommonData(pCommonData) {}
 
     /*override*/ void paint(QPainter* pPainter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
     /*override*/ QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const;
@@ -86,6 +87,17 @@ public:
 };
 
 
+
+class FileHeaderView : public QHeaderView
+{
+    Q_OBJECT
+
+    /*override*/ void paintSection(QPainter* pPainter, const QRect& rect, int nLogicalIndex) const;
+    /*override*/ void mouseMoveEvent(QMouseEvent* pEvent);
+    CommonData* m_pCommonData;
+public:
+    FileHeaderView(CommonData* pCommonData, Qt::Orientation orientation, QWidget* pParent);
+};
 
 
 

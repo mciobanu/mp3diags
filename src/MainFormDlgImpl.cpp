@@ -448,8 +448,10 @@ MainFormDlgImpl::MainFormDlgImpl(QWidget* pParent, const string& strSession) : Q
         m_pCommonData->m_pFilesModel = new FilesModel(m_pCommonData);
         m_pFilesG->setModel(m_pCommonData->m_pFilesModel);
 
-        FilesGDelegate* pDel = new FilesGDelegate(m_pCommonData, m_pFilesG);
+        FilesGDelegate* pDel (new FilesGDelegate(m_pCommonData, m_pFilesG));
         m_pFilesG->setItemDelegate(pDel);
+
+        m_pFilesG->setHorizontalHeader(new FileHeaderView(m_pCommonData, Qt::Horizontal, m_pFilesG));
 
         m_pFilesG->horizontalHeader()->setMinimumSectionSize(CELL_WIDTH);
         m_pFilesG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);

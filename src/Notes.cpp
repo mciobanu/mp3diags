@@ -33,10 +33,7 @@ using namespace pearl;
 
 /*static*/ Notes::NoteSet Notes::s_spAllNotes;
 
-/*static*/ vector<const Note*> Notes::s_vpErrNotes;
-/*static*/ vector<const Note*> Notes::s_vpWarnNotes;
-/*static*/ vector<const Note*> Notes::s_vpSuppNotes;
-
+/*static*/ vector<vector<const Note*> > Notes::s_vpNotesByCateg (int(Note::CATEG_CNT));
 /*static*/ vector<const Note*> Notes::s_vpAllNotes;
 
 
@@ -45,7 +42,7 @@ static const char* s_szPlaceholderDescr ("<Placeholder for a note that can no lo
 // to be used by serialization: if a description is no longer found, the note gets replace with a default, "missing", one
 /*static*/ const Note* Notes::getMissingNote()
 {
-    static Note::SharedData sd (Note::SUPPORT, s_szPlaceholderDescr); // !!! m_nLabelIndex is initialized to -1, which will result in an empty label;
+    static Note::SharedData sd (Note::SUPPORT, Note::CUSTOM, s_szPlaceholderDescr); // !!! m_nLabelIndex is initialized to -1, which will result in an empty label;
     static Note note (sd, -1);
     return &note;
 }
@@ -74,13 +71,10 @@ static const char* s_szPlaceholderDescr ("<Placeholder for a note that can no lo
 /*static*/ void Notes::addNote(Note* p)
 {
     CB_ASSERT (0 == s_spAllNotes.count(p));
-    switch (p->getSeverity())
-    {
-    case Note::ERR: p->m_pSharedData->m_nLabelIndex = cSize(s_vpErrNotes); s_vpErrNotes.push_back(p); break;
-    case Note::WARNING: p->m_pSharedData->m_nLabelIndex = cSize(s_vpWarnNotes); s_vpWarnNotes.push_back(p); break;
-    case Note::SUPPORT: p->m_pSharedData->m_nLabelIndex = cSize(s_vpSuppNotes); s_vpSuppNotes.push_back(p); break;
-    default: CB_ASSERT (false);
-    }
+    int nCateg (p->getCategory());
+    CB_ASSERT (0 <= nCateg && nCateg < Note::CATEG_CNT);
+    p->m_pSharedData->m_nLabelIndex = cSize(s_vpNotesByCateg[nCateg]);
+    s_vpNotesByCateg[nCateg].push_back(p);
 
     p->m_pSharedData->m_nNoteId = cSize(s_vpAllNotes);
     s_vpAllNotes.push_back(p);
@@ -129,30 +123,30 @@ static const char* s_szPlaceholderDescr ("<Placeholder for a note that can no lo
     // id3 v2
     addNote(&Notes::id3v2FrameTooShort()); // e
     addNote(&Notes::id3v2InvalidName()); // e
-    addNote(&Notes::id3v2UnsuppFlags1()); // s
-    addNote(&Notes::id3v2UnsuppFlags2()); // s
     addNote(&Notes::id3v2IncorrectFlg1()); // w
     addNote(&Notes::id3v2IncorrectFlg2()); // w
     addNote(&Notes::id3v2TextError()); // e
+    addNote(&Notes::id3v2HasLatin1NonAscii()); // w
+    addNote(&Notes::id3v2EmptyTcon()); // w
+    addNote(&Notes::id3v2MultipleFramesWithSameName()); // w
     addNote(&Notes::id3v2UnsuppVer()); // s
     addNote(&Notes::id3v2UnsuppFlag()); // s
-    addNote(&Notes::id3v2HasLatin1NonAscii()); // w
-    addNote(&Notes::id3v2EmptyTcon());
-    addNote(&Notes::id3v2MultipleFramesWithSameName());
-    addNote(&Notes::id3v2DuplicatePopm());
+    addNote(&Notes::id3v2UnsuppFlags1()); // s
+    addNote(&Notes::id3v2UnsuppFlags2()); // s
+    addNote(&Notes::id3v2DuplicatePopm()); //s
 
     // apic
     addNote(&Notes::id3v2NoApic()); // w
     addNote(&Notes::id3v2CouldntLoadPic()); // w
     //addNote(&Notes::id3v2LinkNotSupported()); // s
     addNote(&Notes::id3v2NotCoverPicture()); // w
-    addNote(&Notes::id3v2UnsupApicTextEnc());
-    addNote(&Notes::id3v2LinkInApic());
-    addNote(&Notes::id3v2ErrorLoadingApic());
-    addNote(&Notes::id3v2ErrorLoadingApicTooShort());
-    addNote(&Notes::id3v2PictDescrIgnored());
-    addNote(&Notes::id3v2DuplicatePic());
-    addNote(&Notes::id3v2MultipleApic());
+    addNote(&Notes::id3v2ErrorLoadingApic()); // w
+    addNote(&Notes::id3v2ErrorLoadingApicTooShort()); // w
+    addNote(&Notes::id3v2DuplicatePic()); // e
+    addNote(&Notes::id3v2MultipleApic()); // w
+    addNote(&Notes::id3v2UnsupApicTextEnc()); //s
+    addNote(&Notes::id3v2LinkInApic()); //s
+    addNote(&Notes::id3v2PictDescrIgnored()); //s
 
     // id3 v2.3.0
     addNote(&Notes::noId3V230()); // w
@@ -163,71 +157,79 @@ static const char* s_szPlaceholderDescr ("<Placeholder for a note that can no lo
 
     // id3 v2.4.0
     addNote(&Notes::twoId3V240()); // e
-    addNote(&Notes::id3v240FrameTooShort());
-    addNote(&Notes::id3v240IncorrectSynch());
-    addNote(&Notes::id3v240UnsuppText());
-    addNote(&Notes::id3v240DeprTyerAndTdrc());
-    addNote(&Notes::id3v240DeprTyer());
-    addNote(&Notes::id3v240DeprTdatAndTdrc());
-    addNote(&Notes::id3v240DeprTdat());
+    addNote(&Notes::id3v240FrameTooShort()); // e
+    addNote(&Notes::id3v240IncorrectSynch()); // w
+    addNote(&Notes::id3v240DeprTyerAndTdrc()); // w
+    addNote(&Notes::id3v240DeprTyer()); // w
+    addNote(&Notes::id3v240DeprTdatAndTdrc()); // w
+    addNote(&Notes::id3v240DeprTdat()); // w
+    addNote(&Notes::id3v240UnsuppText()); // s
 
     // id3 v1
-    addNote(&Notes::onlyId3V1());
-    addNote(&Notes::id3v1BeforeAudio());
-    addNote(&Notes::id3v1TooShort());
-    addNote(&Notes::twoId3V1());
+    addNote(&Notes::onlyId3V1()); // w
+    addNote(&Notes::id3v1BeforeAudio()); // w
+    addNote(&Notes::id3v1TooShort()); // e
+    addNote(&Notes::twoId3V1()); // e
     //addNote(&Notes::zeroInId3V1());
-    addNote(&Notes::mixedPaddingInId3V1());
-    addNote(&Notes::mixedFieldPaddingInId3V1());
-    addNote(&Notes::id3v1InvalidName());
-    addNote(&Notes::id3v1InvalidArtist());
-    addNote(&Notes::id3v1InvalidAlbum());
-    addNote(&Notes::id3v1InvalidYear());
-    addNote(&Notes::id3v1InvalidComment());
+    addNote(&Notes::mixedPaddingInId3V1()); // w
+    addNote(&Notes::mixedFieldPaddingInId3V1()); // w
+    addNote(&Notes::id3v1InvalidName()); // e
+    addNote(&Notes::id3v1InvalidArtist()); // e
+    addNote(&Notes::id3v1InvalidAlbum()); // e
+    addNote(&Notes::id3v1InvalidYear()); // e
+    addNote(&Notes::id3v1InvalidComment()); // e
 
     // broken
-    addNote(&Notes::brokenAtTheEnd());
-    addNote(&Notes::brokenInTheMiddle());
-
-    // unsupp
-    addNote(&Notes::unsupportedFound());
+    addNote(&Notes::brokenAtTheEnd()); // e
+    addNote(&Notes::brokenInTheMiddle()); // e
 
     // trunc
-    addNote(&Notes::truncAudioWithWholeFile());
-    addNote(&Notes::truncAudio());
+    addNote(&Notes::truncAudioWithWholeFile()); // e
+    addNote(&Notes::truncAudio()); // e
 
     // unknown
-    addNote(&Notes::unknTooShort());
-    addNote(&Notes::unknownAtTheEnd());
-    addNote(&Notes::unknownInTheMiddle());
-    addNote(&Notes::foundNull());
+    addNote(&Notes::unknTooShort()); // w
+    addNote(&Notes::unknownAtTheEnd()); // e
+    addNote(&Notes::unknownInTheMiddle()); // e
+    addNote(&Notes::foundNull()); // w
 
     // lyrics
-    addNote(&Notes::lyrTooShort());
-    addNote(&Notes::twoLyr());
-    addNote(&Notes::lyricsNotSupported());
+    addNote(&Notes::lyrTooShort()); // e
+    addNote(&Notes::twoLyr()); // s
+    addNote(&Notes::lyricsNotSupported()); // s
 
     // ape
-    addNote(&Notes::apeItemTooShort());
-    addNote(&Notes::apeFlagsNotSupported());
-    addNote(&Notes::apeItemTooBig());
-    addNote(&Notes::apeMissingTerminator());
-    addNote(&Notes::apeUnsupported());
-    addNote(&Notes::apeFoundFooter());
-    addNote(&Notes::apeTooShort());
-    addNote(&Notes::apeFoundHeader());
-    addNote(&Notes::apeHdrFtMismatch());
-    addNote(&Notes::twoApe());
+    addNote(&Notes::apeItemTooShort()); // e
+    addNote(&Notes::apeItemTooBig()); // e
+    addNote(&Notes::apeMissingTerminator()); // e
+    addNote(&Notes::apeFoundFooter()); // e
+    addNote(&Notes::apeTooShort()); // e
+    addNote(&Notes::apeFoundHeader()); // e
+    addNote(&Notes::apeHdrFtMismatch()); // e
+    addNote(&Notes::twoApe()); // s
+    addNote(&Notes::apeFlagsNotSupported()); // s
+    addNote(&Notes::apeUnsupported()); // s
 
     // misc
-    addNote(&Notes::fileWasChanged());
-    addNote(&Notes::noInfoTag());
-    addNote(&Notes::tooManyTraceNotes());
-    addNote(&Notes::tooManyNotes());
-    addNote(&Notes::tooManyStreams());
+    addNote(&Notes::fileWasChanged()); // w
+    addNote(&Notes::noInfoTag()); // w
+    addNote(&Notes::tooManyTraceNotes()); // w
+    addNote(&Notes::tooManyNotes()); // w
+    addNote(&Notes::tooManyStreams()); // w
+    addNote(&Notes::unsupportedFound()); // w
 
+    {
+        CB_ASSERT (Note::CUSTOM == Note::CATEG_CNT - 1);
 
-    qDebug("%d errors, %d warnings, %d support notes", cSize(s_vpErrNotes), cSize(s_vpWarnNotes), cSize(s_vpSuppNotes));
+        for (int i = 1; i < cSize(s_vpAllNotes); ++i)
+        {
+            const Note* p1 (s_vpAllNotes[i - 1]);
+            const Note* p2 (s_vpAllNotes[i]);
+            CB_ASSERT (p1->getCategory() <= p2->getCategory());
+            CB_ASSERT (p1->getNoteId() <= p2->getNoteId());
+        }
+    }
+//    qDebug("%d errors, %d warnings, %d support notes", cSize(s_vpErrNotes), cSize(s_vpWarnNotes), cSize(s_vpSuppNotes));
 }
 
 

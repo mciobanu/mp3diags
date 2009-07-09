@@ -170,7 +170,9 @@ public:
 
     virtual int getColCount() const = 0;
     virtual std::string getColTitle(int nCol) const = 0;
-    virtual QColor getColor(int nIndex, int nCol, QColor origColor) const = 0; // nIndex is an index in the "all" table
+
+    enum { ALL_LIST, SUB_LIST };
+    virtual void getColor(int nIndex, int nColumn, bool bSubList, QColor& bckgColor, QColor& penColor, double& dGradStart, double& dGradEnd) const = 0; // nIndex is an index in the "all" table; color is both input and output param; dGradStart and dGradEnd must be either -1 (in which case no gradient is used) or between 0 and 1, with dGradStart < dGradEnd; they are -1 when the call is made, so can be left alone
     virtual int getColWidth(int nCol) const = 0; // positive values are used for fixed widths, while negative ones are for "stretched"
     virtual int getHdrHeight() const = 0;
 

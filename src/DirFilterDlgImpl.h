@@ -48,7 +48,7 @@ Q_OBJECT
 
     /*override*/ int getColCount() const { return 1; }
     /*override*/ std::string getColTitle(int /*nCol*/) const { return "Folder"; }
-    /*override*/ QColor getColor(int /*nIndex*/, int /*nCol*/, QColor origColor) const { return origColor; }
+    /*override*/ void getColor(int /*nIndex*/, int /*nColumn*/, bool /*bSubList*/, QColor& /*bckgColor*/, QColor& /*penColor*/, double& /*dGradStart*/, double& /*dGradEnd*/) const { }
     /*override*/ int getColWidth(int /*nCol*/) const { return -1; } // positive values are used for fixed widths, while negative ones are for "stretched"
     /*override*/ int getHdrHeight() const;
     /*override*/ std::string getTooltip(TooltipKey eTooltipKey) const;

@@ -178,7 +178,7 @@ CurrentAlbumDelegate::CurrentAlbumDelegate(QWidget* pParent, CommonData* pCommon
 
     if (0 == pId3V2)
     {
-        pPainter->fillRect(option.rect, QBrush(ERROR_COLOR()));
+        pPainter->fillRect(option.rect, QColor(255, 226, 236));
     }
 
     QItemDelegate::paint(pPainter, option, index);

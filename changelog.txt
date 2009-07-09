@@ -1,5 +1,14 @@
 ---------------------------------------------------------------------------
 
+09.07.2009 - 0.99.03.021
+- 2-letter labels
+- gradient grouping of notes
+- more consistent font handling
+- detecting files changed by external tools
+- tooltips are shown for the column headers in the file table
+
+---------------------------------------------------------------------------
+
 05.07.2009 - 0.99.02.020
 - added sysinfo to "about" dialog
 - more details in sysinfo

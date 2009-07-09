@@ -47,7 +47,7 @@ class CommonData;
 void initDefaultCustomTransf(int k, std::vector<std::vector<int> >& vv, CommonData* pCommonData);
 
 
-class ConfigDlgImpl : public QDialog, private Ui::ConfigDlg, public NoteListPainter
+class ConfigDlgImpl : public QDialog, private Ui::ConfigDlg, public NoteListPainterBase // ttt2 NoteListPainterBase is used for the ignored notes, while for custom transforms there is a separate TransfListPainter; this is confusing //ttt0 create IgnoredNotesPainter
 {
     Q_OBJECT
 

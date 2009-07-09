@@ -1,8 +1,5 @@
 [Desktop Entry]
 Type=Application
-Encoding=UTF-8
-#Icon=arts
-#Icon=applications-multimedia
 Icon=MP3Diags
 Exec=MP3Diags
 #DocPath=

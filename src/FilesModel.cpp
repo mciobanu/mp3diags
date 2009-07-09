@@ -24,6 +24,7 @@
 #include  <QApplication>
 #include  <QTableView>
 #include  <QHeaderView>
+#include  <QMouseEvent>
 
 #include  "FilesModel.h"
 
@@ -331,12 +332,15 @@ void FilesModel::matchSelToNotes()
         colFg = c;
     }*/
 
-    QColor colSev (getNoteColor(*pNote));  //ttt2 perhaps try to derive all these colors from the global pallette (e.g. option.palette.highlight(), option.palette.highlightedText(), ...)
+    //ttt2 perhaps try to derive all these colors from the global pallette (e.g. option.palette.highlight(), option.palette.highlightedText(), ...)
+    QColor colNote;
+    double dGradStart, dGradEnd;
+    getNoteColor(*pNote, m_pCommonData->getUniqueNotes().getFltVec(), colNote, dGradStart, dGradEnd);
     QColor colSel (option.palette.color(QPalette::Active, QPalette::Highlight)); //ttt3 not necessarily "Active"
-
+//qDebug("gr %f %f", dGradStart, dGradEnd);
     QColor colFg, colBkg;
 
-    colBkg = bSel ? colSel : colSev;
+    colBkg = bSel ? colSel : colNote;
     if (colSel.green() >= 160 && colSel.red() >= 160)
     { // for better contrast we use something dark if the "highlight" color is light
         //colFg = QColor(0, 0, 0);
@@ -344,10 +348,66 @@ void FilesModel::matchSelToNotes()
     }
     else
     {
-        colFg = bSel ? colSev : colSel;
+        colFg = bSel ? colNote : colSel;
     }
 
-    pPainter->fillRect(option.rect, colBkg);
+//colBkg = QColor(220, 255, 230);
+QLinearGradient grad (option.rect.x(), 0, option.rect.x() + option.rect.width(), 0);
+/*switch(nCol % 4)
+{
+case 0:
+    grad.setColorAt(0, colBkg.lighter(120));
+    grad.setColorAt(0.4, colBkg);
+    grad.setColorAt(0.6, colBkg);
+    grad.setColorAt(1, colBkg.darker(120));
+    break;
+
+case 1:
+    grad.setColorAt(0, colBkg.lighter(120));
+    grad.setColorAt(0.4, colBkg);
+    grad.setColorAt(0.6, colBkg);
+    grad.setColorAt(1, colBkg);
+    break;
+
+case 2:
+    grad.setColorAt(0, colBkg);
+    grad.setColorAt(0.4, colBkg);
+    grad.setColorAt(0.6, colBkg);
+    grad.setColorAt(1, colBkg);
+    break;
+
+case 3:
+    grad.setColorAt(0, colBkg);
+    grad.setColorAt(0.4, colBkg);
+    grad.setColorAt(0.6, colBkg);
+    grad.setColorAt(1, colBkg.darker(120));
+    break;
+}*/
+/*
+switch(nCol % 4)
+{
+case 0:
+    configureGradient(grad, colBkg, 0, 1);
+    break;
+
+case 1:
+    configureGradient(grad, colBkg, 0, 0.33);
+    break;
+
+case 2:
+    configureGradient(grad, colBkg, 0.33, 0.67);
+    break;
+
+case 3:
+    configureGradient(grad, colBkg, 0.67, 1);
+    break;
+}
+*/
+
+    configureGradient(grad, colBkg, dGradStart, dGradEnd);
+
+    //pPainter->fillRect(option.rect, colBkg);
+    pPainter->fillRect(option.rect, grad);
     if (0 != r)
     {
         pPainter->setBrush(QBrush(colFg));
@@ -396,4 +456,117 @@ void FilesModel::matchSelToNotes()
 
     return res;
 }
+
+
+//=====================================================================================================================
+//=====================================================================================================================
+//=====================================================================================================================
+
+
+
+
+FileHeaderView::FileHeaderView(CommonData* pCommonData, Qt::Orientation orientation, QWidget* pParent) : QHeaderView(orientation, pParent), m_pCommonData(pCommonData)
+{
+}
+
+
+
+static QString makeMultiline(const char* szDescr)
+{
+    QString s (szDescr);
+    int SIZE (50);
+    for (int i = SIZE; i < s.size(); ++i)
+    {
+        if (' ' == s[i])
+        {
+            s[i] = '\n';
+            i += SIZE;
+        }
+    }
+    return s;
+}
+
+/*override*/ void FileHeaderView::mouseMoveEvent(QMouseEvent* pEvent)
+{
+    int k (logicalIndexAt(pEvent->x(), pEvent->y()));
+
+    if (k <= 0) { setToolTip(""); return; }
+    --k;
+    setToolTip(makeMultiline(m_pCommonData->getUniqueNotes().getFlt(k)->getDescription()));
+}
+
+
+/*override*/ void FileHeaderView::paintSection(QPainter* pPainter, const QRect& r, int nLogicalIndex) const
+{
+    if (0 == nLogicalIndex)
+    {
+        pPainter->save();
+        QFont f (pPainter->font());
+        f.setWeight(QFont::Bold);
+        pPainter->setFont(f);
+        QHeaderView::paintSection(pPainter, r, nLogicalIndex);
+        pPainter->restore();
+        return;
+    }
+
+    pPainter->save();
+
+    // partial copy from Qt's implementation of QHeaderView
+    QStyleOptionHeader opt;
+    initStyleOption(&opt);
+
+    opt.rect = r;
+    opt.section = nLogicalIndex;
+
+    int nVisual (visualIndex(nLogicalIndex));
+    if (count() == 1)
+        opt.position = QStyleOptionHeader::OnlyOneSection;
+    else if (nVisual == 0)
+        opt.position = QStyleOptionHeader::Beginning;
+    else if (nVisual == count() - 1)
+        opt.position = QStyleOptionHeader::End;
+    else
+        opt.position = QStyleOptionHeader::Middle;
+
+    opt.selectedPosition = QStyleOptionHeader::NotAdjacent;
+
+    style()->drawControl(QStyle::CE_Header, &opt, pPainter, this);
+
+    //pPainter->fillRect(r, QColor(nLogicalIndex % 3 ? 255 : 0, 130, 120));
+    //pPainter->setPen(QColor(0, 50, 200));
+    //pPainter->setPen(QColor(0, 50, 200));
+    //pPainter->setPen(Qt::SolidLine);
+    pPainter->restore();
+    //pPainter->drawText(r.x(), r.y() + r.height() - 8, "xy");
+    pPainter->save();
+
+    int nGridCrt (m_pCommonData->getFilesGCrtCol());
+    //qDebug("crt %d, ndx %d", nGridCrt, nLogicalIndex);
+
+    pPainter->setFont(m_pCommonData->getLabelFont());
+
+    if (nGridCrt == nLogicalIndex)
+    {
+        QFont f (pPainter->font());
+        f.setWeight(QFont::Bold);
+        pPainter->setFont(f);
+    }
+
+    const Note* p (m_pCommonData->getUniqueNotes().getFltVec().at(nLogicalIndex - 1));
+
+    if (Note::ERR == p->getSeverity())
+    {
+        pPainter->setPen(ERROR_PEN_COLOR());
+    }
+    else if (Note::SUPPORT == p->getSeverity())
+    {
+        pPainter->setPen(SUPPORT_PEN_COLOR());
+    }
+
+    pPainter->drawText(r, Qt::AlignCenter, getNoteLabel(p)); //"xy"
+    pPainter->restore();
+    //qDebug("%d %d %d %d", r.x(), r.y(), r.width(), r.height());
+    //pPainter->restore();
+}
+
 

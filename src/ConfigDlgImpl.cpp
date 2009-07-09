@@ -70,7 +70,7 @@ class TransfListPainter : public ListPainter
 {
     /*override*/ int getColCount() const { return 2; }
     /*override*/ std::string getColTitle(int nCol) const { return 0 == nCol ? "Action" : "Description"; }
-    /*override*/ QColor getColor(int /*nIndex*/, int /*nCol*/, QColor origColor) const { return origColor; }
+    /*override*/ void getColor(int /*nIndex*/, int /*nColumn*/, bool /*bSubList*/, QColor& /*bckgColor*/, QColor& /*penColor*/, double& /*dGradStart*/, double& /*dGradEnd*/) const { }
     /*override*/ int getColWidth(int /*nCol*/) const { return -1; } // positive values are used for fixed widths, while negative ones are for "stretched"
     /*override*/ int getHdrHeight() const { return CELL_HEIGHT; }
     /*override*/ Qt::Alignment getAlignment(int /*nCol*/) const { return Qt::AlignTop | Qt::AlignLeft; }
@@ -195,7 +195,7 @@ public:
 ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, QWidget* pParent, bool bFull) :
         QDialog(pParent, getDialogWndFlags()),
         Ui::ConfigDlg(),
-        NoteListPainter("<all notes>"),
+        NoteListPainterBase("<all notes>"),
         m_transfCfg(transfCfg),
 
         m_pCommonData(pCommonData),
@@ -480,8 +480,9 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
         m_pAutoSizeIconsCkB->setChecked(m_pCommonData->m_bAutoSizeIcons);
         m_pKeepOneValidImgCkB->setChecked(m_pCommonData->m_bKeepOneValidImg);
 
-        m_generalFont = m_pCommonData->getGeneralFont();
-        m_fixedFont = m_pCommonData->getFixedFont();
+        m_generalFont = m_pCommonData->getNewGeneralFont();
+        m_pDecrLabelFontSB->setValue(m_pCommonData->getLabelFontSizeDecr());
+        m_fixedFont = m_pCommonData->getNewFixedFont();
         setFontLabels();
     }
 
@@ -757,8 +758,7 @@ void ConfigDlgImpl::on_m_pOkB_clicked()
             m_pCommonData->m_bAutoSizeIcons = m_pAutoSizeIconsCkB->isChecked();
             m_pCommonData->m_bKeepOneValidImg = m_pKeepOneValidImgCkB->isChecked();
 
-            m_pCommonData->setGeneralFont(convStr(m_generalFont.family()), m_generalFont.pointSize());
-            m_pCommonData->setFixedFont(convStr(m_fixedFont.family()), m_fixedFont.pointSize());
+            m_pCommonData->setFontInfo(convStr(m_generalFont.family()), m_generalFont.pointSize(), m_pDecrLabelFontSB->value(), convStr(m_fixedFont.family()), m_fixedFont.pointSize());
         }
 
         accept();
@@ -880,6 +880,9 @@ void ConfigDlgImpl::selectDir(QLineEdit* pEdt)
     }
     pEdt->setText(s);
 }
+
+
+
 
 //=====================================================================================================================
 //=====================================================================================================================

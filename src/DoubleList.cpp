@@ -107,9 +107,18 @@ void AvailableModel::emitLayoutChanged()
 {
     pPainter->save();
 
-    pPainter->fillRect(option.rect, QBrush(m_listPainter.getColor(m_listPainter.getAvailable()[index.row()], index.column(), pPainter->background().color()))); //ttt2 make sure background() is the option to use
+    //pPainter->fillRect(option.rect, QBrush(m_listPainter.getColor(m_listPainter.getAvailable()[index.row()], index.column(), pPainter->background().color()))); //ttt2 make sure background() is the option to use
+    QColor bckgCol (pPainter->background().color());
+    QColor penCol (pPainter->pen().color());
+    double dGradStart (-1), dGradEnd (-1);
+    m_listPainter.getColor(m_listPainter.getAvailable()[index.row()], index.column(), ListPainter::ALL_LIST, bckgCol, penCol, dGradStart, dGradEnd);
+    QLinearGradient grad (0, option.rect.y(), 0, option.rect.y() + option.rect.height());
+    configureGradient(grad, bckgCol, dGradStart, dGradEnd);
+    pPainter->fillRect(option.rect, grad);
+
     QStyleOptionViewItemV2 myOption (option);
     myOption.displayAlignment = m_listPainter.getAlignment(index.column());
+    myOption.palette.setColor(QPalette::Text, penCol);
     QItemDelegate::paint(pPainter, myOption, index);
 
     pPainter->restore();
@@ -234,8 +243,8 @@ void SelectedModel::emitLayoutChanged()
     }
 
     pPainter->save();
-    int nRow (index.row());
-    int nCol (index.column());
+    //int nRow (index.row());
+    //int nCol (index.column());
     //const Note* pNote (m_pSelectedModel->m_vpNotes[nRow]);
 
     /*
@@ -254,9 +263,20 @@ void SelectedModel::emitLayoutChanged()
     drawFocus(pPainter, myOption, myOption.rect);*/
 
     // second approach
-    pPainter->fillRect(option.rect, QBrush(m_listPainter.getColor(m_listPainter.getSel()[nRow], nCol, option.palette.color(QPalette::Active, QPalette::Base)))); //ttt3 " Active" not right if the window is inactive
+    //pPainter->fillRect(option.rect, QBrush(m_listPainter.getColor(m_listPainter.getSel()[nRow], nCol, option.palette.color(QPalette::Active, QPalette::Base)))); //ttt3 " Active" not right if the window is inactive
+
+    QColor bckgCol (option.palette.color(QPalette::Active, QPalette::Base)); //ttt0 compare to avl, where it's "QColor bckgCol (pPainter->background().color());" see why
+
+    QColor penCol (pPainter->pen().color());
+    double dGradStart (-1), dGradEnd (-1);
+    m_listPainter.getColor(m_listPainter.getSel()[index.row()], index.column(), ListPainter::SUB_LIST, bckgCol, penCol, dGradStart, dGradEnd);
+    QLinearGradient grad (0, option.rect.y(), 0, option.rect.y() + option.rect.height());
+    configureGradient(grad, bckgCol, dGradStart, dGradEnd);
+    pPainter->fillRect(option.rect, grad);
+
     QStyleOptionViewItemV2 myOption (option);
     myOption.displayAlignment = m_listPainter.getAlignment(index.column());
+    myOption.palette.setColor(QPalette::Text, penCol);
     QItemDelegate::paint(pPainter, myOption, index);
 
     pPainter->restore();

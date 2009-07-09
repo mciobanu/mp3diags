@@ -45,14 +45,15 @@ RenamerPatternsDlgImpl::RenamerPatternsDlgImpl(QWidget* pParent, SessionSettings
     m_infoM->setPalette(grayPalette);
     m_infoM->setTabStopWidth(fontMetrics().width("%ww"));
     QString qsSep (getPathSep());
-    m_infoM->setText("%n\ttrack number\n%a\tartist\n%t\ttitle\n%b\talbum\n%y\tyear\n%g\tgenre\n%r\trating (a lowercase letter)\n%c\tcomposer"
+    m_infoM->setText(QString("%n\ttrack number\n%a\tartist\n%t\ttitle\n%b\talbum\n%y\tyear\n%g\tgenre\n%r\trating (a lowercase letter)\n%c\tcomposer"
             "\n\nTo include the special characters \"%\", \"[\" and \"]\", precede them by a \"%\": \"%%\", \"%[\" and \"%]\"\n\nThe path should be a full path, starting with a "
 
 #ifndef WIN32
-            "\"/\""
+            "\"")
 #else
-            "drive lettered followed by \":/\""
+            "drive lettered followed by \":")
 #endif
+            + getPathSep() + "\""
 
             );
 

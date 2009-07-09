@@ -617,6 +617,20 @@ vector<QString> convStr(const vector<string>& v)
     return u;
 }
 
+/*
+Gnome:
+
+Qt::Window - minimize, maximize, close; dialog gets its own taskbar entry
+Qt::WindowTitleHint - close
+Qt::Dialog - close
+Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint - nothing
+Qt::Dialog | Qt::WindowMaximizeButtonHint - nothing
+Qt::Window | Qt::WindowMaximizeButtonHint - maximize
+Qt::Window | Qt::WindowMaximizeButtonHint | Qt::WindowMinimizeButtonHint - maximize, minimize
+Qt::WindowMaximizeButtonHint | Qt::WindowMinimizeButtonHint - nothing
+
+Ideally a modal dialog should minimize its parent. If that's not possible, it shouldn't be minimizable.
+*/
 
 #ifndef WIN32
     Qt::WindowFlags getMainWndFlags() { return Qt::WindowTitleHint; } // !!! these are incorrect, but seem the best option; the values used for Windows are supposed to be OK; they work as expected with KDE but not with Gnome (asking for maximize button not only fails to sho it, but causes the "Close" button to disappear as well); Since in KDE min/max buttons are shown when needed anyway, it's sort of OK // ttt0 see if there is workaround/fix
@@ -741,5 +755,92 @@ QString getSystemInfo() //ttt1 perhaps store this at startup, so fewer things ma
     s.replace('\n', ' ');
     s = QString("Version: MP3 Diags %1.\nWord size: %2 bit.\nQt version: %3.\nBoost build version: %4\n").arg(APP_VER).arg(QSysInfo::WordSize).arg(qVersion()).arg(BOOST_LIB_VERSION) + s; //ttt0 see if possible to get actual boost version (if libs are binary compatible)
     return s;
+}
+
+
+// sets colors at various points to emulate a non-linear gradient that better suits our needs;
+// dStart and dEnd should be between 0 and 1, with dStart < dEnd; they may also be both -1, in which case the gradient will have a solid color
+void configureGradient(QGradient& grad, const QColor& col, double dStart, double dEnd)
+{
+    if (-1 == dStart && -1 == dEnd)
+    {
+        grad.setColorAt(0, col);
+        grad.setColorAt(1, col);
+        return;
+    }
+
+    CB_ASSERT (dStart < dEnd && 0 <= dStart && dEnd < 1.0001);
+    static vector<double> vdPoints;
+    static vector<double> vdValues;
+    static bool s_bInit (false);
+    static int SIZE;
+    if (!s_bInit)
+    {
+        s_bInit = true;
+/*        vdPoints.push_back(-0.1); vdValues.push_back(1.3);
+        vdPoints.push_back(0.0); vdValues.push_back(1.3);
+        vdPoints.push_back(0.1); vdValues.push_back(1.2);
+        vdPoints.push_back(0.2); vdValues.push_back(1.15);
+        vdPoints.push_back(0.8); vdValues.push_back(0.85);
+        vdPoints.push_back(0.9); vdValues.push_back(0.8);
+        vdPoints.push_back(1.0); vdValues.push_back(0.7);
+        vdPoints.push_back(1.1); vdValues.push_back(0.7);*/
+
+        /*vdPoints.push_back(-0.1); vdValues.push_back(1.1);
+        vdPoints.push_back(0.0); vdValues.push_back(1.1);
+        vdPoints.push_back(0.1); vdValues.push_back(1.07);
+        vdPoints.push_back(0.2); vdValues.push_back(1.03);
+        vdPoints.push_back(0.8); vdValues.push_back(0.97);
+        vdPoints.push_back(0.9); vdValues.push_back(0.93);
+        vdPoints.push_back(1.0); vdValues.push_back(0.9);
+        vdPoints.push_back(1.1); vdValues.push_back(0.9);*/
+
+        /*vdPoints.push_back(-0.1); vdValues.push_back(1.3);
+        vdPoints.push_back(0.0); vdValues.push_back(1.3);
+        vdPoints.push_back(0.1); vdValues.push_back(1.15);
+        vdPoints.push_back(0.2); vdValues.push_back(1.03);
+        vdPoints.push_back(0.8); vdValues.push_back(0.95);
+        vdPoints.push_back(0.9); vdValues.push_back(0.9);
+        vdPoints.push_back(1.0); vdValues.push_back(0.8);
+        vdPoints.push_back(1.1); vdValues.push_back(0.8);*/
+
+        vdPoints.push_back(-0.1); vdValues.push_back(1.03);
+        vdPoints.push_back(0.0); vdValues.push_back(1.03);
+        vdPoints.push_back(0.1); vdValues.push_back(1.02);
+        vdPoints.push_back(0.2); vdValues.push_back(1.01);
+        vdPoints.push_back(0.8); vdValues.push_back(0.95);
+        vdPoints.push_back(0.9); vdValues.push_back(0.9);
+        vdPoints.push_back(1.0); vdValues.push_back(0.8);
+        vdPoints.push_back(1.1); vdValues.push_back(0.8);
+
+        SIZE = cSize(vdPoints);
+
+//findFont();
+    }
+
+    for (int i = 0; i < SIZE; ++i)
+    {
+        double x0 (vdPoints[i]), y0 (vdValues[i]), x1 (vdPoints[i + 1]), y1 (vdValues[i + 1]);
+        double x;
+        x = dStart;
+        if (x0 <= x && x < x1)
+        {
+            double y (y0 + (y1 - y0)*(x - x0)/(x1 - x0));
+            grad.setColorAt((x - dStart)/(dEnd - dStart), col.lighter(int(100*y)));
+        }
+
+        if (dStart < x0 && x0 < dEnd)
+        {
+            grad.setColorAt((x0 - dStart)/(dEnd - dStart), col.lighter(int(100*y0)));
+        }
+
+        x = dEnd;
+        if (x < x1)
+        {
+            double y (y0 + (y1 - y0)*(x - x0)/(x1 - x0));
+            grad.setColorAt((x - dStart)/(dEnd - dStart), col.lighter(int(100*y)));
+            break;
+        }
+    }
 }
 

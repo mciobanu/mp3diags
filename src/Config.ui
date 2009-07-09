@@ -1874,6 +1874,20 @@
                  </property>
                 </widget>
                </item>
+               <item row="0" column="3" >
+                <widget class="QLabel" name="label_18" >
+                 <property name="text" >
+                  <string>Label font smaller by:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="4" >
+                <widget class="QSpinBox" name="m_pDecrLabelFontSB" >
+                 <property name="maximum" >
+                  <number>5</number>
+                 </property>
+                </widget>
+               </item>
                <item row="1" column="0" >
                 <widget class="QLabel" name="label_15" >
                  <property name="text" >

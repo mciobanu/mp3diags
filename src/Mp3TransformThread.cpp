@@ -156,6 +156,14 @@ bool Mp3TransformThread::transform()
 
             const Mp3Handler* pOrigHndl (m_vpHndlr[i]);
             string strOrigName (pOrigHndl->getName());
+
+            if (pOrigHndl->needsReload())
+            {
+                m_strErrorFile = strOrigName;
+                m_bWriteError = false;
+                return false;
+            }
+
             string strTempName;
             string strPrevTempName;
             StrList l;
@@ -374,7 +382,7 @@ bool transform(const deque<const Mp3Handler*>& vpHndlr, vector<Transformation*>&
         }
         else
         {
-            QMessageBox::critical(pParent, "Error", "There was an error reading from the following file:\n\n" + convStr(strErrorFile) + "\n\nProbably the file was deleted or modified since the last scan.\n\nProcessing aborted.");
+            QMessageBox::critical(pParent, "Error", "There was an error reading from the following file:\n\n" + convStr(strErrorFile) + "\n\nProbably the file was deleted or modified since the last scan, in which case you should reload / rescan your collection.\n\nProcessing aborted.");
         }
     }
 

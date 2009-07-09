@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include  <algorithm>
 
 #include  "NoteFilterDlgImpl.h"
 
@@ -56,7 +57,7 @@ using namespace pearl;
 
 NoteFilterDlgImpl::NoteFilterDlgImpl(CommonData* pCommonData, QWidget* pParent /*=0*/) :
         QDialog(pParent, getDialogWndFlags()),
-        NoteListPainter("<all notes>"),
+        NoteListPainterBase("<all notes>"),
         m_pCommonData(pCommonData)
 {
     setupUi(this);
@@ -193,7 +194,7 @@ void NoteFilterDlgImpl::onAvlDoubleClicked(int nRow)
 //=====================================================================================================================
 
 
-/*override*/ std::string NoteListPainter::getColTitle(int nCol) const
+/*override*/ std::string NoteListPainterBase::getColTitle(int nCol) const
 {
     switch (nCol)
     {
@@ -204,34 +205,74 @@ void NoteFilterDlgImpl::onAvlDoubleClicked(int nRow)
 }
 
 
-/*override*/ QColor NoteListPainter::getColor(int nIndex, int /*nCol*/, QColor /*origColor*/) const
+
+/*override*/ void NoteListPainterBase::getColor(int nIndex, int nColumn, bool bSubList, QColor& bckgColor, QColor& penColor, double& dGradStart, double& dGradEnd) const
 {
     const NoteListElem* p (dynamic_cast<const NoteListElem*>(getAll()[nIndex]));
     CB_ASSERT(0 != p);
     const Note* pNote (p->getNote());
-    return getNoteColor(*pNote);
+
+    {
+        const SubList& v (getAvailable());
+        if (m_vpAvail.size() != v.size()) // !!! there's no need for a "dirty" flag; after the content of getAvailable() changes, a paint is executed, and when it gets here sizes will be different
+        {
+            m_vpAvail.clear();
+            for (int i = 0; i < cSize(v); ++i)
+            {
+                const NoteListElem* p (dynamic_cast<const NoteListElem*>(getAll()[v[i]]));
+                m_vpAvail.push_back(p->getNote());
+            }
+        }
+    }
+
+    {
+        const SubList& v (getSel());
+        if (m_vpSel.size() != v.size())
+        {
+            m_vpSel.clear();
+            for (int i = 0; i < cSize(v); ++i)
+            {
+                const NoteListElem* p (dynamic_cast<const NoteListElem*>(getAll()[v[i]]));
+                m_vpSel.push_back(p->getNote());
+            }
+        }
+    }
+
+    if (0 == nColumn)
+    {
+        if (Note::ERR == pNote->getSeverity())
+        {
+            penColor = ERROR_PEN_COLOR();
+        }
+        else if (Note::SUPPORT == pNote->getSeverity())
+        {
+            penColor = SUPPORT_PEN_COLOR();
+        }
+    }
+
+    getNoteColor(*pNote, bSubList ? m_vpSel : m_vpAvail, bckgColor, dGradStart, dGradEnd);
 }
 
 
 // positive values are used for fixed widths, while negative ones are for "stretched"
-/*override*/ int NoteListPainter::getColWidth(int nCol) const
+/*override*/ int NoteListPainterBase::getColWidth(int nCol) const
 {
     switch (nCol)
     {
-    case 0: return 30; //ttt2 hard-coded
+    case 0: return 30; //ttt0 hard-coded => CELL_WIDTH + x
     case 1: return -1;
     }
     CB_ASSERT(false);
 }
 
 
-/*override*/ int NoteListPainter::getHdrHeight() const
+/*override*/ int NoteListPainterBase::getHdrHeight() const
 {
     return CELL_HEIGHT;
 }
 
 
-/*override*/ Qt::Alignment NoteListPainter::getAlignment(int nCol) const
+/*override*/ Qt::Alignment NoteListPainterBase::getAlignment(int nCol) const
 {
     if (0 == nCol)
     {

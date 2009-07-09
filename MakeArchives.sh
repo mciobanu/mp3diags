@@ -16,7 +16,9 @@ function initialize
     echo Version: $Ver
 
     cat package/rpm/MP3Diags.spec | sed "s+%define version .*$+%define version $Ver+" > package/out/rpm/MP3Diags.spec
+    cat package/rpm/MP3Diags-Mandriva_2009.1.spec | sed "s+%define version .*$+%define version $Ver+" > package/out/rpm/MP3Diags-Mandriva_2009.1.spec
     cat changelogRpm.txt >> package/out/rpm/MP3Diags.spec
+    cat changelogRpm.txt >> package/out/rpm/MP3Diags-Mandriva_2009.1.spec
 
     #cat package/deb/debian.changelog | sed "s%QQQVERQQQ%$Ver%g" > package/out/deb/debian.changelog
     #cat changelogDeb.txt >> package/out/deb/debian.changelog
@@ -142,13 +144,14 @@ function createDoc
     mkdir -p $LongDestDir
 
     cp -pr doc/html/*.html $LongDestDir
-    fixVersion $LongDestDir/010_getting_the_program.html
+#    fixVersion $LongDestDir/010_getting_the_program.html
     package/AddChangeLog.py $LongDestDir
 
     cp -pr doc/html/*.css $LongDestDir
     cp -pr doc/html/*.png $LongDestDir
     cp -pr doc/html/*.ico $LongDestDir
     cp -p COPYING $LongDestDir
+    mv -f $LongDestDir/010_getting_the_program_local.html $LongDestDir/010_getting_the_program.html
 
     #rm $LongDestDir/010a_getting_the_program.html
 
@@ -179,6 +182,7 @@ function createClicknetDoc
     cp -pr doc/html/*.png $LongDestDir
     cp -pr doc/html/*.ico $LongDestDir
     cp -p COPYING $LongDestDir
+    rm $LongDestDir/010_getting_the_program_local.html
 
     #rm $LongDestDir/010a_getting_the_program.html
 
@@ -211,6 +215,7 @@ function createSfDoc
     cp -pr doc/html/*.png $LongDestDir
     cp -pr doc/html/*.ico $LongDestDir
     cp -p COPYING $LongDestDir
+    rm $LongDestDir/010_getting_the_program_local.html
 
     #rm $LongDestDir/010a_getting_the_program.html
 

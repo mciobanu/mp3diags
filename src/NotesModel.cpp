@@ -207,7 +207,7 @@ void NotesModel::matchSelToStreams()
 NotesGDelegate::NotesGDelegate(CommonData* pCommonData) : MultiLineTvDelegate(pCommonData->m_pNotesG), m_pCommonData(pCommonData)
 {
 }
-
+//ttt0 test on new DS, especially column sizes
 
 /*override*/ void NotesGDelegate::paint(QPainter* pPainter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
@@ -219,13 +219,24 @@ NotesGDelegate::NotesGDelegate(CommonData* pCommonData) : MultiLineTvDelegate(pC
     QStyleOptionViewItemV2 myOption (option);
 
     //myOption.palette.setColor(QPalette::Base, pal.color(QPalette::Disabled, QPalette::Window)); // !!! the palette doesn't matter; fillRect() should be called
-    pPainter->fillRect(myOption.rect, QBrush(getNoteColor(*pNote)));
+    QColor col;
+    double d1, d2;
+    getNoteColor(*pNote, vector<const Note*>(), col, d1, d2);
+    pPainter->fillRect(myOption.rect, QBrush(col));
 
     if (0 == index.column())
     {
         myOption.displayAlignment |= Qt::AlignHCenter;
         //myOption.font = m_pCommonData->getGeneralFont();
         //myOption.font.setPixelSize(9);
+        if (Note::ERR == pNote->getSeverity())
+        {
+            myOption.palette.setColor(QPalette::Text, ERROR_PEN_COLOR());
+        }
+        else if (Note::SUPPORT == pNote->getSeverity())
+        {
+            myOption.palette.setColor(QPalette::Text, SUPPORT_PEN_COLOR());
+        }
     }
 
     if (2 == index.column())
@@ -251,6 +262,7 @@ NotesGDelegate::NotesGDelegate(CommonData* pCommonData) : MultiLineTvDelegate(pC
 
     pPainter->restore();
 }
+
 
 
 

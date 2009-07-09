@@ -146,11 +146,14 @@ dpkg-genchanges: warning: the current version (0.99.01.009) is smaller than the 
 
 //ttt0 normalize in Windows has flashing / duplicated output
 //ttt0 next album in tag editor should care about filters (perhaps have a separate "filtered album list" which gets filled in when opening tag edt)
-//ttt0 2-letter labels
 //ttt0 switch to QFile; see source for flush();
 //ttt0 perhaps tab with changelog
 //ttt0 doc: use case: compare images, id3v2 tags
-//ttt0 red circle for errors
 //ttt0 perhaps transform to convert unknown images to "cover"
 //ttt0 perhaps something to remove image files after assigning them, or at least show them in a different color; it was suggested to add a "-" button to remove images, below the "v" for "assigning them", but not sure it's such great idea; perhaps some option to delete local images that were assigned (but perhaps the unassigned CD scan should go as well);
+//ttt0 perhaps switch main form from dialog to a window that has only one widget - the converted MainForm
+//ttt0 see about C malloc failure
+//ttt0 show Lyrics
+//ttt1 handle Lyrics tag, display, transform, download ...
+//ttt0 help, incl. local
 

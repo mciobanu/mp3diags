@@ -17,27 +17,16 @@ Packager: Ciobi
 #BuildRequires: boost-devel
 # ??? ttt0
 
-%if 0%{?suse_version} > 0000
-Requires: libqt4-x11
-BuildRequires: zlib-devel boost-devel libqt4-devel
-BuildRequires: update-desktop-files
-%endif
-
-%if 0%{?fedora} || 0%{?fedora_version}
-Requires: qt-x11
-#BuildRequires: qt-devel qt-config
-BuildRequires: qt-devel zlib-devel boost-devel gcc-c++
-%endif
 
 # this breaks the build for mandriva 2009.1: parseExpressionBoolean returns -1
-%if 0%{?mandriva_version} >= 2009
+#%if 0%{?mandriva_version} >= 2009
 #%if 0%{?mdkversion} >= 200900
 BuildRequires:  kdelibs4-devel
 #BuildRequires:  libboost1.37.0-devel
 BuildRequires:  libboost-devel
 BuildRequires:  zlib-devel
 Requires:       qt4-common
-%endif
+#%endif
 # related but probably something else: https://bugzilla.novell.com/show_bug.cgi?id=459337  or  https://bugzilla.redhat.com/show_bug.cgi?id=456103
 
 
@@ -66,21 +55,15 @@ Another component is the file renamer, which can rename files based on the field
 #export QTDIR=%{_prefix}/lib/qt4/
 #%endif
 
-%if 0%{?suse_version}
-qmake
-%endif
 
-%if 0%{?mandriva_version} >= 2009
+#%if 0%{?mandriva_version} >= 2009
 #export PATH=/usr/lib/qt4/bin:$PATH
 #export QTDIR=%{_prefix}/lib/qt4/
 #ls /usr/lib/qt4/bin
 #/usr/lib/qt4/bin/qmake
 qmake
-%endif
+#%endif
 
-%if 0%{?fedora} || 0%{?fedora_version}
-qmake-qt4
-%endif
 
 make
 strip $RPM_BUILD_DIR/MP3Diags-%{version}/bin/MP3Diags
@@ -131,11 +114,6 @@ cp $RPM_BUILD_DIR/MP3Diags-%{version}/desktop/MP3Diags48.png $RPM_BUILD_ROOT%{_d
 
 
 
-%if 0%{?suse_version} > 0000
-%suse_update_desktop_file -n MP3Diags
-#echo ================ SUSE ================ SUSE ================
-%endif
-#error with suse_update_desktop_file -in MP3Diags , perhaps try suse_update_desktop_file -n -i MP3Diags
 
 
 %clean

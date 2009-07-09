@@ -122,18 +122,35 @@ UniqueNotesGDelegate::UniqueNotesGDelegate(CommonData* pCommonData) : MultiLineT
 
     QStyleOptionViewItemV2 myOption (option);
 
+    const Note* pNote (m_pCommonData->getUniqueNotes().getFlt(index.row()));
+
     if (0 == index.column())
     {
         myOption.displayAlignment |= Qt::AlignHCenter;
+        if (Note::ERR == pNote->getSeverity())
+        {
+            myOption.palette.setColor(QPalette::Text, ERROR_PEN_COLOR());
+        }
+        else if (Note::SUPPORT == pNote->getSeverity())
+        {
+            myOption.palette.setColor(QPalette::Text, SUPPORT_PEN_COLOR());
+        }
     }
 
-    const Note* pNote (m_pCommonData->getUniqueNotes().getFlt(index.row()));
-    pPainter->fillRect(myOption.rect, QBrush(getNoteColor(*pNote)));
+    QColor colNote;
+    double dGradStart, dGradEnd;
+    getNoteColor(*pNote, m_pCommonData->getUniqueNotes().getFltVec(), colNote, dGradStart, dGradEnd);
+
+    QLinearGradient grad (0, option.rect.y(), 0, option.rect.y() + option.rect.height());
+    configureGradient(grad, colNote, dGradStart, dGradEnd);
+    pPainter->fillRect(option.rect, grad);
+
 
     MultiLineTvDelegate::paint(pPainter, myOption, index);
 
     pPainter->restore();
 }
+
 
 
 

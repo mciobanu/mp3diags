@@ -325,5 +325,12 @@ Qt::WindowFlags getNoResizeWndFlags(); // no "what's this"; the window may be re
 QString getSystemInfo();
 
 
+class QGradient;
+class QColor;
+
+// sets colors at various points to emulate a non-linear gradient that better suits our needs;
+// dStart and dEnd should be between 0 and 1, with dStart < dEnd; they may also be both -1, in which case the gradient will have a solid color
+void configureGradient(QGradient& grad, const QColor& col, double dStart, double dEnd);
+
 #endif // ifndef HelpersH
 

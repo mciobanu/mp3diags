@@ -139,7 +139,7 @@ UniqueNotesGDelegate::UniqueNotesGDelegate(CommonData* pCommonData) : MultiLineT
 
     QColor colNote;
     double dGradStart, dGradEnd;
-    getNoteColor(*pNote, m_pCommonData->getUniqueNotes().getFltVec(), colNote, dGradStart, dGradEnd);
+    m_pCommonData->getNoteColor(*pNote, m_pCommonData->getUniqueNotes().getFltVec(), colNote, dGradStart, dGradEnd);
 
     QLinearGradient grad (0, option.rect.y(), 0, option.rect.y() + option.rect.height());
     configureGradient(grad, colNote, dGradStart, dGradEnd);

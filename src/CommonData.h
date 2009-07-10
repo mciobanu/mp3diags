@@ -389,6 +389,10 @@ public:
 
     //QString getNoteLabel(int nPosInFlt); // gets the label of a note based on its position in m_uniqueNotes.m_vpFlt
 
+    // color is normally the category color, but for support notes it's a "support" color; if the note isn't found in vpNoteSet, dGradStart and dGradEnd are set to -1, but normally they get a segment obtained by dividing [0, 1] in equal parts;
+    void getNoteColor(const Note& note, const std::vector<const Note*>& vpNoteSet, QColor& color, double& dGradStart, double& dGradEnd) const;
+
+    double getTextShift(int nWidth); // how much the text should be shifted to appear centered; positive for right-shift / negative for left-shift; nWidth doesn't matter except that it's odd or even
 public:
     enum Case { LOWER, UPPER, TITLE, PHRASE };
     Case m_eCaseForArtists;
@@ -428,6 +432,10 @@ public:
     bool m_bLogTransf;
 
     bool m_bSaveDownloadedData;
+
+    enum { COLOR_ALB_NORM, COLOR_ALB_NONID3V2, COLOR_ALB_ASSIGNED, COLOR_FILE_NORM, COLOR_FILE_TAG_MISSING, COLOR_FILE_NA, COLOR_FILE_NO_DATA, COLOR_COL_CNT };
+    std::vector<QColor> m_vTagEdtColors;
+    std::vector<QColor> m_vNoteCategColors;
 
 private:
     std::deque<const Mp3Handler*> m_vpAllHandlers; // owns the pointers; sorted by CmpMp3HandlerPtrByName;
@@ -506,6 +514,9 @@ private:
 
     std::vector<std::string> m_vstrIncludeDirs, m_vstrExcludeDirs;
 
+    double m_adTextShift [2]; // first is for even widths, second is for odd widths
+    void computeShift(bool bEven);
+
 public slots:
     void onCrtFileChanged();
     void onFilterChanged(); // updates m_vpFltHandlers and m_vpViewHandlers; also updates the state of the filter buttons (deselecting them if the user chose empty filters)
@@ -554,8 +565,6 @@ const QColor& ERROR_PEN_COLOR();
 const QColor& SUPPORT_PEN_COLOR();
 //QColor getNoteColor(const Note& note); // color based on severity
 
-// color is normally the category color, but for support notes it's a "support" color; if the note isn't found in vpNoteSet, dGradStart and dGradEnd are set to -1, but normally they get a segment obtained by dividing [0, 1] in equal parts;
-void getNoteColor(const Note& note, const std::vector<const Note*>& vpNoteSet, QColor& color, double& dGradStart, double& dGradEnd);
 
 
 void defaultResize(QDialog& dlg); // resizes a dialog with inexisting/invalid size settings, so it covers an area slightly smaller than MainWnd; however, if the dialog is alrady bigger than that, it doesn't get shrinked

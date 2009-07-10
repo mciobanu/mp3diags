@@ -1,3 +1,18 @@
+* Fri Jul 10 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.02.022
+- 2-letter labels
+- gradient grouping of notes
+- configurable colors
+- app no longer crashes when files are changed by external tools
+- tooltips are shown for the column headers in the file table
+- more consistent font handling
+
+* Sun Jul 05 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.02.020
+- file renamer now replaces invalid characters in file names
+- duration is now shown for audio streams
+- fixed assertion caused by files with too many streams
+- multiple ID3 stream remover no longer included by default in second list
+- some changes to the .spec file in the hope it will work on Mandriva
+
 * Sun Jul 05 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.02.020
 - file renamer now replaces invalid characters in file names
 - duration is now shown for audio streams

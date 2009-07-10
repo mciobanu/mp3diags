@@ -111,8 +111,9 @@ class CurrentFileDelegate : public QItemDelegate
     Q_OBJECT
 protected:
     QTableView* m_pTableView;
+    const CommonData* m_pCommonData;
 public:
-    CurrentFileDelegate(QTableView* pTableView);
+    CurrentFileDelegate(QTableView* pTableView, const CommonData* pCommonData);
 
     /*override*/ void paint(QPainter* pPainter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
     /*override*/ QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const;
@@ -198,14 +199,6 @@ public:
     using Ui::TagEditorDlg::m_pCurrentAlbumG;
     using Ui::TagEditorDlg::m_pCurrentFileG;
     void updateAssigned(); // updates the state of "assigned" fields and the assign button
-
-    static QColor ALBFILE_NORM_COLOR;
-    static QColor ALB_NONID3V2_COLOR;
-    static QColor ALB_ASSIGNED_COLOR;
-
-    static QColor FILE_TAG_MISSING_COLOR;
-    static QColor FILE_NA_COLOR;
-    static QColor FILE_NO_DATA_COLOR;
 
 public slots:
     /*$PUBLIC_SLOTS$*/

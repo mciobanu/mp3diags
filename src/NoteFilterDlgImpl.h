@@ -58,8 +58,10 @@ class NoteListPainterBase : public ListPainter
     /*override*/ Qt::Alignment getAlignment(int nCol) const;
     /*override*/ void getColor(int nIndex, int nColumn, bool bSubList, QColor& bckgColor, QColor& penColor, double& dGradStart, double& dGradEnd) const;
     mutable std::vector<const Note*> m_vpAvail, m_vpSel;
+protected:
+    CommonData* m_pCommonData;
 public:
-    NoteListPainterBase(const std::string& strNothingSel) : ListPainter(strNothingSel) {}
+    NoteListPainterBase(CommonData* pCommonData, const std::string& strNothingSel) : ListPainter(strNothingSel), m_pCommonData(pCommonData) {}
 };
 
 
@@ -74,18 +76,15 @@ public:
 class NoteFilterDlgImpl : public QDialog, private Ui::NoteFilterDlg, public NoteListPainterBase
 {
     Q_OBJECT
-    CommonData* m_pCommonData;
 
     void logState(const char* szPlace) const;
-
 
     /*override*/ std::string getTooltip(TooltipKey eTooltipKey) const;
     /*override*/ void reset();
 
-
 public:
     /*$PUBLIC_FUNCTIONS$*/
-    NoteFilterDlgImpl(CommonData* pCommonData, QWidget *pParent = 0);
+    NoteFilterDlgImpl(CommonData* pCommonData, QWidget *pParent);
     ~NoteFilterDlgImpl();
 
 public slots:

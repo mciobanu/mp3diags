@@ -476,7 +476,7 @@ MainFormDlgImpl::MainFormDlgImpl(QWidget* pParent, const string& strSession) : Q
         NotesGDelegate* pNotesGDelegate = new NotesGDelegate(m_pCommonData);
         m_pNotesG->setItemDelegate(pNotesGDelegate);
 
-        m_pNotesG->horizontalHeader()->setMinimumSectionSize(CELL_WIDTH);
+        m_pNotesG->horizontalHeader()->setMinimumSectionSize(CELL_WIDTH + 10);
         m_pNotesG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         m_pNotesG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
 
@@ -495,7 +495,7 @@ MainFormDlgImpl::MainFormDlgImpl(QWidget* pParent, const string& strSession) : Q
         StreamsGDelegate* pStreamsGDelegate = new StreamsGDelegate(m_pCommonData);
         m_pStreamsG->setItemDelegate(pStreamsGDelegate);
 
-        m_pStreamsG->horizontalHeader()->setMinimumSectionSize(CELL_WIDTH);
+        m_pStreamsG->horizontalHeader()->setMinimumSectionSize(CELL_WIDTH + 10);
         m_pStreamsG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         m_pStreamsG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
 
@@ -514,7 +514,7 @@ MainFormDlgImpl::MainFormDlgImpl(QWidget* pParent, const string& strSession) : Q
         UniqueNotesGDelegate* pDel = new UniqueNotesGDelegate(m_pCommonData);
         m_pUniqueNotesG->setItemDelegate(pDel);
 
-        m_pUniqueNotesG->horizontalHeader()->setMinimumSectionSize(CELL_WIDTH);
+        m_pUniqueNotesG->horizontalHeader()->setMinimumSectionSize(CELL_WIDTH + 10);
         m_pUniqueNotesG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         m_pUniqueNotesG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
 
@@ -741,7 +741,7 @@ void MainFormDlgImpl::initializeUi()
     m_pCommonData->m_nMainWndIconSize = nIconSize;
 
     {
-        if (nNotesGW0 < 10) { nNotesGW0 = CELL_WIDTH; }
+        if (nNotesGW0 < 10) { nNotesGW0 = CELL_WIDTH + 10; }
         if (nNotesGW2 < 10) { nNotesGW2 = 65; }
 
         m_pNotesG->horizontalHeader()->resizeSection(0, nNotesGW0); // ttt2 apparently a call to resizeColumnsToContents() in NotesModel::updateCurrentNotes() should make columns 0 and 2 have the right size, but that's not the case at all; (see further notes there)
@@ -764,7 +764,7 @@ void MainFormDlgImpl::initializeUi()
     }
 
     {
-        if (nUnotesGW0 < 10) { nUnotesGW0 = CELL_WIDTH; } // ttt2 replace CELL_WIDTH
+        if (nUnotesGW0 < 10) { nUnotesGW0 = CELL_WIDTH + 10; } // ttt2 replace CELL_WIDTH
 
         m_pUniqueNotesG->horizontalHeader()->resizeSection(0, nUnotesGW0);
         m_pUniqueNotesG->horizontalHeader()->setResizeMode(1, QHeaderView::Stretch);

@@ -20,25 +20,30 @@
  ***************************************************************************/
 
 
+#include  <QColorDialog>
+#include  <QPainter>
+
 #include  "PaletteDlgImpl.h"
 
 #include  "TagEditorDlgImpl.h"
 #include  "Helpers.h"
 
-PaletteDlgImpl::PaletteDlgImpl(QWidget* pParent) : QDialog(pParent, getNoResizeWndFlags()), Ui::PaletteDlg() // not a "thread window", but doesn't need resizing anyway
+PaletteDlgImpl::PaletteDlgImpl(CommonData* pCommonData, QWidget* pParent) : QDialog(pParent, getNoResizeWndFlags()), Ui::PaletteDlg(), m_pCommonData(pCommonData) // not a "thread window", but doesn't need resizing anyway
 {
     setupUi(this);
 
-    QPalette pal (m_pAlbNormalF->palette());
+    m_vpColButtons.push_back(m_pCol0B);
+    m_vpColButtons.push_back(m_pCol1B);
+    m_vpColButtons.push_back(m_pCol2B);
+    m_vpColButtons.push_back(m_pCol3B);
+    m_vpColButtons.push_back(m_pCol4B);
+    m_vpColButtons.push_back(m_pCol5B);
+    m_vpColButtons.push_back(m_pCol6B);
 
-    pal.setColor(QPalette::Window, TagEditorDlgImpl::ALBFILE_NORM_COLOR); m_pAlbNormalF->setPalette(pal); m_pFileNormalF->setPalette(pal);
-
-    pal.setColor(QPalette::Window, TagEditorDlgImpl::ALB_NONID3V2_COLOR); m_pAlbNonId3V2F->setPalette(pal);
-    pal.setColor(QPalette::Window, TagEditorDlgImpl::ALB_ASSIGNED_COLOR); m_pAlbAssignedF->setPalette(pal);
-
-    pal.setColor(QPalette::Window, TagEditorDlgImpl::FILE_TAG_MISSING_COLOR); m_pFileNoTagF->setPalette(pal);
-    pal.setColor(QPalette::Window, TagEditorDlgImpl::FILE_NA_COLOR); m_pFileNoFieldF->setPalette(pal);
-    pal.setColor(QPalette::Window, TagEditorDlgImpl::FILE_NO_DATA_COLOR); m_pFileNoDataF->setPalette(pal);
+    for (int i = 0; i < cSize(m_vpColButtons); ++i)
+    {
+        setBtnColor(i);
+    }
 }
 
 PaletteDlgImpl::~PaletteDlgImpl()
@@ -52,6 +57,45 @@ void PaletteDlgImpl::on_m_pOkB_clicked()
     accept();
 }
 
-//ttt1 perhaps implement color chooser, by moving the colors to CommonData
+
+void PaletteDlgImpl::setBtnColor(int n)
+{
+    /*QPalette pal (m_vpColButtons[n]->palette());
+    //QPalette pal (m_pCol0B->palette());
+    pal.setBrush(QPalette::Button, m_pCommonData->m_vTagEdtColors.at(n));
+    pal.setBrush(QPalette::Window, m_pCommonData->m_vTagEdtColors[n]);
+    //pal.setBrush(QPalette::Midlight, QColor(255, 0, 0));
+    //pal.setBrush(QPalette::Dark, QColor(255, 0, 0));
+    //pal.setBrush(QPalette::Mid, QColor(255, 0, 0));
+    //pal.setBrush(QPalette::Shadow, QColor(255, 0, 0));
+    m_vpColButtons[n]->setPalette(pal);*/
+
+    int f (QApplication::style()->pixelMetric(QStyle::PM_DefaultFrameWidth, 0, m_vpColButtons.at(n)) + 2); //ttt2 hard-coded "2"
+    int w (m_vpColButtons[n]->width() - f), h (m_vpColButtons[n]->height() - f);
+    QPixmap pic (w, h);
+    QPainter pntr (&pic);
+    pntr.fillRect(0, 0, w, h, m_pCommonData->m_vTagEdtColors.at(n));
+
+    m_vpColButtons[n]->setIcon(pic);
+    m_vpColButtons[n]->setIconSize(QSize(w, h));
+
+/*    QPixmap pic (21, 21);
+    QPainter pntr (&pic);
+    QRect r (0, 0, 21, 21);
+    pntr.fillRect(r, QColor(255, 255, 0));
+    pntr.drawText(r, Qt::AlignCenter, "i");
+
+    m_vpColButtons[n]->setIcon(pic);
+    m_vpColButtons[n]->setIconSize(QSize(21, 21));*/
+}
+
+void PaletteDlgImpl::onButtonClicked(int n)
+{
+    QColor c (QColorDialog::getColor(m_pCommonData->m_vTagEdtColors.at(n), this));
+    if (!c.isValid()) { return; }
+    m_pCommonData->m_vTagEdtColors[n] = c;
+    setBtnColor(n);
+}
+
 
 

@@ -80,6 +80,12 @@ class ConfigDlgImpl : public QDialog, private Ui::ConfigDlg, public NoteListPain
     QFont m_fixedFont;
     void setFontLabels();
 
+    std::vector<QToolButton*> m_vpColButtons;
+    std::vector<QColor> m_vNoteCategColors;
+
+    void setBtnColor(int n);
+    void onButtonClicked(int n);
+
 public:
     enum { SOME_TABS, ALL_TABS };
     ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, QWidget* pParent, bool bFull); // bFull determines if all the tabs should be visible
@@ -111,6 +117,21 @@ public slots:
     void on_m_pChangeFixedFontB_clicked();
 
     void on_m_pLocaleCbB_currentIndexChanged(int);
+
+    void on_m_pCol0B_clicked() { onButtonClicked(0); }
+    void on_m_pCol1B_clicked() { onButtonClicked(1); }
+    void on_m_pCol2B_clicked() { onButtonClicked(2); }
+    void on_m_pCol3B_clicked() { onButtonClicked(3); }
+    void on_m_pCol4B_clicked() { onButtonClicked(4); }
+    void on_m_pCol5B_clicked() { onButtonClicked(5); }
+    void on_m_pCol6B_clicked() { onButtonClicked(6); }
+    void on_m_pCol7B_clicked() { onButtonClicked(7); }
+    void on_m_pCol8B_clicked() { onButtonClicked(8); }
+    void on_m_pCol9B_clicked() { onButtonClicked(9); }
+    void on_m_pCol10B_clicked() { onButtonClicked(10); }
+    void on_m_pCol11B_clicked() { onButtonClicked(11); }
+    void on_m_pCol12B_clicked() { onButtonClicked(12); }
+    void on_m_pCol13B_clicked() { onButtonClicked(13); }
 };
 
 #endif

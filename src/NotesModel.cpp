@@ -221,7 +221,7 @@ NotesGDelegate::NotesGDelegate(CommonData* pCommonData) : MultiLineTvDelegate(pC
     //myOption.palette.setColor(QPalette::Base, pal.color(QPalette::Disabled, QPalette::Window)); // !!! the palette doesn't matter; fillRect() should be called
     QColor col;
     double d1, d2;
-    getNoteColor(*pNote, vector<const Note*>(), col, d1, d2);
+    m_pCommonData->getNoteColor(*pNote, vector<const Note*>(), col, d1, d2);
     pPainter->fillRect(myOption.rect, QBrush(col));
 
     if (0 == index.column())

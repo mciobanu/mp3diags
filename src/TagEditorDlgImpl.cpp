@@ -282,14 +282,6 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
 {
     setupUi(this);
 
-    static bool s_bColInit (false);
-    if (!s_bColInit)
-    {
-        s_bColInit = true;
-        //TagWriter::ALBFILE_NORM_COLOR = QColor(m_pTableView->palette().color(QPalette::Active, QPalette::Base));
-        TagEditorDlgImpl::ALBFILE_NORM_COLOR = QColor(QPalette().color(QPalette::Active, QPalette::Base));
-    }
-
 
     m_pAssgnBtnWrp = new AssgnBtnWrp (m_pAssignedB);
 
@@ -326,7 +318,7 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
         m_pCurrentFileG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT + 1);//*/
 
         m_pCurrentFileG->setModel(m_pCurrentFileModel);
-        CurrentFileDelegate* pDel (new CurrentFileDelegate(m_pCurrentFileG));
+        CurrentFileDelegate* pDel (new CurrentFileDelegate(m_pCurrentFileG, m_pCommonData));
 
         connect(m_pCurrentFileG->horizontalHeader(), SIGNAL(sectionMoved(int, int, int)), this, SLOT(onFileSelSectionMoved(int, int, int)));
 
@@ -620,8 +612,10 @@ void TagEditorDlgImpl::on_m_pPaletteB_clicked()
 {
     if (!closeEditor()) { return; }
 
-    PaletteDlgImpl dlg (this);
+    PaletteDlgImpl dlg (m_pCommonData, this);
     dlg.exec();
+
+    m_pCommonData->m_settings.saveMiscConfigSettings(m_pCommonData);
 }
 
 
@@ -1436,12 +1430,8 @@ TagEditorDlgImpl::SaveOpt TagEditorDlgImpl::save(bool bImplicitCall)
 //========================================================================================================================================================
 
 
-/*static*/ QColor TagEditorDlgImpl::FILE_TAG_MISSING_COLOR (0xdddddd);
-/*static*/ QColor TagEditorDlgImpl::FILE_NA_COLOR (0xf0f0ff);
-/*static*/ QColor TagEditorDlgImpl::FILE_NO_DATA_COLOR (0xffffdd);
 
-
-CurrentFileDelegate::CurrentFileDelegate(QTableView* pTableView) : QItemDelegate(pTableView), m_pTableView(pTableView)
+CurrentFileDelegate::CurrentFileDelegate(QTableView* pTableView, const CommonData* pCommonData) : QItemDelegate(pTableView), m_pTableView(pTableView), m_pCommonData(pCommonData)
 {
     CB_CHECK1 (0 != pTableView, std::runtime_error("NULL QTableView not allowed"));
     //connect(pTableView->horizontalHeader(), SIGNAL(sectionResized(int, int, int)), pTableView, SLOT(resizeRowsToContents()));
@@ -1457,18 +1447,19 @@ CurrentFileDelegate::CurrentFileDelegate(QTableView* pTableView) : QItemDelegate
     QString s (index.model()->data(index, Qt::DisplayRole).toString());
     if ("\1" == s)
     { // tag not present
-        pPainter->fillRect(option.rect, QBrush(TagEditorDlgImpl::FILE_TAG_MISSING_COLOR));
+        pPainter->fillRect(option.rect, QBrush(m_pCommonData->m_vTagEdtColors[CommonData::COLOR_FILE_TAG_MISSING]));
     }
     else if ("\2" == s)
     { // not applicable
-        pPainter->fillRect(option.rect, QBrush(TagEditorDlgImpl::FILE_NA_COLOR));
+        pPainter->fillRect(option.rect, QBrush(m_pCommonData->m_vTagEdtColors[CommonData::COLOR_FILE_NA]));
     }
     else if ("\3" == s)
     { // applicable, but no data found
-        pPainter->fillRect(option.rect, QBrush(TagEditorDlgImpl::FILE_NO_DATA_COLOR));
+        pPainter->fillRect(option.rect, QBrush(m_pCommonData->m_vTagEdtColors[CommonData::COLOR_FILE_NO_DATA]));
     }
     else
     {
+        pPainter->fillRect(option.rect, QBrush(m_pCommonData->m_vTagEdtColors[CommonData::COLOR_FILE_NORM]));
         QItemDelegate::paint(pPainter, option, index);
     }
 
@@ -1506,9 +1497,6 @@ return QItemDelegate::sizeHint(option, index);
 //ttt2 perhaps allow selected cells to show background color, so it's possible to know if a cell is assigned, id3v2 or non-id3v2 even when it's selected; options include replaceing background with a frame, background with a darkened color based on the normal background, negation of normal color, some pattern
 
 
-/*static*/ QColor TagEditorDlgImpl::ALBFILE_NORM_COLOR;
-/*static*/ QColor TagEditorDlgImpl::ALB_NONID3V2_COLOR (0xffffdd/*0xccffcc*/);
-/*static*/ QColor TagEditorDlgImpl::ALB_ASSIGNED_COLOR (0xccccff);
 
 
 CurrentAlbumDelegate::CurrentAlbumDelegate(QTableView* pTableView, TagEditorDlgImpl* pTagEditorDlgImpl) : QItemDelegate(pTableView), m_pTableView(pTableView), m_pTagEditorDlgImpl(pTagEditorDlgImpl), m_pTagWriter(pTagEditorDlgImpl->getTagWriter())
@@ -1531,11 +1519,11 @@ CurrentAlbumDelegate::CurrentAlbumDelegate(QTableView* pTableView, TagEditorDlgI
     switch (eStatus)
     {
     case Mp3HandlerTagData::EMPTY:
-    case Mp3HandlerTagData::ID3V2_VAL: col = TagEditorDlgImpl::ALBFILE_NORM_COLOR; break;
+    case Mp3HandlerTagData::ID3V2_VAL: col = m_pTagEditorDlgImpl->getCommonData()->m_vTagEdtColors[CommonData::COLOR_ALB_NORM]; break;
 
-    case Mp3HandlerTagData::NON_ID3V2_VAL: col = TagEditorDlgImpl::ALB_NONID3V2_COLOR; break;
+    case Mp3HandlerTagData::NON_ID3V2_VAL: col = m_pTagEditorDlgImpl->getCommonData()->m_vTagEdtColors[CommonData::COLOR_ALB_NONID3V2]; break;
 
-    case Mp3HandlerTagData::ASSIGNED: col = TagEditorDlgImpl::ALB_ASSIGNED_COLOR; break;
+    case Mp3HandlerTagData::ASSIGNED: col = m_pTagEditorDlgImpl->getCommonData()->m_vTagEdtColors[CommonData::COLOR_ALB_ASSIGNED]; break;
     }
 
     //if (1 == index.column())

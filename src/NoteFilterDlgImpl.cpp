@@ -57,8 +57,7 @@ using namespace pearl;
 
 NoteFilterDlgImpl::NoteFilterDlgImpl(CommonData* pCommonData, QWidget* pParent /*=0*/) :
         QDialog(pParent, getDialogWndFlags()),
-        NoteListPainterBase("<all notes>"),
-        m_pCommonData(pCommonData)
+        NoteListPainterBase(pCommonData, "<all notes>")
 {
     setupUi(this);
 
@@ -250,7 +249,7 @@ void NoteFilterDlgImpl::onAvlDoubleClicked(int nRow)
         }
     }
 
-    getNoteColor(*pNote, bSubList ? m_vpSel : m_vpAvail, bckgColor, dGradStart, dGradEnd);
+    m_pCommonData->getNoteColor(*pNote, bSubList ? m_vpSel : m_vpAvail, bckgColor, dGradStart, dGradEnd);
 }
 
 
@@ -259,7 +258,7 @@ void NoteFilterDlgImpl::onAvlDoubleClicked(int nRow)
 {
     switch (nCol)
     {
-    case 0: return 30; //ttt0 hard-coded => CELL_WIDTH + x
+    case 0: return CELL_WIDTH + 10;
     case 1: return -1;
     }
     CB_ASSERT(false);

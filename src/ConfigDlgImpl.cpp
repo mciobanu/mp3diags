@@ -25,6 +25,8 @@
 #include  <QTextCodec>
 #include  <QSettings>
 #include  <QFontDialog>
+#include  <QColorDialog>
+#include  <QPainter>
 
 #include  "ConfigDlgImpl.h"
 
@@ -195,7 +197,7 @@ public:
 ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, QWidget* pParent, bool bFull) :
         QDialog(pParent, getDialogWndFlags()),
         Ui::ConfigDlg(),
-        NoteListPainterBase("<all notes>"),
+        NoteListPainterBase(pCommonData, "<all notes>"),
         m_transfCfg(transfCfg),
 
         m_pCommonData(pCommonData),
@@ -448,6 +450,30 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
         m_pOthersCaseCbB->setCurrentIndex((int)m_pCommonData->m_eCaseForOthers);
     }
 
+    { // colors
+        m_vpColButtons.push_back(m_pCol0B);
+        m_vpColButtons.push_back(m_pCol1B);
+        m_vpColButtons.push_back(m_pCol2B);
+        m_vpColButtons.push_back(m_pCol3B);
+        m_vpColButtons.push_back(m_pCol4B);
+        m_vpColButtons.push_back(m_pCol5B);
+        m_vpColButtons.push_back(m_pCol6B);
+        m_vpColButtons.push_back(m_pCol7B);
+        m_vpColButtons.push_back(m_pCol8B);
+        m_vpColButtons.push_back(m_pCol9B);
+        m_vpColButtons.push_back(m_pCol10B);
+        m_vpColButtons.push_back(m_pCol11B);
+        m_vpColButtons.push_back(m_pCol12B);
+        m_vpColButtons.push_back(m_pCol13B);
+
+        m_vNoteCategColors = m_pCommonData->m_vNoteCategColors;
+
+        for (int i = 0; i < cSize(m_vpColButtons); ++i)
+        {
+            setBtnColor(i);
+        }
+    }
+
     { // tag editor
         m_pWarnOnNonSeqTracksCkB->setChecked(m_pCommonData->m_bWarnOnNonSeqTracks);
         m_pWarnOnPasteToNonSeqTracksCkB->setChecked(m_pCommonData->m_bWarnPastingToNonSeqTracks);
@@ -489,6 +515,36 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
     m_pSrcDirE->setFocus();
 }
 
+
+void ConfigDlgImpl::setBtnColor(int n)
+{
+//    QPalette pal (m_vpColButtons[n]->palette());
+    //QPalette pal (m_pCol0B->palette());
+/*    pal.setBrush(QPalette::Button, m_vNoteCategColors[n]);
+    pal.setBrush(QPalette::Window, m_vNoteCategColors[n]);
+    pal.setBrush(QPalette::Midlight, QColor(255, 0, 0));
+    pal.setBrush(QPalette::Dark, QColor(255, 0, 0));
+    pal.setBrush(QPalette::Mid, QColor(255, 0, 0));
+    pal.setBrush(QPalette::Shadow, QColor(255, 0, 0));*/
+    //m_vpColButtons[n]->setPalette(pal);
+
+    int f (QApplication::style()->pixelMetric(QStyle::PM_DefaultFrameWidth, 0, m_vpColButtons.at(n)) + 2); //ttt2 hard-coded "2"
+    int w (m_vpColButtons[n]->width() - f), h (m_vpColButtons[n]->height() - f);
+    QPixmap pic (w, h);
+    QPainter pntr (&pic);
+    pntr.fillRect(0, 0, w, h, m_vNoteCategColors.at(n));
+
+    m_vpColButtons[n]->setIcon(pic);
+    m_vpColButtons[n]->setIconSize(QSize(w, h));
+}
+
+void ConfigDlgImpl::onButtonClicked(int n)
+{
+    QColor c (QColorDialog::getColor(m_vNoteCategColors.at(n), this));
+    if (!c.isValid()) { return; }
+    m_vNoteCategColors[n] = c;
+    setBtnColor(n);
+}
 
 
 void SessionSettings::saveTransfConfig(const TransfConfig& transfConfig)
@@ -734,9 +790,13 @@ void ConfigDlgImpl::on_m_pOkB_clicked()
             CB_ASSERT (0 != m_pCommonData->m_pCodec);
         }
 
-        {
+        { // case
             m_pCommonData->m_eCaseForArtists = (CommonData::Case)m_pArtistsCaseCbB->currentIndex();
             m_pCommonData->m_eCaseForOthers = (CommonData::Case)m_pOthersCaseCbB->currentIndex();
+        }
+
+        { // colors
+            m_pCommonData->m_vNoteCategColors = m_vNoteCategColors;
         }
 
         { // tag editor

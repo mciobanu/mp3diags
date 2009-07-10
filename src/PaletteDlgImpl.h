@@ -23,16 +23,28 @@
 #ifndef PaletteDlgImplH
 #define PaletteDlgImplH
 
+#include  <vector>
+
 #include  <QDialog>
 
 #include  "ui_Palette.h"
+
+#include  "CommonData.h"
+
 
 class PaletteDlgImpl : public QDialog, private Ui::PaletteDlg
 {
     Q_OBJECT
 
+    std::vector<QToolButton*> m_vpColButtons;
+
+    void setBtnColor(int n);
+    void onButtonClicked(int n);
+
+    CommonData* m_pCommonData;
+
 public:
-    PaletteDlgImpl(QWidget* pParent);
+    PaletteDlgImpl(CommonData* pCommonData, QWidget* pParent);
     ~PaletteDlgImpl();
     /*$PUBLIC_FUNCTIONS$*/
 
@@ -47,6 +59,13 @@ protected slots:
 
     void on_m_pOkB_clicked();
 
+    void on_m_pCol0B_clicked() { onButtonClicked(0); }
+    void on_m_pCol1B_clicked() { onButtonClicked(1); }
+    void on_m_pCol2B_clicked() { onButtonClicked(2); }
+    void on_m_pCol3B_clicked() { onButtonClicked(3); }
+    void on_m_pCol4B_clicked() { onButtonClicked(4); }
+    void on_m_pCol5B_clicked() { onButtonClicked(5); }
+    void on_m_pCol6B_clicked() { onButtonClicked(6); }
 };
 
 #endif // #ifndef PaletteDlgImplH

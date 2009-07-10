@@ -26,13 +26,7 @@
      </property>
      <layout class="QGridLayout" >
       <item row="0" column="0" >
-       <widget class="QFrame" name="m_pAlbNormalF" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
+       <widget class="QToolButton" name="m_pCol0B" >
         <property name="minimumSize" >
          <size>
           <width>60</width>
@@ -45,14 +39,11 @@
           <height>40</height>
          </size>
         </property>
-        <property name="autoFillBackground" >
-         <bool>true</bool>
+        <property name="focusPolicy" >
+         <enum>Qt::NoFocus</enum>
         </property>
-        <property name="frameShape" >
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow" >
-         <enum>QFrame::Raised</enum>
+        <property name="text" >
+         <string/>
         </property>
        </widget>
       </item>
@@ -64,13 +55,7 @@
        </widget>
       </item>
       <item row="1" column="0" >
-       <widget class="QFrame" name="m_pAlbNonId3V2F" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
+       <widget class="QToolButton" name="m_pCol1B" >
         <property name="minimumSize" >
          <size>
           <width>60</width>
@@ -83,14 +68,11 @@
           <height>40</height>
          </size>
         </property>
-        <property name="autoFillBackground" >
-         <bool>true</bool>
+        <property name="focusPolicy" >
+         <enum>Qt::NoFocus</enum>
         </property>
-        <property name="frameShape" >
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow" >
-         <enum>QFrame::Raised</enum>
+        <property name="text" >
+         <string/>
         </property>
        </widget>
       </item>
@@ -102,13 +84,7 @@
        </widget>
       </item>
       <item row="2" column="0" >
-       <widget class="QFrame" name="m_pAlbAssignedF" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
+       <widget class="QToolButton" name="m_pCol2B" >
         <property name="minimumSize" >
          <size>
           <width>60</width>
@@ -121,14 +97,11 @@
           <height>40</height>
          </size>
         </property>
-        <property name="autoFillBackground" >
-         <bool>true</bool>
+        <property name="focusPolicy" >
+         <enum>Qt::NoFocus</enum>
         </property>
-        <property name="frameShape" >
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow" >
-         <enum>QFrame::Raised</enum>
+        <property name="text" >
+         <string/>
         </property>
        </widget>
       </item>
@@ -155,13 +128,7 @@
      </property>
      <layout class="QGridLayout" >
       <item row="0" column="0" >
-       <widget class="QFrame" name="m_pFileNormalF" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
+       <widget class="QToolButton" name="m_pCol3B" >
         <property name="minimumSize" >
          <size>
           <width>60</width>
@@ -174,14 +141,11 @@
           <height>40</height>
          </size>
         </property>
-        <property name="autoFillBackground" >
-         <bool>true</bool>
+        <property name="focusPolicy" >
+         <enum>Qt::NoFocus</enum>
         </property>
-        <property name="frameShape" >
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow" >
-         <enum>QFrame::Raised</enum>
+        <property name="text" >
+         <string/>
         </property>
        </widget>
       </item>
@@ -193,13 +157,7 @@
        </widget>
       </item>
       <item row="1" column="0" >
-       <widget class="QFrame" name="m_pFileNoTagF" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
+       <widget class="QToolButton" name="m_pCol4B" >
         <property name="minimumSize" >
          <size>
           <width>60</width>
@@ -212,14 +170,11 @@
           <height>40</height>
          </size>
         </property>
-        <property name="autoFillBackground" >
-         <bool>true</bool>
+        <property name="focusPolicy" >
+         <enum>Qt::NoFocus</enum>
         </property>
-        <property name="frameShape" >
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow" >
-         <enum>QFrame::Raised</enum>
+        <property name="text" >
+         <string/>
         </property>
        </widget>
       </item>
@@ -231,13 +186,7 @@
        </widget>
       </item>
       <item row="2" column="0" >
-       <widget class="QFrame" name="m_pFileNoFieldF" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
+       <widget class="QToolButton" name="m_pCol5B" >
         <property name="minimumSize" >
          <size>
           <width>60</width>
@@ -250,14 +199,11 @@
           <height>40</height>
          </size>
         </property>
-        <property name="autoFillBackground" >
-         <bool>true</bool>
+        <property name="focusPolicy" >
+         <enum>Qt::NoFocus</enum>
         </property>
-        <property name="frameShape" >
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow" >
-         <enum>QFrame::Raised</enum>
+        <property name="text" >
+         <string/>
         </property>
        </widget>
       </item>
@@ -269,13 +215,7 @@
        </widget>
       </item>
       <item row="3" column="0" >
-       <widget class="QFrame" name="m_pFileNoDataF" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
+       <widget class="QToolButton" name="m_pCol6B" >
         <property name="minimumSize" >
          <size>
           <width>60</width>
@@ -288,14 +228,11 @@
           <height>40</height>
          </size>
         </property>
-        <property name="autoFillBackground" >
-         <bool>true</bool>
+        <property name="focusPolicy" >
+         <enum>Qt::NoFocus</enum>
         </property>
-        <property name="frameShape" >
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow" >
-         <enum>QFrame::Raised</enum>
+        <property name="text" >
+         <string/>
         </property>
        </widget>
       </item>

@@ -335,7 +335,7 @@ void FilesModel::matchSelToNotes()
     //ttt2 perhaps try to derive all these colors from the global pallette (e.g. option.palette.highlight(), option.palette.highlightedText(), ...)
     QColor colNote;
     double dGradStart, dGradEnd;
-    getNoteColor(*pNote, m_pCommonData->getUniqueNotes().getFltVec(), colNote, dGradStart, dGradEnd);
+    m_pCommonData->getNoteColor(*pNote, m_pCommonData->getUniqueNotes().getFltVec(), colNote, dGradStart, dGradEnd);
     QColor colSel (option.palette.color(QPalette::Active, QPalette::Highlight)); //ttt3 not necessarily "Active"
 //qDebug("gr %f %f", dGradStart, dGradEnd);
     QColor colFg, colBkg;
@@ -540,16 +540,30 @@ static QString makeMultiline(const char* szDescr)
     //pPainter->drawText(r.x(), r.y() + r.height() - 8, "xy");
     pPainter->save();
 
-    int nGridCrt (m_pCommonData->getFilesGCrtCol());
-    //qDebug("crt %d, ndx %d", nGridCrt, nLogicalIndex);
-
     pPainter->setFont(m_pCommonData->getLabelFont());
+
+    /*int nGridCrt (m_pCommonData->getFilesGCrtCol());
+    //qDebug("crt %d, ndx %d", nGridCrt, nLogicalIndex);
 
     if (nGridCrt == nLogicalIndex)
     {
         QFont f (pPainter->font());
         f.setWeight(QFont::Bold);
         pPainter->setFont(f);
+    }*/
+    {
+        QModelIndexList l (m_pCommonData->m_pFilesG->selectionModel()->selection().indexes());
+        for (QModelIndexList::iterator it = l.begin(); it != l.end(); ++it)
+        {
+            const QModelIndex& ndx (*it);
+            if (ndx.column() == nLogicalIndex)
+            {
+                QFont f (pPainter->font());
+                f.setWeight(QFont::Bold);
+                pPainter->setFont(f);
+                break;
+            }
+        }
     }
 
     const Note* p (m_pCommonData->getUniqueNotes().getFltVec().at(nLogicalIndex - 1));
@@ -563,7 +577,14 @@ static QString makeMultiline(const char* szDescr)
         pPainter->setPen(SUPPORT_PEN_COLOR());
     }
 
-    pPainter->drawText(r, Qt::AlignCenter, getNoteLabel(p)); //"xy"
+    QRectF r1 (r);
+/*QRect r2 (r); r2.adjust(0, 0, 0, -12);
+pPainter->fillRect(r2, QColor(rand() % 250, rand() % 250, rand() % 250));
+    //r1.adjust(-3, 0, 0, 0);
+    double dShift (m_pCommonData->getTextShift(r.width()));
+    r1.adjust(dShift, 0, dShift, 0); // !!! Qt has a tendency to move the text to the right*/
+    //if (3 == nLogicalIndex) pPainter->fillRect(r, QColor(255, 240, 230));
+    pPainter->drawText(r1, Qt::AlignCenter, getNoteLabel(p)); //"xy"
     pPainter->restore();
     //qDebug("%d %d %d %d", r.x(), r.y(), r.width(), r.height());
     //pPainter->restore();

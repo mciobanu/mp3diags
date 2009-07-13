@@ -818,6 +818,7 @@ void configureGradient(QGradient& grad, const QColor& col, double dStart, double
 //findFont();
     }
 
+#if 1
     for (int i = 0; i < SIZE; ++i)
     {
         double x0 (vdPoints[i]), y0 (vdValues[i]), x1 (vdPoints[i + 1]), y1 (vdValues[i + 1]);
@@ -842,5 +843,11 @@ void configureGradient(QGradient& grad, const QColor& col, double dStart, double
             break;
         }
     }
+#else
+    grad.setColorAt(0, col.lighter(dStart < 0.0001 ? 119 : 100)); //ttt1 perhaps use this or at least add an option
+    grad.setColorAt(0.48, col);
+    grad.setColorAt(0.52, col);
+    grad.setColorAt(1, col.lighter(dEnd > 0.9999 ? 80 : 100));
+#endif
 }
 

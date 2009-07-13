@@ -449,9 +449,6 @@ void CommonData::setFontInfo(const std::string& strGenName, int nGenSize, int nL
         CELL_WIDTH = n + 4; //ttt2 hard-coded "4"; see how to get the correct value
     }
 
-    computeShift(true);
-    computeShift(false);
-
     MIN_FILE_WIDTH = QApplication::fontMetrics().width("ABCDEFGHIJKLMNopqrstuvwxyz12345");
 
 
@@ -481,136 +478,6 @@ QFont CommonData::getNewFixedFont() const
     return QFont (info.family(), info.pointSize());
 }
 
-/*
-void CommonData::computeShift(bool bEven)
-{
-    int n (CELL_WIDTH*2 + (bEven ? 0 : 1));
-    long nTotalSum (0), nWeightSum (0);
-
-    QImage img (n, CELL_HEIGHT, QImage::Format_RGB32); // fits both
-    QPainter pntr (&img);
-    pntr.setPen(QColor(255, 255, 255));
-
-    for (char c1 = 'a'; c1 <= 'z'; ++c1) //ttt3 ASCII-specific
-    {
-        for (char c2 = 'a'; c2 <= 'z'; ++c2)
-        {
-            if (c1 != 'm' && c1 != 'w' && c2 != 'm' && c2 != 'w')
-            {
-                QString s;
-                s += c1;
-                s += c2;
-
-                for (int k = 0; k <= 1; ++k)
-                {
-                    QRect r (0, 0, n, CELL_HEIGHT);
-                    pntr.fillRect(r, QColor(0, 0, 0));
-                    pntr.drawText(r, Qt::AlignCenter, s);
-                    for (int i = 0; i < CELL_HEIGHT; ++i)
-                    {
-                        for (int j = 0; j < n; ++j)
-                        {
-                            QColor c (img.pixel(j, i));
-                            int r (c.red()), g (c.green()), b (c.blue());
-                            nTotalSum += j*(r + g + b);
-                            nWeightSum += (r + g + b);
-                        }
-                    }
-                }
-
-            }
-        }
-        //qDebug("%s - %d %d %2d %2d", s.toUtf8().data(), r.x(), r.y(), r.width(), r.height());
-    }
-
-    double dAvg (double(nTotalSum)/nWeightSum);
-    m_adTextShift[bEven ? 0 : 1] = double(n - 1)/2 - dAvg;
-    qDebug ("w=%d, avg %f shift %f", n, dAvg, m_adTextShift[bEven ? 0 : 1]);
-}
-*/
-
-void CommonData::computeShift(bool bEven)
-{
-return;
-    int n ((CELL_WIDTH/2 + 1)*2 + (bEven ? 0 : 1));
-    long nMidDblSum (0), nTotal (0);
-
-    QImage img (n, CELL_HEIGHT, QImage::Format_RGB32); // fits both
-    QPainter pntr (&img);
-    pntr.setPen(QColor(255, 255, 255));
-
-    QFont f (m_labelFont);
-    f.setWeight(QFont::Bold);
-    pntr.setFont(f);
-
-qDebug("-------- n=%d --------", n);
-    for (char c1 = 'a'; c1 <= 'z'; ++c1) //ttt3 ASCII-specific
-    {
-        //for (char c2 = 'a'; c2 <= 'z'; ++c2)
-        for (char c2 = 'a'; c2 <= 'a'; ++c2) //ttt0 'a'
-        {
-            if (c1 != 'm' && c1 != 'w' && c2 != 'm' && c2 != 'w')
-            {
-                QString s;
-                s += c1;
-                s += c2;
-
-                QRect r (0, 0, n, CELL_HEIGHT);
-                pntr.fillRect(r, QColor(0, 0, 0));
-                pntr.drawText(r, Qt::AlignCenter, s);
-                int nFirst (0), nLast (n - 1);
-
-                for (int j = 0; j < n; ++j)
-                {
-                    for (int i = 0; i < CELL_HEIGHT; ++i)
-                    {
-                        QColor c (img.pixel(j, i));
-                        int r (c.red()), g (c.green()), b (c.blue());
-                        if (r + g + b != 0)
-                        {
-                            nFirst = j;
-                            goto e1;
-                        }
-                    }
-                }
-                CB_ASSERT (false);
-e1:
-                for (int j = n - 1; j >= 0; --j)
-                {
-                    for (int i = 0; i < CELL_HEIGHT; ++i)
-                    {
-                        QColor c (img.pixel(j, i));
-                        int r (c.red()), g (c.green()), b (c.blue());
-                        if (r + g + b != 0)
-                        {
-                            nLast = j;
-                            goto e2;
-                        }
-                    }
-                }
-                CB_ASSERT (false);
-e2:
-
-                qDebug("%s frst=%d, last=%d", s.toUtf8().data(), nFirst, nLast);
-                nMidDblSum += nFirst + nLast;
-                ++nTotal;
-            }
-        }
-        //qDebug("%s - %d %d %2d %2d", s.toUtf8().data(), r.x(), r.y(), r.width(), r.height());
-    }
-
-    double dAvg (nMidDblSum/2.0/nTotal);
-    double dTarget ((n - 1.0)/2);
-    m_adTextShift[bEven ? 0 : 1] = dTarget - dAvg;
-    qDebug("w=%d, avg %f shift %f", n, dAvg, m_adTextShift[bEven ? 0 : 1]);
-}
-
-
-// how much the text should be shifted to appear centered; positive for right-shift / negative for left-shift; nWidth doesn't matter except that it's odd or even
-double CommonData::getTextShift(int nWidth)
-{
-    return m_adTextShift[nWidth % 2];
-}
 
 
 //=====================================================================================================================
@@ -1916,7 +1783,7 @@ qDebug("1c %d %d %d", cSize(vpAll), cSize(vpFlt), cSize(vpView));*/
 
     m_vpAllHandlers.clear(); m_vpFltHandlers.clear(); m_vpViewHandlers.clear();
     set_union(vpAll.begin(), vpAll.end(), vpAdd.begin(), vpAdd.end(), back_inserter(m_vpAllHandlers), CmpMp3HandlerPtrByName());
-    set_union(vpFlt.begin(), vpFlt.end(), vpAdd.begin(), vpAdd.end(), back_inserter(m_vpFltHandlers), CmpMp3HandlerPtrByName()); // !!! perhaps for view and flt we should check the directory/filter, but it seems more important that the new handlers are seen, so they can be compared to the old ones
+    set_union(vpFlt.begin(), vpFlt.end(), vpAdd.begin(), vpAdd.end(), back_inserter(m_vpFltHandlers), CmpMp3HandlerPtrByName()); // !!! perhaps for view and flt we should check the directory/filter, but it seems more important that the new handlers are seen, so they can be compared to the old ones //ttt1 review
     set_union(vpView.begin(), vpView.end(), vpAdd.begin(), vpAdd.end(), back_inserter(m_vpViewHandlers), CmpMp3HandlerPtrByName());
 
     updateWidgets(strCrtName, vstrSel);
@@ -1959,6 +1826,7 @@ deque<const Mp3Handler*> CommonData::getCrtAlbum() const //ttt2 perhaps sort by 
 }
 
 
+// used for album navigation in tag editor and file renamer
 bool CommonData::nextAlbum() const
 {
     if (m_vpAllHandlers.empty()) { return false; }
@@ -1966,16 +1834,25 @@ bool CommonData::nextAlbum() const
     CB_ASSERT (m_nSongInCrtAlbum >= 0 && m_nSongInCrtAlbum < cSize(m_vpAllHandlers));
     string s (m_vpAllHandlers[m_nSongInCrtAlbum]->getDir());
 
-    int n (cSize(m_vpAllHandlers));
-    for (; m_nSongInCrtAlbum < n && m_vpAllHandlers[m_nSongInCrtAlbum]->getDir() == s; ++m_nSongInCrtAlbum) {}
-    if (m_nSongInCrtAlbum >= n)
+    deque<const Mp3Handler*>::const_iterator it (lower_bound(m_vpFltHandlers.begin(), m_vpFltHandlers.end(), m_vpAllHandlers[m_nSongInCrtAlbum], CmpMp3HandlerPtrByName()));
+    //CB_ASSERT (m_vpAllHandlers[m_nSongInCrtAlbum] == *it); // !!! wrong - getCrtAlbum() moves m_nSongInCrtAlbum to the first song in album regardless of filter
+    CB_ASSERT (m_vpFltHandlers.end() != it);
+    int n (cSize(m_vpFltHandlers));
+    int nFltPos (it - m_vpFltHandlers.begin());
+    for (; nFltPos < n && m_vpFltHandlers[nFltPos]->getDir() == s; ++nFltPos) {}
+    if (n == nFltPos)
     {
-        m_nSongInCrtAlbum = n - 1;
         return false;
     }
 
+    it = lower_bound(m_vpAllHandlers.begin(), m_vpAllHandlers.end(), m_vpFltHandlers[nFltPos], CmpMp3HandlerPtrByName());
+    CB_ASSERT (m_vpFltHandlers[nFltPos] == *it);
+    m_nSongInCrtAlbum = it - m_vpAllHandlers.begin();
+
     return true;
 }
+
+
 
 
 
@@ -1986,12 +1863,19 @@ bool CommonData::prevAlbum() const
     CB_ASSERT (m_nSongInCrtAlbum >= 0 && m_nSongInCrtAlbum < cSize(m_vpAllHandlers));
     string s (m_vpAllHandlers[m_nSongInCrtAlbum]->getDir());
 
-    for (; m_nSongInCrtAlbum >= 0 && m_vpAllHandlers[m_nSongInCrtAlbum]->getDir() == s; --m_nSongInCrtAlbum) {}
-    if (m_nSongInCrtAlbum < 0)
+    deque<const Mp3Handler*>::const_iterator it (lower_bound(m_vpFltHandlers.begin(), m_vpFltHandlers.end(), m_vpAllHandlers[m_nSongInCrtAlbum], CmpMp3HandlerPtrByName()));
+    //CB_ASSERT (m_vpAllHandlers[m_nSongInCrtAlbum] == *it); // !!! wrong - getCrtAlbum() moves m_nSongInCrtAlbum to the first song in album regardless of filter
+    CB_ASSERT (m_vpFltHandlers.end() != it);
+    int nFltPos (it - m_vpFltHandlers.begin());
+    for (; nFltPos >= 0 && m_vpFltHandlers[nFltPos]->getDir() == s; --nFltPos) {}
+    if (nFltPos < 0)
     {
-        m_nSongInCrtAlbum = 0;
         return false;
     }
+
+    it = lower_bound(m_vpAllHandlers.begin(), m_vpAllHandlers.end(), m_vpFltHandlers[nFltPos], CmpMp3HandlerPtrByName());
+    CB_ASSERT (m_vpFltHandlers[nFltPos] == *it);
+    m_nSongInCrtAlbum = it - m_vpAllHandlers.begin();
 
     return true;
 }

@@ -145,7 +145,6 @@ dpkg-genchanges: warning: the current version (0.99.01.009) is smaller than the 
 
 
 //ttt0 normalize in Windows has flashing / duplicated output
-//ttt0 next album in tag editor should care about filters (perhaps have a separate "filtered album list" which gets filled in when opening tag edt)
 //ttt0 switch to QFile; see source for flush();
 //ttt0 perhaps tab with changelog
 //ttt0 doc: use case: compare images, id3v2 tags
@@ -156,4 +155,6 @@ dpkg-genchanges: warning: the current version (0.99.01.009) is smaller than the 
 //ttt0 show Lyrics
 //ttt1 handle Lyrics tag, display, transform, download ...
 //ttt0 help, incl. local
+
+//ttt0 don't allow dir names to be entered in edit boxes, then switch to '\'
 

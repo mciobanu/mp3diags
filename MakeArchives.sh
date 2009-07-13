@@ -149,6 +149,7 @@ function createDoc
 
     cp -pr doc/html/*.css $LongDestDir
     cp -pr doc/html/*.png $LongDestDir
+    cp -pr doc/html/*.jpg $LongDestDir
     cp -pr doc/html/*.ico $LongDestDir
     cp -p COPYING $LongDestDir
     mv -f $LongDestDir/010_getting_the_program_local.html $LongDestDir/010_getting_the_program.html
@@ -180,6 +181,7 @@ function createClicknetDoc
 
     cp -pr doc/html/*.css $LongDestDir
     cp -pr doc/html/*.png $LongDestDir
+    cp -pr doc/html/*.jpg $LongDestDir
     cp -pr doc/html/*.ico $LongDestDir
     cp -p COPYING $LongDestDir
     rm $LongDestDir/010_getting_the_program_local.html
@@ -213,6 +215,7 @@ function createSfDoc
 
     cp -pr doc/html/*.css $LongDestDir
     cp -pr doc/html/*.png $LongDestDir
+    cp -pr doc/html/*.jpg $LongDestDir
     cp -pr doc/html/*.ico $LongDestDir
     cp -p COPYING $LongDestDir
     rm $LongDestDir/010_getting_the_program_local.html

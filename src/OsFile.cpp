@@ -20,24 +20,24 @@
  ***************************************************************************/
 
 
+
+
 #include  <iostream>
 #include  <fstream>
 #include  <cerrno>
 #include  <algorithm>
 
-#ifndef WIN32
-    #include  <glob.h>
-#else
-    #include <QFileInfo>
-    #include <QDateTime>
-#endif
+#include  <QFileInfo>
+#include  <QDateTime>
+#include  <QDir>
 
-#include  <sys/stat.h>
 #include  <utime.h>
+/*
+#include  <sys/stat.h>
 //#include  <sys/types.h>
 //#include  <unistd.h>
 #include <dirent.h>
-
+*/
 #include  "OsFile.h"
 
 #include  "Helpers.h"
@@ -61,22 +61,11 @@ class FileSearcherImpl
 
 public:
     //CB_LIB_CALL FileSearcherImpl() : m_hFind(INVALID_HANDLE_VALUE), m_findData() {}
-    CB_LIB_CALL FileSearcherImpl() : m_bOpen(false), m_pDir(0), m_pEnt(0) {}
+    CB_LIB_CALL FileSearcherImpl() : m_nCrtEntry(0) {}
 
-//    HANDLE m_hFind;
-//    WIN32_FIND_DATA m_findData;
-    bool m_bOpen;
-    //const char* m_szCurrentPath;
+    int m_nCrtEntry;
+    QFileInfoList m_vFileInfos;
 
-#ifndef WIN32
-    struct stat64 m_crtStat;
-#endif
-
-    //glob_t m_findData;
-    //size_t m_nCrtMatch;
-
-    DIR* m_pDir;
-    dirent* m_pEnt;
 };
 
 
@@ -86,9 +75,9 @@ CB_LIB_CALL FileSearcher::FileSearcher() : m_pImpl(new FileSearcherImpl)
 }
 
 
-CB_LIB_CALL FileSearcher::FileSearcher(const string& strDir) : m_pImpl(new FileSearcherImpl)
+CB_LIB_CALL FileSearcher::FileSearcher(const string& strDirName) : m_pImpl(new FileSearcherImpl)
 {
-    findFirst(strDir);
+    findFirst(strDirName);
 }
 
 
@@ -104,36 +93,9 @@ CB_LIB_CALL FileSearcher::~FileSearcher()
 
 CB_LIB_CALL FileSearcher::operator bool() const
 {
-    return m_pImpl->m_bOpen;
+    return m_pImpl->m_nCrtEntry < m_pImpl->m_vFileInfos.size();
 }
 
-#ifndef WIN32
-
-bool CB_LIB_CALL FileSearcher::isFile() const
-{
-//cout << "#######################" << getName() << " " << m_pImpl->m_crtStat.st_mode << endl;
-    //return 0 == (FILE_ATTRIBUTE_DIRECTORY & m_pImpl->m_findData.dwFileAttributes);
-    //CB_CHECK (
-    //const char* szCrtPath(m_pImpl->getCurrentPath());
-    return S_ISREG(m_pImpl->m_crtStat.st_mode);
-}
-
-bool CB_LIB_CALL FileSearcher::isDir() const
-{
-//cout << "#######################" << getName() << " " << m_pImpl->m_crtStat.st_mode << endl;
-    return /* !S_ISLNK(m_pImpl->m_crtStat.st_mode) &&*/ S_ISDIR(m_pImpl->m_crtStat.st_mode);
-    //return false;
-}
-
-
-bool CB_LIB_CALL FileSearcher::isSymLink() const
-{
-//cout << "#######################" << getName() << " " << m_pImpl->m_crtStat.st_mode << endl;
-    return S_ISLNK(m_pImpl->m_crtStat.st_mode);
-    //return false;
-}
-
-#else
 
 bool CB_LIB_CALL FileSearcher::isFile() const
 {
@@ -148,125 +110,45 @@ bool CB_LIB_CALL FileSearcher::isDir() const
 
 bool CB_LIB_CALL FileSearcher::isSymLink() const
 {
-    return false;
+    return QFileInfo(convStr(getName())).isSymLink();
 }
-#endif
 
 
 // it's easier to use the constructor, but sometimes may be more convenient to leave the object in an outer loop
-bool CB_LIB_CALL FileSearcher::findFirst(const string& strDir)
+bool CB_LIB_CALL FileSearcher::findFirst(const string& strDirName)
 {
     close();
-#if 0
-    int nLen (strlen(szName));
-    const char* szEscName;
-    char* pNewStr;
-    int nParCnt (count(szName, szName + nLen, '[') + count(szName, szName + nLen, ']'));
-    if (0 == nParCnt)
+
+    if (endsWith(strDirName, getPathSepAsStr()))
     {
-        szEscName = szName;
-        pNewStr = 0;
+        m_strDir = strDirName;
     }
     else
     {
-        // '[' and ']' need to be escaped
-        pNewStr = new char[nParCnt + nLen + 1];
-        char* q (pNewStr);
-        for (int i = 0; i < nLen; ++i)
-        {
-            if ('[' == szName[i] || ']' == szName[i])
-            {
-                *q++ = '\\';
-            }
-            *q++ = szName[i];
-        }
-        *q = 0;
-
-        /*pNewStr = new char[nParCnt + 2*nLen + 1];
-        char* q (pNewStr);
-        for (int i = 0; i < nLen; ++i)
-        {
-            if ('[' == szName[i] || ']' == szName[i])
-            {
-                *q++ = '[';
-                *q++ = szName[i];
-                *q++ = ']';
-            }
-            else
-            {
-                *q++ = szName[i];
-            }
-        }*/
-
-        szEscName = pNewStr;
+        m_strDir = strDirName + getPathSepAsStr();
     }
 
-    ArrayPtrRelease<char> rel (pNewStr);
-
-//cout << "############### find in " << szEscName << endl;
-
-    CB_CHECK1 (!(*this), InvalidOperation()/*"findFirst() may only be called on a closed searcher"*/);
-    m_pImpl->m_findData.gl_offs = 0;
-    //bool bRes (0 == glob(szEscName, 0, 0, &m_pImpl->m_findData));
-    bool bRes (0 == glob(szEscName, GLOB_PERIOD, 0, &m_pImpl->m_findData)); // GLOB_PERIOD is GNU-specific, but without it names starting with a period aren't included //ttt2 make sure that m_pImpl->m_findData doesn't need deallocation upon failure
-
-    if (bRes)
-    {
-        m_pImpl->m_bOpen = true;
-        CB_ASSERT(0 < m_pImpl->m_findData.gl_pathc);
-
-        //CB_ASSERT (0 == strcmp(".", m_pImpl->m_findData.gl_pathv[0]) && 0 == strcmp("..", m_pImpl->m_findData.gl_pathv[1])); //ttt2 see how valid this assert is (it seems to work on SuSE 10.3 64bit, including the root dir)
-        m_pImpl->m_nCrtMatch = 0;
-        advanceToValidEntry();
-        if (!*this)
-        {
-            return false;
-        }
-
-        if (0 != lstat64(m_pImpl->m_findData.gl_pathv[m_pImpl->m_nCrtMatch], &m_pImpl->m_crtStat))
-        {
-            throw 1; //ttt1 deal with the error
-        }
-    }
-
-    return bRes;
-#endif
-    if (endsWith(strDir, getPathSepAsStr()))
-    {
-        m_strDir = strDir;
-    }
-    else
-    {
-        m_strDir = strDir + getPathSepAsStr();
-    }
-
-    m_pImpl->m_pDir = opendir(m_strDir.c_str());
-    if (0 == m_pImpl->m_pDir) { return false; }
-
-    m_pImpl->m_bOpen = true;
+    m_pImpl->m_vFileInfos = QDir(convStr(m_strDir)).entryInfoList(QDir::NoDotAndDotDot);
+    m_pImpl->m_nCrtEntry = 0;
     return goToNextValidEntry();
-
 }
 
 
-// skips "." and "..", as well as any invalid item (usually file that has been removed after opendir() or readdir() got called)
+// skips "." and "..", as well as any invalid item (usually file that has been removed after entryInfoList() got called)
 bool CB_LIB_CALL FileSearcher::goToNextValidEntry()
 {
-    if (!m_pImpl->m_bOpen) { return false; }
-
     for (;;)
     {
-        m_pImpl->m_pEnt = readdir(m_pImpl->m_pDir);
-        if (0 == m_pImpl->m_pEnt) { break; }
+        if (!*this) { return false; }
 
-        const char* p (m_pImpl->m_pEnt->d_name);
-        if (0 == strcmp(".", p) || 0 == strcmp("..", p)) { continue; }
+        QString s (m_pImpl->m_vFileInfos[m_pImpl->m_nCrtEntry].fileName());
+        CB_ASSERT (s != "." && s != ".."); // it was QDir::NoDotAndDotDot
+        if (!m_pImpl->m_vFileInfos[m_pImpl->m_nCrtEntry].exists())
+        {
+            ++m_pImpl->m_nCrtEntry;
+            continue; //ttt1 see if seeking the next is the best way to deal with this error
+        }
 
-#ifndef WIN32
-        if (0 != lstat64((m_strDir + m_pImpl->m_pEnt->d_name).c_str(), &m_pImpl->m_crtStat)) { continue; } //ttt1 see if seeking the next is the best way to deal with this error
-#else
-        if (!QFileInfo(convStr(m_strDir + m_pImpl->m_pEnt->d_name)).exists()) { continue; } //ttt1 see if seeking the next is the best way to deal with this error
-#endif
         return true;
     }
 
@@ -278,60 +160,35 @@ bool CB_LIB_CALL FileSearcher::goToNextValidEntry()
 bool CB_LIB_CALL FileSearcher::findNext()
 {
     CB_CHECK1 (*this, InvalidOperation()/*"findNext() may only be called on an open searcher"*/);
+    ++m_pImpl->m_nCrtEntry;
     return goToNextValidEntry();
 }
 
 
 void CB_LIB_CALL FileSearcher::close()
 {
-    if (m_pImpl->m_bOpen)
-    {
-        closedir(m_pImpl->m_pDir);
-        m_pImpl->m_bOpen = false;
-
-        m_pImpl->m_pDir = 0;
-        m_pImpl->m_pEnt = 0;
-    }
+    m_pImpl->m_vFileInfos.clear();
+    m_pImpl->m_nCrtEntry = 0;
 }
 
 string CB_LIB_CALL FileSearcher::getName() const
 {
     CB_CHECK1 (*this, InvalidOperation()/*"getName() may only be called on an open searcher"*/);
-    //return m_pImpl->m_pEnt->d_name;
-    return m_strDir + m_pImpl->m_pEnt->d_name;
+    return convStr(m_pImpl->m_vFileInfos[m_pImpl->m_nCrtEntry].absoluteFilePath());
 }
 
 
 long long CB_LIB_CALL FileSearcher::getSize() const
 {
     CB_CHECK1 (*this, InvalidOperation()/*"getSize() may only be called on an open searcher"*/);
-#ifndef WIN32
-    return (long long)m_pImpl->m_crtStat.st_size;
-#else
-    return QFileInfo(convStr(getName())).size();
-#endif
+    return m_pImpl->m_vFileInfos[m_pImpl->m_nCrtEntry].size();
 }
 
-#if 0
-long long CB_LIB_CALL FileSearcher::getCreationTime() const
-{
-    CB_CHECK1 (*this, InvalidOperation()/*"getCreationTime() may only be called on an open searcher"*/);
-#ifndef WIN32
-    return m_pImpl->m_crtStat.st_mtime; //ttt probably wrong; see who uses it
-#else
-    return QFileInfo(convStr(getName())).lastModified().toTime_t(); //ttt3 32bit  //ttt wrong; see who uses it
-#endif
-}
-#endif
 
 long long CB_LIB_CALL FileSearcher::getChangeTime() const
 {
     CB_CHECK1 (*this, InvalidOperation()/*"getChangeTime() may only be called on an open searcher"*/);
-#ifndef WIN32
-    return m_pImpl->m_crtStat.st_mtime;
-#else
-    return QFileInfo(convStr(getName())).lastModified().toTime_t(); //ttt3 32bit
-#endif
+    return m_pImpl->m_vFileInfos[m_pImpl->m_nCrtEntry].lastModified().toTime_t(); //ttt3 32bit
 }
 
 /*int CB_LIB_CALL FileSearcher::getAttribs() const
@@ -341,40 +198,43 @@ long long CB_LIB_CALL FileSearcher::getChangeTime() const
 
 
 //void CB_LIB_CALL getFileInfo(const char* szFileName, long long & nCreationTime, long long & nChangeTime, long long& nSize)
-void CB_LIB_CALL getFileInfo(const char* szFileName, long long & nChangeTime, long long& nSize)
+void CB_LIB_CALL getFileInfo(const string& strFileName, long long & nChangeTime, long long& nSize)
 {
-    struct stat s;
+    QFileInfo fi (convStr(strFileName));
 
-    if (0 != stat(szFileName, &s))
+    if (!fi.exists())
     {
         throw NameNotFound();
         //throw CannotGetData(strFileName, getOsError(), LI);
     }
 
-    nChangeTime = s.st_mtime;
-
-    nSize = s.st_size;
+    nChangeTime = fi.lastModified().toTime_t(); //ttt3 32bit
+    nSize = fi.size();
 }
 
+
 //void CB_LIB_CALL setFileDate(const char* szFileName, time_t nCreationTime, long long nChangeTime)
-void CB_LIB_CALL setFileDate(const char* szFileName, long long nChangeTime)
+void CB_LIB_CALL setFileDate(const string& strFileName, long long nChangeTime)
 {
+#ifndef WIN32
     utimbuf t;
     t.actime = (time_t)nChangeTime;
     t.modtime = (time_t)nChangeTime;
-    if (0 != utime(szFileName, &t))
+    if (0 != utime(strFileName.c_str(), &t))
     {
         //throw CannotSetDates(strFileName, getOsError(), LI);
         throw 1; //ttt1
     }
+#else
+    qqqww
+#endif
 }
 
 
-
 // throws IncorrectDirName if the name ends with a path separator
-void CB_LIB_CALL checkDirName(const string& strDir)
+void CB_LIB_CALL checkDirName(const string& strDirName)
 {
-    CB_CHECK1 (!endsWith(strDir, getPathSepAsStr()), IncorrectDirName());
+    CB_CHECK1 (!endsWith(strDirName, getPathSepAsStr()), IncorrectDirName());
     //ttt2 more checks
 }
 
@@ -382,34 +242,23 @@ void CB_LIB_CALL checkDirName(const string& strDir)
 
 // returns true if there is a file with that name;
 // returns false if the name doesn't exist or it's a directory; doesn't throw
-bool CB_LIB_CALL fileExists(const std::string& strFile)
+bool CB_LIB_CALL fileExists(const std::string& strFileName)
 {
-    struct stat s;
-    if (stat(strFile.c_str(), &s) < 0)
-    { // nothing exists
-        return false;
-    }
-
-    if (S_IFREG == (s.st_mode & S_IFMT))
-    {
-        return true;
-    }
-
-    return false; // exists but it's something else (dir, symlink, ...)
+    QFileInfo fi (convStr(strFileName));
+    return fi.isFile(); // ttt1 not sure if this should allow symlinks
 }
 
 
 
 // returns true if there is a directory with that name;
 // returns false if the name doesn't exist or it's a file; //ttt2 throws IncorrectDirName
-bool CB_LIB_CALL dirExists(const std::string& strDir)
+bool CB_LIB_CALL dirExists(const std::string& strDirName)
 {
-    if (strDir.empty()) { return true; }
+    if (strDirName.empty()) { return true; }
 
-    checkDirName(strDir);
+    checkDirName(strDirName);
 
-    struct stat s;
-    string strDir1 (strDir);
+    string strDir1 (strDirName);
 
 #ifndef WIN32
 #else
@@ -419,60 +268,48 @@ bool CB_LIB_CALL dirExists(const std::string& strDir)
     }
 #endif
 
-    if (stat(strDir1.c_str(), &s) < 0)
-    { // nothing exists
-        return false;
-    }
-
-    if (S_IFDIR == (s.st_mode & S_IFMT))
-    {
-        return true;
-    }
-
-    return false; // exists but it's something else (reg file, symlink, ...)
+    QFileInfo fi (convStr(strDir1));
+    return fi.isDir(); // ttt1 not sure if this should allow symlinks
 }
 
 
-void CB_LIB_CALL createDir(const char* szDirName)
+void CB_LIB_CALL createDir(const string& strDirName)
 {
-    if (0 == *szDirName) { return; } // the root dir always exists
+    if (strDirName.empty()) { return; } // the root dir always exists //ttt0 test create backup dir in root on wnd
 
-    checkDirName(szDirName);
+    checkDirName(strDirName);
 
-    if (dirExists(szDirName))
+    if (dirExists(strDirName))
     {
         return;
     }
 
-    const char* p (strrchr(szDirName, getPathSep()));
-    CB_CHECK1 (0 != p, CannotCreateDir());
-    string strParent (szDirName, p - szDirName);
-    createDir(strParent.c_str());
-    mkdir(szDirName
-#ifndef WIN32
-           , S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
-#else
-#endif
-        );
+    string::size_type n (strDirName.rfind(getPathSep()));
+    CB_CHECK1 (string::npos != n, CannotCreateDir());
+    string strParent (strDirName.substr(0, n));
+    createDir(strParent);
 
-    CB_CHECK1 (dirExists(szDirName), CannotCreateDir());
+    QFileInfo fi (convStr(strDirName));
+    CB_CHECK1 (fi.dir().mkdir(fi.fileName()), CannotCreateDir());
+
+    CB_CHECK1 (dirExists(strDirName), CannotCreateDir());
 }
 
 
-void CB_LIB_CALL createDirForFile(const std::string& strFile)
+void CB_LIB_CALL createDirForFile(const std::string& strFileName)
 {
-    string::size_type n (strFile.find_last_of(getPathSep()));
+    string::size_type n (strFileName.find_last_of(getPathSep())); //ttt0 review all find_last_of
     CB_ASSERT (string::npos != n);
-    createDir(strFile.substr(0, n).c_str());
+    createDir(strFileName.substr(0, n));
 }
 
 // does nothing on Linux; replaces "D:" with "/D" on Windows, only when "D:" isn't at the beggining of the string;
-string replaceDriveLetter(const string& strFile)
+string replaceDriveLetter(const string& strFileName)
 {
 #ifndef WIN32
-    return strFile;
+    return strFileName;
 #else
-    string s (strFile);
+    string s (strFileName);
     for (string::size_type n = 2;;  )
     {
         n = s.find(':', n);
@@ -484,10 +321,10 @@ string replaceDriveLetter(const string& strFile)
 }
 
 // adds a path separator at the end if none is present; throws IncorrectDirName on invalid file names
-string getSepTerminatedDir(const string& strDir)
+string getSepTerminatedDir(const string& strDirName)
 {
-    string strRes (strDir);
-    if (!endsWith(strDir, getPathSepAsStr()))
+    string strRes (strDirName);
+    if (!endsWith(strDirName, getPathSepAsStr()))
     {
         strRes += getPathSep();
     }
@@ -497,10 +334,10 @@ string getSepTerminatedDir(const string& strDir)
 
 
 // removes the path separator at the end if present; throws IncorrectDirName on invalid file names
-string getNonSepTerminatedDir(const string& strDir)
+string getNonSepTerminatedDir(const string& strDirName)
 {
-    string strRes (strDir);
-    if (endsWith(strDir, getPathSepAsStr()))
+    string strRes (strDirName);
+    if (endsWith(strDirName, getPathSepAsStr()))
     {
         strRes.erase(strRes.size() - 1);
     }
@@ -519,11 +356,13 @@ void CB_LIB_CALL renameFile(const std::string& strOldName, const std::string& st
     CB_CHECK1 (fileExists(strOldName), NameNotFound());
     createDirForFile(strNewName); //ttt3 undo on error
 
-    int n (rename(strOldName.c_str(), strNewName.c_str()));
+/*    int n (rename(strOldName.c_str(), strNewName.c_str()));
     int nErr (errno);
-    if (0 != n && EXDEV != nErr) { cerr << "I/O Error " << nErr << ": " << (strerror(nErr)) << endl; }
+    if (0 != n && EXDEV != nErr) { qDebug("I/O Error %d: %s", strerror(nErr)); }
 
-    if (0 != n && EXDEV == nErr)
+    if (0 != n && EXDEV == nErr)*/
+
+    if (!QDir().rename(convStr(strOldName), convStr(strNewName)))
     { // rename only works on a single drive, so work around this //ttt2 warn if this is called a lot
         try
         {
@@ -537,7 +376,7 @@ void CB_LIB_CALL renameFile(const std::string& strOldName, const std::string& st
         return;
     }
 
-    CB_CHECK1 (0 == n, CannotRenameFile());
+    //CB_CHECK1 (0 == n, CannotRenameFile());
 }
 
 
@@ -589,11 +428,13 @@ void CB_LIB_CALL copyFile2(const std::string& strSourceName, const std::string& 
 
 // deletes a file; throws FoundDir,
 // CannotDeleteFile, ?IncorrectDirName; it is OK if the file didn't exist to begin with
-void CB_LIB_CALL deleteFile(const std::string& strFile)
+void CB_LIB_CALL deleteFile(const std::string& strFileName)
 {
-    CB_CHECK1 (!dirExists(strFile), FoundDir());
-    if (!fileExists(strFile)) { return; }
-    CB_CHECK1 (0 == unlink(strFile.c_str()), CannotDeleteFile());
+    CB_CHECK1 (!dirExists(strFileName), FoundDir());
+    if (!fileExists(strFileName)) { return; }
+    QFileInfo fi (convStr(strFileName));
+
+    CB_CHECK1 (fi.dir().remove(fi.fileName()), CannotDeleteFile());
 }
 
 
@@ -612,18 +453,18 @@ string getParent(const string& strName)
 {
     checkDirName(strName);
 
-    string::size_type n (strName.find_last_of(getPathSep()));
+    string::size_type n (strName.rfind(getPathSep()));
     //CB_ASSERT(string::npos != n);
     if (string::npos == n) { return ""; }
     return strName.substr(0, n);
 }
 
 
-bool isInsideDir(const std::string& strName, const std::string& strDir) // if strName is in strDir or in one of its subdirectories; may throw IncorrectDirName for either param
+bool isInsideDir(const std::string& strName, const std::string& strDirName) // if strName is in strDirName or in one of its subdirectories; may throw IncorrectDirName for either param
 {
     checkDirName(strName);
-    checkDirName(strDir);
-    return beginsWith(strName, strDir) && getPathSep() == strName[strDir.size()];
+    checkDirName(strDirName);
+    return beginsWith(strName, strDirName) && getPathSep() == strName[strDirName.size()];
 }
 
 
@@ -654,4 +495,10 @@ string getExistingDir(const std::string& strName) // if strName exists and is a 
 
 //} //namespace ciobi_utils
 
+/*
+class ifstreamUtf8 : public ifstream
+{
+public:
 
+};
+*/

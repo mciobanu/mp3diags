@@ -134,7 +134,7 @@ static void showAssertDlg(QWidget* pParent)
     pContent->setOpenExternalLinks(true);
     //QString s ("<p/>Please notify <a href=\"mailto:ciobi@inbox.com?subject=000 MP3 Diags assertion failure&body=" + replaceDblQuotes(Qt::escape(s_strAssertMsg + " " + qstrVer)) + "\">ciobi@inbox.com</a> about this. (If your email client is properly configured, it's enough to click on the account name and then send.) <p/>Alternatively, you can report the bug at the <a href=\"http://sourceforge.net/forum/forum.php?forum_id=947207\">MP3 Diags Help Forum</a> (<a href=\"http://sourceforge.net/forum/forum.php?forum_id=947207\">http://sourceforge.net/forum/forum.php?forum_id=947207</a>)");
 
-    QString s ("<p/>Please report this issue to the <a href=\"http://sourceforge.net/forum/forum.php?forum_id=947207\">MP3 Diags Help Forum</a> (<a href=\"http://sourceforge.net/forum/forum.php?forum_id=947207\">http://sourceforge.net/forum/forum.php?forum_id=947207</a>). Make sure to include the data below, as well as any other detail that seems relevant (what might have caused the failure, steps to reproduce it, ...)<p/><p/><hr/><p/>");
+    QString s ("<p/>Please report this issue on the <a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">MP3 Diags Issue Tracker</a> (<a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a>). Make sure to include the data below, as well as any other detail that seems relevant (what might have caused the failure, steps to reproduce it, ...)<p/><p/><hr/><p/>");
 
 //qDebug("%s", s.toUtf8().data());
     pContent->setHtml(Qt::escape(s_strAssertMsg) + s + Qt::escape(s_strAssertMsg) + "<p/>" + qstrVer);
@@ -619,6 +619,8 @@ MainFormDlgImpl::MainFormDlgImpl(QWidget* pParent, const string& strSession) : Q
         m_pLowerHalfBtnW->setMaximumHeight(nHeight);
     }
 
+    connect(this, SIGNAL(tagEditorClosed()), m_pCommonData, SLOT(onFilterChanged())); // !!! needed because CommonData::mergeHandlerChanges() adds changed files that shouldn't normally be there in album / filter mode; the reason it does this is to allow comparisons after making changes, but this doesn't make much sense when those changes are done in the tag editor, (saving in the tag editor is different from regular transformations because album navigation is allowed)
+
     //delete m_pSpacing01W;
 /*
     {
@@ -741,7 +743,7 @@ void MainFormDlgImpl::initializeUi()
     m_pCommonData->m_nMainWndIconSize = nIconSize;
 
     {
-        if (nNotesGW0 < 10) { nNotesGW0 = CELL_WIDTH + 10; }
+        if (nNotesGW0 < CELL_WIDTH + 8) { nNotesGW0 = CELL_WIDTH + 8; }
         if (nNotesGW2 < 10) { nNotesGW2 = 65; }
 
         m_pNotesG->horizontalHeader()->resizeSection(0, nNotesGW0); // ttt2 apparently a call to resizeColumnsToContents() in NotesModel::updateCurrentNotes() should make columns 0 and 2 have the right size, but that's not the case at all; (see further notes there)
@@ -764,7 +766,7 @@ void MainFormDlgImpl::initializeUi()
     }
 
     {
-        if (nUnotesGW0 < 10) { nUnotesGW0 = CELL_WIDTH + 10; } // ttt2 replace CELL_WIDTH
+        if (nUnotesGW0 < CELL_WIDTH + 8) { nUnotesGW0 = CELL_WIDTH + 8; } // ttt2 replace CELL_WIDTH
 
         m_pUniqueNotesG->horizontalHeader()->resizeSection(0, nUnotesGW0);
         m_pUniqueNotesG->horizontalHeader()->setResizeMode(1, QHeaderView::Stretch);
@@ -1636,6 +1638,8 @@ void MainFormDlgImpl::on_m_pTagEdtB_clicked()
     string strCrt (dlg.run());
 
     updateUi(strCrt); // needed because the tag editor might have called the config and changed things; it would be nicer to send a signal when config changes, but IIRC in Qt 4.3.1 resizing things in a dialog that opened another one doesn't work very well; (see also TagEditorDlgImpl::on_m_pQueryDiscogsB_clicked())
+
+    emit tagEditorClosed();
 }
 
 
@@ -1941,4 +1945,4 @@ Development machine:
 //ttt1 a "reload" that only looks for new / removed files
 
 //ttt1 handle symbolic links to ancestors
-//ttt0 switch to album mode, go to tag editor, go to next album, change something in a song, save, close; the saved song appears in the list
+

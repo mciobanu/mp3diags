@@ -392,7 +392,6 @@ public:
     // color is normally the category color, but for support notes it's a "support" color; if the note isn't found in vpNoteSet, dGradStart and dGradEnd are set to -1, but normally they get a segment obtained by dividing [0, 1] in equal parts;
     void getNoteColor(const Note& note, const std::vector<const Note*>& vpNoteSet, QColor& color, double& dGradStart, double& dGradEnd) const;
 
-    double getTextShift(int nWidth); // how much the text should be shifted to appear centered; positive for right-shift / negative for left-shift; nWidth doesn't matter except that it's odd or even
 public:
     enum Case { LOWER, UPPER, TITLE, PHRASE };
     Case m_eCaseForArtists;
@@ -513,9 +512,6 @@ private:
     std::deque<std::string> m_vLogs;
 
     std::vector<std::string> m_vstrIncludeDirs, m_vstrExcludeDirs;
-
-    double m_adTextShift [2]; // first is for even widths, second is for odd widths
-    void computeShift(bool bEven);
 
 public slots:
     void onCrtFileChanged();

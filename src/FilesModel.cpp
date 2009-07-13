@@ -532,26 +532,38 @@ static QString makeMultiline(const char* szDescr)
 
     style()->drawControl(QStyle::CE_Header, &opt, pPainter, this);
 
-    //pPainter->fillRect(r, QColor(nLogicalIndex % 3 ? 255 : 0, 130, 120));
-    //pPainter->setPen(QColor(0, 50, 200));
-    //pPainter->setPen(QColor(0, 50, 200));
-    //pPainter->setPen(Qt::SolidLine);
+    static int s_nCut (0);
+    static bool s_bCutInit (false);
+    if (!s_bCutInit)
+    {
+        s_bCutInit = true;
+        int n (r.width()), m (r.height());
+        QRect r1 (0, 0, n, m);
+        QImage img (n, m, QImage::Format_RGB32);
+        QPainter pntr (&img);
+        pntr.fillRect(r1, QColor(255, 255, 255));
+        opt.rect = r1;
+        style()->drawControl(QStyle::CE_Header, &opt, &pntr);
+        //img.save("/home/ciobi/tmp/3/hdr1.png");
+
+        m /= 2;
+        double v1 (QColor(img.pixel(n - 3, m)).valueF());
+        double v2 (QColor(img.pixel(n - 2, m)).valueF());
+        double v3 (QColor(img.pixel(n - 1, m)).valueF());
+        //qDebug("%f %f %f", v1, v2, v3);
+        if ((v1 > v2 + 0.07 && v3 > v2 + 0.07) || (v1 < v2 - 0.07 && v3 < v2 - 0.07))
+        {
+            s_nCut = 3; //ttt2 hard-coded, must be kept in synch with CELL_WIDTH
+        }
+        qDebug("cut: %d", s_nCut);
+    }
+
     pPainter->restore();
-    //pPainter->drawText(r.x(), r.y() + r.height() - 8, "xy");
     pPainter->save();
 
     pPainter->setFont(m_pCommonData->getLabelFont());
 
-    /*int nGridCrt (m_pCommonData->getFilesGCrtCol());
-    //qDebug("crt %d, ndx %d", nGridCrt, nLogicalIndex);
-
-    if (nGridCrt == nLogicalIndex)
-    {
-        QFont f (pPainter->font());
-        f.setWeight(QFont::Bold);
-        pPainter->setFont(f);
-    }*/
-    {
+    { // bold for selected
         QModelIndexList l (m_pCommonData->m_pFilesG->selectionModel()->selection().indexes());
         for (QModelIndexList::iterator it = l.begin(); it != l.end(); ++it)
         {
@@ -577,17 +589,10 @@ static QString makeMultiline(const char* szDescr)
         pPainter->setPen(SUPPORT_PEN_COLOR());
     }
 
-    QRectF r1 (r);
-/*QRect r2 (r); r2.adjust(0, 0, 0, -12);
-pPainter->fillRect(r2, QColor(rand() % 250, rand() % 250, rand() % 250));
-    //r1.adjust(-3, 0, 0, 0);
-    double dShift (m_pCommonData->getTextShift(r.width()));
-    r1.adjust(dShift, 0, dShift, 0); // !!! Qt has a tendency to move the text to the right*/
-    //if (3 == nLogicalIndex) pPainter->fillRect(r, QColor(255, 240, 230));
-    pPainter->drawText(r1, Qt::AlignCenter, getNoteLabel(p)); //"xy"
+    QRect r1 (r);
+    r1.adjust(0, 0, -s_nCut, 0);
+    pPainter->drawText(r1, Qt::AlignCenter, getNoteLabel(p));
     pPainter->restore();
-    //qDebug("%d %d %d %d", r.x(), r.y(), r.width(), r.height());
-    //pPainter->restore();
 }
 
 

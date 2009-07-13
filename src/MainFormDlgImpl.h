@@ -155,6 +155,9 @@ private:
     void initializeUi();
     bool m_bShowMaximized;
     int m_nScanWidth;
+
+signals:
+    void tagEditorClosed();
 };
 
 class AssertSender : public QObject

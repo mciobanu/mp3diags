@@ -107,7 +107,7 @@ Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const Q
         m_notes.removeTraceNotes();
     }
 
-    getFileInfo(strFileName.c_str(), m_nTime, m_nSize);
+    getFileInfo(strFileName, m_nTime, m_nSize);
 }
 
 
@@ -893,7 +893,7 @@ bool Mp3Handler::needsReload() const
     long long nSize, nTime;
     try
     {
-        getFileInfo(m_pFileName->s.c_str(), nTime, nSize);
+        getFileInfo(m_pFileName->s, nTime, nSize);
     }
     catch (const NameNotFound&)
     {

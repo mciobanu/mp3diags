@@ -172,7 +172,7 @@ bool Mp3TransformThread::transform()
             auto_ptr<const Mp3Handler> pNewHndl (pOrigHndl);
 
             long long nSize, nOrigTime;
-            getFileInfo(strOrigName.c_str(), nOrigTime, nSize);
+            getFileInfo(strOrigName, nOrigTime, nSize);
 
             for (int j = 0, m = cSize(m_vpTransf); j < m; ++j)
             {
@@ -327,7 +327,7 @@ bool Mp3TransformThread::transform()
             {
                 if (m_transfConfig.m_optionsWrp.m_opt.m_bKeepOrigTime)
                 {
-                    setFileDate(strProcName.c_str(), nOrigTime);
+                    setFileDate(strProcName, nOrigTime);
                 }
 
                 if (m_pCommonData->m_dirTreeEnum.isIncluded(strProcName))

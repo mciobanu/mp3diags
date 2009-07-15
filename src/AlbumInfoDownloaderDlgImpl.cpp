@@ -45,7 +45,7 @@
 #include  "ColumnResizer.h"
 
 
-#include  <fstream>
+#include  "fstream_utf8.h"
 
 using namespace std;
 using namespace pearl;
@@ -896,7 +896,7 @@ void AlbumInfoDownloaderDlgImpl::reloadGui()
 void AlbumInfoDownloaderDlgImpl::saveDownloadedData(const char* p, int nSize, const char* szExt)
 {
     string s (getTempName() + "." + szExt);
-    ofstream out (s.c_str());
+    ofstream_utf8 out (s.c_str(), ios::binary);
     out.write(p, nSize);
 }
 

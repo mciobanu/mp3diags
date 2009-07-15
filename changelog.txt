@@ -1,5 +1,19 @@
 ---------------------------------------------------------------------------
 
+15.07.2009 - 0.99.03.024
+- switched to fstream_utf8
+
+---------------------------------------------------------------------------
+
+13.07.2009 - 0.99.03.023
+- tag editor now looks at filter
+- files changed in the tag editor no longer show up in the main window if
+    a filter is applied and they don't match the filter
+- better alignment for text in note column header on Ubuntu
+- replaced C / POSIX calls with Qt calls
+
+---------------------------------------------------------------------------
+
 09.07.2009 - 0.99.03.022
 - configurable colors
 

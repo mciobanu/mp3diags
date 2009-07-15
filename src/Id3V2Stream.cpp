@@ -21,7 +21,7 @@
 
 
 #include  <sstream>
-#include  <fstream>
+#include  "fstream_utf8.h"
 
 #include  "Id3V2Stream.h"
 
@@ -279,7 +279,7 @@ Id3V2FrameDataLoader::Id3V2FrameDataLoader(const Id3V2Frame& frame) : m_frame(fr
         CB_ASSERT (0 != frame.m_pFileName);
         char* pData (new char[m_frame.m_nMemDataSize]);
         m_pData = pData;
-        ifstream in (m_frame.m_pFileName->s.c_str(), ios::binary);
+        ifstream_utf8 in (m_frame.m_pFileName->s.c_str(), ios::binary);
         in.seekg(m_frame.m_pos);
         in.seekg(m_frame.m_nDiskHdrSize, ios_base::cur);
         streampos posNext (m_frame.m_pos);

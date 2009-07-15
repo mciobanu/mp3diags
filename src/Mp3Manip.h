@@ -24,7 +24,7 @@
 #define Mp3HandlerH
 
 
-#include  <fstream>
+#include  "fstream_utf8.h"
 #include  <vector>
 
 #include  "SerSupport.h"
@@ -94,7 +94,7 @@ class Mp3Handler
     std::vector<TruncatedMpegDataStream*> m_vpTruncatedMpegStreams;
 
     std::vector<DataStream*> m_vpAllStreams;
-    std::ifstream* m_pIn; // this isn't used after the constructor completes; however, many streams have a StreamStateRestorer member, which doe this on its destructor: it restores the stream position if the stream's constructor fails and clears the errors otherwise, assuming that the stream pointer is non-0; m_pIn is set to 0 after Mp3Handler's constructor completes, so the restorers of the successfuly built streams don't do anything when the streams get destroyed, because they see a null pointer;
+    ifstream_utf8* m_pIn; // this isn't used after the constructor completes; however, many streams have a StreamStateRestorer member, which doe this on its destructor: it restores the stream position if the stream's constructor fails and clears the errors otherwise, assuming that the stream pointer is non-0; m_pIn is set to 0 after Mp3Handler's constructor completes, so the restorers of the successfuly built streams don't do anything when the streams get destroyed, because they see a null pointer;
 
     //bool m_bHasId3V2;
     //MpegFrame m_firstFrame;
@@ -107,7 +107,7 @@ class Mp3Handler
 
     NoteColl m_notes; // owned pointers
 
-    void parse(std::ifstream&);
+    void parse(ifstream_utf8&);
     void analyze(const QualThresholds& qualThresholds); // checks the streams for issues (missing ID3V2, Unknown streams, inconsistencies, ...)
 
     //void checkMpegAudio();
@@ -115,7 +115,7 @@ class Mp3Handler
     //void checkEqualFrames(std::streampos pos);
     //void findFirstFrame(std::streampos& pos);
 
-    void checkLastFrameInMpegStream(std::ifstream& in); // what looks like the last frame in an MPEG stream may actually be truncated and somewhere inside it an ID3V1 or Ape tag may actually begin; if that's the case, that "frame" is removed from the stream; then most likely an "Unknown" stream will be detected, followed by an ID3V1 or Ape stream
+    void checkLastFrameInMpegStream(ifstream_utf8& in); // what looks like the last frame in an MPEG stream may actually be truncated and somewhere inside it an ID3V1 or Ape tag may actually begin; if that's the case, that "frame" is removed from the stream; then most likely an "Unknown" stream will be detected, followed by an ID3V1 or Ape stream
 
 private:
 public:

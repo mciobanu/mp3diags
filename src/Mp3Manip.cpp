@@ -77,7 +77,7 @@ Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const Q
 
         m_notes(1000) //ttt1 hard-coded
 {
-    ifstream in (m_pFileName->s.c_str(), ios::binary);
+    ifstream_utf8 in (m_pFileName->s.c_str(), ios::binary);
 
     if (!in)
     {
@@ -136,7 +136,7 @@ const Id3V2StreamBase* Mp3Handler::getId3V2Stream() const { if (0 != m_pId3V230S
 
 
 // what looks like the last frame in an MPEG stream may actually be truncated and somewhere inside it an ID3V1 or Ape tag may actually begin; if that's the case, that "frame" is removed from the stream; then most likely an "Unknown" stream will be detected, followed by an ID3V1 or Ape stream //ttt1 make sure that that is the case; a possibility is that the standard allows the last frame to be shorter than the calculated size, if some condition is met; this seems unlikely, though
-void Mp3Handler::checkLastFrameInMpegStream(std::ifstream& in)
+void Mp3Handler::checkLastFrameInMpegStream(ifstream_utf8& in)
 {
     CB_ASSERT (!m_vpAllStreams.empty());
     MpegStream* pStream (dynamic_cast<MpegStream*>(m_vpAllStreams.back()));
@@ -229,7 +229,7 @@ void Mp3Handler::checkLastFrameInMpegStream(std::ifstream& in)
 }
 
 
-void Mp3Handler::parse(std::ifstream& in) // ttt2 this function is a mess; needs rethinking
+void Mp3Handler::parse(ifstream_utf8& in) // ttt2 this function is a mess; needs rethinking
 {
     in.seekg(0, ios::end);
     m_posEnd = in.tellg();

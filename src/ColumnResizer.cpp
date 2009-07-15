@@ -36,7 +36,7 @@
 //#define PRINT_SIZES
 
 #ifdef PRINT_SIZES
-//#include  <fstream>
+//#include  "fstream_utf8.h"
 #endif
 
 using namespace std;
@@ -328,7 +328,7 @@ QQQ qqq;//*/
 
 void ColumnResizer::printWidths(const char* szLabel)
 {
-    ofstream out ("/home/ciobi/yast.txt", ios_base::app); // !!! has to log to a file for when it's running in a library
+    ofstream_utf8 out ("/home/ciobi/yast.txt", ios_base::app); // !!! has to log to a file for when it's running in a library
     out << szLabel << ": " << m_nTableWidth << " / ";
     int qq (0);
     for (int j = 0; j < m_nCols; ++j)
@@ -349,7 +349,7 @@ void ColumnResizer::printWidths(const char* szLabel)
 
 void ColumnResizer::printCellInfo(const char* szLabel)
 {
-    ofstream out ("/home/ciobi/yast.txt", ios_base::app); // !!! has to log to a file for when it's running in a library
+    ofstream_utf8 out ("/home/ciobi/yast.txt", ios_base::app); // !!! has to log to a file for when it's running in a library
     out << szLabel << ": " << m_nTableWidth << endl;
     for (int j = 0; j < m_nCols; ++j)
     {

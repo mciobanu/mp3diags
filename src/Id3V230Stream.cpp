@@ -690,7 +690,7 @@ struct KOKO
         QString s ("ab\xfeg");
         w.addTextFrame("TQQW", convStr(s));
 
-        ofstream out ("/r/temp/1/tmp2/e/qqq.mp3", ios::binary);
+        ofstream_utf8 out ("/r/temp/1/tmp2/e/qqq.mp3", ios::binary);
         w.write(out);
     }
 };

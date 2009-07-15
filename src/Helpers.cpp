@@ -21,7 +21,7 @@
 
 
 #include  <iostream>
-#include  <fstream>
+#include  "fstream_utf8.h"
 #include  <sstream>
 #include  <iomanip>
 
@@ -252,7 +252,7 @@ long getMemUsage()
     char a [30];
     sprintf (a, "/proc/%d/status", n); // ttt2 linux-specific; not sure how version-specific this is;
     // sprintf (a, "/proc/self/status", n); // ttt1 try this (after checking portability)
-    ifstream in (a);
+    ifstream_utf8 in (a);
     string s;
     while (getline(in, s))
     {
@@ -278,14 +278,14 @@ long getMemUsage()
 void logToFile(const string& s) //tttc make sure it is disabled in public releases
 {
 #ifndef WIN32
-    ofstream out (
+    ofstream_utf8 out (
             "/tmp/Mp3DiagsLog.txt",
             ios_base::app);
 #else
     char a [500];
     int n (GetModuleFileNameA(NULL, a, 500)); //ttt3 using GetModuleFileNameA isn't quite right, but since it's a debug function ...
     a[n - 4] = 0;
-    ofstream out (
+    ofstream_utf8 out (
             //"C:/Mp3DiagsLog.txt",
             //"Mp3DiagsLog.txt",
             //"C:/temp/Mp3DiagsLog.txt",

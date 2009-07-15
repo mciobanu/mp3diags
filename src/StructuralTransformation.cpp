@@ -154,7 +154,7 @@ static streampos findNearMpegFrameAtRight(streampos pos, istream& in, MpegStream
                                 {
                                     //qDebug("found");
 
-                                    ifstream in (h.getName().c_str(), ios::binary);
+                                    ifstream_utf8 in (h.getName().c_str(), ios::binary);
 
                                     { // comp
                                         switch (transfConfig.getCompAction())
@@ -172,14 +172,14 @@ static streampos findNearMpegFrameAtRight(streampos pos, istream& in, MpegStream
                                                 string strCompAfter;
                                                 transfConfig.getCompNames(strOrigSrcName, getActionName(), strCompBefore, strCompAfter);
                                                 { // tmp before
-                                                    ofstream out (strCompBefore.c_str(), ios::binary);
+                                                    ofstream_utf8 out (strCompBefore.c_str(), ios::binary);
                                                     //partialCopy(in, out, 10000);
                                                     //appendFilePart(in, out, pos, 2*nHalfSize);
                                                     appendFilePart(in, out, posCompBeg, posCompEnd - posCompBeg);
                                                 }
 
                                                 { // tmp after
-                                                    ofstream out (strCompAfter.c_str(), ios::binary);
+                                                    ofstream_utf8 out (strCompAfter.c_str(), ios::binary);
                                                     appendFilePart(in, out, posCompBeg, posCompEnd - posCompBeg);
                                                     out.seekp(pFrameToChange->getPos() - posCompBeg);
                                                     out.write(bfr, 4);
@@ -193,7 +193,7 @@ static streampos findNearMpegFrameAtRight(streampos pos, istream& in, MpegStream
 
                                     { // temp
                                         transfConfig.getTempName(strOrigSrcName, getActionName(), strTempName);
-                                        ofstream out (strTempName.c_str(), ios::binary);
+                                        ofstream_utf8 out (strTempName.c_str(), ios::binary);
                                         in.seekg(0);
 
                                         for (int i1 = 0; i1 < n; ++i1)
@@ -316,7 +316,7 @@ void InnerNonAudioRemover::setupDiscarded(const Mp3Handler& h)
 
 //ttt1 see InnerNonAudioRemover: Lambo has an error in mplayer, because of frame dependency
 
-    ifstream in (h.getName().c_str(), ios::binary);
+    ifstream_utf8 in (h.getName().c_str(), ios::binary);
 
     { // comp
         switch (transfConfig.getCompAction())
@@ -343,14 +343,14 @@ void InnerNonAudioRemover::setupDiscarded(const Mp3Handler& h)
                         streampos posCompEnd (0 != pNextAudio ? findNearMpegFrameAtRight(pNextAudio->getPos(), in, pNextAudio) : p->getEnd());
 
                         { // comp before
-                            ofstream out (strCompBefore.c_str(), ios::binary);
+                            ofstream_utf8 out (strCompBefore.c_str(), ios::binary);
                             appendFilePart(in, out, posCompBeg, posCompEnd - posCompBeg);
                         }
 
                         { // comp after
                             if (0 != pPrevAudio || 0 != pNextAudio)
                             {
-                                ofstream out (strCompAfter.c_str(), ios::binary);
+                                ofstream_utf8 out (strCompAfter.c_str(), ios::binary);
                                 appendFilePart(in, out, posCompBeg, p->getPos() - posCompBeg);
                                 appendFilePart(in, out, p->getEnd(), posCompEnd - p->getEnd());
                             }
@@ -366,7 +366,7 @@ void InnerNonAudioRemover::setupDiscarded(const Mp3Handler& h)
 
     { // temp
         transfConfig.getTempName(strOrigSrcName, getActionName(), strTempName);
-        ofstream out (strTempName.c_str(), ios::binary);
+        ofstream_utf8 out (strTempName.c_str(), ios::binary);
         in.seekg(0);
 
         for (int i = 0, n = cSize(vpStreams); i < n; ++i)
@@ -485,7 +485,7 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
 /*override*/ Transformation::Result TruncatedAudioPadder::apply(const Mp3Handler& h, const TransfConfig& transfConfig, const string& strOrigSrcName, string& strTempName)
 {
     const vector<DataStream*>& vpStreams (h.getStreams());
-    ifstream in (h.getName().c_str(), ios::binary);
+    ifstream_utf8 in (h.getName().c_str(), ios::binary);
     for (int i = 0, n = cSize(vpStreams); i < n; ++i)
     {
         TruncatedMpegDataStream* pTruncStream (dynamic_cast<TruncatedMpegDataStream*>(vpStreams[i]));
@@ -514,14 +514,14 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
                         string strCompAfter;
                         transfConfig.getCompNames(strOrigSrcName, getActionName(), strCompBefore, strCompAfter);
                         { // tmp before
-                            ofstream out (strCompBefore.c_str(), ios::binary);
+                            ofstream_utf8 out (strCompBefore.c_str(), ios::binary);
                             //partialCopy(in, out, 10000);
                             //appendFilePart(in, out, pos, 2*nHalfSize);
                             appendFilePart(in, out, posCompBeg, posCompEnd - posCompBeg);
                         }
 
                         { // tmp after
-                            ofstream out (strCompAfter.c_str(), ios::binary);
+                            ofstream_utf8 out (strCompAfter.c_str(), ios::binary);
                             appendFilePart(in, out, posCompBeg, pTruncStream->getPos() - posCompBeg);
                             writeZeros(out, nPaddingSize);
                             appendFilePart(in, out, pTruncStream->getEnd(), posCompEnd - pTruncStream->getEnd());
@@ -535,7 +535,7 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
 
             { // temp
                 transfConfig.getTempName(strOrigSrcName, getActionName(), strTempName);
-                ofstream out (strTempName.c_str(), ios::binary);
+                ofstream_utf8 out (strTempName.c_str(), ios::binary);
                 in.seekg(0);
 
                 for (int i1 = 0; i1 < n; ++i1)
@@ -565,7 +565,7 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
 /*override*/ Transformation::Result VbrRepairerBase::repair(const Mp3Handler& h, const TransfConfig& transfConfig, const std::string& strOrigSrcName, std::string& strTempName, bool bForceRebuild)
 {
     const vector<DataStream*>& vpStreams (h.getStreams());
-    ifstream in (h.getName().c_str(), ios::binary);
+    ifstream_utf8 in (h.getName().c_str(), ios::binary);
     set<int> sVbriPos;
     int nAudioPos (-1);
     set<int> sXingPos;
@@ -618,7 +618,7 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
 
     { // temp
         transfConfig.getTempName(strOrigSrcName, getActionName(), strTempName);
-        ofstream out (strTempName.c_str(), ios::binary);
+        ofstream_utf8 out (strTempName.c_str(), ios::binary);
         in.seekg(0);
 
         int i (0);
@@ -699,7 +699,7 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
 /* ttt1 see about file flushing:
     http://support.microsoft.com/default.aspx/kb/148505
     - fdatasync() - like fsync() but doesn't change metadata (e.g. mtime) so it's faster
-    - since the C++ Library has nothing to do flushing, perhaps this would work: standalone "commit(const ofstream&)" and/or "commit(const string&)" ; also, we don't want to commit all the files; or perhaps "commit(ofstream&)" is needed, which would first close the file
+    - since the C++ Library has nothing to do flushing, perhaps this would work: standalone "commit(const ofstream_utf8&)" and/or "commit(const string&)" ; also, we don't want to commit all the files; or perhaps "commit(ofstream_utf8&)" is needed, which would first close the file
     - there's also out.rdbud()->pubsync(), but what it does is OS-dependent
     - use external disk / flash, to see the LED, for testing
 */

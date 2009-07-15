@@ -20,7 +20,7 @@
  ***************************************************************************/
 
 
-#include  <fstream>
+#include  "fstream_utf8.h"
 
 #include  <QTextCodec>
 
@@ -46,7 +46,7 @@ using namespace std;
 
 
 
-bool Id3V2Cleaner::processId3V2Stream(Id3V2StreamBase& strm, ofstream& out)
+bool Id3V2Cleaner::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
 {
     Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg);
     vector<const Id3V2Frame*> v (strm.getKnownFrames());
@@ -85,13 +85,13 @@ bool Id3V2Cleaner::processId3V2Stream(Id3V2StreamBase& strm, ofstream& out)
         return NOT_CHANGED;
     }
 
-    ifstream in (h.getName().c_str(), ios::binary);
+    ifstream_utf8 in (h.getName().c_str(), ios::binary);
 
 
     bool bChanged (false);
     { // temp
         transfConfig.getTempName(strOrigSrcName, getActionName(), strTempName);
-        ofstream out (strTempName.c_str(), ios::binary);
+        ofstream_utf8 out (strTempName.c_str(), ios::binary);
         in.seekg(0);
 
         for (int i = 0, n = cSize(vpStreams); i < n; ++i)
@@ -135,7 +135,7 @@ bool Id3V2Cleaner::processId3V2Stream(Id3V2StreamBase& strm, ofstream& out)
 // APIC: if it can be loaded or is unsupported - keep; on error - dump
 // remove empty frames
 // rewrite text frames to discard null terminators
-bool Id3V2Rescuer::processId3V2Stream(Id3V2StreamBase& strm, ofstream& out)
+bool Id3V2Rescuer::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
 {
     Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg);
 
@@ -208,14 +208,14 @@ bool Id3V2Rescuer::processId3V2Stream(Id3V2StreamBase& strm, ofstream& out)
         return NOT_CHANGED;
     }
 
-    ifstream in (h.getName().c_str(), ios::binary);
+    ifstream_utf8 in (h.getName().c_str(), ios::binary);
 
     bool bChanged (false);
     bool bRecall (false);
 
     { // temp
         transfConfig.getTempName(strOrigSrcName, getActionName(), strTempName);
-        ofstream out (strTempName.c_str(), ios::binary);
+        ofstream_utf8 out (strTempName.c_str(), ios::binary);
         in.seekg(0);
 
         for (int i = 0, n = cSize(vpStreams); i < n; ++i)
@@ -274,7 +274,7 @@ bool Id3V2Rescuer::processId3V2Stream(Id3V2StreamBase& strm, ofstream& out)
 
 
 
-void Id3V2UnicodeTransformer::processId3V2Stream(Id3V2StreamBase& strm, ofstream& out)
+void Id3V2UnicodeTransformer::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
 {
     Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg);
 
@@ -333,11 +333,11 @@ void Id3V2UnicodeTransformer::processId3V2Stream(Id3V2StreamBase& strm, ofstream
 
 e1:
 
-    ifstream in (h.getName().c_str(), ios::binary);
+    ifstream_utf8 in (h.getName().c_str(), ios::binary);
 
     { // temp
         transfConfig.getTempName(strOrigSrcName, getActionName(), strTempName);
-        ofstream out (strTempName.c_str(), ios::binary);
+        ofstream_utf8 out (strTempName.c_str(), ios::binary);
         in.seekg(0);
 
         for (int i = 0, n = cSize(vpStreams); i < n; ++i)
@@ -450,7 +450,7 @@ static QString getCaseConv(const QString& s, CommonData::Case eCase)
 
 
 
-bool Id3V2CaseTransformer::processId3V2Stream(Id3V2StreamBase& strm, ofstream& out)
+bool Id3V2CaseTransformer::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
 {
     Id3V230StreamWriter wrt (&strm, m_pCommonData->m_bKeepOneValidImg);
 
@@ -511,13 +511,13 @@ bool Id3V2CaseTransformer::processId3V2Stream(Id3V2StreamBase& strm, ofstream& o
         return NOT_CHANGED;
     }
 
-    ifstream in (h.getName().c_str(), ios::binary);
+    ifstream_utf8 in (h.getName().c_str(), ios::binary);
 
 
     bool bChanged (false);
     { // temp
         transfConfig.getTempName(strOrigSrcName, getActionName(), strTempName);
-        ofstream out (strTempName.c_str(), ios::binary);
+        ofstream_utf8 out (strTempName.c_str(), ios::binary);
         in.seekg(0);
 
         for (int i = 0, n = cSize(vpStreams); i < n; ++i)
@@ -555,7 +555,7 @@ bool Id3V2CaseTransformer::processId3V2Stream(Id3V2StreamBase& strm, ofstream& o
 
 
 
-bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream& out, Id3V1Stream* pId3V1Stream)
+bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out, Id3V1Stream* pId3V1Stream)
 {
     Id3V230StreamWriter wrt (&strm, m_pCommonData->m_bKeepOneValidImg);
 
@@ -666,9 +666,9 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream& out
             return NOT_CHANGED;
         }
 
-        ifstream in (h.getName().c_str(), ios::binary);
+        ifstream_utf8 in (h.getName().c_str(), ios::binary);
         transfConfig.getTempName(strOrigSrcName, getActionName(), strTempName);
-        ofstream out (strTempName.c_str(), ios::binary);
+        ofstream_utf8 out (strTempName.c_str(), ios::binary);
         in.seekg(0);
         wrt.write(out);
         for (int i = 0, n = cSize(vpStreams); i < n; ++i)
@@ -681,12 +681,12 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream& out
         return CHANGED_NO_RECALL;
     }
 
-    ifstream in (h.getName().c_str(), ios::binary);
+    ifstream_utf8 in (h.getName().c_str(), ios::binary);
 
     bool bChanged (false);
     { // temp
         transfConfig.getTempName(strOrigSrcName, getActionName(), strTempName);
-        ofstream out (strTempName.c_str(), ios::binary);
+        ofstream_utf8 out (strTempName.c_str(), ios::binary);
         in.seekg(0); // ttt1 see if still needed
 
         for (int i = 0, n = cSize(vpStreams); i < n; ++i)
@@ -747,9 +747,9 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream& out
         Id3V230StreamWriter wrt (pId3V2, m_pCommonData->m_bKeepOneValidImg);
         wrt.addTextFrame(KnownFrames::LBL_ARTIST(), strComp + " [" + strArtist + "]");
 
-        ifstream in (h.getName().c_str(), ios::binary);
+        ifstream_utf8 in (h.getName().c_str(), ios::binary);
         transfConfig.getTempName(strOrigSrcName, getActionName(), strTempName);
-        ofstream out (strTempName.c_str(), ios::binary);
+        ofstream_utf8 out (strTempName.c_str(), ios::binary);
         wrt.write(out); // may throw, but it will be caught
 
         for (int i = 0, n = cSize(vpStreams); i < n; ++i)
@@ -798,9 +798,9 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream& out
         //wrt.addTextFrame(KnownFrames::LBL_ARTIST(), strComp + " [" + strArtist + "]");
         wrt.addTextFrame(KnownFrames::LBL_ARTIST(), strArtist.substr(strComp.size() + 2, strArtist.size() - strComp.size() - 3));
 
-        ifstream in (h.getName().c_str(), ios::binary);
+        ifstream_utf8 in (h.getName().c_str(), ios::binary);
         transfConfig.getTempName(strOrigSrcName, getActionName(), strTempName);
-        ofstream out (strTempName.c_str(), ios::binary);
+        ofstream_utf8 out (strTempName.c_str(), ios::binary);
         wrt.write(out); // may throw, but it will be caught
 
         for (int i = 0, n = cSize(vpStreams); i < n; ++i)
@@ -852,9 +852,9 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream& out
         Id3V230StreamWriter wrt (pId3V2, m_pCommonData->m_bKeepOneValidImg);
         wrt.addTextFrame(KnownFrames::LBL_COMPOSER(), strComp);
 
-        ifstream in (h.getName().c_str(), ios::binary);
+        ifstream_utf8 in (h.getName().c_str(), ios::binary);
         transfConfig.getTempName(strOrigSrcName, getActionName(), strTempName);
-        ofstream out (strTempName.c_str(), ios::binary);
+        ofstream_utf8 out (strTempName.c_str(), ios::binary);
         wrt.write(out); // may throw, but it will be caught
 
         for (int i = 0, n = cSize(vpStreams); i < n; ++i)

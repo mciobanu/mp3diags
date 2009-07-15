@@ -40,7 +40,7 @@ using namespace std;
 void logTransformation(const string& strLogFile, const char* szActionName, const string& strMp3File)
 {
     time_t t (time(0));
-    ofstream out (strLogFile.c_str(), ios_base::app);
+    ofstream_utf8 out (strLogFile.c_str(), ios_base::app);
     out << "<" << strMp3File << "> <" << szActionName << "> - " << ctime(&t); // !!! ctime and a \n
 }
 

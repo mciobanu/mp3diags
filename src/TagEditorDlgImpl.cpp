@@ -1192,7 +1192,7 @@ void TagEditorDlgImpl::eraseSelFields() // erases the values in the selected fie
 
 class Id3V230Writer : public Transformation
 {
-    //void processId3V2Stream(Id3V2StreamBase& strm, ofstream& out);
+    //void processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out);
     const TagWriter* m_pTagWriter;
     bool m_bKeepOneValidImg;
 public:
@@ -1229,7 +1229,7 @@ public:
 e1:
     CB_ASSERT (0 != pMp3HandlerTagData);
 
-    ifstream in (h.getName().c_str(), ios::binary);
+    ifstream_utf8 in (h.getName().c_str(), ios::binary);
 
     { // temp
         Id3V2StreamBase* pId3V2Source (0);
@@ -1240,7 +1240,7 @@ e1:
         }
 
         transfConfig.getTempName(strOrigSrcName, getActionName(), strTempName);
-        ofstream out (strTempName.c_str(), ios::binary);
+        ofstream_utf8 out (strTempName.c_str(), ios::binary);
         in.seekg(0);
 
         Id3V230StreamWriter wrt (pId3V2Source, m_bKeepOneValidImg); // OK if pId3V2Source is 0

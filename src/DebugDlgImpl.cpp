@@ -151,7 +151,7 @@ void DebugDlgImpl::exportAsText(const string& strFileName)
         sort(v.begin(), v.end(), CmpMp3HandlerByShortNameAndSize());
     }
 
-    ofstream out (strFileName.c_str());
+    ofstream_utf8 out (strFileName.c_str());
     const char* aSeverity = "EWST";
     for (int i = 0, n = cSize(v); i < n; ++i)
     {
@@ -209,7 +209,7 @@ void DebugDlgImpl::exportLog(const string& strFileName)
 {
     const deque<std::string>& v (m_pCommonData->getLog());
 
-    ofstream out (strFileName.c_str());
+    ofstream_utf8 out (strFileName.c_str());
     for (int i = 0, n = cSize(v); i < n; ++i)
     {
         out << v[i] << endl;
@@ -793,7 +793,7 @@ void tstBoostVec01(bool bSave)
     {
         BoostContainer* p (new BoostContainer(4));
 
-        std::ofstream out (szFile);
+        ofstream_utf8 out (szFile);
         //boost::archive::text_oarchive oar (out);
         boost::archive::binary_oarchive oar (out);
 
@@ -813,7 +813,7 @@ void tstBoostVec01(bool bSave)
     }
 
     BoostContainer* p;
-    std::ifstream in (szFile);
+    ifstream_utf8 in (szFile);
     //boost::archive::text_iarchive iar (in);
     boost::archive::binary_iarchive iar (in);
     iar.register_type<BoostTstDer>();
@@ -961,7 +961,7 @@ void tstEmbVec01(bool bSave)
 //=================================================================================================================
 
 #if 0
-#include <fstream>
+#include "fstream_utf8.h"
 
 // include headers that implement a archive in simple text format
 #include <boost/archive/text_oarchive.hpp>
@@ -998,7 +998,7 @@ public:
 
 int tutorial() {
     // create and open a character archive for output
-    std::ofstream ofs("filename");
+    ofstream_utf8 ofs("filename");
 
     // create class instance
     const gps_position g(35, 59, 24.567f);
@@ -1015,7 +1015,7 @@ int tutorial() {
     gps_position newg;
     {
         // create and open an archive for input
-        std::ifstream ifs("filename", std::ios::binary);
+        ifstream_utf8 ifs("filename", std::ios::binary);
         boost::archive::text_iarchive ia(ifs);
         // read class state from archive
         ia >> newg;

@@ -29,7 +29,7 @@
 #include  <boost/archive/binary_iarchive.hpp>
 
 #include  <boost/serialization/vector.hpp>
-//#include  <fstream>
+//#include  "fstream_utf8.h"
 #include  <boost/serialization/deque.hpp>
 
 //#include  <boost/serialization/split_member.hpp>
@@ -181,7 +181,7 @@ BOOST_SERIALIZATION_SPLIT_FREE(MyClass);
 
 #if 1
 
-#include <fstream>
+#include "fstream_utf8.h"
 
 struct BoostTstBase01
 {
@@ -213,7 +213,7 @@ private:
 
 void qwrqwrqsrq()
 {
-    std::ifstream in ("qqq");
+    ifstream_utf8 in ("qqq");
     boost::archive::text_iarchive iar (in);
     //boost::archive::text_iarchive iar (in);
     //iar >> m_vpAllHandlers;
@@ -327,7 +327,7 @@ string CommonData::save(const string& strFile) const
 {
     try
     {
-        std::ofstream out (strFile.c_str());
+        ofstream_utf8 out (strFile.c_str());
         if (!out) { return "Cannot open file \"" + strFile + "\""; }
 
         //boost::archive::binary_oarchive oar (out);
@@ -352,7 +352,7 @@ string CommonData::load(const string& strFile)
 {
     try
     {
-        std::ifstream in (strFile.c_str());
+        ifstream_utf8 in (strFile.c_str());
         if (!in) { return ""; } // !!! "no data" is not an error
 
         //boost::archive::binary_iarchive iar (in);

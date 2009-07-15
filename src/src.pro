@@ -53,7 +53,8 @@ SOURCES += main.cpp \
  DataStream.cpp \
  DebugDlgImpl.cpp \
  DirFilterDlgImpl.cpp \
- Version.cpp
+ Version.cpp \
+ fstream_utf8.cpp
 TEMPLATE = app
 CONFIG += warn_on \
 	  thread \
@@ -122,7 +123,8 @@ TagWriter.h \
 ThreadRunnerDlgImpl.h \
 Transformation.h \
 UniqueNotesModel.h \
-Widgets.h
+Widgets.h \
+ fstream_utf8.h
 FORMS += About.ui \
 AlbumInfoDownloader.ui \
 Config.ui \
@@ -141,6 +143,8 @@ SessionEditor.ui \
 Sessions.ui \
 TagEditor.ui \
 ThreadRunner.ui
+
+
 
 
 

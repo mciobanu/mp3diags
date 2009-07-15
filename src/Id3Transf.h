@@ -23,6 +23,7 @@
 #ifndef Id3TransfH
 #define Id3TransfH
 
+#include  "fstream_utf8.h"
 
 #include  "Transformation.h"
 
@@ -33,7 +34,7 @@ class Id3V2StreamBase;
 
 class Id3V2Cleaner : public Transformation
 {
-    bool processId3V2Stream(Id3V2StreamBase& frm, std::ofstream& out);
+    bool processId3V2Stream(Id3V2StreamBase& frm, ofstream_utf8& out);
     CommonData* m_pCommonData;
 public:
     Id3V2Cleaner(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
@@ -47,7 +48,7 @@ public:
 
 class Id3V2Rescuer : public Transformation
 {
-    bool processId3V2Stream(Id3V2StreamBase& frm, std::ofstream& out);
+    bool processId3V2Stream(Id3V2StreamBase& frm, ofstream_utf8& out);
     CommonData* m_pCommonData;
 public:
     Id3V2Rescuer(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
@@ -62,7 +63,7 @@ public:
 
 class Id3V2UnicodeTransformer : public Transformation
 {
-    void processId3V2Stream(Id3V2StreamBase& frm, std::ofstream& out);
+    void processId3V2Stream(Id3V2StreamBase& frm, ofstream_utf8& out);
     CommonData* m_pCommonData;
 public:
     Id3V2UnicodeTransformer(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
@@ -77,7 +78,7 @@ public:
 
 class Id3V2CaseTransformer : public Transformation
 {
-    bool processId3V2Stream(Id3V2StreamBase& frm, std::ofstream& out);
+    bool processId3V2Stream(Id3V2StreamBase& frm, ofstream_utf8& out);
     CommonData* m_pCommonData;
 public:
     Id3V2CaseTransformer(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
@@ -93,7 +94,7 @@ class Id3V1Stream;
 
 class Id3V1ToId3V2Copier : public Transformation
 {
-    bool processId3V2Stream(Id3V2StreamBase& frm, std::ofstream& out, Id3V1Stream* pId3V1Stream);
+    bool processId3V2Stream(Id3V2StreamBase& frm, ofstream_utf8& out, Id3V1Stream* pId3V1Stream);
     CommonData* m_pCommonData;
 public:
     Id3V1ToId3V2Copier(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
@@ -107,7 +108,7 @@ public:
 
 class Id3V2ComposerAdder : public Transformation
 {
-    //bool processId3V2Stream(Id3V2StreamBase& frm, std::ofstream& out, Id3V1Stream* pId3V1Stream);
+    //bool processId3V2Stream(Id3V2StreamBase& frm, ofstream_utf8& out, Id3V1Stream* pId3V1Stream);
     CommonData* m_pCommonData;
 public:
     Id3V2ComposerAdder(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
@@ -121,7 +122,7 @@ public:
 
 class Id3V2ComposerRemover : public Transformation
 {
-    //bool processId3V2Stream(Id3V2StreamBase& frm, std::ofstream& out, Id3V1Stream* pId3V1Stream);
+    //bool processId3V2Stream(Id3V2StreamBase& frm, ofstream_utf8& out, Id3V1Stream* pId3V1Stream);
     CommonData* m_pCommonData;
 public:
     Id3V2ComposerRemover(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
@@ -135,7 +136,7 @@ public:
 
 class Id3V2ComposerCopier : public Transformation
 {
-    //bool processId3V2Stream(Id3V2StreamBase& frm, std::ofstream& out, Id3V1Stream* pId3V1Stream);
+    //bool processId3V2Stream(Id3V2StreamBase& frm, ofstream_utf8& out, Id3V1Stream* pId3V1Stream);
     CommonData* m_pCommonData;
 public:
     Id3V2ComposerCopier(CommonData* pCommonData) : m_pCommonData(pCommonData) {}

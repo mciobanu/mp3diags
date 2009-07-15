@@ -62,7 +62,7 @@ SOURCES += Version.cpp \
     AlbumInfoDownloaderDlgImpl.cpp \
     AboutDlgImpl.cpp \
     Widgets.cpp \
-    fstream_utf8.cpp
+    fstream_unicode.cpp
 HEADERS += Widgets.h \
     UniqueNotesModel.h \
     Transformation.h \
@@ -118,7 +118,7 @@ HEADERS += Widgets.h \
     ApeStream.h \
     AlbumInfoDownloaderDlgImpl.h \
     AboutDlgImpl.h \
-    fstream_utf8.h
+    fstream_unicode.h
 FORMS += TagEditor.ui \
     Sessions.ui \
     SessionEditor.ui \

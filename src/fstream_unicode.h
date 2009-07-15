@@ -25,23 +25,39 @@
 
 /*
 
-Drop-in replacements for ifstream, ofstream, and fstream which takes UTF-8 strings for filenames instead of the system codepage.
+Drop-in replacements for ifstream, ofstream, and fstream, which take Unicode
+strings for filenames (instead of the char* strings in the system codepage
+that MinGW uses.)
 
-Currently it assumes that outside Windows everything is UTF-8, so in those cases it just provides typedefs to the standard classes.
+(There are ifstream, ofstream, and fstream correspondents, but only fstream
+is mentioned, for brevity.)
+
+Provides the class fstream_unicode, which allows opening of a file with the
+name given as a UTF-8 or a UTF-16 string.
+
+Provides fstream_utf8, which on Windows is a typedef for fstream_unicode, while
+elsewhere it's a typedef for std::basic_fstream (currently the assumption is
+that outside Windows everything is UTF-8, although the older a Linux system is,
+the more likely it is to have non-UTF-8 file names.)
+
+Normally fstream_utf8 seems the best to use, because Linux users are shielded
+from bugs in fstream_unicode. However, the situation of a particular project
+may dictate otherwise.
+
+Currently using wchar_t* to open files on Linux throws an exception. It would
+be easy to implement, but there's no use for it right now.
+
+While the name reflects the intended use, fstream_unicode can do more than just
+open files with names given as Unicode strings: you can pass an existing file
+descriptor on its constructor, or you can add a specialization of unicodeOpenHlp
+that turns some custom objects into file descriptors or into UTF-8 or UTF-16
+strings, and then pass those objects to fstream_unicode's constructor or to
+its open() function. For example you can easily make fstream_unicode accept a
+std::string, without the need of calling c_str().
 
 */
 
 
-#ifndef WIN32
-
-//inline const char* convertUtf8(const char* szUtf8Name) { return szUtf8Name; }
-//int convertUtf8(const char* szUtf8Name, std::ios_base::openmode __mode);
-#include <fstream>
-typedef std::basic_ifstream<char> ifstream_utf8;
-typedef std::basic_ofstream<char> ofstream_utf8;
-typedef std::basic_fstream<char> fstream_utf8;
-
-#else
 
 #include  <ext/stdio_filebuf.h>
 #include  <istream>
@@ -49,9 +65,11 @@ typedef std::basic_fstream<char> fstream_utf8;
 
 #include  <fcntl.h> // for open()
 
-int convertUtf8(const char* szUtf8Name, std::ios_base::openmode __mode);
-#include  <string>
-std::wstring wstrFromUtf8(const std::string& s);
+
+template<class T>
+int unicodeOpenHlp(T handler, std::ios_base::openmode __mode);
+
+
 
 
 //********************************************************************************************
@@ -67,15 +85,16 @@ std::wstring wstrFromUtf8(const std::string& s);
 //********************************************************************************************
 
 
+// needed because the base class doesn't have open()
 template<typename _CharT, typename _Traits = std::char_traits<_CharT> >
-class stdio_filebuf_utf8 : public __gnu_cxx::stdio_filebuf<_CharT, _Traits>
+class stdio_filebuf_open : public __gnu_cxx::stdio_filebuf<_CharT, _Traits>
 {
 public:
-    stdio_filebuf_utf8() : __gnu_cxx::stdio_filebuf<_CharT, _Traits>() {}
+    stdio_filebuf_open() : __gnu_cxx::stdio_filebuf<_CharT, _Traits>() {}
 
-    stdio_filebuf_utf8(int __fd, std::ios_base::openmode __mode, size_t __size = static_cast<size_t>(BUFSIZ)) : __gnu_cxx::stdio_filebuf<_CharT, _Traits>(__fd, __mode, __size) {}
+    stdio_filebuf_open(int __fd, std::ios_base::openmode __mode, size_t __size = static_cast<size_t>(BUFSIZ)) : __gnu_cxx::stdio_filebuf<_CharT, _Traits>(__fd, __mode, __size) {}
 
-    /*override*/ ~stdio_filebuf_utf8() {}
+    /*override*/ ~stdio_filebuf_open() {}
 /*
     typedef _Traits				        traits_type;
     typedef typename traits_type::off_type		off_type;
@@ -93,7 +112,7 @@ public:
     typedef typename traits_type::state_type                                    __state_type;
     typedef typename __gnu_cxx::stdio_filebuf<_CharT, _Traits>::__codecvt_type  __codecvt_type;
 
-    using __gnu_cxx::stdio_filebuf<_CharT, _Traits>::open;
+    //using __gnu_cxx::stdio_filebuf<_CharT, _Traits>::open;
 
     __filebuf_type* open(int __fd, std::ios_base::openmode __mode)
     {
@@ -133,22 +152,6 @@ public:
         }
         return __ret;
     }
-
-
-/*
-    stdio_filebuf(int __fd, std::ios_base::openmode __mode, size_t __size)
-    {
-        if (this->is_open())
-        {
-            this->_M_mode = __mode;
-            this->_M_buf_size = __size;
-            this->_M_allocate_internal_buffer();
-            this->_M_reading = false;
-            this->_M_writing = false;
-            this->_M_set_buffer(-1);
-        }
-    }
-*/
 };
 
 
@@ -163,7 +166,7 @@ public:
    *  refers to as @c sb.
   */
   template<typename _CharT, typename _Traits = std::char_traits<_CharT> >
-    class basic_ifstream_utf8 : public std::basic_istream<_CharT, _Traits>
+    class basic_ifstream_unicode : public std::basic_istream<_CharT, _Traits>
     {
     public:
       // Types:
@@ -174,7 +177,7 @@ public:
       typedef typename traits_type::off_type 		off_type;
 
       // Non-standard types:
-      typedef stdio_filebuf_utf8<char_type, traits_type> 	__filebuf_type;
+      typedef stdio_filebuf_open<char_type, traits_type> 	__filebuf_type;
       typedef std::basic_istream<char_type, traits_type>	__istream_type;
 
     private:
@@ -189,7 +192,7 @@ public:
        *  @c &sb to the base class initializer.  Does not open any files
        *  (you haven't given it a filename to open).
       */
-      basic_ifstream_utf8() : __istream_type(), _M_filebuf()
+      basic_ifstream_unicode() : __istream_type(), _M_filebuf()
       { this->init(&_M_filebuf); }
 
       /**
@@ -202,12 +205,13 @@ public:
        *  Tip:  When using std::string to hold the filename, you must use
        *  .c_str() before passing it to this constructor.
       */
+      template<class T>
       explicit
-      basic_ifstream_utf8(const char* __s, std::ios_base::openmode __mode = std::ios_base::in)
+      basic_ifstream_unicode(T x, std::ios_base::openmode __mode = std::ios_base::in)
       : __istream_type(), _M_filebuf()
       {
 	this->init(&_M_filebuf);
-	this->open(__s, __mode);
+	this->open(x, __mode);
       }
 
       /**
@@ -216,7 +220,7 @@ public:
        *  The file is closed by the filebuf object, not the formatting
        *  stream.
       */
-      ~basic_ifstream_utf8()
+      ~basic_ifstream_unicode()
       { }
 
       // Members:
@@ -255,10 +259,11 @@ public:
        *  Tip:  When using std::string to hold the filename, you must use
        *  .c_str() before passing it to this constructor.
       */
+      template<class T>
       void
-      open(const char* __s, std::ios_base::openmode __mode = std::ios_base::in)
+      open(T x, std::ios_base::openmode __mode = std::ios_base::in)
       {
-	if (!_M_filebuf.open(convertUtf8(__s, __mode | std::ios_base::in), __mode | std::ios_base::in))
+	if (!_M_filebuf.open(unicodeOpenHlp(x, __mode | std::ios_base::in), __mode | std::ios_base::in))
 	  this->setstate(std::ios_base::failbit);
 	else
 	  // _GLIBCXX_RESOLVE_LIB_DEFECTS
@@ -291,7 +296,7 @@ public:
    *  refers to as @c sb.
   */
   template<typename _CharT, typename _Traits = std::char_traits<_CharT> >
-    class basic_ofstream_utf8 : public std::basic_ostream<_CharT,_Traits>
+    class basic_ofstream_unicode : public std::basic_ostream<_CharT,_Traits>
     {
     public:
       // Types:
@@ -302,7 +307,7 @@ public:
       typedef typename traits_type::off_type 		off_type;
 
       // Non-standard types:
-      typedef stdio_filebuf_utf8<char_type, traits_type> 	__filebuf_type;
+      typedef stdio_filebuf_open<char_type, traits_type> 	__filebuf_type;
       typedef std::basic_ostream<char_type, traits_type>	__ostream_type;
 
     private:
@@ -317,7 +322,7 @@ public:
        *  @c &sb to the base class initializer.  Does not open any files
        *  (you haven't given it a filename to open).
       */
-      basic_ofstream_utf8(): __ostream_type(), _M_filebuf()
+      basic_ofstream_unicode(): __ostream_type(), _M_filebuf()
       { this->init(&_M_filebuf); }
 
       /**
@@ -331,13 +336,14 @@ public:
        *  Tip:  When using std::string to hold the filename, you must use
        *  .c_str() before passing it to this constructor.
       */
+      template<class T>
       explicit
-      basic_ofstream_utf8(const char* __s,
+      basic_ofstream_unicode(T x,
 		     std::ios_base::openmode __mode = std::ios_base::out|std::ios_base::trunc)
       : __ostream_type(), _M_filebuf()
       {
 	this->init(&_M_filebuf);
-	this->open(__s, __mode);
+	this->open(x, __mode);
       }
 
       /**
@@ -346,7 +352,7 @@ public:
        *  The file is closed by the filebuf object, not the formatting
        *  stream.
       */
-      ~basic_ofstream_utf8()
+      ~basic_ofstream_unicode()
       { }
 
       // Members:
@@ -385,11 +391,12 @@ public:
        *  Tip:  When using std::string to hold the filename, you must use
        *  .c_str() before passing it to this constructor.
       */
+      template<class T>
       void
-      open(const char* __s,
+      open(T x,
 	   std::ios_base::openmode __mode = std::ios_base::out | std::ios_base::trunc)
       {
-	if (!_M_filebuf.open(convertUtf8(__s, __mode | std::ios_base::out), __mode | std::ios_base::out))
+	if (!_M_filebuf.open(unicodeOpenHlp(x, __mode | std::ios_base::out), __mode | std::ios_base::out))
 	  this->setstate(std::ios_base::failbit);
 	else
 	  // _GLIBCXX_RESOLVE_LIB_DEFECTS
@@ -422,7 +429,7 @@ public:
    *  this page refers to as @c sb.
   */
   template<typename _CharT, typename _Traits = std::char_traits<_CharT> >
-    class basic_fstream_utf8 : public std::basic_iostream<_CharT, _Traits>
+    class basic_fstream_unicode : public std::basic_iostream<_CharT, _Traits>
     {
     public:
       // Types:
@@ -433,7 +440,7 @@ public:
       typedef typename traits_type::off_type 		off_type;
 
       // Non-standard types:
-      typedef stdio_filebuf_utf8<char_type, traits_type> 	__filebuf_type;
+      typedef stdio_filebuf_open<char_type, traits_type> 	__filebuf_type;
       typedef std::basic_ios<char_type, traits_type>		__ios_type;
       typedef std::basic_iostream<char_type, traits_type>	__iostream_type;
 
@@ -449,7 +456,7 @@ public:
        *  @c &sb to the base class initializer.  Does not open any files
        *  (you haven't given it a filename to open).
       */
-      basic_fstream_utf8()
+      basic_fstream_unicode()
       : __iostream_type(), _M_filebuf()
       { this->init(&_M_filebuf); }
 
@@ -461,13 +468,14 @@ public:
        *  Tip:  When using std::string to hold the filename, you must use
        *  .c_str() before passing it to this constructor.
       */
+      template<class T>
       explicit
-      basic_fstream_utf8(const char* __s,
+      basic_fstream_unicode(T x,
 		    std::ios_base::openmode __mode = std::ios_base::in | std::ios_base::out)
       : __iostream_type(NULL), _M_filebuf()
       {
 	this->init(&_M_filebuf);
-	this->open(__s, __mode);
+	this->open(x, __mode);
       }
 
       /**
@@ -476,7 +484,7 @@ public:
        *  The file is closed by the filebuf object, not the formatting
        *  stream.
       */
-      ~basic_fstream_utf8()
+      ~basic_fstream_unicode()
       { }
 
       // Members:
@@ -515,11 +523,12 @@ public:
        *  Tip:  When using std::string to hold the filename, you must use
        *  .c_str() before passing it to this constructor.
       */
+      template<class T>
       void
-      open(const char* __s,
+      open(T x,
 	   std::ios_base::openmode __mode = std::ios_base::in | std::ios_base::out)
       {
-	if (!_M_filebuf.open(convertUtf8(__s, __mode), __mode))
+	if (!_M_filebuf.open(unicodeOpenHlp(x, __mode), __mode))
 	  this->setstate(std::ios_base::failbit);
 	else
 	  // _GLIBCXX_RESOLVE_LIB_DEFECTS
@@ -542,12 +551,29 @@ public:
     };
 
 
-typedef basic_ifstream_utf8<char> ifstream_utf8;
-typedef basic_ofstream_utf8<char> ofstream_utf8;
-typedef basic_fstream_utf8<char> fstream_utf8;
 
+#ifndef WIN32
+
+    //inline const char* unicodeOpenHlp(const char* szUtf8Name) { return szUtf8Name; }
+    //int unicodeOpenHlp(const char* szUtf8Name, std::ios_base::openmode __mode);
+    #include <fstream>
+    typedef std::basic_ifstream<char> ifstream_utf8;
+    typedef std::basic_ofstream<char> ofstream_utf8;
+    typedef std::basic_fstream<char> fstream_utf8;
+
+#else
+
+    typedef basic_ifstream_unicode<char> ifstream_utf8;
+    typedef basic_ofstream_unicode<char> ofstream_utf8;
+    typedef basic_fstream_unicode<char> fstream_utf8;
 
 #endif // #ifndef WIN32 / else
+
+
+typedef basic_ifstream_unicode<char> ifstream_unicode;
+typedef basic_ofstream_unicode<char> ofstream_unicode;
+typedef basic_fstream_unicode<char> fstream_unicode;
+
 
 #endif
 

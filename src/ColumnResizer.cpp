@@ -36,7 +36,7 @@
 //#define PRINT_SIZES
 
 #ifdef PRINT_SIZES
-//#include  "fstream_utf8.h"
+//#include  "fstream_unicode.h"
 #endif
 
 using namespace std;

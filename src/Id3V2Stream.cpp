@@ -21,7 +21,7 @@
 
 
 #include  <sstream>
-#include  "fstream_utf8.h"
+#include  "fstream_unicode.h"
 
 #include  "Id3V2Stream.h"
 
@@ -197,7 +197,7 @@ string Id3V2Frame::getReadableName() const
 }
 
 
-void Id3V2Frame::print(ostream& out) const
+void Id3V2Frame::print(ostream& out, bool bFullInfo) const
 {
     out << m_szName;
     if ('T' == m_szName[0])
@@ -205,6 +205,40 @@ void Id3V2Frame::print(ostream& out) const
         out << "=\"" << getUtf8String() << "\""; //ttt2 probably specific to particular versions of Linux and GCC
 //cout << " value=\"" << getUtf8String() << "\""; //ttt2 probably specific to particular versions of Linux and GCC
         //out << " value=\"" << "RRRRRRRR" << "\"";
+    }
+    else if (bFullInfo && string("USLT") == m_szName)
+    {
+        Id3V2FrameDataLoader wrp (*this);
+        const char* pData (wrp.getData());
+        //const char* q (pData + 1);
+        out << ": ";
+        int nBeg (1);
+        for (; nBeg < m_nMemDataSize && 0 != pData[nBeg]; ++nBeg) {}
+        ++nBeg;
+        QString qs;
+        switch (pData[0])
+        {
+        case 0: // Latin-1
+            qs = QString::fromLatin1(pData + nBeg, m_nMemDataSize - nBeg);
+            break;
+
+        case 1:
+            qs = QString::fromUtf8(utf8FromBomUtf16(pData + nBeg, m_nMemDataSize - nBeg).c_str());
+            break;
+
+        case 2:
+            qs = "<< unsupported encoding >>";
+            break;
+
+        case 3:
+            qs = QString::fromUtf8(pData + nBeg, m_nMemDataSize - nBeg);
+            break;
+        }
+
+        //qs.replace('\n', " / "); qs.replace('\r', "");
+        qs = "\n" + qs + "\n";
+
+        out << qs.toUtf8().data();
     }
     else
     {
@@ -374,7 +408,7 @@ void Id3V2StreamBase::printFrames(ostream& out) const
 {
     for (vector<Id3V2Frame*>::const_iterator it = m_vpFrames.begin(), end = m_vpFrames.end(); it != end; ++it)
     {
-        (*it)->print(out);
+        (*it)->print(out, Id3V2Frame::FULL_INFO);
 //(*it)->print(cout);
     }
 }
@@ -397,7 +431,7 @@ void Id3V2StreamBase::printFrames(ostream& out) const
     {
         if (!bFirst) { out << ", "; }
         bFirst = false;
-        (*it)->print(out);
+        (*it)->print(out, Id3V2Frame::SHORT_INFO);
     }
     string s (out.str());
 //cout << s << endl;
@@ -887,7 +921,7 @@ const Id3V2Frame* Id3V2StreamBase::getFrame(const char* szName) const
         {
             if (b) { out << ", "; }
             b = true;
-            p->print(out);
+            p->print(out, Id3V2Frame::FULL_INFO);
         }
     }
     return out.str();

@@ -48,7 +48,8 @@ struct Id3V2Frame
 
     virtual ~Id3V2Frame();
 
-    void print(std::ostream& out) const;
+    enum { SHORT_INFO, FULL_INFO };
+    void print(std::ostream& out, bool bFullInfo) const; // if bFullInfo is true some frames print more extensive details, e.g. lyrics
     virtual std::string getUtf8String() const = 0;
     std::string getReadableName() const; // normally returns m_szName, but if it has invalid characters (<=32 or >=127), returns a hex representation
 

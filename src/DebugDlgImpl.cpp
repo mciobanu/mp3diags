@@ -961,7 +961,7 @@ void tstEmbVec01(bool bSave)
 //=================================================================================================================
 
 #if 0
-#include "fstream_utf8.h"
+#include "fstream_unicode.h"
 
 // include headers that implement a archive in simple text format
 #include <boost/archive/text_oarchive.hpp>

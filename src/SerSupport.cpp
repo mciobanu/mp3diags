@@ -29,7 +29,7 @@
 #include  <boost/archive/binary_iarchive.hpp>
 
 #include  <boost/serialization/vector.hpp>
-//#include  "fstream_utf8.h"
+//#include  "fstream_unicode.h"
 #include  <boost/serialization/deque.hpp>
 
 //#include  <boost/serialization/split_member.hpp>
@@ -181,7 +181,7 @@ BOOST_SERIALIZATION_SPLIT_FREE(MyClass);
 
 #if 1
 
-#include "fstream_utf8.h"
+#include "fstream_unicode.h"
 
 struct BoostTstBase01
 {

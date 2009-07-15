@@ -8,7 +8,7 @@ MakeArchives.sh	f	2009-07-10T15:46:46Z
 Release.txt	f	2009-07-15T05:36:23Z
 Uninstall.sh	f	2009-05-22T05:36:21Z
 Windows/MP3Diags.nsi	f	2009-06-16T15:33:42Z
-Windows/Mp3DiagsWindows.pro	f	2009-07-14T06:55:21Z
+Windows/Mp3DiagsWindows.pro	f	2009-07-15T13:15:18Z
 Windows/README.TXT	f	2009-05-31T11:23:18Z
 Windows/SVGs/edit-paste.svg	f	2009-05-28T11:24:41Z
 Windows/SVGs/file-rename.svg	f	2009-05-28T09:50:31Z
@@ -16,7 +16,7 @@ Windows/SVGs/go-next.svg	f	2009-05-28T09:41:16Z
 Windows/SVGs/go-previous.svg	f	2009-05-28T09:53:37Z
 Windows/SVGs/session.svg	f	2009-05-28T09:56:07Z
 Windows/build.bat	f	2009-06-19T07:22:14Z
-changelog.txt	f	2009-07-15T05:37:34Z
+changelog.txt	f	2009-07-15T13:13:48Z
 changelogDeb.txt	f	2009-07-09T18:59:00Z
 changelogRpm.txt	f	2009-07-09T18:58:55Z
 desktop/MP3Diags.desktop	f	2009-07-07T18:52:45Z
@@ -196,16 +196,16 @@ package/deb/debian.control	f	2009-06-06T07:28:46Z
 package/deb/debian.rules	f	2009-06-24T08:52:27Z
 package/sourceforge/linux_downloads.html	f	2009-06-10T07:26:41Z
 src/About.ui	f	2009-07-03T07:38:16Z
-src/AboutDlgImpl.cpp	f	2009-07-13T18:03:33Z
+src/AboutDlgImpl.cpp	f	2009-07-15T06:14:05Z
 src/AboutDlgImpl.h	f	2009-05-06T07:26:35Z
 src/AlbumInfoDownloader.ui	f	2009-05-07T12:48:31Z
-src/AlbumInfoDownloaderDlgImpl.cpp	f	2009-07-15T05:00:09Z
+src/AlbumInfoDownloaderDlgImpl.cpp	f	2009-07-15T11:20:04Z
 src/AlbumInfoDownloaderDlgImpl.h	f	2009-05-18T08:22:27Z
 src/ApeStream.cpp	f	2009-05-06T07:36:09Z
 src/ApeStream.h	f	2009-05-06T07:28:03Z
 src/CheckedDir.cpp	f	2009-05-25T12:14:00Z
 src/CheckedDir.h	f	2009-05-06T07:28:09Z
-src/ColumnResizer.cpp	f	2009-07-14T06:20:58Z
+src/ColumnResizer.cpp	f	2009-07-15T11:20:04Z
 src/ColumnResizer.h	f	2009-05-06T07:28:19Z
 src/CommonData.cpp	f	2009-07-12T07:35:29Z
 src/CommonData.h	f	2009-07-11T10:11:00Z
@@ -217,7 +217,7 @@ src/ConfigDlgImpl.h	f	2009-07-09T16:12:29Z
 src/DataStream.cpp	f	2009-05-25T08:06:12Z
 src/DataStream.h	f	2009-05-06T07:28:38Z
 src/Debug.ui	f	2009-05-16T21:03:49Z
-src/DebugDlgImpl.cpp	f	2009-07-14T06:20:58Z
+src/DebugDlgImpl.cpp	f	2009-07-15T11:20:04Z
 src/DebugDlgImpl.h	f	2009-05-06T07:28:45Z
 src/DirFilter.ui	f	2008-10-31T11:34:35Z
 src/DirFilterDlgImpl.cpp	f	2009-06-14T11:51:56Z
@@ -234,16 +234,16 @@ src/FileRenamerDlgImpl.cpp	f	2009-07-09T06:26:49Z
 src/FileRenamerDlgImpl.h	f	2009-05-06T07:29:17Z
 src/FilesModel.cpp	f	2009-07-11T10:16:37Z
 src/FilesModel.h	f	2009-07-09T07:56:50Z
-src/Helpers.cpp	f	2009-07-14T06:20:58Z
+src/Helpers.cpp	f	2009-07-15T11:19:10Z
 src/Helpers.h	f	2009-07-08T16:13:13Z
-src/Id3Transf.cpp	f	2009-07-14T06:20:58Z
-src/Id3Transf.h	f	2009-07-14T06:24:38Z
+src/Id3Transf.cpp	f	2009-07-15T11:20:04Z
+src/Id3Transf.h	f	2009-07-15T11:20:04Z
 src/Id3V230Stream.cpp	f	2009-07-14T06:16:54Z
 src/Id3V230Stream.h	f	2009-05-10T14:05:45Z
 src/Id3V240Stream.cpp	f	2009-07-03T08:58:09Z
 src/Id3V240Stream.h	f	2009-05-10T14:05:45Z
-src/Id3V2Stream.cpp	f	2009-07-14T06:20:58Z
-src/Id3V2Stream.h	f	2009-06-18T17:47:14Z
+src/Id3V2Stream.cpp	f	2009-07-15T13:22:50Z
+src/Id3V2Stream.h	f	2009-07-15T12:21:11Z
 src/ImageInfoPanel.ui	f	2009-05-06T07:51:43Z
 src/ImageInfoPanelWdgImpl.cpp	f	2009-06-18T19:26:34Z
 src/ImageInfoPanelWdgImpl.h	f	2009-05-06T07:30:12Z
@@ -256,7 +256,7 @@ src/MainFormDlgImpl.cpp	f	2009-07-13T11:33:52Z
 src/MainFormDlgImpl.h	f	2009-07-12T06:06:28Z
 src/Mp3Diags.qrc	f	2009-05-20T12:46:16Z
 src/Mp3Manip.cpp	f	2009-07-14T06:18:24Z
-src/Mp3Manip.h	f	2009-07-14T06:20:58Z
+src/Mp3Manip.h	f	2009-07-15T11:20:04Z
 src/Mp3TransformThread.cpp	f	2009-07-14T06:16:54Z
 src/Mp3TransformThread.h	f	2009-05-06T07:30:48Z
 src/MpegFrame.cpp	f	2009-05-06T07:38:49Z
@@ -277,7 +277,7 @@ src/Notes.cpp	f	2009-07-08T18:18:33Z
 src/Notes.h	f	2009-07-09T04:59:05Z
 src/NotesModel.cpp	f	2009-07-09T15:58:07Z
 src/NotesModel.h	f	2009-05-06T07:31:33Z
-src/OsFile.cpp	f	2009-07-15T05:21:33Z
+src/OsFile.cpp	f	2009-07-15T11:20:04Z
 src/OsFile.h	f	2009-07-13T17:53:55Z
 src/Palette.ui	f	2009-07-09T18:03:37Z
 src/PaletteDlgImpl.cpp	f	2009-07-10T09:35:25Z
@@ -289,7 +289,7 @@ src/RenamerPatternsDlgImpl.h	f	2009-05-06T07:31:55Z
 src/Scan.ui	f	2009-04-16T11:49:37Z
 src/ScanDlgImpl.cpp	f	2009-06-14T11:59:50Z
 src/ScanDlgImpl.h	f	2009-05-25T12:10:21Z
-src/SerSupport.cpp	f	2009-07-14T06:20:58Z
+src/SerSupport.cpp	f	2009-07-15T11:20:05Z
 src/SerSupport.h	f	2009-05-06T07:27:31Z
 src/SessionEditor.ui	f	2009-05-22T10:44:58Z
 src/SessionEditorDlgImpl.cpp	f	2009-06-14T11:59:50Z
@@ -325,8 +325,8 @@ src/UniqueNotesModel.h	f	2009-05-06T07:33:22Z
 src/Version.cpp	f	2009-05-21T08:38:22Z
 src/Widgets.cpp	f	2009-05-06T07:41:29Z
 src/Widgets.h	f	2009-05-06T07:33:28Z
-src/fstream_utf8.cpp	f	2009-07-15T05:24:04Z
-src/fstream_utf8.h	f	2009-07-15T05:35:23Z
+src/fstream_unicode.cpp	f	2009-07-15T11:25:21Z
+src/fstream_unicode.h	f	2009-07-15T11:15:57Z
 src/images/COPYING - GPL V3.txt	f	2008-11-14T09:41:43Z
 src/images/COPYING - LGPL V3.txt	f	2008-11-14T09:41:50Z
 src/images/about.svg	f	2008-01-04T23:54:32Z
@@ -384,6 +384,6 @@ src/licences/lgpl-2.1.txt	f	2009-05-14T11:38:15Z
 src/licences/lgplv3.txt	f	2008-11-14T09:24:41Z
 src/licences/zlib.txt	f	2009-05-14T11:42:40Z
 src/main.cpp	f	2009-07-04T15:29:28Z
-src/src.pro	f	2009-07-14T10:36:36Z
+src/src.pro	f	2009-07-15T13:02:02Z
 templates/cpp	f	2009-05-06T07:21:29Z
 templates/h	f	2009-05-06T07:21:39Z

@@ -20,7 +20,7 @@
  ***************************************************************************/
 
 
-#include  "fstream_utf8.h"
+#include  "fstream_unicode.h"
 
 #include  <QTextCodec>
 

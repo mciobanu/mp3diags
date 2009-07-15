@@ -23,7 +23,7 @@
 #ifndef Id3TransfH
 #define Id3TransfH
 
-#include  "fstream_utf8.h"
+#include  "fstream_unicode.h"
 
 #include  "Transformation.h"
 

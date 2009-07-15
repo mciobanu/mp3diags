@@ -145,7 +145,6 @@ dpkg-genchanges: warning: the current version (0.99.01.009) is smaller than the 
 
 
 //ttt0 normalize in Windows has flashing / duplicated output
-//ttt0 switch to QFile; see source for flush();
 //ttt0 perhaps tab with changelog
 //ttt0 doc: use case: compare images, id3v2 tags
 //ttt0 perhaps transform to convert unknown images to "cover"

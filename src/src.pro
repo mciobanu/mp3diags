@@ -1,10 +1,11 @@
-SOURCES += main.cpp \
+SOURCES +=  \
+ Helpers.cpp \
+ main.cpp \
  DiscogsDownloader.cpp \
  DoubleList.cpp \
  FileEnum.cpp \
  FileRenamerDlgImpl.cpp \
  FilesModel.cpp \
- Helpers.cpp \
  Id3Transf.cpp \
  Id3V230Stream.cpp \
  Id3V240Stream.cpp \
@@ -54,7 +55,7 @@ SOURCES += main.cpp \
  DebugDlgImpl.cpp \
  DirFilterDlgImpl.cpp \
  Version.cpp \
- fstream_utf8.cpp
+  fstream_unicode.cpp
 TEMPLATE = app
 CONFIG += warn_on \
 	  thread \
@@ -124,7 +125,7 @@ ThreadRunnerDlgImpl.h \
 Transformation.h \
 UniqueNotesModel.h \
 Widgets.h \
- fstream_utf8.h
+ fstream_unicode.h
 FORMS += About.ui \
 AlbumInfoDownloader.ui \
 Config.ui \
@@ -143,6 +144,7 @@ SessionEditor.ui \
 Sessions.ui \
 TagEditor.ui \
 ThreadRunner.ui
+
 
 
 

@@ -332,5 +332,9 @@ class QColor;
 // dStart and dEnd should be between 0 and 1, with dStart < dEnd; they may also be both -1, in which case the gradient will have a solid color
 void configureGradient(QGradient& grad, const QColor& col, double dStart, double dEnd);
 
+// opens a web page from the documentation in the default browser;
+// first looks in several places on the local computer; if the file can't be found there, it goes to SourceForge
+void openHelp(const std::string& strFileName);
+
 #endif // ifndef HelpersH
 

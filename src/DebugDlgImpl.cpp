@@ -98,6 +98,8 @@ DebugDlgImpl::DebugDlgImpl(QWidget* pParent, CommonData* pCommonData) : QDialog(
             "to see them.");
 
     m_pLogG->setFocus();
+
+    { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
 }
 
 
@@ -257,6 +259,13 @@ void DebugDlgImpl::on_m_pDecodeMpegFrameB_clicked()
     QMessageBox::information(this, "Decoded MPEG frame header", convStr(decodeMpegFrame(n, "\n")));
 }
 
+
+
+
+void DebugDlgImpl::onHelp()
+{
+    openHelp("310_advanced.html");
+}
 
 
 //========================================================================================================================================================
@@ -1057,6 +1066,8 @@ void tstSer01()
 
 TstSer tstSer01;
 */
+
+
 
 
 // -lboost_serialization-mt-1_37

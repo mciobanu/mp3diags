@@ -60,7 +60,8 @@ TEMPLATE = app
 CONFIG += warn_on \
 	  thread \
           qt \
- debug_and_release
+ debug_and_release \
+ debug
 TARGET = MP3Diags
 DESTDIR = ../bin
 
@@ -155,4 +156,6 @@ ThreadRunner.ui
 
 
 
+
+CONFIG -= release
 

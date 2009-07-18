@@ -158,6 +158,8 @@ protected slots:
 
     //void onPatternChanged();
     //void onAlbumChanged();
+
+    void onHelp();
 };
 
 

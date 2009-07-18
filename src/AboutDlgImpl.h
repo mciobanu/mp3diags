@@ -32,12 +32,14 @@ class AboutDlgImpl : public QDialog, private Ui::AboutDlg
     Q_OBJECT
 
     void initText(QTextBrowser* p, const char* szFileName);
+
 public:
     AboutDlgImpl(QWidget* pParent = 0);
     ~AboutDlgImpl();
 
 protected slots:
     void on_m_pOkB_clicked() { accept(); }
+    void onHelp();
 };
 
 #endif

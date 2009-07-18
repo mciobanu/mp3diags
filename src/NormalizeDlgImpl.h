@@ -51,6 +51,7 @@ class NormalizeDlgImpl : public QDialog, private Ui::NormalizeDlg
     /*override*/ void closeEvent(QCloseEvent* pEvent);
     // /*override*/ void keyPressEvent(QKeyEvent* pEvent);
     // /*override*/ void keyReleaseEvent(QKeyEvent* pEvent);
+
 public:
     NormalizeDlgImpl(QWidget* pParent, bool bKeepOpen, SessionSettings& settings, const CommonData* pCommonData);
     ~NormalizeDlgImpl();
@@ -70,6 +71,8 @@ protected slots:
     void onErrorTxt();
     void on_m_pCloseB_clicked();
     void on_m_pAbortB_clicked();
+
+    void onHelp();
 };
 
 #endif

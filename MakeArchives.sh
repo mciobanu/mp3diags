@@ -5,15 +5,21 @@
 function initialize
 {
     echo Initializing ...
-    rm -f -r package/out
-    mkdir -p package/out/deb
-    mkdir -p package/out/rpm
-
     #Ver=`pwd | sed -e 's%/.*/%%' -e 's% .*%%'`
     #Ver=`cat Release.txt`.$Ver
     Ver=`cat Release.txt`
 
     echo Version: $Ver
+
+    head -n 1 changelogDeb.txt | grep $Ver > /dev/null
+    if [ $? -ne 0 ] ; then echo "invalid version in deb" ; exit 1 ; fi
+
+    head -n 1 changelogRpm.txt | grep $Ver > /dev/null
+    if [ $? -ne 0 ] ; then echo "invalid version in rpm" ; exit 1 ; fi
+
+    rm -f -r package/out
+    mkdir -p package/out/deb
+    mkdir -p package/out/rpm
 
     cat package/rpm/MP3Diags.spec | sed "s+%define version .*$+%define version $Ver+" > package/out/rpm/MP3Diags.spec
     cat package/rpm/MP3Diags-Mandriva_2009.1.spec | sed "s+%define version .*$+%define version $Ver+" > package/out/rpm/MP3Diags-Mandriva_2009.1.spec

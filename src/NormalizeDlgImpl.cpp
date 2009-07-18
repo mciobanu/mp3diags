@@ -49,6 +49,8 @@ NormalizeDlgImpl::NormalizeDlgImpl(QWidget* pParent, bool bKeepOpen, SessionSett
     int nWidth, nHeight;
     m_settings.loadNormalizeSettings(nWidth, nHeight);
     if (nWidth > 400 && nHeight > 300) { resize(nWidth, nHeight); }
+
+    { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
 }
 
 
@@ -253,5 +255,10 @@ void NormalizeDlgImpl::on_m_pAbortB_clicked()
 }
 #endif
 
+
+void NormalizeDlgImpl::onHelp()
+{
+    openHelp("230_normalize.html");
+}
 
 

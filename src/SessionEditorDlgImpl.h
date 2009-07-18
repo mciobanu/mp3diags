@@ -46,6 +46,7 @@ class SessionEditorDlgImpl : public QDialog, private Ui::SessionEditorDlg
 
     bool m_bOpenLastSession; // meaningful only if bFirstTime was true on the constructor;
     void commonConstr(); // common code for both constructors
+
 public:
     // if bFirstTime is false it doesn't show the "Open last session" checkbox;
     // strDir is used as a start directory by on_m_pFileNameB_clicked;
@@ -83,6 +84,8 @@ protected slots:
     void on_m_pOpenSessionsB_clicked();
 
     void onShow();
+
+    void onHelp();
 };
 
 

@@ -213,6 +213,8 @@ void CB_LIB_CALL getFileInfo(const string& strFileName, long long & nChangeTime,
 }
 
 
+wstring wstrFromUtf8(const string& s);
+
 //void CB_LIB_CALL setFileDate(const char* szFileName, time_t nCreationTime, long long nChangeTime)
 void CB_LIB_CALL setFileDate(const string& strFileName, long long nChangeTime)
 {
@@ -305,7 +307,7 @@ void CB_LIB_CALL createDir(const string& strDirName)
 
 void CB_LIB_CALL createDirForFile(const std::string& strFileName)
 {
-    string::size_type n (strFileName.find_last_of(getPathSep())); //ttt0 review all find_last_of
+    string::size_type n (strFileName.rfind(getPathSep()));
     CB_ASSERT (string::npos != n);
     createDir(strFileName.substr(0, n));
 }

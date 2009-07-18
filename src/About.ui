@@ -12,6 +12,9 @@
   <property name="windowTitle" >
    <string>About MP3 Diags</string>
   </property>
+  <property name="sizeGripEnabled" >
+   <bool>true</bool>
+  </property>
   <layout class="QVBoxLayout" >
    <item>
     <widget class="QWidget" native="1" name="widget" >

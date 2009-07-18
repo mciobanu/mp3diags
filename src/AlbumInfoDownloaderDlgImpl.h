@@ -78,6 +78,7 @@ class AlbumInfoDownloaderDlgImpl : public QDialog, protected Ui::AlbumInfoDownlo
     time_t m_nLastTime;
     std::string getTempName(); // time-based, with no extension; doesn't check for existing names, but uses a counter, so files shouldn't get removed (except during daylight saving time changes)
     void saveDownloadedData(const char*, int nSize, const char* szExt);
+
 protected:
     bool m_bSaveImageOnly;
 
@@ -186,6 +187,7 @@ protected slots:
     //void onDone(bool bError);
     void onRequestFinished(int nId, bool bError);
 
+    void onHelp();
 
 private:
 };

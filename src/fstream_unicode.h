@@ -96,15 +96,15 @@ public:
 
     /*override*/ ~stdio_filebuf_open() {}
 /*
-    typedef _Traits				        traits_type;
-    typedef typename traits_type::off_type		off_type;
+    typedef _Traits                                     traits_type;
+    typedef typename traits_type::off_type              off_type;
 */
 
-    typedef _CharT                     	                char_type;
-    typedef _Traits                    	                traits_type;
-    typedef typename traits_type::int_type 		int_type;
-    typedef typename traits_type::pos_type 		pos_type;
-    typedef typename traits_type::off_type 		off_type;
+    typedef _CharT                                      char_type;
+    typedef _Traits                                     traits_type;
+    typedef typename traits_type::int_type              int_type;
+    typedef typename traits_type::pos_type              pos_type;
+    typedef typename traits_type::off_type              off_type;
 
     typedef std::basic_streambuf<char_type, traits_type>                        __streambuf_type;
     typedef typename __gnu_cxx::stdio_filebuf<_CharT, _Traits>::__filebuf_type  __filebuf_type;
@@ -170,18 +170,18 @@ public:
     {
     public:
       // Types:
-      typedef _CharT 					char_type;
-      typedef _Traits 					traits_type;
-      typedef typename traits_type::int_type 		int_type;
-      typedef typename traits_type::pos_type 		pos_type;
-      typedef typename traits_type::off_type 		off_type;
+      typedef _CharT                                    char_type;
+      typedef _Traits                                   traits_type;
+      typedef typename traits_type::int_type            int_type;
+      typedef typename traits_type::pos_type            pos_type;
+      typedef typename traits_type::off_type            off_type;
 
       // Non-standard types:
-      typedef stdio_filebuf_open<char_type, traits_type> 	__filebuf_type;
-      typedef std::basic_istream<char_type, traits_type>	__istream_type;
+      typedef stdio_filebuf_open<char_type, traits_type>        __filebuf_type;
+      typedef std::basic_istream<char_type, traits_type>        __istream_type;
 
     private:
-      __filebuf_type	_M_filebuf;
+      __filebuf_type    _M_filebuf;
 
     public:
       // Constructors/Destructors:
@@ -197,7 +197,7 @@ public:
 
       /**
        *  @brief  Create an input file stream.
-       *  @param  s  Null terminated string specifying the filename.
+       *  @param  x  Null terminated string specifying the filename, or a file descriptor, or anything for which a specialization of unicodeOpenHlp exists.
        *  @param  mode  Open file in specified mode (see std::ios_base).
        *
        *  @c ios_base::in is automatically included in @a mode.
@@ -210,8 +210,8 @@ public:
       basic_ifstream_unicode(T x, std::ios_base::openmode __mode = std::ios_base::in)
       : __istream_type(), _M_filebuf()
       {
-	this->init(&_M_filebuf);
-	this->open(x, __mode);
+        this->init(&_M_filebuf);
+        this->open(x, __mode);
       }
 
       /**
@@ -250,7 +250,7 @@ public:
 
       /**
        *  @brief  Opens an external file.
-       *  @param  s  The name of the file.
+       *  @param  x  Null terminated string specifying the filename, or a file descriptor, or anything for which a specialization of unicodeOpenHlp exists.
        *  @param  mode  The open mode flags.
        *
        *  Calls @c std::basic_filebuf::open(s,mode|in).  If that function
@@ -263,12 +263,12 @@ public:
       void
       open(T x, std::ios_base::openmode __mode = std::ios_base::in)
       {
-	if (!_M_filebuf.open(unicodeOpenHlp(x, __mode | std::ios_base::in), __mode | std::ios_base::in))
-	  this->setstate(std::ios_base::failbit);
-	else
-	  // _GLIBCXX_RESOLVE_LIB_DEFECTS
-	  // 409. Closing an fstream should clear error state
-	  this->clear();
+        if (!_M_filebuf.open(unicodeOpenHlp(x, __mode | std::ios_base::in), __mode | std::ios_base::in))
+          this->setstate(std::ios_base::failbit);
+        else
+          // _GLIBCXX_RESOLVE_LIB_DEFECTS
+          // 409. Closing an fstream should clear error state
+          this->clear();
       }
 
       /**
@@ -280,8 +280,8 @@ public:
       void
       close()
       {
-	if (!_M_filebuf.close())
-	  this->setstate(std::ios_base::failbit);
+        if (!_M_filebuf.close())
+          this->setstate(std::ios_base::failbit);
       }
     };
 
@@ -300,18 +300,18 @@ public:
     {
     public:
       // Types:
-      typedef _CharT 					char_type;
-      typedef _Traits 					traits_type;
-      typedef typename traits_type::int_type 		int_type;
-      typedef typename traits_type::pos_type 		pos_type;
-      typedef typename traits_type::off_type 		off_type;
+      typedef _CharT                                    char_type;
+      typedef _Traits                                   traits_type;
+      typedef typename traits_type::int_type            int_type;
+      typedef typename traits_type::pos_type            pos_type;
+      typedef typename traits_type::off_type            off_type;
 
       // Non-standard types:
-      typedef stdio_filebuf_open<char_type, traits_type> 	__filebuf_type;
-      typedef std::basic_ostream<char_type, traits_type>	__ostream_type;
+      typedef stdio_filebuf_open<char_type, traits_type>        __filebuf_type;
+      typedef std::basic_ostream<char_type, traits_type>        __ostream_type;
 
     private:
-      __filebuf_type	_M_filebuf;
+      __filebuf_type    _M_filebuf;
 
     public:
       // Constructors:
@@ -327,7 +327,7 @@ public:
 
       /**
        *  @brief  Create an output file stream.
-       *  @param  s  Null terminated string specifying the filename.
+       *  @param  x  Null terminated string specifying the filename, or a file descriptor, or anything for which a specialization of unicodeOpenHlp exists.
        *  @param  mode  Open file in specified mode (see std::ios_base).
        *
        *  @c ios_base::out|ios_base::trunc is automatically included in
@@ -339,11 +339,11 @@ public:
       template<class T>
       explicit
       basic_ofstream_unicode(T x,
-		     std::ios_base::openmode __mode = std::ios_base::out|std::ios_base::trunc)
+                     std::ios_base::openmode __mode = std::ios_base::out|std::ios_base::trunc)
       : __ostream_type(), _M_filebuf()
       {
-	this->init(&_M_filebuf);
-	this->open(x, __mode);
+        this->init(&_M_filebuf);
+        this->open(x, __mode);
       }
 
       /**
@@ -382,7 +382,7 @@ public:
 
       /**
        *  @brief  Opens an external file.
-       *  @param  s  The name of the file.
+       *  @param  x  Null terminated string specifying the filename, or a file descriptor, or anything for which a specialization of unicodeOpenHlp exists.
        *  @param  mode  The open mode flags.
        *
        *  Calls @c std::basic_filebuf::open(s,mode|out|trunc).  If that
@@ -394,14 +394,14 @@ public:
       template<class T>
       void
       open(T x,
-	   std::ios_base::openmode __mode = std::ios_base::out | std::ios_base::trunc)
+           std::ios_base::openmode __mode = std::ios_base::out | std::ios_base::trunc)
       {
-	if (!_M_filebuf.open(unicodeOpenHlp(x, __mode | std::ios_base::out), __mode | std::ios_base::out))
-	  this->setstate(std::ios_base::failbit);
-	else
-	  // _GLIBCXX_RESOLVE_LIB_DEFECTS
-	  // 409. Closing an fstream should clear error state
-	  this->clear();
+        if (!_M_filebuf.open(unicodeOpenHlp(x, __mode | std::ios_base::out), __mode | std::ios_base::out))
+          this->setstate(std::ios_base::failbit);
+        else
+          // _GLIBCXX_RESOLVE_LIB_DEFECTS
+          // 409. Closing an fstream should clear error state
+          this->clear();
       }
 
       /**
@@ -433,19 +433,19 @@ public:
     {
     public:
       // Types:
-      typedef _CharT 					char_type;
-      typedef _Traits 					traits_type;
-      typedef typename traits_type::int_type 		int_type;
-      typedef typename traits_type::pos_type 		pos_type;
-      typedef typename traits_type::off_type 		off_type;
+      typedef _CharT                                    char_type;
+      typedef _Traits                                   traits_type;
+      typedef typename traits_type::int_type            int_type;
+      typedef typename traits_type::pos_type            pos_type;
+      typedef typename traits_type::off_type            off_type;
 
       // Non-standard types:
-      typedef stdio_filebuf_open<char_type, traits_type> 	__filebuf_type;
-      typedef std::basic_ios<char_type, traits_type>		__ios_type;
-      typedef std::basic_iostream<char_type, traits_type>	__iostream_type;
+      typedef stdio_filebuf_open<char_type, traits_type>        __filebuf_type;
+      typedef std::basic_ios<char_type, traits_type>            __ios_type;
+      typedef std::basic_iostream<char_type, traits_type>       __iostream_type;
 
     private:
-      __filebuf_type	_M_filebuf;
+      __filebuf_type    _M_filebuf;
 
     public:
       // Constructors/destructor:
@@ -462,7 +462,7 @@ public:
 
       /**
        *  @brief  Create an input/output file stream.
-       *  @param  s  Null terminated string specifying the filename.
+       *  @param  x  Null terminated string specifying the filename, or a file descriptor, or anything for which a specialization of unicodeOpenHlp exists.
        *  @param  mode  Open file in specified mode (see std::ios_base).
        *
        *  Tip:  When using std::string to hold the filename, you must use
@@ -471,11 +471,11 @@ public:
       template<class T>
       explicit
       basic_fstream_unicode(T x,
-		    std::ios_base::openmode __mode = std::ios_base::in | std::ios_base::out)
+                    std::ios_base::openmode __mode = std::ios_base::in | std::ios_base::out)
       : __iostream_type(NULL), _M_filebuf()
       {
-	this->init(&_M_filebuf);
-	this->open(x, __mode);
+        this->init(&_M_filebuf);
+        this->open(x, __mode);
       }
 
       /**
@@ -514,7 +514,7 @@ public:
 
       /**
        *  @brief  Opens an external file.
-       *  @param  s  The name of the file.
+       *  @param  x  Null terminated string specifying the filename, or a file descriptor, or anything for which a specialization of unicodeOpenHlp exists.
        *  @param  mode  The open mode flags.
        *
        *  Calls @c std::basic_filebuf::open(s,mode).  If that
@@ -526,14 +526,14 @@ public:
       template<class T>
       void
       open(T x,
-	   std::ios_base::openmode __mode = std::ios_base::in | std::ios_base::out)
+           std::ios_base::openmode __mode = std::ios_base::in | std::ios_base::out)
       {
-	if (!_M_filebuf.open(unicodeOpenHlp(x, __mode), __mode))
-	  this->setstate(std::ios_base::failbit);
-	else
-	  // _GLIBCXX_RESOLVE_LIB_DEFECTS
-	  // 409. Closing an fstream should clear error state
-	  this->clear();
+        if (!_M_filebuf.open(unicodeOpenHlp(x, __mode), __mode))
+          this->setstate(std::ios_base::failbit);
+        else
+          // _GLIBCXX_RESOLVE_LIB_DEFECTS
+          // 409. Closing an fstream should clear error state
+          this->clear();
       }
 
       /**
@@ -545,8 +545,8 @@ public:
       void
       close()
       {
-	if (!_M_filebuf.close())
-	  this->setstate(std::ios_base::failbit);
+        if (!_M_filebuf.close())
+          this->setstate(std::ios_base::failbit);
       }
     };
 

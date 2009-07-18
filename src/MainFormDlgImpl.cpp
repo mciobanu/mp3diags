@@ -66,7 +66,7 @@ using namespace std;
 using namespace pearl;
 
 
-//ttt0 try to switch from QDialog to QWidget, to see if min/max in gnome show up; or add Qt::Dialog flag
+//ttt2 try to switch from QDialog to QWidget, to see if min/max in gnome show up; or add Qt::Dialog flag (didn't seem to work, though)
 
 MainFormDlgImpl* getGlobalDlg();  //ttt1 remove
 
@@ -561,6 +561,8 @@ MainFormDlgImpl::MainFormDlgImpl(QWidget* pParent, const string& strSession) : Q
     { m_pModifNormalizeB = new ModifInfoToolButton(m_pNormalizeB); connect(m_pModifNormalizeB, SIGNAL(clicked()), this, SLOT(on_m_pNormalizeB_clicked())); m_pNormalizeB = m_pModifNormalizeB; }
     { m_pModifReloadB = new ModifInfoToolButton(m_pReloadB); connect(m_pModifReloadB, SIGNAL(clicked()), this, SLOT(on_m_pReloadB_clicked())); m_pReloadB = m_pModifReloadB; }
 
+    { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
+
     /*{ QAction* p (new QAction(this)); p->setShortcut(QKeySequence("Ctrl+N")); connect(p, SIGNAL(triggered()), this, SLOT(onNext())); addAction(p); } //p->setShortcutContext(Qt::ApplicationShortcut);
     { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("Ctrl+P")); connect(p, SIGNAL(triggered()), this, SLOT(onPrev())); addAction(p); }
     { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("Ctrl+V")); connect(p, SIGNAL(triggered()), this, SLOT(onPaste())); addAction(p); }
@@ -664,13 +666,17 @@ MainFormDlgImpl::MainFormDlgImpl(QWidget* pParent, const string& strSession) : Q
 
 /*override*/ void MainFormDlgImpl::keyPressEvent(QKeyEvent* pEvent)
 {
-//qDebug("key prs %d", pEvent->key());
-
+//qDebug("key prs %x", pEvent->key());
     m_nLastKey = pEvent->key();
 
     pEvent->ignore();
 }
 
+
+void MainFormDlgImpl::onHelp()
+{
+    openHelp("130_main_window.html");
+}
 
 /*override*/ void MainFormDlgImpl::keyReleaseEvent(QKeyEvent* pEvent)
 {
@@ -966,7 +972,7 @@ void MainFormDlgImpl::onCrtFileChanged()
 
 
 
-/*override*/ void MainFormDlgImpl::resizeEvent(QResizeEvent* /*pEvent*/)
+/*override*/ void MainFormDlgImpl::resizeEvent(QResizeEvent* pEvent)
 {
     if (m_pCommonData->m_bAutoSizeIcons || m_pCommonData->m_nMainWndIconSize < 16)
     {
@@ -982,6 +988,8 @@ void MainFormDlgImpl::onCrtFileChanged()
     m_pUniqueNotesG->resizeRowsToContents();
     m_pNotesG->resizeRowsToContents();
     m_pStreamsG->resizeRowsToContents();
+
+    QDialog::resizeEvent(pEvent);
 }
 
 
@@ -1734,6 +1742,7 @@ public:
 //void MainFormDlgImpl::onStreamsGKeyPressed(int nKey)
 /*override*/ bool MainFormDlgImpl::eventFilter(QObject* pObj, QEvent* pEvent)
 {
+//qDebug("type %d", pEvent->type());
     QKeyEvent* pKeyEvent (dynamic_cast<QKeyEvent*>(pEvent));
     int nKey (0 == pKeyEvent ? 0 : pKeyEvent->key());
     if (m_pStreamsG != pObj || 0 == pKeyEvent || Qt::Key_Delete != nKey || QEvent::ShortcutOverride != pKeyEvent->type()) { return QDialog::eventFilter(pObj, pEvent); }

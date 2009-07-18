@@ -207,7 +207,7 @@ void NotesModel::matchSelToStreams()
 NotesGDelegate::NotesGDelegate(CommonData* pCommonData) : MultiLineTvDelegate(pCommonData->m_pNotesG), m_pCommonData(pCommonData)
 {
 }
-//ttt0 test on new DS, especially column sizes
+
 
 /*override*/ void NotesGDelegate::paint(QPainter* pPainter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {

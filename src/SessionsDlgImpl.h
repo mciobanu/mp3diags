@@ -71,6 +71,7 @@ class SessionsDlgImpl : public QDialog, private Ui::SessionsDlg
     void removeCrtSession();
     void selectSession(const std::string& strLast);
     void addSession(const std::string&);
+
 public:
     SessionsDlgImpl(QWidget* pParent /*, QSettings& settings*/);
     ~SessionsDlgImpl();
@@ -100,6 +101,8 @@ protected slots:
     void onShow();
 
     void onSessDoubleClicked(const QModelIndex& index);
+
+    void onHelp();
 };
 
 

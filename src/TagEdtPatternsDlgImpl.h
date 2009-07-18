@@ -40,6 +40,7 @@ class TagEdtPatternsDlgImpl : public QDialog, private Ui::PatternsDlg
     SessionSettings& m_settings;
 
     const std::vector<std::string>& m_vstrPredef;
+
 public:
     TagEdtPatternsDlgImpl(QWidget* pParent, SessionSettings& settings, const std::vector<std::string>& vstrPredef);
     ~TagEdtPatternsDlgImpl();
@@ -50,6 +51,8 @@ protected slots:
     void on_m_pOkB_clicked();
     void on_m_pCancelB_clicked();
     void on_m_pAddPredefB_clicked();
+
+    void onHelp();
 };
 
 #endif // #ifndef TagEdtPatternsDlgImplH

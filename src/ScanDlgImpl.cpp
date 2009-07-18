@@ -20,12 +20,12 @@
  ***************************************************************************/
 
 
-#include <QHeaderView>
+#include  <QHeaderView>
 
-#include "ScanDlgImpl.h"
+#include  "ScanDlgImpl.h"
 
-#include "CommonData.h"
-#include "CheckedDir.h"
+#include  "CommonData.h"
+#include  "CheckedDir.h"
 
 
 using namespace std;
@@ -49,6 +49,8 @@ ScanDlgImpl::ScanDlgImpl(QWidget* pParent, CommonData* pCommonData) : QDialog(pP
     //m_pDirModel->setDirs(pCommonData->getIncludeDirs(), pCommonData->getExcludeDirs(), m_pDirsT);
     //m_pDirModel->expandNodes(m_pDirsT);
     QTimer::singleShot(1, this, SLOT(onShow()));
+
+    { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
 }
 
 
@@ -72,4 +74,9 @@ bool ScanDlgImpl::run(bool& bForce)
     return true;
 }
 
+
+void ScanDlgImpl::onHelp()
+{
+    // openHelp("index.html");
+}
 

@@ -60,6 +60,8 @@ RenamerPatternsDlgImpl::RenamerPatternsDlgImpl(QWidget* pParent, SessionSettings
     int nWidth, nHeight;
     m_settings.loadRenamerPatternsSettings(nWidth, nHeight);
     if (nWidth > 400 && nHeight > 300) { resize(nWidth, nHeight); }
+
+    { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
 }
 
 
@@ -157,3 +159,10 @@ bool RenamerPatternsDlgImpl::run(vector<string>& v)
 
     return true;
 }
+
+
+void RenamerPatternsDlgImpl::onHelp()
+{
+    openHelp("240_file_renamer.html");
+}
+

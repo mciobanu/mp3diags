@@ -51,6 +51,8 @@ TagEdtPatternsDlgImpl::TagEdtPatternsDlgImpl(QWidget* pParent, SessionSettings& 
     int nWidth, nHeight;
     m_settings.loadTagEdtPatternsSettings(nWidth, nHeight);
     if (nWidth > 400 && nHeight > 300) { resize(nWidth, nHeight); }
+
+    { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
 }
 
 
@@ -157,6 +159,12 @@ void TagEdtPatternsDlgImpl::on_m_pAddPredefB_clicked()
     }
 
     m_pTextM->setText(convStr(s));
+}
+
+
+void TagEdtPatternsDlgImpl::onHelp()
+{
+    openHelp("220_tag_editor_patterns.html");
 }
 
 

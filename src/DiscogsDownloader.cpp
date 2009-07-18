@@ -251,7 +251,7 @@ private:
     void onImageStart(const QXmlAttributes& attrs)
     {
         string strUri (convStr(attrs.value("uri")));
-        string::size_type n (strUri.find_last_of('/'));
+        string::size_type n (strUri.rfind('/'));
         CB_ASSERT (string::npos != n);
         strUri.erase(0, n + 1);
         m_albumInfo.m_vstrImageNames.push_back(strUri);

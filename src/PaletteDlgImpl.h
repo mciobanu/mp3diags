@@ -66,6 +66,8 @@ protected slots:
     void on_m_pCol4B_clicked() { onButtonClicked(4); }
     void on_m_pCol5B_clicked() { onButtonClicked(5); }
     void on_m_pCol6B_clicked() { onButtonClicked(6); }
+
+    void onHelp();
 };
 
 #endif // #ifndef PaletteDlgImplH

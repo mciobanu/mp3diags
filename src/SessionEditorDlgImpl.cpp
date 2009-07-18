@@ -109,6 +109,8 @@ SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strIn
     m_pDirModel->setDirs(vstrCheckedDirs, vstrUncheckedDirs, m_pDirectoriesT);
 
     QTimer::singleShot(1, this, SLOT(onShow()));
+
+    { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
 }
 
 
@@ -316,6 +318,12 @@ void SessionEditorDlgImpl::on_m_pOpenSessionsB_clicked()
 {
     m_strIniFile = "*";
     accept();
+}
+
+
+void SessionEditorDlgImpl::onHelp()
+{
+    openHelp("110_first_run.html"); //ttt1 not quite right, since there are 2 "modes"
 }
 
 

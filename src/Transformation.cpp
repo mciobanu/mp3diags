@@ -194,8 +194,8 @@ void TransfConfig::splitOrigName(const string& strOrigSrcName, std::string& strR
 #endif
 
 
-    string::size_type nLastSep (strRelDir.find_last_of(getPathSep()));
-    string::size_type nLastPer (strRelDir.find_last_of('.'));
+    string::size_type nLastSep (strRelDir.rfind(getPathSep()));
+    string::size_type nLastPer (strRelDir.rfind('.'));
 
     if (nLastPer > nLastSep)
     { // the file has an extension
@@ -359,14 +359,14 @@ void TransfConfig::removeSuffix(string& s) const
     // !!! this seemed too aggressive;
     for (;;)
     {
-        string::size_type nPos (s.find_last_of(".orig."));
+        string::size_type nPos (s.rfind(".orig."));
         if (string::npos == nPos) { break; }
         s.erase(nPos, 5);
     }
 
     for (;;)
     {
-        string::size_type nPos (s.find_last_of(".proc."));
+        string::size_type nPos (s.rfind(".proc."));
         if (string::npos == nPos) { break; }
         s.erase(nPos, 5);
     }

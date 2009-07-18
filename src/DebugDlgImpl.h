@@ -65,6 +65,8 @@ protected slots:
     /*$PROTECTED_SLOTS$*/
 
     void on_m_pCloseB_clicked();
+
+    void onHelp();
 };
 
 #endif

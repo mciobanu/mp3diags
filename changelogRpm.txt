@@ -1,4 +1,13 @@
-* Fri Jul 10 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.02.022
+* Sat Jul 18 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.04.026
+- non-ASCII file names can now be seen on Windows
+- tag editor now looks at filter
+- USLT Lyrics inside ID3V2 are now shown
+- better alignment for text in note column header on Ubuntu
+- size grip on most dialogs
+- F1 help
+- files changed in the tag editor no longer show up in the main window if a filter is applied and they don't match the filter
+
+* Fri Jul 10 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.03.022
 - 2-letter labels
 - gradient grouping of notes
 - configurable colors

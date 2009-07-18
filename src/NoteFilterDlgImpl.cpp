@@ -102,6 +102,8 @@ NoteFilterDlgImpl::NoteFilterDlgImpl(CommonData* pCommonData, QWidget* pParent /
     }
 
     connect(m_pDoubleList, SIGNAL(avlDoubleClicked(int)), this, SLOT(onAvlDoubleClicked(int)));
+
+    { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
 }
 
 
@@ -186,6 +188,13 @@ void NoteFilterDlgImpl::onAvlDoubleClicked(int nRow)
 {
     CB_ASSERT(false);
 }
+
+
+void NoteFilterDlgImpl::onHelp()
+{
+    openHelp("170_note_filter.html");
+}
+
 
 
 //=====================================================================================================================
@@ -280,6 +289,5 @@ void NoteFilterDlgImpl::onAvlDoubleClicked(int nRow)
     }
     return Qt::AlignTop | Qt::AlignLeft;
 }
-
 
 

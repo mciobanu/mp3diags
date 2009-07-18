@@ -265,7 +265,7 @@ void SelectedModel::emitLayoutChanged()
     // second approach
     //pPainter->fillRect(option.rect, QBrush(m_listPainter.getColor(m_listPainter.getSel()[nRow], nCol, option.palette.color(QPalette::Active, QPalette::Base)))); //ttt3 " Active" not right if the window is inactive
 
-    QColor bckgCol (option.palette.color(QPalette::Active, QPalette::Base)); //ttt0 compare to avl, where it's "QColor bckgCol (pPainter->background().color());" see why
+    QColor bckgCol (option.palette.color(QPalette::Active, QPalette::Base)); //ttt3 compare to avl, where it's "QColor bckgCol (pPainter->background().color());" see why // 2009.07.15 - probably "option..." is better; the other one relies on the painter to be initialized to what's in option, but not sure that is required; so penCol is not quite right as well; however, the painter probably comes initialized correctly
 
     QColor penCol (pPainter->pen().color());
     double dGradStart (-1), dGradEnd (-1);

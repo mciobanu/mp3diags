@@ -383,6 +383,8 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
     m_pCurrentAlbumG->installEventFilter(this);
     installEventFilter(this);
 
+    { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
+
     QTimer::singleShot(1, this, SLOT(onShow())); // just calls resizeTagEditor(); !!! needed to properly resize the table columns; album and file tables have very small widths until they are actually shown, so calling resizeTagEditor() earlier is pointless; calling update() on various layouts seems pointless as well; (see also DoubleList::resizeEvent() )
 }
 
@@ -458,9 +460,10 @@ void TagEditorDlgImpl::resizeFile() // resizes the "current file" grid; called b
 }
 
 
-/*override*/ void TagEditorDlgImpl::resizeEvent(QResizeEvent* /*pEvent*/)
+/*override*/ void TagEditorDlgImpl::resizeEvent(QResizeEvent* pEvent)
 {
     resizeTagEditor();
+    QDialog::resizeEvent(pEvent);
 }
 
 
@@ -1423,6 +1426,13 @@ TagEditorDlgImpl::SaveOpt TagEditorDlgImpl::save(bool bImplicitCall)
     updateAssigned(); // needed for the "assign" button to work, because the previous line cleared m_pTagWriter->m_sSelOrigVal
     return bRes ? SAVED : PARTIALLY_SAVED;
 }
+
+
+void TagEditorDlgImpl::onHelp()
+{
+    openHelp("190_tag_editor.html");
+}
+
 
 
 //========================================================================================================================================================

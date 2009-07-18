@@ -12,6 +12,9 @@
   <property name="windowTitle" >
    <string>pppppppppppppp</string>
   </property>
+  <property name="sizeGripEnabled" >
+   <bool>true</bool>
+  </property>
   <layout class="QVBoxLayout" >
    <item>
     <widget class="QLabel" name="label" >

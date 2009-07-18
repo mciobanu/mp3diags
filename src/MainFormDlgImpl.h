@@ -105,6 +105,8 @@ public slots:
     void onShow();
     void onShowAssert();
 
+    void onHelp();
+
 private:
     void scan(FileEnumerator& fileEnum, bool bForce, std::deque<const Mp3Handler*> vpExisting, int nKeepWhenUpdate); // a subset of vpExisting gets copied to vpDel in the m_pCommonData->mergeHandlerChanges() call; so if vpExisting is empty, vpDel will be empty too; if bForce is true, thw whole vpExisting is copied to vpDel;
 

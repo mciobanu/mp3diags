@@ -12,6 +12,9 @@
   <property name="windowTitle" >
    <string>MP3 Diags - Sessions</string>
   </property>
+  <property name="sizeGripEnabled" >
+   <bool>true</bool>
+  </property>
   <layout class="QVBoxLayout" >
    <item>
     <layout class="QHBoxLayout" >

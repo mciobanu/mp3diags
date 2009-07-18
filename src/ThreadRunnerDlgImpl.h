@@ -201,6 +201,8 @@ private slots:
     void onStepChanged(const StrList& v);
     void onCloseTimer();
     void onUpdateTimer();
+
+    void onHelp();
 };
 
 #endif // #ifndef ThreadRunnerDlgImplH

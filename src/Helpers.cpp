@@ -27,9 +27,11 @@
 
 #include  <boost/version.hpp>
 
+#include  <QDesktopServices>
+
 #ifndef WIN32
     #include  <QDir>
-    #include <sys/utsname.h>
+    #include  <sys/utsname.h>
 #else
     #include  <windows.h>
     #include  <psapi.h>
@@ -38,6 +40,7 @@
 
 #include  <QWidget>
 #include  <QUrl>
+#include  <QFileInfo>
 
 #include  "Helpers.h"
 
@@ -753,7 +756,7 @@ QString getSystemInfo() //ttt1 perhaps store this at startup, so fewer things ma
 
 #endif
     s.replace('\n', ' ');
-    s = QString("Version: MP3 Diags %1.\nWord size: %2 bit.\nQt version: %3.\nBoost build version: %4\n").arg(APP_VER).arg(QSysInfo::WordSize).arg(qVersion()).arg(BOOST_LIB_VERSION) + s; //ttt0 see if possible to get actual boost version (if libs are binary compatible)
+    s = QString("Version: MP3 Diags %1.\nWord size: %2 bit.\nQt version: %3.\nBoost version: %4\n").arg(APP_VER).arg(QSysInfo::WordSize).arg(qVersion()).arg(BOOST_LIB_VERSION) + s;
     return s;
 }
 
@@ -851,3 +854,45 @@ void configureGradient(QGradient& grad, const QColor& col, double dStart, double
 #endif
 }
 
+vector<QString> getLocalHelpDirs()
+{
+    static vector<QString> s_v;
+    if (s_v.empty())
+    {
+#ifndef WIN32
+        s_v.push_back("/home/ciobi/cpp/Mp3Utils/mp3diags/doc/html/");
+        s_v.push_back("/usr/share/mp3diags-doc/html/");
+        s_v.push_back("/usr/share/doc/mp3diags/html/");
+#else //ttt1
+        s_v.push_back("/Program Files/MP3Diags/doc"); // ttt0 improve, make it figure out where it was installed
+#endif
+    }
+
+    return s_v;
+}
+
+
+// opens a web page from the documentation in the default browser;
+// first looks in several places on the local computer; if the file can't be found there, it goes to SourceForge
+void openHelp(const string& strFileName)
+{
+    const vector<QString>& v (getLocalHelpDirs());
+    QString strDir;
+    for (int i = 0; i < cSize(v); ++i)
+    {
+        if (QFileInfo(v[i] + convStr(strFileName)).isFile())
+        {
+            strDir = v[i];
+            break;
+        }
+    }
+
+    if (strDir.isEmpty())
+    {
+        strDir = "http://mp3diags.sourceforge.net/";
+    }
+
+    QString qs (strDir + convStr(strFileName));
+
+    QDesktopServices::openUrl(QUrl(qs));
+}

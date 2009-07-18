@@ -25,6 +25,8 @@
 
 #include  "ThreadRunnerDlgImpl.h"
 
+#include  "Helpers.h"
+
 
 PausableThread::PausableThread(/*QObject* pParent = 0*/) : /*QThread(pParent),*/ m_bPaused(false), m_bAborted(false)
 {
@@ -119,6 +121,8 @@ ThreadRunnerDlgImpl::ThreadRunnerDlgImpl(QWidget* pParent, Qt::WFlags flags, Pau
 
     pThread->start();
     m_updateTimer.start(500); // 0.5 sec
+
+    { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
 }
 
 ThreadRunnerDlgImpl::~ThreadRunnerDlgImpl()
@@ -300,6 +304,11 @@ void ThreadRunnerDlgImpl::onUpdateTimer()
     on_m_pAbortB_clicked();
 }
 
+
+void ThreadRunnerDlgImpl::onHelp()
+{
+    // openHelp("index.html"); //ttt1 see if anything more specific can be done
+}
 
 
 

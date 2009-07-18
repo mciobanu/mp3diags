@@ -513,6 +513,8 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
     }
 
     m_pSrcDirE->setFocus();
+
+    { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
 }
 
 
@@ -939,6 +941,25 @@ void ConfigDlgImpl::selectDir(QLineEdit* pEdt)
         s += s1;
     }
     pEdt->setText(s);
+}
+
+
+
+void ConfigDlgImpl::onHelp()
+{
+    switch(m_pMainTabWidget->currentIndex())
+    {
+    case 0: openHelp("250_config_files.html"); break;
+    case 1: openHelp("260_config_ignored_notes.html"); break;
+    case 2: openHelp("270_config_custom_transf.html"); break;
+    case 3: openHelp("280_config_quality.html"); break;
+    case 4: openHelp("290_config_transf_params.html"); break;
+
+    case 6: openHelp("300_config_others.html"); break;
+    //ttt0 revise as needed
+
+    default: /*openHelp("index.html");*/ break;
+    }
 }
 
 

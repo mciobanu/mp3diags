@@ -170,6 +170,8 @@ DirFilterDlgImpl::DirFilterDlgImpl(CommonData* pCommonData, QWidget* pParent /*=
     }
 
     connect(m_pDoubleList, SIGNAL(avlDoubleClicked(int)), this, SLOT(onAvlDoubleClicked(int)));
+
+    { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
 }
 
 
@@ -264,4 +266,9 @@ void DirFilterDlgImpl::onAvlDoubleClicked(int nRow)
 
 /*override*/ int DirFilterDlgImpl::getHdrHeight() const { return CELL_HEIGHT; }
 
+
+void DirFilterDlgImpl::onHelp()
+{
+    openHelp("180_folder_filter.html");
+}
 

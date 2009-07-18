@@ -93,6 +93,8 @@ public slots:
     void on_m_pCancelB_clicked();
 
     void onAvlDoubleClicked(int nRow);
+
+    void onHelp();
 };
 
 #endif // #ifndef NoteFilterDlgImplH

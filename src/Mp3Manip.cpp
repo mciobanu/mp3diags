@@ -876,7 +876,7 @@ long long Mp3Handler::getSize() const
 
 string Mp3Handler::getShortName() const
 {
-    string::size_type n (m_pFileName->s.find_last_of(getPathSep()));
+    string::size_type n (m_pFileName->s.rfind(getPathSep()));
     CB_ASSERT(string::npos != n);
     return m_pFileName->s.substr(n + 1);
 }

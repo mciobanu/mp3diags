@@ -12,6 +12,9 @@
   <property name="windowTitle" >
    <string>Normalize</string>
   </property>
+  <property name="sizeGripEnabled" >
+   <bool>true</bool>
+  </property>
   <layout class="QVBoxLayout" >
    <item>
     <widget class="QTextBrowser" name="m_pOutM" >

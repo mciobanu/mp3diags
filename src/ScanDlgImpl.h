@@ -37,6 +37,7 @@ class ScanDlgImpl : public QDialog, private Ui::ScanDlg
 
     CommonData* m_pCommonData;
     CheckedDirModel* m_pDirModel;
+
 public:
     ScanDlgImpl(QWidget* pParent, CommonData* pCommonData);
     bool run(bool& bForce); // if returning true, it also calls CommonData::setDirs()
@@ -55,6 +56,8 @@ protected slots:
     void on_m_pScanB_clicked() { accept(); }
     void on_m_pCancelB_clicked() { reject(); }
     void onShow();
+
+    void onHelp();
 };
 
 #endif

@@ -12,6 +12,9 @@
   <property name="windowTitle" >
    <string>Scan</string>
   </property>
+  <property name="sizeGripEnabled" >
+   <bool>true</bool>
+  </property>
   <layout class="QVBoxLayout" >
    <item>
     <widget class="QSplitter" name="splitter" >

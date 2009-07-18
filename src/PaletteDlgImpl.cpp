@@ -44,6 +44,8 @@ PaletteDlgImpl::PaletteDlgImpl(CommonData* pCommonData, QWidget* pParent) : QDia
     {
         setBtnColor(i);
     }
+
+    { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
 }
 
 PaletteDlgImpl::~PaletteDlgImpl()
@@ -98,4 +100,9 @@ void PaletteDlgImpl::onButtonClicked(int n)
 }
 
 
+
+void PaletteDlgImpl::onHelp()
+{
+    //openHelp("index.html");
+}
 

@@ -66,6 +66,8 @@ AlbumInfoDownloaderDlgImpl::AlbumInfoDownloaderDlgImpl(QWidget* pParent, Session
 
     m_pTrackListG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
     m_pTrackListG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
+
+    { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
 }
 
 
@@ -901,6 +903,14 @@ void AlbumInfoDownloaderDlgImpl::saveDownloadedData(const char* p, int nSize, co
 }
 
 
+void AlbumInfoDownloaderDlgImpl::onHelp()
+{
+    openHelp("200_discogs_query.html");
+}
+
+
+
+
 //==========================================================================================================================
 //==========================================================================================================================
 //==========================================================================================================================
@@ -1052,4 +1062,6 @@ WebDwnldModel::WebDwnldModel(AlbumInfoDownloaderDlgImpl& dwnld, QTableView& grid
 
     return nSection + 1;
 }
+
+
 

@@ -142,6 +142,8 @@ SessionsDlgImpl::SessionsDlgImpl(QWidget* pParent) : QDialog(pParent, getMainWnd
         if (nWidth > 400 && nHeight > 400) { resize(nWidth, nHeight); }
     }
 
+    { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
+
     QTimer::singleShot(1, this, SLOT(onShow()));
 }
 
@@ -460,5 +462,10 @@ void SessionsDlgImpl::onSessDoubleClicked(const QModelIndex& index)
 {
     selectSession(m_vstrSessions.at(index.row()));
     on_m_pOpenB_clicked();
+}
+
+void SessionsDlgImpl::onHelp()
+{
+    openHelp("310_advanced.html");
 }
 

@@ -23,6 +23,7 @@
 #include  <QTimer>
 #include  <QPainter>
 #include  <QHeaderView>
+#include  <QSizeGrip>
 
 #include  "FileRenamerDlgImpl.h"
 
@@ -236,10 +237,16 @@ FileRenamerDlgImpl::FileRenamerDlgImpl(QWidget* pParent, CommonData* pCommonData
         m_pKeepOriginalCkB->setChecked(bKeepOriginal);
     }
 
+    //setSizeGripEnabled(true);
+    //QSizeGrip* pGrip (this);
+    //pGrip->show();
+
 
     { m_pModifRenameB = new ModifInfoToolButton(m_pRenameB); connect(m_pModifRenameB, SIGNAL(clicked()), this, SLOT(on_m_pRenameB_clicked())); m_pRenameB = m_pModifRenameB; }
 
     QTimer::singleShot(1, this, SLOT(onShow())); // just calls reloadTable(); !!! needed to properly resize the table columns; album and file tables have very small widths until they are actually shown, so calling resizeTagEditor() earlier is pointless; calling update() on various layouts seems pointless as well; (see also DoubleList::resizeEvent() )
+
+    { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
 }
 
 
@@ -626,9 +633,10 @@ void FileRenamerDlgImpl::resizeUi()
     ColumnResizer rsz (intf, 100, ColumnResizer::FILL, ColumnResizer::CONSISTENT_RESULTS);
 }
 
-/*override*/ void FileRenamerDlgImpl::resizeEvent(QResizeEvent* /*pEvent*/)
+/*override*/ void FileRenamerDlgImpl::resizeEvent(QResizeEvent* pEvent)
 {
     resizeUi();
+    QDialog::resizeEvent(pEvent);
 }
 
 
@@ -723,6 +731,12 @@ void FileRenamerDlgImpl::resizeIcons()
     }
 }
 
+
+
+void FileRenamerDlgImpl::onHelp()
+{
+    openHelp("240_file_renamer.html");
+}
 
 
 

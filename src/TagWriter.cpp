@@ -1448,14 +1448,20 @@ void TagWriter::paste()
     QString qs (pClp->text());
     if (!qs.isEmpty())
     {
-        if (-1 == qs.indexOf('\n')) //ttt1 OS-specific
+        if (-1 == qs.indexOf('\n'))
         {
             if (qs.startsWith("file://"))
             {
                 qs.remove(0, 7);
             }
 
-            if (qs.startsWith(getPathSep())) // ttt1 see if it makes sense to open files without full name //ttt0 OS-specific
+#ifndef WIN32
+            if (qs.startsWith(getPathSep())) // ttt1 see if it makes sense to open files without full name
+#else
+            qs = fromNativeSeparators(qs);
+            //qDebug("qs=%s", qs.toUtf8().data());
+            if (qs.size() > 7 && qs[0].isLetter() && qs[1] == ':' && qs[2] == getPathSep())
+#endif
             {
                 if (addImgFromFile(qs, CONSIDER_UNASSIGNED))
                 {

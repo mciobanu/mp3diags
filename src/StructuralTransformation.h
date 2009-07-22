@@ -150,9 +150,9 @@ class BrokenId3V2Remover : public GenericRemover
     /*override*/ bool matches(DataStream* p) const;
 public:
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Removes broken Id3V2 streams."; }
+    /*override*/ const char* getDescription() const { return "Removes broken ID3V2 streams."; }
 
-    static const char* getClassName() { return "Remove broken Id3V2 streams"; }
+    static const char* getClassName() { return "Remove broken ID3V2 streams"; }
 };
 
 
@@ -161,7 +161,7 @@ class UnsupportedId3V2Remover : public GenericRemover
     /*override*/ bool matches(DataStream* p) const;
 public:
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Removes unsupported Id3V2 streams."; }
+    /*override*/ const char* getDescription() const { return "Removes unsupported ID3V2 streams."; }
 
     static const char* getClassName() { return "Remove unsupported ID3V2 streams"; }
 };
@@ -206,6 +206,17 @@ public:
 };
 
 
+class Id3V1Remover : public GenericRemover
+{
+    /*override*/ bool matches(DataStream* p) const;
+public:
+    /*override*/ const char* getActionName() const { return getClassName(); }
+    /*override*/ const char* getDescription() const { return "Removes all ID3V1 streams."; }
+
+    static const char* getClassName() { return "Remove all ID3V1 streams"; }
+};
+
+
 //===================================================================================================================
 
 
@@ -214,7 +225,7 @@ class TruncatedAudioPadder : public Transformation
 public:
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Pads truncated audio frames with 0 to the right. Its usefulness hasn't been determined yet (it might be quite low)."; }
+    /*override*/ const char* getDescription() const { return "Pads truncated audio frames with 0 to the right. Its usefulness hasn't been determined yet (it might be quite low.)"; }
 
     static const char* getClassName() { return "Pad truncated audio"; }
 };

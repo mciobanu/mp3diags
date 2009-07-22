@@ -194,7 +194,7 @@ bool CheckedDirModel::isDescendant(const QString& s1, const QString& s2) const
 
     return
         s2.isEmpty() ||
-        (s2 == "/" && s1.size() > 1) || // ttt1 linux-specific
+        (s2 == "/" && s1.size() > 1) || // ttt3 linux-specific
         (s1.startsWith(s2) && s1.size() > s2.size() && s1[s2.size()] == '/');
 }
 

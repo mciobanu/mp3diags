@@ -336,5 +336,16 @@ void configureGradient(QGradient& grad, const QColor& col, double dStart, double
 // first looks in several places on the local computer; if the file can't be found there, it goes to SourceForge
 void openHelp(const std::string& strFileName);
 
+
+// meant for displaying tooltips; converts some spaces to \n, so the tooltips have several short lines instead of a single wide line
+QString makeMultiline(const char* szDescr);
+
+QString toNativeSeparators(const QString&);
+QString fromNativeSeparators(const QString&);
+inline std::string toNativeSeparators(const std::string& s) { return convStr(toNativeSeparators(convStr(s))); }
+inline std::string fromNativeSeparators(const std::string& s) { return convStr(fromNativeSeparators(convStr(s))); }
+
+QString getTempDir();
+
 #endif // ifndef HelpersH
 

@@ -38,7 +38,6 @@ class TagWriter;
 class QScrollArea;
 class QStackedLayout;
 
-class ModifInfoToolButton;
 
 class FileEnumerator;
 
@@ -49,7 +48,7 @@ class MainFormDlgImpl : public QDialog, private Ui::MainFormDlg
 {
 Q_OBJECT
 public:
-    MainFormDlgImpl(QWidget* pParent, const std::string& strSession);
+    MainFormDlgImpl(const std::string& strSession, bool bUniqueSession);
 
     ~MainFormDlgImpl();
 
@@ -107,6 +106,8 @@ public slots:
 
     void onHelp();
 
+    void onMenuHovered(QAction*);
+
 private:
     void scan(FileEnumerator& fileEnum, bool bForce, std::deque<const Mp3Handler*> vpExisting, int nKeepWhenUpdate); // a subset of vpExisting gets copied to vpDel in the m_pCommonData->mergeHandlerChanges() call; so if vpExisting is empty, vpDel will be empty too; if bForce is true, thw whole vpExisting is copied to vpDel;
 
@@ -137,6 +138,9 @@ private:
     void saveCustomTransf(int k);
     void loadCustomTransf(int k);
 
+    void saveVisibleTransf();
+    void loadVisibleTransf();
+
     enum { SELECTED, ALL };
     void transform(std::vector<Transformation*>& vpTransf, bool bAll);
 
@@ -147,6 +151,7 @@ private:
 
     ModifInfoToolButton* m_pModifNormalizeB;
     ModifInfoToolButton* m_pModifReloadB;
+    ModifInfoToolButton* m_pModifRenameFilesB;
     std::string m_strSession;
 
     void resizeIcons();

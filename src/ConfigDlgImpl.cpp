@@ -68,7 +68,7 @@ public:
 }
 
 
-class TransfListPainter : public ListPainter
+class CustomTransfListPainter : public ListPainter
 {
     /*override*/ int getColCount() const { return 2; }
     /*override*/ std::string getColTitle(int nCol) const { return 0 == nCol ? "Action" : "Description"; }
@@ -81,18 +81,18 @@ class TransfListPainter : public ListPainter
 
     const SubList& m_vDefaultSel; // to be used by reset()
 public:
-    TransfListPainter(const CommonData* pCommonData, const SubList& vOrigSel, const SubList& vSel, const SubList& vDefaultSel);
-    ~TransfListPainter();
+    CustomTransfListPainter(const CommonData* pCommonData, const SubList& vOrigSel, const SubList& vSel, const SubList& vDefaultSel);
+    ~CustomTransfListPainter();
 };
 
 
 
-TransfListPainter::TransfListPainter(const CommonData* pCommonData, const SubList& vOrigSel, const SubList& vSel, const SubList& vDefaultSel) : ListPainter(""), m_vDefaultSel(vDefaultSel)
+CustomTransfListPainter::CustomTransfListPainter(const CommonData* pCommonData, const SubList& vOrigSel, const SubList& vSel, const SubList& vDefaultSel) : ListPainter(""), m_vDefaultSel(vDefaultSel)
 {
-//qDebug("init TransfListPainter with origsel %d and sel %d", cSize(vOrigSel), cSize(vSel));
-    for (int i = 0, n = cSize(pCommonData->getTransf()); i < n; ++i)
+//qDebug("init CustomTransfListPainter with origsel %d and sel %d", cSize(vOrigSel), cSize(vSel));
+    for (int i = 0, n = cSize(pCommonData->getAllTransf()); i < n; ++i)
     {
-        m_vpOrigAll.push_back(new TransfListElem(pCommonData->getTransf()[i]));
+        m_vpOrigAll.push_back(new TransfListElem(pCommonData->getAllTransf()[i]));
     }
     m_vpResetAll = m_vpOrigAll; // !!! no new pointers
     m_vOrigSel = vOrigSel;
@@ -100,13 +100,13 @@ TransfListPainter::TransfListPainter(const CommonData* pCommonData, const SubLis
 }
 
 
-TransfListPainter::~TransfListPainter()
+CustomTransfListPainter::~CustomTransfListPainter()
 {
     clearPtrContainer(m_vpOrigAll);
 }
 
 
-/*override*/ string TransfListPainter::getTooltip(TooltipKey eTooltipKey) const
+/*override*/ string CustomTransfListPainter::getTooltip(TooltipKey eTooltipKey) const
 {
     switch (eTooltipKey)
     {
@@ -123,10 +123,76 @@ TransfListPainter::~TransfListPainter()
 }
 
 
-/*override*/ void TransfListPainter::reset()
+/*override*/ void CustomTransfListPainter::reset()
 {
     m_vSel = m_vDefaultSel;
 }
+
+//=====================================================================================================================
+//=====================================================================================================================
+//=====================================================================================================================
+
+
+class VisibleTransfPainter : public ListPainter
+{
+    /*override*/ int getColCount() const { return 2; }
+    /*override*/ std::string getColTitle(int nCol) const { return 0 == nCol ? "Action" : "Description"; }
+    /*override*/ void getColor(int /*nIndex*/, int /*nColumn*/, bool /*bSubList*/, QColor& /*bckgColor*/, QColor& /*penColor*/, double& /*dGradStart*/, double& /*dGradEnd*/) const { }
+    /*override*/ int getColWidth(int /*nCol*/) const { return -1; } // positive values are used for fixed widths, while negative ones are for "stretched"
+    /*override*/ int getHdrHeight() const { return CELL_HEIGHT; }
+    /*override*/ Qt::Alignment getAlignment(int /*nCol*/) const { return Qt::AlignTop | Qt::AlignLeft; }
+    /*override*/ std::string getTooltip(TooltipKey eTooltipKey) const;
+    /*override*/ void reset();
+
+    const SubList& m_vDefaultSel; // to be used by reset()
+public:
+    VisibleTransfPainter(const CommonData* pCommonData, const SubList& vOrigSel, const SubList& vSel, const SubList& vDefaultSel);
+    ~VisibleTransfPainter();
+};
+
+
+
+VisibleTransfPainter::VisibleTransfPainter(const CommonData* pCommonData, const SubList& vOrigSel, const SubList& vSel, const SubList& vDefaultSel) : ListPainter(""), m_vDefaultSel(vDefaultSel)
+{
+//qDebug("init VisibleTransfPainter with origsel %d and sel %d", cSize(vOrigSel), cSize(vSel));
+    for (int i = 0, n = cSize(pCommonData->getAllTransf()); i < n; ++i)
+    {
+        m_vpOrigAll.push_back(new TransfListElem(pCommonData->getAllTransf()[i]));
+    }
+    m_vpResetAll = m_vpOrigAll; // !!! no new pointers
+    m_vOrigSel = vOrigSel;
+    m_vSel = vSel;
+}
+
+
+VisibleTransfPainter::~VisibleTransfPainter()
+{
+    clearPtrContainer(m_vpOrigAll);
+}
+
+
+/*override*/ string VisibleTransfPainter::getTooltip(TooltipKey eTooltipKey) const
+{
+    switch (eTooltipKey)
+    {
+    case SELECTED_G: return "";//"Notes to be included";
+    case AVAILABLE_G: return "";//"Available notes";
+    case ADD_B: return "Add selected transformation(s)";
+    case DELETE_B: return "Remove selected transformation(s)";
+    case ADD_ALL_B: return "";//"Add all transformations";
+    case DELETE_ALL_B: return "";//"Remove all transformations";
+    case RESTORE_DEFAULT_B: return "Restore current list to its default value";
+    case RESTORE_OPEN_B: return "Restore current list to the configuration it had when the window was open";
+    default: CB_ASSERT(false);
+    }
+}
+
+
+/*override*/ void VisibleTransfPainter::reset()
+{
+    m_vSel = m_vDefaultSel;
+}
+
 
 //=====================================================================================================================
 //=====================================================================================================================
@@ -201,11 +267,12 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
         m_transfCfg(transfCfg),
 
         m_pCommonData(pCommonData),
-        m_pTransfListPainter(0),
-        m_pTransfDoubleList(0),
-        m_vvCustomTransf(pCommonData->getCustomTransf()),
+        m_pCustomTransfListPainter(0),
+        m_pCustomTransfDoubleList(0),
+        m_vvnCustomTransf(pCommonData->getCustomTransf()),
         m_nCurrentTransf(-1),
-        m_vvDefaultTransf(CUSTOM_TRANSF_CNT)
+        m_vvnDefaultCustomTransf(CUSTOM_TRANSF_CNT),
+        m_vnVisibleTransf(pCommonData->getVisibleTransf())
 {
     setupUi(this);
 
@@ -285,7 +352,7 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
     //tab_3->installEventFilter(pEventFilter);
     */
 
-    m_pSrcDirE->setText(convStr(getSepTerminatedDir(transfCfg.getSrcDir())));
+    m_pSrcDirE->setText(toNativeSeparators(convStr(getSepTerminatedDir(transfCfg.getSrcDir()))));
 
     { // ProcOrig
         switch (transfCfg.m_optionsWrp.m_opt.m_nProcOrigChange)
@@ -303,7 +370,7 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
         if (transfCfg.m_optionsWrp.m_opt.m_bProcOrigUseLabel) { m_pPOUseLabelRB->setChecked(true); } else { m_pPODontUseLabelRB->setChecked(true); }
         if (transfCfg.m_optionsWrp.m_opt.m_bProcOrigAlwayUseCounter) { m_pPOAlwaysUseCounterRB->setChecked(true); } else { m_pPOUseCounterIfNeededRB->setChecked(true); }
 
-        m_pPODestE->setText(convStr(getSepTerminatedDir(transfCfg.getProcOrigDir())));
+        m_pPODestE->setText(toNativeSeparators(convStr(getSepTerminatedDir(transfCfg.getProcOrigDir()))));
     }
 
     { // UnprocOrig
@@ -321,7 +388,7 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
         if (transfCfg.m_optionsWrp.m_opt.m_bUnprocOrigUseLabel) { m_pUOUseLabelRB->setChecked(true); } else { m_pUODontUseLabelRB->setChecked(true); }
         if (transfCfg.m_optionsWrp.m_opt.m_bUnprocOrigAlwayUseCounter) { m_pUOAlwaysUseCounterRB->setChecked(true); } else { m_pUOUseCounterIfNeededRB->setChecked(true); }
 
-        m_pUODestE->setText(convStr(getSepTerminatedDir(transfCfg.getUnprocOrigDir())));
+        m_pUODestE->setText(toNativeSeparators(convStr(getSepTerminatedDir(transfCfg.getUnprocOrigDir()))));
     }
 
     { // Processed
@@ -338,7 +405,7 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
         if (transfCfg.m_optionsWrp.m_opt.m_bProcessedAlwayUseCounter) { m_pProcAlwaysUseCounterRB->setChecked(true); } else { m_pProcUseCounterIfNeededRB->setChecked(true); }
         if (transfCfg.m_optionsWrp.m_opt.m_bProcessedUseSeparateDir) { m_pProcUseSeparateDirRB->setChecked(true); } else { m_pProcUseSrcRB->setChecked(true); }
 
-        m_pProcDestE->setText(convStr(getSepTerminatedDir(transfCfg.getProcessedDir())));
+        m_pProcDestE->setText(toNativeSeparators(convStr(getSepTerminatedDir(transfCfg.getProcessedDir()))));
     }
 
     {
@@ -347,12 +414,12 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
 
     { // Temp
         if (transfCfg.m_optionsWrp.m_opt.m_bTempCreate) { m_pTempCreateRB->setChecked(true); } else { m_pTempDontCreateRB->setChecked(true); }
-        m_pTempDestE->setText(convStr(getSepTerminatedDir(transfCfg.getTempDir())));
+        m_pTempDestE->setText(toNativeSeparators(convStr(getSepTerminatedDir(transfCfg.getTempDir()))));
     }
 
     { // Comp
         if (transfCfg.m_optionsWrp.m_opt.m_bCompCreate) { m_pCompCreateRB->setChecked(true); } else { m_pCompDontCreateRB->setChecked(true); }
-        m_pCompDestE->setText(convStr(getSepTerminatedDir(transfCfg.getCompDir())));
+        m_pCompDestE->setText(toNativeSeparators(convStr(getSepTerminatedDir(transfCfg.getCompDir()))));
     }
 
 
@@ -406,7 +473,7 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
     {
         m_vpTransfLabels[i]->setPalette(m_wndPalette);
         refreshTransfText(i);
-        initDefaultCustomTransf(i, m_vvDefaultTransf, m_pCommonData);
+        initDefaultCustomTransf(i, m_vvnDefaultCustomTransf, m_pCommonData);
     }
 
     selectCustomTransf(0);
@@ -512,6 +579,24 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
         setFontLabels();
     }
 
+    {
+        initDefaultVisibleTransf(m_vnDefaultVisibleTransf, m_pCommonData);
+
+        m_pVisibleTransfPainter = new VisibleTransfPainter(m_pCommonData, m_pCommonData->getVisibleTransf(), m_vnVisibleTransf, m_vnDefaultVisibleTransf);
+        m_pVisibleTransfDoubleList = new DoubleList(
+                *m_pVisibleTransfPainter,
+                DoubleList::RESTORE_OPEN | DoubleList::RESTORE_DEFAULT,
+                DoubleList::SINGLE_SORTABLE,
+                "All transformations",
+                "Visible transformations",
+                this);
+
+        m_pVisibleTransformsHndlr->setLayout(new QHBoxLayout());
+        m_pVisibleTransformsHndlr->layout()->setContentsMargins(0, 0, 0, 0);
+
+        m_pVisibleTransformsHndlr->layout()->addWidget(m_pVisibleTransfDoubleList);
+    }
+
     m_pSrcDirE->setFocus();
 
     { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
@@ -548,6 +633,16 @@ void ConfigDlgImpl::onButtonClicked(int n)
     setBtnColor(n);
 }
 
+
+void ConfigDlgImpl::on_m_pResetColorsB_clicked()
+{
+    QColor c (getDefaultBkgCol());
+    for (int i = 0; i < cSize(m_vNoteCategColors) - 1; ++i) // !!! "-1" because there is no configuration for CUSTOM colors
+    {
+        m_vNoteCategColors[i] = c;
+        setBtnColor(i);
+    }
+}
 
 void SessionSettings::saveTransfConfig(const TransfConfig& transfConfig)
 {
@@ -651,20 +746,60 @@ void initDefaultCustomTransf(int k, vector<vector<int> >& vv, CommonData* pCommo
 }
 
 
+void initDefaultVisibleTransf(vector<int>& v, CommonData* pCommonData)
+{
+    v.push_back(pCommonData->getTransfPos(SingleBitRepairer::getClassName()));
+    v.push_back(pCommonData->getTransfPos(InnerNonAudioRemover::getClassName()));
+
+    v.push_back(pCommonData->getTransfPos(UnknownDataStreamRemover::getClassName()));
+    v.push_back(pCommonData->getTransfPos(BrokenDataStreamRemover::getClassName()));
+    v.push_back(pCommonData->getTransfPos(UnsupportedDataStreamRemover::getClassName()));
+    v.push_back(pCommonData->getTransfPos(TruncatedMpegDataStreamRemover::getClassName()));
+    v.push_back(pCommonData->getTransfPos(NullStreamRemover::getClassName()));
+
+    v.push_back(pCommonData->getTransfPos(BrokenId3V2Remover::getClassName()));
+    v.push_back(pCommonData->getTransfPos(UnsupportedId3V2Remover::getClassName()));
+
+    //v.push_back(pCommonData->getTransfPos(IdentityTransformation::getClassName()));
+
+    v.push_back(pCommonData->getTransfPos(MultipleId3StreamRemover::getClassName()));
+    v.push_back(pCommonData->getTransfPos(MismatchedXingRemover::getClassName()));
+
+    v.push_back(pCommonData->getTransfPos(TruncatedAudioPadder::getClassName()));
+
+    v.push_back(pCommonData->getTransfPos(VbrRepairer::getClassName()));
+    v.push_back(pCommonData->getTransfPos(VbrRebuilder::getClassName()));
+
+    v.push_back(pCommonData->getTransfPos(Id3V2Cleaner::getClassName()));
+    v.push_back(pCommonData->getTransfPos(Id3V2Rescuer::getClassName()));
+    v.push_back(pCommonData->getTransfPos(Id3V2UnicodeTransformer::getClassName()));
+    //v.push_back(pCommonData->getTransfPos(Id3V2CaseTransformer::getClassName()));
+
+
+    //v.push_back(pCommonData->getTransfPos(Id3V2ComposerAdder::getClassName()));
+    //v.push_back(pCommonData->getTransfPos(Id3V2ComposerRemover::getClassName()));
+    //v.push_back(pCommonData->getTransfPos(Id3V2ComposerCopier::getClassName()));
+
+    //v.push_back(pCommonData->getTransfPos(SmallerImageRemover::getClassName()));
+    //v.push_back(pCommonData->getTransfPos(Id3V1ToId3V2Copier::getClassName()));
+    //v.push_back(pCommonData->getTransfPos(Id3V1Remover::getClassName()));
+}
+
+
 ConfigDlgImpl::~ConfigDlgImpl()
 {
     clearPtrContainer(m_vpOrigAll);
     clearPtrContainer(m_vpResetAll); // doesn't matter if it was used or not, or if m_bResultInReset is true or false
-    delete m_pTransfListPainter;
+    delete m_pCustomTransfListPainter;
 }
 
 
 void ConfigDlgImpl::refreshTransfText(int k)
 {
     QString s;
-    for (int i = 0, n = cSize(m_vvCustomTransf[k]); i < n; ++i)
+    for (int i = 0, n = cSize(m_vvnCustomTransf[k]); i < n; ++i)
     {
-        s += m_pCommonData->getTransf()[m_vvCustomTransf[k][i]]->getActionName();
+        s += m_pCommonData->getAllTransf()[m_vvnCustomTransf[k][i]]->getActionName();
         if (i < n - 1) { s += "\n"; }
     }
     m_vpTransfLabels[k]->setText(s);
@@ -674,22 +809,22 @@ void ConfigDlgImpl::refreshTransfText(int k)
 void ConfigDlgImpl::selectCustomTransf(int k) // 0 <= k <= 2
 {
     getTransfData();
-    delete m_pTransfDoubleList;
-    delete m_pTransfListPainter;
-    m_pTransfListPainter = new TransfListPainter(m_pCommonData, m_pCommonData->getCustomTransf()[k], m_vvCustomTransf[k], m_vvDefaultTransf[k]);
+    delete m_pCustomTransfDoubleList;
+    delete m_pCustomTransfListPainter;
+    m_pCustomTransfListPainter = new CustomTransfListPainter(m_pCommonData, m_pCommonData->getCustomTransf()[k], m_vvnCustomTransf[k], m_vvnDefaultCustomTransf[k]);
 
-    m_pTransfDoubleList = new DoubleList(
-            *m_pTransfListPainter,
+    m_pCustomTransfDoubleList = new DoubleList(
+            *m_pCustomTransfListPainter,
             DoubleList::RESTORE_OPEN | DoubleList::RESTORE_DEFAULT,
             DoubleList::MULTIPLE,
             "All transformations",
             "Used transformations",
             this);
 
-    m_pTransfListHldr->layout()->addWidget(m_pTransfDoubleList);
+    m_pTransfListHldr->layout()->addWidget(m_pCustomTransfDoubleList);
     //m_pTransfListHldr->layout()->activate();
-    //?->300x358//m_pTransfDoubleList->layout()->activate();
-    //m_pTransfDoubleList->resizeOnShow();
+    //?->300x358//m_pCustomTransfDoubleList->layout()->activate();
+    //m_pCustomTransfDoubleList->resizeOnShow();
     //m_pDetailsTabWidget->setCurrentIndex(0);
     //m_pDetailsTabWidget->setCurrentIndex(2);
 
@@ -701,7 +836,7 @@ void ConfigDlgImpl::selectCustomTransf(int k) // 0 <= k <= 2
     m_vpTransfButtons[k]->setChecked(true); m_vpTransfLabels[k]->setPalette(m_defaultPalette);
     m_nCurrentTransf = k;
 
-    connect(m_pTransfDoubleList, SIGNAL(dataChanged()), this, SLOT(onTransfDataChanged()));
+    connect(m_pCustomTransfDoubleList, SIGNAL(dataChanged()), this, SLOT(onTransfDataChanged()));
 }
 
 
@@ -717,8 +852,8 @@ void ConfigDlgImpl::onTransfDataChanged()
 void ConfigDlgImpl::getTransfData()
 {
     if (-1 == m_nCurrentTransf) { return; }
-    m_vvCustomTransf[m_nCurrentTransf] = m_pTransfListPainter->getSel();
-//qDebug("transf %d at %d", cSize(m_vvCustomTransf[m_nCurrentTransf]), m_nCurrentTransf);
+    m_vvnCustomTransf[m_nCurrentTransf] = m_pCustomTransfListPainter->getSel();
+//qDebug("transf %d at %d", cSize(m_vvnCustomTransf[m_nCurrentTransf]), m_nCurrentTransf);
     refreshTransfText(m_nCurrentTransf);
 }
 
@@ -752,12 +887,12 @@ void ConfigDlgImpl::on_m_pOkB_clicked()
         wrp.m_opt.m_bKeepOrigTime = m_pKeepOrigTimeCkB->isChecked();
 
         TransfConfig cfg (
-                getNonSepTerminatedDir(convStr(m_pSrcDirE->text())),
-                getNonSepTerminatedDir(convStr(m_pPODestE->text())),
-                getNonSepTerminatedDir(convStr(m_pUODestE->text())),
-                getNonSepTerminatedDir(convStr(m_pProcDestE->text())),
-                getNonSepTerminatedDir(convStr(m_pTempDestE->text())),
-                getNonSepTerminatedDir(convStr(m_pCompDestE->text())),
+                getNonSepTerminatedDir(convStr(fromNativeSeparators(m_pSrcDirE->text()))),
+                getNonSepTerminatedDir(convStr(fromNativeSeparators(m_pPODestE->text()))),
+                getNonSepTerminatedDir(convStr(fromNativeSeparators(m_pUODestE->text()))),
+                getNonSepTerminatedDir(convStr(fromNativeSeparators(m_pProcDestE->text()))),
+                getNonSepTerminatedDir(convStr(fromNativeSeparators(m_pTempDestE->text()))),
+                getNonSepTerminatedDir(convStr(fromNativeSeparators(m_pCompDestE->text()))),
                 wrp.m_nVal
             );
         m_transfCfg = cfg;
@@ -769,7 +904,12 @@ void ConfigDlgImpl::on_m_pOkB_clicked()
 
         { // custom transformations
             getTransfData();
-            m_pCommonData->setCustomTransf(m_vvCustomTransf);
+            m_pCommonData->setCustomTransf(m_vvnCustomTransf);
+        }
+
+        {
+            //m_pCommonData->setVisibleTransf(m_vnVisibleTransf);
+            m_pCommonData->setVisibleTransf(m_pVisibleTransfPainter->getSel());
         }
 
         {
@@ -917,9 +1057,9 @@ void ConfigDlgImpl::logState(const char* /*szPlace*/) const
 
 void ConfigDlgImpl::selectDir(QLineEdit* pEdt)
 {
-    QString qstrStart (pEdt->text());
+    QString qstrStart (fromNativeSeparators(pEdt->text()));
     qstrStart = convStr(getExistingDir(convStr(qstrStart)));
-    if (qstrStart.isEmpty()) { qstrStart = "/"; } //ttt1 linux-specific
+    if (qstrStart.isEmpty()) { qstrStart = getTempDir(); }
     QFileDialog dlg (this, "Select folder", qstrStart, "All files (*)");
 
     dlg.setFileMode(QFileDialog::Directory);
@@ -932,7 +1072,7 @@ void ConfigDlgImpl::selectDir(QLineEdit* pEdt)
 
     QString s1 (getPathSep());
 
-    if ("//" == s) //ttt1 Linux-specific ; see if there's a need for something similar on Windows
+    if ("//" == s)
     {
         s = "/";
     }
@@ -940,7 +1080,7 @@ void ConfigDlgImpl::selectDir(QLineEdit* pEdt)
     {
         s += s1;
     }
-    pEdt->setText(s);
+    pEdt->setText(toNativeSeparators(s));
 }
 
 
@@ -952,10 +1092,11 @@ void ConfigDlgImpl::onHelp()
     case 0: openHelp("250_config_files.html"); break;
     case 1: openHelp("260_config_ignored_notes.html"); break;
     case 2: openHelp("270_config_custom_transf.html"); break;
-    case 3: openHelp("280_config_quality.html"); break;
-    case 4: openHelp("290_config_transf_params.html"); break;
+    case 3: openHelp("290_config_transf_params.html"); break;
 
-    case 6: openHelp("300_config_others.html"); break;
+    case 5: openHelp("280_config_quality.html"); break;
+
+    case 7: openHelp("300_config_others.html"); break;
     //ttt0 revise as needed
 
     default: /*openHelp("index.html");*/ break;

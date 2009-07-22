@@ -1279,6 +1279,166 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="m_pTransfParamW" >
+      <attribute name="title" >
+       <string>Transformation params</string>
+      </attribute>
+      <layout class="QVBoxLayout" >
+       <item>
+        <widget class="QGroupBox" name="m_pLocaleGrp" >
+         <property name="title" >
+          <string>Locale for ID3V2 conversion</string>
+         </property>
+         <layout class="QGridLayout" >
+          <property name="topMargin" >
+           <number>0</number>
+          </property>
+          <item row="0" column="0" >
+           <widget class="QComboBox" name="m_pLocaleCbB" >
+            <property name="minimumSize" >
+             <size>
+              <width>200</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maxVisibleItems" >
+             <number>30</number>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" >
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" >
+             <size>
+              <width>181</width>
+              <height>23</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="0" colspan="2" >
+           <widget class="QTextBrowser" name="m_pCodepageTestM" />
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="m_pCaseGrp" >
+         <property name="title" >
+          <string>Case transformation</string>
+         </property>
+         <layout class="QHBoxLayout" >
+          <property name="topMargin" >
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label_12" >
+            <property name="text" >
+             <string>Artists</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="m_pArtistsCaseCbB" >
+            <property name="minimumSize" >
+             <size>
+              <width>250</width>
+              <height>0</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType" >
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" >
+             <size>
+              <width>31</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_13" >
+            <property name="text" >
+             <string>Others</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="m_pOthersCaseCbB" >
+            <property name="minimumSize" >
+             <size>
+              <width>250</width>
+              <height>0</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" >
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="m_pKeepOrigTimeCkB" >
+         <property name="text" >
+          <string>Keep original modification time when changing a file</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="m_pKeepOneValidImgCkB" >
+         <property name="text" >
+          <string>Keep a single image for a file</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>787</width>
+           <height>31</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_6" >
+      <attribute name="title" >
+       <string>Visible Transformations</string>
+      </attribute>
+      <layout class="QVBoxLayout" >
+       <item>
+        <widget class="QWidget" native="1" name="m_pVisibleTransformsHndlr" />
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="m_pQualThreshW" >
       <attribute name="title" >
        <string>Quality thresholds</string>
@@ -1502,156 +1662,6 @@
           <size>
            <width>381</width>
            <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="m_pTransfParamW" >
-      <attribute name="title" >
-       <string>Transformation params</string>
-      </attribute>
-      <layout class="QVBoxLayout" >
-       <item>
-        <widget class="QGroupBox" name="m_pLocaleGrp" >
-         <property name="title" >
-          <string>Locale for ID3V2 conversion</string>
-         </property>
-         <layout class="QGridLayout" >
-          <property name="topMargin" >
-           <number>0</number>
-          </property>
-          <item row="0" column="0" >
-           <widget class="QComboBox" name="m_pLocaleCbB" >
-            <property name="minimumSize" >
-             <size>
-              <width>200</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="maxVisibleItems" >
-             <number>30</number>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1" >
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>181</width>
-              <height>23</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="1" column="0" colspan="2" >
-           <widget class="QTextBrowser" name="m_pCodepageTestM" />
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="m_pCaseGrp" >
-         <property name="title" >
-          <string>Case transformation</string>
-         </property>
-         <layout class="QHBoxLayout" >
-          <property name="topMargin" >
-           <number>0</number>
-          </property>
-          <item>
-           <widget class="QLabel" name="label_12" >
-            <property name="text" >
-             <string>Artists</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="m_pArtistsCaseCbB" >
-            <property name="minimumSize" >
-             <size>
-              <width>250</width>
-              <height>0</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType" >
-             <enum>QSizePolicy::Fixed</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>31</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_13" >
-            <property name="text" >
-             <string>Others</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="m_pOthersCaseCbB" >
-            <property name="minimumSize" >
-             <size>
-              <width>250</width>
-              <height>0</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="m_pKeepOrigTimeCkB" >
-         <property name="text" >
-          <string>Keep original modification time when changing a file</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="m_pKeepOneValidImgCkB" >
-         <property name="text" >
-          <string>Keep a single image for a file</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" >
-          <size>
-           <width>787</width>
-           <height>31</height>
           </size>
          </property>
         </spacer>
@@ -2137,6 +2147,44 @@
           </spacer>
          </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QWidget" native="1" name="widget_25" >
+         <layout class="QHBoxLayout" >
+          <property name="leftMargin" >
+           <number>0</number>
+          </property>
+          <property name="topMargin" >
+           <number>0</number>
+          </property>
+          <property name="rightMargin" >
+           <number>0</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QPushButton" name="m_pResetColorsB" >
+            <property name="text" >
+             <string>Reset to default colors</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" >
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
        </item>
        <item>
         <spacer>

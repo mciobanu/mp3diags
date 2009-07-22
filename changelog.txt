@@ -1,6 +1,24 @@
 ---------------------------------------------------------------------------
 
-17.07.2009 - 0.99.03.026
+21.07.2009 - 0.99.04.026
+################################################
+- file renamer can work with the list of visible files instead of the
+    current album if the user holds CTRL down when pressing the button
+- new transform for keeping a single image, as front cover
+- new transform for removing ID3V1
+- configurable visible transformations
+- tooltips for the transformations menu
+- use of backslash for path separator on Windows
+- fixed some bugs in the directory filter
+- made F1 work on Windows
+- fixed normalization status on Windows
+- directory filter no longer shows some directories that don't make sense
+- more checks + fixed error reporting in file renamer
+- "sessions" button visible by default for second and later sessions
+
+---------------------------------------------------------------------------
+
+17.07.2009 - 0.99.04.026
 - size grip on most dialogs
 - F1 help
 

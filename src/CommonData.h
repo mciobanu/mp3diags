@@ -285,7 +285,8 @@ public:
             QToolButton* pDirFilterB,
             QToolButton* pModeAllB,
             QToolButton* pModeAlbumB,
-            QToolButton* pModeSongB);
+            QToolButton* pModeSongB,
+            bool bUniqueSession);
 
     ~CommonData();
 
@@ -328,18 +329,21 @@ public:
     const std::vector<const Note*>& getCrtNotes() const { return m_vpCrtNotes; } // notes for the "current" file
     const std::vector<DataStream*>& getCrtStreams() const;
 
-    const std::vector<Transformation*>& getTransf() const { return m_vpTransf; }
+    const std::vector<Transformation*>& getAllTransf() const { return m_vpAllTransf; }
     const QualThresholds& getQualThresholds() const { return m_qualThresholds; }
     void setQualThresholds(const QualThresholds&);
 
-    const std::vector<std::vector<int> >& getCustomTransf() const { return m_vvCustomTransf; }
+    const std::vector<std::vector<int> >& getCustomTransf() const { return m_vvnCustomTransf; }
     void setCustomTransf(const std::vector<std::vector<int> >&);
     void setCustomTransf(int nTransf, const std::vector<int>&);
+
+    const std::vector<int>& getVisibleTransf() const { return m_vnVisibleTransf; }
+    void setVisibleTransf(const std::vector<int>&);
 
     const std::vector<int>& getIgnoredNotes() const { return m_vnIgnoredNotes; }
     void setIgnoredNotes(const std::vector<int>&);
 
-    int getTransfPos(const char* szTransfName) const; // the index in m_vpTransf for a transformation with a given name; throws if the name doesn't exist;
+    int getTransfPos(const char* szTransfName) const; // the index in m_vpAllTransf for a transformation with a given name; throws if the name doesn't exist;
 
     std::set<std::string> getAllDirs() const; // needed by the dir filter
 
@@ -391,6 +395,8 @@ public:
 
     // color is normally the category color, but for support notes it's a "support" color; if the note isn't found in vpNoteSet, dGradStart and dGradEnd are set to -1, but normally they get a segment obtained by dividing [0, 1] in equal parts;
     void getNoteColor(const Note& note, const std::vector<const Note*>& vpNoteSet, QColor& color, double& dGradStart, double& dGradEnd) const;
+
+    bool isUniqueSession() const { return m_bUniqueSession; }
 
 public:
     enum Case { LOWER, UPPER, TITLE, PHRASE };
@@ -454,7 +460,7 @@ private:
 
     std::vector<const Note*> m_vpCrtNotes; // notes for the "current" file
 
-    std::vector<Transformation*> m_vpTransf; // owns the pointers
+    std::vector<Transformation*> m_vpAllTransf; // owns the pointers
 
     QualThresholds m_qualThresholds;
 
@@ -465,7 +471,9 @@ private:
 
     void printFilesCrt() const; // for debugging; prints what's current in m_pFilesG, using several methods
 
-    std::vector<std::vector<int> > m_vvCustomTransf;
+    std::vector<std::vector<int> > m_vvnCustomTransf;
+
+    std::vector<int> m_vnVisibleTransf;
 
 
     enum { APPROX_MATCH, EXACT_MATCH };
@@ -497,6 +505,8 @@ private:
     std::string m_strLoadCrtName; // needed by setCrtAtStartup(), because calling updateWidgets() from a secondary thread has issues; so instead, the name of the current file is saved here for later, to be set from the main thread, through setCrtAtStartup()
 
     //bool m_bDirty; // seemed like a good idea, but since we also save filters and what's current, pretty much all the time the data will need to be saved
+
+    bool m_bUniqueSession; // if there is a single or several known sessions; if this is false (so there are several sessions) the Sessions button is shown by default
 
 private:
     ViewMode m_eViewMode;
@@ -564,6 +574,9 @@ const QColor& SUPPORT_PEN_COLOR();
 
 
 void defaultResize(QDialog& dlg); // resizes a dialog with inexisting/invalid size settings, so it covers an area slightly smaller than MainWnd; however, if the dialog is alrady bigger than that, it doesn't get shrinked
+
+
+QColor getDefaultBkgCol();
 
 //=====================================================================================================================
 //=====================================================================================================================

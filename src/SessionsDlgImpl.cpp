@@ -58,7 +58,7 @@ SessionsModel::SessionsModel(std::vector<std::string>& vstrSessions) : m_vstrSes
 
     // ttt2 perhaps Qt::ToolTipRole
     if (Qt::DisplayRole != nRole) { return QVariant(); }
-    return convStr(m_vstrSessions.at(i));
+    return toNativeSeparators(convStr(m_vstrSessions.at(i)));
 }
 
 

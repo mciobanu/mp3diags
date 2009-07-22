@@ -476,6 +476,13 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
 
 
 
+/*override*/ bool Id3V1Remover::matches(DataStream* pDataStream) const
+{
+    Id3V1Stream* p (dynamic_cast<Id3V1Stream*>(pDataStream));
+    return 0 != p;
+}
+
+
 //================================================================================================================================
 //================================================================================================================================
 //================================================================================================================================
@@ -704,5 +711,3 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
     - use external disk / flash, to see the LED, for testing
 */
 
-//ttt0 remove ID3V1
-//ttt0 convert img type to "cover"

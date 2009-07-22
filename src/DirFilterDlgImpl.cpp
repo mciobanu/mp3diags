@@ -21,6 +21,7 @@
 
 
 #include  <algorithm>
+#include  <map>
 
 #include  "DirFilterDlgImpl.h"
 
@@ -55,47 +56,92 @@ public:
 //=====================================================================================================================
 //=====================================================================================================================
 
+static string addSepToRoot(const string& s)
+{
+#ifndef WIN32
+    return s;
+#else //ttt1
+    if (s.size() != 2) { return s; }
+    return s + "\\";
+#endif
+}
+
+static string removeSepFromRoot(const string& s)
+{
+#ifndef WIN32
+    return s;
+#else //ttt1
+    if (s.size() != 3) { return s; }
+    return s.substr(0, 2);
+#endif
+}
+
+
+
+#ifndef WIN32
+    static char getDrive(const string& s) { return '.'; }
+#else //ttt1
+    static char getDrive(const string& s) { CB_ASSERT(s.size() > 2); return s[0]; }
+#endif
+
+
 
 void DirFilterDlgImpl::populateLists()
 {
     const set<string>& sDirs (m_pCommonData->getAllDirs());
     if (sDirs.empty()) { return; }
 
-    string strCommonDir;
+    map<char, pair<string, int> > mCommonDirs;
     for (set<string>::const_iterator it = sDirs.begin(), begin = sDirs.begin(), end = sDirs.end(); it != end; ++it)
     {
-        const string& strDir (*it);
+        const string strDir (*it + getPathSepAsStr());
 
-        if (it == begin)
+        char d (getDrive(strDir));
+        if (0 == mCommonDirs.count(d))
         {
-            strCommonDir = strDir;
+            mCommonDirs[d] = make_pair(strDir, 0);
         }
         else
         {
+            string s (mCommonDirs[d].first);
             int j (0);
-            for (int n = min(cSize(strCommonDir), cSize(strDir)); j < n; ++j)
+            for (int n = min(cSize(s), cSize(strDir)); j < n; ++j)
             {
-                if (strDir[j] != strCommonDir[j]) { break; }
+                if (strDir[j] != s[j]) { break; }
             }
-            strCommonDir.erase(j);
+
+            for (; j >= 0 && getPathSep() != strDir[j]; --j) {}
+            s.erase(j + 1); // it's OK for j==-1
+            mCommonDirs[d] = make_pair(s, 0); // "0" doesn't matter
+            //if (cSize(strCommonDir) <= 1) { break; }
         }
     }
-
+//ttt1 strCommonDir should be drive-specific on Wnd
     set<string> sDirsAndParents (sDirs);
-    CB_ASSERT (!strCommonDir.empty()); // ttt1 linux-specific
-    string::size_type nCommonSize (strCommonDir.size());
-    if (getPathSep() == strCommonDir[nCommonSize - 1]) // this condition is usually true, but it is false if all the files are in the same dir
-    {
-        strCommonDir.erase(nCommonSize - 1);
-        --nCommonSize;
-    }
 
-    sDirsAndParents.insert(strCommonDir);
+    for (map<char, pair<string, int> >::iterator it = mCommonDirs.begin(), end = mCommonDirs.end(); it != end; ++it)
+    {
+        string s (it->second.first);
+        string::size_type nCommonSize (s.size());
+        if (nCommonSize > 0)
+        {
+            CB_ASSERT (getPathSep() == s[nCommonSize - 1]);
+            s.erase(nCommonSize - 1);
+            --nCommonSize;
+            mCommonDirs[getDrive(s)] = make_pair(s, nCommonSize);
+
+            if (nCommonSize > 0) // this is always true on Windows
+            {
+                sDirsAndParents.insert(s);
+            }
+        }
+    }
 
     for (set<string>::iterator it = sDirs.begin(), end = sDirs.end(); it != end; ++it)
     {
         const string& strDir(*it);
-        CB_ASSERT(beginsWith(strDir, strCommonDir));
+        CB_ASSERT(beginsWith(strDir, mCommonDirs[getDrive(strDir)].first));
+        int nCommonSize (mCommonDirs[getDrive(strDir)].second);
         string::size_type k (nCommonSize + 1);
         for (;;)
         {
@@ -111,7 +157,7 @@ void DirFilterDlgImpl::populateLists()
 
     for (set<string>::iterator it = sDirsAndParents.begin(), end = sDirsAndParents.end(); it != end; ++it)
     {
-        m_vpOrigAll.push_back(new DirListElem(*it));
+        m_vpOrigAll.push_back(new DirListElem(addSepToRoot(toNativeSeparators(*it))));
     }
 
     vector<string> vAll;
@@ -199,7 +245,7 @@ void DirFilterDlgImpl::on_m_pOkB_clicked()
     vector<string> v;
     for (int i = 0, n = cSize(m_vSel); i < n; ++i)
     {
-        v.push_back(dynamic_cast<const DirListElem*>(m_vpOrigAll[m_vSel[i]])->getDir());
+        v.push_back(fromNativeSeparators(removeSepFromRoot(dynamic_cast<const DirListElem*>(m_vpOrigAll[m_vSel[i]])->getDir())));
     }
     m_pCommonData->m_filter.setDirs(v);
     m_pCommonData->m_settings.saveDirFilterSettings(width(), height());
@@ -217,7 +263,7 @@ void DirFilterDlgImpl::onAvlDoubleClicked(int nRow)
     vector<string> v;
     const DirListElem* p (dynamic_cast<const DirListElem*>(m_vpOrigAll[getAvailable()[nRow]]));
     CB_ASSERT(0 != p);
-    v.push_back(p->getDir());
+    v.push_back(fromNativeSeparators(removeSepFromRoot(p->getDir())));
     m_pCommonData->m_filter.setDirs(v);
 
     accept();

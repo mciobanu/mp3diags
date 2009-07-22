@@ -64,7 +64,7 @@ Links are not supported for images. This is bad if you REALLY need to scan your 
 
 
 <div class="FreeNormalText RegFnt ChpCol2">
-Processing ID3V2 only keeps one copy of the known frames except for images; multiple images are kept, as long as they only they have different image types (and the settings say to keep them.) The other frames are supposed to have only one instance, except for POPM (which is used for ratings), so this is the only case where valid data is lost; that is, assuming anybody has files containing multiple POPM frames.
+Processing ID3V2 only keeps one copy of the known frames except for images; multiple images are kept, as long as they they have different image types (and the settings say to keep them.) The other frames are supposed to have only one instance, except for POPM (which is used for ratings), so this is the only case where valid data is lost; that is, assuming anybody has files containing multiple POPM frames.
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
@@ -93,11 +93,11 @@ Symbolic links aren't handled nicely. I noticed that Qt replaces them with their
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol1">
-There is no automatic detection of a file being changed by an external tool or removed. You should use the "reload" button to update the file information. However the changes are detected the next time you start the application (assuming you didn't disable the automatic scanning.)
+There is no automatic detection of a file being changed by an external tool or removed. You should use the "reload" button to update the file information. However the changes are detected the next time you start the application (assuming you didn't disable the automatic scanning) or when you try to apply transformations to such a file. Note that in either of these cases, the decision that the file has changed is made based on whether its date or its size have changed; so changing the ID3V2 tag in an external tool that keeps the file's original date may go undetected.
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol2">
-It is possible for audio frames to store some of their data in the neighbouring frames, but I haven't looked into how to detect when this is happening. Currently MP3 Diags only reads the header of the audio frames (which doesn't have neighbour information.) As a result, it doesn't detect that some frames are missing or should be deleted.
+It is possible for audio frames to store some of their data in the neighboring frames, but I haven't looked into how to detect when this is happening. Currently MP3 Diags only reads the header of the audio frames (which doesn't have neighbor information.) As a result, it doesn't detect that some frames are missing or should be deleted.
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol1">
@@ -105,17 +105,13 @@ The function calls to the file system (open file, search for files, ...) provide
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol2">
-On Windows the path separator is usually the forward slash '/', as on Unix, and not the backslash '\'. However, '\' is shown in file open / directory selection dialogs, because they are native Windows dialogs.
-</div>
-
-
-<div class="FreeNormalText RegFnt ChpCol1">
-On Windows MP3 Diags doesn't even look at a file whose name contains characters with a code above 127, so file names in foreign languages are affected. This is caused by a limitation in MinGW, the Windows port of the GCC compiler that I use. I don't know if the ancient MinGW 3.4.2 can be persuaded to use UTF-8 for file names, but I suspect it can't. If anybody knows different, please tell me.
+Not really an MP3 Diags limitation, but: On Windows there may be some issues with the normalization of files whose names fall outside the system codepage. This is because although MP3 Diags passes such names correctly to MP3Gain, MP3Gain doesn't seem to use Unicode even in the beta version that allegedly added Unicode support. Anyway, testing this took me all of 2 minutes, so I might have missed something. If somebody knows how to make MP3Gain use Unicode names, please let me know. Two options that I could think of were to either use some other normalizer or a small intermediate program, which would rename the files so that MP3Gain could access them, then call MP3Gain, and then rename them back. Also, maybe changing MP3Gain to use Unicode names isn't that hard.
 </div>
 
 
 
-<div class="NavPadTable RegFnt ChpCol2">
+
+<div class="NavPadTable RegFnt ChpCol1">
 <div style="width:100%">
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="NavTable">
     <tr>

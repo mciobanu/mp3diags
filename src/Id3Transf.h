@@ -54,7 +54,7 @@ public:
     Id3V2Rescuer(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Copies only ID3V2 frames that seem valid, discarding those that are invalid (e.g. an APIC frame claiming to hold a picture although it doesn't). Handles both loadable and broken ID3V2 tags, in the latter case copying being stopped when a fatal error occurs."; }
+    /*override*/ const char* getDescription() const { return "Copies only ID3V2 frames that seem valid, discarding those that are invalid (e.g. an APIC frame claiming to hold a picture although it doesn't.) Handles both loadable and broken ID3V2 tags, in the latter case copying being stopped when a fatal error occurs."; }
 
     static const char* getClassName() { return "Discard invalid ID3V2 data"; }
 };
@@ -108,7 +108,6 @@ public:
 
 class Id3V2ComposerAdder : public Transformation
 {
-    //bool processId3V2Stream(Id3V2StreamBase& frm, ofstream_utf8& out, Id3V1Stream* pId3V1Stream);
     CommonData* m_pCommonData;
 public:
     Id3V2ComposerAdder(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
@@ -122,7 +121,6 @@ public:
 
 class Id3V2ComposerRemover : public Transformation
 {
-    //bool processId3V2Stream(Id3V2StreamBase& frm, ofstream_utf8& out, Id3V1Stream* pId3V1Stream);
     CommonData* m_pCommonData;
 public:
     Id3V2ComposerRemover(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
@@ -136,7 +134,6 @@ public:
 
 class Id3V2ComposerCopier : public Transformation
 {
-    //bool processId3V2Stream(Id3V2StreamBase& frm, ofstream_utf8& out, Id3V1Stream* pId3V1Stream);
     CommonData* m_pCommonData;
 public:
     Id3V2ComposerCopier(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
@@ -145,6 +142,18 @@ public:
     /*override*/ const char* getDescription() const { return "Copies to the \"Composer\" field the beginning of an \"Artist\" field that is formatted as \"Composer [Artist]\". Does nothing if the \"Artist\" field doesn't have this format."; }
 
     static const char* getClassName() { return "Fill in composer field based on artist in ID3V2 frames"; }
+};
+
+
+class SmallerImageRemover : public Transformation
+{
+public:
+    SmallerImageRemover() {}
+    /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
+    /*override*/ const char* getActionName() const { return getClassName(); }
+    /*override*/ const char* getDescription() const { return "Keeps only the biggest (and supposedly the best) image in a file. The image type is set to Front Cover. (This may result in the replacement of the Front Cover image.)"; }
+
+    static const char* getClassName() { return "Make the largest image \"Front Cover\" and remove the rest"; }
 };
 
 

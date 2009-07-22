@@ -83,7 +83,7 @@ class Id3V230StreamWriter
     bool m_bKeepOneValidImg;
 
 public:
-    //enum { KEEP_ALL_IMG, KEEP_ONE_VALID_IMG };
+    enum { KEEP_ALL_IMG, KEEP_ONE_VALID_IMG };
     Id3V230StreamWriter(Id3V2StreamBase*, bool bKeepOneValidImg); // if bKeepOneValidImg is true, at most an APIC frame is kept, and it has to be valid or at least link;
     Id3V230StreamWriter(bool bKeepOneValidImg); // if bKeepOneValidImg is true, at most an APIC frame is kept, and it has to be valid or at least link;
     ~Id3V230StreamWriter();
@@ -93,7 +93,11 @@ public:
     //void removeApicFrames(const std::vector<char>& vcData, int nPictureType); // an APIC frame is removed iff it has the image in vcData or the type nPictureType (or both)
     void addTextFrame(const std::string& strName, const std::string& strVal); // strVal is UTF8; the frame will use ASCII if possible and UTF16 otherwise (so if there's a char with a code above 127, UTF16 gets used, to avoid codepage issues for codes between 128 and 255); nothing is added if strVal is empty;
     void addBinaryFrame(const std::string& strName, std::vector<char>& vcData); // destroys vcData by doing a swap for its own representation; asserts that strName is not APIC
-    void addImage(std::vector<char>& vcData); // if there is an APIC frame with the same image, nothing gets added (even if the image type is not "cover")
+
+    // the image type is ignored; images are always added as cover;
+    // if there is an APIC frame with the same image, it is removed (it doesn't matter if it has different type, description ...);
+    // if cover image already exists it is removed;
+    void addImage(std::vector<char>& vcData);
 
     void addNonOwnedFrame(const Id3V2Frame* p);
 

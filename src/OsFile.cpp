@@ -284,7 +284,7 @@ bool CB_LIB_CALL dirExists(const std::string& strDirName)
 
 void CB_LIB_CALL createDir(const string& strDirName)
 {
-    if (strDirName.empty()) { return; } // the root dir always exists //ttt0 test create backup dir in root on wnd
+    if (strDirName.empty()) { return; } // the root dir always exists
 
     checkDirName(strDirName);
 

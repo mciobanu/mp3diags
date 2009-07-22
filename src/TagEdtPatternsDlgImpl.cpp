@@ -42,7 +42,13 @@ TagEdtPatternsDlgImpl::TagEdtPatternsDlgImpl(QWidget* pParent, SessionSettings& 
 
     m_infoM->setPalette(grayPalette);
     m_infoM->setTabStopWidth(fontMetrics().width("%ww"));
+
+#ifndef WIN32
     QString qsSep (getPathSep());
+#else
+    QString qsSep ("\\");
+#endif
+
     m_infoM->setText("%n\ttrack number\n%a\tartist\n%t\ttitle\n%b\talbum\n%y\tyear\n%g\tgenre\n%r\trating (a lowercase letter)\n%c\tcomposer\n%i\tignored"
             "\n\nTo include the special characters \"%\", \"[\", \"]\" and \"" + qsSep + "\", preced them by a \"%\": \"%%\", \"%[\", \"%]\" and \"%" + qsSep + "\""
             "\n\nFor a pattern to be considered a \"file pattern\" (as opposed to a \"table pattern\"), it must contain at least a \"" + qsSep + "\", even if you don't care about what's in the file's parent directory (see the fourth predefined pattern for an example.)"
@@ -84,6 +90,7 @@ void TagEdtPatternsDlgImpl::on_m_pOkB_clicked()
         if ('\n' == *p || 0 == *p) // ttt1 see if this works on Windows with mingw
         {
             string s1 (q, p - q);
+            s1 = fromNativeSeparators(s1);
             string strCheck (SongInfoParser::testPattern(s1));
             if (!strCheck.empty())
             {
@@ -114,7 +121,7 @@ bool TagEdtPatternsDlgImpl::run(vector<pair<string, int> >& v)
     for (int i = 0, n = cSize(v); i < n; ++i)
     {
         if (!s.empty()) { s += "\n"; }
-        s += v[i].first;
+        s += toNativeSeparators(v[i].first);
     }
     m_pTextM->setText(convStr(s));
     if (QDialog::Accepted != exec()) { return false; }
@@ -155,7 +162,7 @@ void TagEdtPatternsDlgImpl::on_m_pAddPredefB_clicked()
             s += "\n";
         }
 
-        s += m_vstrPredef[i];
+        s += toNativeSeparators(m_vstrPredef[i]);
     }
 
     m_pTextM->setText(convStr(s));

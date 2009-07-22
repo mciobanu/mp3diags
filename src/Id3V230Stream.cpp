@@ -476,26 +476,56 @@ void Id3V230StreamWriter::addBinaryFrame(const std::string& strName, vector<char
 //ttt2 perhaps something like this: if there's 1 "Other" pic and a "Cover" is added; based on config: 1) delete "Other"; 2) delete "cover"; 3) keep both; //ttt2 the option should be used to mark an "Other" pic as "Cover" in the tag editor, so it doesn't trigger saving.
 
 
-// if there is an APIC frame with the same image, nothing gets added (even if the image type is not "cover")
+// the image type is ignored; images are always added as cover;
+// if there is an APIC frame with the same image, it is removed (it doesn't matter if it has different type, description ...); // ttt2 description should be counted too, if used
+// if cover image already exists it is removed;
 void Id3V230StreamWriter::addImage(std::vector<char>& vcData)
 {
-    for (int i = 0; i < cSize(m_vpAllFrames); ++i)
+    int n (cSize(vcData));
+    CB_ASSERT (n > 100);
+    char* p (&vcData[0]);
+    CB_ASSERT (0 == *p || 3 == *p); // text encoding // this should be kept in synch with Id3V2StreamBase::decodeApic()
+    char* q (p + 1);
+    for (; q < p + 90 && 0 != *q; ++q) {}
+    CB_ASSERT (0 == *q);
+    ++q;
+    *q = Id3V2Frame::COVER;
+    ++q;
+    for (; q < p + n && 0 != *q; ++q) {}
+    CB_ASSERT (0 == *q);
+    ++q; // now q points to the beginning of the actual image
+    int nOffs (q - p);
+    int nImgSize (n - nOffs);
+
+    removeFrames(KnownFrames::LBL_IMAGE(), Id3V2Frame::COVER);
+
     {
-        const Id3V2Frame* p (m_vpAllFrames[i]);
-        if (0 == strcmp(KnownFrames::LBL_IMAGE(), p->m_szName) && cSize(vcData) == p->m_nMemDataSize) // ttt2 description should be counted too, if used
+e1:
+        for (int i = 0; i < cSize(m_vpAllFrames); ++i)
         {
-            Id3V2FrameDataLoader ldr (*p);
-            if (0 == memcmp(&vcData[0], ldr.getData(), cSize(vcData))) // !!! related to ImageInfo::operator==() status is ignored in both places //ttt1 review decision to ignore status
+            const Id3V2Frame* pFrm (m_vpAllFrames[i]);
+
+            if (0 == strcmp(KnownFrames::LBL_IMAGE(), pFrm->m_szName))
             {
-                return;
+                if (pFrm->m_nImgSize == nImgSize)
+                {
+                    Id3V2FrameDataLoader ldr (*pFrm);
+                    if (0 == memcmp(&vcData[nOffs], ldr.getData() + pFrm->m_nImgOffset, nImgSize)) // !!! related to ImageInfo::operator==() status is ignored in both places //ttt1 review decision to ignore status
+                    {
+                        removeFrames(KnownFrames::LBL_IMAGE(), pFrm->m_nPictureType);
+                        goto e1;
+                    }
+                }
             }
         }
     }
 
-    Id3V230Frame* p (new Id3V230Frame(KnownFrames::LBL_IMAGE(), vcData));
-    p->m_nPictureType = Id3V2Frame::COVER;
-    addNonOwnedFrame(p);
-    m_vpOwnFrames.push_back(p);
+    {
+        Id3V230Frame* p (new Id3V230Frame(KnownFrames::LBL_IMAGE(), vcData));
+        p->m_nPictureType = Id3V2Frame::COVER; // probably pointless, because the frame is only used internally and what gets written is vcData, regardless of p->m_nPictureType
+        addNonOwnedFrame(p);
+        m_vpOwnFrames.push_back(p);
+    }
 }
 
 

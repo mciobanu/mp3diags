@@ -39,15 +39,18 @@
 
 
 class TransfConfig;
-class TransfListPainter;
+class CustomTransfListPainter;
+
+class VisibleTransfPainter;
 
 class QSettings;
 class CommonData;
 
 void initDefaultCustomTransf(int k, std::vector<std::vector<int> >& vv, CommonData* pCommonData);
 
+void initDefaultVisibleTransf(std::vector<int>& v, CommonData* pCommonData);
 
-class ConfigDlgImpl : public QDialog, private Ui::ConfigDlg, public NoteListPainterBase // ttt2 NoteListPainterBase is used for the ignored notes, while for custom transforms there is a separate TransfListPainter; this is confusing //ttt2 perhaps create IgnoredNotesPainter, but it's not straightforward, because of the use of protected members in NoteListPainterBase
+class ConfigDlgImpl : public QDialog, private Ui::ConfigDlg, public NoteListPainterBase // ttt2 NoteListPainterBase is used for the ignored notes, while for custom transforms there is a separate CustomTransfListPainter; this is confusing //ttt2 perhaps create IgnoredNotesPainter, but it's not straightforward, because of the use of protected members in NoteListPainterBase
 {
     Q_OBJECT
 
@@ -60,9 +63,10 @@ class ConfigDlgImpl : public QDialog, private Ui::ConfigDlg, public NoteListPain
     /*override*/ std::string getTooltip(TooltipKey eTooltipKey) const;
     /*override*/ void reset();
 
-    TransfListPainter* m_pTransfListPainter;
-    DoubleList* m_pTransfDoubleList;
-    std::vector<std::vector<int> > m_vvCustomTransf;
+    CustomTransfListPainter* m_pCustomTransfListPainter;
+    DoubleList* m_pCustomTransfDoubleList;
+
+    std::vector<std::vector<int> > m_vvnCustomTransf;
     void selectCustomTransf(int k); // 0 <= k <= CUSTOM_TRANSF_CNT
     int m_nCurrentTransf;
     void getTransfData();
@@ -71,7 +75,13 @@ class ConfigDlgImpl : public QDialog, private Ui::ConfigDlg, public NoteListPain
     void refreshTransfText(int k); // 0 <= k <= CUSTOM_TRANSF_CNT
     QPalette m_defaultPalette;
     QPalette m_wndPalette;
-    std::vector<std::vector<int> > m_vvDefaultTransf;
+    std::vector<std::vector<int> > m_vvnDefaultCustomTransf;
+
+    VisibleTransfPainter* m_pVisibleTransfPainter;
+    DoubleList* m_pVisibleTransfDoubleList;
+
+    std::vector<int> m_vnVisibleTransf;
+    std::vector<int> m_vnDefaultVisibleTransf;
 
     void selectDir(QLineEdit*);
     QByteArray m_codepageTestText;
@@ -133,8 +143,12 @@ public slots:
     void on_m_pCol12B_clicked() { onButtonClicked(12); }
     void on_m_pCol13B_clicked() { onButtonClicked(13); }
 
+    void on_m_pResetColorsB_clicked();
+
     void onHelp();
 };
+
+
 
 #endif
 

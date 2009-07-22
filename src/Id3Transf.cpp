@@ -878,5 +878,80 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8
 //========================================================================================================================
 
 
+
+/*override*/ Transformation::Result SmallerImageRemover::apply(const Mp3Handler& h, const TransfConfig& transfConfig, const std::string& strOrigSrcName, std::string& strTempName)
+{
+    const vector<DataStream*>& vpStreams (h.getStreams());
+    Id3V2StreamBase* pId3V2 (0);
+
+    for (int i = 0, n = cSize(vpStreams); i < n; ++i)
+    {
+        DataStream* p (vpStreams[i]);
+        pId3V2 = dynamic_cast<Id3V2StreamBase*>(p);
+        if (0 != pId3V2) { break; }
+    }
+
+    if (0 == pId3V2) { return NOT_CHANGED; }
+
+    const vector<Id3V2Frame*>& vpFrames (pId3V2->getFrames());
+
+    const Id3V2Frame* pLargestPic (0);
+    int nPicCnt (0);
+
+    for (int i = 0; i < cSize(vpFrames); ++i)
+    {
+        const Id3V2Frame* p (vpFrames[i]);
+        if (0 == strcmp(p->m_szName, KnownFrames::LBL_IMAGE()))
+        {
+            ++nPicCnt;
+            if (0 == pLargestPic || pLargestPic->m_nImgSize < p->m_nImgSize)
+            {
+                pLargestPic = p;
+            }
+        }
+    }
+
+    if (0 == nPicCnt || (1 == nPicCnt && Id3V2Frame::COVER == pLargestPic->m_nPictureType)) { return NOT_CHANGED; }
+
+
+
+    { // temp
+        Id3V230StreamWriter wrt (pId3V2, Id3V230StreamWriter::KEEP_ONE_VALID_IMG);
+
+        wrt.removeFrames(KnownFrames::LBL_IMAGE());
+
+        Id3V2FrameDataLoader ldr (*pLargestPic);
+        vector<char> v;
+        copy (ldr.getData(), ldr.getData() + pLargestPic->m_nMemDataSize, back_inserter(v));
+
+        //wrt.addBinaryFrame(KnownFrames::LBL_IMAGE(), v);
+        wrt.addImage(v);
+
+        ifstream_utf8 in (h.getName().c_str(), ios::binary);
+        transfConfig.getTempName(strOrigSrcName, getActionName(), strTempName);
+        ofstream_utf8 out (strTempName.c_str(), ios::binary);
+        wrt.write(out); // may throw, but it will be caught
+
+        for (int i = 0, n = cSize(vpStreams); i < n; ++i)
+        {
+            DataStream* p (vpStreams[i]);
+
+            if (p != pId3V2)
+            {
+                p->copy(in, out);
+            }
+        }
+    }
+
+    return CHANGED_NO_RECALL;
+}
+
+
+
+//========================================================================================================================
+//========================================================================================================================
+//========================================================================================================================
+
+
 //ttt2 perhaps be able to extract composer even when the field is empty, if artist is "composer [artist]", but doesn't look too useful
 //ttt1 perhaps something to discard invalid ID3V2 frames, especially invalid pictures

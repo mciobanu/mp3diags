@@ -592,12 +592,12 @@ void TagEditorDlgImpl::on_m_pEditPatternsB_clicked()
 
     vector<string> u;
     //u.push_back("%a/%b[[ ](%y)]/[[%r]%n][ ][-[ ]]%t");
-    /*u.push_back("%a/%b[[ ](%y)]/[[%r]%n][.][ ][-[ ]]%t"); //ttt1 OS specific
+    /*u.push_back("%a/%b[[ ](%y)]/[[%r]%n][.][ ][-[ ]]%t"); //ttt OS specific
     u.push_back("%b[[ ](%y)]/[[%r]%n][.][ ]%a[ ]-[ ]%t");
     u.push_back("%a - %b/[[%r]%n][.][ ][-[ ]]%t");
     u.push_back("[%n][.][ ][-[ ]]%t");*/
 
-    u.push_back("%a/%b[(%y)]/[[%r]%n][.][ ][-]%t"); //ttt1 OS specific
+    u.push_back("%a/%b[(%y)]/[[%r]%n][.][ ][-]%t");
     u.push_back("%b[(%y)]/[[%r]%n][.]%a-%t");
     u.push_back("%a-%b/[[%r]%n][.][ ][-]%t");
     u.push_back("/%n[.]%a-%t");
@@ -656,7 +656,7 @@ void TagEditorDlgImpl::onAlbumChanged(/*bool bContentOnly*/)
     m_pCurrentAlbumModel->emitLayoutChanged();
 
     const Mp3Handler* p (m_pTagWriter->m_vpMp3HandlerTagData.at(0)->getMp3Handler());
-    m_pCrtDirTagEdtE->setText(convStr(p->getDir()));
+    m_pCrtDirTagEdtE->setText(toNativeSeparators(convStr(p->getDir())));
 }
 
 void TagEditorDlgImpl::on_m_pConfigB_clicked()
@@ -767,7 +767,7 @@ void TagEditorDlgImpl::loadTagWriterInf()
         { // use default (only if the user didn't remove all patterns on purpose)
             //v.push_back(make_pair(string("%a/%b[[ ](%y)]/[[%r]%n][ ][-[ ]]%t"), -1));
 
-            v.push_back(make_pair(string("%a/%b[[ ](%y)]/[[%r]%n][.][ ][-[ ]]%t"), -1)); //ttt1 OS specific
+            v.push_back(make_pair(string("%a/%b[[ ](%y)]/[[%r]%n][.][ ][-[ ]]%t"), -1)); //ttt OS specific
             v.push_back(make_pair(string("%b[[ ](%y)]/[[%r]%n][.][ ]%a[ ]-[ ]%t"), -1));
             v.push_back(make_pair(string("%a - %b/[[%r]%n][.][ ][-[ ]]%t"), -1));
             v.push_back(make_pair(string("[%n][.][ ][-[ ]]%t"), -1));
@@ -1615,7 +1615,6 @@ Rescanning of saved files might be eliminated if speed is so important, but it s
 A less important performance issue is in ImageInfoPanelWdgImpl::ImageInfoPanelWdgImpl(): assigning of an image to a label takes more than 0.2"
 
 
-ttt0 perhaps "Scan images in the current folder", checked by default
 
 */
 

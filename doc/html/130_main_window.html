@@ -57,28 +57,34 @@
 </div>
 
 
+<div class="RegFnt NoteCol FreeNormalText">
+<span class="NoteCol">The screenshots are slightly out of date, because they still shows 1-letter labels instead of the 2-letter labels that are used now. Background colors have have been changed as well. However, these shouldn't matter much, so I'm postponing taking new screenshots until I'm done with the UI changes.</span>
+</div>
+
+
 <div class="FreeNormalText RegFnt ChpCol2">
 After scanning completes, you see the main window, having a table with files (and quite likely "notes") in the upper part of the screen and tables with the "notes" and "streams" of the current file in the lower part.
 </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div class="NormalText RegFnt ChpCol2">
-A "note" is a message about an MP3 file, usually describing something that is wrong with the file. There are 3 kinds of notes, based on their severity: error, warning and support. You probably want to fix the errors and think about warnings. The "support" notes simply indicate that a valid feature of an MP3 file is recognized as such, but the current version of MP3 Diags can't use it. There is nothing to do about them, except perhaps request for the feature to be supported. The main reason for not supporting a feature is that although I've found documentation about that fature, I don't have any file that uses it, so I don't know if my understanding is correct, and also if anybody actually needs that feature.
+A "note" is a message about an MP3 file, usually describing something that is wrong with the file. There are 3 kinds of notes, based on their severity: error, warning, and support, though the distinction between errors and warnings isn't always clear-cut. You probably want to fix the errors and think about warnings. The color of a note's label tells its severity: black for warnings, red for errors, and blue for support. The "support" notes simply indicate that a valid feature of an MP3 file is recognized as such, but the current version of MP3 Diags can't use it. There is nothing to do about them, except request for the feature to be supported. The main reason for not supporting a feature is that although I've found documentation about that fature, I don't have any file that uses it, so I don't know if my understanding is correct, and also if anybody actually needs that feature.
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-To make it easier to tell the notes apart, they are shown on differently colored backgrounds: pink for errors, pale yellow for warnings and cyan for support.
-</div>
-
-<div class="NormalText RegFnt ChpCol2">
-Another thing about notes is that they have a one-letter label, which is used for convenience, to make it easy to track notes from one part of the UI to another, or to report bugs / ask questions. Keep in mind that the background color is also important, as well as the case: "c yellow" has nothing to do with "c pink" or with "C yellow".
-</div>
-
-<div class="NormalText RegFnt ChpCol2">
-Notes may have addresses, which allow them to be connected to particular streams. (If you don't know what an address is, just ignore them.)
-</div>
-
-<div class="NormalText RegFnt ChpCol2">
-The labels in the file table are grouped according to these categories:
+The notes in the file table are grouped according to these categories:
 <table border="0" cellpadding="0" cellspacing="0" class="NoBrdTableText RegFnt ChpCol2 SubtableSpace">
     <tr> <td> Audio </td> </tr>
     <tr> <td> Xing and LAME </td> </tr>
@@ -96,6 +102,27 @@ The labels in the file table are grouped according to these categories:
     <tr> <td> Others </td> </tr>
 </table>
 </div>
+
+
+<div class="NormalText RegFnt ChpCol2">
+A note has a two-letter label, which is used for convenience, to make it easy to track notes from one part of the UI to another, or to report bugs / ask questions. The first letter of the label identifies the group, while the second letter identifies a note within its group.
+</div>
+
+
+<div class="NormalText RegFnt ChpCol2">
+By default all note groups use the same background color, but the colors are configurable individually.
+</div>
+
+
+<div class="NormalText RegFnt ChpCol2">
+Notes may have addresses, which allow them to be connected to particular streams. (If you don't know what an address is, just ignore them.)
+</div>
+
+
+
+
+
+
 
 <div class="FreeNormalText RegFnt ChpCol1">
 MP3 Diags has its own, rather rigid, idea about how an MP3 file should look like, and it will show errors or warnings for non-compliant files. A "good" file should contain these streams:

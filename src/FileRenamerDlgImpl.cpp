@@ -46,35 +46,43 @@ using namespace FileRenamer;
 
 
 
-CurrentAlbumModel::CurrentAlbumModel(CommonData* pCommonData, FileRenamerDlgImpl* pFileRenamerDlgImpl) : m_pFileRenamerDlgImpl(pFileRenamerDlgImpl), m_pCommonData(pCommonData), m_pRenamer(0)
+HndlrListModel::HndlrListModel(CommonData* pCommonData, FileRenamerDlgImpl* pFileRenamerDlgImpl, bool bUseCurrentView) : m_pFileRenamerDlgImpl(pFileRenamerDlgImpl), m_pCommonData(pCommonData), m_pRenamer(0), m_bUseCurrentView(bUseCurrentView)
 {
 }
 
-CurrentAlbumModel::~CurrentAlbumModel()
+HndlrListModel::~HndlrListModel()
 {
     delete m_pRenamer;
 }
 
-void CurrentAlbumModel::setRenamer(const Renamer* p)
+void HndlrListModel::setRenamer(const Renamer* p)
 {
     delete m_pRenamer;
     m_pRenamer = p;
     emitLayoutChanged();
 }
 
-/*override*/ int CurrentAlbumModel::rowCount(const QModelIndex&) const
+
+// returns either m_pCommonData->getCrtAlbum() or m_pCommonData->getViewHandlers(), based on m_bUseCurrentView
+const deque<const Mp3Handler*> HndlrListModel::getHandlerList() const
 {
-    return cSize(m_pCommonData->getCrtAlbum());
+    return m_bUseCurrentView ? m_pCommonData->getViewHandlers() : m_pCommonData->getCrtAlbum();
 }
 
 
-/*override*/ int CurrentAlbumModel::columnCount(const QModelIndex&) const
+/*override*/ int HndlrListModel::rowCount(const QModelIndex&) const
+{
+    return cSize(getHandlerList());
+}
+
+
+/*override*/ int HndlrListModel::columnCount(const QModelIndex&) const
 {
     return TagReader::LIST_END + 2 - 1;
 }
 
 
-/*override*/ QVariant CurrentAlbumModel::data(const QModelIndex& index, int nRole) const
+/*override*/ QVariant HndlrListModel::data(const QModelIndex& index, int nRole) const
 {
     if (!index.isValid()) { return QVariant(); }
     int i (index.row());
@@ -83,7 +91,7 @@ void CurrentAlbumModel::setRenamer(const Renamer* p)
     if (Qt::DisplayRole != nRole && Qt::ToolTipRole != nRole) { return QVariant(); }
     QString s;
 
-    const Mp3Handler* p (m_pCommonData->getCrtAlbum().at(i));
+    const Mp3Handler* p (getHandlerList().at(i));
     const Id3V2StreamBase* pId3V2 (p->getId3V2Stream());
 
     if (0 == j)
@@ -92,18 +100,25 @@ void CurrentAlbumModel::setRenamer(const Renamer* p)
     }
     else if (0 == pId3V2)
     {
-        s = "N/A";
+        //s = "N/A";
+        s = "<< missing ID3V2 >>";
     }
     else if (1 == j)
     {
         //s = convStr(p->getName());
         if (0 == m_pRenamer)
         {
-            s = "N/A";
+            //s = "N/A";
+            s = "<< no pattern defined >>";
         }
         else
         {
-            s = convStr(m_pRenamer->getNewName(p));
+            s = toNativeSeparators(convStr(m_pRenamer->getNewName(p)));
+            if (s.isEmpty())
+            {
+                //s = "N/A";
+                s = "<< missing fields >>";
+            }
         }
     }
     else
@@ -138,7 +153,7 @@ void CurrentAlbumModel::setRenamer(const Renamer* p)
 
 
 
-/*override*/ QVariant CurrentAlbumModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /*= Qt::DisplayRole*/) const
+/*override*/ QVariant HndlrListModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /*= Qt::DisplayRole*/) const
 {
     if (nRole != Qt::DisplayRole) { return QVariant(); }
 
@@ -165,7 +180,7 @@ void CurrentAlbumModel::setRenamer(const Renamer* p)
 //======================================================================================================================
 
 
-CurrentAlbumDelegate::CurrentAlbumDelegate(QWidget* pParent, CommonData* pCommonData) : QItemDelegate(pParent), m_pCommonData(pCommonData)
+CurrentAlbumDelegate::CurrentAlbumDelegate(QWidget* pParent, HndlrListModel* pHndlrListModel) : QItemDelegate(pParent), m_pHndlrListModel(pHndlrListModel)
 {
 }
 
@@ -174,12 +189,12 @@ CurrentAlbumDelegate::CurrentAlbumDelegate(QWidget* pParent, CommonData* pCommon
 {
     pPainter->save();
 
-    const Mp3Handler* p (m_pCommonData->getCrtAlbum().at(index.row()));
+    const Mp3Handler* p (m_pHndlrListModel->getHandlerList().at(index.row()));
     const Id3V2StreamBase* pId3V2 (p->getId3V2Stream());
 
     if (0 == pId3V2)
     {
-        pPainter->fillRect(option.rect, QColor(255, 226, 236));
+        //pPainter->fillRect(option.rect, QColor(255, 226, 236)); //ttt1 perhaps put back, but should work for "missing fields" as well
     }
 
     QItemDelegate::paint(pPainter, option, index);
@@ -195,22 +210,22 @@ CurrentAlbumDelegate::CurrentAlbumDelegate(QWidget* pParent, CommonData* pCommon
 
 
 
-FileRenamerDlgImpl::FileRenamerDlgImpl(QWidget* pParent, CommonData* pCommonData) : QDialog(pParent, getDialogWndFlags()), Ui::FileRenamerDlg(), m_pCommonData(pCommonData)
+FileRenamerDlgImpl::FileRenamerDlgImpl(QWidget* pParent, CommonData* pCommonData, bool bUseCurrentView) : QDialog(pParent, getDialogWndFlags()), Ui::FileRenamerDlg(), m_pCommonData(pCommonData), m_bUseCurrentView(bUseCurrentView)
 {
     setupUi(this);
 
     resizeIcons();
 
-    m_pCurrentAlbumModel = new CurrentAlbumModel(m_pCommonData, this);
+    m_pHndlrListModel = new HndlrListModel(m_pCommonData, this, bUseCurrentView);
 
     {
         m_pCurrentAlbumG->verticalHeader()->setResizeMode(QHeaderView::Interactive);
         m_pCurrentAlbumG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT + 1);
         m_pCurrentAlbumG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT + 1);//*/
 
-        m_pCurrentAlbumG->setModel(m_pCurrentAlbumModel);
+        m_pCurrentAlbumG->setModel(m_pHndlrListModel);
 
-        CurrentAlbumDelegate* pDel (new CurrentAlbumDelegate(this, m_pCommonData));
+        CurrentAlbumDelegate* pDel (new CurrentAlbumDelegate(this, m_pHndlrListModel));
         m_pCurrentAlbumG->setItemDelegate(pDel);
     }
 
@@ -237,16 +252,19 @@ FileRenamerDlgImpl::FileRenamerDlgImpl(QWidget* pParent, CommonData* pCommonData
         m_pKeepOriginalCkB->setChecked(bKeepOriginal);
     }
 
-    //setSizeGripEnabled(true);
-    //QSizeGrip* pGrip (this);
-    //pGrip->show();
-
 
     { m_pModifRenameB = new ModifInfoToolButton(m_pRenameB); connect(m_pModifRenameB, SIGNAL(clicked()), this, SLOT(on_m_pRenameB_clicked())); m_pRenameB = m_pModifRenameB; }
 
-    QTimer::singleShot(1, this, SLOT(onShow())); // just calls reloadTable(); !!! needed to properly resize the table columns; album and file tables have very small widths until they are actually shown, so calling resizeTagEditor() earlier is pointless; calling update() on various layouts seems pointless as well; (see also DoubleList::resizeEvent() )
-
     { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
+
+    if (m_bUseCurrentView)
+    {
+        m_pCrtDirTagEdtE->setEnabled(false);
+        m_pPrevB->setEnabled(false);
+        m_pNextB->setEnabled(false);
+    }
+
+    QTimer::singleShot(1, this, SLOT(onShow())); // just calls reloadTable(); !!! needed to properly resize the table columns; album and file tables have very small widths until they are actually shown, so calling resizeTagEditor() earlier is pointless; calling update() on various layouts seems pointless as well; (see also DoubleList::resizeEvent() )
 }
 
 
@@ -260,7 +278,7 @@ string FileRenamerDlgImpl::run()
 {
     exec();
     int k (m_pCurrentAlbumG->currentIndex().row());
-    const deque<const Mp3Handler*>& vpCrtAlbum (m_pCommonData->getCrtAlbum());
+    const deque<const Mp3Handler*>& vpCrtAlbum (m_pHndlrListModel->getHandlerList());
     if (k < 0 || k >= cSize(vpCrtAlbum)) { return ""; }
     return vpCrtAlbum[k]->getName();
 }
@@ -324,7 +342,7 @@ void FileRenamerDlgImpl::createButtons(QWidget* pWidget)
     for (int i = 0, n = cSize(m_vstrPatterns); i < n; ++i)
     {
         QToolButton* p (new QToolButton(pWidget));
-        p->setText(convStr(m_vstrPatterns[i]));
+        p->setText(toNativeSeparators(convStr(m_vstrPatterns[i])));
         p->setCheckable(true);
         m_pButtonGroup->addButton(p, m_nBtnId++);
         //p->setAutoExclusive(true);
@@ -351,7 +369,7 @@ void FileRenamerDlgImpl::onPatternClicked()
     {
         m_nVaButton = nId;
     }
-    m_pCurrentAlbumModel->setRenamer(new Renamer(m_vstrPatterns[nId]));
+    m_pHndlrListModel->setRenamer(new Renamer(m_vstrPatterns[nId]));
 }
 
 
@@ -368,16 +386,17 @@ struct RenameThread : public PausableThread
     const deque<const Mp3Handler*>& m_vpHndl;
     bool m_bKeepOrig;
     const Renamer* m_pRenamer;
-    QWidget* m_pParent;
     CommonData* m_pCommonData;
     vector<const Mp3Handler*>& m_vpDel;
     vector<const Mp3Handler*>& m_vpAdd;
 
-    RenameThread(const deque<const Mp3Handler*>& vpHndl, bool bKeepOrig, const Renamer* pRenamer, QWidget* pParent, CommonData* pCommonData, vector<const Mp3Handler*>& vpDel, vector<const Mp3Handler*>& vpAdd) :
+    QString m_qstrErr;
+
+    RenameThread(const deque<const Mp3Handler*>& vpHndl, bool bKeepOrig, const Renamer* pRenamer, CommonData* pCommonData, vector<const Mp3Handler*>& vpDel, vector<const Mp3Handler*>& vpAdd) :
             m_vpHndl(vpHndl),
             m_bKeepOrig(bKeepOrig),
             m_pRenamer(pRenamer),
-            m_pParent(pParent),
+
             m_pCommonData(pCommonData),
             m_vpDel(vpDel),
             m_vpAdd(vpAdd)
@@ -397,8 +416,6 @@ struct RenameThread : public PausableThread
 
 bool RenameThread::proc()
 {
-    QString qstrErr;
-
     for (int i = 0, n = cSize(m_vpHndl); i < n; ++i)
     {
         if (isAborted()) { return false; }
@@ -406,63 +423,73 @@ bool RenameThread::proc()
 
         QString qstrName (convStr(m_vpHndl[i]->getName()));
         StrList l;
-        l.push_back(qstrName);
+        l.push_back(toNativeSeparators(qstrName));
         emit stepChanged(l);
 
         string strDest (m_pRenamer->getNewName(m_vpHndl[i]));
-        try
-        {
-            if (m_bKeepOrig)
-            {
-                copyFile2(m_vpHndl[i]->getName(), strDest);
-            }
-            else
-            {
-                renameFile(m_vpHndl[i]->getName(), strDest);
-                m_vpDel.push_back(m_vpHndl[i]);
-            }
 
-            if (m_pCommonData->m_dirTreeEnum.isIncluded(strDest))
+        if (!strDest.empty())
+        {
+            CB_ASSERT (string::npos == strDest.find("//"));
+
+            try
             {
-                try
+                //qDebug("ren %s", strDest.c_str());
+                if (m_bKeepOrig)
                 {
-                    m_vpAdd.push_back(new Mp3Handler(strDest, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds()));
+                    copyFile2(m_vpHndl[i]->getName(), strDest);
                 }
-                catch (const Mp3Handler::FileNotFound&)
+                else
                 {
+                    renameFile(m_vpHndl[i]->getName(), strDest);
+                    m_vpDel.push_back(m_vpHndl[i]);
+                }
+
+                if (m_pCommonData->m_dirTreeEnum.isIncluded(strDest))
+                {
+                    try
+                    {
+                        m_vpAdd.push_back(new Mp3Handler(strDest, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds()));
+                    }
+                    catch (const Mp3Handler::FileNotFound&)
+                    {
+                    }
                 }
             }
-        }
-        catch (const FoundDir&)
-        {
-            qstrErr = "Source or destination is a directory";
-        }
-        catch (const CannotCopyFile&)
-        {
-            qstrErr = "Error during copying";
-        }
-        catch (const CannotRenameFile&)
-        {
-            qstrErr = "Error during renaming";
-        }
-        catch (const AlreadyExists&)
-        {
-            qstrErr = "Destination already exists";
-        }
-        catch (const NameNotFound&)
-        {
-            qstrErr = "Source not found";
-        }
-        catch (const std::bad_alloc&) { throw; }
-        catch (...)
-        {
-            qstrErr = "Unknown error";
-        }
-
-        if (!qstrErr.isEmpty())
-        {
-            QMessageBox::critical(m_pParent, "Error", qstrErr);
-            return false;
+            catch (const FoundDir&)
+            {
+                m_qstrErr = "Source or destination is a directory";
+            }
+            catch (const CannotCopyFile&)
+            {
+                m_qstrErr = "Error during copying";
+            }
+            catch (const CannotRenameFile&)
+            {
+                m_qstrErr = "Error during renaming";
+            }
+            catch (const AlreadyExists&)
+            {
+                m_qstrErr = "Destination already exists";
+            }
+            catch (const NameNotFound&)
+            {
+                m_qstrErr = "Source not found";
+            }
+            catch (const std::bad_alloc&) { throw; }
+            catch (const IncorrectDirName&)
+            {
+                CB_ASSERT (false);
+            }
+            catch (...)
+            {
+                m_qstrErr = "Unknown error";
+            }
+//m_qstrErr = "tttt"; //ttt0 test in wnd
+            if (!m_qstrErr.isEmpty())
+            {
+                return false;
+            }
         }
     }
 
@@ -487,13 +514,13 @@ void FileRenamerDlgImpl::on_m_pRenameB_clicked()
         return;
     }
 
-    const Renamer* pRenamer (m_pCurrentAlbumModel->getRenamer());
+    const Renamer* pRenamer (m_pHndlrListModel->getRenamer());
     CB_ASSERT (0 != pRenamer);
 
     bool bAll (0 == (Qt::ShiftModifier & m_pModifRenameB->getModifiers()));
     bool bKeepOrig (m_pKeepOriginalCkB->isChecked());
 
-    const deque<const Mp3Handler*>& vpAllHndl (m_pCommonData->getCrtAlbum());
+    const deque<const Mp3Handler*>& vpAllHndl (m_pHndlrListModel->getHandlerList());
     deque<const Mp3Handler*> vpHndl;
     if (bAll)
     {
@@ -527,7 +554,19 @@ void FileRenamerDlgImpl::on_m_pRenameB_clicked()
         set<string> s;
         for (int i = 0, n = cSize(vpHndl); i < n; ++i)
         {
+            if (0 == vpHndl[i]->getId3V2Stream())
+            {
+                QMessageBox::critical(this, "Error", "Operation aborted because file \"" + convStr(vpHndl[i]->getName()) + "\" doesn't have an ID3V2 tag.");
+                return;
+            }
+
             string strDest (pRenamer->getNewName(vpHndl[i]));
+            if (strDest.empty())
+            {
+                QMessageBox::critical(this, "Error", "Operation aborted because file \"" + convStr(vpHndl[i]->getName()) + "\" is missing some required fields in its ID3V2 tag.");
+                return;
+            }
+
             if (s.count(strDest) > 0)
             {
                 QMessageBox::critical(this, "Error", "Operation aborted because it would create 2 copies of a file called \"" + convStr(strDest) + "\"");
@@ -547,11 +586,15 @@ void FileRenamerDlgImpl::on_m_pRenameB_clicked()
     vector<const Mp3Handler*> vpDel, vpAdd;
 
     {
-        RenameThread* pThread (new RenameThread(vpHndl, bKeepOrig, pRenamer, this, m_pCommonData, vpDel, vpAdd));
+        RenameThread* pThread (new RenameThread(vpHndl, bKeepOrig, pRenamer, m_pCommonData, vpDel, vpAdd));
 
         ThreadRunnerDlgImpl dlg (this, getNoResizeWndFlags(), pThread, ThreadRunnerDlgImpl::SHOW_COUNTER, ThreadRunnerDlgImpl::TRUNCATE_BEGIN);
         dlg.setWindowTitle(QString(bKeepOrig ? "Copying" : "Renaming") + (bAll ? " all the" : " selected") + " files in the current album");
         dlg.exec();
+        if (!pThread->m_qstrErr.isEmpty())
+        {
+            QMessageBox::critical(this, "Error", pThread->m_qstrErr);
+        }
     }
 
     m_pCommonData->mergeHandlerChanges(vpAdd, vpDel, CommonData::SEL | CommonData::CURRENT);
@@ -568,7 +611,7 @@ void FileRenamerDlgImpl::reloadTable()
     {
         bool bVa (false);
         bool bErr (false); // it's error if any file lacks ID3V2
-        const deque<const Mp3Handler*>& vpHndl (m_pCommonData->getCrtAlbum());
+        const deque<const Mp3Handler*>& vpHndl (m_pHndlrListModel->getHandlerList());
         if (vpHndl.empty())
         {
             accept();
@@ -614,15 +657,15 @@ void FileRenamerDlgImpl::reloadTable()
 
     selectPattern();
 
-    m_pCurrentAlbumModel->emitLayoutChanged();
-    const Mp3Handler* p (m_pCommonData->getCrtAlbum().at(0));
-    m_pCrtDirTagEdtE->setText(convStr(p->getDir()));
+    m_pHndlrListModel->emitLayoutChanged();
+    const Mp3Handler* p (m_pHndlrListModel->getHandlerList().at(0)); // !!! it was supposed to close the window if nothing remained
+    if (!m_bUseCurrentView) { m_pCrtDirTagEdtE->setText(toNativeSeparators(convStr(p->getDir()))); }
     //m_pCrtDirTagEdtE->hide();
     //setWindowTitle("MP3 Diags - " + convStr(p->getDir()) + " - File renamer");
 
     QItemSelectionModel* pSelModel (m_pCurrentAlbumG->selectionModel());
     pSelModel->clear();
-    pSelModel->setCurrentIndex(m_pCurrentAlbumModel->index(0, 0), QItemSelectionModel::SelectCurrent);
+    pSelModel->setCurrentIndex(m_pHndlrListModel->index(0, 0), QItemSelectionModel::SelectCurrent);
 
     resizeUi();
 }
@@ -648,17 +691,17 @@ void FileRenamerDlgImpl::selectPattern()
         if (isSingleArtist())
         {
             m_pButtonGroup->button(m_nSaButton)->setChecked(true);
-            m_pCurrentAlbumModel->setRenamer(new Renamer(m_vstrPatterns[m_nSaButton]));
+            m_pHndlrListModel->setRenamer(new Renamer(m_vstrPatterns[m_nSaButton]));
         }
         else
         {
             m_pButtonGroup->button(m_nVaButton /*+ cSize(m_vstrPatterns)*/)->setChecked(true);
-            m_pCurrentAlbumModel->setRenamer(new Renamer(m_vstrPatterns[m_nVaButton]));
+            m_pHndlrListModel->setRenamer(new Renamer(m_vstrPatterns[m_nVaButton]));
         }
     }
     else
     {
-        m_pCurrentAlbumModel->setRenamer(0);
+        m_pHndlrListModel->setRenamer(0);
     }
 
     resizeUi();
@@ -985,7 +1028,11 @@ Renamer::~Renamer()
 
 string Renamer::getNewName(const Mp3Handler* pHndl) const
 {
-    return m_pRoot->getVal(pHndl) + ".mp3";
+    if (0 == pHndl->getId3V2Stream()) { return ""; }
+    string s (m_pRoot->getVal(pHndl));
+    if (string::npos != s.find("//")) { return ""; }
+    if (!s.empty()) { s += ".mp3"; }
+    return s;
 }
 
 //ttt1 timer in normalizer

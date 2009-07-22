@@ -228,8 +228,6 @@ int main(int argc, char *argv[])
 
             CB_ASSERT (!strStartSession.empty());
 
-            MainFormDlgImpl mainDlg (0, strStartSession);
-
             {
                 vector<string> vstrSess;
                 bool bOpenLast;
@@ -239,7 +237,9 @@ int main(int argc, char *argv[])
                 st.saveSessions(vstrSess, strStartSession, bOpenLast);
                 nSessCnt = cSize(vstrSess);
             }
+            MainFormDlgImpl mainDlg (strStartSession, 1 == nSessCnt);
             mainDlg.setWindowIcon(QIcon(":/images/logo.svg"));
+
             if (1 == nSessCnt)
             {
                 mainDlg.setWindowTitle("MP3 Diags");

@@ -80,7 +80,7 @@ FilesModel::FilesModel(CommonData* pCommonData) : QAbstractTableModel(pCommonDat
     const Mp3Handler* pHndl (m_pCommonData->getViewHandlers()[index.row()]);
     if (nRole == Qt::ToolTipRole && 0 == j)
     {
-        QString s (convStr(pHndl->getName()));
+        QString s (toNativeSeparators(convStr(pHndl->getName())));
 
         //QFontMetrics fm (QApplication::fontMetrics());
         QFontMetrics fm (m_pCommonData->m_pFilesG->fontMetrics()); // !!! no need to use "QApplication::fontMetrics()"
@@ -99,7 +99,7 @@ FilesModel::FilesModel(CommonData* pCommonData) : QAbstractTableModel(pCommonDat
 
     if (0 == j)
     {
-        return convStr(pHndl->getName());
+        return toNativeSeparators(convStr(pHndl->getName()));
     }
     const NoteColl& notes (pHndl->getNotes());
 
@@ -471,21 +471,6 @@ FileHeaderView::FileHeaderView(CommonData* pCommonData, Qt::Orientation orientat
 
 
 
-static QString makeMultiline(const char* szDescr)
-{
-    QString s (szDescr);
-    int SIZE (50);
-    for (int i = SIZE; i < s.size(); ++i)
-    {
-        if (' ' == s[i])
-        {
-            s[i] = '\n';
-            i += SIZE;
-        }
-    }
-    return s;
-}
-
 /*override*/ void FileHeaderView::mouseMoveEvent(QMouseEvent* pEvent)
 {
     int k (logicalIndexAt(pEvent->x(), pEvent->y()));
@@ -555,7 +540,7 @@ static QString makeMultiline(const char* szDescr)
         {
             s_nCut = 3; //ttt2 hard-coded, must be kept in synch with CELL_WIDTH
         }
-        qDebug("cut: %d", s_nCut);
+//        qDebug("cut: %d", s_nCut);
     }
 
     pPainter->restore();

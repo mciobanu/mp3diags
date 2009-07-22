@@ -36,9 +36,9 @@ using namespace std;
 using namespace pearl;
 
 
-static const string& getOsTempDir() // ttt3 these static variables are not really thread safe, but in this case it doesn't matter, because they all get called from a single thread (the UI thread)
+/*static const string& getOsTempDir() 
 {
-    static string s;
+    static string s; // ttt3 these static variables are not really thread safe, but in this case it doesn't matter, because they all get called from a single thread (the UI thread)
     if (s.empty())
     {
         s = convStr(QDir::tempPath());
@@ -49,42 +49,16 @@ static const string& getOsTempDir() // ttt3 these static variables are not reall
     }
     return s;
 }
+*/
 
 //ttt1 review all defaults
-static const char* getDefaultSrc() { return ""; } //ttt1 Unix-specific
-static const char* getDefaultUnprocOrig() { return ""; }
-static const char* getDefaultProcessed() { return ""; }
+static string getDefaultSrc() { return ""; } //ttt2 see if src dir needs to be revived
 
-
-static const char* getDefaultProcOrig()
-{
-    static string s;
-    if (s.empty())
-    {
-        s = getOsTempDir() + "/mp3diags/proc";
-    }
-    return s.c_str();
-}
-
-static const char* getDefaultTemp()
-{
-    static string s;
-    if (s.empty())
-    {
-        s = getOsTempDir() + "/mp3diags/temp";
-    }
-    return s.c_str();
-}
-
-static const char* getDefaultComp()
-{
-    static string s;
-    if (s.empty())
-    {
-        s = getOsTempDir() + "/mp3diags/comp";
-    }
-    return s.c_str();
-}
+static string getDefaultUnprocOrig() { return convStr(getTempDir()) + "/mp3diags/unprocOrig"; }
+static string getDefaultProcessed() { return convStr(getTempDir()) + "/mp3diags/proc"; }
+static string getDefaultProcOrig() { return convStr(getTempDir() + "/mp3diags/procOrig"); }
+static string getDefaultTemp() { return convStr(getTempDir() + "/mp3diags/temp"); }
+static string getDefaultComp() { return convStr(getTempDir() + "/mp3diags/comp"); }
 
 
 

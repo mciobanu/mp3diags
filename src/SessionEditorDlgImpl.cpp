@@ -79,7 +79,7 @@ SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strIn
 
     setWindowTitle("MP3 Diags - Edit session");
     m_pFileNameE->setReadOnly(true);
-    m_pFileNameE->setText(convStr(strIniFile));
+    m_pFileNameE->setText(toNativeSeparators(convStr(strIniFile)));
     m_pFileNameB->hide();
     m_pOpenLastCkB->hide();
     //m_pLoadB->hide();
@@ -104,7 +104,7 @@ SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strIn
     {
         m_pDontCreateBackupRB->setChecked(true);
     }
-    m_pBackupE->setText(convStr(tc.getProcOrigDir()));
+    m_pBackupE->setText(toNativeSeparators(convStr(tc.getProcOrigDir())));
 
     m_pDirModel->setDirs(vstrCheckedDirs, vstrUncheckedDirs, m_pDirectoriesT);
 
@@ -152,8 +152,8 @@ void SessionEditorDlgImpl::on_m_pOkB_clicked()
 
     if (m_bNew)
     {
-        QString qstrFile (m_pFileNameE->text());
-        if (!qstrFile.isEmpty() && !qstrFile.endsWith(".ini")) { qstrFile += ".ini"; m_pFileNameE->setText(qstrFile); }
+        QString qstrFile (fromNativeSeparators(m_pFileNameE->text()));
+        if (!qstrFile.isEmpty() && !qstrFile.endsWith(".ini")) { qstrFile += ".ini"; m_pFileNameE->setText(toNativeSeparators(qstrFile)); }
         //m_strIniFile = convStr(QFileInfo(qstrFile).canonicalFilePath());
         m_strIniFile = convStr(qstrFile);
         if (m_strIniFile.empty())
@@ -173,7 +173,7 @@ void SessionEditorDlgImpl::on_m_pOkB_clicked()
 
     if (m_pCreateBackupRB->isChecked())
     {
-        QString s (m_pBackupE->text());
+        QString s (fromNativeSeparators(m_pBackupE->text()));
         if (s.isEmpty() || !QFileInfo(s).isDir())
         {
             QMessageBox::critical(this, "Error", "If you want to create backups, you must select an existing directory to store them.");
@@ -204,7 +204,7 @@ void SessionEditorDlgImpl::on_m_pOkB_clicked()
         else
         {
             tc.m_optionsWrp.m_opt.m_nProcOrigChange = 5;
-            tc.setProcOrigDir(convStr(m_pBackupE->text()));
+            tc.setProcOrigDir(fromNativeSeparators(convStr(m_pBackupE->text())));
         }
 
         st.saveTransfConfig(tc);
@@ -215,7 +215,7 @@ void SessionEditorDlgImpl::on_m_pOkB_clicked()
 
         if (!st.sync())
         {
-            QMessageBox::critical(this, "Error", "Failed to write to file " + m_pFileNameE->text());
+            QMessageBox::critical(this, "Error", "Failed to write to file " + fromNativeSeparators(m_pFileNameE->text()));
             if (m_bNew)
             {
                 removeSession(m_strIniFile);
@@ -235,7 +235,7 @@ void SessionEditorDlgImpl::on_m_pCancelB_clicked()
 
 void SessionEditorDlgImpl::on_m_pBackupB_clicked()
 {
-    QString s (m_pBackupE->text());
+    QString s (fromNativeSeparators(m_pBackupE->text()));
     if (s.isEmpty())
     {
         s = QDir::homePath();
@@ -256,7 +256,7 @@ void SessionEditorDlgImpl::on_m_pBackupB_clicked()
         return;
     }
 
-    m_pBackupE->setText(s);
+    m_pBackupE->setText(toNativeSeparators(s));
 
     m_pCreateBackupRB->setChecked(true);
 }
@@ -264,7 +264,7 @@ void SessionEditorDlgImpl::on_m_pBackupB_clicked()
 
 void SessionEditorDlgImpl::on_m_pFileNameB_clicked()
 {
-    QString s (m_pFileNameE->text());
+    QString s (fromNativeSeparators(m_pFileNameE->text()));
     if (s.isEmpty())
     {
         if (m_strDir.empty())
@@ -289,7 +289,7 @@ void SessionEditorDlgImpl::on_m_pFileNameB_clicked()
 
     if (!s.endsWith(".ini")) { s += ".ini"; }
 
-    m_pFileNameE->setText(s);
+    m_pFileNameE->setText(toNativeSeparators(s));
 }
 
 

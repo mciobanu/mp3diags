@@ -474,7 +474,7 @@ struct SequenceReader : public Reader
                     { // there is a gap between the previous and current reader
                         return false;
                     }
-                    //CB_ASSERT (0 == pLastRd || BOUND == pLastRd->m_eBound || BOUND == p->m_eBound); // 2 unbound can't be neighbours, because then there's no way to split something between them; tttx 2008.12.17 - this doesn't allow handling of "%t[ - %a]" but allowing it here is not enough: actually "[ - %a]" is "bound to the left", and should have priority vs "%t"; 2009.01.13 - seems no longer relevant
+                    //CB_ASSERT (0 == pLastRd || BOUND == pLastRd->m_eBound || BOUND == p->m_eBound); // 2 unbound can't be neighbors, because then there's no way to split something between them; tttx 2008.12.17 - this doesn't allow handling of "%t[ - %a]" but allowing it here is not enough: actually "[ - %a]" is "bound to the left", and should have priority vs "%t"; 2009.01.13 - seems no longer relevant
                     pLastRd = p;
                     pLastRight = p->m_pcRight;
 

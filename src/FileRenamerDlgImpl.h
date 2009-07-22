@@ -23,6 +23,8 @@
 #ifndef FileRenamerDlgImplH
 #define FileRenamerDlgImplH
 
+#include  <deque>
+
 #include  <QDialog>
 #include  <QItemDelegate>
 
@@ -32,11 +34,8 @@
 class CommonData;
 class QSettings;
 class FileRenamerDlgImpl;
+class Mp3Handler;
 
-/*
-namespace RenamerPatterns
-{
-}*/
 
 
 class Renamer;
@@ -45,8 +44,8 @@ class Renamer;
 namespace FileRenamer {
 
 
-// current album
-class CurrentAlbumModel : public QAbstractTableModel
+// current album / filtered handlers;
+class HndlrListModel : public QAbstractTableModel
 {
     Q_OBJECT
 
@@ -55,10 +54,12 @@ class CurrentAlbumModel : public QAbstractTableModel
 
     const Renamer* m_pRenamer;
 
+    bool m_bUseCurrentView;
+
 public:
-    CurrentAlbumModel(CommonData* pCommonData, FileRenamerDlgImpl* pFileRenamerDlgImpl);
-    ~CurrentAlbumModel();
-    //CurrentAlbumModel(TagEditorDlgImpl* pTagEditorDlgImpl);
+    HndlrListModel(CommonData* pCommonData, FileRenamerDlgImpl* pFileRenamerDlgImpl, bool bUseCurrentView);
+    ~HndlrListModel();
+    //HndlrListModel(TagEditorDlgImpl* pTagEditorDlgImpl);
 
     /*override*/ int rowCount(const QModelIndex&) const;
     /*override*/ int columnCount(const QModelIndex&) const;
@@ -70,16 +71,18 @@ public:
     const Renamer* getRenamer() const { return m_pRenamer; }
     void setRenamer(const Renamer*);
 
+    const std::deque<const Mp3Handler*> getHandlerList() const; // returns either m_pCommonData->getCrtAlbum() or m_pCommonData->getViewHandlers(), based on m_bUseCurrentView
+
     void emitLayoutChanged() { emit layoutChanged(); }
 };
 
 class CurrentAlbumDelegate : public QItemDelegate
 {
     Q_OBJECT
-    const CommonData* m_pCommonData;
+    const HndlrListModel* m_pHndlrListModel;
 
 public:
-    CurrentAlbumDelegate(QWidget* pParent, CommonData* pCommonData);
+    CurrentAlbumDelegate(QWidget* pParent, HndlrListModel* pHndlrListModel);
 
     /*override*/ void paint(QPainter* pPainter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
     // /*override*/ QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const;
@@ -99,7 +102,7 @@ class FileRenamerDlgImpl : public QDialog, private Ui::FileRenamerDlg
 
     CommonData* m_pCommonData;
 
-    FileRenamer::CurrentAlbumModel* m_pCurrentAlbumModel;
+    FileRenamer::HndlrListModel* m_pHndlrListModel;
 
     void reloadTable();
     void resizeUi();
@@ -122,13 +125,16 @@ class FileRenamerDlgImpl : public QDialog, private Ui::FileRenamerDlg
 
     ModifInfoToolButton* m_pModifRenameB;
 
+    bool m_bUseCurrentView;
+
     //std::vector<QToolButton
     /*override*/ void resizeEvent(QResizeEvent* pEvent);
 
     void resizeIcons();
 
 public:
-    FileRenamerDlgImpl(QWidget* pParent, CommonData* pCommonData);
+    enum { DONT_USE_CRT_VIEW, USE_CRT_VIEW };
+    FileRenamerDlgImpl(QWidget* pParent, CommonData* pCommonData, bool bUseCurrentView);
     ~FileRenamerDlgImpl();
     /*$PUBLIC_FUNCTIONS$*/
 

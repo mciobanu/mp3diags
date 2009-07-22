@@ -41,8 +41,10 @@
 #include  <QWidget>
 #include  <QUrl>
 #include  <QFileInfo>
+#include  <QDir>
 
 #include  "Helpers.h"
+#include  "Widgets.h"
 
 
 using namespace std;
@@ -540,13 +542,13 @@ StreamStateRestorer::~StreamStateRestorer()
 
 char getPathSep()
 {
-    return '/'; // ttt1 linux-specific
+    return '/'; // ttt2 linux-specific
 }
 
 const string& getPathSepAsStr()
 {
     static string s ("/");
-    return s; // ttt1 linux-specific // ttt1 look at QDir::fromNativeSeparators
+    return s; // ttt2 linux-specific // ttt look at QDir::fromNativeSeparators
 }
 
 
@@ -665,6 +667,7 @@ Ideally a modal dialog should minimize its parent. If that's not possible, it sh
 #endif
 #endif
 
+#ifndef WIN32
 static void removeStr(string& main, const string& sub)
 {
     for (;;)
@@ -674,6 +677,7 @@ static void removeStr(string& main, const string& sub)
         main.erase(n, sub.size());
     }
 }
+#endif
 
 extern const char* APP_VER;
 
@@ -863,8 +867,17 @@ vector<QString> getLocalHelpDirs()
         s_v.push_back("/home/ciobi/cpp/Mp3Utils/mp3diags/doc/html/");
         s_v.push_back("/usr/share/mp3diags-doc/html/");
         s_v.push_back("/usr/share/doc/mp3diags/html/");
-#else //ttt1
-        s_v.push_back("/Program Files/MP3Diags/doc"); // ttt0 improve, make it figure out where it was installed
+        s_v.push_back("/usr/share/doc/mp3diags-QQQVERQQQ/html/");
+#else
+        wchar_t wszModule [200];
+        int nRes (GetModuleFileName(0, wszModule, 200));
+        //qDebug("%s", QString::fromWCharArray(wszModule).toUtf8().data());
+        if (0 < nRes && nRes < 200)
+        {
+            s_v.push_back(QFileInfo(
+                    fromNativeSeparators(QString::fromWCharArray(wszModule))).dir().absolutePath() + "/doc/");
+            //qDebug("%s", s_v.back().toUtf8().data());
+        }
 #endif
     }
 
@@ -887,12 +900,74 @@ void openHelp(const string& strFileName)
         }
     }
 
-    if (strDir.isEmpty())
+    QString qs (strDir);
+    if (qs.isEmpty())
     {
-        strDir = "http://mp3diags.sourceforge.net/";
+        qs = "http://mp3diags.sourceforge.net/";
+    }
+    else
+    {
+        qs = QUrl::fromLocalFile(qs).toString();
     }
 
-    QString qs (strDir + convStr(strFileName));
+    qs = qs + convStr(strFileName);
 
-    QDesktopServices::openUrl(QUrl(qs));
+
+//qDebug("open %s", qs.toUtf8().data());
+//logToFile(qs.toUtf8().data());
+    CursorOverrider ovr;
+    QDesktopServices::openUrl(QUrl(qs, QUrl::TolerantMode));
 }
+
+
+// meant for displaying tooltips; converts some spaces to \n, so the tooltips have several short lines instead of a single wide line
+QString makeMultiline(const char* szDescr) //ttt2 param should probably be changed for localized versions, so this takes and returns QString
+{
+    QString s (szDescr);
+    int SIZE (50);
+    for (int i = SIZE; i < s.size(); ++i)
+    {
+        if (' ' == s[i])
+        {
+            s[i] = '\n';
+            i += SIZE;
+        }
+    }
+    return s;
+}
+
+
+QString toNativeSeparators(const QString& s)
+{
+    return QDir::toNativeSeparators(s);
+}
+
+QString fromNativeSeparators(const QString& s)
+{
+    return QDir::fromNativeSeparators(s);
+}
+
+QString getTempDir()
+{
+/*
+#ifndef WIN32
+    return "/tmp";
+#else
+    wchar_t wszTmp [200];
+    if (GetTempPath(200, wszTmp) > 1999) { return ""; }
+    return QString::fromWCharArray(wszTmp);
+#endif*/
+
+    static QString s; // ttt3 these static variables are not really thread safe, but in this case it doesn't matter, because they all get called from a single thread (the UI thread)
+    if (s.isEmpty()) // ttt0 retest on Wnd
+    {
+        s = QDir::tempPath();
+        if (s.endsWith(getPathSep()))
+        {
+            s.remove(s.size() - 1, 1);
+        }
+    }
+    return s;
+}
+
+//ttt0 see why F1 help is so slow on XP; ttt0 see if the links from about dlg are as slow

@@ -247,6 +247,7 @@ static bool isWhite(const QColor& c)
     return c.red() >= 254 && c.green() >= 254 && c.blue() >= 254;
 }
 
+
 void SessionSettings::loadMiscConfigSettings(CommonData* p) const
 {
     { // quality
@@ -288,7 +289,7 @@ void SessionSettings::loadMiscConfigSettings(CommonData* p) const
 
     { // misc
         p->m_bShowDebug = m_pSettings->value("main/showDebug", false).toBool();
-        p->m_bShowSessions = m_pSettings->value("main/showSessions", false).toBool();
+        p->m_bShowSessions = m_pSettings->value("main/showSessions", !p->isUniqueSession()).toBool();
         p->m_strNormalizeCmd = convStr(m_pSettings->value("normalizer/command", "mp3gain -a -k -p -t").toString());
         p->m_bKeepNormWndOpen = m_pSettings->value("main/keepNormWndOpen", false).toBool();
 
@@ -310,7 +311,8 @@ void SessionSettings::loadMiscConfigSettings(CommonData* p) const
         //m_settings.saveVector("categories/colors", u);
         bool bErr;
         vector<string> v (loadVector("categories/colors", bErr));
-        for (int i = 0; i < Note::CATEG_CNT && i < cSize(v); ++i)
+        int i (0);
+        for (; i < Note::CATEG_CNT && i < cSize(v); ++i)
         {
             int r (230), g (230), b (230);
             istringstream in (v[i]);
@@ -318,26 +320,9 @@ void SessionSettings::loadMiscConfigSettings(CommonData* p) const
             p->m_vNoteCategColors.push_back(QColor(r, g, b));
         }
 
-        //QColor c (QPalette().color(QPalette::Active, QPalette::Window).lighter(113));
-        QColor c (QPalette().color(QPalette::Active, QPalette::Light));
-        if (isWhite(c))
-        {
-            c = QPalette().color(QPalette::Active, QPalette::Window).lighter(110);
-        }
-        if (isWhite(c))
-        {
-            c = QPalette().color(QPalette::Active, QPalette::Window).lighter(103);
-        }
-        if (isWhite(c))
-        {
-            c = QPalette().color(QPalette::Active, QPalette::Window);
-        }
-        if (isWhite(c))
-        {
-            c = QColor(253, 250, 240);
-        }
+        QColor c (getDefaultBkgCol());
 
-        for (int i = 0; i < Note::CATEG_CNT; ++i)
+        for (; i < Note::CATEG_CNT; ++i)
         {
             //p->m_vNoteCategColors.push_back(QColor(240, 240 + i, 240 - i));
             p->m_vNoteCategColors.push_back(c);
@@ -498,7 +483,9 @@ CommonData::CommonData(
         QToolButton* pDirFilterB,
         QToolButton* pModeAllB,
         QToolButton* pModeAlbumB,
-        QToolButton* pModeSongB) :
+        QToolButton* pModeSongB,
+
+        bool bUniqueSession) :
 
         m_pFilesModel(0),
         m_pNotesModel(0),
@@ -522,10 +509,12 @@ CommonData::CommonData(
         m_bKeepOneValidImg(false),
         m_bLogTransf(false),
         m_bSaveDownloadedData(false),
-        m_vvCustomTransf(CUSTOM_TRANSF_CNT),
+        m_vvnCustomTransf(CUSTOM_TRANSF_CNT),
         //m_bDirty(false),
 
         m_nLabelFontSizeDecr(0),
+        m_bUniqueSession(bUniqueSession),
+
         m_eViewMode(ALL),
         m_pNoteFilterB(pNoteFilterB),
         m_pDirFilterB(pDirFilterB),
@@ -533,38 +522,41 @@ CommonData::CommonData(
         m_pModeAlbumB(pModeAlbumB),
         m_pModeSongB(pModeSongB)
 {
-    m_vpTransf.push_back(new SingleBitRepairer());
-    m_vpTransf.push_back(new InnerNonAudioRemover());
+    m_vpAllTransf.push_back(new SingleBitRepairer());
+    m_vpAllTransf.push_back(new InnerNonAudioRemover());
 
-    m_vpTransf.push_back(new UnknownDataStreamRemover());
-    m_vpTransf.push_back(new BrokenDataStreamRemover());
-    m_vpTransf.push_back(new UnsupportedDataStreamRemover());
-    m_vpTransf.push_back(new TruncatedMpegDataStreamRemover());
-    m_vpTransf.push_back(new NullStreamRemover());
+    m_vpAllTransf.push_back(new UnknownDataStreamRemover());
+    m_vpAllTransf.push_back(new BrokenDataStreamRemover());
+    m_vpAllTransf.push_back(new UnsupportedDataStreamRemover());
+    m_vpAllTransf.push_back(new TruncatedMpegDataStreamRemover());
+    m_vpAllTransf.push_back(new NullStreamRemover());
 
-    m_vpTransf.push_back(new BrokenId3V2Remover());
-    m_vpTransf.push_back(new UnsupportedId3V2Remover());
+    m_vpAllTransf.push_back(new BrokenId3V2Remover());
+    m_vpAllTransf.push_back(new UnsupportedId3V2Remover());
 
-    m_vpTransf.push_back(new IdentityTransformation());
+    m_vpAllTransf.push_back(new IdentityTransformation());
 
-    m_vpTransf.push_back(new MultipleId3StreamRemover());
-    m_vpTransf.push_back(new MismatchedXingRemover());
+    m_vpAllTransf.push_back(new MultipleId3StreamRemover());
+    m_vpAllTransf.push_back(new MismatchedXingRemover());
 
-    m_vpTransf.push_back(new TruncatedAudioPadder());
+    m_vpAllTransf.push_back(new TruncatedAudioPadder());
 
-    m_vpTransf.push_back(new VbrRepairer());
-    m_vpTransf.push_back(new VbrRebuilder());
+    m_vpAllTransf.push_back(new VbrRepairer());
+    m_vpAllTransf.push_back(new VbrRebuilder());
 
-    m_vpTransf.push_back(new Id3V2Cleaner(this));
-    m_vpTransf.push_back(new Id3V2Rescuer(this));
-    m_vpTransf.push_back(new Id3V2UnicodeTransformer(this));
-    m_vpTransf.push_back(new Id3V2CaseTransformer(this));
+    m_vpAllTransf.push_back(new Id3V2Cleaner(this));
+    m_vpAllTransf.push_back(new Id3V2Rescuer(this));
+    m_vpAllTransf.push_back(new Id3V2UnicodeTransformer(this));
+    m_vpAllTransf.push_back(new Id3V2CaseTransformer(this));
 
-    m_vpTransf.push_back(new Id3V1ToId3V2Copier(this));
 
-    m_vpTransf.push_back(new Id3V2ComposerAdder(this));
-    m_vpTransf.push_back(new Id3V2ComposerRemover(this));
-    m_vpTransf.push_back(new Id3V2ComposerCopier(this));
+    m_vpAllTransf.push_back(new Id3V2ComposerAdder(this));
+    m_vpAllTransf.push_back(new Id3V2ComposerRemover(this));
+    m_vpAllTransf.push_back(new Id3V2ComposerCopier(this));
+
+    m_vpAllTransf.push_back(new SmallerImageRemover());
+    m_vpAllTransf.push_back(new Id3V1ToId3V2Copier(this));
+    m_vpAllTransf.push_back(new Id3V1Remover());
 
     m_settings.loadDirs(m_vstrIncludeDirs, m_vstrExcludeDirs);
 
@@ -577,7 +569,7 @@ CommonData::CommonData(
 CommonData::~CommonData()
 {
     clearPtrContainer(m_vpAllHandlers);
-    clearPtrContainer(m_vpTransf);
+    clearPtrContainer(m_vpAllTransf);
 }
 
 
@@ -1066,13 +1058,13 @@ const deque<const Mp3Handler*>& CommonData::getSelHandlers()
 
 
 
-// the index in m_vpTransf for a transformation with a given name; throws if the name doesn't exist;
+// the index in m_vpAllTransf for a transformation with a given name; throws if the name doesn't exist;
 int CommonData::getTransfPos(const char* szTransfName) const
 {
-    for (int i = 0, n = cSize(m_vpTransf); i < n; ++i)
+    for (int i = 0, n = cSize(m_vpAllTransf); i < n; ++i)
     {
-        //if (m_vpTransf[i]->getName() == szTransfName) // this works as of 2008.11.07, but it doesn't provide any performance advantage, so better without it
-        if (0 == strcmp(m_vpTransf[i]->getActionName(), szTransfName))
+        //if (m_vpAllTransf[i]->getName() == szTransfName) // this works as of 2008.11.07, but it doesn't provide any performance advantage, so better without it
+        if (0 == strcmp(m_vpAllTransf[i]->getActionName(), szTransfName))
         {
             return i;
         }
@@ -1351,6 +1343,30 @@ void CommonData::getNoteColor(const Note& note, const vector<const Note*>& vpNot
 
     dGradStart = double(nPos)/(nLastInGroup + 1);
     dGradEnd = double(nPos + 1)/(nLastInGroup + 1);
+}
+
+
+QColor getDefaultBkgCol()
+{
+    QColor c (QPalette().color(QPalette::Active, QPalette::Light));
+    if (isWhite(c))
+    {
+        c = QPalette().color(QPalette::Active, QPalette::Window).lighter(110);
+    }
+    if (isWhite(c))
+    {
+        c = QPalette().color(QPalette::Active, QPalette::Window).lighter(103);
+    }
+    if (isWhite(c))
+    {
+        c = QPalette().color(QPalette::Active, QPalette::Window);
+    }
+    if (isWhite(c))
+    {
+        c = QColor(253, 250, 240);
+    }
+
+    return c;
 }
 
 
@@ -1687,7 +1703,7 @@ void CommonData::setCustomTransf(const std::vector<std::vector<int> >& vv)
 {
     CB_ASSERT (cSize(vv) == CUSTOM_TRANSF_CNT);
     //ttt2 assert elements are withing range
-    m_vvCustomTransf = vv;
+    m_vvnCustomTransf = vv;
 }
 
 
@@ -1695,8 +1711,16 @@ void CommonData::setCustomTransf(int nTransf, const std::vector<int>& v)
 {
     CB_ASSERT (nTransf >= 0 && nTransf < CUSTOM_TRANSF_CNT);
     //ttt2 assert elements are withing range
-    m_vvCustomTransf[nTransf] = v;
+    m_vvnCustomTransf[nTransf] = v;
 }
+
+
+void CommonData::setVisibleTransf(const std::vector<int>& v)
+{
+    //ttt2 assert elements are withing range
+    m_vnVisibleTransf = v;
+}
+
 
 
 void CommonData::setIgnoredNotes(const std::vector<int>& v)

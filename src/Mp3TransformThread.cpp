@@ -167,7 +167,7 @@ bool Mp3TransformThread::transform()
             string strTempName;
             string strPrevTempName;
             StrList l;
-            l.push_back(convStr(strOrigName));
+            l.push_back(toNativeSeparators(convStr(strOrigName)));
             emit stepChanged(l);
             auto_ptr<const Mp3Handler> pNewHndl (pOrigHndl);
 

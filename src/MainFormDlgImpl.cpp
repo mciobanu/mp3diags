@@ -29,6 +29,7 @@
 #include  <QHeaderView>
 #include  <QTimer>
 #include  <QDesktopWidget>
+#include  <QToolTip>
 
 #ifndef WIN32
     //#include <sys/utsname.h>
@@ -423,7 +424,7 @@ bool SerLoadThread::scan()
 
 
 
-MainFormDlgImpl::MainFormDlgImpl(QWidget* pParent, const string& strSession) : QDialog(pParent, getMainWndFlags()), m_settings(strSession), m_nLastKey(0)/*, m_settings("Ciobi", "Mp3Diags_v01")*/ /*, m_nPrevTabIndex(-1), m_bTagEdtWasEntered(false)*/, m_strSession(strSession), m_bShowMaximized(false), m_nScanWidth(0)
+MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) : QDialog(0, getMainWndFlags()), m_settings(strSession), m_nLastKey(0)/*, m_settings("Ciobi", "Mp3Diags_v01")*/ /*, m_nPrevTabIndex(-1), m_bTagEdtWasEntered(false)*/, m_strSession(strSession), m_bShowMaximized(false), m_nScanWidth(0)
 {
 //int x (2); CB_ASSERT(x > 4);
 //CB_ASSERT("345" == "ab");
@@ -439,7 +440,7 @@ MainFormDlgImpl::MainFormDlgImpl(QWidget* pParent, const string& strSession) : Q
         m_pStreamsG->installEventFilter(this);
     }
 
-    m_pCommonData = new CommonData(m_settings, m_pFilesG, m_pNotesG, m_pStreamsG, m_pUniqueNotesG, /*m_pCurrentFileG, m_pCurrentAlbumG,*/ /*m_pLogG,*/ /*m_pAssignedB,*/ m_pNoteFilterB, m_pDirFilterB, m_pModeAllB, m_pModeAlbumB, m_pModeSongB);
+    m_pCommonData = new CommonData(m_settings, m_pFilesG, m_pNotesG, m_pStreamsG, m_pUniqueNotesG, /*m_pCurrentFileG, m_pCurrentAlbumG,*/ /*m_pLogG,*/ /*m_pAssignedB,*/ m_pNoteFilterB, m_pDirFilterB, m_pModeAllB, m_pModeAlbumB, m_pModeSongB, bUniqueSession);
 
     m_settings.loadMiscConfigSettings(m_pCommonData);
     m_pCommonData->m_bScanAtStartup = m_settings.loadScanAtStartup();
@@ -561,6 +562,8 @@ MainFormDlgImpl::MainFormDlgImpl(QWidget* pParent, const string& strSession) : Q
     { m_pModifNormalizeB = new ModifInfoToolButton(m_pNormalizeB); connect(m_pModifNormalizeB, SIGNAL(clicked()), this, SLOT(on_m_pNormalizeB_clicked())); m_pNormalizeB = m_pModifNormalizeB; }
     { m_pModifReloadB = new ModifInfoToolButton(m_pReloadB); connect(m_pModifReloadB, SIGNAL(clicked()), this, SLOT(on_m_pReloadB_clicked())); m_pReloadB = m_pModifReloadB; }
 
+    { m_pModifRenameFilesB = new ModifInfoToolButton(m_pRenameFilesB); connect(m_pModifRenameFilesB, SIGNAL(clicked()), this, SLOT(on_m_pRenameFilesB_clicked())); m_pRenameFilesB = m_pModifRenameFilesB; }
+
     { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
 
     /*{ QAction* p (new QAction(this)); p->setShortcut(QKeySequence("Ctrl+N")); connect(p, SIGNAL(triggered()), this, SLOT(onNext())); addAction(p); } //p->setShortcutContext(Qt::ApplicationShortcut);
@@ -592,6 +595,16 @@ MainFormDlgImpl::MainFormDlgImpl(QWidget* pParent, const string& strSession) : Q
                 initDefaultCustomTransf(i, vv, m_pCommonData);
             }
             m_pCommonData->setCustomTransf(vv);
+        }
+    }
+//ttt1 perhaps have "experimental" transforms, different color (or just have the names begin with "experimental")
+    {
+        loadVisibleTransf();
+        if (m_pCommonData->getVisibleTransf().empty())
+        {
+            vector<int> v;
+            initDefaultVisibleTransf(v, m_pCommonData);
+            m_pCommonData->setVisibleTransf(v);
         }
     }
 
@@ -964,7 +977,7 @@ void MainFormDlgImpl::onCrtFileChanged()
         }
     }
 
-    m_pCrtDirE->setText(convStr(m_pCommonData->getViewHandlers()[nCrtFile]->getDir()));
+    m_pCrtDirE->setText(toNativeSeparators(convStr(m_pCommonData->getViewHandlers()[nCrtFile]->getDir())));
 
     pLayout->addStretch(0);
 }
@@ -1042,7 +1055,7 @@ bool Mp3ProcThread::scan()
             checkPause();
 
             StrList l;
-            l.push_back(convStr(strName));
+            l.push_back(toNativeSeparators(convStr(strName)));
             emit stepChanged(l);
             if (!m_bForce)
             {
@@ -1207,7 +1220,7 @@ void MainFormDlgImpl::saveCustomTransf(int k)
     vector<string> vstrActionNames;
     for (int i = 0; i < n; ++i)
     {
-        vstrActionNames.push_back(m_pCommonData->getTransf()[v[i]]->getActionName());
+        vstrActionNames.push_back(m_pCommonData->getAllTransf()[v[i]]->getActionName());
     }
     char bfr [50];
     sprintf(bfr, "customTransf/set%04d", k);
@@ -1225,7 +1238,7 @@ void MainFormDlgImpl::loadCustomTransf(int k)
     bool bErr;
     vector<string> vstrNames (m_settings.loadVector(bfr, bErr));
     vector<int> v;
-    const vector<Transformation*>& u (m_pCommonData->getTransf());
+    const vector<Transformation*>& u (m_pCommonData->getAllTransf());
     int m (cSize(u));
     for (int i = 0, n = cSize(vstrNames); i < n; ++i)
     {
@@ -1250,6 +1263,50 @@ void MainFormDlgImpl::loadCustomTransf(int k)
 }
 
 
+
+void MainFormDlgImpl::saveVisibleTransf()
+{
+    const vector<int>& v (m_pCommonData->getVisibleTransf());
+    int n (cSize(v));
+    vector<string> vstrActionNames;
+    for (int i = 0; i < n; ++i)
+    {
+        vstrActionNames.push_back(m_pCommonData->getAllTransf()[v[i]]->getActionName());
+    }
+    m_settings.saveVector("visibleTransf", vstrActionNames);
+}
+
+
+void MainFormDlgImpl::loadVisibleTransf()
+{
+    bool bErr;
+    vector<string> vstrNames (m_settings.loadVector("visibleTransf", bErr));
+    vector<int> v;
+    const vector<Transformation*>& u (m_pCommonData->getAllTransf());
+    int m (cSize(u));
+    for (int i = 0, n = cSize(vstrNames); i < n; ++i)
+    {
+        string strName (vstrNames[i]);
+        int j (0);
+        for (; j < m; ++j)
+        {
+            if (u[j]->getActionName() == strName)
+            {
+                v.push_back(j);
+                break;
+            }
+        }
+
+        if (j == m)
+        {
+            QMessageBox::warning(this, "Error setting up visible transformations", "Couldn't find a transformation with the name \"" + convStr(strName) + "\". The program will proceed, but you should review the visible transformations list.");
+        }
+    }
+
+    m_pCommonData->setVisibleTransf(v);
+}
+
+
 //ttt2 keyboard shortcuts: next, prev, ... ;
 //ttt3 set focus on some edit box when changing tabs;
 
@@ -1264,26 +1321,38 @@ void MainFormDlgImpl::on_m_pTransformB_clicked() //ttt2 an alternative is to use
     ModifInfoMenu menu;
     vector<QAction*> vpAct;
 
-    for (int i = 0, n = cSize(m_pCommonData->getTransf()); i < n; ++i)
+    const vector<Transformation*>& vpTransf (m_pCommonData->getAllTransf());
+    const vector<int>& vnVisualNdx (m_pCommonData->getVisibleTransf());
+
+    for (int i = 0, n = cSize(vnVisualNdx); i < n; ++i)
     {
-        Transformation* pTransf (m_pCommonData->getTransf()[i]);
+        Transformation* pTransf (vpTransf.at(vnVisualNdx[i]));
         QAction* pAct (new QAction(pTransf->getActionName(), &menu));
-        //newAct->setShortcut(tr("Ctrl+N"));
-        //newAct->setStatusTip(tr("Create a new file"));
+        pAct->setToolTip(makeMultiline(pTransf->getDescription()));
 
         //connect(pAct, SIGNAL(triggered()), this, SLOT(onExecTransform(i))); // !!! Qt doesn't seem to support parameter binding
         menu.addAction(pAct);
         vpAct.push_back(pAct);
     }
 
+    connect(&menu, SIGNAL(hovered(QAction*)), this, SLOT(onMenuHovered(QAction*)));
+
     QAction* p (menu.exec(m_pTransformB->mapToGlobal(QPoint(0, m_pTransformB->height()))));
     if (0 != p)
     {
         int nIndex (std::find(vpAct.begin(), vpAct.end(), p) - vpAct.begin());
         vector<Transformation*> v;
-        v.push_back(m_pCommonData->getTransf()[nIndex]);
+        v.push_back(vpTransf.at(vnVisualNdx[nIndex]));
         transform(v, 0 == (Qt::ShiftModifier & menu.getModifiers()));
     }
+}
+
+
+void MainFormDlgImpl::onMenuHovered(QAction* pAction)
+{
+    QToolTip::showText(QCursor::pos(), "");
+    QToolTip::showText(QCursor::pos(), pAction->toolTip());
+    // see http://www.mail-archive.com/pyqt@riverbankcomputing.com/msg17214.html and http://www.mail-archive.com/pyqt@riverbankcomputing.com/msg17245.html ; apparently there's some inconsistency in when the menus are shown
 }
 
 
@@ -1444,6 +1513,11 @@ void MainFormDlgImpl::reload(bool bSelOnly, bool bForce)
     {
         m_pCommonData->m_filter.disableAll();
         m_pCommonData->m_filter.restoreAll();
+
+        if (!m_pCommonData->m_filter.isNoteEnabled() && !m_pCommonData->m_filter.isDirEnabled() && !bSelOnly)
+        { // the filter got removed, because nothing matched; so wee need to repeat; (otherwise the user has to press twice: once to remove the filter and a second time to see what's new)
+            reload(false, bForce);
+        }
     }
 }
 
@@ -1454,7 +1528,7 @@ void MainFormDlgImpl::applyCustomTransf(int k)
     vector<Transformation*> v;
     for (int i = 0, n = cSize(m_pCommonData->getCustomTransf()[k]); i < n; ++i)
     {
-        v.push_back(m_pCommonData->getTransf()[m_pCommonData->getCustomTransf()[k][i]]);
+        v.push_back(m_pCommonData->getAllTransf()[m_pCommonData->getCustomTransf()[k][i]]);
     }
     transform(v, 0 == (Qt::ShiftModifier & m_vpTransfButtons[k]->getModifiers()));
 }
@@ -1585,7 +1659,7 @@ void MainFormDlgImpl::setTransfTooltip(int k)
     for (int i = 0, n = cSize(m_pCommonData->getCustomTransf()[k]); i < n; ++i)
     {
         s2 += "    ";
-        s2 += m_pCommonData->getTransf()[m_pCommonData->getCustomTransf()[k][i]]->getActionName();
+        s2 += m_pCommonData->getAllTransf()[m_pCommonData->getCustomTransf()[k][i]]->getActionName();
         if (i < n - 1) { s2 += "\n"; }
     }
     if (s2.isEmpty()) { s2 = "   <empty list>\n\n(you can edit the list in the Settings dialog)"; }
@@ -1653,6 +1727,8 @@ void MainFormDlgImpl::on_m_pTagEdtB_clicked()
 
 void MainFormDlgImpl::on_m_pRenameFilesB_clicked()
 {
+    bool bUseCrtView (0 != (Qt::ControlModifier & m_pModifRenameFilesB->getModifiers()));
+
     if (m_pCommonData->getViewHandlers().empty())
     {
         QMessageBox::critical(this, "Error", "The file list is empty. You need to populate it before opening the file rename tool.");
@@ -1661,7 +1737,7 @@ void MainFormDlgImpl::on_m_pRenameFilesB_clicked()
 
     m_pCommonData->setSongInCrtAlbum();
 
-    FileRenamerDlgImpl dlg (this, m_pCommonData/*, m_transfConfig*/);
+    FileRenamerDlgImpl dlg (this, m_pCommonData, bUseCrtView);
 
     //if (QDialog::Accepted == dlg.exec())
     string strCrt (dlg.run());
@@ -1677,6 +1753,10 @@ void MainFormDlgImpl::updateUi(const string& strCrt) // strCrt may be empty
     { // custom transf
         for (int i = 0; i < CUSTOM_TRANSF_CNT; ++i) { saveCustomTransf(i); }
         setTransfTooltips();
+    }
+
+    {
+        saveVisibleTransf();
     }
 
     if (m_pCommonData->m_bShowDebug)

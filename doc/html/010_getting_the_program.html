@@ -37,7 +37,7 @@
 <!-- ========================================================================================================== -->
 
 
-<div class="NavPadTable RegFnt ChpCol1">
+<div class="NavPadTable RegFnt ChpCol2">
 <div style="width:100%"> <!-- !!! needed for IE6; see http://mikeage.net/2005/08/12/full-width-tables-in-ie6/ -->
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="NavTable">
     <tr>
@@ -144,17 +144,8 @@ One thing that bothers me is a 1-second delay between the time when the frame of
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-There is a more serious issue on Windows, though: currently only ASCII file names can be used. File names having characters with code 128 or above are simply ignored. I should have a fix for this in the near future, though.
+I tested a previous version of the executable on XP SP1, XP SP2, XP SP3 and some Vista Home. For some reason the SP3 machine was unable to display any text, showing little rectangles instead; however, I suspect that this is related to something wrong with that particular machine, because the other ones ran OK (well, except for the random crash I talked about.) I didn't yet test more recent versions on XP SP3 or on Vista. I did test Windows 7 RC, though, and it looked and ran pretty good.
 </div>
-
-<div class="NormalText RegFnt ChpCol1">
-I tested a previous version of the executable on XP SP1, XP SP2, XP SP3 and some Vista Home. For some reason the SP3 machine was unable to display any text, showing little rectangles instead; however, I suspect that this is related to something wrong with that particular machine, because the other ones ran OK (well, except for the random crash I talked about.) I didn't yet test more recent versions on XP SP3 or on Vista, but hopefully I'll do it soon. I did test Windows 7 RC, though, and it looked and ran pretty good.
-</div>
-
-<div class="NormalText RegFnt ChpCol1">
-Another thing that should be mentioned is that the path separator is the forward slash '/', as on Unix, and not the backslash '\'. This is by design. (Or rather it's the default and I didn't bother to change it, mainly because it's a tedious process, touching many parts of the code, therefore a great opportunity to introduce bugs.)
-</div>
-
 
 
 <div class="NormalText TitleText RegFnt ChpCol2">
@@ -187,7 +178,7 @@ I'm not aware of attempts to compile and run the project on other platforms (xBS
 
 
 <div class="NormalText RegFnt ChpCol2">
-You can download <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-src/MP3Diags-QQQVERQQQ.tar.gz">MP3Diags-QQQVERQQQ.tar.gz</a> from SourceForge.
+You can download <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-src/MP3Diags-QQQVERQQQ.tar.gz">MP3Diags-QQQVERQQQ.tar.gz</a> from SourceForge. There is also a <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3Diags_Src+Doc-QQQVERQQQ.tar.gz">source + documentation bundle</a> at my ISP. The intended target for the bundle are the packagers. In particular, the documentation doesn't get installed anywhere, but is mereley available for packagers to copy it wherever is appropriate for a distribution.
 </div>
 
 <div class="NormalText RegFnt ChpCol2">

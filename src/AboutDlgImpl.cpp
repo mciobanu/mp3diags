@@ -51,7 +51,8 @@ AboutDlgImpl::AboutDlgImpl(QWidget* pParent /*= 0*/) : QDialog(pParent, getDialo
         "Using web services provided by <a href=\"http://www.discogs.com/\">Discogs</a> to retrieve album data<p/>"
         "Using web services provided by <a href=\"http://musicbrainz.org/\">MusicBrainz</a> to retrieve album data<p/><p/>"
         "Home page and documentation: <a href=\"http://mp3diags.sourceforge.net/\">http://mp3diags.sourceforge.net/</a><p/>"
-        "Feedback and support: <a href=\"http://sourceforge.net/forum/forum.php?forum_id=947206\">Open Discussion Forum</a> or <a href=\"http://sourceforge.net/forum/forum.php?forum_id=947207\">Help Forum</a> at SourceForge"
+        "Feedback and support: <a href=\"http://sourceforge.net/forum/forum.php?forum_id=947206\">Open Discussion Forum</a> or <a href=\"http://sourceforge.net/forum/forum.php?forum_id=947207\">Help Forum</a> at SourceForge<p/>"
+        "Change log for the latest version: <a href=\"http://mp3diags.sourceforge.net/015_changelog.html\">http://mp3diags.sourceforge.net/015_changelog.html</a>"
         );
 
     m_pVersionL->setText(QString("MP3 Diags ") + APP_VER);
@@ -150,15 +151,12 @@ dpkg-genchanges: warning: the current version (0.99.01.009) is smaller than the 
 */
 
 
-//ttt0 normalize in Windows has flashing / duplicated output
-//ttt0 perhaps tab with changelog
 //ttt0 doc: use case: compare images, id3v2 tags
-//ttt0 perhaps transform to convert unknown images to "cover"
-//ttt0 perhaps something to remove image files after assigning them, or at least show them in a different color; it was suggested to add a "-" button to remove images, below the "v" for "assigning them", but not sure it's such great idea; perhaps some option to delete local images that were assigned (but perhaps the unassigned CD scan should go as well);
+
+//ttt0 perhaps "Scan images in the current folder", checked by default
+//ttt0 perhaps something to remove image files after assigning them, or at least show them in a different color; it was suggested to add a "-" button to remove images, below the "v" for "assigning them", but not sure it's such great idea; perhaps some option to delete local images that were assigned (but perhaps the unassigned CD scan should go as well); // perhaps "-" works, though; should be enabled/visible only for local files
+
 //ttt0 see about C malloc failure
 //ttt0 show Lyrics
 //ttt1 handle Lyrics tag, display, transform, download ...
-//ttt0 help, incl. local
 
-//ttt0 don't allow dir names to be entered in edit boxes, then switch to '\'
-//ttt0 CTRL to open renamer with crt view

@@ -1,7 +1,12 @@
 ---------------------------------------------------------------------------
 
-21.07.2009 - 0.99.04.026
+23.07.2009 - 0.99.04.026
 ################################################
+- fast save in the tag editor
+
+---------------------------------------------------------------------------
+
+21.07.2009 - 0.99.04.027
 - file renamer can work with the list of visible files instead of the
     current album if the user holds CTRL down when pressing the button
 - new transform for keeping a single image, as front cover

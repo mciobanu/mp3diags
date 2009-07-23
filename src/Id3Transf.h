@@ -147,14 +147,44 @@ public:
 
 class SmallerImageRemover : public Transformation
 {
+    CommonData* m_pCommonData;
 public:
-    SmallerImageRemover() {}
+    SmallerImageRemover(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
     /*override*/ const char* getDescription() const { return "Keeps only the biggest (and supposedly the best) image in a file. The image type is set to Front Cover. (This may result in the replacement of the Front Cover image.)"; }
 
     static const char* getClassName() { return "Make the largest image \"Front Cover\" and remove the rest"; }
 };
+
+
+
+class Id3V2Expander : public Transformation
+{
+    CommonData* m_pCommonData;
+public:
+    Id3V2Expander(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
+    /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
+    /*override*/ const char* getActionName() const { return getClassName(); }
+    /*override*/ const char* getDescription() const { return "Add extra spacing to the ID3V2 tag. This allows subsequent saving from the tag editor to complete quicker."; }
+
+    static const char* getClassName() { return "Reserve space in ID3V2 for fast tag editing"; }
+    static const int EXTRA_SPACE; // this gets added to whatever the current frames alrady occupy;
+};
+
+
+class Id3V2Compactor : public Transformation
+{
+    CommonData* m_pCommonData;
+public:
+    Id3V2Compactor(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
+    /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
+    /*override*/ const char* getActionName() const { return getClassName(); }
+    /*override*/ const char* getDescription() const { return "Removes large unused blocks from ID3V2 tags. (Usually these have been reserved for fast tag editing.)"; }
+
+    static const char* getClassName() { return "Remove extra space from ID3V2"; }
+};
+
 
 
 

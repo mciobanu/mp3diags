@@ -2362,6 +2362,13 @@
                 </widget>
                </item>
                <item>
+                <widget class="QCheckBox" name="m_pFastSaveCkB" >
+                 <property name="text" >
+                  <string>Use "fast save" in the tag editor</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <widget class="QCheckBox" name="m_pShowDebugCkB" >
                  <property name="text" >
                   <string>Show "Debug" button</string>

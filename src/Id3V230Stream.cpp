@@ -27,6 +27,7 @@
 
 #include  "Id3V240Stream.h"
 #include  "Helpers.h"
+#include  "Id3Transf.h"
 
 
 
@@ -286,6 +287,11 @@ Id3V230Stream::Id3V230Stream(int nIndex, NoteColl& notes, istream& in, StringWrp
     default:;
     }
 
+    if (m_nPaddingSize > Id3V230StreamWriter::DEFAULT_EXTRA_SPACE + 4096) //ttt2 hard-coded
+    {
+        MP3_NOTE (m_pos + (getSize() - m_nPaddingSize), id3v2PaddingTooLarge);
+    }
+
     MP3_TRACE (m_pos, "Id3V230Stream built.");
 
     rst.setOk();
@@ -339,7 +345,7 @@ Id3V230StreamWriter::~Id3V230StreamWriter()
 
 
 
-Id3V230StreamWriter::Id3V230StreamWriter(Id3V2StreamBase* p, bool bKeepOneValidImg) : m_bKeepOneValidImg(bKeepOneValidImg)
+Id3V230StreamWriter::Id3V230StreamWriter(Id3V2StreamBase* p, bool bKeepOneValidImg, bool bFastSave) : m_bKeepOneValidImg(bKeepOneValidImg), m_bFastSave(bFastSave)
 {
     if (0 != p)
     {
@@ -388,7 +394,7 @@ Id3V230StreamWriter::Id3V230StreamWriter(Id3V2StreamBase* p, bool bKeepOneValidI
 }
 
 
-Id3V230StreamWriter::Id3V230StreamWriter(bool bKeepOneValidImg) : m_bKeepOneValidImg(bKeepOneValidImg)
+Id3V230StreamWriter::Id3V230StreamWriter(bool bKeepOneValidImg, bool bFastSave) : m_bKeepOneValidImg(bKeepOneValidImg), m_bFastSave(bFastSave)
 {
 }
 
@@ -581,13 +587,21 @@ static int getUnsynchVal(int x)
 }
 
 
+/*static*/ const int Id3V230StreamWriter::DEFAULT_EXTRA_SPACE (1024);
 
-void Id3V230StreamWriter::write(ostream& out) const
+
+
+// throws WriteError if it cannot write, including the case when nTotalSize is too small;
+// if nTotalSize is >0, the padding will be be whatever is left;
+// if nTotalSize is <0 and m_bFastSave is true, there will be a padding of around ImageInfo::MAX_IMAGE_SIZE+Id3V2Expander::EXTRA_SPACE;
+// if (nTotalSize is <0 and m_bFastSave is false) or if (nTotalSize is 0, regardless of m_bFastSave), there will be a padding of between DEFAULT_EXTRA_SPACE and DEFAULT_EXTRA_SPACE + 511;
+// (0 discards extra padding regardless of m_bFastSave)
+void Id3V230StreamWriter::write(ostream& out, int nTotalSize /*= -1*/) const
 {
     int n (cSize(m_vpAllFrames));
-    if (0 == n) { return; }
+    //if (0 == n) { return; }
 
-    char bfr [10] = "ID3\3\0\0"; // no unsynch, no extended header, no experimental
+    char bfr [Id3V230Stream::ID3_HDR_SIZE] = "ID3\3\0\0"; // no unsynch, no extended header, no experimental
     int nSize (0);
     for (int i = 0; i < n; ++i)
     {
@@ -598,16 +612,49 @@ void Id3V230StreamWriter::write(ostream& out) const
         }
     }
 
-    if (0 == nSize) { return; } // all frames have discardOnChange
+    //if (0 == nSize) { return; } // all frames have discardOnChange
 
-    int nPaddedSize (nSize / 512);
-    nPaddedSize += 2;
-    nPaddedSize *= 512;
+    int nPaddedSize;
+
+    if (nTotalSize > 0)
+    {
+        nPaddedSize = nTotalSize;
+    }
+    else if (0 == nTotalSize || !m_bFastSave)
+    {
+        nPaddedSize = ((nSize + (512 - 1) + DEFAULT_EXTRA_SPACE)/512)*512;
+    }
+    else
+    { // <0 and m_bFastSave set
+        nPaddedSize = nSize + ImageInfo::MAX_IMAGE_SIZE + Id3V2Expander::EXTRA_SPACE;
+    }
+
+    //if (nExtraSpace < 0) { nExtraSpace = ; }
+    //int nPaddedSize (((nSize + (512 - 1) + nExtraSpace)/512)*512);
+
     nPaddedSize -= Id3V230Stream::ID3_HDR_SIZE;
+    CB_CHECK1 (nPaddedSize >= nSize, WriteError());
 
     //put32BitBigEndian(1, &bfr[6]);
     put32BitBigEndian(getUnsynchVal(nPaddedSize), &bfr[6]);
     out.write(bfr, 10);
+
+    struct LdrPtrList
+    {
+        LdrPtrList(int n) : m_vpLdr(n) {}
+        ~LdrPtrList() { clearPtrContainer(m_vpLdr); }
+        vector<Id3V2FrameDataLoader*> m_vpLdr;
+    };
+
+    LdrPtrList ldrList (n);
+    for (int i = 0; i < n; ++i)
+    {
+        const Id3V2Frame* p (m_vpAllFrames[i]);
+        if (!p->discardOnChange())
+        {
+            ldrList.m_vpLdr[i] = new Id3V2FrameDataLoader (*p); // this loads the data, if it's not already loaded
+        }
+    }
 
     for (int i = 0; i < n; ++i)
     {
@@ -620,8 +667,8 @@ void Id3V230StreamWriter::write(ostream& out) const
             bfr[5] = 0; //bfr[5] = p->m_cFlag2;
             out.write(bfr, 6);
 
-            Id3V2FrameDataLoader wrp (*p); // this loads the data, if it's not already loaded
-            out.write(wrp.getData(), p->m_nMemDataSize);
+            //Id3V2FrameDataLoader wrp (*p); // this loads the data, if it's not already loaded
+            out.write(ldrList.m_vpLdr[i]->getData(), p->m_nMemDataSize);
         }
     }
 
@@ -629,6 +676,7 @@ void Id3V230StreamWriter::write(ostream& out) const
 
     CB_CHECK1 (out, WriteError());
 }
+
 
 
 namespace {

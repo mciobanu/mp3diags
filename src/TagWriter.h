@@ -309,11 +309,13 @@ class TagWriter : public QObject
     bool m_bShowedNonSeqWarn;
     std::set<int> m_snUnassignedImages;
 
+    const bool& m_bIsFastSaving;
+
 public:
-    TagWriter(CommonData* pCommonData, QWidget* pParentWnd);
+    TagWriter(CommonData* pCommonData, QWidget* pParentWnd, const bool& bIsFastSaving);
     ~TagWriter();
 
-    void save();
+    //void save();
 
     //enum Clear { DONT_CLEAR, CLEAR };
     //enum UpdateSel { UPDATE_SEL, DONT_UPDATE_SEL };
@@ -379,6 +381,9 @@ public:
     void sort();
 
     void eraseFields(const std::vector<std::pair<int, int> >& vFields);
+
+    //void removeId3V230Reader();
+    bool isFastSaving() const { return m_bIsFastSaving; }
 
     enum ConsiderAssigned { CONSIDER_UNASSIGNED, CONSIDER_ASSIGNED };
     int addImage(const ImageInfo& img, bool bConsiderAssigned); // returns the index of the image; if it already exists it's not added again; if it's invalid returns -1 // "unassigned" images cause warnings when going to another album

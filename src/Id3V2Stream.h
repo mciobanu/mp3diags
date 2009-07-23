@@ -207,6 +207,8 @@ public:
 
     std::vector<const Id3V2Frame*> getKnownFrames() const; // to be used by Id3V2Cleaner;
 
+    int getPaddingSize() const { return m_nPaddingSize; }
+
     struct NotId3V2 {};
 
     // ================================ TagReader =========================================

@@ -517,9 +517,14 @@ std::string Mp3HandlerTagData::getData(int nField, int k) const
 
     TagReader* p (m_vpMatchingTagReaders[k]);
     if (0 == p) { return "\1"; }
+
+    if (m_pTagWriter->isFastSaving() && (m_pTagWriter->m_vTagReaderInfo[k].m_strName == Id3V230Stream::getClassDisplayName() || m_pTagWriter->m_vTagReaderInfo[k].m_strName == Id3V240Stream::getClassDisplayName()))
+    {
+        return "N/A";
+    }
 //qDebug("%s", p->getName());
     //nField = TagReader::FEATURE_ON_POS[nField];
-
+//qDebug("deref %p", p);
     bool bFrameExists;
     switch (nField)
     {
@@ -677,9 +682,9 @@ const TagReader* Mp3HandlerTagData::getMatchingReader(int i) const
 
 
 
-TagWriter::TagWriter(CommonData* pCommonData, QWidget* pParentWnd) : m_pCommonData(pCommonData), m_pParentWnd(pParentWnd), m_nCurrentFile(-1), m_bShowedNonSeqWarn(true)
+TagWriter::TagWriter(CommonData* pCommonData, QWidget* pParentWnd, const bool& bIsFastSaving) : m_pCommonData(pCommonData), m_pParentWnd(pParentWnd), m_nCurrentFile(-1), m_bShowedNonSeqWarn(true), m_bIsFastSaving(bIsFastSaving)
 {
-    m_vPictures.reserve(30);
+    m_vPictures.reserve(30); //ttt0 see if going above 30 invalidates ptrs
 }
 
 
@@ -1559,6 +1564,7 @@ void TagWriter::hasUnsaved(int nSong, bool& bAssigned, bool& bNonId3V2) // sets 
         }
     }
 }
+
 
 
 // sets m_eState and changes the button icon accordingly

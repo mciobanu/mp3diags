@@ -23,6 +23,8 @@
 #ifndef DoubleListH
 #define DoubleListH
 
+#include  <set>
+
 #include  <QWidget>
 
 #include  "ui_DoubleListWdg.h"
@@ -276,6 +278,9 @@ public:
         const std::string& strSelLabel,
         QWidget* pParent, Qt::WFlags fl = 0);
     ~DoubleList();
+
+    void add(const std::set<int>&); // adds elements from the specified indexes
+    void remove(const std::set<int>&); // removes elements from the specified indexes
 
 signals:
     void dataChanged();

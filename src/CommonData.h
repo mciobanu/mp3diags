@@ -398,6 +398,10 @@ public:
 
     bool isUniqueSession() const { return m_bUniqueSession; }
 
+    enum { DONT_UPDATE_TRANSFORMS, UPDATE_TRANSFORMS };
+    void setFastSave(bool bFastSave, bool bUpdateTransforms);
+    bool useFastSave() const { return m_bFastSave; }
+
 public:
     enum Case { LOWER, UPPER, TITLE, PHRASE };
     Case m_eCaseForArtists;
@@ -507,6 +511,8 @@ private:
     //bool m_bDirty; // seemed like a good idea, but since we also save filters and what's current, pretty much all the time the data will need to be saved
 
     bool m_bUniqueSession; // if there is a single or several known sessions; if this is false (so there are several sessions) the Sessions button is shown by default
+
+    bool m_bFastSave;
 
 private:
     ViewMode m_eViewMode;

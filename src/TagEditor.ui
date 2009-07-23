@@ -396,7 +396,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="m_bSortB" >
+       <widget class="QToolButton" name="m_pSortB" >
         <property name="minimumSize" >
          <size>
           <width>40</width>

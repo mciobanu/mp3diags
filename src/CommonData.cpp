@@ -205,6 +205,7 @@ void SessionSettings::saveMiscConfigSettings(const CommonData* p)
         m_pSettings->setValue("debug/saveDownloadedData", p->m_bSaveDownloadedData);
         m_pSettings->setValue("main/autoSizeIcons", p->m_bAutoSizeIcons);
         m_pSettings->setValue("main/keepOneValidImg", p->m_bKeepOneValidImg);
+        m_pSettings->setValue("main/fastSave", p->useFastSave());
 
         QFont genFnt (p->getNewGeneralFont());
         m_pSettings->setValue("main/generalFontName", genFnt.family());
@@ -299,6 +300,7 @@ void SessionSettings::loadMiscConfigSettings(CommonData* p) const
         p->m_bSaveDownloadedData = m_pSettings->value("debug/saveDownloadedData", false).toBool();
         p->m_bAutoSizeIcons = m_pSettings->value("main/autoSizeIcons", true).toBool();
         p->m_bKeepOneValidImg = m_pSettings->value("main/keepOneValidImg", false).toBool();
+        p->setFastSave(m_pSettings->value("main/fastSave", false).toBool(), CommonData::DONT_UPDATE_TRANSFORMS);
 
         QFont fnt;
         //qDebug("%d ==========================", fnt.pointSize());
@@ -514,6 +516,7 @@ CommonData::CommonData(
 
         m_nLabelFontSizeDecr(0),
         m_bUniqueSession(bUniqueSession),
+        m_bFastSave(false),
 
         m_eViewMode(ALL),
         m_pNoteFilterB(pNoteFilterB),
@@ -554,9 +557,12 @@ CommonData::CommonData(
     m_vpAllTransf.push_back(new Id3V2ComposerRemover(this));
     m_vpAllTransf.push_back(new Id3V2ComposerCopier(this));
 
-    m_vpAllTransf.push_back(new SmallerImageRemover());
+    m_vpAllTransf.push_back(new SmallerImageRemover(this));
     m_vpAllTransf.push_back(new Id3V1ToId3V2Copier(this));
     m_vpAllTransf.push_back(new Id3V1Remover());
+
+    m_vpAllTransf.push_back(new Id3V2Expander(this));
+    m_vpAllTransf.push_back(new Id3V2Compactor(this));
 
     m_settings.loadDirs(m_vstrIncludeDirs, m_vstrExcludeDirs);
 
@@ -1949,6 +1955,12 @@ void CommonData::clearLog()
 }
 
 
+void CommonData::setFastSave(bool bFastSave, bool bUpdateTransforms)
+{
+    if (m_bFastSave == bFastSave) { return; }
+    m_bFastSave = bFastSave;
+    if (!bUpdateTransforms) { return; }
+}
 
 
 /*

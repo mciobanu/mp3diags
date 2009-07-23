@@ -145,6 +145,8 @@ public slots:
 
     void on_m_pResetColorsB_clicked();
 
+    void on_m_pFastSaveCkB_stateChanged();
+
     void onHelp();
 };
 

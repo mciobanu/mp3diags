@@ -129,6 +129,7 @@ static const char* s_szPlaceholderDescr ("<Placeholder for a note that can no lo
     addNote(&Notes::id3v2HasLatin1NonAscii()); // w
     addNote(&Notes::id3v2EmptyTcon()); // w
     addNote(&Notes::id3v2MultipleFramesWithSameName()); // w
+    addNote(&Notes::id3v2PaddingTooLarge()); // w
     addNote(&Notes::id3v2UnsuppVer()); // s
     addNote(&Notes::id3v2UnsuppFlag()); // s
     addNote(&Notes::id3v2UnsuppFlags1()); // s
@@ -217,6 +218,7 @@ static const char* s_szPlaceholderDescr ("<Placeholder for a note that can no lo
     addNote(&Notes::tooManyNotes()); // w
     addNote(&Notes::tooManyStreams()); // w
     addNote(&Notes::unsupportedFound()); // w
+    addNote(&Notes::rescanningNeeded()); // w
 
     {
         CB_ASSERT (Note::CUSTOM == Note::CATEG_CNT - 1);
@@ -451,11 +453,44 @@ void NoteColl::removeTraceNotes()
 }
 
 
+bool NoteColl::hasFastSaveWarn() const
+{
+    for (int i = cSize(m_vpNotes) - 1; i >= 0; --i)
+    {
+        Note* pNote (m_vpNotes[i]);
+        if (*pNote == Notes::rescanningNeeded()) { return true; }
+    }
+
+    return false;
+}
+
+
+void NoteColl::addFastSaveWarn()
+{
+    if (hasFastSaveWarn()) { return; }
+    add(new Note(Notes::rescanningNeeded(), -1));
+}
+
+
+void NoteColl::removeNotes(const std::streampos& posFrom, const std::streampos& posTo) // removes notes with addresses in the given range; posFrom is included, but posTo isn't
+{
+    for (int i = cSize(m_vpNotes) - 1; i >= 0; --i)
+    {
+        Note* pNote (m_vpNotes[i]);
+        if (pNote->getPos() >= posFrom && pNote->getPos() < posTo)
+        {
+            delete pNote;
+            m_vpNotes.erase(m_vpNotes.begin() + i);
+        }
+    }
+}
+
+
+
+
 
 bool Notes::CompNoteByName::operator()(const Note* p1, const Note* p2) const
 {
     return strcmp(p1->getDescription(), p2->getDescription()) < 0;
 }
-
-
 

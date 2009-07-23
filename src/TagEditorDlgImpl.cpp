@@ -48,6 +48,7 @@
 #include  "Mp3TransformThread.h"
 #include  "StoredSettings.h"
 #include  "Mp3Manip.h"
+#include  "OsFile.h"
 
 
 using namespace std;
@@ -278,7 +279,7 @@ CurrentFileModel::CurrentFileModel(const TagEditorDlgImpl* pTagEditorDlgImpl) : 
 
 
 
-TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, TransfConfig& transfConfig) : QDialog(pParent, getDialogWndFlags()), Ui::TagEditorDlg(), m_pCommonData(pCommonData), m_bSectionMovedLock(false), m_transfConfig(transfConfig)
+TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, TransfConfig& transfConfig) : QDialog(pParent, getDialogWndFlags()), Ui::TagEditorDlg(), m_pCommonData(pCommonData), m_bSectionMovedLock(false), m_transfConfig(transfConfig), m_bIsFastSaving(false)
 {
     setupUi(this);
 
@@ -286,7 +287,7 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
     m_pAssgnBtnWrp = new AssgnBtnWrp (m_pAssignedB);
 
     {
-        m_pTagWriter = new TagWriter(m_pCommonData, this);
+        m_pTagWriter = new TagWriter(m_pCommonData, this, m_bIsFastSaving);
         loadTagWriterInf();
         connect(m_pTagWriter, SIGNAL(albumChanged()), this, SLOT(onAlbumChanged()));
         connect(m_pTagWriter, SIGNAL(fileChanged()), this, SLOT(onFileChanged()));
@@ -879,7 +880,7 @@ void TagEditorDlgImpl::on_m_pPasteB_clicked()
 
 
 
-void TagEditorDlgImpl::on_m_bSortB_clicked()
+void TagEditorDlgImpl::on_m_pSortB_clicked()
 {
     if (!closeEditor()) { return; }
 
@@ -1026,7 +1027,7 @@ void TagEditorDlgImpl::resizeIcons()
     v.push_back(m_pSaveB);
     v.push_back(m_pReloadB);
     v.push_back(m_pCopyFirstB);
-    v.push_back(m_bSortB);
+    v.push_back(m_pSortB);
     v.push_back(m_pAssignedB);
     v.push_back(m_pPasteB);
     v.push_back(m_pEditPatternsB);
@@ -1198,8 +1199,11 @@ class Id3V230Writer : public Transformation
     //void processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out);
     const TagWriter* m_pTagWriter;
     bool m_bKeepOneValidImg;
+    bool m_bFastSave;
+
+    void setupWriter(Id3V230StreamWriter& wrt, const Mp3HandlerTagData* pMp3HandlerTagData);
 public:
-    Id3V230Writer(const TagWriter* pTagWriter, bool bKeepOneValidImg) : m_pTagWriter(pTagWriter), m_bKeepOneValidImg(bKeepOneValidImg) {}
+    Id3V230Writer(const TagWriter* pTagWriter, bool bKeepOneValidImg, bool bFastSave) : m_pTagWriter(pTagWriter), m_bKeepOneValidImg(bKeepOneValidImg), m_bFastSave(bFastSave) {}
 
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
@@ -1209,7 +1213,82 @@ public:
 };
 
 
+void Id3V230Writer::setupWriter(Id3V230StreamWriter& wrt, const Mp3HandlerTagData* pMp3HandlerTagData)
+{
+    string s;
+    s = pMp3HandlerTagData->getData(TagReader::TITLE); if (s.empty()) { wrt.removeFrames(KnownFrames::LBL_TITLE()); } else { wrt.addTextFrame(KnownFrames::LBL_TITLE(), s); }
+    s = pMp3HandlerTagData->getData(TagReader::ARTIST); if (s.empty()) { wrt.removeFrames(KnownFrames::LBL_ARTIST()); } else { wrt.addTextFrame(KnownFrames::LBL_ARTIST(), s); }
+    s = pMp3HandlerTagData->getData(TagReader::TRACK_NUMBER); if (s.empty()) { wrt.removeFrames(KnownFrames::LBL_TRACK_NUMBER()); } else { wrt.addTextFrame(KnownFrames::LBL_TRACK_NUMBER(), s); }
+    s = pMp3HandlerTagData->getData(TagReader::GENRE); if (s.empty()) { wrt.removeFrames(KnownFrames::LBL_GENRE()); } else { wrt.addTextFrame(KnownFrames::LBL_GENRE(), s); }
+    s = pMp3HandlerTagData->getData(TagReader::ALBUM); if (s.empty()) { wrt.removeFrames(KnownFrames::LBL_ALBUM()); } else { wrt.addTextFrame(KnownFrames::LBL_ALBUM(), s); }
+    s = pMp3HandlerTagData->getData(TagReader::COMPOSER); if (s.empty()) { wrt.removeFrames(KnownFrames::LBL_COMPOSER()); } else { wrt.addTextFrame(KnownFrames::LBL_COMPOSER(), s); }
+    s = pMp3HandlerTagData->getData(TagReader::TIME); if (s.empty()) { wrt.removeFrames(KnownFrames::LBL_TIME_DATE_230()); wrt.removeFrames(KnownFrames::LBL_TIME_YEAR_230()); wrt.removeFrames(KnownFrames::LBL_TIME_240()); } else { wrt.setRecTime(TagTimestamp(s)); }
 
+    s = pMp3HandlerTagData->getData(TagReader::IMAGE);
+    if (s.empty())
+    {
+        wrt.removeFrames(KnownFrames::LBL_IMAGE(), Id3V2Frame::COVER);
+    }
+    else
+    {
+        int nImg (pMp3HandlerTagData->getImage());
+        CB_ASSERT (nImg >= 0);
+        const ImageColl& imgColl (m_pTagWriter->getImageColl());
+        const ImageInfo& imgInfo (imgColl[nImg]);
+        int nImgSize (imgInfo.getSize());
+        const char* pImgData (imgInfo.getComprData());
+
+        QByteArray recomprImg; // to be used only for ImageInfo::INVALID
+
+        const char* szEncoding (0);
+        switch (imgInfo.getCompr())
+        {
+        case ImageInfo::JPG: szEncoding = "image/jpg"; break;
+        case ImageInfo::PNG: szEncoding = "image/png"; break;
+        case ImageInfo::INVALID:
+            {
+                QPixmap scaledPic;
+                ImageInfo::compress(imgInfo.getPixmap(), scaledPic, recomprImg);
+                nImgSize = recomprImg.size();
+                pImgData = recomprImg.data();
+                szEncoding = "image/jpg";
+                break;
+            }
+        default:
+            CB_ASSERT (false);
+        }
+        int nEncSize (strlen(szEncoding));
+        int nSize (1 + nEncSize + 1 + 1 + 1 + nImgSize);
+        vector<char> frm (nSize);
+        char* q (&frm[0]);
+        *q++ = 0; // enc
+        strcpy(q, szEncoding);
+        q += nEncSize + 1; // enc + term
+        *q++ = Id3V2Frame::COVER;
+        *q++ = 0; // null-term descr
+        memcpy(q, pImgData, nImgSize);
+        wrt.addImage(frm);
+    }
+
+    {
+        //s = pMp3HandlerTagData->getData(TagReader::RATING);
+        double d (pMp3HandlerTagData->getRating());
+        CB_ASSERT (d <= 5);
+
+        if (d < 0)
+        {
+            wrt.removeFrames(KnownFrames::LBL_RATING());
+        }
+        else
+        {
+            d = 1 + d*254/5;
+            vector<char> frm (2);
+            frm[0] = 0;
+            frm[1] = (int)d; // ttt2 signed char on some CPUs might have issues; OK on x86, though
+            wrt.addBinaryFrame(KnownFrames::LBL_RATING(), frm);
+        }
+    }
+}
 
 /*override*/ Transformation::Result Id3V230Writer::apply(const Mp3Handler& h, const TransfConfig& transfConfig, const std::string& strOrigSrcName, std::string& strTempName)
 {
@@ -1242,86 +1321,42 @@ e1:
             if (0 != pId3V2Source) { break; }
         }
 
-        transfConfig.getTempName(strOrigSrcName, getActionName(), strTempName);
-        ofstream_utf8 out (strTempName.c_str(), ios::binary);
-        in.seekg(0);
-
         Id3V230StreamWriter wrt (pId3V2Source, m_bKeepOneValidImg); // OK if pId3V2Source is 0
+
+        setupWriter(wrt, pMp3HandlerTagData);
+
+        if (m_bFastSave && !vpStreams.empty() && pId3V2Source == vpStreams[0])
         {
-            string s;
-            s = pMp3HandlerTagData->getData(TagReader::TITLE); if (s.empty()) { wrt.removeFrames(KnownFrames::LBL_TITLE()); } else { wrt.addTextFrame(KnownFrames::LBL_TITLE(), s); }
-            s = pMp3HandlerTagData->getData(TagReader::ARTIST); if (s.empty()) { wrt.removeFrames(KnownFrames::LBL_ARTIST()); } else { wrt.addTextFrame(KnownFrames::LBL_ARTIST(), s); }
-            s = pMp3HandlerTagData->getData(TagReader::TRACK_NUMBER); if (s.empty()) { wrt.removeFrames(KnownFrames::LBL_TRACK_NUMBER()); } else { wrt.addTextFrame(KnownFrames::LBL_TRACK_NUMBER(), s); }
-            s = pMp3HandlerTagData->getData(TagReader::GENRE); if (s.empty()) { wrt.removeFrames(KnownFrames::LBL_GENRE()); } else { wrt.addTextFrame(KnownFrames::LBL_GENRE(), s); }
-            s = pMp3HandlerTagData->getData(TagReader::ALBUM); if (s.empty()) { wrt.removeFrames(KnownFrames::LBL_ALBUM()); } else { wrt.addTextFrame(KnownFrames::LBL_ALBUM(), s); }
-            s = pMp3HandlerTagData->getData(TagReader::COMPOSER); if (s.empty()) { wrt.removeFrames(KnownFrames::LBL_COMPOSER()); } else { wrt.addTextFrame(KnownFrames::LBL_COMPOSER(), s); }
-            s = pMp3HandlerTagData->getData(TagReader::TIME); if (s.empty()) { wrt.removeFrames(KnownFrames::LBL_TIME_DATE_230()); wrt.removeFrames(KnownFrames::LBL_TIME_YEAR_230()); wrt.removeFrames(KnownFrames::LBL_TIME_240()); } else { wrt.setRecTime(TagTimestamp(s)); }
-
-            s = pMp3HandlerTagData->getData(TagReader::IMAGE);
-            if (s.empty())
+            try
             {
-                wrt.removeFrames(KnownFrames::LBL_IMAGE(), Id3V2Frame::COVER);
+                long long nSize, nOrigTime;
+                getFileInfo(h.getName(), nOrigTime, nSize);
+
+                {
+                    fstream_utf8 f (h.getName().c_str(), ios::binary | ios_base::in | ios_base::out);
+
+                    wrt.write(f, int(pId3V2Source->getSize()));
+                }
+
+                h.reloadId3V2(); //ttt2 perhaps return the pointer to the old Id3V2 instead of destroying it, and keep it somewhere until saving is done; then m_bIsFastSaving won't be needed, and no "N/A"s will be displayed in ID3V2 fields when saving; OTOH those pointers can't be kept fully alive, because they can't retrieve their data from disk; so better leave it as is;
+
+                if (transfConfig.m_optionsWrp.m_opt.m_bKeepOrigTime)
+                {
+                    setFileDate(h.getName(), nOrigTime);
+                }
+
+                return NOT_CHANGED; // !!!
             }
-            else
+            catch (const WriteError&)
             {
-                int nImg (pMp3HandlerTagData->getImage());
-                CB_ASSERT (nImg >= 0);
-                const ImageColl& imgColl (m_pTagWriter->getImageColl());
-                const ImageInfo& imgInfo (imgColl[nImg]);
-                int nImgSize (imgInfo.getSize());
-                const char* pImgData (imgInfo.getComprData());
-
-                QByteArray recomprImg; // to be used only for ImageInfo::INVALID
-
-                const char* szEncoding (0);
-                switch (imgInfo.getCompr())
-                {
-                case ImageInfo::JPG: szEncoding = "image/jpg"; break;
-                case ImageInfo::PNG: szEncoding = "image/png"; break;
-                case ImageInfo::INVALID:
-                    {
-                        QPixmap scaledPic;
-                        ImageInfo::compress(imgInfo.getPixmap(), scaledPic, recomprImg);
-                        nImgSize = recomprImg.size();
-                        pImgData = recomprImg.data();
-                        szEncoding = "image/jpg";
-                        break;
-                    }
-                default:
-                    CB_ASSERT (false);
-                }
-                int nEncSize (strlen(szEncoding));
-                int nSize (1 + nEncSize + 1 + 1 + 1 + nImgSize);
-                vector<char> frm (nSize);
-                char* q (&frm[0]);
-                *q++ = 0; // enc
-                strcpy(q, szEncoding);
-                q += nEncSize + 1; // enc + term
-                *q++ = Id3V2Frame::COVER;
-                *q++ = 0; // null-term descr
-                memcpy(q, pImgData, nImgSize);
-                wrt.addImage(frm);
-            }
-
-            {
-                //s = pMp3HandlerTagData->getData(TagReader::RATING);
-                double d (pMp3HandlerTagData->getRating());
-                CB_ASSERT (d <= 5);
-
-                if (d < 0)
-                {
-                    wrt.removeFrames(KnownFrames::LBL_RATING());
-                }
-                else
-                {
-                    d = 1 + d*254/5;
-                    vector<char> frm (2);
-                    frm[0] = 0;
-                    frm[1] = (int)d; // ttt2 signed char on some CPUs might have issues; OK on x86, though
-                    wrt.addBinaryFrame(KnownFrames::LBL_RATING(), frm);
-                }
+                // !!! nothing: normally this gets triggered before changing the file in any way (the reason being that it doesn't fit), so we go on and create a temporary file; //ttt2 the exception might get thrown on versioned filesystems, that use copy-on-write, if the disk becomes full, bu even then there's not much that can be done;
             }
         }
+
+        transfConfig.getTempName(strOrigSrcName, getActionName(), strTempName);
+
+        ofstream_utf8 out (strTempName.c_str(), ios::binary);
+        in.seekg(0);
 
         wrt.write(out); // may throw, but it will be caught
 
@@ -1414,11 +1449,18 @@ TagEditorDlgImpl::SaveOpt TagEditorDlgImpl::save(bool bImplicitCall)
         if (2 == nOpt) { return CANCELLED; }
     }
 
-    Id3V230Writer wrt (m_pTagWriter, m_pCommonData->m_bKeepOneValidImg);
+    Id3V230Writer wrt (m_pTagWriter, m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
     vector<Transformation*> vpTransf;
     vpTransf.push_back(&wrt);
 
-    bool bRes (transform(vpHndlr, vpTransf, "Saving ID3V2.3.0 tags", this, m_pCommonData, m_transfConfig));
+    bool bRes;
+    {
+        ValueRestorer<bool> rst (m_bIsFastSaving);
+        m_bIsFastSaving = m_pCommonData->useFastSave();
+
+        bRes = transform(vpHndlr, vpTransf, "Saving ID3V2.3.0 tags", this, m_pCommonData, m_transfConfig);
+    }
+
     m_pTagWriter->reloadAll(strCrt, TagWriter::DONT_CLEAR_DATA, TagWriter::CLEAR_ASSGN);
     //m_pTagWriter->updateAssigned(vector<pair<int, int> >());
 
@@ -1594,10 +1636,10 @@ bool CurrentAlbumDelegate::closeEditor() // closes the editor opened with F2, sa
 //======================================================================================================================
 //======================================================================================================================
 
-//ttt0 paste single line should change single cell
+//ttt0 paste single line should change single cell (search for \n ... )
 
 /*
-ttt0 tag editor performance:
+tag editor performance:
 
 TagWriter::reloadAll() is called twice when going to a new album, but that's not very important, because reloading no longer takes a lot of time; if there are no images it's very fast, but even with images it's no big deal;
 

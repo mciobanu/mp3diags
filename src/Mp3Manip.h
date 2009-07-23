@@ -94,7 +94,7 @@ class Mp3Handler
     std::vector<TruncatedMpegDataStream*> m_vpTruncatedMpegStreams;
 
     std::vector<DataStream*> m_vpAllStreams;
-    ifstream_utf8* m_pIn; // this isn't used after the constructor completes; however, many streams have a StreamStateRestorer member, which doe this on its destructor: it restores the stream position if the stream's constructor fails and clears the errors otherwise, assuming that the stream pointer is non-0; m_pIn is set to 0 after Mp3Handler's constructor completes, so the restorers of the successfuly built streams don't do anything when the streams get destroyed, because they see a null pointer;
+    ifstream_utf8* m_pIn; // this isn't used after the constructor completes; however, many streams have a StreamStateRestorer member, which does this on its destructor: it restores the stream position if the stream's constructor fails and clears the errors otherwise, assuming that the stream pointer is non-0; m_pIn is set to 0 after Mp3Handler's constructor completes, so the restorers of the successfuly built streams don't do anything when the streams get destroyed, because they see a null pointer;
 
     //bool m_bHasId3V2;
     //MpegFrame m_firstFrame;
@@ -117,6 +117,7 @@ class Mp3Handler
 
     void checkLastFrameInMpegStream(ifstream_utf8& in); // what looks like the last frame in an MPEG stream may actually be truncated and somewhere inside it an ID3V1 or Ape tag may actually begin; if that's the case, that "frame" is removed from the stream; then most likely an "Unknown" stream will be detected, followed by an ID3V1 or Ape stream
 
+    void reloadId3V2Hlp();
 private:
 public:
     Mp3Handler(const std::string& strFileName, bool bStoreTraceNotes, const QualThresholds& qualThresholds);
@@ -137,9 +138,15 @@ public:
 
     const Id3V2StreamBase* getId3V2Stream() const;
 
-    bool needsReload() const; // if the underlying file seems changed (or removed); looks at time and size;
+    bool sizeOrTimeChanged() const;
+    bool needsReload() const; // if the underlying file seems changed (or removed); looks at time and size, as well as FastSaveWarn and Notes::getMissingNote();
 
     void sortNotes() { m_notes.sort(); } // this is needed when loading from the disk, if unknown (most likely obsolete) notes are found
+
+    // removes the ID3V2 tag and the notes associated with it and scans the file again, but only the new ID3V2 tag;
+    // asserts that there was an existing ID3V2 tag at the beginning and it had the same size as the new one;
+    // this isn't really const, but it seems better to have a const_cast in the only place where it is needed rather than remove the const restriction from many places
+    void reloadId3V2() const;
 
     struct FileNotFound {};
 

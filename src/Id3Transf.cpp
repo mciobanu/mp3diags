@@ -48,7 +48,7 @@ using namespace std;
 
 bool Id3V2Cleaner::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
 {
-    Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg);
+    Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
     vector<const Id3V2Frame*> v (strm.getKnownFrames());
     for (int i = 0; i < cSize(v); ++i)
     {
@@ -137,7 +137,7 @@ bool Id3V2Cleaner::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
 // rewrite text frames to discard null terminators
 bool Id3V2Rescuer::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
 {
-    Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg);
+    Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
 
     const vector<Id3V2Frame*>& vpFrames (strm.getFrames());
 
@@ -234,7 +234,7 @@ bool Id3V2Rescuer::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
                 NoteColl notes (20);
                 StringWrp fileName (h.getName());
                 Id3V230Stream strm (0, notes, in, &fileName, Id3V230Stream::ACCEPT_BROKEN);
-                Id3V230StreamWriter wrt (&strm, m_pCommonData->m_bKeepOneValidImg);
+                Id3V230StreamWriter wrt (&strm, m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
                 wrt.write(out);
                 bChanged = true;
                 bRecall = true; // !!! now we read whatever frames are available from a broken stream, next time we check for empty or otherwise invalid frames
@@ -244,7 +244,7 @@ bool Id3V2Rescuer::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
                 NoteColl notes (20);
                 StringWrp fileName (h.getName());
                 Id3V240Stream strm (0, notes, in, &fileName, Id3V230Stream::ACCEPT_BROKEN);
-                Id3V230StreamWriter wrt (&strm, m_pCommonData->m_bKeepOneValidImg);
+                Id3V230StreamWriter wrt (&strm, m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
                 wrt.write(out);
                 bChanged = true;
                 bRecall = true;
@@ -276,7 +276,7 @@ bool Id3V2Rescuer::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
 
 void Id3V2UnicodeTransformer::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
 {
-    Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg);
+    Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
 
     const vector<Id3V2Frame*>& vpFrames (strm.getFrames());
 
@@ -452,7 +452,7 @@ static QString getCaseConv(const QString& s, CommonData::Case eCase)
 
 bool Id3V2CaseTransformer::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
 {
-    Id3V230StreamWriter wrt (&strm, m_pCommonData->m_bKeepOneValidImg);
+    Id3V230StreamWriter wrt (&strm, m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
 
     {
         const Id3V2Frame* pFrm (strm.getFrame(KnownFrames::LBL_ARTIST()));
@@ -557,7 +557,7 @@ bool Id3V2CaseTransformer::processId3V2Stream(Id3V2StreamBase& strm, ofstream_ut
 
 bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out, Id3V1Stream* pId3V1Stream)
 {
-    Id3V230StreamWriter wrt (&strm, m_pCommonData->m_bKeepOneValidImg);
+    Id3V230StreamWriter wrt (&strm, m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
 
     if (strm.getTitle().empty())
     {
@@ -629,7 +629,7 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8
 
     if (!bId3V2Found)
     {
-        Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg);
+        Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
 
         {
             string s (pId3V1Stream->getTitle());
@@ -744,7 +744,7 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8
     if (beginsWith(strArtist, strComp + " [") && endsWith(strArtist, "]")) { return NOT_CHANGED; }
 
     { // temp
-        Id3V230StreamWriter wrt (pId3V2, m_pCommonData->m_bKeepOneValidImg);
+        Id3V230StreamWriter wrt (pId3V2, m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
         wrt.addTextFrame(KnownFrames::LBL_ARTIST(), strComp + " [" + strArtist + "]");
 
         ifstream_utf8 in (h.getName().c_str(), ios::binary);
@@ -794,7 +794,7 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8
     if (!(beginsWith(strArtist, strComp + " [") && endsWith(strArtist, "]"))) { return NOT_CHANGED; }
 
     { // temp
-        Id3V230StreamWriter wrt (pId3V2, m_pCommonData->m_bKeepOneValidImg);
+        Id3V230StreamWriter wrt (pId3V2, m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
         //wrt.addTextFrame(KnownFrames::LBL_ARTIST(), strComp + " [" + strArtist + "]");
         wrt.addTextFrame(KnownFrames::LBL_ARTIST(), strArtist.substr(strComp.size() + 2, strArtist.size() - strComp.size() - 3));
 
@@ -849,7 +849,7 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8
     if (strComp == strExistingComp) { return NOT_CHANGED; }
 
     { // temp
-        Id3V230StreamWriter wrt (pId3V2, m_pCommonData->m_bKeepOneValidImg);
+        Id3V230StreamWriter wrt (pId3V2, m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
         wrt.addTextFrame(KnownFrames::LBL_COMPOSER(), strComp);
 
         ifstream_utf8 in (h.getName().c_str(), ios::binary);
@@ -916,7 +916,7 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8
 
 
     { // temp
-        Id3V230StreamWriter wrt (pId3V2, Id3V230StreamWriter::KEEP_ONE_VALID_IMG);
+        Id3V230StreamWriter wrt (pId3V2, Id3V230StreamWriter::KEEP_ONE_VALID_IMG, m_pCommonData->useFastSave());
 
         wrt.removeFrames(KnownFrames::LBL_IMAGE());
 
@@ -953,5 +953,112 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8
 //========================================================================================================================
 
 
+/*static*/ const int Id3V2Expander::EXTRA_SPACE (4096); // frames other than APIC; title, artist, lyrics, ...
+
+/*override*/ Transformation::Result Id3V2Expander::apply(const Mp3Handler& h, const TransfConfig& transfConfig, const std::string& strOrigSrcName, std::string& strTempName)
+{
+    const vector<DataStream*>& vpStreams (h.getStreams());
+    Id3V2StreamBase* pId3V2 (0);
+
+    for (int i = 0, n = cSize(vpStreams); i < n; ++i)
+    {
+        DataStream* p (vpStreams[i]);
+        pId3V2 = dynamic_cast<Id3V2StreamBase*>(p);
+        if (0 != pId3V2) { break; }
+    }
+
+    //if (0 == pId3V2) { return NOT_CHANGED; }
+//(int(pId3V2->getSize())
+    int nOldPaddingSize (0), nOldSize (0);
+    if (0 != pId3V2)
+    {
+        nOldPaddingSize = pId3V2->getPaddingSize();
+        nOldSize = int(pId3V2->getSize());
+    }
+
+    int nExtraSize (ImageInfo::MAX_IMAGE_SIZE + EXTRA_SPACE); // it is possible for existing pictures with non-cover types to be kept, so we want additional space even if there is already a (big) image // !!! cannot just remove the size of whatever APIC is currently used, because it may be of a non-cover type
+    if (nExtraSize <= nOldPaddingSize) { return NOT_CHANGED; }
+
+    { // temp
+        Id3V230StreamWriter wrt (pId3V2, m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
+
+        ifstream_utf8 in (h.getName().c_str(), ios::binary);
+        transfConfig.getTempName(strOrigSrcName, getActionName(), strTempName);
+        ofstream_utf8 out (strTempName.c_str(), ios::binary);
+        wrt.write(out, nOldSize + nExtraSize - nOldPaddingSize); // may throw, but it will be caught
+
+        for (int i = 0, n = cSize(vpStreams); i < n; ++i)
+        {
+            DataStream* p (vpStreams[i]);
+
+            if (p != pId3V2)
+            {
+                p->copy(in, out);
+            }
+        }
+    }
+
+    return CHANGED_NO_RECALL;
+}
+
+
+
+
+//========================================================================================================================
+//========================================================================================================================
+//========================================================================================================================
+
+
+
+/*override*/ Transformation::Result Id3V2Compactor::apply(const Mp3Handler& h, const TransfConfig& transfConfig, const std::string& strOrigSrcName, std::string& strTempName)
+{
+    const vector<DataStream*>& vpStreams (h.getStreams());
+    Id3V2StreamBase* pId3V2 (0);
+
+    for (int i = 0, n = cSize(vpStreams); i < n; ++i)
+    {
+        DataStream* p (vpStreams[i]);
+        pId3V2 = dynamic_cast<Id3V2StreamBase*>(p);
+        if (0 != pId3V2) { break; }
+    }
+
+    if (0 == pId3V2) { return NOT_CHANGED; }
+
+    if (pId3V2->getPaddingSize() < Id3V230StreamWriter::DEFAULT_EXTRA_SPACE + 512) { return NOT_CHANGED; }
+
+    { // temp
+        Id3V230StreamWriter wrt (pId3V2, m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
+
+        ifstream_utf8 in (h.getName().c_str(), ios::binary);
+        transfConfig.getTempName(strOrigSrcName, getActionName(), strTempName);
+        ofstream_utf8 out (strTempName.c_str(), ios::binary);
+        wrt.write(out, 0); // may throw, but it will be caught
+
+        for (int i = 0, n = cSize(vpStreams); i < n; ++i)
+        {
+            DataStream* p (vpStreams[i]);
+
+            if (p != pId3V2)
+            {
+                p->copy(in, out);
+            }
+        }
+    }
+
+    return CHANGED_NO_RECALL;
+}
+
+
+
+
+
+//========================================================================================================================
+//========================================================================================================================
+//========================================================================================================================
+
+//ttt0 doc: visible transf hdr can be dragged
 //ttt2 perhaps be able to extract composer even when the field is empty, if artist is "composer [artist]", but doesn't look too useful
 //ttt1 perhaps something to discard invalid ID3V2 frames, especially invalid pictures
+
+
+//ttt2 warn in config if user enables fast save and then hides Id3V2Compactor

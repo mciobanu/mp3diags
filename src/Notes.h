@@ -202,6 +202,7 @@ struct Notes
     DECL_NOTE_INFO(id3v2HasLatin1NonAscii, WARNING, ID3V2, "ID3V2 tag has text frames using Latin-1 encoding that contain characters with a code above 127. While this is legal, those frames may have their content set or displayed incorrectly by software that uses the local code page instead of Latin-1. Conversion to Unicode (UTF16) is recommended.");
     DECL_NOTE_INFO(id3v2EmptyTcon, WARNING, ID3V2, "Empty genre frame (TCON) found.");
     DECL_NOTE_INFO(id3v2MultipleFramesWithSameName, WARNING, ID3V2, "Multiple frame instances, but only the first copy will be used.");
+    DECL_NOTE_INFO(id3v2PaddingTooLarge, WARNING, ID3V2, "The padding in the ID3V2 tag is too large, wasting space. (Large padding improves the tag editor saving speed, if fast saving is enabled, so you may want to delay compacting the tag until after you're done with the tag editor.)");
     DECL_NOTE_INFO(id3v2UnsuppVer, SUPPORT, ID3V2, "Unsupported ID3V2 version.");
     DECL_NOTE_INFO(id3v2UnsuppFlag, SUPPORT, ID3V2, "Unsupported ID3V2 tag. Unsupported flag.");
     DECL_NOTE_INFO(id3v2UnsuppFlags1, SUPPORT, ID3V2, "Unsupported value for Flags1 in ID3V2 frame. (This may also indicate that the file contains garbage where it was supposed to be zero.)");
@@ -290,6 +291,7 @@ struct Notes
     DECL_NOTE_INFO(tooManyNotes, WARNING, MISC, "Too many notes added. The rest will be discarded.");
     DECL_NOTE_INFO(tooManyStreams, WARNING, MISC, "Too many streams found. Aborting processing.");
     DECL_NOTE_INFO(unsupportedFound, WARNING, MISC, "Unsupported stream found. It may be supported in the future if there's a real need for it.");
+    DECL_NOTE_INFO(rescanningNeeded, WARNING, MISC, "The file was saved using the \"fast\" option. While this improves the saving speed, it may leave the notes in an inconsistent state, so you should rescan the file.");
 
     struct CompNoteByName // needed for searching
     {
@@ -364,6 +366,10 @@ public:
     void resetCounter() { m_nCount = 0; } // normally only 200 notes are added and anything following is discarded; this allows to reset the counter
     void sort(); // sorts by CmpNotePtrById, which is needed for filtering
     void removeTraceNotes();
+
+    bool hasFastSaveWarn() const;
+    void addFastSaveWarn();
+    void removeNotes(const std::streampos& posFrom, const std::streampos& posTo); // removes notes with addresses in the given range; posFrom is included, but posTo isn't
 
 private:
     friend class boost::serialization::access;

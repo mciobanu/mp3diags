@@ -118,6 +118,7 @@ private:
     enum { DONT_FORCE = 0, FORCE = 1 };
     //void reload(ReloadSrc eReloadSrc, bool bForce);
     void reload(bool bSelOnly, bool bForce);
+    void fullReload();
 
     SessionSettings m_settings;
 

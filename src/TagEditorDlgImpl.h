@@ -186,6 +186,8 @@ class TagEditorDlgImpl : public QDialog, private Ui::TagEditorDlg
     std::vector<std::pair<int, int> > getSelFields() const; // returns the selceted fields, with the first elem as the song number and the second as the field index in TagReader::Feature (it converts columns to fields using TagReader::FEATURE_ON_POS); first column (file name) is ignored
     void eraseSelFields(); // erases the values in the selected fields
 
+    bool m_bIsFastSaving;
+
 public:
     TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, TransfConfig& transfConfig); // transfConfig is needed both to be able to instantiate the config dialog and for saving ID3V2
     ~TagEditorDlgImpl();
@@ -222,7 +224,7 @@ protected slots:
     void on_m_pCopyFirstB_clicked();
     void on_m_pSaveB_clicked();
     void on_m_pPasteB_clicked();
-    void on_m_bSortB_clicked();
+    void on_m_pSortB_clicked();
     void on_m_pConfigB_clicked();
 
     void onAlbSelChanged();

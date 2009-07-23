@@ -407,7 +407,7 @@ public:
 
 struct TagReader
 {
-    virtual ~TagReader() {}
+    virtual ~TagReader();
 
     enum Feature { TITLE, ARTIST, TRACK_NUMBER, TIME, GENRE, IMAGE, ALBUM, RATING, COMPOSER, LIST_END };
     static const char* getLabel(int); // text representation for each Feature

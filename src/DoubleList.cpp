@@ -544,6 +544,11 @@ void DoubleList::on_m_pAddB_clicked()
         sSelPos.insert(nRow);
     }
 
+    add(sSelPos);
+}
+
+void DoubleList::add(const std::set<int>& sSelPos) // adds elements from the specified indexes
+{
     switch (m_eSelectionMode)
     {
     case SINGLE_UNSORTABLE:
@@ -589,6 +594,8 @@ void DoubleList::on_m_pAddB_clicked()
 }
 
 
+
+
 void DoubleList::on_m_pDeleteB_clicked()
 {
     if (m_listPainter.m_vSel.empty()) { return; }
@@ -603,7 +610,11 @@ void DoubleList::on_m_pDeleteB_clicked()
         CB_ASSERT (nRow >= 0);
         sSelPos.insert(nRow);
     }
+}
 
+
+void DoubleList::remove(const std::set<int>& sSelPos) // removes elements from the specified indexes
+{
     for (set<int>::reverse_iterator it = sSelPos.rbegin(), end = sSelPos.rend(); it != end; ++it)
     {
         int nRow (*it);

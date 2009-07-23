@@ -157,7 +157,7 @@ bool Mp3TransformThread::transform()
             const Mp3Handler* pOrigHndl (m_vpHndlr[i]);
             string strOrigName (pOrigHndl->getName());
 
-            if (pOrigHndl->needsReload())
+            if (pOrigHndl->sizeOrTimeChanged())
             {
                 m_strErrorFile = strOrigName;
                 m_bWriteError = false;

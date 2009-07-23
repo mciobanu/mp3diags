@@ -145,6 +145,7 @@ class VisibleTransfPainter : public ListPainter
     /*override*/ void reset();
 
     const SubList& m_vDefaultSel; // to be used by reset()
+
 public:
     VisibleTransfPainter(const CommonData* pCommonData, const SubList& vOrigSel, const SubList& vSel, const SubList& vDefaultSel);
     ~VisibleTransfPainter();
@@ -154,11 +155,13 @@ public:
 
 VisibleTransfPainter::VisibleTransfPainter(const CommonData* pCommonData, const SubList& vOrigSel, const SubList& vSel, const SubList& vDefaultSel) : ListPainter(""), m_vDefaultSel(vDefaultSel)
 {
-//qDebug("init VisibleTransfPainter with origsel %d and sel %d", cSize(vOrigSel), cSize(vSel));
-    for (int i = 0, n = cSize(pCommonData->getAllTransf()); i < n; ++i)
+    const vector<Transformation*>& v (pCommonData->getAllTransf());
+    for (int i = 0, n = cSize(v); i < n; ++i)
     {
-        m_vpOrigAll.push_back(new TransfListElem(pCommonData->getAllTransf()[i]));
+        const Transformation* p (v[i]);
+        m_vpOrigAll.push_back(new TransfListElem(p));
     }
+
     m_vpResetAll = m_vpOrigAll; // !!! no new pointers
     m_vOrigSel = vOrigSel;
     m_vSel = vSel;
@@ -272,6 +275,7 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
         m_vvnCustomTransf(pCommonData->getCustomTransf()),
         m_nCurrentTransf(-1),
         m_vvnDefaultCustomTransf(CUSTOM_TRANSF_CNT),
+        m_pVisibleTransfPainter(0),
         m_vnVisibleTransf(pCommonData->getVisibleTransf())
 {
     setupUi(this);
@@ -548,6 +552,7 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
 
     {  //misc
         m_pScanAtStartupCkB->setChecked(m_pCommonData->m_bScanAtStartup);
+        m_pFastSaveCkB->setChecked(m_pCommonData->useFastSave());
         m_pShowDebugCkB->setChecked(m_pCommonData->m_bShowDebug);
         m_pShowSessCkB->setChecked(m_pCommonData->m_bShowSessions);
         m_pNormalizerE->setText(convStr(m_pCommonData->m_strNormalizeCmd));
@@ -686,6 +691,7 @@ void SessionSettings::loadTransfConfig(TransfConfig& transfConfig) const
 }
 
 
+//ttt0 hide new tabs when called from tag edt
 bool ConfigDlgImpl::run()
 {
     if (QDialog::Accepted != exec()) { return false; }
@@ -783,6 +789,9 @@ void initDefaultVisibleTransf(vector<int>& v, CommonData* pCommonData)
     //v.push_back(pCommonData->getTransfPos(SmallerImageRemover::getClassName()));
     //v.push_back(pCommonData->getTransfPos(Id3V1ToId3V2Copier::getClassName()));
     //v.push_back(pCommonData->getTransfPos(Id3V1Remover::getClassName()));
+
+    //v.push_back(pCommonData->getTransfPos(Id3V2Compactor::getClassName()));
+    //v.push_back(pCommonData->getTransfPos(Id3V2Expander::getClassName()));
 }
 
 
@@ -948,6 +957,7 @@ void ConfigDlgImpl::on_m_pOkB_clicked()
 
         { // misc
             m_pCommonData->m_bScanAtStartup = m_pScanAtStartupCkB->isChecked();
+            m_pCommonData->setFastSave(m_pFastSaveCkB->isChecked(), CommonData::UPDATE_TRANSFORMS);
             m_pCommonData->m_bShowDebug = m_pShowDebugCkB->isChecked();
             m_pCommonData->m_bShowSessions = m_pShowSessCkB->isChecked();
             m_pCommonData->m_strNormalizeCmd = convStr(m_pNormalizerE->text());
@@ -1104,6 +1114,45 @@ void ConfigDlgImpl::onHelp()
 }
 
 
+void ConfigDlgImpl::on_m_pFastSaveCkB_stateChanged()
+{
+    if (0 == m_pVisibleTransfPainter) { return; }
+
+    if (m_pFastSaveCkB->isChecked())
+    {
+        const vector<int>& vnAvail (m_pVisibleTransfPainter->getAvailable());
+        const vector<const ListElem*>& vpAll (m_pVisibleTransfPainter->getAll());
+        set<int> s;
+        for (int i = 0; i < cSize(vnAvail); ++i)
+        {
+            const TransfListElem* p (dynamic_cast<const TransfListElem*>(vpAll.at(vnAvail.at(i))));
+            CB_ASSERT (0 != p);
+            if (p->getTransformation()->getActionName() == string(Id3V2Compactor::getClassName()) || p->getTransformation()->getActionName() == string(Id3V2Expander::getClassName()))
+            {
+                s.insert(i);
+            }
+        }
+
+        m_pVisibleTransfDoubleList->add(s);
+    }
+    else
+    {
+        const vector<int>& vnSel (m_pVisibleTransfPainter->getSel());
+        const vector<const ListElem*>& vpAll (m_pVisibleTransfPainter->getAll());
+        set<int> s;
+        for (int i = 0; i < cSize(vnSel); ++i)
+        {
+            const TransfListElem* p (dynamic_cast<const TransfListElem*>(vpAll.at(vnSel.at(i))));
+            CB_ASSERT (0 != p);
+            if (p->getTransformation()->getActionName() == string(Id3V2Compactor::getClassName()) || p->getTransformation()->getActionName() == string(Id3V2Expander::getClassName()))
+            {
+                s.insert(i);
+            }
+        }
+
+        m_pVisibleTransfDoubleList->remove(s);
+    }
+}
 
 
 //=====================================================================================================================

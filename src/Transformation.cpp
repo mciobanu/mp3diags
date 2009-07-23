@@ -149,6 +149,13 @@ TransfConfig::TransfConfig(
 
 TransfConfig::TransfConfig()
 {
+    m_strSrcDir = getDefaultSrc();
+    m_strProcOrigDir = getDefaultProcOrig();
+    m_strUnprocOrigDir = getDefaultUnprocOrig();
+    m_strProcessedDir = getDefaultProcessed();
+    m_strTempDir = getDefaultTemp();
+    m_strCompDir = getDefaultComp();
+
     m_optionsWrp.m_nVal = getDefaultOptions().m_nVal;
 }
 

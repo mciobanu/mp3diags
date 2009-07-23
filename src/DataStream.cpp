@@ -354,4 +354,8 @@ std::string TagReader::getValue(Feature f) const
 }
 
 
+/*virtual*/ TagReader::~TagReader()
+{
+//    qDebug("destroy TagReader at %p", this);
+}
 

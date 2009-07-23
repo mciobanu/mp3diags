@@ -849,12 +849,7 @@ void MainFormDlgImpl::onShow()
 
     if (m_pCommonData->m_bScanAtStartup)
     {
-        CommonData::ViewMode eMode (m_pCommonData->getViewMode());
-        m_pCommonData->setViewMode(CommonData::ALL, m_pCommonData->getCrtMp3Handler());
-        m_pCommonData->m_filter.disableAll();
-        reload(IGNORE_SEL, DONT_FORCE);
-        m_pCommonData->m_filter.restoreAll();
-        m_pCommonData->setViewMode(eMode, m_pCommonData->getCrtMp3Handler());
+        fullReload();
     }//*/
 //qDebug("pppp");
     resizeEvent(0);
@@ -867,6 +862,15 @@ void MainFormDlgImpl::onShow()
 }
 
 
+void MainFormDlgImpl::fullReload()
+{
+    CommonData::ViewMode eMode (m_pCommonData->getViewMode());
+    m_pCommonData->setViewMode(CommonData::ALL, m_pCommonData->getCrtMp3Handler());
+    m_pCommonData->m_filter.disableAll();
+    reload(IGNORE_SEL, DONT_FORCE);
+    m_pCommonData->m_filter.restoreAll();
+    m_pCommonData->setViewMode(eMode, m_pCommonData->getCrtMp3Handler());
+}
 
 /*override*/ void MainFormDlgImpl::closeEvent(QCloseEvent*)
 {
@@ -1721,7 +1725,14 @@ void MainFormDlgImpl::on_m_pTagEdtB_clicked()
 
     updateUi(strCrt); // needed because the tag editor might have called the config and changed things; it would be nicer to send a signal when config changes, but IIRC in Qt 4.3.1 resizing things in a dialog that opened another one doesn't work very well; (see also TagEditorDlgImpl::on_m_pQueryDiscogsB_clicked())
 
-    emit tagEditorClosed();
+    if (m_pCommonData->useFastSave())
+    {
+        fullReload();
+    }
+    else
+    {
+        emit tagEditorClosed();
+    }
 }
 
 

@@ -789,6 +789,47 @@ void Mp3Handler::analyze(const QualThresholds& qualThresholds)
 
 //ttt1 perhaps add option for multiple positions to be attached to a note, so all the relevant rows can be selected for "unknown streams", duplicate ID3, ...
 
+// removes the ID3V2 tag and the notes associated with it and scans the file again, but only the new ID3V2 tag;
+// asserts that there was an existing ID3V2 tag at the beginning and it had the same size as the new one;
+// this isn't really const, but it seems better to have a const_cast in the only place where it is needed rather than remove the const restriction from many places
+void Mp3Handler::reloadId3V2() const
+{
+    const_cast<Mp3Handler*>(this)->reloadId3V2Hlp();
+}
+
+void Mp3Handler::reloadId3V2Hlp()
+{
+    CB_ASSERT (!m_vpAllStreams.empty());
+    Id3V2StreamBase* pOldId3V2 (dynamic_cast<Id3V2StreamBase*>(m_vpAllStreams[0]));
+    CB_ASSERT (0 != pOldId3V2);
+
+    m_notes.removeNotes(pOldId3V2->getPos(), pOldId3V2->getPos() + pOldId3V2->getSize());
+
+    ifstream_utf8 in (m_pFileName->s.c_str(), ios::binary);
+
+    CB_ASSERT (in); // ttt2 not quite right; could have been deleted externally
+
+    Id3V230Stream* pNewId3V2;
+    try
+    {
+        pNewId3V2 = new Id3V230Stream(0, m_notes, in, m_pFileName);
+    }
+    catch (const std::bad_alloc&) { throw; }
+    catch (...)
+    {
+        CB_ASSERT (false);
+    }
+
+    CB_ASSERT (pOldId3V2->getSize() == pNewId3V2->getSize());
+
+    delete pOldId3V2;
+    m_vpAllStreams[0] = pNewId3V2;
+
+    m_notes.addFastSaveWarn();
+    m_notes.sort();
+}
+
+
 
 static bool isMpegHdr(unsigned char* p)
 {
@@ -887,8 +928,7 @@ string Mp3Handler::getDir() const
 }
 
 
-// if the underlying file seems changed (or removed); looks at time and size;
-bool Mp3Handler::needsReload() const
+bool Mp3Handler::sizeOrTimeChanged() const
 {
     long long nSize, nTime;
     try
@@ -900,7 +940,14 @@ bool Mp3Handler::needsReload() const
         return true;
     }
 
-    if (nSize != m_nSize || nTime != m_nTime) { return true; }
+    return nSize != m_nSize || nTime != m_nTime;
+}
+
+
+// if the underlying file seems changed (or removed); looks at time and size, as well as FastSaveWarn and Notes::getMissingNote();
+bool Mp3Handler::needsReload() const
+{
+    if (m_notes.hasFastSaveWarn() || sizeOrTimeChanged()) { return true; }
     const vector<Note*>& vpNotes (m_notes.getList());
     return !vpNotes.empty() && vpNotes[0]->getDescription() == Notes::getMissingNote()->getDescription();
 }

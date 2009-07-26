@@ -45,6 +45,7 @@
 #include  "NotesModel.h"      // current notes
 #include  "StreamsModel.h"    // current streams
 #include  "UniqueNotesModel.h"   // all notes
+#include  "CommonTypes.h"
 
 using namespace std;
 using namespace pearl;
@@ -191,6 +192,7 @@ void SessionSettings::saveMiscConfigSettings(const CommonData* p)
         m_pSettings->setValue("tagEditor/warnOnPasteToNonSeqTracks", p->m_bWarnPastingToNonSeqTracks);
         m_pSettings->setValue("tagEditor/saveAssigned", (int)p->m_eAssignSave);
         m_pSettings->setValue("tagEditor/saveNonId3v2", (int)p->m_eNonId3v2Save);
+        m_pSettings->setValue("tagEditor/maxImageSize", ImageInfo::MAX_IMAGE_SIZE);
     }
 
     { // misc
@@ -286,6 +288,7 @@ void SessionSettings::loadMiscConfigSettings(CommonData* p) const
         p->m_bWarnPastingToNonSeqTracks = m_pSettings->value("tagEditor/warnOnPasteToNonSeqTracks", true).toBool();
         { int k (m_pSettings->value("tagEditor/saveAssigned", 2).toInt()); if (k < 0 || k > 2) { k = 2; } p->m_eAssignSave = CommonData::Save(k); }
         { int k (m_pSettings->value("tagEditor/saveNonId3v2", 2).toInt()); if (k < 0 || k > 2) { k = 2; } p->m_eNonId3v2Save = CommonData::Save(k); }
+        ImageInfo::MAX_IMAGE_SIZE = m_pSettings->value("tagEditor/maxImageSize", 102400).toInt();
     }
 
     { // misc
@@ -636,7 +639,6 @@ void CommonData::getUniqueNotes(const std::deque<const Mp3Handler*>& vpHandlers,
     for (int i = 0; i < cSize(vpHandlers); ++i)
     {
         const Mp3Handler* pHndl (vpHandlers[i]);
-        QString strName (convStr(pHndl->getName()));
         const vector<Note*>& vpNotes (pHndl->getNotes().getList());
         for (int j = 0, n = cSize(vpNotes); j < n; ++j)
         {

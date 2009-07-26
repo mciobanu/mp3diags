@@ -43,7 +43,7 @@ using namespace pearl;
 class DirListElem : public ListElem
 {
     /*override*/ string getText(int /*nCol*/) const { return m_strDir; }
-    string m_strDir;
+    string m_strDir; // uses native separators
     //CommonData* m_pCommonData;
 public:
     DirListElem(const string& strDir) : m_strDir(strDir) {}

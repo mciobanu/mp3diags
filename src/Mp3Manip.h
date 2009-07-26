@@ -131,6 +131,7 @@ public:
     const NoteColl& getNotes() const { return m_notes; }
     const std::vector<DataStream*>& getStreams() const { return m_vpAllStreams; }
     const std::string& getName() const { return m_pFileName->s; }
+    QString getUiName() const; // uses native separators
 
     long long getSize() const;
     std::string getShortName() const;

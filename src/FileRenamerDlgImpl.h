@@ -186,7 +186,7 @@ public:
     struct InvalidPattern
     {
         const std::string m_strErr;
-        InvalidPattern(const std::string& strErr) : m_strErr(strErr) {}
+        InvalidPattern(const std::string& strPattern, const std::string& strErr) : m_strErr("Pattern \"" + strPattern + "\" is invalid. " + strErr) {}
     };
 };
 

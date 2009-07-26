@@ -32,22 +32,44 @@ using namespace std;
 
 static const int IMG_SIZE (110);
 
-ImageInfoPanelWdgImpl::ImageInfoPanelWdgImpl(QWidget* pParent, const ImageInfo& imageInfo, int nPos) :
+ImageInfoPanelWdgImpl::ImageInfoPanelWdgImpl(QWidget* pParent, const TagWrtImageInfo& tagWrtImageInfo, int nPos) :
         QFrame(pParent, 0),
         Ui::ImageInfoPanelWdg(),
-        m_imageInfo(imageInfo),
+        m_tagWrtImageInfo(tagWrtImageInfo),
         m_nPos(nPos)
 {
 //PROF("ImageInfoPanelWdgImpl::ImageInfoPanelWdgImpl");
     CB_ASSERT (nPos >= 0 /*&& nPos < cSize(vImageInfo)*/);
     setupUi(this);
     m_pPosL->setText(QString("# %1").arg(nPos + 1));
-    m_pSizeL->setText(QString("%1kB").arg(imageInfo.getSize()/1024));
+    m_pSizeL->setText(QString("%1kB").arg(tagWrtImageInfo.m_imageInfo.getSize()/1024));
 
-    m_pDimL->setText(QString("%1x%2").arg(imageInfo.getWidth()).arg(imageInfo.getHeight()));
+    m_pDimL->setText(QString("%1x%2").arg(tagWrtImageInfo.m_imageInfo.getWidth()).arg(tagWrtImageInfo.m_imageInfo.getHeight()));
 //PROFD(4);
-    m_pThumbL->setPixmap(imageInfo.getPixmap(IMG_SIZE)); //ttt1p performance issue; doesn't look like much can be done, though
+    m_pThumbL->setPixmap(tagWrtImageInfo.m_imageInfo.getPixmap(IMG_SIZE)); //ttt1p performance issue; doesn't look like much can be done, though
 //PROFD(5);
+    if (tagWrtImageInfo.m_sstrFiles.empty())
+    {
+        m_pEraseB->hide();
+    }
+    else
+    {
+        QString s;
+        if (tagWrtImageInfo.m_sstrFiles.size() > 1)
+        {
+            s = "Erase these files:";
+            for (set<string>::iterator it = tagWrtImageInfo.m_sstrFiles.begin(); it != tagWrtImageInfo.m_sstrFiles.end(); ++it)
+            {
+                s += "\n" + convStr(*it);
+            }
+        }
+        else
+        {
+            s = "Erase " + convStr(*tagWrtImageInfo.m_sstrFiles.begin());
+        }
+
+        m_pEraseB->setToolTip(s);
+    }
 }
 
 ImageInfoPanelWdgImpl::~ImageInfoPanelWdgImpl()
@@ -63,7 +85,7 @@ void ImageInfoPanelWdgImpl::on_m_pFullB_clicked()
     QLabel* p (new QLabel(&dlg));
     pGridLayout->addWidget(p);
 
-    p->setPixmap(m_imageInfo.getPixmap()); //ttt1 see if it should limit size (IIRC QLabel scaled down once a big image)
+    p->setPixmap(m_tagWrtImageInfo.m_imageInfo.getPixmap()); //ttt1 see if it should limit size (IIRC QLabel scaled down once a big image)
 
     dlg.exec();
 }
@@ -86,9 +108,5 @@ void ImageInfoPanelWdgImpl::setHighlightBackground()
 }
 
 
-void ImageInfoPanelWdgImpl::on_m_pAssignB_clicked()
-{
-    emit assignImage(m_nPos);
-};
 
 

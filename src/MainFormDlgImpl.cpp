@@ -1368,7 +1368,7 @@ void MainFormDlgImpl::on_m_pNormalizeB_clicked()
     QStringList l;
     for (int i = 0, n = cSize(vpHndlr); i < n; ++i)
     {
-        l << convStr(vpHndlr[i]->getName());
+        l << vpHndlr[i]->getUiName();
     }
     if (l.isEmpty())
     {

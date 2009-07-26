@@ -1,7 +1,19 @@
 ---------------------------------------------------------------------------
 
-23.07.2009 - 0.99.04.026
-################################################
+26.07.2009 - 0.99.05.029
+- improved paste in tag editor (it is possible to paste to multiple cells
+    or to paste file names copied from file browsers)
+- configurable max image size
+- button to remove image files
+- fixed loading images from current dir
+- fixed a bug in tag editor patterns that prevented patterns ending with a
+    static text from working
+- Windows only: fixed pasting image file that was copied from Windows
+    Explorer
+
+---------------------------------------------------------------------------
+
+23.07.2009 - 0.99.05.028
 - fast save in the tag editor
 
 ---------------------------------------------------------------------------

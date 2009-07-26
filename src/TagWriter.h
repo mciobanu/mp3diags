@@ -24,6 +24,8 @@
 #define TagWriterH
 
 #include  <vector>
+#include  <string>
+#include  <set>
 
 #include  "DataStream.h"
 #include  "CommonTypes.h"
@@ -46,22 +48,36 @@ private:
 };
 
 
+struct TagWrtImageInfo
+{
+    ImageInfo m_imageInfo;
+    std::set<std::string> m_sstrFiles;
+    bool operator==(const ImageInfo& imgInf) const { return m_imageInfo == imgInf; }
+
+    TagWrtImageInfo(const ImageInfo& imageInfo, const std::string& strFile) : m_imageInfo(imageInfo)
+    {
+        if (!strFile.empty())
+        {
+            m_sstrFiles.insert(strFile);
+        }
+    }
+};
 
 class ImageColl
 {
-    std::vector<ImageInfo> m_vImageInfo;
+    std::vector<TagWrtImageInfo> m_vTagWrtImageInfo;
     std::vector<ImageInfoPanelWdgImpl*> m_vpWidgets;
     int m_nCurrent;
 public:
     ImageColl();
-    int addImage(const ImageInfo& img); // returns the index of the image; if it already exists it's not added again; if it's invalid returns -1
+    int addImage(const ImageInfo& img, const std::string& strFile = ""); // returns the index of the image; if it already exists it's not added again; if it's invalid returns -1
     void addWidget(ImageInfoPanelWdgImpl*); // first addImage gets called by TagWriter and after it's done it tells MainFormDlgImpl to create widgets, which calls this;
-    void clear(); // clears both m_vImageInfo and m_vpWidgets
+    void clear(); // clears both m_vTagWrtImageInfo and m_vpWidgets
     void select(int n); // -1 deselects all
-    const ImageInfo& operator[](int n) const { return m_vImageInfo.at(n); }
+    const TagWrtImageInfo& operator[](int n) const { return m_vTagWrtImageInfo.at(n); }
     int find(const ImageInfo& img) const;
-    int size() const { return (int)m_vImageInfo.size(); }
-    const ImageInfo& back() const { return m_vImageInfo.at(size() - 1); }
+    int size() const { return (int)m_vTagWrtImageInfo.size(); }
+    const TagWrtImageInfo& back() const { return m_vTagWrtImageInfo.at(size() - 1); }
 };
 
 
@@ -265,10 +281,8 @@ class TagWriter : public QObject
 {
     Q_OBJECT
 
-    std::vector<QImage> m_vPictures;
     std::vector<TagReaderInfo> m_vSortedKnownTagReaders; // used to remember the sort order between albums and/or sessions; after m_vTagReaderInfo is populated, it should be sorted so that it matches the order in m_vSortedKnownTagReaders, if possible; items not found are to be added to the end
     void sortTagReaders(); // sorts m_vTagReaderInfo so that it matches m_vSortedKnownTagReaders
-    //void reloadFile();
 
     std::vector<SongInfoParser::TrackTextParser*> m_vpTrackTextParsers; // one TrackTextParser for each pattern
     std::vector<AlbumInfo> m_vAlbumInfo; // one AlbumInfo for every album data downloaded from structured web sites
@@ -315,13 +329,6 @@ public:
     TagWriter(CommonData* pCommonData, QWidget* pParentWnd, const bool& bIsFastSaving);
     ~TagWriter();
 
-    //void save();
-
-    //enum Clear { DONT_CLEAR, CLEAR };
-    //enum UpdateSel { UPDATE_SEL, DONT_UPDATE_SEL };
-    //enum ReloadOption { CLEAR, UPDATE_SEL, DONT_UPDATE_SEL };
-    //enum ReloadOption { CLEAR, DONT_CLEAR };
-    //enum KeepUnassgnImg { REMOVE_UNASSGN_IMG, KEEP_UNASSGN_IMG };
     enum ClearData { DONT_CLEAR_DATA, CLEAR_DATA };
     enum ClearAssigned { DONT_CLEAR_ASSGN, CLEAR_ASSGN };
 
@@ -330,6 +337,7 @@ public:
     // if eReloadOption is CLEAR, everyting is reloaded; if it's something else, the call is supposed to be for the same album, after changing tag priorities, so ASSIGNED values shouldn't change; if it's UPDATE_SEL, the selection is changed to the first cell for the current song; if it's DONT_UPDATE_SEL the selection isn't changed
 // if strCrt is empty and eReloadOption is DONT_CLEAR, the current position is kept; if strCrt is empty and eReloadOption is CLEAR, the current position is first song;
     //void reloadAll(std::string strCrt, ReloadOption eReloadOption/*, bool bKeepUnassgnImg*/); // bKeepUnassgnImg matters only if eReloadOption is CLEAR
+
     void reloadAll(std::string strCrt, bool bClearData, bool bClearAssgn);
 
     void setCrt(const std::string& strCrt); // makes current a file with a given name; if name is not found (may also be empty), makes current the first file; doesn't cause the grid selection to change;
@@ -365,6 +373,7 @@ public:
     void setData(int nSong, int nField, const std::string& s) { m_vpMp3HandlerTagData[nSong]->setData(nField, s); } // may throw InvalidValue
     void setStatus(int nSong, int nField, Mp3HandlerTagData::Status eStatus) { m_vpMp3HandlerTagData[nSong]->setStatus(nField, eStatus); }
     void hasUnsaved(int nSong, bool& bAssigned, bool& bNonId3V2); // sets bAssigned and bNonId3V2 if at least one field has the corresponding status;
+    void hasUnsaved(bool& bAssigned, bool& bNonId3V2); // sets bAssigned and bNonId3V2 if at least one field in at least a song has the corresponding status;
 
     void getAlbumInfo(std::string& strArtist, std::string& strAlbum); // artist and album for the current song; empty if they don't exist
 
@@ -382,7 +391,6 @@ public:
 
     void eraseFields(const std::vector<std::pair<int, int> >& vFields);
 
-    //void removeId3V230Reader();
     bool isFastSaving() const { return m_bIsFastSaving; }
 
     enum ConsiderAssigned { CONSIDER_UNASSIGNED, CONSIDER_ASSIGNED };
@@ -396,11 +404,13 @@ public:
 
 private slots:
     void onAssignImage(int);
+    void onEraseFile(int);
 
 signals:
     void albumChanged(/*bool bContentOnly*/); // the selection may be kept iff bContentOnly is true
     void fileChanged();
     void imagesChanged();
+    void requestSave();
 };
 
 

@@ -80,7 +80,7 @@ FilesModel::FilesModel(CommonData* pCommonData) : QAbstractTableModel(pCommonDat
     const Mp3Handler* pHndl (m_pCommonData->getViewHandlers()[index.row()]);
     if (nRole == Qt::ToolTipRole && 0 == j)
     {
-        QString s (toNativeSeparators(convStr(pHndl->getName())));
+        QString s (pHndl->getUiName());
 
         //QFontMetrics fm (QApplication::fontMetrics());
         QFontMetrics fm (m_pCommonData->m_pFilesG->fontMetrics()); // !!! no need to use "QApplication::fontMetrics()"
@@ -99,7 +99,7 @@ FilesModel::FilesModel(CommonData* pCommonData) : QAbstractTableModel(pCommonDat
 
     if (0 == j)
     {
-        return toNativeSeparators(convStr(pHndl->getName()));
+        return pHndl->getUiName();
     }
     const NoteColl& notes (pHndl->getNotes());
 

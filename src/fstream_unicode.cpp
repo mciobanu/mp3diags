@@ -68,18 +68,23 @@ static int getAcc(std::ios_base::openmode __mode)
     }
 
     #ifdef O_LARGEFILE
-    nAcc = nAcc | O_LARGEFILE;
+    nAcc |= O_LARGEFILE;
     #endif
 
     if (std::ios_base::trunc & __mode)
     {
-        nAcc = nAcc | O_TRUNC;
+        nAcc |= O_TRUNC;
+    }
+
+    if (std::ios_base::app & __mode)
+    {
+        nAcc |= O_APPEND;
     }
 
     #ifdef O_BINARY
     if (std::ios_base::binary & __mode)
     {
-        nAcc = nAcc | O_BINARY;
+        nAcc |= O_BINARY;
     }
     #endif
 
@@ -169,3 +174,4 @@ int unicodeOpenHlp(int fd, std::ios_base::openmode /*__mode*/)
 
 
 //ttt0 review O_SHORT_LIVED
+

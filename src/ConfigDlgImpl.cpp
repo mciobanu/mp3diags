@@ -282,14 +282,20 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
 
     if (!bFull)
     {
-        //m_pMainTabWidget->removeTab(4);
-        m_pMainTabWidget->removeTab(3);
+        m_pMainTabWidget->removeTab(6);
+        m_pMainTabWidget->removeTab(5);
+        m_pMainTabWidget->removeTab(4);
         m_pMainTabWidget->removeTab(2);
         m_pMainTabWidget->removeTab(1);
         m_pLocaleGrp->hide();
         m_pCaseGrp->hide();
         //m_pRenameW->hide();
         m_pOthersMiscGrp->hide();
+        //m_pScanAtStartupCkB->hide();
+        //m_pShowDebugCkB->hide();
+        //m_pShowSessCkB->hide();
+        //m_pIconConfW->hide();
+        //m_pFontsW->hide();
         m_pNormalizeGrp->hide();
     }
 
@@ -577,6 +583,7 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
         m_pIconSizeSB->setValue(m_pCommonData->m_nMainWndIconSize);
         m_pAutoSizeIconsCkB->setChecked(m_pCommonData->m_bAutoSizeIcons);
         m_pKeepOneValidImgCkB->setChecked(m_pCommonData->m_bKeepOneValidImg);
+        m_pMaxImgSizeSB->setValue(ImageInfo::MAX_IMAGE_SIZE/1024);
 
         m_generalFont = m_pCommonData->getNewGeneralFont();
         m_pDecrLabelFontSB->setValue(m_pCommonData->getLabelFontSizeDecr());
@@ -691,7 +698,7 @@ void SessionSettings::loadTransfConfig(TransfConfig& transfConfig) const
 }
 
 
-//ttt0 hide new tabs when called from tag edt
+
 bool ConfigDlgImpl::run()
 {
     if (QDialog::Accepted != exec()) { return false; }
@@ -969,6 +976,7 @@ void ConfigDlgImpl::on_m_pOkB_clicked()
             m_pCommonData->m_nMainWndIconSize = m_pIconSizeSB->value();
             m_pCommonData->m_bAutoSizeIcons = m_pAutoSizeIconsCkB->isChecked();
             m_pCommonData->m_bKeepOneValidImg = m_pKeepOneValidImgCkB->isChecked();
+            ImageInfo::MAX_IMAGE_SIZE = m_pMaxImgSizeSB->value()*1024; //ttt1 inconsistent to keep this in static var and the others in CommonData; perhaps switch to a global CommonData that anybody can access, without passing it in params
 
             m_pCommonData->setFontInfo(convStr(m_generalFont.family()), m_generalFont.pointSize(), m_pDecrLabelFontSB->value(), convStr(m_fixedFont.family()), m_fixedFont.pointSize());
         }

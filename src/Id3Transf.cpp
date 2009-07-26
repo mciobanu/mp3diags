@@ -213,6 +213,8 @@ bool Id3V2Rescuer::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
     bool bChanged (false);
     bool bRecall (false);
 
+    //ttt0 see if it is really necessary to write to the temp file only to see that no change is needed; there's a lot of unnecessary file copying;
+
     { // temp
         transfConfig.getTempName(strOrigSrcName, getActionName(), strTempName);
         ofstream_utf8 out (strTempName.c_str(), ios::binary);
@@ -244,7 +246,7 @@ bool Id3V2Rescuer::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
                 NoteColl notes (20);
                 StringWrp fileName (h.getName());
                 Id3V240Stream strm (0, notes, in, &fileName, Id3V230Stream::ACCEPT_BROKEN);
-                Id3V230StreamWriter wrt (&strm, m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
+                Id3V230StreamWriter wrt (&strm, m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave()); //ttt1 if useFastSave is true there should probably be an automatic reload; OTOH we may want to delay until more transforms are applied, so probably it's OK as is
                 wrt.write(out);
                 bChanged = true;
                 bRecall = true;
@@ -1056,7 +1058,6 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8
 //========================================================================================================================
 //========================================================================================================================
 
-//ttt0 doc: visible transf hdr can be dragged
 //ttt2 perhaps be able to extract composer even when the field is empty, if artist is "composer [artist]", but doesn't look too useful
 //ttt1 perhaps something to discard invalid ID3V2 frames, especially invalid pictures
 

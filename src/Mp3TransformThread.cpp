@@ -44,7 +44,8 @@ void logTransformation(const string& strLogFile, const char* szActionName, const
     out << "<" << strMp3File << "> <" << szActionName << "> - " << ctime(&t); // !!! ctime and a \n
 }
 
-
+//ttt0 see if possible to show transform name in dlg, besides the file name
+//ttt0 perhaps make "fast-save aware" other transf that operate on id3v3 only (case transf, codepage, discards, ...); OTOH how likely is it to run 2 of these one ofer another? (otherwise you'd have to rescan anyway). still, perhaps allow proceeding in most cases without rescanning ID3V2 would be better, perhaps optional; then everything would be faster with ID3V2
 namespace {
 
 
@@ -378,11 +379,11 @@ bool transform(const deque<const Mp3Handler*>& vpHndlr, vector<Transformation*>&
     {
         if (bWriteError)
         {
-            QMessageBox::critical(pParent, "Error", "There was an error writing to the following file:\n\n" + convStr(strErrorFile) + "\n\nMake sure that you have write permissions and that there is enough space on the disk.\n\nProcessing aborted.");
+            QMessageBox::critical(pParent, "Error", "There was an error writing to the following file:\n\n" + toNativeSeparators(convStr(strErrorFile)) + "\n\nMake sure that you have write permissions and that there is enough space on the disk.\n\nProcessing aborted.");
         }
         else
         {
-            QMessageBox::critical(pParent, "Error", "There was an error reading from the following file:\n\n" + convStr(strErrorFile) + "\n\nProbably the file was deleted or modified since the last scan, in which case you should reload / rescan your collection.\n\nProcessing aborted.");
+            QMessageBox::critical(pParent, "Error", "There was an error reading from the following file:\n\n" + toNativeSeparators(convStr(strErrorFile)) + "\n\nProbably the file was deleted or modified since the last scan, in which case you should reload / rescan your collection.\n\nProcessing aborted.");
         }
     }
 

@@ -128,7 +128,7 @@ bool CB_LIB_CALL FileSearcher::findFirst(const string& strDirName)
         m_strDir = strDirName + getPathSepAsStr();
     }
 
-    m_pImpl->m_vFileInfos = QDir(convStr(m_strDir)).entryInfoList(QDir::NoDotAndDotDot);
+    m_pImpl->m_vFileInfos = QDir(convStr(m_strDir)).entryInfoList(QDir::NoDotAndDotDot | QDir::Files | QDir::AllDirs);
     m_pImpl->m_nCrtEntry = 0;
     return goToNextValidEntry();
 }

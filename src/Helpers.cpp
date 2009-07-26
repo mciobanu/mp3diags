@@ -168,7 +168,8 @@ bool CB_LIB_CALL rtrim(string& s)
     int i (n - 1);
     for (; i >= 0; --i)
     {
-        if (!isspace(s[i])) { break; } //ttt2 force C locale
+        unsigned char c (s[i]);
+        if (c >= 128 || !isspace(c)) { break; } //!!! isspace() returns true for some non-ASCII chars, e.g. 0x9f, at least on MinGW (it matters that char is signed)
     }
 
     if (i < n - 1)
@@ -187,7 +188,8 @@ bool CB_LIB_CALL ltrim(string& s)
     int i (0);
     for (; i < n; ++i)
     {
-        if (!isspace(s[i])) { break; } //ttt2 force C locale
+        unsigned char c (s[i]);
+        if (c >= 128 || !isspace(c)) { break; } //!!! isspace() returns true for some non-ASCII chars, e.g. 0x9f, at least on MinGW
     }
 
     if (i > 0)
@@ -959,7 +961,7 @@ QString getTempDir()
 #endif*/
 
     static QString s; // ttt3 these static variables are not really thread safe, but in this case it doesn't matter, because they all get called from a single thread (the UI thread)
-    if (s.isEmpty()) // ttt0 retest on Wnd
+    if (s.isEmpty())
     {
         s = QDir::tempPath();
         if (s.endsWith(getPathSep()))
@@ -970,4 +972,4 @@ QString getTempDir()
     return s;
 }
 
-//ttt0 see why F1 help is so slow on XP; ttt0 see if the links from about dlg are as slow
+//ttt2 F1 help was very slow on XP once, not sure why; later it was OK

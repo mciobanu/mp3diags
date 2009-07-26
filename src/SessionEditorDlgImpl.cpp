@@ -215,7 +215,7 @@ void SessionEditorDlgImpl::on_m_pOkB_clicked()
 
         if (!st.sync())
         {
-            QMessageBox::critical(this, "Error", "Failed to write to file " + fromNativeSeparators(m_pFileNameE->text()));
+            QMessageBox::critical(this, "Error", "Failed to write to file " + m_pFileNameE->text());
             if (m_bNew)
             {
                 removeSession(m_strIniFile);

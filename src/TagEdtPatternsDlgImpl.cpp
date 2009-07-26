@@ -112,7 +112,7 @@ void TagEdtPatternsDlgImpl::on_m_pOkB_clicked()
     accept();
 }
 
-
+//ttt0 show column
 
 
 bool TagEdtPatternsDlgImpl::run(vector<pair<string, int> >& v)

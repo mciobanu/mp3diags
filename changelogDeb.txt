@@ -1,3 +1,23 @@
+mp3diags (0.99.05.029) testing; urgency=low
+
+  * fast save in the tag editor
+  * file renamer can work with the list of visible files instead of the current album if the user holds CTRL down when pressing the button
+  * configurable visible transformations
+  * new transform for keeping a single image, as front cover
+  * new transform for removing ID3V1
+  * button to remove image files
+  * improved paste in tag editor (it is possible to paste to multiple cells or to paste file names copied from file browsers)
+  * configurable max image size
+  * tooltips for the transformations menu
+  * more checks + fixed error reporting in file renamer
+  * "sessions" button visible by default for second and later sessions
+  * directory filter no longer shows some directories that don't make sense
+  * fixed loading images from current dir
+  * fixed a bug in tag editor patterns that prevented patterns ending with a static text from working
+  * fixed some bugs in the directory filter
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Sun, 26 Jul 2009 22:00:00 +0200
+
 mp3diags (0.99.04.026) testing; urgency=low
 
   * non-ASCII file names can now be seen on Windows

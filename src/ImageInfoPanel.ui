@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>114</width>
+    <width>116</width>
     <height>121</height>
    </rect>
   </property>
@@ -134,37 +134,114 @@
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="m_pAssignB" >
+       <widget class="QWidget" native="1" name="widget" >
         <property name="minimumSize" >
          <size>
-          <width>28</width>
-          <height>28</height>
+          <width>0</width>
+          <height>30</height>
          </size>
         </property>
-        <property name="maximumSize" >
-         <size>
-          <width>28</width>
-          <height>28</height>
-         </size>
-        </property>
-        <property name="toolTip" >
-         <string>Assign picture to songs</string>
-        </property>
-        <property name="text" >
-         <string>...</string>
-        </property>
-        <property name="icon" >
-         <iconset resource="Mp3Diags.qrc" >:/images/assign.png</iconset>
-        </property>
-        <property name="iconSize" >
-         <size>
-          <width>22</width>
-          <height>22</height>
-         </size>
-        </property>
-        <property name="autoRaise" >
-         <bool>true</bool>
-        </property>
+        <layout class="QHBoxLayout" >
+         <property name="spacing" >
+          <number>0</number>
+         </property>
+         <property name="leftMargin" >
+          <number>0</number>
+         </property>
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <property name="rightMargin" >
+          <number>0</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QToolButton" name="m_pAssignB" >
+           <property name="minimumSize" >
+            <size>
+             <width>28</width>
+             <height>28</height>
+            </size>
+           </property>
+           <property name="maximumSize" >
+            <size>
+             <width>28</width>
+             <height>28</height>
+            </size>
+           </property>
+           <property name="toolTip" >
+            <string>Assign picture to songs</string>
+           </property>
+           <property name="text" >
+            <string>...</string>
+           </property>
+           <property name="icon" >
+            <iconset resource="Mp3Diags.qrc" >:/images/assign.png</iconset>
+           </property>
+           <property name="iconSize" >
+            <size>
+             <width>22</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="autoRaise" >
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="m_pEraseB" >
+           <property name="minimumSize" >
+            <size>
+             <width>28</width>
+             <height>28</height>
+            </size>
+           </property>
+           <property name="maximumSize" >
+            <size>
+             <width>28</width>
+             <height>28</height>
+            </size>
+           </property>
+           <property name="toolTip" >
+            <string>Erase local file</string>
+           </property>
+           <property name="text" >
+            <string>...</string>
+           </property>
+           <property name="icon" >
+            <iconset resource="Mp3Diags.qrc" >:/images/remove_file.png</iconset>
+           </property>
+           <property name="iconSize" >
+            <size>
+             <width>22</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="autoRaise" >
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType" >
+            <enum>QSizePolicy::MinimumExpanding</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>1</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </widget>
       </item>
      </layout>

@@ -62,18 +62,8 @@ NormalizeDlgImpl::~NormalizeDlgImpl()
 void logTransformation(const string& strLogFile, const char* szActionName, const string& strMp3File);
 
 
-void NormalizeDlgImpl::normalize(const QString& qstrProg, const QStringList& lFiles1) //ttt0 in Windows MP3Gain doesn't seem to care about Unicode. see if there's a way to fix this;
+void NormalizeDlgImpl::normalize(const QString& qstrProg, const QStringList& lFiles) //ttt2 in Windows MP3Gain doesn't seem to care about Unicode (well, the GUI version does, but that doesn't help). aacgain doesn't work either; see if there's a good way to deal with this; doc about using short filenames
 {
-    QStringList lFiles;
-#ifndef WIN32
-    lFiles = lFiles1;
-#else
-    for (int i = 0; i < lFiles1.size(); ++i)
-    {
-        lFiles.push_back(toNativeSeparators(lFiles1[i]));
-    }
-#endif
-
     m_pProc = new QProcess(this);
     connect(m_pProc, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onFinished()));
     connect(m_pProc, SIGNAL(readyReadStandardOutput()), this, SLOT(onOutputTxt()));
@@ -137,6 +127,7 @@ void NormalizeDlgImpl::onErrorTxt()
         s.remove(0, n + 1);
     }
     //inspect(s.toUtf8().data(), s.size());
+    while (!s.isEmpty() && s[0] == ' ') { s.remove(0, 1); }
 
     m_pDetailE->setText(s);
 }

@@ -20,6 +20,8 @@
  ***************************************************************************/
 
 
+#include  <sstream>
+
 #include  <QTimer>
 #include  <QPainter>
 #include  <QHeaderView>
@@ -421,9 +423,9 @@ bool RenameThread::proc()
         if (isAborted()) { return false; }
         checkPause();
 
-        QString qstrName (convStr(m_vpHndl[i]->getName()));
+        QString qstrName (m_vpHndl[i]->getUiName());
         StrList l;
-        l.push_back(toNativeSeparators(qstrName));
+        l.push_back(qstrName);
         emit stepChanged(l);
 
         string strDest (m_pRenamer->getNewName(m_vpHndl[i]));
@@ -485,7 +487,7 @@ bool RenameThread::proc()
             {
                 m_qstrErr = "Unknown error";
             }
-//m_qstrErr = "tttt"; //ttt0 test in wnd
+
             if (!m_qstrErr.isEmpty())
             {
                 return false;
@@ -556,26 +558,26 @@ void FileRenamerDlgImpl::on_m_pRenameB_clicked()
         {
             if (0 == vpHndl[i]->getId3V2Stream())
             {
-                QMessageBox::critical(this, "Error", "Operation aborted because file \"" + convStr(vpHndl[i]->getName()) + "\" doesn't have an ID3V2 tag.");
+                QMessageBox::critical(this, "Error", "Operation aborted because file \"" + vpHndl[i]->getUiName() + "\" doesn't have an ID3V2 tag.");
                 return;
             }
 
             string strDest (pRenamer->getNewName(vpHndl[i]));
             if (strDest.empty())
             {
-                QMessageBox::critical(this, "Error", "Operation aborted because file \"" + convStr(vpHndl[i]->getName()) + "\" is missing some required fields in its ID3V2 tag.");
+                QMessageBox::critical(this, "Error", "Operation aborted because file \"" + vpHndl[i]->getUiName() + "\" is missing some required fields in its ID3V2 tag.");
                 return;
             }
 
             if (s.count(strDest) > 0)
             {
-                QMessageBox::critical(this, "Error", "Operation aborted because it would create 2 copies of a file called \"" + convStr(strDest) + "\"");
+                QMessageBox::critical(this, "Error", "Operation aborted because it would create 2 copies of a file called \"" + toNativeSeparators(convStr(strDest)) + "\"");
                 return;
             }
 
             if (fileExists(strDest))
             {
-                QMessageBox::critical(this, "Error", "Operation aborted because a file called \"" + convStr(strDest) + "\" already exists.");
+                QMessageBox::critical(this, "Error", "Operation aborted because a file called \"" + toNativeSeparators(convStr(strDest)) + "\" already exists.");
                 return;
             }
 
@@ -928,15 +930,21 @@ Renamer::Renamer(const std::string& strPattern) : m_strPattern(strPattern), m_pR
 #else
     if (cSize(strPattern) < 3 || ((p[0] < 'a' || p[0] > 'z') && (p[0] < 'A' || p[0] > 'Z')) || p[1] != ':') // ttt2 allow network drives as well
     {
-        throw InvalidPattern("A pattern must begin with \"<drive>:" + getPathSepAsStr() + "\"");
+        throw InvalidPattern(strPattern, "A pattern must begin with \"<drive>:\\\"");
     }
     p += 2;
     m_pRoot->addPattern(new StaticPattern(strPattern.substr(0, 2)));
 #endif
 
     SequencePattern* pSeq (m_pRoot); // pSeq is either m_pRoot or a new sequence, for optional elements
-    if (0 == *p) { throw InvalidPattern("A pattern cannot be empty"); }
-    if (getPathSep() != *p) { throw InvalidPattern("A pattern must begin with '" + getPathSepAsStr() + "'"); }
+    if (0 == *p) { throw InvalidPattern(strPattern, "A pattern cannot be empty"); } // add pattern str on constr, to always have access to the pattern
+    if (getPathSep() != *p) { throw InvalidPattern(strPattern, "A pattern must begin with " +
+#ifndef WIN32
+                                                   string("'") + getPathSepAsStr() + "'");
+#else
+                                                   string("\"<drive>:\\\""));
+#endif
+       }
 
     auto_ptr<SequencePattern> optAp;
 
@@ -982,7 +990,12 @@ Renamer::Renamer(const std::string& strPattern) : m_strPattern(strPattern), m_pR
                 //case '/': // ttt linux-specific // actually there's no need for '/' to be a special character here
                     strStatic += c; break;
 
-                default: throw InvalidPattern("Invalid pattern"); // ttt1 details
+                default:
+                    {
+                        ostringstream s;
+                        s << "Error in column " << p - strPattern.c_str() <<  ".";
+                        throw InvalidPattern(strPattern, s.str()); // ttt1 more details, perhaps make tag edt errors more similar to this
+                    }
                 }
             }
             break;
@@ -990,7 +1003,7 @@ Renamer::Renamer(const std::string& strPattern) : m_strPattern(strPattern), m_pR
         case '[':
             {
                 if (!strStatic.empty()) { pSeq->addPattern(new StaticPattern(strStatic)); strStatic.clear(); }
-                if (pSeq != m_pRoot) { throw InvalidPattern("Nested optional elements are not allowed"); } //ttt2 column
+                if (pSeq != m_pRoot) { throw InvalidPattern(strPattern, "Nested optional elements are not allowed"); } //ttt2 column
                 pSeq = new SequencePattern();
                 optAp.reset(pSeq);
                 break;
@@ -999,7 +1012,7 @@ Renamer::Renamer(const std::string& strPattern) : m_strPattern(strPattern), m_pR
         case ']':
             {
                 if (!strStatic.empty()) { pSeq->addPattern(new StaticPattern(strStatic)); strStatic.clear(); }
-                if (pSeq == m_pRoot) { throw InvalidPattern("Trying to close and optional element although none is open"); } //ttt2 column
+                if (pSeq == m_pRoot) { throw InvalidPattern(strPattern, "Trying to close and optional element although none is open"); } //ttt2 column
                 m_pRoot->addPattern(new OptionalPattern(pSeq));
                 pSeq = m_pRoot;
                 optAp.release();
@@ -1013,9 +1026,9 @@ Renamer::Renamer(const std::string& strPattern) : m_strPattern(strPattern), m_pR
 
     if (!strStatic.empty()) { pSeq->addPattern(new StaticPattern(strStatic)); strStatic.clear(); }
 
-    if (pSeq != m_pRoot) { throw InvalidPattern("Optional element must be closed"); } //ttt2 column
+    if (pSeq != m_pRoot) { throw InvalidPattern(strPattern, "Optional element must be closed"); } //ttt2 column
 
-    if (!bTitleFound) { throw InvalidPattern("Title entry (%t) must be present"); }
+    if (!bTitleFound) { throw InvalidPattern(strPattern, "Title entry (%t) must be present"); }
 
     ap.release();
 }

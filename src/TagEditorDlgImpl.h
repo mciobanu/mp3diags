@@ -219,7 +219,7 @@ protected slots:
     void on_m_pEditPatternsB_clicked();
     void on_m_pPaletteB_clicked();
 
-    void on_m_pAssignedB_clicked();
+    void on_m_pToggleAssignedB_clicked();
     void on_m_pReloadB_clicked();
     void on_m_pCopyFirstB_clicked();
     void on_m_pSaveB_clicked();

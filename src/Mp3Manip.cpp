@@ -915,6 +915,13 @@ long long Mp3Handler::getSize() const
     return m_posEnd; //ttt3 doesn't work for large files
 }
 
+
+QString Mp3Handler::getUiName() const // uses native separators
+{
+    return toNativeSeparators(convStr(getName()));
+}
+
+
 string Mp3Handler::getShortName() const
 {
     string::size_type n (m_pFileName->s.rfind(getPathSep()));

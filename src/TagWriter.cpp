@@ -23,6 +23,7 @@
 
 #include  <QFile>
 #include  <QClipboard>
+#include  <QMimeData>
 
 #include  "TagWriter.h"
 
@@ -83,12 +84,20 @@ ImageColl::ImageColl() : m_nCurrent(-1)
 {
 }
 
-int ImageColl::addImage(const ImageInfo& img) // returns the index of the image; if it already exists it's not added again; if it's invalid returns -1
+int ImageColl::addImage(const ImageInfo& img, const string& strFile /*= ""*/) // returns the index of the image; if it already exists it's not added again; if it's invalid returns -1
 {
     if (img.isNull()) { return -1; }
     int n (find(img));
-    if (-1 != n) { return n; }
-    m_vImageInfo.push_back(img);
+    if (-1 != n)
+    {
+        if (!strFile.empty())
+        {
+            m_vTagWrtImageInfo[n].m_sstrFiles.insert(strFile);
+        }
+        return n;
+    }
+
+    m_vTagWrtImageInfo.push_back(TagWrtImageInfo(img, strFile));
     return size() - 1;
 }
 
@@ -101,13 +110,13 @@ void ImageColl::addWidget(ImageInfoPanelWdgImpl* p) // first addImage gets calle
 void ImageColl::clear()
 {
     clearPtrContainer(m_vpWidgets);
-    m_vImageInfo.clear();
+    m_vTagWrtImageInfo.clear();
     m_nCurrent = -1;
 }
 
 void ImageColl::select(int n) // -1 deselects all
 {
-    CB_ASSERT (cSize(m_vpWidgets) == cSize(m_vImageInfo));
+    CB_ASSERT (cSize(m_vpWidgets) == cSize(m_vTagWrtImageInfo));
 
     if (m_nCurrent >= 0)
     {
@@ -125,9 +134,9 @@ void ImageColl::select(int n) // -1 deselects all
 
 int ImageColl::find(const ImageInfo& img) const
 {
-    vector<ImageInfo>::const_iterator it (std::find(m_vImageInfo.begin(), m_vImageInfo.end(), img));
-    if (m_vImageInfo.end() == it) { return -1; }
-    return it - m_vImageInfo.begin();
+    vector<TagWrtImageInfo>::const_iterator it (std::find(m_vTagWrtImageInfo.begin(), m_vTagWrtImageInfo.end(), img));
+    if (m_vTagWrtImageInfo.end() == it) { return -1; }
+    return it - m_vTagWrtImageInfo.begin();
 }
 
 
@@ -468,8 +477,14 @@ void Mp3HandlerTagData::setData(int nField, const std::string& s)
         }
     }
 
-    string s1 (s);
+    if (TagReader::TRACK_NUMBER == nField)
+    {
+        if (s.empty() || !isdigit(s[0]) || !isdigit(s[s.size() - 1])) { throw InvalidValue(); }
+        string::size_type n1 (s.find_first_not_of("0123456789")), n2 (s.find_last_not_of("0123456789"));
+        if (string::npos != n1 && (n1 != n2 || s[n1] != '/')) { throw InvalidValue(); }
+    }
 
+    string s1 (s);
     if (TagReader::RATING == nField && !s.empty())
     {
         bool bOk (isdigit(s[0]));
@@ -684,7 +699,6 @@ const TagReader* Mp3HandlerTagData::getMatchingReader(int i) const
 
 TagWriter::TagWriter(CommonData* pCommonData, QWidget* pParentWnd, const bool& bIsFastSaving) : m_pCommonData(pCommonData), m_pParentWnd(pParentWnd), m_nCurrentFile(-1), m_bShowedNonSeqWarn(true), m_bIsFastSaving(bIsFastSaving)
 {
-    m_vPictures.reserve(30); //ttt0 see if going above 30 invalidates ptrs
 }
 
 
@@ -1290,6 +1304,50 @@ void TagWriter::onAssignImage(int nPos)
     reloadAll("", DONT_CLEAR_DATA, DONT_CLEAR_ASSGN);
 }
 
+void TagWriter::onEraseFile(int nPos)
+{
+    const TagWrtImageInfo& inf (m_imageColl[nPos]);
+    CB_ASSERT (!inf.m_sstrFiles.empty());
+    QString s;
+    if (inf.m_sstrFiles.size() > 1)
+    {
+        s = "these files?";
+        for (set<string>::iterator it = inf.m_sstrFiles.begin(); it != inf.m_sstrFiles.end(); ++it)
+        {
+            s += "\n" + convStr(toNativeSeparators(*it));
+        }
+    }
+    else
+    {
+        s = "\"" + convStr(toNativeSeparators(*inf.m_sstrFiles.begin())) + "\"";
+    }
+
+    if (0 != showMessage(m_pParentWnd, QMessageBox::Question, 1, 1, "Confirm", "Do you want to erase " + s, "Erase", "Cancel")) { return; }
+
+    bool bAssigned, bNonId3V2;
+    hasUnsaved(bAssigned, bNonId3V2);
+
+    if (bAssigned)
+    {
+        if (0 != showMessage(m_pParentWnd, QMessageBox::Critical, 1, 1, "Error", "You cannot erase image files if there are unsaved values. Do you want to save?", "Save, then erase file", "Cancel")) { return; }
+
+        emit requestSave();
+
+        hasUnsaved(nPos, bAssigned, bNonId3V2);
+        if (bAssigned) { return; }
+    }
+
+    for (set<string>::iterator it = inf.m_sstrFiles.begin(); it != inf.m_sstrFiles.end(); ++it)
+    {
+        if (!QFile(convStr(*it)).remove())
+        {
+            QMessageBox::critical(m_pParentWnd, "Error", QString("Couldn't erase file \"%1\"").arg(toNativeSeparators(convStr(*it))));
+        }
+    }
+
+    reloadAll(getCurrentName(), CLEAR_DATA, CLEAR_ASSGN);
+}
+
 
 // should be called when the user clicks on the assign button; changes status of selected cells and returns the new state of m_pAssignedB
 AssgnBtnWrp::State TagWriter::toggleAssigned(AssgnBtnWrp::State eCrtState)
@@ -1411,7 +1469,7 @@ bool TagWriter::addImgFromFile(const QString& qs, bool bConsiderAssigned)
             ImageInfo img (-1, ImageInfo::OK, eCompr, comprImg, nWidth, nHeight);
             //int nSize (m_imageColl.size());
             int nPrevSize (m_imageColl.size());
-            int nPos (m_imageColl.addImage(img));
+            int nPos (m_imageColl.addImage(img, convStr(qs)));
             CB_ASSERT (-1 != nPos);
 
             if (nPrevSize != m_imageColl.size())
@@ -1451,6 +1509,43 @@ void TagWriter::paste()
 
     //ttt1 text file name, including "http://", "ftp://", "file://" (see KIO::NetAccess::download() at http://developer.kde.org/documentation/books/kde-2.0-development/ch07lev1sec5.html )
     QString qs (pClp->text());
+
+    if (qs.isEmpty())
+    {
+        const QMimeData* p (pClp->mimeData());
+        QList<QUrl> lst (p->urls());
+        bool bWarned (false);
+
+        for (int i = 0; i < lst.size(); ++i)
+        {
+            QString qs1 (lst[i].toString());
+            //qDebug("#%s#", qs1.toUtf8().data());
+            if (!qs1.isEmpty())
+            {
+                if (qs.isEmpty())
+                {
+                    qs = qs1;
+                }
+                else
+                {
+                    if (!bWarned)
+                    {
+                        bWarned = true;
+                        QMessageBox::warning(m_pParentWnd, "Warning", "Currently pasting multiple file names is not supported, so only the first one is considered.");
+                    }
+                }
+            }
+            else
+            {
+            }
+        }
+
+        if (lst.size() > 0)
+        {
+            qs = lst.front().toString();
+        }
+    }
+
     if (!qs.isEmpty())
     {
         if (-1 == qs.indexOf('\n'))
@@ -1459,6 +1554,15 @@ void TagWriter::paste()
             {
                 qs.remove(0, 7);
             }
+
+#ifndef WIN32
+#else
+            // when copying paths from explorer we get something like "file:///E:/Multimedia/Images/img1.jpg". After removing first 7 chars we are left with "/E:/Multimedia/Images/img1.jpg", so one more has to be removed
+            if (qs.size() > 8 && qs[0] == getPathSep() && qs[1].isLetter() && qs[2] == ':' && qs[3] == getPathSep())
+            {
+                qs.remove(0, 1);
+            }
+#endif
 
 #ifndef WIN32
             if (qs.startsWith(getPathSep())) // ttt1 see if it makes sense to open files without full name
@@ -1473,6 +1577,39 @@ void TagWriter::paste()
                     emit imagesChanged();
                     return;
                 }
+            }
+
+
+            {
+                int nOk (0), nFail (0);
+                for (set<OrigValue>::iterator it = m_sSelOrigVal.begin(); it != m_sSelOrigVal.end(); ++it)
+                {
+                    const OrigValue& val (*it);
+                    //qDebug ("song %d, fld %d, val %s", val.m_nSong, val.m_nField, val.m_strVal.c_str());
+                    if (TagReader::IMAGE != val.m_nField) // IMAGE is read-only from grid editing's point of view
+                    {
+                        Mp3HandlerTagData& dest (*m_vpMp3HandlerTagData[val.m_nSong]);
+                        try
+                        {
+                            dest.setData(val.m_nField, convStr(qs));
+                            dest.setStatus(val.m_nField, Mp3HandlerTagData::ASSIGNED);
+                            ++nOk;
+                        }
+                        catch (const Mp3HandlerTagData::InvalidValue&)
+                        {
+                            ++nFail;
+                        }
+                    }
+                }
+
+                if (nFail > 0)
+                {
+                    QMessageBox::critical(m_pParentWnd, "Error", nOk > 0 ? "The pasted value couldn't be assigned to some fields" : "The pasted value couldn't be assigned to any fields"); //ttt2 some/one/several ...
+                }
+
+                reloadAll("", DONT_CLEAR_DATA, DONT_CLEAR_ASSGN);
+
+                return;
             }
         }
         else
@@ -1563,6 +1700,22 @@ void TagWriter::hasUnsaved(int nSong, bool& bAssigned, bool& bNonId3V2) // sets 
         default:; // nothing
         }
     }
+}
+
+
+void TagWriter::hasUnsaved(bool& bAssigned, bool& bNonId3V2) // sets bAssigned and bNonId3V2 if at least one field in at least a song has the corresponding status;
+{
+    bAssigned = false;
+    bNonId3V2 = false;
+
+    bool bAssignedSong, bNonId3V2Song;
+    for (int i = 0; i < cSize(m_vpMp3HandlerTagData); ++i)
+    {
+        hasUnsaved(i, bAssignedSong, bNonId3V2Song);
+        bAssigned |= bAssignedSong;
+        bNonId3V2 |= bNonId3V2Song;
+    }
+
 }
 
 

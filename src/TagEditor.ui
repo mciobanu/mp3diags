@@ -433,7 +433,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="m_pAssignedB" >
+       <widget class="QToolButton" name="m_pToggleAssignedB" >
         <property name="minimumSize" >
          <size>
           <width>40</width>

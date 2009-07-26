@@ -115,10 +115,16 @@ private:
         }
 
         //if (bFixedLeft && m_pcLeft != pcLeft) || (bFixedRight && m_pcRight != pcRight)) // ttt1 suboptimal;
-        if (bFixedLeft || bFixedRight)
+        /*if (bFixedLeft || bFixedRight)
         { // if either end was supposed to be fixed and the first step wasn't a match, there's no point in going to another step
+            return failure(); // !!! incorrect; the reason is the "-1" in the first line; for example a static reader "ab" fixed at right would fail on "xxab", because the first test would be for "b", and only the second test for "ab"; if we fail after first test there's no chance for the second; replacing "-1" with "-2" would fix the problem in this case, but that doesn't quite work, because static readers aren't the only bound readers, and the other ones may have variable length
+        }*/
+
+        if (bLeftFirst && bFixedLeft)
+        { // if the left end was supposed to be fixed and the first step wasn't a match, there's no point in going to another step; OTOH something similar cannot be done for the right side
             return failure();
         }
+
     }
 
     return failure();
@@ -553,12 +559,12 @@ void SequenceReader::findLimits(int nPos, const char*& pcLeft, const char*& pcRi
 
     int nLeft (nPos - 1); // the reader to the left of that on nPos, skipping those that failed; -1 if there's no such thing
     for (; nLeft >= 0 && FAILED == m_vpReaders[nLeft]->m_eState; --nLeft) {}
-    bFixedLeft = (-1 == nLeft && bSeqFixedLeft) || (-1 != nLeft && ASSIGNED == m_vpReaders[nLeft]->m_eState);
+    bFixedLeft = (-1 == nLeft && bSeqFixedLeft) || (-1 != nLeft && ASSIGNED == m_vpReaders.at(nLeft)->m_eState);
 
     //bFixedRight = (n - 1 == nPos && bSeqFixedRight) || (n - 1 != nPos && ASSIGNED == m_vpReaders[nPos + 1]->m_eState);
     int nRight (nPos + 1); // the reader to the right of that on nPos, skipping those that failed; n if there's no such thing
     for (; nRight <= n - 1 && FAILED == m_vpReaders[nRight]->m_eState; ++nRight) {}
-    bFixedRight = (n == nRight && bSeqFixedRight) || (n != nRight && ASSIGNED == m_vpReaders[nRight]->m_eState);
+    bFixedRight = (n == nRight && bSeqFixedRight) || (n != nRight && ASSIGNED == m_vpReaders.at(nRight)->m_eState);
 }
 
 
@@ -828,7 +834,7 @@ string testPattern(const string& strPattern)
     catch (const TrackTextParser::InvalidPattern& ex)
     {
         ostringstream s;
-        s << "\"" << strPattern << "\" is not a valid pattern. Error in column " << ex.m_nPos <<  ".";
+        s << "\"" << toNativeSeparators(strPattern) << "\" is not a valid pattern. Error in column " << ex.m_nPos <<  "."; //ttt1 perhaps more details
         return s.str();
     }
 }
@@ -841,6 +847,7 @@ string testPattern(const string& strPattern)
 
 #ifdef LPPPLPJOJAOIIIOJ
 
+#include <iostream>
 struct TestTrackTextParser
 {
     string f (string s)
@@ -978,7 +985,7 @@ struct TestTrackTextParser
         }//*/
 
 
-        {
+        /*{
             SongInfoParser::TrackTextParser fr ("[[%r]%n][ [ ]][-[ [ ]]]%t");
             const char* s ("-------------------------------\n");
             vector<string> v; 
@@ -994,6 +1001,22 @@ struct TestTrackTextParser
             vector<string> (TagReader::LIST_END + 1).swap(v); fr.assign("b06  -  tst01.mp3", v); cout << "10 " << s; for (int i = 0; i < cSize(v); ++i) { cout << i << f(v[i]); }
         }//*/
 
+
+        {
+            SongInfoParser::TrackTextParser fr ("%t-%an");
+            const char* s ("-------------------------------\n");
+            vector<string> v; 
+            vector<string> (TagReader::LIST_END + 1).swap(v); fr.assign("HHHHHHHHHHHHHH - QQQQQQQ  Listen", v); cout << "1 " << s; for (int i = 0; i < cSize(v); ++i) { cout << i << f(v[i]); }
+            vector<string> (TagReader::LIST_END + 1).swap(v); fr.assign("H-Listen", v); cout << "2 " << s; for (int i = 0; i < cSize(v); ++i) { cout << i << f(v[i]); }
+        }//*/
+
+        {
+            SongInfoParser::TrackTextParser fr ("%t-%aen");
+            const char* s ("-------------------------------\n");
+            vector<string> v; 
+            vector<string> (TagReader::LIST_END + 1).swap(v); fr.assign("HHHHHHHHHHHHHH - QQQQQQQ  Listen", v); cout << "3 " << s; for (int i = 0; i < cSize(v); ++i) { cout << i << f(v[i]); }
+            vector<string> (TagReader::LIST_END + 1).swap(v); fr.assign("H-Len", v); cout << "4 " << s; for (int i = 0; i < cSize(v); ++i) { cout << i << f(v[i]); }
+        }//*/
 
 
 /*
@@ -1066,5 +1089,5 @@ cp "tst01.mp3" "d1/b  -  tst01.mp3"
 */
 
 
-// TestTrackTextParser qqwtrh;
+TestTrackTextParser qqwtrh;
 #endif

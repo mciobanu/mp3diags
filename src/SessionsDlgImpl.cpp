@@ -432,7 +432,7 @@ void SessionsDlgImpl::on_m_pLoadB_clicked()
     {
         if (m_vstrSessions[i] == s)
         {
-            QMessageBox::critical(this, "Error", "The session named \"" + convStr(s) + "\" is already part of the session list");
+            QMessageBox::critical(this, "Error", "The session named \"" + toNativeSeparators(convStr(s)) + "\" is already part of the session list");
             return;
         }
     }

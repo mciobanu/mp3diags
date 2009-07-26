@@ -27,6 +27,7 @@
 
 #include  "ui_ImageInfoPanel.h"
 
+#include  "TagWriter.h"
 #include  "CommonTypes.h"
 
 
@@ -34,11 +35,11 @@ class ImageInfoPanelWdgImpl : public QFrame, private Ui::ImageInfoPanelWdg
 {
     Q_OBJECT
 
-    const ImageInfo m_imageInfo;
+    const TagWrtImageInfo m_tagWrtImageInfo;
     int m_nPos;
 
 public:
-    ImageInfoPanelWdgImpl(QWidget* pParent, const ImageInfo& imageInfo, int nPos);
+    ImageInfoPanelWdgImpl(QWidget* pParent, const TagWrtImageInfo& tagWrtImageInfo, int nPos);
     ~ImageInfoPanelWdgImpl();
     /*$PUBLIC_FUNCTIONS$*/
 
@@ -54,11 +55,12 @@ protected:
 protected slots:
     /*$PROTECTED_SLOTS$*/
     void on_m_pFullB_clicked();
-    void on_m_pAssignB_clicked();
+    void on_m_pAssignB_clicked() { emit assignImage(m_nPos); }
+    void on_m_pEraseB_clicked() { emit eraseFile(m_nPos); }
 
 signals:
     void assignImage(int);
-
+    void eraseFile(int);
 };
 
 #endif // #ifndef ImageInfoPanelWdgImplH

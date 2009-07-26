@@ -154,7 +154,7 @@ CurrentAlbumModel::CurrentAlbumModel(TagEditorDlgImpl* pTagEditorDlgImpl) : m_pT
     }
     catch (const Mp3HandlerTagData::InvalidValue&)
     {
-        QMessageBox::critical(m_pTagEditorDlgImpl, "Error", "The data contained errors and couldn't be saved");
+        QMessageBox::critical(m_pTagEditorDlgImpl, "Error", "The data contained errors and couldn't be saved"); //ttt2 put focus on album table
         return false; // ttt1 if it gets here the data is lost; perhaps CurrentAlbumDelegate should be modified more extensively, to not close the editor on Enter if this returns false;
     }
 }
@@ -284,7 +284,7 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
     setupUi(this);
 
 
-    m_pAssgnBtnWrp = new AssgnBtnWrp (m_pAssignedB);
+    m_pAssgnBtnWrp = new AssgnBtnWrp (m_pToggleAssignedB);
 
     {
         m_pTagWriter = new TagWriter(m_pCommonData, this, m_bIsFastSaving);
@@ -292,6 +292,7 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
         connect(m_pTagWriter, SIGNAL(albumChanged()), this, SLOT(onAlbumChanged()));
         connect(m_pTagWriter, SIGNAL(fileChanged()), this, SLOT(onFileChanged()));
         connect(m_pTagWriter, SIGNAL(imagesChanged()), this, SLOT(onImagesChanged()));
+        connect(m_pTagWriter, SIGNAL(requestSave()), this, SLOT(on_m_pSaveB_clicked()));
     }
 
     m_pCurrentAlbumModel = new CurrentAlbumModel(this);
@@ -513,7 +514,7 @@ return;//*/
         {
             if (-1 != nImgPos)
             {
-                pAlbumInfo->m_imageInfo = m_pTagWriter->getImageColl()[nImgPos];
+                pAlbumInfo->m_imageInfo = m_pTagWriter->getImageColl()[nImgPos].m_imageInfo;
             }
             pAlbumInfo->m_strSourceName = "Discogs";
             m_pTagWriter->addAlbumInfo(*pAlbumInfo);
@@ -564,7 +565,7 @@ void TagEditorDlgImpl::on_m_pQueryMusicBrainzB_clicked()
         {
             if (-1 != nImgPos)
             {
-                pAlbumInfo->m_imageInfo = m_pTagWriter->getImageColl()[nImgPos];
+                pAlbumInfo->m_imageInfo = m_pTagWriter->getImageColl()[nImgPos].m_imageInfo;
             }
             pAlbumInfo->m_strSourceName = "MusicBrainz";
             m_pTagWriter->addAlbumInfo(*pAlbumInfo);
@@ -627,17 +628,19 @@ void TagEditorDlgImpl::on_m_pPaletteB_clicked()
 void TagEditorDlgImpl::onImagesChanged()
 {
     QLayout* pLayout (m_pImgScrollArea->widget()->layout());
-    int nPanelCnt (pLayout->count());
     const ImageColl& imgColl (m_pTagWriter->getImageColl());
     int nVecCnt (imgColl.size());
+
+    int nPanelCnt (pLayout->count());
     CB_ASSERT (nVecCnt >= nPanelCnt);
 
     for (int i = nPanelCnt; i < nVecCnt; ++i)
     {
         ImageInfoPanelWdgImpl* p (new ImageInfoPanelWdgImpl(this, imgColl[i], i));
-        m_pImgScrollArea->widget()->layout()->addWidget(p);
+        pLayout->addWidget(p);
         p->show();
         connect(p, SIGNAL(assignImage(int)), m_pTagWriter, SLOT(onAssignImage(int)));
+        connect(p, SIGNAL(eraseFile(int)), m_pTagWriter, SLOT(onEraseFile(int)));
         m_pTagWriter->addImgWidget(p);
     }
 
@@ -820,7 +823,7 @@ void TagEditorDlgImpl::saveTagWriterInf()
 
 
 
-void TagEditorDlgImpl::on_m_pAssignedB_clicked()
+void TagEditorDlgImpl::on_m_pToggleAssignedB_clicked()
 {
     if (!closeEditor()) { return; }
 
@@ -850,6 +853,7 @@ void TagEditorDlgImpl::on_m_pReloadB_clicked()
     updateAssigned();
 }
 
+
 // copies the values from the first row to the other rows for columns that have at least a cell selected (doesn't matter if more than 1 cells are selected);
 void TagEditorDlgImpl::on_m_pCopyFirstB_clicked()
 {
@@ -857,6 +861,7 @@ void TagEditorDlgImpl::on_m_pCopyFirstB_clicked()
 
     m_pTagWriter->copyFirst();
 }
+
 
 void TagEditorDlgImpl::on_m_pSaveB_clicked() //ttt1 perhaps make this save selected list, by using SHIFT
 {
@@ -1028,7 +1033,7 @@ void TagEditorDlgImpl::resizeIcons()
     v.push_back(m_pReloadB);
     v.push_back(m_pCopyFirstB);
     v.push_back(m_pSortB);
-    v.push_back(m_pAssignedB);
+    v.push_back(m_pToggleAssignedB);
     v.push_back(m_pPasteB);
     v.push_back(m_pEditPatternsB);
     v.push_back(m_pPaletteB);
@@ -1171,8 +1176,8 @@ void TagEditorDlgImpl::eraseSelFields() // erases the values in the selected fie
     m_pTagWriter->reloadAll(m_pTagWriter->getCurrentName(), TagWriter::DONT_CLEAR_DATA, TagWriter::DONT_CLEAR_ASSGN); //ttt1 way too many ugly calls, including 2 required calls to m_pAssgnBtnWrp->setState(); restructure the whole "assigned" thing;
     /*
         some details (not completely up-to-date):
-            TagWriter::toggleAssigned() should be called when the user clicks on the assign button; changes status of selected cells and returns the new state of m_pAssignedB
-            TagWriter::updateAssigned() should be called when the selection changes; returns the new state of m_pAssignedB;
+            TagWriter::toggleAssigned() should be called when the user clicks on the assign button; changes status of selected cells and returns the new state of m_pToggleAssignedB
+            TagWriter::updateAssigned() should be called when the selection changes; returns the new state of m_pToggleAssignedB;
 
         both TagEditorDlgImpl and TagWriter have updateAssigned(), which is confusing
 
@@ -1234,7 +1239,7 @@ void Id3V230Writer::setupWriter(Id3V230StreamWriter& wrt, const Mp3HandlerTagDat
         int nImg (pMp3HandlerTagData->getImage());
         CB_ASSERT (nImg >= 0);
         const ImageColl& imgColl (m_pTagWriter->getImageColl());
-        const ImageInfo& imgInfo (imgColl[nImg]);
+        const ImageInfo& imgInfo (imgColl[nImg].m_imageInfo);
         int nImgSize (imgInfo.getSize());
         const char* pImgData (imgInfo.getComprData());
 
@@ -1636,7 +1641,7 @@ bool CurrentAlbumDelegate::closeEditor() // closes the editor opened with F2, sa
 //======================================================================================================================
 //======================================================================================================================
 
-//ttt0 paste single line should change single cell (search for \n ... )
+
 
 /*
 tag editor performance:

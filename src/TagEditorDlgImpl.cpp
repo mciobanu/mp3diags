@@ -1326,7 +1326,7 @@ e1:
             if (0 != pId3V2Source) { break; }
         }
 
-        Id3V230StreamWriter wrt (pId3V2Source, m_bKeepOneValidImg); // OK if pId3V2Source is 0
+        Id3V230StreamWriter wrt (m_bKeepOneValidImg, m_bFastSave, pId3V2Source); // OK if pId3V2Source is 0
 
         setupWriter(wrt, pMp3HandlerTagData);
 
@@ -1368,9 +1368,15 @@ e1:
         for (int i = 0, n = cSize(vpStreams); i < n; ++i)
         {
             DataStream* p (vpStreams[i]);
-            Id3V2StreamBase* pId3V2 (dynamic_cast<Id3V2StreamBase*>(p));
+            bool bCopy (0 == dynamic_cast<Id3V2StreamBase*>(p));
 
-            if (0 == pId3V2)
+            BrokenDataStream* pBrk (dynamic_cast<BrokenDataStream*>(p));
+            if (bCopy && 0 != pBrk && (pBrk->getBaseName() == Id3V230Stream::getClassDisplayName() || pBrk->getBaseName() == Id3V240Stream::getClassDisplayName()))
+            {
+                bCopy = false;
+            }
+
+            if (bCopy)
             {
                 p->copy(in, out);
             }

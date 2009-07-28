@@ -436,6 +436,7 @@ bool RenameThread::proc()
 
             try
             {
+                bool bSkipped (false);
                 //qDebug("ren %s", strDest.c_str());
                 if (m_bKeepOrig)
                 {
@@ -443,11 +444,18 @@ bool RenameThread::proc()
                 }
                 else
                 {
-                    renameFile(m_vpHndl[i]->getName(), strDest);
-                    m_vpDel.push_back(m_vpHndl[i]);
+                    if (m_vpHndl[i]->getName() == strDest) // ttt2 doesn't work well on case-insensitive file systems
+                    {
+                        bSkipped = true;
+                    }
+                    else
+                    {
+                        renameFile(m_vpHndl[i]->getName(), strDest);
+                        m_vpDel.push_back(m_vpHndl[i]);
+                    }
                 }
 
-                if (m_pCommonData->m_dirTreeEnum.isIncluded(strDest))
+                if (!bSkipped && m_pCommonData->m_dirTreeEnum.isIncluded(strDest))
                 {
                     try
                     {
@@ -575,7 +583,7 @@ void FileRenamerDlgImpl::on_m_pRenameB_clicked()
                 return;
             }
 
-            if (fileExists(strDest))
+            if (fileExists(strDest) && (strDest != vpHndl[i]->getName() || bKeepOrig))
             {
                 QMessageBox::critical(this, "Error", "Operation aborted because a file called \"" + toNativeSeparators(convStr(strDest)) + "\" already exists.");
                 return;
@@ -921,30 +929,39 @@ private:
 //using namespace RenamerPatterns;
 
 
-Renamer::Renamer(const std::string& strPattern) : m_strPattern(strPattern), m_pRoot(new SequencePattern())
+Renamer::Renamer(const std::string& strPattern) : m_strPattern(strPattern), m_pRoot(new SequencePattern()), m_bSameDir(string::npos == strPattern.find(getPathSep()))
 {
     auto_ptr<SequencePattern> ap (m_pRoot);
     const char* p (strPattern.c_str());
 
-#ifndef WIN32
-#else
-    if (cSize(strPattern) < 3 || ((p[0] < 'a' || p[0] > 'z') && (p[0] < 'A' || p[0] > 'Z')) || p[1] != ':') // ttt2 allow network drives as well
-    {
-        throw InvalidPattern(strPattern, "A pattern must begin with \"<drive>:\\\"");
-    }
-    p += 2;
-    m_pRoot->addPattern(new StaticPattern(strPattern.substr(0, 2)));
-#endif
-
     SequencePattern* pSeq (m_pRoot); // pSeq is either m_pRoot or a new sequence, for optional elements
     if (0 == *p) { throw InvalidPattern(strPattern, "A pattern cannot be empty"); } // add pattern str on constr, to always have access to the pattern
-    if (getPathSep() != *p) { throw InvalidPattern(strPattern, "A pattern must begin with " +
+
+    if (!m_bSameDir)
+    {
+
 #ifndef WIN32
-                                                   string("'") + getPathSepAsStr() + "'");
+
+        if (getPathSep() != *p) { throw InvalidPattern(strPattern, "A pattern must either begin with '" + getPathSepAsStr() + "' or contain no '" + getPathSepAsStr() + "' at all"); }
+
 #else
-                                                   string("\"<drive>:\\\""));
+
+        if (cSize(strPattern) < 3 || ((p[0] < 'a' || p[0] > 'z') && (p[0] < 'A' || p[0] > 'Z')) || p[1] != ':') // ttt2 allow network drives as well
+        {
+            throw InvalidPattern(strPattern, "A pattern must either begin with \"<drive>:\\\" or contain no '\\' at all");
+        }
+        p += 2;
+        m_pRoot->addPattern(new StaticPattern(strPattern.substr(0, 2)));
+        if (getPathSep() != *p) { throw InvalidPattern(strPattern, "A pattern must either begin with \"<drive>:\\\" or contain no '\\' at all"); }
+
 #endif
-       }
+
+    }
+
+
+#ifndef WIN32
+#else
+#endif
 
     auto_ptr<SequencePattern> optAp;
 
@@ -1043,6 +1060,12 @@ string Renamer::getNewName(const Mp3Handler* pHndl) const
 {
     if (0 == pHndl->getId3V2Stream()) { return ""; }
     string s (m_pRoot->getVal(pHndl));
+    CB_ASSERT (!m_bSameDir ^ (string::npos == s.find(getPathSep())));
+    if (m_bSameDir)
+    {
+        s = getParent(pHndl->getName()) + getPathSepAsStr() + s;
+    }
+
     if (string::npos != s.find("//")) { return ""; }
     if (!s.empty()) { s += ".mp3"; }
     return s;
@@ -1050,3 +1073,5 @@ string Renamer::getNewName(const Mp3Handler* pHndl) const
 
 //ttt1 timer in normalizer
 //ttt1 look at normalized loudness in tracks, maybe warn
+
+

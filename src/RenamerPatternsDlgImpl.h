@@ -39,6 +39,7 @@ class RenamerPatternsDlgImpl : public QDialog, private Ui::PatternsDlg
     std::vector<std::string> m_vstrPatterns;
     SessionSettings& m_settings;
 
+    int m_nCrtLine, m_nCrtCol;
 public:
     RenamerPatternsDlgImpl(QWidget* pParent, SessionSettings& settings);
     ~RenamerPatternsDlgImpl();
@@ -50,6 +51,7 @@ protected slots:
     void on_m_pCancelB_clicked();
 
     void onHelp();
+    void onCrtPosChanged();
 };
 
 #endif

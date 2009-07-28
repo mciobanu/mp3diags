@@ -876,6 +876,12 @@ void TagWriter::reloadAll(string strCrt, bool bClearData, bool bClearAssgn)
     }
 
     vector<Mp3HandlerTagData*> v; v.swap(m_vpMp3HandlerTagData);
+    const deque<const Mp3Handler*>& vpHndl (m_pCommonData->getCrtAlbum());
+    if (!v.empty() && cSize(v) != cSize(vpHndl))
+    {
+        bClearData = true; // needed for the case when proc orig files are kept or when changed files are nor created
+    }
+
     if (bClearData)
     {
         clearPtrContainer(v);
@@ -892,7 +898,6 @@ void TagWriter::reloadAll(string strCrt, bool bClearData, bool bClearAssgn)
     set<pair<string, int> > sReaders;
     std::map<std::string, int> mReaderCount;
 
-    const deque<const Mp3Handler*>& vpHndl (m_pCommonData->getCrtAlbum());
     if (vpHndl.empty())
     {
         m_nCurrentFile = -1;
@@ -1648,7 +1653,7 @@ void TagWriter::paste()
 
     QMessageBox::critical(m_pParentWnd, "Error", "Unrecognized clipboard content");
 }
-
+//ttt0 test on wnd pasting from dir with spaces
 
 void TagWriter::sort()
 {

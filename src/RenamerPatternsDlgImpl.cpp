@@ -33,10 +33,11 @@ using namespace std;
 
 
 
-RenamerPatternsDlgImpl::RenamerPatternsDlgImpl(QWidget* pParent, SessionSettings& settings) : QDialog(pParent, getDialogWndFlags()), Ui::PatternsDlg(), m_settings(settings)
+RenamerPatternsDlgImpl::RenamerPatternsDlgImpl(QWidget* pParent, SessionSettings& settings) : QDialog(pParent, getDialogWndFlags()), Ui::PatternsDlg(), m_settings(settings), m_nCrtLine(-1), m_nCrtCol(-1)
 {
     setupUi(this);
     m_pAddPredefB->hide();
+    m_pSpacerW->hide();
 
     QPalette grayPalette (m_infoM->palette());
 
@@ -58,6 +59,8 @@ RenamerPatternsDlgImpl::RenamerPatternsDlgImpl(QWidget* pParent, SessionSettings
     int nWidth, nHeight;
     m_settings.loadRenamerPatternsSettings(nWidth, nHeight);
     if (nWidth > 400 && nHeight > 300) { resize(nWidth, nHeight); }
+
+    connect(m_pTextM, SIGNAL(cursorPositionChanged()), this, SLOT(onCrtPosChanged()));
 
     { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
 }
@@ -163,5 +166,14 @@ bool RenamerPatternsDlgImpl::run(vector<string>& v)
 void RenamerPatternsDlgImpl::onHelp()
 {
     openHelp("240_file_renamer.html");
+}
+
+
+void RenamerPatternsDlgImpl::onCrtPosChanged()
+{
+    QTextCursor crs (m_pTextM->textCursor());
+    m_nCrtLine = crs.blockNumber();
+    m_nCrtCol = crs.columnNumber();
+    m_pCrtPosL->setText(QString("Line %1, Col %2").arg(m_nCrtLine + 1).arg(m_nCrtCol + 1));
 }
 

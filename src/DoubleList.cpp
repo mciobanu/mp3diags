@@ -610,6 +610,8 @@ void DoubleList::on_m_pDeleteB_clicked()
         CB_ASSERT (nRow >= 0);
         sSelPos.insert(nRow);
     }
+
+    remove(sSelPos);
 }
 
 

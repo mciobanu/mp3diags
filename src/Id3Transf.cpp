@@ -48,7 +48,7 @@ using namespace std;
 
 bool Id3V2Cleaner::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
 {
-    Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
+    Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave(), 0);
     vector<const Id3V2Frame*> v (strm.getKnownFrames());
     for (int i = 0; i < cSize(v); ++i)
     {
@@ -135,9 +135,9 @@ bool Id3V2Cleaner::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
 // APIC: if it can be loaded or is unsupported - keep; on error - dump
 // remove empty frames
 // rewrite text frames to discard null terminators
-bool Id3V2Rescuer::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
+bool Id3V2Rescuer::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8* pOut) // nothing gets written if pOut is 0
 {
-    Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
+    Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave(), 0);
 
     const vector<Id3V2Frame*>& vpFrames (strm.getFrames());
 
@@ -180,7 +180,7 @@ bool Id3V2Rescuer::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
     TagTimestamp time (strm.getTime());
     wrt.setRecTime(time);
 
-    wrt.write(out);
+    if (0 != pOut) { wrt.write(*pOut); }
 
     return !wrt.contentEqualTo(&strm);
 }
@@ -210,10 +210,30 @@ bool Id3V2Rescuer::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
 
     ifstream_utf8 in (h.getName().c_str(), ios::binary);
 
+    {
+        for (int i = 0, n = cSize(vpStreams); i < n; ++i)
+        {
+            DataStream* p (vpStreams[i]);
+            Id3V2StreamBase* pId3V2 (dynamic_cast<Id3V2StreamBase*>(p));
+            BrokenDataStream* pBrk (dynamic_cast<BrokenDataStream*>(p));
+
+            if (0 != pId3V2)
+            {
+                if (processId3V2Stream(*pId3V2, 0)) { goto e1; }
+            }
+            else if (0 != pBrk && (pBrk->getBaseName() == Id3V230Stream::getClassDisplayName() || pBrk->getBaseName() == Id3V240Stream::getClassDisplayName()))
+            {
+                goto e1;
+            }
+        }
+
+        return NOT_CHANGED;
+    }
+
+e1:
+
     bool bChanged (false);
     bool bRecall (false);
-
-    //ttt0 see if it is really necessary to write to the temp file only to see that no change is needed; there's a lot of unnecessary file copying;
 
     { // temp
         transfConfig.getTempName(strOrigSrcName, getActionName(), strTempName);
@@ -228,7 +248,7 @@ bool Id3V2Rescuer::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
 
             if (0 != pId3V2)
             {
-                bool b (processId3V2Stream(*pId3V2, out));
+                bool b (processId3V2Stream(*pId3V2, &out));
                 bChanged = bChanged || b;
             }
             else if (0 != pBrk && pBrk->getBaseName() == Id3V230Stream::getClassDisplayName())
@@ -236,7 +256,7 @@ bool Id3V2Rescuer::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
                 NoteColl notes (20);
                 StringWrp fileName (h.getName());
                 Id3V230Stream strm (0, notes, in, &fileName, Id3V230Stream::ACCEPT_BROKEN);
-                Id3V230StreamWriter wrt (&strm, m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
+                Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave(), &strm);
                 wrt.write(out);
                 bChanged = true;
                 bRecall = true; // !!! now we read whatever frames are available from a broken stream, next time we check for empty or otherwise invalid frames
@@ -246,7 +266,7 @@ bool Id3V2Rescuer::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
                 NoteColl notes (20);
                 StringWrp fileName (h.getName());
                 Id3V240Stream strm (0, notes, in, &fileName, Id3V230Stream::ACCEPT_BROKEN);
-                Id3V230StreamWriter wrt (&strm, m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave()); //ttt1 if useFastSave is true there should probably be an automatic reload; OTOH we may want to delay until more transforms are applied, so probably it's OK as is
+                Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave(), &strm); //ttt1 if useFastSave is true there should probably be an automatic reload; OTOH we may want to delay until more transforms are applied, so probably it's OK as is
                 wrt.write(out);
                 bChanged = true;
                 bRecall = true;
@@ -278,7 +298,7 @@ bool Id3V2Rescuer::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
 
 void Id3V2UnicodeTransformer::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
 {
-    Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
+    Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave(), 0);
 
     const vector<Id3V2Frame*>& vpFrames (strm.getFrames());
 
@@ -454,36 +474,51 @@ static QString getCaseConv(const QString& s, CommonData::Case eCase)
 
 bool Id3V2CaseTransformer::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
 {
-    Id3V230StreamWriter wrt (&strm, m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
+    Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave(), &strm);
 
     {
         const Id3V2Frame* pFrm (strm.getFrame(KnownFrames::LBL_ARTIST()));
-        QString s (convStr(pFrm->getUtf8String()));
-        wrt.addTextFrame(KnownFrames::LBL_ARTIST(), convStr(getCaseConv(s, m_pCommonData->m_eCaseForArtists)));
+        if (0 != pFrm)
+        {
+            QString s (convStr(pFrm->getUtf8String()));
+            wrt.addTextFrame(KnownFrames::LBL_ARTIST(), convStr(getCaseConv(s, m_pCommonData->m_eCaseForArtists)));
+        }
     }
 
     {
         const Id3V2Frame* pFrm (strm.getFrame(KnownFrames::LBL_ALBUM()));
-        QString s (convStr(pFrm->getUtf8String()));
-        wrt.addTextFrame(KnownFrames::LBL_ALBUM(), convStr(getCaseConv(s, m_pCommonData->m_eCaseForOthers)));
+        if (0 != pFrm)
+        {
+            QString s (convStr(pFrm->getUtf8String()));
+            wrt.addTextFrame(KnownFrames::LBL_ALBUM(), convStr(getCaseConv(s, m_pCommonData->m_eCaseForOthers)));
+        }
     }
 
     {
         const Id3V2Frame* pFrm (strm.getFrame(KnownFrames::LBL_COMPOSER()));
-        QString s (convStr(pFrm->getUtf8String()));
-        wrt.addTextFrame(KnownFrames::LBL_COMPOSER(), convStr(getCaseConv(s, m_pCommonData->m_eCaseForArtists)));
+        if (0 != pFrm)
+        {
+            QString s (convStr(pFrm->getUtf8String()));
+            wrt.addTextFrame(KnownFrames::LBL_COMPOSER(), convStr(getCaseConv(s, m_pCommonData->m_eCaseForArtists)));
+        }
     }
 
     {
         const Id3V2Frame* pFrm (strm.getFrame(KnownFrames::LBL_TITLE()));
-        QString s (convStr(pFrm->getUtf8String()));
-        wrt.addTextFrame(KnownFrames::LBL_TITLE(), convStr(getCaseConv(s, m_pCommonData->m_eCaseForOthers)));
+        if (0 != pFrm)
+        {
+            QString s (convStr(pFrm->getUtf8String()));
+            wrt.addTextFrame(KnownFrames::LBL_TITLE(), convStr(getCaseConv(s, m_pCommonData->m_eCaseForOthers)));
+        }
     }
 
     {
         const Id3V2Frame* pFrm (strm.getFrame(KnownFrames::LBL_GENRE()));
-        QString s (convStr(pFrm->getUtf8String()));
-        wrt.addTextFrame(KnownFrames::LBL_GENRE(), convStr(getCaseConv(s, m_pCommonData->m_eCaseForOthers)));
+        if (0 != pFrm)
+        {
+            QString s (convStr(pFrm->getUtf8String()));
+            wrt.addTextFrame(KnownFrames::LBL_GENRE(), convStr(getCaseConv(s, m_pCommonData->m_eCaseForOthers)));
+        }
     }
 
     wrt.write(out);
@@ -559,7 +594,7 @@ bool Id3V2CaseTransformer::processId3V2Stream(Id3V2StreamBase& strm, ofstream_ut
 
 bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out, Id3V1Stream* pId3V1Stream)
 {
-    Id3V230StreamWriter wrt (&strm, m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
+    Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave(), &strm);
 
     if (strm.getTitle().empty())
     {
@@ -631,7 +666,7 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8
 
     if (!bId3V2Found)
     {
-        Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
+        Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave(), 0);
 
         {
             string s (pId3V1Stream->getTitle());
@@ -746,7 +781,7 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8
     if (beginsWith(strArtist, strComp + " [") && endsWith(strArtist, "]")) { return NOT_CHANGED; }
 
     { // temp
-        Id3V230StreamWriter wrt (pId3V2, m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
+        Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave(), pId3V2);
         wrt.addTextFrame(KnownFrames::LBL_ARTIST(), strComp + " [" + strArtist + "]");
 
         ifstream_utf8 in (h.getName().c_str(), ios::binary);
@@ -796,7 +831,7 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8
     if (!(beginsWith(strArtist, strComp + " [") && endsWith(strArtist, "]"))) { return NOT_CHANGED; }
 
     { // temp
-        Id3V230StreamWriter wrt (pId3V2, m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
+        Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave(), pId3V2);
         //wrt.addTextFrame(KnownFrames::LBL_ARTIST(), strComp + " [" + strArtist + "]");
         wrt.addTextFrame(KnownFrames::LBL_ARTIST(), strArtist.substr(strComp.size() + 2, strArtist.size() - strComp.size() - 3));
 
@@ -851,7 +886,7 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8
     if (strComp == strExistingComp) { return NOT_CHANGED; }
 
     { // temp
-        Id3V230StreamWriter wrt (pId3V2, m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
+        Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave(), pId3V2);
         wrt.addTextFrame(KnownFrames::LBL_COMPOSER(), strComp);
 
         ifstream_utf8 in (h.getName().c_str(), ios::binary);
@@ -918,7 +953,7 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8
 
 
     { // temp
-        Id3V230StreamWriter wrt (pId3V2, Id3V230StreamWriter::KEEP_ONE_VALID_IMG, m_pCommonData->useFastSave());
+        Id3V230StreamWriter wrt (Id3V230StreamWriter::KEEP_ONE_VALID_IMG, m_pCommonData->useFastSave(), pId3V2);
 
         wrt.removeFrames(KnownFrames::LBL_IMAGE());
 
@@ -982,7 +1017,7 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8
     if (nExtraSize <= nOldPaddingSize) { return NOT_CHANGED; }
 
     { // temp
-        Id3V230StreamWriter wrt (pId3V2, m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
+        Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave(), pId3V2);
 
         ifstream_utf8 in (h.getName().c_str(), ios::binary);
         transfConfig.getTempName(strOrigSrcName, getActionName(), strTempName);
@@ -1029,7 +1064,7 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8
     if (pId3V2->getPaddingSize() < Id3V230StreamWriter::DEFAULT_EXTRA_SPACE + 512) { return NOT_CHANGED; }
 
     { // temp
-        Id3V230StreamWriter wrt (pId3V2, m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
+        Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave(), pId3V2);
 
         ifstream_utf8 in (h.getName().c_str(), ios::binary);
         transfConfig.getTempName(strOrigSrcName, getActionName(), strTempName);

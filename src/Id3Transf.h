@@ -48,7 +48,7 @@ public:
 
 class Id3V2Rescuer : public Transformation
 {
-    bool processId3V2Stream(Id3V2StreamBase& frm, ofstream_utf8& out);
+    bool processId3V2Stream(Id3V2StreamBase& frm, ofstream_utf8* pOut); // nothing gets written if pOut is 0
     CommonData* m_pCommonData;
 public:
     Id3V2Rescuer(CommonData* pCommonData) : m_pCommonData(pCommonData) {}

@@ -175,6 +175,7 @@ class Renamer
 {
     std::string m_strPattern;
     FileRenamer::SequencePattern* m_pRoot;
+    bool m_bSameDir;
 public:
     Renamer(const std::string& strPattern);
     ~Renamer();

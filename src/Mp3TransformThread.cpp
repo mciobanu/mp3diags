@@ -44,7 +44,7 @@ void logTransformation(const string& strLogFile, const char* szActionName, const
     out << "<" << strMp3File << "> <" << szActionName << "> - " << ctime(&t); // !!! ctime and a \n
 }
 
-//ttt0 see if possible to show transform name in dlg, besides the file name
+
 //ttt0 perhaps make "fast-save aware" other transf that operate on id3v3 only (case transf, codepage, discards, ...); OTOH how likely is it to run 2 of these one ofer another? (otherwise you'd have to rescan anyway). still, perhaps allow proceeding in most cases without rescanning ID3V2 would be better, perhaps optional; then everything would be faster with ID3V2
 namespace {
 
@@ -169,7 +169,8 @@ bool Mp3TransformThread::transform()
             string strPrevTempName;
             StrList l;
             l.push_back(toNativeSeparators(convStr(strOrigName)));
-            emit stepChanged(l);
+            l.push_back("");
+            //emit stepChanged(l);
             auto_ptr<const Mp3Handler> pNewHndl (pOrigHndl);
 
             long long nSize, nOrigTime;
@@ -178,6 +179,8 @@ bool Mp3TransformThread::transform()
             for (int j = 0, m = cSize(m_vpTransf); j < m; ++j)
             {
                 Transformation& t (*m_vpTransf[j]);
+                l[1] = t.getActionName();
+                emit stepChanged(l);
                 Transformation::Result eTransf;
                 try
                 {

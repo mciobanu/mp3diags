@@ -32,7 +32,7 @@
 using namespace std;
 
 
-TagEdtPatternsDlgImpl::TagEdtPatternsDlgImpl(QWidget* pParent, SessionSettings& settings, const vector<string>& vstrPredef) : QDialog(pParent, getDialogWndFlags()), Ui::PatternsDlg(), m_settings(settings), m_vstrPredef(vstrPredef)
+TagEdtPatternsDlgImpl::TagEdtPatternsDlgImpl(QWidget* pParent, SessionSettings& settings, const vector<string>& vstrPredef) : QDialog(pParent, getDialogWndFlags()), Ui::PatternsDlg(), m_settings(settings), m_vstrPredef(vstrPredef), m_nCrtLine(-1), m_nCrtCol(-1)
 {
     setupUi(this);
 
@@ -57,6 +57,8 @@ TagEdtPatternsDlgImpl::TagEdtPatternsDlgImpl(QWidget* pParent, SessionSettings& 
     int nWidth, nHeight;
     m_settings.loadTagEdtPatternsSettings(nWidth, nHeight);
     if (nWidth > 400 && nHeight > 300) { resize(nWidth, nHeight); }
+
+    connect(m_pTextM, SIGNAL(cursorPositionChanged()), this, SLOT(onCrtPosChanged()));
 
     { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
 }
@@ -112,7 +114,7 @@ void TagEdtPatternsDlgImpl::on_m_pOkB_clicked()
     accept();
 }
 
-//ttt0 show column
+
 
 
 bool TagEdtPatternsDlgImpl::run(vector<pair<string, int> >& v)
@@ -172,6 +174,15 @@ void TagEdtPatternsDlgImpl::on_m_pAddPredefB_clicked()
 void TagEdtPatternsDlgImpl::onHelp()
 {
     openHelp("220_tag_editor_patterns.html");
+}
+
+
+void TagEdtPatternsDlgImpl::onCrtPosChanged()
+{
+    QTextCursor crs (m_pTextM->textCursor());
+    m_nCrtLine = crs.blockNumber();
+    m_nCrtCol = crs.columnNumber();
+    m_pCrtPosL->setText(QString("Line %1, Col %2").arg(m_nCrtLine + 1).arg(m_nCrtCol + 1));
 }
 
 

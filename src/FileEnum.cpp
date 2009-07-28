@@ -49,7 +49,7 @@ struct DirTreeEnumerator::DirTreeEnumeratorImpl
     enum ClosestAncestorState { NO_ANCESTOR, INCLUDED, EXCLUDED };
     ClosestAncestorState getClosestAncestorState(const string& strDir) const;
 
-    bool hasAncestorInProcDirs(const string& strDir) const;
+    bool hasAncestorInProcDirs(const string& strDir) const; // "strict" ancestor, doesn't matter if the argument itself is in ProcDirs
     void addDirs(set<string>& s, const vector<string>& v)
     {
         for (int i = 0, n = cSize(v); i < n; ++i)
@@ -166,7 +166,7 @@ DirTreeEnumerator::DirTreeEnumeratorImpl::ClosestAncestorState DirTreeEnumerator
 }
 
 
-bool DirTreeEnumerator::DirTreeEnumeratorImpl::hasAncestorInProcDirs(const string& strDir) const
+bool DirTreeEnumerator::DirTreeEnumeratorImpl::hasAncestorInProcDirs(const string& strDir) const // "strict" ancestor, doesn't matter if the argument itself is in ProcDirs
 {
     string s (strDir);
     if (endsWith(s, "/")) { s.erase(s.size() - 1); } // it's messier to work with an s that ends with '/', because then s=="/" is a special case
@@ -207,15 +207,15 @@ string DirTreeEnumerator::DirTreeEnumeratorImpl::next() // returns an empty stri
         m_nCrtDirNdx = 0;
         m_vstrCrtDirList.clear();
 
-        set<string> s;
+        set<string> sstrNewProc;
         m_sstrWaitingDirs.clear();
-        m_sstrProcDirs = m_sstrIncludeDirs;
+        m_sstrProcDirs = m_sstrIncludeDirs; // !!! needed for hasAncestorInProcDirs()
 
         for (set<string>::iterator it = m_sstrIncludeDirs.begin(), end = m_sstrIncludeDirs.end(); it != end; ++it)
         {
             if (!hasAncestorInProcDirs(*it))
             {
-                s.insert(*it);
+                sstrNewProc.insert(*it);
             }
             else
             {
@@ -223,7 +223,7 @@ string DirTreeEnumerator::DirTreeEnumeratorImpl::next() // returns an empty stri
             }
         }
 
-        m_sstrProcDirs.swap(s);
+        m_sstrProcDirs.swap(sstrNewProc);
     }
 
     for (;;)
@@ -235,8 +235,24 @@ string DirTreeEnumerator::DirTreeEnumeratorImpl::next() // returns an empty stri
 
         if (m_sstrProcDirs.empty())
         {
-            CB_ASSERT (m_sstrWaitingDirs.empty());
-            return "";
+            if (m_sstrWaitingDirs.empty()) { return ""; }
+            set<string> sstrNewProc, sstrNewWt;
+            m_sstrProcDirs = m_sstrWaitingDirs; // !!! needed for hasAncestorInProcDirs()
+
+            for (set<string>::iterator it = m_sstrWaitingDirs.begin(), end = m_sstrWaitingDirs.end(); it != end; ++it)
+            {
+                if (!hasAncestorInProcDirs(*it))
+                {
+                    sstrNewProc.insert(*it);
+                }
+                else
+                {
+                    sstrNewWt.insert(*it);
+                }
+            }
+
+            sstrNewWt.swap(m_sstrWaitingDirs);
+            sstrNewProc.swap(m_sstrProcDirs);
         }
 
         m_vstrCrtDirList.clear();
@@ -275,7 +291,6 @@ string DirTreeEnumerator::DirTreeEnumeratorImpl::next() // returns an empty stri
                 }
             }
         }
-
     }
 }
 

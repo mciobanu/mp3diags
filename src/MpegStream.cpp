@@ -484,7 +484,7 @@ VbriStream::VbriStream(int nIndex, NoteColl& notes, istream& in) : MpegStreamBas
 {
     ostringstream out;
     out << m_firstFrame.getSzVersion() << " " << m_firstFrame.getSzLayer() << ", " << m_firstFrame.getSzChannelMode() << ", " << m_firstFrame.getFrequency() << "Hz"
-        << ", " << m_firstFrame.getBitrate() << "bps, CRC=" << boolAsYesNo(m_firstFrame.getCrcUsage()) << "; ";
+        << ", " << m_firstFrame.getBitrate() << "bps, CRC=" << boolAsYesNo(m_firstFrame.getCrcUsage());
     return out.str();
 }
 

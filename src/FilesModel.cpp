@@ -95,7 +95,7 @@ FilesModel::FilesModel(CommonData* pCommonData) : QAbstractTableModel(pCommonDat
         return s;
     }
 
-    if (nRole != Qt::DisplayRole) { return QVariant(); }
+    if (nRole != Qt::DisplayRole && nRole != Qt::ToolTipRole) { return QVariant(); }
 
     if (0 == j)
     {
@@ -106,7 +106,10 @@ FilesModel::FilesModel(CommonData* pCommonData) : QAbstractTableModel(pCommonDat
     for (int i = 0, n = cSize(notes.getList()); i < n; ++i) // ttt2 poor performance
     {
         const Note* pNote (notes.getList()[i]);
-        if (j - 1 == m_pCommonData->findPos(pNote)) { return "x"; }
+        if (j - 1 == m_pCommonData->findPos(pNote))
+        {
+            return nRole == Qt::ToolTipRole ? makeMultiline(m_pCommonData->getUniqueNotes().getFlt(j - 1)->getDescription()) : "x";
+        }
     }
 
     return "";

@@ -87,8 +87,7 @@ class Id3V230StreamWriter
 
 public:
     enum { KEEP_ALL_IMG, KEEP_ONE_VALID_IMG };
-    Id3V230StreamWriter(Id3V2StreamBase*, bool bKeepOneValidImg, bool bFastSave); // if bKeepOneValidImg is true, at most an APIC frame is kept, and it has to be valid or at least link;
-    Id3V230StreamWriter(bool bKeepOneValidImg, bool bFastSave); // if bKeepOneValidImg is true, at most an APIC frame is kept, and it has to be valid or at least link;
+    Id3V230StreamWriter(bool bKeepOneValidImg, bool bFastSave, Id3V2StreamBase*); // if bKeepOneValidImg is true, at most an APIC frame is kept, and it has to be valid or at least link; Id3V2StreamBase* may be 0;
     ~Id3V230StreamWriter();
 
 
@@ -109,7 +108,7 @@ public:
     // throws WriteError if it cannot write, including the case when nTotalSize is too small;
     // if nTotalSize is >0, the padding will be be whatever is left;
     // if nTotalSize is <0 and m_bFastSave is true, there will be a padding of around ImageInfo::MAX_IMAGE_SIZE+Id3V2Expander::EXTRA_SPACE;
-    // if (nTotalSize is <0 and m_bFastSave is false) or if (nTotalSize is 0, regardless of m_bFastSave), there will be a padding of between DEFAULT_EXTRA_SPACE and DEFAULT_EXTRA_SPACE + 511;
+    // if (nTotalSize is <0 and m_bFastSave is false) or if nTotalSize is 0 (regardless of m_bFastSave), there will be a padding of between DEFAULT_EXTRA_SPACE and DEFAULT_EXTRA_SPACE + 511;
     // (0 discards extra padding regardless of m_bFastSave)
     void write(std::ostream& out, int nTotalSize = -1) const;
 

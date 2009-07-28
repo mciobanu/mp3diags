@@ -1,3 +1,17 @@
+* Tue Jul 28 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.05.030
+- fixed a bug that caused the tag editor to reserve more space than needed even if the "fast save" option was turned off
+- fixed a bug that prevented removal of elements from lists
+- fixed a bug in the ID3V2 tag writer that prevented "Discard invalid ID3V2 data" and other transformations to properly work with ID3V2.4.0 tags that contain UTF8-encoded strings, resulting in a broken ID3V2.3.0 tag
+- file renamer now accepts patterns with no directory separators, in which case the renamed files are placed in the source directory
+- pattern dialogs now show the current line and column
+- fixed an assertion in the code that determines the file list
+- added tooltips for all the notes in the main file table
+- improved speed for "Discard invalid ID3V2 data" when no changes are done
+- transformation name included in the dialog that shows which file is currently processed
+- broken ID3V2 streams get removed when saving from the tag editor
+- the tag editor no longer triggers an assertion failure if non-default settings in the file section of the configuration dialog; (e.g. until now saving from the tag editor while original files weren't deleted resulted in this assertion failure)
+- fixed a bug in the "Change case for ID3V2 text frames" that resulted in a program crash if some fields were missing from the ID3V2 tag
+
 * Sun Jul 26 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.05.029
 - fast save in the tag editor
 - file renamer can work with the list of visible files instead of the current album if the user holds CTRL down when pressing the button

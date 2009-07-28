@@ -345,7 +345,7 @@ Id3V230StreamWriter::~Id3V230StreamWriter()
 
 
 
-Id3V230StreamWriter::Id3V230StreamWriter(Id3V2StreamBase* p, bool bKeepOneValidImg, bool bFastSave) : m_bKeepOneValidImg(bKeepOneValidImg), m_bFastSave(bFastSave)
+Id3V230StreamWriter::Id3V230StreamWriter(bool bKeepOneValidImg, bool bFastSave, Id3V2StreamBase* p) : m_bKeepOneValidImg(bKeepOneValidImg), m_bFastSave(bFastSave)
 {
     if (0 != p)
     {
@@ -359,7 +359,23 @@ Id3V230StreamWriter::Id3V230StreamWriter(Id3V2StreamBase* p, bool bKeepOneValidI
                 CB_ASSERT ((0 == strcmp(q->m_szName, KnownFrames::LBL_IMAGE())) ^ (Id3V2Frame::NO_APIC == q->m_eApicStatus));
                 if (Id3V2Frame::NO_APIC == q->m_eApicStatus)
                 {
-                    m_vpAllFrames.push_back(q);
+                    bool bCopyFrame (true);
+
+                    if ('T' == q->m_szName[0] && q->m_nMemDataSize > 0 && 0 != dynamic_cast<const Id3V240Frame*>(q))
+                    { // check for UTF-8 encoding
+                        Id3V2FrameDataLoader ldr (*q);
+                        const char* pData (ldr.getData());
+                        if (3 == pData[0])
+                        { // UTF-8
+                            bCopyFrame = false;
+                            addTextFrame(q->m_szName, q->getUtf8String());
+                        }
+                    }
+
+                    if (bCopyFrame)
+                    {
+                        m_vpAllFrames.push_back(q);
+                    }
                 }
                 else
                 {
@@ -394,9 +410,6 @@ Id3V230StreamWriter::Id3V230StreamWriter(Id3V2StreamBase* p, bool bKeepOneValidI
 }
 
 
-Id3V230StreamWriter::Id3V230StreamWriter(bool bKeepOneValidImg, bool bFastSave) : m_bKeepOneValidImg(bKeepOneValidImg), m_bFastSave(bFastSave)
-{
-}
 
 
 void Id3V230StreamWriter::setRecTime(const TagTimestamp& time)
@@ -535,7 +548,7 @@ e1:
 }
 
 
-
+// for UTF8 text frames, a new, owned, frame will be added instead
 void Id3V230StreamWriter::addNonOwnedFrame(const Id3V2Frame* p)
 {
 //qDebug("add %p", p);
@@ -544,6 +557,17 @@ void Id3V230StreamWriter::addNonOwnedFrame(const Id3V2Frame* p)
     {
         removeFrames(p->m_szName, p->m_nPictureType);
         // m_vpAllFrames.insert(m_vpAllFrames.begin(), p); //ttt1 putting a front cover image after a back cover might not be the best idea; see if it makes sense to sort the frames; (perhaps have something to sort all frames before saving)
+    }
+
+    if ('T' == p->m_szName[0] && p->m_nMemDataSize > 0 && 0 != dynamic_cast<const Id3V240Frame*>(p))
+    { // check for UTF-8 encoding; for UTF8 an owned frame will be added instead
+        Id3V2FrameDataLoader ldr (*p);
+        const char* pData (ldr.getData());
+        if (3 == pData[0])
+        { // UTF-8
+            addTextFrame(p->m_szName, p->getUtf8String());
+            return;
+        }
     }
 
     m_vpAllFrames.push_back(p);
@@ -594,7 +618,7 @@ static int getUnsynchVal(int x)
 // throws WriteError if it cannot write, including the case when nTotalSize is too small;
 // if nTotalSize is >0, the padding will be be whatever is left;
 // if nTotalSize is <0 and m_bFastSave is true, there will be a padding of around ImageInfo::MAX_IMAGE_SIZE+Id3V2Expander::EXTRA_SPACE;
-// if (nTotalSize is <0 and m_bFastSave is false) or if (nTotalSize is 0, regardless of m_bFastSave), there will be a padding of between DEFAULT_EXTRA_SPACE and DEFAULT_EXTRA_SPACE + 511;
+// if (nTotalSize is <0 and m_bFastSave is false) or if nTotalSize is 0 (regardless of m_bFastSave), there will be a padding of between DEFAULT_EXTRA_SPACE and DEFAULT_EXTRA_SPACE + 511;
 // (0 discards extra padding regardless of m_bFastSave)
 void Id3V230StreamWriter::write(ostream& out, int nTotalSize /*= -1*/) const
 {

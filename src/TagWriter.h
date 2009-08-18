@@ -135,7 +135,7 @@ public:
     const char* getType() const { return m_szType; }
 
     TrackTextReader(SongInfoParser::TrackTextParser* pTrackTextParser, const std::string& s);
-    ~TrackTextReader();
+    /*override*/ ~TrackTextReader();
 };
 
 
@@ -203,6 +203,7 @@ class Mp3HandlerTagData
     Mp3HandlerTagData& operator=(const Mp3HandlerTagData&);
 public:
     Mp3HandlerTagData(TagWriter* pTagWriter, const Mp3Handler* pMp3Handler, int nCrtPos, int nOrigPos, const std::string& strPastedVal);
+    ~Mp3HandlerTagData();
 
     enum Status { EMPTY, ID3V2_VAL, NON_ID3V2_VAL, ASSIGNED };
 
@@ -325,6 +326,8 @@ class TagWriter : public QObject
 
     const bool& m_bIsFastSaving;
 
+    int m_nFileToErase;
+
 public:
     TagWriter(CommonData* pCommonData, QWidget* pParentWnd, const bool& bIsFastSaving);
     ~TagWriter();
@@ -405,6 +408,7 @@ public:
 private slots:
     void onAssignImage(int);
     void onEraseFile(int);
+    void onEraseFileDelayed();
 
 signals:
     void albumChanged(/*bool bContentOnly*/); // the selection may be kept iff bContentOnly is true

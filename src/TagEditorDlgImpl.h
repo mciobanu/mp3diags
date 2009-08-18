@@ -228,6 +228,7 @@ protected slots:
     void on_m_pConfigB_clicked();
 
     void onAlbSelChanged();
+    void onAlbCrtChanged();
     void onFileSelSectionMoved(int nLogicalIndex, int nOldVisualIndex, int nNewVisualIndex);
     void onShow() { resizeTagEditor(); }
 

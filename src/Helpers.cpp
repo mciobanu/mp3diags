@@ -210,6 +210,7 @@ bool CB_LIB_CALL trim(string& s)
 
 
 /*
+// multi-line hex printing
 void printHex(const string& s, ostream& out, bool bShowAsciiCode = true) //ttt3 see if anybody needs this
 {
     int nSize (cSize(s));
@@ -223,6 +224,7 @@ void printHex(const string& s, ostream& out, bool bShowAsciiCode = true) //ttt3 
         {
             nMax = nSize - nCrt;
         }
+
         for (int i = 0; i < nMax; ++i)
         {
             char c (s[i + nCrt]);
@@ -230,6 +232,7 @@ void printHex(const string& s, ostream& out, bool bShowAsciiCode = true) //ttt3 
             out << " " << c << " ";
         }
         out << endl;
+
         for (int i = 0; i < nMax; ++i)
         {
             unsigned int x ((unsigned char)s[i + nCrt]);
@@ -247,6 +250,29 @@ void printHex(const string& s, ostream& out, bool bShowAsciiCode = true) //ttt3 
     }
 }
 */
+
+
+
+std::string asHex(const char* p, int nSize)
+{
+    ostringstream out;
+    out << "\"";
+    for (int i = 0; i < nSize; ++i)
+    {
+        char c (p[i]);
+        out << (c >= 32 && c < 127 ? c : '.');
+    }
+    out << "\" (" << hex;
+    for (int i = 0; i < nSize; ++i)
+    {
+        if (i > 0) { out << " "; }
+        unsigned char c (p[i]);
+        out << setw(2) << setfill('0') << (int)c;
+    }
+    out << ")";
+    return out.str();
+}
+
 
 
 

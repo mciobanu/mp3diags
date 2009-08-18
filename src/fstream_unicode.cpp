@@ -41,7 +41,7 @@
 
 //#include  "Helpers.h" //ttt remove
 
-//ttt0 perhaps add flush()
+//ttt1 perhaps add flush()
 
 
 static int getAcc(std::ios_base::openmode __mode)
@@ -64,7 +64,7 @@ static int getAcc(std::ios_base::openmode __mode)
     }
     else
     {
-        throw 1; // ttt0
+        throw 1; // ttt1
     }
 
     #ifdef O_LARGEFILE
@@ -103,12 +103,13 @@ static int getAcc(std::ios_base::openmode __mode)
         return nFd;
     }
 
+#if 0
     template<>
     int unicodeOpenHlp(const wchar_t* /*wszUtf16Name*/, std::ios_base::openmode /*__mode*/)
     {
         throw 1; //ttt2 add if needed
     }
-
+#endif
 
 #else
 
@@ -157,11 +158,18 @@ int unicodeOpenHlp(char* szUtf8Name, std::ios_base::openmode __mode)
     return unicodeOpenHlp<const char*>(szUtf8Name, __mode);
 }
 
+
+#ifndef WIN32 // ttt2 remove conditional if needed
+
+#else
+
 template<>
 int unicodeOpenHlp(wchar_t* wszUtf16Name, std::ios_base::openmode __mode)
 {
     return unicodeOpenHlp<const wchar_t*>(wszUtf16Name, __mode);
 }
+
+#endif
 
 
 template<>
@@ -173,5 +181,5 @@ int unicodeOpenHlp(int fd, std::ios_base::openmode /*__mode*/)
 
 
 
-//ttt0 review O_SHORT_LIVED
+//ttt1 review O_SHORT_LIVED
 

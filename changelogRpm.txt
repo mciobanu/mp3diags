@@ -1,3 +1,15 @@
+* Wed Aug 19 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.05.031
+- crash detection
+- fixed small memory leak in config dialog
+- fixed small memory leak in the tag editor
+- content is shown for GEOB frames
+- .ID3 files are now loaded in addition to .MP3
+- made the counter shown when applying transforms increment on new file(until now it was incremented for each transform)
+- "Various artists" no longer set as "artist" when downloading track info from MusicBrainz
+- fixed "current cell" in the tag editor (until now, when dragging the mouse to select several cells, the current cell was wrong, leading to setting values incorrectly
+- fixed a bug that didn't allow removal of the track number
+- slightly improved the normalizer, so a "busy" cursor is shown when the connection to the underlying process is lost (the program seems frozen, but it resumes after about 30 seconds)
+
 * Tue Jul 28 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.05.030
 - fixed a bug that caused the tag editor to reserve more space than needed even if the "fast save" option was turned off
 - fixed a bug that prevented removal of elements from lists

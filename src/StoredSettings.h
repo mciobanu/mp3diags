@@ -92,6 +92,8 @@ public:
     void saveMiscConfigSettings(const CommonData*);
     void loadMiscConfigSettings(CommonData*) const;
 
+    void saveDbDirty(bool bDirty);
+    void loadDbDirty(bool& bDirty);
 
     //ttt1 ??? see about ThreadRunner size; perhaps set width to its parent
 

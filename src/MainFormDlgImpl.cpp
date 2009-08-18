@@ -30,6 +30,7 @@
 #include  <QTimer>
 #include  <QDesktopWidget>
 #include  <QToolTip>
+#include  <QSettings>
 
 #ifndef WIN32
     //#include <sys/utsname.h>
@@ -84,7 +85,8 @@ void trace(const string& s)
 }
 
 static QString s_strAssertTitle ("Assertion failure");
-static QString s_strAssertMsg;
+static QString s_strCrashWarnTitle ("Crash detected");
+static QString s_strErrorMsg;
 static bool s_bMainAssertOut;
 
 /*static QString replaceDblQuotes(const QString& s)
@@ -110,15 +112,15 @@ static bool s_bMainAssertOut;
 
 
 
-static void showAssertDlg(QWidget* pParent)
+static void showErrorDlg(QWidget* pParent, bool bAssert)
 {
-    //QMessageBox dlg (QMessageBox::Critical, s_strAssertTitle, s_strAssertMsg, QMessageBox::Close, 0, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint); // ttt1 this might fail / crash, as it may be called from a secondary thread
+    //QMessageBox dlg (QMessageBox::Critical, s_strAssertTitle, s_strErrorMsg, QMessageBox::Close, 0, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint); // ttt1 this might fail / crash, as it may be called from a secondary thread
 
 //getDialogWndFlags
     QDialog dlg (pParent, Qt::Dialog | getNoResizeWndFlags() | Qt::WindowStaysOnTopHint); // Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint |
     //QDialog dlg (pParent, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint);
 
-    dlg.setWindowTitle(s_strAssertTitle);
+    dlg.setWindowTitle(bAssert ? s_strAssertTitle : s_strCrashWarnTitle);
     dlg.setWindowIcon(QIcon(":/images/logo.svg"));
     QVBoxLayout* pLayout (new QVBoxLayout(&dlg));
     //delete dlg.layout();
@@ -133,17 +135,17 @@ static void showAssertDlg(QWidget* pParent)
 
 
     pContent->setOpenExternalLinks(true);
-    //QString s ("<p/>Please notify <a href=\"mailto:ciobi@inbox.com?subject=000 MP3 Diags assertion failure&body=" + replaceDblQuotes(Qt::escape(s_strAssertMsg + " " + qstrVer)) + "\">ciobi@inbox.com</a> about this. (If your email client is properly configured, it's enough to click on the account name and then send.) <p/>Alternatively, you can report the bug at the <a href=\"http://sourceforge.net/forum/forum.php?forum_id=947207\">MP3 Diags Help Forum</a> (<a href=\"http://sourceforge.net/forum/forum.php?forum_id=947207\">http://sourceforge.net/forum/forum.php?forum_id=947207</a>)");
+    //QString s ("<p/>Please notify <a href=\"mailto:ciobi@inbox.com?subject=000 MP3 Diags assertion failure&body=" + replaceDblQuotes(Qt::escape(s_strErrorMsg + " " + qstrVer)) + "\">ciobi@inbox.com</a> about this. (If your email client is properly configured, it's enough to click on the account name and then send.) <p/>Alternatively, you can report the bug at the <a href=\"http://sourceforge.net/forum/forum.php?forum_id=947207\">MP3 Diags Help Forum</a> (<a href=\"http://sourceforge.net/forum/forum.php?forum_id=947207\">http://sourceforge.net/forum/forum.php?forum_id=947207</a>)");
 
     QString s ("<p/>Please report this issue on the <a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">MP3 Diags Issue Tracker</a> (<a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a>). Make sure to include the data below, as well as any other detail that seems relevant (what might have caused the failure, steps to reproduce it, ...)<p/><p/><hr/><p/>");
 
 //qDebug("%s", s.toUtf8().data());
-    pContent->setHtml(Qt::escape(s_strAssertMsg) + s + Qt::escape(s_strAssertMsg) + "<p/>" + qstrVer);
+    pContent->setHtml(Qt::escape(s_strErrorMsg) + s + Qt::escape(s_strErrorMsg) + "<p/>" + qstrVer);
     pLayout->addWidget(pContent);
 
     QHBoxLayout btnLayout;
     btnLayout.addStretch(0);
-    QPushButton* pBtn (new QPushButton("Exit", &dlg));
+    QPushButton* pBtn (new QPushButton(bAssert ? "Exit" : "OK", &dlg));
     btnLayout.addWidget(pBtn);
     QObject::connect(pBtn, SIGNAL(clicked()), &dlg, SLOT(accept()));
 
@@ -160,7 +162,7 @@ void logAssert(const char* szFile, int nLine, const char* szCond)
     //QMessageBox::critical(0, "Assertion failure", QString("Assertion failure in file %1, line %2: %3").arg(szFile).arg(nLine).arg(szCond), QMessageBox::Close);
     /*QMessageBox dlg (QMessageBox::Critical, "Assertion failure", QString("Assertion failure in file %1, line %2: %3").arg(szFile).arg(nLine).arg(szCond), QMessageBox::Close, getThreadLocalDlgList().getDlg(), Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint);*/
 
-    s_strAssertMsg = QString("Assertion failure in file %1, line %2: %3").arg(szFile).arg(nLine).arg(szCond);
+    s_strErrorMsg = QString("Assertion failure in file %1, line %2: %3").arg(szFile).arg(nLine).arg(szCond);
 
     MainFormDlgImpl* p (getGlobalDlg());
 
@@ -186,19 +188,19 @@ void logAssert(const char* szFile, int nLine, const char* szCond)
     }
     else
     {
-        /*QMessageBox dlg (QMessageBox::Critical, s_strAssertTitle, s_strAssertMsg, QMessageBox::Close, 0, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint); // ttt1 this might fail / crash, as it may be called from a secondary thread
+        /*QMessageBox dlg (QMessageBox::Critical, s_strAssertTitle, s_strErrorMsg, QMessageBox::Close, 0, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint); // ttt1 this might fail / crash, as it may be called from a secondary thread
 
         dlg.exec();*/
-        showAssertDlg(0);
+        showErrorDlg(0, true);
     }
 }
 
 void MainFormDlgImpl::onShowAssert()
 {
-    /*QMessageBox dlg (QMessageBox::Critical, s_strAssertTitle, s_strAssertMsg, QMessageBox::Close, this, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint);
+    /*QMessageBox dlg (QMessageBox::Critical, s_strAssertTitle, s_strErrorMsg, QMessageBox::Close, this, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint);
 
     dlg.exec();*/
-    showAssertDlg(this);
+    showErrorDlg(this, true);
 
     s_bMainAssertOut = true;
 }
@@ -824,6 +826,7 @@ void MainFormDlgImpl::initializeUi()
 
 void MainFormDlgImpl::onShow()
 {
+    bool bLoadErr (false);
 
     {
         string strErr;
@@ -843,17 +846,36 @@ void MainFormDlgImpl::onShow()
 
         if (!strErr.empty())
         {
-            QMessageBox::critical(this, "Error", "An error occured while loading the MP3 information. You will have to scan your files again.\n\n" + convStr(strErr));
+            bLoadErr = true;
+            QMessageBox::critical(this, "Error", "An error occured while loading the MP3 information. Your files will be rescanned.\n\n" + convStr(strErr));
         }
     }
 
-    if (m_pCommonData->m_bScanAtStartup)
+    bool bDirty;
+    m_settings.loadDbDirty(bDirty);
+    if (bDirty)
     {
-        fullReload();
-    }//*/
-//qDebug("pppp");
+        s_strErrorMsg = "Crash detected.";
+        showErrorDlg(this, false);
+
+        if (m_transfConfig.m_optionsWrp.m_opt.m_bKeepOrigTime)
+        {
+            QMessageBox::warning(this, "Warning", "It seems that the application is restarting after a crash. Your files will be rescanned.\n\n(Since this may take a long time for large collections, you may want to abort the full rescanning and apply a filter to include only the files that you changed since the last time the program closed correctly, then manually rescan only those files.)");
+        }
+        else
+        {
+            bDirty = false; // !!! if original time is not kept, any changes will be detected anyway, no need to force a full reload
+        }
+    }
+
+    m_settings.saveDbDirty(true);
+
+    if (m_pCommonData->m_bScanAtStartup || bDirty)
+    {
+        fullReload(bDirty || bLoadErr ? FORCE : DONT_FORCE);
+    }
+
     resizeEvent(0);
-    //if (m_pCommonData->getViewHandlers().empty())
 
     // !!! without these the the file grid may look bad if it has a horizontal scrollbar and one of the last files is current
     string strCrt (m_pCommonData->getCrtName());
@@ -862,12 +884,12 @@ void MainFormDlgImpl::onShow()
 }
 
 
-void MainFormDlgImpl::fullReload()
+void MainFormDlgImpl::fullReload(bool bForceReload)
 {
     CommonData::ViewMode eMode (m_pCommonData->getViewMode());
     m_pCommonData->setViewMode(CommonData::ALL, m_pCommonData->getCrtMp3Handler());
     m_pCommonData->m_filter.disableAll();
-    reload(IGNORE_SEL, DONT_FORCE);
+    reload(IGNORE_SEL, bForceReload);
     m_pCommonData->m_filter.restoreAll();
     m_pCommonData->setViewMode(eMode, m_pCommonData->getCrtMp3Handler());
 }
@@ -921,6 +943,9 @@ MainFormDlgImpl::~MainFormDlgImpl()
         m_nScanWidth
         );
 
+    m_settings.saveDbDirty(false); // !!! it would seem better to delay marking the data clean until a full reload is completed; however, if the user aborted the rescan, it was probably for a good reason (e.g. to rescan only a part of the files), so it makes more sense to mark the data as clean regardless of how it was when it was loaded and if the rescan completed or not
+
+
     //QMessageBox dlg (this); dlg.show();
     //CursorOverrider crs;// (Qt::ArrowCursor);
 
@@ -928,6 +953,15 @@ MainFormDlgImpl::~MainFormDlgImpl()
     delete m_pCommonData;
 }
 
+void SessionSettings::saveDbDirty(bool bDirty)
+{
+    m_pSettings->setValue("main/dirty", bDirty);
+}
+
+void SessionSettings::loadDbDirty(bool& bDirty)
+{
+    bDirty = m_pSettings->value("main/dirty", false).toBool();
+}
 
 
 MainFormDlgImpl::CloseOption MainFormDlgImpl::run()
@@ -1053,14 +1087,14 @@ bool Mp3ProcThread::scan()
     {
         string strName (m_fileEnum.next());
         if (strName.empty()) { return true; }
-        if (endsWith(strName, ".mp3") || endsWith(strName, ".MP3"))
+        if (endsWith(strName, ".mp3") || endsWith(strName, ".MP3") || endsWith(strName, ".id3") || endsWith(strName, ".ID3"))
         {
             if (isAborted()) { return false; }
             checkPause();
 
             StrList l;
             l.push_back(toNativeSeparators(convStr(strName)));
-            emit stepChanged(l);
+            emit stepChanged(l, -1);
             if (!m_bForce)
             {
                 deque<const Mp3Handler*>::iterator it (lower_bound(m_vpExisting.begin(), m_vpExisting.end(), strName, CmpMp3HandlerPtrByName()));
@@ -1578,9 +1612,13 @@ void MainFormDlgImpl::transform(std::vector<Transformation*>& vpTransf, bool bAl
         {
             qstrListInfo = "\"" + convStr(m_pCommonData->getSelHandlers()[0]->getShortName()) + "\"";
         }
+        else if (2 == nCnt)
+        {
+            qstrListInfo = "\"" + convStr(m_pCommonData->getSelHandlers()[0]->getShortName()) + QString("\" and the other selected file");
+        }
         else
-        { //ttt2 actually this is never reached, because a single file can be selected at a time; ttt1 perhaps allow multiple selection but show the corresponding streams and notes for the "current" file only; might use different background colors for "current" and "selected"
-            qstrListInfo = "\"" + convStr(m_pCommonData->getSelHandlers()[0]->getShortName()) + "\" and the other the selected file(s)";
+        {
+            qstrListInfo = "\"" + convStr(m_pCommonData->getSelHandlers()[0]->getShortName()) + QString("\" and the other %1 selected files").arg(nCnt - 1);
         }
     }
 
@@ -1727,7 +1765,7 @@ void MainFormDlgImpl::on_m_pTagEdtB_clicked()
 
     if (m_pCommonData->useFastSave())
     {
-        fullReload();
+        fullReload(DONT_FORCE);
     }
     else
     {
@@ -1971,7 +2009,7 @@ struct TestThread01 : public PausableThread
             s.sprintf("step %d", i);
             StrList l;
             l.push_back(s);
-            emit stepChanged(l);
+            emit stepChanged(l, -1);
 //qDebug("step %d", i);
 
             sleep(1);

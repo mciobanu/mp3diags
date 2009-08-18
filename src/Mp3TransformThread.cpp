@@ -45,6 +45,7 @@ void logTransformation(const string& strLogFile, const char* szActionName, const
 }
 
 
+
 //ttt0 perhaps make "fast-save aware" other transf that operate on id3v3 only (case transf, codepage, discards, ...); OTOH how likely is it to run 2 of these one ofer another? (otherwise you'd have to rescan anyway). still, perhaps allow proceeding in most cases without rescanning ID3V2 would be better, perhaps optional; then everything would be faster with ID3V2
 namespace {
 
@@ -158,7 +159,7 @@ bool Mp3TransformThread::transform()
             const Mp3Handler* pOrigHndl (m_vpHndlr[i]);
             string strOrigName (pOrigHndl->getName());
 
-            if (pOrigHndl->sizeOrTimeChanged())
+            if (pOrigHndl->id3V2NeedsReload(!m_pCommonData->useFastSave()))
             {
                 m_strErrorFile = strOrigName;
                 m_bWriteError = false;
@@ -180,7 +181,7 @@ bool Mp3TransformThread::transform()
             {
                 Transformation& t (*m_vpTransf[j]);
                 l[1] = t.getActionName();
-                emit stepChanged(l);
+                emit stepChanged(l, i + 1);
                 Transformation::Result eTransf;
                 try
                 {

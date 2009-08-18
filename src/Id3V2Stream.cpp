@@ -231,7 +231,7 @@ void Id3V2Frame::print(ostream& out, bool bFullInfo) const
             break;
 
         case 3:
-            qs = QString::fromUtf8(pData + nBeg, m_nMemDataSize - nBeg);
+            qs = QString::fromUtf8(pData + nBeg, m_nMemDataSize - nBeg); // ttt3 not quite OK for ID3V2.3.0, but it's probably better this way
             break;
         }
 
@@ -244,6 +244,91 @@ void Id3V2Frame::print(ostream& out, bool bFullInfo) const
     {
         out << " size=" << m_nMemDataSize;
     }
+
+
+    if (bFullInfo && string("GEOB") == m_szName)
+    { // !!! "size" is already written
+        //ttt2  perhaps try and guess the data type
+        Id3V2FrameDataLoader wrp (*this);
+        const char* pData (wrp.getData());
+        unsigned char cEnc (*pData);
+        const char* pMime (0);
+        const char* pFile (0);
+        const char* pDescr (0);
+        const char* pBinData (0);
+
+        QString qstrMime, qstrFile, qstrDescr;
+
+        if (cEnc > 3)
+        {
+            out << " invalid text encoding";
+        }
+        else if (2 == cEnc)
+        {
+            out << " unsupported text encoding";
+        }
+        else
+        {
+            const char* pLast (pData + m_nMemDataSize); // actually first after last
+            int nTermSize (1 == cEnc || 2 == cEnc ? 2 : 1);
+
+            pFile = pMime = pData + 1;
+            for (; pFile < pLast && 0 != *pFile; ++pFile) {}
+            if (pFile == pLast) { goto e1; }
+            pFile += 1; // !!! mime is always UTF-8
+
+            pDescr = pFile;
+            for (; pDescr < pLast && 0 != *pDescr; ++pDescr) {}
+            if (pDescr == pLast) { goto e1; }
+            pDescr += nTermSize;
+
+            pBinData = pDescr;
+            for (; pBinData < pLast && 0 != *pBinData; ++pBinData) {}
+            if (pBinData == pLast) { pBinData = 0; goto e1; }
+            pBinData += nTermSize;
+
+e1:
+            if (0 != pBinData)
+            {
+                qstrMime = QString::fromLatin1(pMime);
+                switch (cEnc)
+                {
+                case 0: // Latin-1
+                    qstrFile = QString::fromLatin1(pFile);
+                    qstrDescr = QString::fromLatin1(pDescr);
+                    break;
+
+                case 1:
+                    qstrFile = QString::fromUtf8(utf8FromBomUtf16(pFile, pDescr - pFile).c_str());
+                    qstrDescr = QString::fromUtf8(utf8FromBomUtf16(pDescr, pBinData - pDescr).c_str());
+                    break;
+
+                /*case 2:
+                    qs = "<< unsupported encoding >>";
+                    break;*/
+
+                case 3:  // ttt3 not quite OK for ID3V2.3.0, but it's probably better this way
+                    qstrFile = QString::fromUtf8(pFile);
+                    qstrDescr = QString::fromUtf8(pDescr);
+                    break;
+
+                default: CB_ASSERT(false);
+                }
+            }
+
+            if (0 == pBinData)
+            {
+                out << " invalid data";
+            }
+            else
+            {
+                int nBinSize (pLast - pBinData);
+                int nPrintedBinSize (min(1024, nBinSize));
+                out << " MIME=\"" << convStr(qstrMime) << "\" File=\"" << convStr(qstrFile) << "\" Descr=\"" << convStr(qstrDescr) << "\" Binary data size=" << pLast - pBinData << (nPrintedBinSize != nBinSize ? " Begins with: " : " Content: ") << asHex(pBinData, nPrintedBinSize);
+            }
+        }
+    }
+
 
     if (0 == strcmp(KnownFrames::LBL_IMAGE(), m_szName))
     {

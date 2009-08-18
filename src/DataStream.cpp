@@ -69,23 +69,7 @@ UnknownDataStreamBase::UnknownDataStreamBase(int nIndex, NoteColl& notes, istrea
 
 /*override*/ std::string UnknownDataStreamBase::getInfo() const
 {
-    ostringstream out;
-    out << "begins with: \"";
-    streamoff nBeginSize (min(streamoff(BEGIN_SIZE), m_nSize));
-    for (int i = 0; i < nBeginSize; ++i)
-    {
-        char c (m_begin[i]);
-        out << (c >= 32 && c < 127 ? c : '.');
-    }
-    out << "\" (" << hex;
-    for (int i = 0; i < nBeginSize; ++i)
-    {
-        if (i > 0) { out << " "; }
-        unsigned char c (m_begin[i]);
-        out << setw(2) << setfill('0') << (int)c;
-    }
-    out << ")";
-    return out.str();
+    return "begins with: " + asHex(m_begin, min(int(BEGIN_SIZE), int(m_nSize)));
 }
 
 

@@ -311,6 +311,7 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
 
         //connect(m_pCurrentAlbumG, SIGNAL(clicked(const QModelIndex &)), this, SLOT(onAlbSelChanged())); // ttt1 see if both this and next are needed (next seems enough)
         connect(m_pCurrentAlbumG->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), this, SLOT(onAlbSelChanged()));
+        connect(m_pCurrentAlbumG->selectionModel(), SIGNAL(currentChanged(const QModelIndex&, const QModelIndex &)), this, SLOT(onAlbCrtChanged()));
     }
 
 
@@ -854,6 +855,8 @@ void TagEditorDlgImpl::on_m_pReloadB_clicked()
 }
 
 
+//ttt0 perhaps transf to set recording time based on file date; another to set file date based on rec time
+
 // copies the values from the first row to the other rows for columns that have at least a cell selected (doesn't matter if more than 1 cells are selected);
 void TagEditorDlgImpl::on_m_pCopyFirstB_clicked()
 {
@@ -900,11 +903,20 @@ void TagEditorDlgImpl::onAlbSelChanged()
 {
     updateAssigned();
 
-    QItemSelectionModel* pSelModel (m_pCurrentAlbumG->selectionModel());
-
+    /*QItemSelectionModel* pSelModel (m_pCurrentAlbumG->selectionModel());
     int n (pSelModel->currentIndex().row());
+qDebug("onAlbSelChanged - CurrentFile=%d", n);
+    m_pTagWriter->setCrt(n);*/ // !!! incorrect, because currentIndex() returns the previous index; that's why onAlbCrtChanged() is needed
+}
+
+void TagEditorDlgImpl::onAlbCrtChanged()
+{
+    QItemSelectionModel* pSelModel (m_pCurrentAlbumG->selectionModel());
+    int n (pSelModel->currentIndex().row());
+    if (-1 == n) { return; }
     m_pTagWriter->setCrt(n);
 }
+
 
 
 void TagEditorDlgImpl::onFileSelSectionMoved(int /*nLogicalIndex*/, int nOldVisualIndex, int nNewVisualIndex)

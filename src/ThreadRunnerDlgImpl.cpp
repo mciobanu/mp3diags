@@ -110,7 +110,7 @@ ThreadRunnerDlgImpl::ThreadRunnerDlgImpl(QWidget* pParent, Qt::WFlags flags, Pau
 
     pThread->setParent(this);
 
-    connect(m_pThread, SIGNAL(stepChanged(const StrList&)), this, SLOT(onStepChanged(const StrList&)));
+    connect(m_pThread, SIGNAL(stepChanged(const StrList&, int)), this, SLOT(onStepChanged(const StrList&, int)));
     connect(m_pThread, SIGNAL(completed(bool)), this, SLOT(onThreadCompleted(bool)));
     connect(&m_closeTimer, SIGNAL(timeout()), this, SLOT(onCloseTimer()));
     connect(&m_updateTimer, SIGNAL(timeout()), this, SLOT(onUpdateTimer()));
@@ -218,10 +218,18 @@ QString ThreadRunnerDlgImpl::truncateLarge(const QString& s, int nKeepFirst /*= 
 
 
 //void ThreadRunnerDlgImpl::onStepChanged(const QString& qstrLabel1, const QString& qstrLabel2 /*= ""*/, const QString& qstrLabel3 /*= ""*/, const QString& qstrLabel4 /*= ""*/)
-void ThreadRunnerDlgImpl::onStepChanged(const StrList& v)
+void ThreadRunnerDlgImpl::onStepChanged(const StrList& v, int nStep)
 {
 //qDebug("step %s", qstrLabel.toStdString().c_str());
-    ++m_nCounter;
+    if (-1 == nStep)
+    {
+        ++m_nCounter;
+    }
+    else
+    {
+        m_nCounter = nStep;
+    }
+
     m_vStepInfo = v;
     if (m_bFirstTime)
     {

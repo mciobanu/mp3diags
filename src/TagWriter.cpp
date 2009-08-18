@@ -208,9 +208,9 @@ TrackTextReader::TrackTextReader(SongInfoParser::TrackTextParser* pTrackTextPars
 
 
 
-TrackTextReader::~TrackTextReader()
+/*override*/ TrackTextReader::~TrackTextReader()
 {
-//    qDebug("destr %p", this);
+    //qDebug("destr TrackTextReader %p", this);
 }
 
 
@@ -323,6 +323,13 @@ Mp3HandlerTagData::Mp3HandlerTagData(TagWriter* pTagWriter, const Mp3Handler* pM
 {
     refreshReaders();
     reload();
+    //qDebug("create %p", this);
+}
+
+
+Mp3HandlerTagData::~Mp3HandlerTagData()
+{
+    //qDebug("destr %p", this);
 }
 
 static bool isId3V2(const TagReader* p)
@@ -477,9 +484,9 @@ void Mp3HandlerTagData::setData(int nField, const std::string& s)
         }
     }
 
-    if (TagReader::TRACK_NUMBER == nField)
+    if (TagReader::TRACK_NUMBER == nField && !s.empty()) // !!! note that an empty track# gets removed when writing to ID3V2
     {
-        if (s.empty() || !isdigit(s[0]) || !isdigit(s[s.size() - 1])) { throw InvalidValue(); }
+        if (!isdigit(s[0]) || !isdigit(s[s.size() - 1])) { throw InvalidValue(); }
         string::size_type n1 (s.find_first_not_of("0123456789")), n2 (s.find_last_not_of("0123456789"));
         if (string::npos != n1 && (n1 != n2 || s[n1] != '/')) { throw InvalidValue(); }
     }
@@ -520,7 +527,7 @@ void Mp3HandlerTagData::setStatus(int nField, Status eStatus)
 }
 
 
-
+//ttt0 ??? ptr deallocated and then reallocated in the same place most of the time?
 // returns the data corresponding to the k-th element in m_pTagWriter->m_vTagReaderInfo; returns "\1" if it doesn't have a corresponding stream (e.g. 2nd ID3V1 tag), "\2" if the given feature is not supported (e.g. picture in ID3V1) and "\3" if this particular tag doesn't have the requested frame
 // nField is the "internal" row for which data is retrieved, so TagReader::FEATURE_ON_POS[] has to be used by the UI caller
 std::string Mp3HandlerTagData::getData(int nField, int k) const
@@ -530,10 +537,10 @@ std::string Mp3HandlerTagData::getData(int nField, int k) const
         return "\1";
     }
 
-    TagReader* p (m_vpMatchingTagReaders[k]);
+    TagReader* p (m_vpMatchingTagReaders.at(k));
     if (0 == p) { return "\1"; }
 
-    if (m_pTagWriter->isFastSaving() && (m_pTagWriter->m_vTagReaderInfo[k].m_strName == Id3V230Stream::getClassDisplayName() || m_pTagWriter->m_vTagReaderInfo[k].m_strName == Id3V240Stream::getClassDisplayName()))
+    if (m_pTagWriter->isFastSaving() && (m_pTagWriter->m_vTagReaderInfo.at(k).m_strName == Id3V230Stream::getClassDisplayName() || m_pTagWriter->m_vTagReaderInfo[k].m_strName == Id3V240Stream::getClassDisplayName()))
     {
         return "N/A";
     }
@@ -697,7 +704,7 @@ const TagReader* Mp3HandlerTagData::getMatchingReader(int i) const
 
 
 
-TagWriter::TagWriter(CommonData* pCommonData, QWidget* pParentWnd, const bool& bIsFastSaving) : m_pCommonData(pCommonData), m_pParentWnd(pParentWnd), m_nCurrentFile(-1), m_bShowedNonSeqWarn(true), m_bIsFastSaving(bIsFastSaving)
+TagWriter::TagWriter(CommonData* pCommonData, QWidget* pParentWnd, const bool& bIsFastSaving) : m_pCommonData(pCommonData), m_pParentWnd(pParentWnd), m_nCurrentFile(-1), m_bShowedNonSeqWarn(true), m_bIsFastSaving(bIsFastSaving), m_nFileToErase(-1)
 {
 }
 
@@ -705,6 +712,7 @@ TagWriter::TagWriter(CommonData* pCommonData, QWidget* pParentWnd, const bool& b
 TagWriter::~TagWriter()
 {
     clearPtrContainer(m_vpTrackTextParsers);
+    clearPtrContainer(m_vpMp3HandlerTagData);
 }
 
 
@@ -874,7 +882,8 @@ void TagWriter::reloadAll(string strCrt, bool bClearData, bool bClearAssgn)
     {
         strCrt = getCurrentName();
     }
-
+//ttt0 ??? q ? m_vpMp3HandlerTagData gets destroyed then prev values used?" x
+//ttt0 ??? ? push_back for m_vpMp3HandlerTagData ?
     vector<Mp3HandlerTagData*> v; v.swap(m_vpMp3HandlerTagData);
     const deque<const Mp3Handler*>& vpHndl (m_pCommonData->getCrtAlbum());
     if (!v.empty() && cSize(v) != cSize(vpHndl))
@@ -882,9 +891,12 @@ void TagWriter::reloadAll(string strCrt, bool bClearData, bool bClearAssgn)
         bClearData = true; // needed for the case when proc orig files are kept or when changed files are nor created
     }
 
+//qDebug("------------------------- dir %s -------------------------", vpHndl[0]->getDir().c_str());
     if (bClearData)
     {
+//qDebug(">>>>>>>>>>>>>>>>>>>>>>>>> initial >>>>>>>>>>>>>>>>>>>>>>>>>");
         clearPtrContainer(v);
+//qDebug("<<<<<<<<<<<<<<<<<<<<<<<<< initial <<<<<<<<<<<<<<<<<<<<<<<<<");
         m_imageColl.clear();
         m_vnMovedTo.clear();
         m_vstrPastedValues.clear();
@@ -905,6 +917,7 @@ void TagWriter::reloadAll(string strCrt, bool bClearData, bool bClearAssgn)
         emit albumChanged(); // this will cause the window to close
         return; // !!! don't add a column for which data doesn't make sense (without this, "pattern" readers would get added, because they exist independently of songs)
     }
+
     CB_ASSERT (v.empty() || cSize(v) == cSize(vpHndl));
 
     int n (cSize(vpHndl));
@@ -1000,8 +1013,9 @@ void TagWriter::reloadAll(string strCrt, bool bClearData, bool bClearAssgn)
     {
         sortSongs();
     }
-
+//qDebug(">>>>>>>>>>>>>>>>>>>>>>>>> after merge >>>>>>>>>>>>>>>>>>>>>>>>>");
     clearPtrContainer(v);
+//qDebug("<<<<<<<<<<<<<<<<<<<<<<<<< after merge <<<<<<<<<<<<<<<<<<<<<<<<<");
 
     if (bClearData)
     { // add images from crt dir
@@ -1060,7 +1074,7 @@ void TagWriter::setCrt(int nCrt)
 {
     CB_ASSERT (0 <= nCrt && nCrt < cSize(m_vpMp3HandlerTagData));
     m_nCurrentFile = nCrt;
-
+//qDebug("2 m_nCurrentFile=%d", m_nCurrentFile);
     emit fileChanged();
 }
 
@@ -1311,7 +1325,14 @@ void TagWriter::onAssignImage(int nPos)
 
 void TagWriter::onEraseFile(int nPos)
 {
-    const TagWrtImageInfo& inf (m_imageColl[nPos]);
+    m_nFileToErase = nPos;
+    QTimer::singleShot(1, this, SLOT(onEraseFileDelayed()));
+}
+
+
+void TagWriter::onEraseFileDelayed()
+{
+    const TagWrtImageInfo& inf (m_imageColl[m_nFileToErase]);
     CB_ASSERT (!inf.m_sstrFiles.empty());
     QString s;
     if (inf.m_sstrFiles.size() > 1)
@@ -1338,7 +1359,7 @@ void TagWriter::onEraseFile(int nPos)
 
         emit requestSave();
 
-        hasUnsaved(nPos, bAssigned, bNonId3V2);
+        hasUnsaved(bAssigned, bNonId3V2);
         if (bAssigned) { return; }
     }
 
@@ -1653,7 +1674,7 @@ void TagWriter::paste()
 
     QMessageBox::critical(m_pParentWnd, "Error", "Unrecognized clipboard content");
 }
-//ttt0 test on wnd pasting from dir with spaces
+
 
 void TagWriter::sort()
 {
@@ -1695,7 +1716,7 @@ void TagWriter::hasUnsaved(int nSong, bool& bAssigned, bool& bNonId3V2) // sets 
 {
     bAssigned = false;
     bNonId3V2 = false;
-    const Mp3HandlerTagData* p (m_vpMp3HandlerTagData[nSong]);
+    const Mp3HandlerTagData* p (m_vpMp3HandlerTagData.at(nSong));
     for (int i = 0; i < TagReader::LIST_END; ++i)
     {
         switch (p->getStatus(i))

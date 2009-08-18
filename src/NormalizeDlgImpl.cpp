@@ -39,9 +39,21 @@
 
 using namespace std;
 
+/*
+ttt0 random 30-second freeze: norm completed but not detected; window was set to stay open; abort + close sort of worked, but the main window froze and the program had to be killed; on a second run it looked like the UI freeze is not permanent, but lasts 30 seconds (so waiting some more the first time might have unfrozen the app)
+
+What seems to happen is this: QProcess loses contact with the actual process (or perhaps the program becomes a zombie or something similar, not really finished but not running anymore either); then 2 things happen: first, waitForFinished() doesn't return for 30 seconds (which is the default timeout, and can be made smaller); then, when closing the norm window there's another 30 seconds freeze, probably caused by the dialog destructor's attempt to destroy the QProcess member (which again tries to kill a dead process)
+
+This might be fixed in newer versions of Qt.
+
+Might be related to the comment "!!! needed because sometimes" below, which also suggests that the issue is in Qt rather than MP3 Diags
 
 
-NormalizeDlgImpl::NormalizeDlgImpl(QWidget* pParent, bool bKeepOpen, SessionSettings& settings, const CommonData* pCommonData) : QDialog(pParent, getDialogWndFlags()), Ui::NormalizeDlg(), m_bFinished(false), m_settings(settings), m_pCommonData(pCommonData)
+Note that this also happens during normal operation, even if "abort" is not pressed. The dialog might fail to detect that normalization is done. If that happens, the solution is to press Abort.
+
+*/
+
+NormalizeDlgImpl::NormalizeDlgImpl(QWidget* pParent, bool bKeepOpen, SessionSettings& settings, const CommonData* pCommonData) : QDialog(pParent, getDialogWndFlags()), Ui::NormalizeDlg(), m_pProc(0), m_bFinished(false), m_settings(settings), m_pCommonData(pCommonData)
 {
     setupUi(this);
     m_pKeepOpenCkM->setChecked(bKeepOpen);
@@ -56,6 +68,8 @@ NormalizeDlgImpl::NormalizeDlgImpl(QWidget* pParent, bool bKeepOpen, SessionSett
 
 NormalizeDlgImpl::~NormalizeDlgImpl()
 {
+    CursorOverrider crs;
+    delete m_pProc;
 }
 
 
@@ -217,6 +231,7 @@ void NormalizeDlgImpl::on_m_pCloseB_clicked()
 
 void NormalizeDlgImpl::on_m_pAbortB_clicked()
 {
+qDebug("proc state %d", int(m_pProc->state()));
     if (m_bFinished)
     {
         on_m_pCloseB_clicked();
@@ -225,8 +240,9 @@ void NormalizeDlgImpl::on_m_pAbortB_clicked()
 
     if (0 == showMessage(this, QMessageBox::Warning, 1, 1, "Confirm", "Stopping normalization may leave the files in an inconsistent state or may prevent temporary files from being deleted. Are you sure you want to abort the normalization?", "Yes, abort", "Don't abort"))
     {
+        CursorOverrider crs;
         m_pProc->kill();
-        m_pProc->waitForFinished();
+        m_pProc->waitForFinished(5000);
         onFinished();
     }
 }

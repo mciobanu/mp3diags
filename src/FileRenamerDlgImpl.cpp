@@ -426,7 +426,7 @@ bool RenameThread::proc()
         QString qstrName (m_vpHndl[i]->getUiName());
         StrList l;
         l.push_back(qstrName);
-        emit stepChanged(l);
+        emit stepChanged(l, -1);
 
         string strDest (m_pRenamer->getNewName(m_vpHndl[i]));
 

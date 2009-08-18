@@ -806,6 +806,7 @@ ConfigDlgImpl::~ConfigDlgImpl()
 {
     clearPtrContainer(m_vpOrigAll);
     clearPtrContainer(m_vpResetAll); // doesn't matter if it was used or not, or if m_bResultInReset is true or false
+    delete m_pVisibleTransfPainter;
     delete m_pCustomTransfListPainter;
 }
 

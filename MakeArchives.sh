@@ -201,6 +201,7 @@ function createClicknetDoc
 
     cd package/out
     #tar czf $DestDir.tar.gz $DestDir
+    cp MP3Diags-$Ver.tar.gz $DestDir
     cd ../..
 
     #rm -f -r $LongDestDir

@@ -216,7 +216,10 @@ private:
 
     void onAlbArtistNameChar(const string& s)
     {
-        m_albumInfo.m_strArtist = s;
+        if (0 != convStr(s).compare("VaRiOuS Artists", Qt::CaseInsensitive))
+        {
+            m_albumInfo.m_strArtist = s;
+        }
     }
 
     void onTrackTitleChar(const string& s)

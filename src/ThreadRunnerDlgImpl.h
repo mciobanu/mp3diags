@@ -92,7 +92,7 @@ public:
     bool isAborted() const { return m_bAborted; } // !!! no synch needed
     void checkPause(); // if m_bPaused is set, it waits until resume() or abort() get called; otherwise it returns immediately
     //void emitStepChanged(const QString& qstrLabel1, const QString& qstrLabel2 = "", const QString& qstrLabel3 = "", const QString& qstrLabel4 = "") { emit stepChanged(qstrLabel1, qstrLabel2, qstrLabel3, qstrLabel4); }
-    void emitStepChanged(const StrList& v) { emit stepChanged(v); }
+    void emitStepChanged(const StrList& v, int nStep = -1) { emit stepChanged(v, nStep); }
 
 //public slots:
 //private slots:
@@ -108,7 +108,7 @@ private:
 
 signals:
     //void stepChanged(const QString& qstrLabel1, const QString& qstrLabel2, const QString& qstrLabel3, const QString& qstrLabel4);
-    void stepChanged(const StrList& v);
+    void stepChanged(const StrList& v, int nStep); // normally nStep should be -1, which causes the steps to be handled automatically;
     void completed(bool bSuccess);
 };
 
@@ -198,7 +198,7 @@ private slots:
     void on_m_pPauseResumeB_clicked();
     void on_m_pAbortB_clicked();
     //void onStepChanged(const QString& qstrLabel1, const QString& qstrLabel2 = "", const QString& qstrLabel3 = "", const QString& qstrLabel4 = "");
-    void onStepChanged(const StrList& v);
+    void onStepChanged(const StrList& v, int nStep);
     void onCloseTimer();
     void onUpdateTimer();
 

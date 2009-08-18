@@ -935,7 +935,7 @@ string Mp3Handler::getDir() const
 }
 
 
-bool Mp3Handler::sizeOrTimeChanged() const
+bool Mp3Handler::id3V2NeedsReload(bool bConsiderTime) const
 {
     long long nSize, nTime;
     try
@@ -947,14 +947,14 @@ bool Mp3Handler::sizeOrTimeChanged() const
         return true;
     }
 
-    return nSize != m_nSize || nTime != m_nTime;
+    return nSize != m_nSize || (bConsiderTime && nTime != m_nTime);
 }
 
 
 // if the underlying file seems changed (or removed); looks at time and size, as well as FastSaveWarn and Notes::getMissingNote();
 bool Mp3Handler::needsReload() const
 {
-    if (m_notes.hasFastSaveWarn() || sizeOrTimeChanged()) { return true; }
+    if (m_notes.hasFastSaveWarn() || id3V2NeedsReload(true)) { return true; }
     const vector<Note*>& vpNotes (m_notes.getList());
     return !vpNotes.empty() && vpNotes[0]->getDescription() == Notes::getMissingNote()->getDescription();
 }

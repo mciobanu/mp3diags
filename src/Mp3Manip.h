@@ -118,7 +118,7 @@ class Mp3Handler
     void checkLastFrameInMpegStream(ifstream_utf8& in); // what looks like the last frame in an MPEG stream may actually be truncated and somewhere inside it an ID3V1 or Ape tag may actually begin; if that's the case, that "frame" is removed from the stream; then most likely an "Unknown" stream will be detected, followed by an ID3V1 or Ape stream
 
     void reloadId3V2Hlp();
-private:
+
 public:
     Mp3Handler(const std::string& strFileName, bool bStoreTraceNotes, const QualThresholds& qualThresholds);
     ~Mp3Handler();
@@ -139,7 +139,7 @@ public:
 
     const Id3V2StreamBase* getId3V2Stream() const;
 
-    bool sizeOrTimeChanged() const;
+    bool id3V2NeedsReload(bool bConsiderTime) const;
     bool needsReload() const; // if the underlying file seems changed (or removed); looks at time and size, as well as FastSaveWarn and Notes::getMissingNote();
 
     void sortNotes() { m_notes.sort(); } // this is needed when loading from the disk, if unknown (most likely obsolete) notes are found

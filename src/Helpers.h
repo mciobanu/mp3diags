@@ -220,6 +220,9 @@ void printContainer(const T& s, std::ostream& out, const std::string& strSep = "
 }
 
 
+std::string asHex(const char* p, int nSize);
+
+
 inline bool CB_LIB_CALL beginsWith(const std::string& strMain, const std::string& strSubstr)
 {
     if (strSubstr.size() > strMain.size()) return false;

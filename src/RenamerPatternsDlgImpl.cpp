@@ -47,12 +47,12 @@ RenamerPatternsDlgImpl::RenamerPatternsDlgImpl(QWidget* pParent, SessionSettings
     m_infoM->setTabStopWidth(fontMetrics().width("%ww"));
     QString qsSep (getPathSep());
     m_infoM->setText(QString("%n\ttrack number\n%a\tartist\n%t\ttitle\n%b\talbum\n%y\tyear\n%g\tgenre\n%r\trating (a lowercase letter)\n%c\tcomposer"
-            "\n\nTo include the special characters \"%\", \"[\" and \"]\", precede them by a \"%\": \"%%\", \"%[\" and \"%]\"\n\nThe path should be a full path, starting with a "
+            "\n\nTo include the special characters \"%\", \"[\" and \"]\", precede them by a \"%\": \"%%\", \"%[\" and \"%]\"\n\nThe path should be either a full path, starting with a "
 
 #ifndef WIN32
-            "\"") + getPathSep() + "\""
+            "\"") + getPathSep() + "\", or it should contain no \"" + getPathSep() + "\", if what is wanted is for the renamed files to remain in their original directories"
 #else
-            "drive lettered followed by \":\\\"")
+            "drive letter followed by \":\\\", or it should contain no \"\\\", if what is wanted is for the renamed files to remain in their original directories")
 #endif
             );
 

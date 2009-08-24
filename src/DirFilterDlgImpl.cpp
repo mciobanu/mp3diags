@@ -88,6 +88,7 @@ static string removeSepFromRoot(const string& s)
 
 void DirFilterDlgImpl::populateLists()
 {
+    TRACER("DirFilterDlgImpl::populateLists");
     const set<string>& sDirs (m_pCommonData->getAllDirs());
     if (sDirs.empty()) { return; }
 
@@ -187,6 +188,7 @@ DirFilterDlgImpl::DirFilterDlgImpl(CommonData* pCommonData, QWidget* pParent /*=
         ListPainter("<all folders>"),
         m_pCommonData(pCommonData)
 {
+    TRACER("DirFilterDlgImpl constr");
     setupUi(this);
 
     populateLists();

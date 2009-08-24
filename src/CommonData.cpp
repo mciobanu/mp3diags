@@ -208,6 +208,7 @@ void SessionSettings::saveMiscConfigSettings(const CommonData* p)
         m_pSettings->setValue("main/autoSizeIcons", p->m_bAutoSizeIcons);
         m_pSettings->setValue("main/keepOneValidImg", p->m_bKeepOneValidImg);
         m_pSettings->setValue("main/fastSave", p->useFastSave());
+        m_pSettings->setValue("debug/traceToFile", p->isTraceToFileEnabled());
 
         QFont genFnt (p->getNewGeneralFont());
         m_pSettings->setValue("main/generalFontName", genFnt.family());
@@ -216,6 +217,9 @@ void SessionSettings::saveMiscConfigSettings(const CommonData* p)
         QFont fixedFnt (p->getNewFixedFont());
         m_pSettings->setValue("main/fixedFontName", fixedFnt.family());
         m_pSettings->setValue("main/fixedFontSize", fixedFnt.pointSize());
+
+        m_pSettings->setValue("main/warnedAboutSel", p->m_bWarnedAboutSel);
+        m_pSettings->setValue("main/warnedAboutBackup", p->m_bWarnedAboutBackup);
     }
 
     { // note categ colors
@@ -304,12 +308,16 @@ void SessionSettings::loadMiscConfigSettings(CommonData* p) const
         p->m_bAutoSizeIcons = m_pSettings->value("main/autoSizeIcons", true).toBool();
         p->m_bKeepOneValidImg = m_pSettings->value("main/keepOneValidImg", false).toBool();
         p->setFastSave(m_pSettings->value("main/fastSave", false).toBool(), CommonData::DONT_UPDATE_TRANSFORMS);
+        p->setTraceToFile(m_pSettings->value("debug/traceToFile", false).toBool());
 
         QFont fnt;
         //qDebug("%d ==========================", fnt.pointSize());
         QFontInfo inf1 (QFont(m_pSettings->value("main/generalFontName", "SansSerif").toString(), m_pSettings->value("main/generalFontSize", fnt.pointSize()).toInt())); // ttt2 try and get the system defaults
         QFontInfo inf2 (QFont(m_pSettings->value("main/fixedFontName", "Courier").toString(), m_pSettings->value("main/fixedFontSize", fnt.pointSize()).toInt()));
         p->setFontInfo(convStr(inf1.family()), inf1.pointSize(), m_pSettings->value("main/labelFontSizeDecr", 0).toInt(), convStr(inf2.family()), inf2.pointSize());
+
+        p->m_bWarnedAboutSel = m_pSettings->value("main/warnedAboutSel", false).toBool();
+        p->m_bWarnedAboutBackup = m_pSettings->value("main/warnedAboutBackup", false).toBool();
     }
 
     { // note categ colors
@@ -358,6 +366,49 @@ void SessionSettings::loadMiscConfigSettings(CommonData* p) const
 }
 
 
+// adjusts the global font so it displays legible characters (on Windows it is possible under some unclear circumstances for all characters to be shown as small rectangles)
+void fixAppFont(QFont& font, string& strNewFont, int& nNewSize)
+{
+    const char* aszFonts[] = { "Arial", "Helvetica", "Sans", "Courier", 0 };
+    for (int i = 0; ; ++i)
+    {
+        const int SIZE (50);
+        QImage img1 (SIZE, SIZE, QImage::Format_RGB32);
+        QImage img2 (SIZE, SIZE, QImage::Format_RGB32);
+
+        {
+            QPainter pntr (&img1);
+            pntr.fillRect(0, 0, SIZE, SIZE, QColor(255, 255, 255));
+            pntr.drawText(5, SIZE/2 + 10, "ab");
+        }
+
+        {
+            QPainter pntr (&img2);
+            pntr.fillRect(0, 0, SIZE, SIZE, QColor(255, 255, 255));
+            pntr.drawText(5, SIZE/2 + 10, "cd");
+            //pntr.drawText(5, SIZE/2 + 10, "ab");
+        }
+
+        if (img1 != img2)
+        {
+            break;
+        }
+
+        qDebug("invalid font %s", strNewFont.c_str());
+        const char* szFont (aszFonts[i]);
+        if (0 == szFont)
+        {
+            exit(1); // don't know what else to do
+        }
+
+        strNewFont = szFont;
+        if (nNewSize < 5 || nNewSize > 20) { nNewSize = 9; };
+        font.setFamily(convStr(strNewFont));
+        font.setPointSize(nNewSize);
+        QApplication::setFont(font);
+    }
+}
+
 static int MIN_FILE_WIDTH; // minimum width of the "file" field
 
 void CommonData::setFontInfo(const std::string& strGenName, int nGenSize, int nLabelFontSizeDecr, const std::string& strFixedName, int nFixedSize)
@@ -384,6 +435,8 @@ void CommonData::setFontInfo(const std::string& strGenName, int nGenSize, int nL
     m_generalFont.setFamily(convStr(strGenName));
     m_generalFont.setPointSize(nGenSize);
     QApplication::setFont(m_generalFont);
+
+    fixAppFont(m_generalFont, m_strGenFontName, m_nGenFontSize);
 
     m_labelFont = m_generalFont;
     m_labelFont.setPointSize(nGenSize - nLabelFontSizeDecr);
@@ -1954,6 +2007,15 @@ void CommonData::trace(const std::string& s)
 void CommonData::clearLog()
 {
     m_vLogs.clear();
+}
+
+
+void setupTraceToFile(bool bEnable);
+
+void CommonData::setTraceToFile(bool bTraceToFile) // also removes the file
+{
+    m_bTraceToFile = bTraceToFile;
+    setupTraceToFile(bTraceToFile);
 }
 
 

@@ -33,6 +33,7 @@ using namespace std;
 
 /*override*/ QVariant CheckedDirModel::data(const QModelIndex& index, int nRole /*= Qt::DisplayRole*/) const
 {
+    LAST_STEP("CheckedDirModel::data()");
     if (Qt::CheckStateRole == nRole)
     {
         //QString s (getDir(index));

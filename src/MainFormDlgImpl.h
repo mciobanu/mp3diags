@@ -164,6 +164,9 @@ private:
     bool m_bShowMaximized;
     int m_nScanWidth;
 
+    void showBackupWarn();
+    void showSelWarn();
+    bool notif(const char* szTitle, const char* szMessage, bool bCritical);
 signals:
     void tagEditorClosed();
 };

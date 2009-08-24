@@ -81,6 +81,7 @@ CurrentAlbumModel::CurrentAlbumModel(TagEditorDlgImpl* pTagEditorDlgImpl) : m_pT
 
 /*override*/ QVariant CurrentAlbumModel::data(const QModelIndex& index, int nRole) const
 {
+LAST_STEP("CurrentAlbumModel::data()");
     if (!index.isValid()) { return QVariant(); }
     int i (index.row());
     int j (index.column());
@@ -122,6 +123,7 @@ CurrentAlbumModel::CurrentAlbumModel(TagEditorDlgImpl* pTagEditorDlgImpl) : m_pT
 
 /*override*/ QVariant CurrentAlbumModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /*= Qt::DisplayRole*/) const
 {
+LAST_STEP("CurrentAlbumModel::headerData");
     if (nRole != Qt::DisplayRole) { return QVariant(); }
 
     if (Qt::Horizontal == eOrientation)
@@ -184,6 +186,7 @@ CurrentFileModel::CurrentFileModel(const TagEditorDlgImpl* pTagEditorDlgImpl) : 
 
 /*override*/ QVariant CurrentFileModel::data(const QModelIndex& index, int nRole) const
 {
+LAST_STEP("CurrentFileModel::data()");
     if (!index.isValid() || 0 == m_pTagWriter->getCurrentHndl()) { return QVariant(); }
     int i (index.row());
     int j (index.column());
@@ -218,6 +221,7 @@ CurrentFileModel::CurrentFileModel(const TagEditorDlgImpl* pTagEditorDlgImpl) : 
 
 /*override*/ QVariant CurrentFileModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /*= Qt::DisplayRole*/) const
 {
+LAST_STEP("CurrentFileModel::headerData");
     //if (nRole == Qt::SizeHintRole) { return QSize(CELL_WIDTH - 1, CELL_HEIGHT); }
 
     if (nRole != Qt::DisplayRole) { return QVariant(); }
@@ -407,6 +411,7 @@ TagEditorDlgImpl::~TagEditorDlgImpl()
 
 string TagEditorDlgImpl::run()
 {
+    TRACER("TagEditorDlgImpl::run()");
     exec();
     return m_pTagWriter->getCurrentName();
 }

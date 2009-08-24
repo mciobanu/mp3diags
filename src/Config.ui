@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>971</width>
-    <height>593</height>
+    <height>613</height>
    </rect>
   </property>
   <property name="minimumSize" >
@@ -2433,6 +2433,13 @@
                 <widget class="QCheckBox" name="m_pShowSessCkB" >
                  <property name="text" >
                   <string>Show "Sessions" button</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="m_pTraceToFileCkB" >
+                 <property name="text" >
+                  <string>Trace actions to file (for debugging)</string>
                  </property>
                 </widget>
                </item>

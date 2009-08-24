@@ -77,6 +77,7 @@ Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const Q
 
         m_notes(1000) //ttt1 hard-coded
 {
+    TRACER("Mp3Handler constr: " + strFileName);
     ifstream_utf8 in (m_pFileName->s.c_str(), ios::binary);
 
     if (!in)
@@ -113,6 +114,7 @@ Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const Q
 
 Mp3Handler::~Mp3Handler()
 {
+    TRACER("Mp3Handler destr: " + m_pFileName->s);
 //qDebug("begin destroying Mp3Handler at %p", this);
     /*delete m_pId3V230Stream;
     delete m_pId3V240Stream;
@@ -201,7 +203,7 @@ void Mp3Handler::checkLastFrameInMpegStream(ifstream_utf8& in)
         in.seekg(pos);
         try
         {
-            DataStream* p (new LyricsStream(0, notes, in));
+            DataStream* p (new LyricsStream(0, notes, in, m_pFileName->s));
             delete p;
             break;
         }
@@ -400,7 +402,7 @@ void Mp3Handler::parse(ifstream_utf8& in) // ttt2 this function is a mess; needs
 
         try
         {
-            m_vpAllStreams.push_back(new LyricsStream(nIndex, m_notes, in));
+            m_vpAllStreams.push_back(new LyricsStream(nIndex, m_notes, in, m_pFileName->s));
             pos += m_vpAllStreams.back()->getSize();
             ++nIndex;
             continue;
@@ -728,7 +730,7 @@ void Mp3Handler::analyze(const QualThresholds& qualThresholds)
     if (0 == m_pId3V230Stream) { MP3_NOTE (-1, noId3V230); }
     if (0 != m_pId3V230Stream && 0 != m_pId3V240Stream) { MP3_NOTE (m_pId3V240Stream->getPos(), bothId3V230_V240); }
     if (0 != m_pVbriStream) { MP3_NOTE (m_pVbriStream->getPos(), vbriFound); }
-    if (0 != m_pLyricsStream) { MP3_NOTE (m_pLyricsStream->getPos(), lyricsNotSupported); }
+    //if (0 != m_pLyricsStream) { MP3_NOTE (m_pLyricsStream->getPos(), lyricsNotSupported); }
     if (0 != m_pId3V1Stream && 0 == m_pId3V230Stream && 0 == m_pId3V240Stream && 0 == m_pApeStream) { MP3_NOTE (m_pId3V1Stream->getPos(), onlyId3V1); }
     if (0 == m_pId3V1Stream && 0 == m_pId3V230Stream && 0 == m_pId3V240Stream && 0 == m_pApeStream) { MP3_NOTE (-1, noInfoTag); }
     if (!m_vpNullStreams.empty()) { MP3_NOTE (m_vpNullStreams[0]->getPos(), foundNull); }

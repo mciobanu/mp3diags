@@ -1,5 +1,16 @@
 ---------------------------------------------------------------------------
 
+23.08.2009 - 0.99.05.032
+- new Qt (4.5.2) and MinGW (3.4.5) for the Windows version
+- restructured crash detector
+- fixed Windows issue with rectangles being shown instead of letters
+- Lyrics partial support
+- warning that may corrupt data
+- note about how to change selected files
+- HTML clean up
+
+---------------------------------------------------------------------------
+
 18.08.2009 - 0.99.05.031
 - crash detection
 - fixed small memory leak in config dialog

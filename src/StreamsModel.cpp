@@ -57,6 +57,7 @@ StreamsModel::StreamsModel(CommonData* pCommonData) : QAbstractTableModel(pCommo
 
 /*override*/ QVariant StreamsModel::data(const QModelIndex& index, int nRole) const
 {
+LAST_STEP("StreamsModel::data()");
     int j (index.column());
     //if (nRole == Qt::SizeHintRole && j > 0) { return QSize(CELL_WIDTH - 1, CELL_HEIGHT - 1); }  // !!! "-1" so one pixel can be used to draw the grid
     //if (nRole == Qt::SizeHintRole) { return QSize(CELL_WIDTH - 10, CELL_HEIGHT - 10); }  // !!! "-1" so one pixel can be used to draw the grid
@@ -96,6 +97,7 @@ StreamsModel::StreamsModel(CommonData* pCommonData) : QAbstractTableModel(pCommo
 
 /*override*/ QVariant StreamsModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /*= Qt::DisplayRole*/) const
 {
+LAST_STEP("StreamsModel::headerData");
     if (nRole == Qt::SizeHintRole)
     {
         return getNumVertHdrSize(cSize(m_pCommonData->getCrtStreams()), eOrientation);

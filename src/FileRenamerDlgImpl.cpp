@@ -86,6 +86,7 @@ const deque<const Mp3Handler*> HndlrListModel::getHandlerList() const
 
 /*override*/ QVariant HndlrListModel::data(const QModelIndex& index, int nRole) const
 {
+LAST_STEP("HndlrListModel::data()");
     if (!index.isValid()) { return QVariant(); }
     int i (index.row());
     int j (index.column());
@@ -157,6 +158,7 @@ const deque<const Mp3Handler*> HndlrListModel::getHandlerList() const
 
 /*override*/ QVariant HndlrListModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /*= Qt::DisplayRole*/) const
 {
+LAST_STEP("HndlrListModel::headerData");
     if (nRole != Qt::DisplayRole) { return QVariant(); }
 
     if (Qt::Horizontal == eOrientation)

@@ -52,6 +52,7 @@ SessionsModel::SessionsModel(std::vector<std::string>& vstrSessions) : m_vstrSes
 
 /*override*/ QVariant SessionsModel::data(const QModelIndex& index, int nRole /*= Qt::DisplayRole*/) const
 {
+LAST_STEP("SessionsModel::data()");
     if (!index.isValid()) { return QVariant(); }
     int i (index.row());
     //int j (index.column());

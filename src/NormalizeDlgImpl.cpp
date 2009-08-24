@@ -51,6 +51,8 @@ Might be related to the comment "!!! needed because sometimes" below, which also
 
 Note that this also happens during normal operation, even if "abort" is not pressed. The dialog might fail to detect that normalization is done. If that happens, the solution is to press Abort.
 
+ttt0 doc: might seem frozen at the end; just press abort and wait for at most a minute. i'm investigating the cause
+same may happen after pressing abort while the normalization is running
 */
 
 NormalizeDlgImpl::NormalizeDlgImpl(QWidget* pParent, bool bKeepOpen, SessionSettings& settings, const CommonData* pCommonData) : QDialog(pParent, getDialogWndFlags()), Ui::NormalizeDlg(), m_pProc(0), m_bFinished(false), m_settings(settings), m_pCommonData(pCommonData)

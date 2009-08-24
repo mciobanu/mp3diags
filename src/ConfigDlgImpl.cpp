@@ -584,6 +584,7 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
         m_pAutoSizeIconsCkB->setChecked(m_pCommonData->m_bAutoSizeIcons);
         m_pKeepOneValidImgCkB->setChecked(m_pCommonData->m_bKeepOneValidImg);
         m_pMaxImgSizeSB->setValue(ImageInfo::MAX_IMAGE_SIZE/1024);
+        m_pTraceToFileCkB->setChecked(m_pCommonData->isTraceToFileEnabled());
 
         m_generalFont = m_pCommonData->getNewGeneralFont();
         m_pDecrLabelFontSB->setValue(m_pCommonData->getLabelFontSizeDecr());
@@ -701,6 +702,7 @@ void SessionSettings::loadTransfConfig(TransfConfig& transfConfig) const
 
 bool ConfigDlgImpl::run()
 {
+    TRACER("ConfigDlgImpl::run()");
     if (QDialog::Accepted != exec()) { return false; }
     m_pCommonData->m_settings.saveConfigSize(width(), height());
     return true;
@@ -978,6 +980,7 @@ void ConfigDlgImpl::on_m_pOkB_clicked()
             m_pCommonData->m_bAutoSizeIcons = m_pAutoSizeIconsCkB->isChecked();
             m_pCommonData->m_bKeepOneValidImg = m_pKeepOneValidImgCkB->isChecked();
             ImageInfo::MAX_IMAGE_SIZE = m_pMaxImgSizeSB->value()*1024; //ttt1 inconsistent to keep this in static var and the others in CommonData; perhaps switch to a global CommonData that anybody can access, without passing it in params
+            m_pCommonData->setTraceToFile(m_pTraceToFileCkB->isChecked());
 
             m_pCommonData->setFontInfo(convStr(m_generalFont.family()), m_generalFont.pointSize(), m_pDecrLabelFontSB->value(), convStr(m_fixedFont.family()), m_fixedFont.pointSize());
         }

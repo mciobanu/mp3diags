@@ -95,6 +95,12 @@ public:
     void saveDbDirty(bool bDirty);
     void loadDbDirty(bool& bDirty);
 
+    void saveCrashedAtStartup(bool bCrashedAtStartup);
+    void loadCrashedAtStartup(bool& bCrashedAtStartup);
+
+    void saveVersion(const std::string& strVersion);
+    void loadVersion(std::string& strVersion);
+
     //ttt1 ??? see about ThreadRunner size; perhaps set width to its parent
 
     bool sync();

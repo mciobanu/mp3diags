@@ -65,6 +65,7 @@ int AvailableModel::columnCount() const
 
 /*override*/ QVariant AvailableModel::data(const QModelIndex& index, int nRole) const
 {
+LAST_STEP("AvailableModel::data()");
     if (!index.isValid()) { return QVariant(); }
 
     if (nRole != Qt::DisplayRole) { return QVariant(); }
@@ -77,6 +78,7 @@ int AvailableModel::columnCount() const
 
 /*override*/ QVariant AvailableModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /*= Qt::DisplayRole*/) const
 {
+LAST_STEP("AvailableModel::headerData");
     if (nRole == Qt::SizeHintRole)
     {
         return getNumVertHdrSize(cSize(m_listPainter.getAvailable()), eOrientation);
@@ -157,6 +159,8 @@ int SelectedModel::columnCount() const
 
 /*override*/ QVariant SelectedModel::data(const QModelIndex& index, int nRole) const
 {
+LAST_STEP("SelectedModel::data()");
+
     if (!index.isValid()) { return QVariant(); }
 
     if (nRole != Qt::DisplayRole && nRole != Qt::ToolTipRole) { return QVariant(); }
@@ -199,6 +203,7 @@ int SelectedModel::columnCount() const
 
 /*override*/ QVariant SelectedModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /*= Qt::DisplayRole*/) const
 {
+LAST_STEP("SelectedModel::headerData");
     if (nRole == Qt::SizeHintRole)
     {
         return getNumVertHdrSize(cSize(m_listPainter.getSel()), eOrientation);

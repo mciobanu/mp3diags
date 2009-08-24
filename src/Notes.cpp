@@ -197,7 +197,10 @@ static const char* s_szPlaceholderDescr ("<Placeholder for a note that can no lo
     // lyrics
     addNote(&Notes::lyrTooShort()); // e
     addNote(&Notes::twoLyr()); // s
-    addNote(&Notes::lyricsNotSupported()); // s
+    addNote(&Notes::invalidLyr()); // e
+    addNote(&Notes::duplicateFields()); // s
+    addNote(&Notes::imgInLyrics()); // s
+    addNote(&Notes::infInLyrics()); // s
 
     // ape
     addNote(&Notes::apeItemTooShort()); // e
@@ -286,7 +289,7 @@ static const char* s_szPlaceholderDescr ("<Placeholder for a note that can no lo
         //v.push_back(zeroInId3V1().getNoteId());
         v.push_back(mixedPaddingInId3V1().getNoteId());
         v.push_back(mixedFieldPaddingInId3V1().getNoteId());
-        v.push_back(lyricsNotSupported().getNoteId());
+        //v.push_back(lyricsNotSupported().getNoteId());
         v.push_back(tooManyTraceNotes().getNoteId());
         v.push_back(tooManyNotes().getNoteId());
     }

@@ -69,6 +69,7 @@ FilesModel::FilesModel(CommonData* pCommonData) : QAbstractTableModel(pCommonDat
 
 /*override*/ QVariant FilesModel::data(const QModelIndex& index, int nRole) const
 {
+LAST_STEP("FilesModel::headerData");
     if (!index.isValid()) { return QVariant(); }
     int j (index.column());
     if (nRole == Qt::SizeHintRole && j > 0) { return QSize(CELL_WIDTH - 1, CELL_HEIGHT - 1); }  // !!! "-1" so one pixel can be used to draw the grid
@@ -118,6 +119,7 @@ FilesModel::FilesModel(CommonData* pCommonData) : QAbstractTableModel(pCommonDat
 
 /*override*/ QVariant FilesModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /*= Qt::DisplayRole*/) const
 {
+LAST_STEP("FilesModel::headerData");
 #if 0
     // 2008.07.28: no longer used because resizeColumnsToContents() cannot be called (it takes too long)
     if (nRole == Qt::SizeHintRole)

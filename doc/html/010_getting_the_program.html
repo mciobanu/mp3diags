@@ -6,29 +6,35 @@
 <meta name="keywords" content="MP3, diags, diagnosis, tag editor, tagger, normalizer, repair, VBR" />
 <meta name="description" content="End-user documentation for MP3 Diags, an MP3 analysis tool that also includes correction and tag editing functionality" />
 <title>MP3 Diags - Getting MP3 Diags</title>
-<link rel="stylesheet" type="text/css" media="screen" href="style.css">
+<link rel="stylesheet" type="text/css" media="screen" href="style.css" />
 <!--[if lte IE 6]>  <link rel="stylesheet" type="text/css" href="style_ie6.css" />  <![endif]-->
 <!--[if IE 7]>  <link rel="stylesheet" type="text/css" href="style_ie7.css" />  <![endif]-->
 </head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon">
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 
 <body>
 
+<!-- add_this_conf -->
+
 <div class="HeaderTableText RegFnt ChpCol1">
-<table width=100% class="HeaderTable">
+<table width="100%" class="HeaderTable">
     <tr>
         <td border="0" class="HeaderText">
-            <span class="HeaderPadLeft"><a href="index.html"><img src="logo.png" border="0" alt="MP3 Diags" align=middle /></a></span>
+            <span class="HeaderPadLeft">
+                <a href="index.html" class="RightMargin"><img src="logo.png" border="0" alt="MP3 Diags" align="middle" /></a>
+                <!-- add_this_link -->
+            </span>
         </td>
+
         <!-- sf_hosting -->
     </tr>
 </table>
 </div>
 
 <!--
-<td border="0" class="HeaderText HeaderPadRight RightAlign"><a href="http://sourceforge.net/projects/mp3diags"><img border="0" align=middle src="http://sflogo.sourceforge.net/sflogo.php?group_id=260878&amp;type=12" width="120" height="30" alt="Get MP3 Diags at SourceForge.net. Fast, secure and Free Open Source software downloads" /></a></td>
+<td border="0" class="HeaderText HeaderPadRight RightAlign"><a href="http://sourceforge.net/projects/mp3diags"><img border="0" align="middle" src="http://sflogo.sourceforge.net/sflogo.php?group_id=260878&amp;type=12" width="120" height="30" alt="Get MP3 Diags at SourceForge.net. Fast, secure and Free Open Source software downloads" /></a></td>
 -->
 
 <!-- ========================================================================================================== -->
@@ -46,7 +52,7 @@
         <td align="left" class="NavPadLeft"> <a href="index.html"><img src="arrow_left_small.png" class="ImgNoBorder" align="absmiddle" /> </a> <a href="index.html"> Home </a> </td>
         -->
         <td width="30%" align="left"> <a href="index.html"><img src="arrow_left_small.png" class="ImgNoBorder NavPadLeft" align="absmiddle" /></a> <a href="index.html">Home</a> </td>
-        <th width="40%" align="center" valign="middle" class="NavBarText"> Getting MP3 Diags </td>
+        <td width="40%" align="center" valign="middle" class="NavBarText"> Getting MP3 Diags </td>
         <!--
         <td class="NavPadRight"> <a href="020_mp3_introduction.html" title="Short MP3 introduction"> <img src="arrow_right_small.png" class="ImgNoBorder" align="absmiddle" /> </a> </td>
         <td align="right" class="NavPadRight"> <a href="020_mp3_introduction.html"> <img src="arrow_right_small.png" class="ImgNoBorder" align="absmiddle" /> </a> </td>
@@ -125,7 +131,7 @@ There are both source files and binaries, for several Linux platforms, as well a
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-Linux is the development platform (openSUSE, to be more precise), so the program should work best on Linux. The most important requirement is having Qt 4.3.1, so I expect most Linux distributions from 2007 or newer to be able to compile and run it (perhaps after some tweaks of the build scripts.)
+Linux is the development platform (openSUSE, to be more precise), so the program should work best on Linux. The most important requirement is having Qt 4.3.1 (or above), so I expect most Linux distributions from 2007 or newer to be able to compile and run it (perhaps after some tweaks of the build scripts.)
 </div>
 
 
@@ -136,7 +142,7 @@ Linux is the development platform (openSUSE, to be more precise), so the program
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-It took some fiddling with Qt, GCC, and Boost, to get a Windows version working. The first executable crashed several times for no apparent reason. Later I identified a setting that might cause the crash; version 0.99.02.013 was the first to include a fix. While I didn't experience the crash after that, I don't feel very confident that the problem is gone, so I recommend using Linux instead, if at all possible. At any rate, I did process some 1600 songs with the Windows port to fix issues in the audio part, and then I corrected the ID3V2 tags and added images for 85 of my albums and everything went OK, no crash whatsoever. But, as they say, your mileage may vary.
+It took some fiddling with Qt, GCC, and Boost, to get a Windows version working. The first executable crashed several times for no apparent reason. Later I identified a setting that might have caused the crash; version 0.99.02.013 was the first to include a fix. While I didn't experience the crash after that, I don't feel very confident that the problem is gone, so I recommend using Linux instead, if at all possible. At any rate, I did process some 1600 songs with the Windows port to fix issues in the audio part, and then I corrected the ID3V2 tags and added images for 85 of my albums and everything went OK, no crash whatsoever. But, as they say, your mileage may vary.
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
@@ -186,7 +192,7 @@ The development system is openSUSE 10.3. I also compiled MP3 Diags on openSUSE 1
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-In order to compile the project, these packages should be installed:
+In order to compile and run the project, these packages should be installed:
 </div>
 
 
@@ -194,7 +200,7 @@ In order to compile the project, these packages should be installed:
 <table border="1" cellpadding="3" cellspacing="1" class="TableText RegFnt ChpCol1">
     <tr>
         <td> <b>Generic names</b> </td>
-        <td> C++ compiler, Qt4 development, zlib development, Boost development </td>
+        <td> C++ compiler, Qt4 development, zlib development, Boost development, Qt4 SVG and JPEG plugins (if they are separate packages) </td>
     </tr>
     <tr>
         <td> <b>openSUSE 10.3, openSUSE 11.1</b> </td>
@@ -202,7 +208,7 @@ In order to compile the project, these packages should be installed:
     </tr>
     <tr>
         <td> <b>Ubuntu 9.04</b> </td>
-        <td> g++, libqt4-dev, zlib1g-dev, libboost1.35-dev </td>
+        <td> g++, libqt4-dev, zlib1g-dev, libboost1.35-dev, libqt4-svg </td>
     </tr>
     <tr>
         <td> <b>Fedora 10</b> </td>
@@ -675,7 +681,7 @@ http://osdir.com/ml/linux.debian.devel.games.devel/2007-08/msg00211.html
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="NavTable">
     <tr>
         <td width="30%" align="left"> <a href="index.html"><img src="arrow_left_small.png" class="ImgNoBorder NavPadLeft" align="absmiddle" /></a> <a href="index.html"> Home </a> </td>
-        <th width="40%" align="center" valign="middle" class="NavBarText"> Getting MP3 Diags </td>
+        <td width="40%" align="center" valign="middle" class="NavBarText"> Getting MP3 Diags </td>
         <td width="30%" align="right"> <a href="020_mp3_introduction.html"> Short MP3 introduction</a> <a href="020_mp3_introduction.html"><img src="arrow_right_small.png" class="ImgNoBorder NavPadRight" align="absmiddle" /> </a> </td>
     </tr>
 </table>

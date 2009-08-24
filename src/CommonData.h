@@ -446,6 +446,12 @@ public:
     std::vector<QColor> m_vTagEdtColors;
     std::vector<QColor> m_vNoteCategColors;
 
+    bool m_bWarnedAboutSel; //ttt0
+    bool m_bWarnedAboutBackup; //ttt0
+
+    bool isTraceToFileEnabled() const { return m_bTraceToFile; }
+    void setTraceToFile(bool bTraceToFile); // also removes the file
+
 private:
     std::deque<const Mp3Handler*> m_vpAllHandlers; // owns the pointers; sorted by CmpMp3HandlerPtrByName;
 
@@ -513,6 +519,7 @@ private:
     bool m_bUniqueSession; // if there is a single or several known sessions; if this is false (so there are several sessions) the Sessions button is shown by default
 
     bool m_bFastSave;
+    bool m_bTraceToFile;
 
 private:
     ViewMode m_eViewMode;
@@ -590,6 +597,10 @@ QColor getDefaultBkgCol();
 
 
 void printFontInfo(const char* szLabel, const QFont& font);
+
+// adjusts the global font so it displays legible characters (on Windows it is possible under some unclear circumstances for all characters to be shown as small rectangles)
+void fixAppFont(QFont& font, std::string& strNewFont, int& nNewSize);
+
 
 #endif // #ifndef CommonDataH
 

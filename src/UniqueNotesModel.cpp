@@ -53,6 +53,7 @@ UniqueNotesModel::UniqueNotesModel(CommonData* pCommonData) : QAbstractTableMode
 
 /*override*/ QVariant UniqueNotesModel::data(const QModelIndex& index, int nRole) const
 {
+LAST_STEP("UniqueNotesModel::data()");
     if (!index.isValid() || nRole != Qt::DisplayRole) { return QVariant(); }
 
     if (0 == index.column())
@@ -66,6 +67,7 @@ UniqueNotesModel::UniqueNotesModel(CommonData* pCommonData) : QAbstractTableMode
 
 /*override*/ QVariant UniqueNotesModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /*= Qt::DisplayRole*/) const
 {
+LAST_STEP("UniqueNotesModel::headerData");
     if (nRole == Qt::SizeHintRole)
     {
         return getNumVertHdrSize(m_pCommonData->getUniqueNotes().getFltCount(), eOrientation);

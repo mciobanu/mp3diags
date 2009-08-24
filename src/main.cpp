@@ -213,6 +213,13 @@ int main(int argc, char *argv[])
     {
         for (;;)
         {
+            {
+                QFont fnt;
+                string strNewFont (convStr(fnt.family()));
+                int nNewSize (fnt.pointSize());
+                fixAppFont(fnt, strNewFont, nNewSize);
+            }
+
             if (bOpenSelDlg)
             {
                 SessionsDlgImpl dlg (0);

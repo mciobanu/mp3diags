@@ -51,6 +51,7 @@ LogModel::LogModel(CommonData* pCommonData, QTableView* pLogG) : QAbstractTableM
 
 /*override*/ QVariant LogModel::data(const QModelIndex& index, int nRole) const
 {
+LAST_STEP("LogModel::data()");
     if (!index.isValid()) { return QVariant(); }
 
     if (nRole == Qt::ToolTipRole)
@@ -77,6 +78,7 @@ LogModel::LogModel(CommonData* pCommonData, QTableView* pLogG) : QAbstractTableM
 
 /*override*/ QVariant LogModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /*= Qt::DisplayRole*/) const
 {
+LAST_STEP("LogModel::headerData");
 #if 0
     if (nRole == Qt::SizeHintRole)
     {

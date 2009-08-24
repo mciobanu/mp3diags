@@ -180,6 +180,7 @@ bool Mp3TransformThread::transform()
             for (int j = 0, m = cSize(m_vpTransf); j < m; ++j)
             {
                 Transformation& t (*m_vpTransf[j]);
+                TRACER("Mp3TransformThread::transform()" + strOrigName + "/" + t.getActionName());
                 l[1] = t.getActionName();
                 emit stepChanged(l, i + 1);
                 Transformation::Result eTransf;
@@ -355,6 +356,7 @@ bool Mp3TransformThread::transform()
 
 
 
+
 // if there are errors the user is notified;
 // returns true iff there were no errors;
 bool transform(const deque<const Mp3Handler*>& vpHndlr, vector<Transformation*>& vpTransf, const string& strTitle, QWidget* pParent, CommonData* pCommonData, TransfConfig& transfConfig)
@@ -394,5 +396,5 @@ bool transform(const deque<const Mp3Handler*>& vpHndlr, vector<Transformation*>&
     return strErrorFile.empty();
 }
 
-
+//ttt0 message that shift works on selected files
 

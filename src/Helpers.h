@@ -54,6 +54,7 @@ void logToFile(const std::string& s);
 
 
 
+
 #define CB_LIB_CALL
 
 void assertBreakpoint();
@@ -349,6 +350,55 @@ inline std::string toNativeSeparators(const std::string& s) { return convStr(toN
 inline std::string fromNativeSeparators(const std::string& s) { return convStr(fromNativeSeparators(convStr(s))); }
 
 QString getTempDir();
+
+
+
+//======================================================================================================
+//======================================================================================================
+//======================================================================================================
+
+
+void traceToFile(const std::string& s);
+
+struct Tracer
+{
+    const std::string m_s;
+
+    Tracer(const std::string& s) : m_s(s)
+    {
+        traceToFile("> " + s);
+    }
+
+    ~Tracer()
+    {
+        traceToFile("< " + m_s);
+    }
+};
+
+#define TRACER(X) Tracer FiLeTrAcEr (X);
+#define TRACER1(X, N) Tracer FiLeTrAcEr##N (X);
+
+
+
+void traceLastStep(const std::string& s);
+
+struct LastStepTracer
+{
+    const std::string m_s;
+
+    LastStepTracer(const std::string& s) : m_s(s)
+    {
+        traceLastStep("> " + s);
+    }
+
+    ~LastStepTracer()
+    {
+        traceLastStep("< " + m_s);
+    }
+};
+
+
+#define LAST_STEP(X) LastStepTracer LaStStEp (X);
 
 #endif // ifndef HelpersH
 

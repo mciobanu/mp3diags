@@ -1000,6 +1000,7 @@ WebDwnldModel::WebDwnldModel(AlbumInfoDownloaderDlgImpl& dwnld, QTableView& grid
 
 /*override*/ QVariant WebDwnldModel::data(const QModelIndex& index, int nRole) const
 {
+LAST_STEP("WebDwnldModel::data()");
     if (!index.isValid()) { return QVariant(); }
     if (nRole != Qt::DisplayRole && nRole != Qt::ToolTipRole) { return QVariant(); }
     int i (index.row()), j (index.column());

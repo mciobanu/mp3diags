@@ -270,7 +270,11 @@ struct Notes
     // lyrics
     DECL_NOTE_INFO(lyrTooShort, ERR, LYRICS, "Invalid Lyrics stream tag. File too short.");
     DECL_NOTE_INFO(twoLyr, SUPPORT, LYRICS, "Two Lyrics tags found, but only one is supported."); // ttt1 see if this is error
-    DECL_NOTE_INFO(lyricsNotSupported, SUPPORT, LYRICS, "Lyrics tags cannot be processed in the current version. Some players don't understand them.");
+    //DECL_NOTE_INFO(lyricsNotSupported, SUPPORT, LYRICS, "Lyrics tags cannot be processed in the current version. Some players don't understand them.");
+    DECL_NOTE_INFO(invalidLyr, ERR, LYRICS, "Invalid Lyrics stream tag. Unexpected characters found.");
+    DECL_NOTE_INFO(duplicateFields, SUPPORT, LYRICS, "Multiple fields with the same name were found in a Lyrics tag, but only one is supported.");
+    DECL_NOTE_INFO(imgInLyrics, SUPPORT, LYRICS, "Currently images referenced from Lyrics tags are ignored.");
+    DECL_NOTE_INFO(infInLyrics, SUPPORT, LYRICS, "Currently INF fields in Lyrics tags are not fully supported.");
 
     // ape
     DECL_NOTE_INFO(apeItemTooShort, ERR, APE, "Invalid Ape Item. File too short.");

@@ -161,3 +161,14 @@ dpkg-genchanges: warning: the current version (0.99.01.009) is smaller than the 
 //ttt1 handle Lyrics tag, display, transform, download ...
 
 //ttt0 doc: visible transf hdr can be dragged
+
+//ttt0 doc: might be a good idea to check the Issue Tracker, to see if you'd also want some change that others already asked for (gives you ideas ...)
+
+
+//ttt0 doc: look at other bug reports, see possible workarounds
+//ttt0 perhaps check boxes or something to have many patterns defined, yet several used at a time; one idea: another window where fields are shown for all the patterns and the user can pick; other idea: buttons underneath the file view, which can toggle
+
+
+
+
+

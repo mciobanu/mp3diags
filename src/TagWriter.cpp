@@ -321,6 +321,7 @@ WebReader::~WebReader()
 
 Mp3HandlerTagData::Mp3HandlerTagData(TagWriter* pTagWriter, const Mp3Handler* pMp3Handler, int nCrtPos, int nOrigPos, const std::string& strPastedVal) : m_pTagWriter(pTagWriter), m_pMp3Handler(pMp3Handler), m_nCrtPos(nCrtPos), m_nOrigPos(nOrigPos), m_vValueInfo(TagReader::LIST_END), m_strPastedVal(strPastedVal)
 {
+    TRACER("Mp3HandlerTagData constr");
     refreshReaders();
     reload();
     //qDebug("create %p", this);
@@ -330,6 +331,7 @@ Mp3HandlerTagData::Mp3HandlerTagData(TagWriter* pTagWriter, const Mp3Handler* pM
 Mp3HandlerTagData::~Mp3HandlerTagData()
 {
     //qDebug("destr %p", this);
+    TRACER("Mp3HandlerTagData destr");
 }
 
 static bool isId3V2(const TagReader* p)
@@ -876,6 +878,7 @@ const Mp3HandlerTagData* TagWriter::getCrtMp3HandlerTagData() const
 //void TagWriter::reloadAll(string strCrt, ReloadOption eReloadOption/*, bool bKeepUnassgnImg*/)
 void TagWriter::reloadAll(string strCrt, bool bClearData, bool bClearAssgn)
 {
+    TRACER("TagWriter::reloadAll()");
     CursorOverrider crs;
 
     if (strCrt.empty() && !bClearData)

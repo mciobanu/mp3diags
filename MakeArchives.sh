@@ -120,9 +120,12 @@ function createWindowsSrc
     #cp -p Uninstall.sh $LongDestDir
     cp -p Windows/SVGs/* $LongDestDir/src/images
     rm -f $LongDestDir/src/src.pro
-    cp -p Windows/build.bat $LongDestDir
-    cp -p Windows/README.TXT $LongDestDir
-    cp -p Windows/Mp3DiagsWindows.pro $LongDestDir/src
+    #cp -p Windows/build.bat $LongDestDir
+    cat Windows/build.bat | unix2dos > $LongDestDir/build.bat
+    #cp -p Windows/README.TXT $LongDestDir
+    cat Windows/README.TXT | unix2dos > $LongDestDir/README.TXT
+    #cp -p Windows/Mp3DiagsWindows.pro $LongDestDir/src
+    cat Windows/Mp3DiagsWindows.pro | unix2dos > $LongDestDir/src/Mp3DiagsWindows.pro
 
     echo const char* APP_VER '("'$Ver'");'> $LongDestDir/src/Version.cpp
     echo >> $LongDestDir/src/Version.cpp

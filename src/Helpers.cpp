@@ -105,7 +105,7 @@ void inspect(const void* q, int nSize)
     }
     out << dec << ")\n";
     qDebug("%s", out.str().c_str());
-    //logToFile(out.str());
+    //logToGlobalFile(out.str());
 }
 
 
@@ -308,7 +308,7 @@ long getMemUsage()
 }
 
 
-void logToFile(const string& s) //tttc make sure it is disabled in public releases
+void logToGlobalFile(const string& s) //tttc make sure it is disabled in public releases
 {
 #ifndef WIN32
     ofstream_utf8 out (
@@ -942,7 +942,7 @@ void openHelp(const string& strFileName)
 
 
 //qDebug("open %s", qs.toUtf8().data());
-//logToFile(qs.toUtf8().data());
+//logToGlobalFile(qs.toUtf8().data());
     CursorOverrider ovr;
     QDesktopServices::openUrl(QUrl(qs, QUrl::TolerantMode));
 }
@@ -998,4 +998,38 @@ QString getTempDir()
     return s;
 }
 
+
+//=============================================================================================
+//=============================================================================================
+//=============================================================================================
+
+Tracer::Tracer(const std::string& s) : m_s(s)
+{
+    traceToFile("> " + s, 1);
+}
+
+Tracer::~Tracer()
+{
+    traceToFile(" < " + m_s, -1);
+}
+
+
+//=============================================================================================
+
+LastStepTracer::LastStepTracer(const std::string& s) : m_s(s)
+{
+    traceLastStep("> " + s, 1);
+}
+
+LastStepTracer::~LastStepTracer()
+{
+    traceLastStep(" < " + m_s, -1);
+}
+
+//=============================================================================================
+//=============================================================================================
+//=============================================================================================
+
+
 //ttt2 F1 help was very slow on XP once, not sure why; later it was OK
+

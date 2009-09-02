@@ -58,6 +58,13 @@ using namespace pearl;
 //============================================================================================================
 
 
+static string s_strCrtMp3Handler;
+static string s_strPrevMp3Handler;
+
+string getGlobalMp3HandlerName() // a hack to get the name of the current file from inside various streams without storing the name there //ttt1 review
+{
+    return s_strCrtMp3Handler + "  (" + s_strPrevMp3Handler + ")";
+}
 
 
 Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const QualThresholds& qualThresholds) :
@@ -77,6 +84,9 @@ Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const Q
 
         m_notes(1000) //ttt1 hard-coded
 {
+    s_strPrevMp3Handler = s_strCrtMp3Handler;
+    s_strCrtMp3Handler = strFileName;
+
     TRACER("Mp3Handler constr: " + strFileName);
     ifstream_utf8 in (m_pFileName->s.c_str(), ios::binary);
 
@@ -140,7 +150,7 @@ const Id3V2StreamBase* Mp3Handler::getId3V2Stream() const { if (0 != m_pId3V230S
 // what looks like the last frame in an MPEG stream may actually be truncated and somewhere inside it an ID3V1 or Ape tag may actually begin; if that's the case, that "frame" is removed from the stream; then most likely an "Unknown" stream will be detected, followed by an ID3V1 or Ape stream //ttt1 make sure that that is the case; a possibility is that the standard allows the last frame to be shorter than the calculated size, if some condition is met; this seems unlikely, though
 void Mp3Handler::checkLastFrameInMpegStream(ifstream_utf8& in)
 {
-    CB_ASSERT (!m_vpAllStreams.empty());
+    STRM_ASSERT (!m_vpAllStreams.empty());
     MpegStream* pStream (dynamic_cast<MpegStream*>(m_vpAllStreams.back()));
     if (0 == pStream) { return; }
 
@@ -236,7 +246,7 @@ void Mp3Handler::parse(ifstream_utf8& in) // ttt2 this function is a mess; needs
     in.seekg(0, ios::end);
     m_posEnd = in.tellg();
     in.seekg(0, ios::beg);
-    CB_ASSERT (in);
+    STRM_ASSERT (in);
     int nIndex (0);
     //NoteColl& notes (m_notes);
 
@@ -528,16 +538,16 @@ e1:
     //cout << "=======================\n";
 
     //CB_ASSERT (!m_vpAllStreams.empty());
-    CB_ASSERT (pos == m_posEnd);
+    STRM_ASSERT (pos == m_posEnd); // ttt0 triggered according to https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=23
     pos = 0;
     for (int i = 0; i < cSize(m_vpAllStreams); ++i)
     {
         DataStream* p (m_vpAllStreams[i]);
         //cout << p->getInfo() << endl;
-        CB_ASSERT(p->getPos() == pos);
+        STRM_ASSERT (p->getPos() == pos);
         pos += p->getSize();
     }
-    CB_ASSERT (pos == m_posEnd);
+    STRM_ASSERT (pos == m_posEnd);
 }
 
 
@@ -801,15 +811,15 @@ void Mp3Handler::reloadId3V2() const
 
 void Mp3Handler::reloadId3V2Hlp()
 {
-    CB_ASSERT (!m_vpAllStreams.empty());
+    STRM_ASSERT (!m_vpAllStreams.empty());
     Id3V2StreamBase* pOldId3V2 (dynamic_cast<Id3V2StreamBase*>(m_vpAllStreams[0]));
-    CB_ASSERT (0 != pOldId3V2);
+    STRM_ASSERT (0 != pOldId3V2);
 
     m_notes.removeNotes(pOldId3V2->getPos(), pOldId3V2->getPos() + pOldId3V2->getSize());
 
     ifstream_utf8 in (m_pFileName->s.c_str(), ios::binary);
 
-    CB_ASSERT (in); // ttt2 not quite right; could have been deleted externally
+    STRM_ASSERT (in); // ttt2 not quite right; could have been deleted externally
 
     Id3V230Stream* pNewId3V2;
     try
@@ -819,10 +829,10 @@ void Mp3Handler::reloadId3V2Hlp()
     catch (const std::bad_alloc&) { throw; }
     catch (...)
     {
-        CB_ASSERT (false);
+        STRM_ASSERT (false);
     }
 
-    CB_ASSERT (pOldId3V2->getSize() == pNewId3V2->getSize());
+    STRM_ASSERT (pOldId3V2->getSize() == pNewId3V2->getSize());
 
     delete pOldId3V2;
     m_vpAllStreams[0] = pNewId3V2;
@@ -927,7 +937,7 @@ QString Mp3Handler::getUiName() const // uses native separators
 string Mp3Handler::getShortName() const
 {
     string::size_type n (m_pFileName->s.rfind(getPathSep()));
-    CB_ASSERT(string::npos != n);
+    STRM_ASSERT (string::npos != n);
     return m_pFileName->s.substr(n + 1);
 }
 

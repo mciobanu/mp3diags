@@ -105,11 +105,13 @@ bool CheckedDirModel::setData(const QModelIndex& index, const QVariant& value, i
         QString sClosestAncestor;
 
         QString s (filePath(index));
+        //if (3 == s.size()) { return false; }
         vector<QString> v;
         // remove s and its descendants from m_vCheckedDirs, if any are there; compute sClosestAncestor;
         for (int i = 0, n = cSize(m_vCheckedDirs); i < n; ++i)
         {
             QString s1 (m_vCheckedDirs[i]);
+    //qDebug("s1=%s, s=%s", s1.toUtf8().data(), s.toUtf8().data());
             if (!isDescendant(s1, s) && s != s1)
             {
                 v.push_back(s1);
@@ -196,7 +198,12 @@ bool CheckedDirModel::isDescendant(const QString& s1, const QString& s2) const
     return
         s2.isEmpty() ||
         (s2 == "/" && s1.size() > 1) || // ttt3 linux-specific
-        (s1.startsWith(s2) && s1.size() > s2.size() && s1[s2.size()] == '/');
+        (s1.startsWith(s2) && s1.size() > s2.size() && s1[s2.size()] == '/')
+#ifndef WIN32
+#else
+        || (s1.startsWith(s2) && s1.size() > s2.size() && 3 == s2.size() && ':' == s1[1] && ':' == s2[1])
+#endif
+        ;
 }
 
 
@@ -207,7 +214,7 @@ void CheckedDirModel::setDirs(const vector<string>& vstrCheckedDirs, const vecto
     m_vUncheckedDirs = convStr(vstrUncheckedDirs);
     expandNodes(pTreeView);
 }
-
+//ttt0 wnd: see if possible to show labels, not just drive letters
 void CheckedDirModel::expandNodes(QTreeView* pTreeView)
 {
     for (int i = cSize(m_vUncheckedDirs) - 1; i >= 0; --i)

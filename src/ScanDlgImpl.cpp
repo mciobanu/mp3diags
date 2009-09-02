@@ -32,7 +32,7 @@ using namespace std;
 using namespace pearl;
 
 
-//ttt0 make it clear that the ini is created automatically
+
 ScanDlgImpl::ScanDlgImpl(QWidget* pParent, CommonData* pCommonData) : QDialog(pParent, getDialogWndFlags()), Ui::ScanDlg(), m_pCommonData(pCommonData)
 {
     setupUi(this);

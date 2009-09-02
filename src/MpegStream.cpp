@@ -185,7 +185,9 @@ MpegStream::MpegStream(int nIndex, NoteColl& notes, istream& in) : MpegStreamBas
         MP3_NOTE (m_pos, "Stream uses CRC.");
     }*/
 
-    if (MpegFrame::MPEG1 != m_firstFrame.getVersion() || MpegFrame::LAYER3 != m_firstFrame.getLayer())
+    if (
+        !(MpegFrame::MPEG1 == m_firstFrame.getVersion() && MpegFrame::LAYER3 == m_firstFrame.getLayer()) &&
+        !(MpegFrame::MPEG2 == m_firstFrame.getVersion() && MpegFrame::LAYER3 == m_firstFrame.getLayer()))
     {
         MP3_NOTE (m_pos, untestedEncoding);
     }
@@ -196,14 +198,15 @@ MpegStream::MpegStream(int nIndex, NoteColl& notes, istream& in) : MpegStreamBas
 }
 
 
+
 // this can only be called once; the second call will throw (it's harder and quite pointless to allow more than one call)
 void MpegStream::removeLastFrame()
 {
-    CB_ASSERT (!m_bRemoveLastFrameCalled);
+    STRM_ASSERT (!m_bRemoveLastFrameCalled);
     m_bRemoveLastFrameCalled = true;
     m_nSize -= m_lastFrame.getSize();
     m_nTotalBps -= m_lastFrame.getBitrate();
-    CB_ASSERT(m_nFrameCount >= 10);
+    STRM_ASSERT (m_nFrameCount >= 10);
     --m_nFrameCount;
     m_nBitrate = int(m_nTotalBps / m_nFrameCount);
 }
@@ -318,7 +321,7 @@ XingStreamBase::XingStreamBase(int nIndex, NoteColl& notes, istream& in) : MpegS
 
     int nBfrSize (MpegFrame::MPEG_FRAME_HDR_SIZE + nSideInfoSize + XING_LABEL_SIZE);
     streamsize nRead (read(in, bfr, nBfrSize));
-    CB_ASSERT (nBfrSize == nRead); // this was supposed to be a valid frame to begin with (otherwise the base class would have thrown)
+    STRM_ASSERT (nBfrSize == nRead); // this was supposed to be a valid frame to begin with (otherwise the base class would have thrown)
 
     char* pLabel (bfr + MpegFrame::MPEG_FRAME_HDR_SIZE + nSideInfoSize);
     MP3_CHECK_T (0 == strncmp("Xing", pLabel, XING_LABEL_SIZE) || 0 == strncmp("Info", pLabel, XING_LABEL_SIZE), m_pos, "Not a Xing stream. Header not found.", NotXingStream());
@@ -432,7 +435,7 @@ LameStream::LameStream(int nIndex, NoteColl& notes, istream& in) : XingStreamBas
     char bfr [BFR_SIZE];
 
     streamsize nRead (read(in, bfr, BFR_SIZE));
-    CB_ASSERT (BFR_SIZE == nRead); // this was supposed to be a valid frame to begin with (otherwise the base class would have thrown)
+    STRM_ASSERT (BFR_SIZE == nRead); // this was supposed to be a valid frame to begin with (otherwise the base class would have thrown)
 
     MP3_CHECK_T (0 == strncmp("LAME", bfr + LAME_OFFS, LAME_LABEL_SIZE), m_pos, "Not a LAME stream. Header not found.", NotLameStream());
 
@@ -466,7 +469,7 @@ VbriStream::VbriStream(int nIndex, NoteColl& notes, istream& in) : MpegStreamBas
     char bfr [BFR_SIZE];
 
     streamsize nRead (read(in, bfr, BFR_SIZE));
-    CB_ASSERT (BFR_SIZE == nRead); // this was supposed to be a valid frame to begin with (otherwise the base class would have thrown)
+    STRM_ASSERT (BFR_SIZE == nRead); // this was supposed to be a valid frame to begin with (otherwise the base class would have thrown) // ttt0 was reported as triggered at https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=8
 
     char* pLabel (bfr + MpegFrame::MPEG_FRAME_HDR_SIZE + 32);
     MP3_CHECK_T (0 == strncmp("VBRI", pLabel, VBRI_LABEL_SIZE), m_pos, "Not a VBRI stream. Header not found.", NotVbriStream());
@@ -609,7 +612,7 @@ static string getSpacedStr(const string& s)
     case V11: strRes = "ID3V1.1"; break;
     case V11b: strRes = "ID3V1.1b"; break;
     default:
-        CB_ASSERT (false);
+        STRM_ASSERT (false);
     }
     strRes += getSpacedStr(getTitle(0)) + getSpacedStr(getArtist(0)) + getSpacedStr(getAlbumName(0)) + getSpacedStr(getGenre(0));
     return strRes;

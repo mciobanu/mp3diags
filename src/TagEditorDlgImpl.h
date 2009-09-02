@@ -187,6 +187,7 @@ class TagEditorDlgImpl : public QDialog, private Ui::TagEditorDlg
     void eraseSelFields(); // erases the values in the selected fields
 
     bool m_bIsFastSaving;
+    bool m_bIsSaving;
 
 public:
     TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, TransfConfig& transfConfig); // transfConfig is needed both to be able to instantiate the config dialog and for saving ID3V2
@@ -201,6 +202,8 @@ public:
     using Ui::TagEditorDlg::m_pCurrentAlbumG;
     using Ui::TagEditorDlg::m_pCurrentFileG;
     void updateAssigned(); // updates the state of "assigned" fields and the assign button
+
+    bool isSaving() const { return m_bIsSaving; }
 
 public slots:
     /*$PUBLIC_SLOTS$*/

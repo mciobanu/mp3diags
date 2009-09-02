@@ -446,8 +446,8 @@ public:
     std::vector<QColor> m_vTagEdtColors;
     std::vector<QColor> m_vNoteCategColors;
 
-    bool m_bWarnedAboutSel; //ttt0
-    bool m_bWarnedAboutBackup; //ttt0
+    bool m_bWarnedAboutSel;
+    bool m_bWarnedAboutBackup;
 
     bool isTraceToFileEnabled() const { return m_bTraceToFile; }
     void setTraceToFile(bool bTraceToFile); // also removes the file

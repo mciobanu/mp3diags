@@ -62,7 +62,9 @@ DataStream constructors may leave the input file in EOF or other invalid state a
 
 
 
+#define STRM_ASSERT(COND) { if (!(COND)) { assertBreakpoint(); ::trace("assert"); logAssert(__FILE__, __LINE__, #COND, getGlobalMp3HandlerName()); ::exit(1); } }
 
+std::string getGlobalMp3HandlerName(); // a hack to get the name of the current file from inside various streams without storing the name there //ttt1 review
 
 
 class DataStream

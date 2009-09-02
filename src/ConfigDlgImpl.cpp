@@ -600,7 +600,7 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
                 *m_pVisibleTransfPainter,
                 DoubleList::RESTORE_OPEN | DoubleList::RESTORE_DEFAULT,
                 DoubleList::SINGLE_SORTABLE,
-                "All transformations",
+                "Invisible transformations",
                 "Visible transformations",
                 this);
 

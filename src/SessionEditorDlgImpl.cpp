@@ -51,6 +51,13 @@ void SessionEditorDlgImpl::commonConstr() // common code for both constructors
     m_pDirectoriesT->header()->setStretchLastSection(false); m_pDirectoriesT->header()->setResizeMode(0, QHeaderView::ResizeToContents);
 
     m_bOpenLastSession = true;
+
+    { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
+
+    QPalette grayPalette (m_pBackupE->palette());
+    grayPalette.setColor(QPalette::Base, grayPalette.color(QPalette::Disabled, QPalette::Window));
+    m_pBackupE->setPalette(grayPalette);
+    m_pFileNameE->setPalette(grayPalette);
 }
 
 
@@ -63,6 +70,8 @@ SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strDi
     setWindowTitle("MP3 Diags - Create new session");
     m_pDontCreateBackupRB->setChecked(true);
     m_pScanAtStartupCkB->setChecked(true);
+
+    m_pFileNameE->setToolTip("Here you need to specify the name of a \"settings file\"\n\nThis is supposed to be a file that doesn't already exist. You don't need to set\nit up. MP3 Diags will store its settings in this file.\n\nSimply click on the button at the right to choose the name of the settings file.");
 
     if (!bFirstTime)
     {
@@ -109,8 +118,6 @@ SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strIn
     m_pDirModel->setDirs(vstrCheckedDirs, vstrUncheckedDirs, m_pDirectoriesT);
 
     QTimer::singleShot(1, this, SLOT(onShow()));
-
-    { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
 }
 
 
@@ -158,7 +165,8 @@ void SessionEditorDlgImpl::on_m_pOkB_clicked()
         m_strIniFile = convStr(qstrFile);
         if (m_strIniFile.empty())
         {
-            QMessageBox::critical(this, "Error", "You need to specify the name of the settings file.");
+            QMessageBox::critical(this, "Error", "You need to specify the name of the settings file.\n\nThis is supposed to be a file that doesn't already exist. You don't need to set it up, but just to pick a name for it. MP3 Diags will store its settings in this file.");
+            on_m_pFileNameB_clicked();
             return;
         }
     }

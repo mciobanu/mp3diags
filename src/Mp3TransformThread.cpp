@@ -104,6 +104,7 @@ public:
         CB_ASSERT(m_strOrigName.empty());
         m_strOrigName = strOrigName;
         char a [20];
+
         for (int i = 1; i < 1000; ++i)
         {
             sprintf(a, ".QQREN%03dREN", i);
@@ -116,14 +117,34 @@ public:
         }
 
         CB_ASSERT (0 == a[0]); // not really correct to assert, but quite likely
-        renameFile(strOrigName, m_strChangedName); // may throw but doesn't seem to make sense to catch
+
+        try
+        {
+            renameFile(strOrigName, m_strChangedName);
+        }
+        catch (const CannotDeleteFile&)
+        {
+            revert();
+            throw;
+        }
+        catch (const CannotRenameFile&)
+        {
+            revert();
+            throw CannotDeleteFile();
+        }
     }
 
     ~FileEraser()
     {
         if (m_strOrigName.empty() || m_strChangedName.empty()) { return; }
 
-        renameFile(m_strChangedName, m_strOrigName); // may throw but doesn't seem to make sense to catch
+        try
+        {
+            renameFile(m_strChangedName, m_strOrigName);
+        }
+        catch (...)
+        { //ttt0 perhaps do something
+        }
     }
 
     void finalize()
@@ -132,6 +153,20 @@ public:
 
         deleteFile(m_strChangedName);
         m_strOrigName.clear();
+        m_strChangedName.clear();
+    }
+
+private:
+    void revert() // to be called on exceptions; assumes that the old file got copied but couldn't be deleted, so now the copy must be deleted
+    {
+        CB_ASSERT (!m_strChangedName.empty());
+        try
+        {
+            deleteFile(m_strChangedName);
+        }
+        catch (const CannotDeleteFile&)
+        { // nothing
+        }
         m_strChangedName.clear();
     }
 };
@@ -256,69 +291,106 @@ bool Mp3TransformThread::transform()
             string strNewOrigName;  // new name for the orig file; if this is empty, the original file wasn't changed; if it's "*", it was erased; if it's something else, it was renamed;
             string strProcName;     // name for the proc file; if this is empty, a proc file doesn't exist; if it's something else, it's the file name;
 
+            bool bErrorInTransform (false);
+
             FileEraser fileEraser;
 
-            //bool bChanged (true);
-            if (pNewHndl.get() == pOrigHndl)
-            { // nothing changed
-                pNewHndl.release();
-                switch (m_transfConfig.getUnprocOrigAction())
-                {
-                case TransfConfig::ORIG_DONT_CHANGE: break;
-                case TransfConfig::ORIG_ERASE: { strNewOrigName = "*"; fileEraser.erase(strOrigName); } break; //ttt2 try ...
-                case TransfConfig::ORIG_MOVE: { m_transfConfig.getUnprocOrigName(strOrigName, strNewOrigName); renameFile(strOrigName, strNewOrigName); } break;
-                default: CB_ASSERT (false);
-                }
-            }
-            else
-            { // at least a processed file exists
-                CB_ASSERT (!strTempName.empty());
-
-                // first we have to handle the original file;
-
-                switch (m_transfConfig.getProcOrigAction())
-                {
-                case TransfConfig::ORIG_DONT_CHANGE: break;
-                case TransfConfig::ORIG_ERASE: { strNewOrigName = "*"; fileEraser.erase(strOrigName); } break; //ttt2 try ...
-                case TransfConfig::ORIG_MOVE: { m_transfConfig.getProcOrigName(strOrigName, strNewOrigName); renameFile(strOrigName, strNewOrigName); } break;
-                case TransfConfig::ORIG_MOVE_OR_ERASE:
+            try
+            {
+                //bool bChanged (true);
+                if (pNewHndl.get() == pOrigHndl)
+                { // nothing changed
+                    pNewHndl.release();
+                    switch (m_transfConfig.getUnprocOrigAction())
                     {
-                        m_transfConfig.getProcOrigName(strOrigName, strNewOrigName);
-                        if (fileExists(strNewOrigName))
-                        {
-                            strNewOrigName = "*";
-                            fileEraser.erase(strOrigName);
-                        }
-                        else
-                        {
-                            renameFile(strOrigName, strNewOrigName);
-                        }
+                    case TransfConfig::ORIG_DONT_CHANGE: break;
+                    case TransfConfig::ORIG_ERASE: { strNewOrigName = "*"; fileEraser.erase(strOrigName); } break; //ttt2 try ...
+                    case TransfConfig::ORIG_MOVE: { m_transfConfig.getUnprocOrigName(strOrigName, strNewOrigName); renameFile(strOrigName, strNewOrigName); } break;
+                    default: CB_ASSERT (false);
                     }
-                    break;
-                default: CB_ASSERT (false);
                 }
+                else
+                { // at least a processed file exists
+                    CB_ASSERT (!strTempName.empty());
 
-                // the last processed file exists in the "temp" folder, its name is in strTempName, and we have to see what to do with it (erase, rename, or copy);
-                switch (m_transfConfig.getProcessedAction())
-                {
-                case TransfConfig::TRANSF_DONT_CREATE: deleteFile(strTempName); break;
-                case TransfConfig::TRANSF_CREATE:
+                    // first we have to handle the original file;
+
+                    switch (m_transfConfig.getProcOrigAction())
                     {
-                        m_transfConfig.getProcessedName(strOrigName, strProcName);
-                        switch (m_transfConfig.getTempAction())
+                    case TransfConfig::ORIG_DONT_CHANGE: break;
+                    case TransfConfig::ORIG_ERASE: { strNewOrigName = "*"; fileEraser.erase(strOrigName); } break; //ttt2 try ...
+                    case TransfConfig::ORIG_MOVE: { m_transfConfig.getProcOrigName(strOrigName, strNewOrigName); renameFile(strOrigName, strNewOrigName); } break;
+                    case TransfConfig::ORIG_MOVE_OR_ERASE:
                         {
-                        case TransfConfig::TRANSF_DONT_CREATE: renameFile(strTempName, strProcName); break;
-                        case TransfConfig::TRANSF_CREATE: copyFile(strTempName, strProcName); break;
-                        default: CB_ASSERT (false);
+                            m_transfConfig.getProcOrigName(strOrigName, strNewOrigName);
+                            if (fileExists(strNewOrigName))
+                            {
+                                strNewOrigName = "*";
+                                fileEraser.erase(strOrigName);
+                            }
+                            else
+                            {
+                                renameFile(strOrigName, strNewOrigName);
+                            }
                         }
+                        break;
+                    default: CB_ASSERT (false);
                     }
-                    break;
 
-                default: CB_ASSERT (false);
+                    // the last processed file exists in the "temp" folder, its name is in strTempName, and we have to see what to do with it (erase, rename, or copy);
+                    switch (m_transfConfig.getProcessedAction())
+                    {
+                    case TransfConfig::TRANSF_DONT_CREATE: deleteFile(strTempName); break;
+                    case TransfConfig::TRANSF_CREATE:
+                        {
+                            m_transfConfig.getProcessedName(strOrigName, strProcName);
+                            switch (m_transfConfig.getTempAction())
+                            {
+                            case TransfConfig::TRANSF_DONT_CREATE: renameFile(strTempName, strProcName); break;
+                            case TransfConfig::TRANSF_CREATE: copyFile(strTempName, strProcName); break;
+                            default: CB_ASSERT (false);
+                            }
+                        }
+                        break;
+
+                    default: CB_ASSERT (false);
+                    }
                 }
+
+                fileEraser.finalize();
+            }
+            catch (const CannotDeleteFile&)
+            {
+                bErrorInTransform = true;
+            }
+            catch (const CannotRenameFile&) //ttt1 perhaps also NameNotFound, AlreadyExists, ...
+            {
+                bErrorInTransform = true;
+            }
+            catch (const CannotCopyFile&) //ttt1 perhaps also NameNotFound, AlreadyExists, ...
+            {
+                CB_ASSERT(false);
+                //bErrorInTransform = true;
             }
 
-            fileEraser.finalize();
+            if (bErrorInTransform)
+            {
+                if (!strProcName.empty())
+                {
+                    try
+                    {
+                        deleteFile(strProcName);
+                    }
+                    catch (...)
+                    { //ttt0 not sure what to do
+                    }
+                }
+                m_strErrorFile = strOrigName;
+                m_bWriteError = false;
+                return false;
+            }
+            //ttt1 perhaps do something similar to strNewOrigName
+            //ttt1 review the whole thing
 
             if (!strNewOrigName.empty())
             {
@@ -345,6 +417,8 @@ bool Mp3TransformThread::transform()
     }
     catch (...)
     {
+        qDebug("Caught unknown excption in Mp3TransformThread::transform()");
+        traceToFile("Caught unknown excption in Mp3TransformThread::transform()", 0);
         throw; // !!! needed to restore "erased" files when errors occur, because when an exception is thrown the destructors only get called if that exception is caught; so catching and rethrowing is not a "no-op"
     }
 
@@ -389,12 +463,12 @@ bool transform(const deque<const Mp3Handler*>& vpHndlr, vector<Transformation*>&
         }
         else
         {
-            QMessageBox::critical(pParent, "Error", "There was an error reading from the following file:\n\n" + toNativeSeparators(convStr(strErrorFile)) + "\n\nProbably the file was deleted or modified since the last scan, in which case you should reload / rescan your collection.\n\nProcessing aborted.");
+            QMessageBox::critical(pParent, "Error", "There was an error processing the following file:\n\n" + toNativeSeparators(convStr(strErrorFile)) + "\n\nProbably the file was deleted or modified since the last scan, in which case you should reload / rescan your collection. Or it may be used by another program; if that's the case, you should stop the other program first.\n\nProcessing aborted.");
         }
     }
 
     return strErrorFile.empty();
 }
 
-//ttt0 message that shift works on selected files
+
 

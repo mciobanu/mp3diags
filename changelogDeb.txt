@@ -1,3 +1,19 @@
+mp3diags (0.99.05.033) testing; urgency=low
+
+  * fixed crash in Windows when checking a whole drive
+  * fixed crash when saving data from the tag editor
+  * improved trace speed on Windows
+  * fixed potential crash at startup
+  * fixed crash when changing a file that is being used by other program
+  * more details and better formatting in assert messages and trace files
+  * MPEG2 Layer3 streams no longer show Support note
+  * improved temporary file generation, which can result in faster transforms
+  * F1 help now works for the first session dialog
+  * smaller TABs in the "Tag details" area make "Other info" more readable
+  * better HTML paragraph formatting
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Wed, 02 Sep 2009 22:00:00 +0200
+
 mp3diags (0.99.05.032) testing; urgency=low
 
   * restructured crash detector

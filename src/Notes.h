@@ -177,7 +177,7 @@ struct Notes
     DECL_NOTE_INFO(audioTooShort, ERR, AUDIO, "Invalid MPEG stream. Stream has fewer than 10 frames.");
     DECL_NOTE_INFO(diffBitrateInFirstFrame, ERR, AUDIO, "Invalid MPEG stream. First frame has different bitrate than the rest.");
     DECL_NOTE_INFO(noMp3Gain, WARNING, AUDIO, "No normalization undo information found. The song is probably not normalized by MP3Gain or a similar program. As a result, it may sound too loud or too quiet when compared to songs from other albums.");
-    DECL_NOTE_INFO(untestedEncoding, SUPPORT, AUDIO, "Found audio stream in an encoding other than \"MPEG-1 Layer 3.\" While MP3 Diags understands such streams, very few tests were run on files containing them (because they are not supposed to be found inside files with the \".mp3\" extension), so there is a bigger chance of something going wrong while processing them.");
+    DECL_NOTE_INFO(untestedEncoding, SUPPORT, AUDIO, "Found audio stream in an encoding other than \"MPEG-1 Layer 3\" or \"MPEG-2 Layer 3.\" While MP3 Diags understands such streams, very few tests were run on files containing them (because they are not supposed to be found inside files with the \".mp3\" extension), so there is a bigger chance of something going wrong while processing them.");
 
     // xing
     DECL_NOTE_INFO(twoLame, ERR, XING, "Two Lame headers found, but a file should have at most one of them.");

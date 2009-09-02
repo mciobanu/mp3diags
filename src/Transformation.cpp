@@ -457,7 +457,7 @@ TransfConfig::TransfFile TransfConfig::getTempName(string strOrigSrcName, const 
     removeSuffix(strOrigSrcName);
     if (!m_optionsWrp.m_opt.m_bTempCreate)
     {
-        strName = getTempFile();
+        strName = getTempFile(strOrigSrcName);
         return TRANSF_DONT_CREATE;
     }
 
@@ -483,8 +483,8 @@ TransfConfig::TransfFile TransfConfig::getCompNames(string strOrigSrcName, const
 
     if (!m_optionsWrp.m_opt.m_bCompCreate)
     {
-        strBefore = getTempFile();
-        strAfter = getTempFile();
+        strBefore = getTempFile(strOrigSrcName);
+        strAfter = getTempFile(strOrigSrcName);
         return TRANSF_DONT_CREATE;
     }
 

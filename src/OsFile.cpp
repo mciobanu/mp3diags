@@ -30,6 +30,7 @@
 #include  <QFileInfo>
 #include  <QDateTime>
 #include  <QDir>
+#include  <QTemporaryFile>
 
 #include  <utime.h>
 /*
@@ -381,6 +382,11 @@ void CB_LIB_CALL renameFile(const std::string& strOldName, const std::string& st
         {
             throw CannotRenameFile();
         }
+        catch (...) //ttt1 not quite right //ttt1 perhaps also NameNotFound, AlreadyExists, ...
+        {
+            throw CannotRenameFile();
+        }
+
         deleteFile(strOldName);
         return;
     }
@@ -415,9 +421,19 @@ void CB_LIB_CALL copyFile2(const std::string& strSourceName, const std::string& 
 
     ifstream_utf8 in (strSourceName.c_str(), ios::binary);
     ofstream_utf8 out (strDestName.c_str(), ios::binary);
+    CB_CHECK1 (in, CannotCopyFile());
+    CB_CHECK1 (out, CannotCopyFile());
     streampos nSize (getSize(in));
 
-    appendFilePart(in, out, 0, nSize);
+    try
+    {
+        appendFilePart(in, out, 0, nSize);
+    }
+    catch (const WriteError&)
+    {
+        throw CannotCopyFile();
+    }
+
     streampos nOutSize (out.tellp());
     if (!out || nOutSize != nSize)
     {
@@ -447,13 +463,39 @@ void CB_LIB_CALL deleteFile(const std::string& strFileName)
 }
 
 
-string getTempFile()
+// just a name that doesn't exist; the file won't be deleted automatically; normally the name is obtained by appending something to strMasterFileName, but a more generic temp is used if the name is too long on wnd
+string getTempFile(const std::string& strMasterFileName)
 {
-    char a [L_tmpnam + 1];
+    /*char a [L_tmpnam + 1];
     char* p (tmpnam(a)); //ttt3 while this is "not safe", it is not used in programs with any privileges; also, the functionality that is actually desired isn't implemented in C or C++ : mkstemp or tmpfile return a file descriptor / stream descriptor; we want streams and at any rate we may decide later that we want or don't want to delete the temporary file;
     CB_ASSERT (0 != p);
     //ttt1 there may be an issue with temporary file names if they are on a different partition than the proc files, and "rename" gets called a lot; perhaps we should just use the "proc" dir if it is not empty
-    return a;
+    return a;*/
+
+//string strMasterFileName1 (strMasterFileName + string(MAX_PATH - 3 - strMasterFileName.size(), 'a'));
+    QTemporaryFile tmp (convStr(strMasterFileName));
+    //QTemporaryFile tmp ("");
+    QString qs;
+    if (tmp.open()
+#ifndef WIN32
+#else
+        && convStr(tmp.fileName()).size() < MAX_PATH //ttt3 not sure if MAX_PATH includes the terminator or not, so assume it does
+#endif
+        )
+    {
+        qs = tmp.fileName();
+    }
+    else
+    {
+        QTemporaryFile tmp1;
+        CB_ASSERT (tmp1.open()); //ttt2 if it gets to this on W7 (and perhaps others) the file attributes are wrong, probably allowing only the current user to see it; ttt1 perhaps only use the dir, instead of the full file name in such case; //ttt0 doc
+        qs = tmp1.fileName();
+    }
+
+    string s (convStr(qs));
+    //qDebug("patt: '%s', tmp: '%s'", strMasterFileName.c_str(), s.c_str());
+    return s;
+    //ttt1 make sure it works OK if strMasterFileName is empty
 }
 
 

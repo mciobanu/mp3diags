@@ -29,7 +29,7 @@
 
 #include  "DataStream.h"
 #include  "Helpers.h"
-//ttt0 set tab size to something small
+
 
 using namespace std;
 
@@ -219,6 +219,8 @@ TagReadPanel::TagReadPanel(QWidget* pParent, TagReader* pTagReader) : QFrame(pPa
 
     QTextEdit* pOtherInfoM (new QTextEdit());
     pOtherInfoM->setPlainText(convStr(pTagReader->getOtherInfo()));
+    //pOtherInfoM->setTabStopWidth(fontMetrics().width("aBcDeF"));
+    pOtherInfoM->setTabStopWidth(fontMetrics().width("F"));
     pGridLayout->addWidget(pOtherInfoM, 8, 0, 1, 3);
     pGridLayout->setRowStretch(8, 1); // seems to work ok without this; ttt2 see why
 //pGridLayout->setRowStretch(3, 1);

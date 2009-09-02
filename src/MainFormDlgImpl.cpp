@@ -79,9 +79,9 @@ void trace(const string& s)
     //p->m_pContentM->append(convStr(s));
     //p->m_pCommonData->m_qstrContent += convStr(s);
     //p->m_pCommonData->m_qstrContent += "\n";
-    if (0 != p)
+    if (0 != p && 0 != p->m_pCommonData)
     {
-        p->m_pCommonData->trace(s);
+        p->m_pCommonData->trace(s); //ttt0 if p->m_pCommonData==0 or p==0 use logToGlobalFile()
     }
 }
 
@@ -95,42 +95,170 @@ namespace
     int s_nStepFile;
     int s_nCrtStepSize;
     int s_nPage;
+
+#ifndef WIN32
+#else
+    HANDLE s_hStepFile (INVALID_HANDLE_VALUE);
+#endif
 }
 
 
 
-void traceToFile(const string& s)
+void traceToFile(const string& s, int nLevelChange)
 {
     if (!s_bEnableTraceToFile) { return; }
 
     static QMutex mutex;
     QMutexLocker lck (&mutex);
 
+    static int s_nLevel (0);
+    s_nLevel += nLevelChange;
+    string s1 (s_nLevel, ' ');
+    s1 += s;
+
     QTime t (QTime::currentTime());
     char a [15];
-    sprintf(a, "%02d:%02d:%02d.%03d ", t.hour(), t.minute(), t.second(), t.msec());
+    sprintf(a, "%02d:%02d:%02d.%03d", t.hour(), t.minute(), t.second(), t.msec());
 
     ofstream_utf8 out (s_strTraceFile.c_str(), ios_base::app);
-    out << a << s << endl;
+    out << a << s1 << endl;
 }
 
 
-void traceLastStep(const string& s)
+
+#ifndef WIN32
+#else
+void CB_LIB_CALL displayOsErrorIfExists(const char* szTitle)
+{
+    unsigned int nErr (GetLastError());
+    if (0 == nErr) return;
+
+    LPVOID lpMsgBuf;
+
+    FormatMessageA(
+        FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+        NULL,
+        nErr,
+        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
+        (LPSTR) &lpMsgBuf,
+        0,
+        NULL
+    );
+
+    string strRes ((LPSTR)lpMsgBuf);
+
+    // Free the buffer.
+    LocalFree(lpMsgBuf);
+    unsigned int nSize ((unsigned int)strRes.size());
+    if (nSize - 2 == strRes.rfind("\r\n"))
+    {
+        strRes.resize(nSize - 2);
+    }
+
+    QMessageBox::critical(0, szTitle, convStr(strRes));
+}
+
+
+#endif
+
+
+
+
+void traceLastStep(const string& s, int nLevelChange)
 {
     if (!s_bEnableTraceToFile) { return; }
 
     static QMutex mutex;
     QMutexLocker lck (&mutex);
 
-    QTime t (QTime::currentTime());
+    static int s_nLevel (0);
+    s_nLevel += nLevelChange;
+    string s1 (s_nLevel, ' ');
+    //string s1; char b [20]; sprintf(b, "%d", s_nLevel); s1 = b;
+    s1 += s;
+
     char a [15];
     a[0] = 0;
-    //sprintf(a, "%02d:%02d:%02d.%03d ", t.hour(), t.minute(), t.second(), t.msec());
+    //QTime t (QTime::currentTime()); sprintf(a, "%02d:%02d:%02d.%03d ", t.hour(), t.minute(), t.second(), t.msec());
 
+#ifndef WIN32
     ofstream_utf8 out (s_vstrStepFile[s_nStepFile].c_str(), ios_base::app);
-    out << a << s << endl;
+    out << a << s1 << endl;
+#else
+    /*FILE* f (fopen(s_vstrStepFile[s_nStepFile].c_str(), "a+"));
+    fwrite(a, strlen(a), 1, f);
+    fwrite(s.c_str(), s.size(), 1, f);
+    fwrite("\n", 1, 1, f);
+    fclose(f);*/
 
+/*
+    //HANDLE h (CreateFileA(toNativeSeparators(s_vstrStepFile[s_nStepFile]).c_str(), GENERIC_WRITE, FILE_SHARE_WRITE, 0, OPEN_ALWAYS,
+    HANDLE h (CreateFileA(s_vstrStepFile[s_nStepFile].c_str(), GENERIC_WRITE, FILE_SHARE_WRITE | FILE_SHARE_READ, 0, OPEN_ALWAYS,
+    //HANDLE h (CreateFileA("C:\\Mp3DiagsWindows\\debug\\aaa.txt", GENERIC_WRITE, FILE_SHARE_WRITE, 0, OPEN_ALWAYS,
+    //HANDLE h (CreateFileA("C:\\Mp3DiagsWindows\\debug\\aaa.txt", GENERIC_WRITE, 0, 0, OPEN_ALWAYS,
+                          FILE_ATTRIBUTE_TEMPORARY,
+                          //FILE_ATTRIBUTE_NORMAL,
+                          0));
+    if (INVALID_HANDLE_VALUE == h)
+    {
+        displayOsErrorIfExists();
+    }
+
+    SetFilePointer(h, 0, 0, FILE_END);
+    DWORD dwWrt;
+    WriteFile(h, a, strlen(a), &dwWrt, 0);
+    WriteFile(h, s.c_str(), s.size(), &dwWrt, 0);
+    WriteFile(h, "\n", 1, &dwWrt, 0);
+    //const char* qq ("abcdefg");
+    //QMessageBox::critical(0, "abc", "before wrt");
+    //WriteFile(h, qq, 4, 0, 0);
+    //QMessageBox::critical(0, "123", "after wrt");
+    CloseHandle(h);
+*/
+
+/*
     s_nCrtStepSize += s.size() + 1;
+    if (s_nCrtStepSize > 5000000)
+    {
+        s_nCrtStepSize = 0;
+        s_nStepFile = 1 - s_nStepFile;
+        try
+        {
+            deleteFile(s_vstrStepFile[s_nStepFile]);
+        }
+        catch (...)
+        { //ttt0
+        }
+        //ofstream_utf8 out (s_vstrStepFile[s_nStepFile].c_str(), ios_base::app);
+        //out << "page " << s_nPage++ << endl;
+    }
+*/
+
+    //HANDLE h (CreateFileA("C:\\Mp3DiagsWindows\\debug\\aaa.txt", GENERIC_WRITE, FILE_SHARE_WRITE, 0, OPEN_ALWAYS,
+    //HANDLE h (CreateFileA("C:\\Mp3DiagsWindows\\debug\\aaa.txt", GENERIC_WRITE, 0, 0, OPEN_ALWAYS,
+    /*static HANDLE h (CreateFileA(s_vstrStepFile[s_nStepFile].c_str(),
+                                 GENERIC_WRITE,
+                                 FILE_SHARE_WRITE | FILE_SHARE_READ,
+                                 0,
+                                 //OPEN_ALWAYS,
+                                 CREATE_ALWAYS,
+                                 FILE_ATTRIBUTE_TEMPORARY,
+                                 //FILE_ATTRIBUTE_NORMAL,
+                                 0));*/
+
+    DWORD dwWrt;
+    WriteFile(s_hStepFile, a, strlen(a), &dwWrt, 0);
+    WriteFile(s_hStepFile, s1.c_str(), s1.size(), &dwWrt, 0);
+    WriteFile(s_hStepFile, "\r\n", 2, &dwWrt, 0);
+#endif
+
+    s_nCrtStepSize += s1.size() +
+#ifndef WIN32
+                      1;
+#else
+                      2;
+#endif
+
     if (s_nCrtStepSize > 50000)
     {
         s_nCrtStepSize = 0;
@@ -142,10 +270,32 @@ void traceLastStep(const string& s)
         catch (...)
         { //ttt0
         }
-        ofstream_utf8 out (s_vstrStepFile[s_nStepFile].c_str(), ios_base::app);
-        out << "page " << s_nPage++ << endl;
+#ifndef WIN32
+#else
+        CloseHandle(s_hStepFile);
+#endif
+        {
+            ofstream_utf8 out (s_vstrStepFile[s_nStepFile].c_str(), ios_base::app);
+            out << "page " << ++s_nPage << endl;
+        }
+
+#ifndef WIN32
+#else
+        s_hStepFile = CreateFileA(s_vstrStepFile[s_nStepFile].c_str(),
+                         GENERIC_WRITE,
+                         FILE_SHARE_WRITE | FILE_SHARE_READ,
+                         0,
+                         OPEN_ALWAYS,
+                         //CREATE_ALWAYS,
+                         FILE_ATTRIBUTE_TEMPORARY,
+                         //FILE_ATTRIBUTE_NORMAL,
+                         0);
+        if (INVALID_HANDLE_VALUE == s_hStepFile) { displayOsErrorIfExists("Error in traceLastStep()"); }
+        SetFilePointer(s_hStepFile, 0, 0, FILE_END);
+#endif
     }
 }
+//ttt0 implement abstract "NativeFile"
 
 
 void setupTraceToFile(bool bEnable)
@@ -156,6 +306,11 @@ void setupTraceToFile(bool bEnable)
 
     try
     {
+#ifndef WIN32
+#else
+        CloseHandle(s_hStepFile);
+        s_hStepFile = INVALID_HANDLE_VALUE;
+#endif
         deleteFile(s_strTraceFile);
         deleteFile(s_vstrStepFile[0]);
         deleteFile(s_vstrStepFile[1]);
@@ -166,12 +321,26 @@ void setupTraceToFile(bool bEnable)
 
     if (s_bEnableTraceToFile)
     {
-        traceToFile(convStr(getSystemInfo()));
+#ifndef WIN32
+#else
+        s_hStepFile = CreateFileA(s_vstrStepFile[s_nStepFile].c_str(),
+                         GENERIC_WRITE,
+                         FILE_SHARE_WRITE | FILE_SHARE_READ,
+                         0,
+                         OPEN_ALWAYS,
+                         //CREATE_ALWAYS,
+                         FILE_ATTRIBUTE_TEMPORARY,
+                         //FILE_ATTRIBUTE_NORMAL,
+                         0);
+        if (INVALID_HANDLE_VALUE == s_hStepFile) { displayOsErrorIfExists("Error in setupTraceToFile()"); }
+#endif
+        traceToFile(convStr(getSystemInfo()), 0);
+        traceLastStep(convStr(getSystemInfo()), 0);
     }
 }
 
-
-
+//ttt0 add checkbox to uninst on wnd to remove data and settings; //ttt0 uninst should remove log file as well
+//ttt0 msvc 2008 fails to compile "cout << strRes << endl;" see if printing strings is GCC extension
 //static QString s_strAssertTitle ("Assertion failure");
 //static QString s_strCrashWarnTitle ("Crash detected");
 static QString s_qstrErrorMsg;
@@ -228,7 +397,7 @@ static void showErrorDlg1(QWidget* pParent)
     /*QString s ("<p/>Please report this issue on the <a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">MP3 Diags Issue Tracker</a> (<a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a>). Make sure to include the data below, as well as any other detail that seems relevant (what might have caused the failure, steps to reproduce it, ...)<p/><p/><hr/><p/>");*/
 
 //qDebug("%s", s.toUtf8().data());
-    pContent->setHtml(Qt::escape(s_qstrErrorMsg) /*+ s + Qt::escape(s_qstrErrorMsg)*/ + "<p/><p/>Please restart the application for instructions about how to report this issue");
+    pContent->setHtml(Qt::escape(s_qstrErrorMsg) /*+ s + Qt::escape(s_qstrErrorMsg)*/ + "<p style=\"margin-bottom:1px; margin-top:12px; \">Please restart the application for instructions about how to report this issue</p>");
     pLayout->addWidget(pContent);
 
     QHBoxLayout btnLayout;
@@ -260,7 +429,7 @@ static void showErrorDlg2(QWidget* pParent, const QString& qstrTitle, const QStr
 
     pContent->setOpenExternalLinks(true);
 
-    pContent->setHtml(qstrText + "<p/>" + qstrVer);
+    pContent->setHtml(qstrText + "<hr/><p style=\"margin-bottom:1px; margin-top:8px; \">" + qstrVer + "</p>"); //ttt0 perhaps use CSS
     pLayout->addWidget(pContent);
 
     QHBoxLayout btnLayout;
@@ -285,7 +454,7 @@ void logAssert(const char* szFile, int nLine, const char* szCond)
 
     s_qstrErrorMsg = QString("Assertion failure in file %1, line %2: %3. The program will exit.").arg(szFile).arg(nLine).arg(szCond);
     setupTraceToFile(true);
-    traceToFile(convStr(s_qstrErrorMsg));
+    traceToFile(convStr(s_qstrErrorMsg), 0);
     qDebug("Assertion failure in file %s, line %d: %s", szFile, nLine, szCond);
 
     MainFormDlgImpl* p (getGlobalDlg());
@@ -318,6 +487,13 @@ void logAssert(const char* szFile, int nLine, const char* szCond)
         showErrorDlg1(0);
     }
 }
+
+void logAssert(const char* szFile, int nLine, const char* szCond, const std::string& strAddtlInfo)
+{
+    string s (string(szCond) + "; additional info: " + strAddtlInfo);
+    logAssert(szFile, nLine, s.c_str());
+}
+
 
 void MainFormDlgImpl::onShowAssert()
 {
@@ -415,13 +591,6 @@ void MainFormDlgImpl::showSelWarn()
 }
 
 
-/*
-    if (!pCommonData->m_bWarnedAboutSel)
-    {
-        
-    }
-        p->m_bWarnedAboutBackup = m_pSettings->value("main/warnedAboutBackup", false).toBool();
-*/
 
 
 //=====================================================================================================================
@@ -637,7 +806,7 @@ extern const char* APP_VER;
 
 
 
-MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) : QDialog(0, getMainWndFlags()), m_settings(strSession), m_nLastKey(0)/*, m_settings("Ciobi", "Mp3Diags_v01")*/ /*, m_nPrevTabIndex(-1), m_bTagEdtWasEntered(false)*/, m_strSession(strSession), m_bShowMaximized(false), m_nScanWidth(0)
+MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) : QDialog(0, getMainWndFlags()), m_settings(strSession), m_nLastKey(0)/*, m_settings("Ciobi", "Mp3Diags_v01")*/ /*, m_nPrevTabIndex(-1), m_bTagEdtWasEntered(false)*/, m_pCommonData(0), m_strSession(strSession), m_bShowMaximized(false), m_nScanWidth(0)
 {
 //int x (2); CB_ASSERT(x > 4);
 //CB_ASSERT("345" == "ab");
@@ -681,12 +850,12 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) 
             {
                 if (fileExists(s_strTraceFile))
                 {
-                    showErrorDlg2(this, "Restarting after crash", "MP3 Diags is restarting after a crash. Information in the files \"" + Qt::escape(toNativeSeparators(convStr(s_strTraceFile))) + "\", \"" + Qt::escape(toNativeSeparators(convStr(s_vstrStepFile[0]))) + "\", and \"" + Qt::escape(toNativeSeparators(convStr(s_vstrStepFile[1]))) + "\" may help identify the cause of the crash, so please make them available to the developer by mailing them to <a href=\"mailto:ciobi@inbox.com?subject=000 MP3 Diags crash/\">ciobi@inbox.com</a>, by reporting an issue to the project's <a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">MP3 Diags Issue Tracker</a> (<a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a>) and attaching the files to the report, or by some other means (like putting them on a web server.)<p/><p/>These are plain text files, which you can review before sending, if you have privacy concerns.<p/><p/>After getting the files, the developer will probably want to contact you for more details, so please check back on the status of your report.<p/><p/>So please send these files, as well as any other detail that seems relevant (what might have caused the failure, steps to reproduce it, ...)<p/><p/><hr/><p/>", "OK");
+                    showErrorDlg2(this, "Restarting after crash", "<p style=\"margin-bottom:8px; margin-top:1px; \">MP3 Diags is restarting after a crash. Information in the files \"" + Qt::escape(toNativeSeparators(convStr(s_strTraceFile))) + "\", \"" + Qt::escape(toNativeSeparators(convStr(s_vstrStepFile[0]))) + "\", and \"" + Qt::escape(toNativeSeparators(convStr(s_vstrStepFile[1]))) + "\" may help identify the cause of the crash, so please make them available to the developer by mailing them to <a href=\"mailto:ciobi@inbox.com?subject=000 MP3 Diags crash/\">ciobi@inbox.com</a>, by reporting an issue to the project's <a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">Issue Tracker</a> (<a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a>) and attaching the files to the report, or by some other means (like putting them on a web server.)</p><p style=\"margin-bottom:8px; margin-top:1px; \">These are plain text files, which you can review before sending, if you have privacy concerns.</p><p style=\"margin-bottom:8px; margin-top:1px; \">After getting the files, the developer will probably want to contact you for more details, so please check back on the status of your report.</p><p style=\"margin-bottom:8px; margin-top:1px; \">So please send these files, as well as any other detail that seems relevant (what might have caused the failure, steps to reproduce it, ...)</p>", "Remove these files and continue");
                     //ttt0 perhaps loop until the file is deleted
                 }
                 else
                 {
-                    showErrorDlg2(this, "Restarting after crash", "MP3 Diags is restarting after a crash. There was supposed to be some information about what led to the crash in the file \"" + Qt::escape(toNativeSeparators(convStr(s_strTraceFile))) + "\", but that file cannot be found. Please report this issue to the project's <a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">MP3 Diags Issue Tracker</a> (<a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a>)<p/><p/>The developer will probably want to contact you for more details, so please check back on the status of your report.<p/>Make sure to include the data below, as well as any other detail that seems relevant (what might have caused the failure, steps to reproduce it, ...)<p/><p/><hr/><p/>", "OK");
+                    showErrorDlg2(this, "Restarting after crash", "<p style=\"margin-bottom:8px; margin-top:1px; \">MP3 Diags is restarting after a crash. There was supposed to be some information about what led to the crash in the file \"" + Qt::escape(toNativeSeparators(convStr(s_strTraceFile))) + "\", but that file cannot be found. Please report this issue to the project's <a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">Issue Tracker</a> (<a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a>)</p><p style=\"margin-bottom:8px; margin-top:1px; \">The developer will probably want to contact you for more details, so please check back on the status of your report.</p><p style=\"margin-bottom:8px; margin-top:1px; \">Make sure to include the data below, as well as any other detail that seems relevant (what might have caused the failure, steps to reproduce it, ...)</p>", "OK");
                 }
             }
 
@@ -1325,7 +1494,15 @@ void MainFormDlgImpl::onCrtFileChanged()
         }
     }
 
-    m_pCrtDirE->setText(toNativeSeparators(convStr(m_pCommonData->getViewHandlers()[nCrtFile]->getDir())));
+    QString qs (toNativeSeparators(convStr(m_pCommonData->getViewHandlers()[nCrtFile]->getDir())));
+#ifndef WIN32
+#else
+    if (2 == qs.size() && ':' == qs[1])
+    {
+        qs += "\\"; //ttt0 test
+    }
+#endif
+    m_pCrtDirE->setText(qs);
 
     pLayout->addStretch(0);
 }
@@ -2052,6 +2229,8 @@ void MainFormDlgImpl::on_m_pModeSongB_clicked()
 void MainFormDlgImpl::on_m_pPrevB_clicked()
 {
 //CB_ASSERT("345" == "ab");
+//traceLastStep("tsterr", 0); char* p (0); *p = 11;
+
     m_pCommonData->previous();
     //updateWidgets();
     m_pFilesG->setFocus();

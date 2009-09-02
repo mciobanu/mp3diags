@@ -812,10 +812,10 @@ namespace
         }
     };
 }
-
+//ttt0 note on albums with no track number that they can use patterns
 
 void TagWriter::sortSongs() // sorts by track number; shows a warning if issues are detected (should be exactly one track number, from 1 to the track count)
-{
+{ //ttt0 put last tracks with no track number
     stable_sort(m_vpMp3HandlerTagData.begin(), m_vpMp3HandlerTagData.end(), SortByTrack());
     int n (cSize(m_vpMp3HandlerTagData));
     vector<pair<int, int> > v (n);

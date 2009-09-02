@@ -142,7 +142,7 @@ Linux is the development platform (openSUSE, to be more precise), so the program
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-It took some fiddling with Qt, GCC, and Boost, to get a Windows version working. The first executable crashed several times for no apparent reason. Later I identified a setting that might have caused the crash; version 0.99.02.013 was the first to include a fix. While I didn't experience the crash after that, I don't feel very confident that the problem is gone, so I recommend using Linux instead, if at all possible. At any rate, I did process some 1600 songs with the Windows port to fix issues in the audio part, and then I corrected the ID3V2 tags and added images for 85 of my albums and everything went OK, no crash whatsoever. But, as they say, your mileage may vary.
+It took some fiddling with Qt, GCC, and Boost, to get a Windows version working. The first executable crashed several times for no apparent reason. Later I identified a setting that might have caused the crash; version 0.99.02.013 was the first to include a fix. While I didn't experience the crash after that, I don't feel very confident that the problem is gone, so I recommend using Linux instead, if at all possible. At any rate, I did process some 1600 songs with the Windows port to fix issues in the audio part, and then I corrected the ID3V2 tags and added images for 85 of my albums and everything went OK, no crash whatsoever. But, as they say, your mileage may vary. For one thing, there are some reports of random crashes from Windows users, while others are happily using the program.
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
@@ -150,7 +150,7 @@ One thing that bothers me is a 1-second delay between the time when the frame of
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-I tested a previous version of the executable on XP SP1, XP SP2, XP SP3 and some Vista Home. For some reason the SP3 machine was unable to display any text, showing little rectangles instead; however, I suspect that this is related to something wrong with that particular machine, because the other ones ran OK (well, except for the random crash I talked about.) I didn't yet test more recent versions on XP SP3 or on Vista. I did test Windows 7 RC, though, and it looked and ran pretty good.
+I tested a previous version of the executable on XP SP1, XP SP2, XP SP3 and some Vista Home. I didn't yet test more recent versions on Vista. I did test Windows 7 RC, though, and it looked and ran pretty good.
 </div>
 
 
@@ -326,15 +326,15 @@ For Linux binaries you probably want to install from a repository (or by using 1
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-You need either the installer or the pair "executable and DLLs". (If you don't know what they are, you probably want the installer.)
+There is a pretty standard Windows installer, as well as a zip archive with the executable and the DLLs it needs. Either one of these should be OK.
 <ul>
     <li> <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-windows-setup/MP3DiagsSetup-QQQVERQQQ.exe">Windows 32bit installer</a> (if the link doesn't work, there's a copy at my ISP, <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3DiagsSetup-QQQVERQQQ.exe">here</a>) </li>
-    <li> <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-windows-exe/Mp3DiagsWindows-QQQVERQQQ.zip">Windows 32bit executable</a> and <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-windows-dlls/MP3DiagsWnd-DLLs-1.0.1.zip">Windows 32bit required DLLs</a>; they should be unpacked in the same directory</li>
+    <li> <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-windows-exe/Mp3Diags-QQQVERQQQ.zip">Zip archive with Windows 32bit executable and required DLLs</a></li>
 </ul>
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-The executable that I provide uses Qt 4.5.1 from Qt SDK 2009.02, and was compiled with the MinGW that comes with it (3.4.2.) I did the Windows version more out of curiosity; I have no need to use it. As such, the main way for me to find out about Windows-specific bugs is to have somebody report them.
+The executable that I provide uses Qt 4.5.2 from Qt SDK 2009.03, and was compiled with the MinGW that comes with it (3.4.5.) I did the Windows version more out of curiosity; I have no need to use it. As such, the main way for me to find out about Windows-specific bugs is to have somebody report them.
 </div>
 
 
@@ -591,7 +591,7 @@ Binaries that I build at openSUSE Build Service:
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-I'm not familiar with Mandriva, so I have no idea if the "Home directories" can be used as repositories or not. Also, I didn't test these RPMs, but they should be OK.
+I'm not familiar with Mandriva, so I have no idea if the "Home directories" can be used as repositories or not. Also, I didn't test these RPMs, but they should be OK. At least somebody said they were OK.
 </div>
 
 

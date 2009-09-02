@@ -35,20 +35,22 @@
 #include  <QStringList>  // ttt1 what we really want is QString; however, by including QString directly, lots of warnings get displayed; perhaps some defines are needed but don't know which; so we just include QStringList to avoid the warnings
 
 
-void logToFile(const std::string& s);
+void logToGlobalFile(const std::string& s);
 
 
 //#define CB_CHECK(COND, MSG) { if (!(COND)) { throw std::runtime_error(MSG); } }
 #ifndef WIN32
     #define CB_CHECK1(COND, EXCP) { if (!(COND)) { ::trace(#EXCP); throw EXCP; } }
 #else //ttt1
-    #define CB_CHECK1(COND, EXCP) { if (!(COND)) { ::trace(#EXCP); logToFile(std::string(#COND) + " - " + #EXCP); throw EXCP; } }
+    //#define CB_CHECK1(COND, EXCP) { if (!(COND)) { ::trace(#EXCP); logToGlobalFile(std::string(#COND) + " - " + #EXCP); throw EXCP; } }
+    #define CB_CHECK1(COND, EXCP) { if (!(COND)) { ::trace(#EXCP); throw EXCP; } }
 #endif
 
 //#define CB_THROW(MSG) { throw std::runtime_error(MSG); }
 #define CB_THROW1(EXCP) { ::trace(#EXCP); throw EXCP; }
 //#define CB_ASSERT(COND) { if (!(COND)) { ::trace("assert"); throw std::runtime_error("assertion failure"); } }
 #define CB_ASSERT(COND) { if (!(COND)) { assertBreakpoint(); ::trace("assert"); logAssert(__FILE__, __LINE__, #COND); ::exit(1); } }
+#define CB_ASSERT1(COND, MSG) { if (!(COND)) { assertBreakpoint(); ::trace("assert"); logAssert(__FILE__, __LINE__, #COND, MSG); ::exit(1); } }
 
 ////#include  <CbLibCall.h>
 
@@ -137,6 +139,7 @@ void CB_LIB_CALL releasePtr(T*& p)
 void trace(const std::string& s);
 
 void logAssert(const char* szFile, int nLine, const char* szCond);
+void logAssert(const char* szFile, int nLine, const char* szCond, const std::string& strAddtlInfo);
 
 
 namespace pearl {
@@ -358,21 +361,14 @@ QString getTempDir();
 //======================================================================================================
 
 
-void traceToFile(const std::string& s);
+void traceToFile(const std::string& s, int nLevelChange);
 
 struct Tracer
 {
     const std::string m_s;
 
-    Tracer(const std::string& s) : m_s(s)
-    {
-        traceToFile("> " + s);
-    }
-
-    ~Tracer()
-    {
-        traceToFile("< " + m_s);
-    }
+    Tracer(const std::string& s);
+    ~Tracer();
 };
 
 #define TRACER(X) Tracer FiLeTrAcEr (X);
@@ -380,25 +376,19 @@ struct Tracer
 
 
 
-void traceLastStep(const std::string& s);
+void traceLastStep(const std::string& s, int nLevelChange);
 
 struct LastStepTracer
 {
     const std::string m_s;
 
-    LastStepTracer(const std::string& s) : m_s(s)
-    {
-        traceLastStep("> " + s);
-    }
-
-    ~LastStepTracer()
-    {
-        traceLastStep("< " + m_s);
-    }
+    LastStepTracer(const std::string& s);
+    ~LastStepTracer();
 };
 
 
 #define LAST_STEP(X) LastStepTracer LaStStEp (X);
+#define LAST_STEP1(X, N) LastStepTracer LaStStEp##N (X);
 
 #endif // ifndef HelpersH
 

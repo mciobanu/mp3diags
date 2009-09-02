@@ -622,7 +622,16 @@ CommonData::CommonData(
 
     m_settings.loadDirs(m_vstrIncludeDirs, m_vstrExcludeDirs);
 
-    m_dirTreeEnum.reset(m_vstrIncludeDirs, m_vstrExcludeDirs);
+    try
+    {
+        m_dirTreeEnum.reset(m_vstrIncludeDirs, m_vstrExcludeDirs);
+    }
+    catch (const DirTreeEnumerator::InvalidDirs&)
+    {
+        QMessageBox::critical(m_pFilesG, "Error", "There was an error setting up the directories containing MP3 files. You will have to define them again.");
+        m_vstrIncludeDirs.clear();
+        m_vstrExcludeDirs.clear();
+    }
 
     connect(&m_filter, SIGNAL(filterChanged()), this, SLOT(onFilterChanged()));
 }

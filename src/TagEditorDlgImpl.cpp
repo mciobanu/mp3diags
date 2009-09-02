@@ -89,6 +89,8 @@ LAST_STEP("CurrentAlbumModel::data()");
     if (Qt::DisplayRole != nRole && Qt::ToolTipRole != nRole && Qt::EditRole != nRole) { return QVariant(); }
     QString s;
 
+    if (m_pTagEditorDlgImpl->isSaving()) { return "N/A"; }
+
     if (0 == j)
     {
         const Mp3Handler* p (m_pTagWriter->m_vpMp3HandlerTagData[i]->getMp3Handler());
@@ -192,6 +194,9 @@ LAST_STEP("CurrentFileModel::data()");
     int j (index.column());
 
     if (Qt::DisplayRole != nRole && Qt::ToolTipRole != nRole) { return QVariant(); }
+
+    if (m_pTagEditorDlgImpl->isSaving()) { return "N/A"; }
+
     if (0 == m_pTagWriter->getCurrentHndl()) { return QVariant(); } // may happen in transient states (prev/next album)
 
     const Mp3HandlerTagData& d (*m_pTagWriter->getCrtMp3HandlerTagData());
@@ -283,7 +288,7 @@ LAST_STEP("CurrentFileModel::headerData");
 
 
 
-TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, TransfConfig& transfConfig) : QDialog(pParent, getDialogWndFlags()), Ui::TagEditorDlg(), m_pCommonData(pCommonData), m_bSectionMovedLock(false), m_transfConfig(transfConfig), m_bIsFastSaving(false)
+TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, TransfConfig& transfConfig) : QDialog(pParent, getDialogWndFlags()), Ui::TagEditorDlg(), m_pCommonData(pCommonData), m_bSectionMovedLock(false), m_transfConfig(transfConfig), m_bIsFastSaving(false), m_bIsSaving(false)
 {
     setupUi(this);
 
@@ -1486,6 +1491,9 @@ TagEditorDlgImpl::SaveOpt TagEditorDlgImpl::save(bool bImplicitCall)
         ValueRestorer<bool> rst (m_bIsFastSaving);
         m_bIsFastSaving = m_pCommonData->useFastSave();
 
+        ValueRestorer<bool> rst1 (m_bIsSaving);
+        m_bIsSaving = true;
+
         bRes = transform(vpHndlr, vpTransf, "Saving ID3V2.3.0 tags", this, m_pCommonData, m_transfConfig);
     }
 
@@ -1587,6 +1595,13 @@ CurrentAlbumDelegate::CurrentAlbumDelegate(QTableView* pTableView, TagEditorDlgI
 
 /*override*/ void CurrentAlbumDelegate::paint(QPainter* pPainter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
+    if (m_pTagEditorDlgImpl->isSaving())
+    {
+        QItemDelegate::paint(pPainter, option, index);
+        return;
+    }
+
+
     pPainter->save();
 
     //pPainter->fillRect(option.rect, QBrush(m_listPainter.getColor(m_listPainter.getAvailable()[index.row()], index.column(), pPainter->background().color()))); //ttt2 make sure background() is the option to use
@@ -1688,3 +1703,4 @@ A less important performance issue is in ImageInfoPanelWdgImpl::ImageInfoPanelWd
 
 */
 
+//ttt0 perhaps check boxes or something to have many patterns defined, yet several used at a time; one idea: another window where fields are shown for all the patterns and the user can pick; other idea: buttons underneath the file view, which can toggle

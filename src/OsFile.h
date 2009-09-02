@@ -141,7 +141,8 @@ void CB_LIB_CALL copyFile2(const std::string& strSourceName, const std::string& 
 struct CannotDeleteFile {};
 void CB_LIB_CALL deleteFile(const std::string& strFileName);
 
-std::string getTempFile(); // just a name that doesn't exist; the file won't be deleted automatically
+// just a name that doesn't exist; the file won't be deleted automatically; normally the name is obtained by appending something to strMasterFileName, but a more generic temp is used if the name is too long on wnd
+std::string getTempFile(const std::string& strMasterFileName);
 
 std::string getParent(const std::string& strName); // the name of a parent directory; returns an empty string if no parent exists; may throw IncorrectDirName
 

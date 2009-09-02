@@ -51,8 +51,8 @@ UnknownDataStreamBase::UnknownDataStreamBase(int nIndex, NoteColl& notes, istrea
 {
     StreamStateRestorer rst (in);
 
-    CB_ASSERT (in);
-    CB_ASSERT (nSize > 0);
+    STRM_ASSERT (in);
+    STRM_ASSERT (nSize > 0);
 
     streamoff nBfrSize (min(streamoff(BEGIN_SIZE), nSize));
     read(in, m_begin, nBfrSize);
@@ -78,7 +78,7 @@ void UnknownDataStreamBase::append(const UnknownDataStreamBase& other)
 {
     streampos pos (m_pos);
     pos += m_nSize;
-    CB_ASSERT (pos == other.m_pos);
+    STRM_ASSERT (pos == other.m_pos);
     if (m_nSize < BEGIN_SIZE)
     {
         int n (min(BEGIN_SIZE - m_nSize, other.m_nSize));

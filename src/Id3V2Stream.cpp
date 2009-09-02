@@ -95,7 +95,7 @@ streamsize readID3V2(bool bHasUnsynch, istream& in, char* pDest, streamsize nCou
     nBytesSkipped = 0;
     if (0 == nCount) { return 0; }
     streampos posCrt (in.tellg());
-    CB_ASSERT (posNext >= posCrt);
+    STRM_ASSERT (posNext >= posCrt); // not always right
     if (nCount > posNext - posCrt)
     {
         nCount = posNext - posCrt;
@@ -312,7 +312,7 @@ e1:
                     qstrDescr = QString::fromUtf8(pDescr);
                     break;
 
-                default: CB_ASSERT(false);
+                default: CB_ASSERT1 (false, m_pFileName->s);
                 }
             }
 
@@ -339,7 +339,7 @@ e1:
         case NOT_SUPPORTED: out << "not supported"; break;
         case ERROR: out << "error"; break;
         case OK: out << "OK"; break;
-        default: CB_ASSERT(false);
+        default: CB_ASSERT1 (false, m_pFileName->s);
         }
     }
 
@@ -394,8 +394,8 @@ Id3V2FrameDataLoader::Id3V2FrameDataLoader(const Id3V2Frame& frame) : m_frame(fr
     if (cSize(frame.m_vcData) < m_frame.m_nMemDataSize)
     {
         m_bOwnsData = true;
-        CB_ASSERT (frame.m_vcData.empty());
-        CB_ASSERT (0 != frame.m_pFileName);
+        CB_ASSERT1 (frame.m_vcData.empty(), m_frame.m_pFileName->s);
+        CB_ASSERT1 (0 != frame.m_pFileName, m_frame.m_pFileName->s);
         char* pData (new char[m_frame.m_nMemDataSize]);
         m_pData = pData;
         ifstream_utf8 in (m_frame.m_pFileName->s.c_str(), ios::binary);
@@ -675,6 +675,7 @@ void Id3V2StreamBase::checkFrames(NoteColl& notes) // various checks to be calle
 }
 //ttt1 perhaps use links to pictures in crt dir
 
+
 /*override*/ ImageInfo Id3V2StreamBase::getImage(bool* pbFrameExists /*= 0*/) const
 {
 //if (0 != pbFrameExists) { *pbFrameExists = false; } return ImageInfo(ImageInfo::NO_PICTURE_FOUND);
@@ -691,11 +692,11 @@ void Id3V2StreamBase::checkFrames(NoteColl& notes) // various checks to be calle
 
     if (ImageInfo::OK != m_eImageStatus && ImageInfo::LOADED_NOT_COVER != m_eImageStatus)
     {
-        CB_ASSERT (0 == m_pPicFrame);
+        CB_ASSERT1 (0 == m_pPicFrame, m_pFileName->s);
         return ImageInfo(-1, m_eImageStatus);
     }
 
-    CB_ASSERT (0 != m_pPicFrame);
+    CB_ASSERT1 (0 != m_pPicFrame, m_pFileName->s);
     try
     {
         Id3V2FrameDataLoader wrp (*m_pPicFrame);
@@ -887,7 +888,7 @@ void Id3V2StreamBase::preparePicture(NoteColl& notes) // initializes fields used
     case Id3V2Frame::USES_LINK: m_eImageStatus = ImageInfo::USES_LINK; return;
     case Id3V2Frame::ERROR: m_eImageStatus = ImageInfo::ERROR_LOADING; return;
     case Id3V2Frame::NOT_SUPPORTED: m_eImageStatus = ImageInfo::ERROR_LOADING; return;
-    default: CB_ASSERT(false); // all cases should have been covered
+    default: CB_ASSERT1 (false, m_pFileName->s); // all cases should have been covered
     }
 
 }

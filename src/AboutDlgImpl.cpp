@@ -40,19 +40,19 @@ AboutDlgImpl::AboutDlgImpl(QWidget* pParent /*= 0*/) : QDialog(pParent, getDialo
 <a href=\"DDDDDDDDDDDDD\">NNNNNNNNNNNNNN</a>
 */
     m_pMainTextM->setHtml(
-        "Written by <a href=\"mailto:ciobi@inbox.com?subject=000 MP3 Diags\">Marian Ciobanu (Ciobi)</a>, 2008 - 2009<p/>"
-        "Distributed under <a href=\"http://www.gnu.org/licenses/gpl-2.0.html#TOC1\">GPL V2</a><p/>"
+        "<p style=\"margin-bottom:8px; margin-top:1px; \">Written by <a href=\"mailto:ciobi@inbox.com?subject=000 MP3 Diags\">Marian Ciobanu (Ciobi)</a>, 2008 - 2009</p>"
+        "<p style=\"margin-bottom:8px; margin-top:1px; \">Distributed under <a href=\"http://www.gnu.org/licenses/gpl-2.0.html#TOC1\">GPL V2</a></p>"
         //"Using <a href=\"http://doc.trolltech.com/4/opensourceedition.html\">Qt 4 Open Source Edition</a><p/>"
-        "Using <a href=\"http://www.qtsoftware.com/\">Qt Free Edition</a>, released under <a href=\"http://www.gnu.org/licenses/lgpl-2.1.html\">LGPL 2.1</a><p/>"
-        "Using <a href=\"http://www.zlib.net/\">zlib</a>, released under the <a href=\"http://www.zlib.net/zlib_license.html\">zlib License</a><p/>"
-        "Using <a href=\"http://www.boost.org/doc/libs/1_39_0/libs/serialization/doc/index.html\">Boost Serialization</a>, distributed under the <a href=\"http://www.boost.org/users/license.html\">Boost Software License</a><p/>"
+        "<p style=\"margin-bottom:8px; margin-top:1px; \">Using <a href=\"http://www.qtsoftware.com/\">Qt Free Edition</a>, released under <a href=\"http://www.gnu.org/licenses/lgpl-2.1.html\">LGPL 2.1</a></p>"
+        "<p style=\"margin-bottom:8px; margin-top:1px; \">Using <a href=\"http://www.zlib.net/\">zlib</a>, released under the <a href=\"http://www.zlib.net/zlib_license.html\">zlib License</a></p>"
+        "<p style=\"margin-bottom:8px; margin-top:1px; \">Using <a href=\"http://www.boost.org/doc/libs/1_39_0/libs/serialization/doc/index.html\">Boost Serialization</a>, distributed under the <a href=\"http://www.boost.org/users/license.html\">Boost Software License</a></p>"
         //"Most icons are either copies or modified versions of icons from the <a href=\"http://www.oxygen-icons.org/\">Oxygen Project</a> for <a href=\"http://www.kde.org/\">KDE 4</a>. They are distributed under <a href=\"http://www.gnu.org/licenses/lgpl.html\">LGPL V3</a><p/>"
-        "Using original and modified icons from the <a href=\"http://www.oxygen-icons.org/\">Oxygen Project</a> for <a href=\"http://www.kde.org/\">KDE 4</a>, distributed under <a href=\"http://www.gnu.org/licenses/lgpl.html\">LGPL V3</a><p/>"
-        "Using web services provided by <a href=\"http://www.discogs.com/\">Discogs</a> to retrieve album data<p/>"
-        "Using web services provided by <a href=\"http://musicbrainz.org/\">MusicBrainz</a> to retrieve album data<p/><p/>"
-        "Home page and documentation: <a href=\"http://mp3diags.sourceforge.net/\">http://mp3diags.sourceforge.net/</a><p/>"
-        "Feedback and support: <a href=\"http://sourceforge.net/forum/forum.php?forum_id=947206\">Open Discussion Forum</a> or <a href=\"http://sourceforge.net/forum/forum.php?forum_id=947207\">Help Forum</a> at SourceForge<p/>"
-        "Change log for the latest version: <a href=\"http://mp3diags.sourceforge.net/015_changelog.html\">http://mp3diags.sourceforge.net/015_changelog.html</a>"
+        "<p style=\"margin-bottom:8px; margin-top:1px; \">Using original and modified icons from the <a href=\"http://www.oxygen-icons.org/\">Oxygen Project</a> for <a href=\"http://www.kde.org/\">KDE 4</a>, distributed under <a href=\"http://www.gnu.org/licenses/lgpl.html\">LGPL V3</a></p>"
+        "<p style=\"margin-bottom:8px; margin-top:1px; \">Using web services provided by <a href=\"http://www.discogs.com/\">Discogs</a> to retrieve album data</p>"
+        "<p style=\"margin-bottom:8px; margin-top:1px; \">Using web services provided by <a href=\"http://musicbrainz.org/\">MusicBrainz</a> to retrieve album data</p>"
+        "<p style=\"margin-bottom:8px; margin-top:1px; \">Home page and documentation: <a href=\"http://mp3diags.sourceforge.net/\">http://mp3diags.sourceforge.net/</a></p>"
+        "<p style=\"margin-bottom:8px; margin-top:1px; \">Feedback and support: <a href=\"http://sourceforge.net/forum/forum.php?forum_id=947206\">Open Discussion Forum</a> or <a href=\"http://sourceforge.net/forum/forum.php?forum_id=947207\">Help Forum</a> at SourceForge</p>"
+        "<p style=\"margin-bottom:8px; margin-top:1px; \">Change log for the latest version: <a href=\"http://mp3diags.sourceforge.net/015_changelog.html\">http://mp3diags.sourceforge.net/015_changelog.html</a></p>"
         );
 
     m_pVersionL->setText(QString("MP3 Diags ") + APP_VER);
@@ -166,9 +166,21 @@ dpkg-genchanges: warning: the current version (0.99.01.009) is smaller than the 
 
 
 //ttt0 doc: look at other bug reports, see possible workarounds
-//ttt0 perhaps check boxes or something to have many patterns defined, yet several used at a time; one idea: another window where fields are shown for all the patterns and the user can pick; other idea: buttons underneath the file view, which can toggle
 
 
+/* ttt0
+I have tested if on 8.10 Server edition and it seems to be working ... well at least until the startup screen.
 
+I am unable to find any information for setting up the .ini file and i was wondering if you could help me out with that or  point me to where in the manual you have that ( if not you could add )
+
+---------
+Perhaps use default .ini in Documents on Linux and ... on Wnd (perhaps Qt has something)
+
+*/
+
+//ttt0 notif about new version
+
+
+//ttt0 backport jaunty
 
 

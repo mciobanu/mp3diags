@@ -24,6 +24,7 @@
 #define FileRenamerDlgImplH
 
 #include  <deque>
+#include  <memory>
 
 #include  <QDialog>
 #include  <QItemDelegate>
@@ -90,6 +91,8 @@ public:
 
 
 struct SequencePattern;
+
+class InvalidCharsReplacer;
 
 
 } // namespace FileRenamer
@@ -176,8 +179,10 @@ class Renamer
     std::string m_strPattern;
     FileRenamer::SequencePattern* m_pRoot;
     bool m_bSameDir;
+    const CommonData* m_pCommonData;
+    std::auto_ptr<FileRenamer::InvalidCharsReplacer> m_pInvalidCharsReplacer;
 public:
-    Renamer(const std::string& strPattern);
+    Renamer(const std::string& strPattern, const CommonData* pCommonData);
     ~Renamer();
     const std::string& getPattern() const { return m_strPattern; }
 

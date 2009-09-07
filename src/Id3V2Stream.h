@@ -230,6 +230,8 @@ public:
 
     /*override*/ std::string getOtherInfo() const;
 
+    const std::string& getFileName() const { return m_pFileName->s; }
+
     enum { DONT_ACCEPT_BROKEN, ACCEPT_BROKEN };
 
 private:

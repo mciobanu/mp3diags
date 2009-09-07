@@ -529,7 +529,7 @@ void DiscogsDownloader::clear()
 /*override*/ std::string DiscogsDownloader::createQuery()
 {
     //string s (strArtist + "+" + strAlbum);
-    string s ("/search?type=all&q=" + convStr(m_pSrchArtistE->text()) + "&f=xml&api_key=f51e9c8f6c");
+    string s ("/search?type=all&q=" + replaceSymbols(convStr(m_pSrchArtistE->text())) + "&f=xml&api_key=f51e9c8f6c");
     for (string::size_type i = 0; i < s.size(); ++i)
     {
         if (' ' == s[i])

@@ -1,3 +1,5 @@
+
+
 /***************************************************************************
  *   MP3 Diags - diagnosis, repairs and tag editing for MP3 files          *
  *                                                                         *
@@ -26,6 +28,8 @@
 #include  <QBoxLayout>
 #include  <QPushButton>
 #include  <QApplication>
+#include  <QTextBrowser>
+#include  <QCheckBox>
 
 #include  "Widgets.h"
 
@@ -99,19 +103,19 @@ void ModifInfoToolButton::contextMenuEvent(QContextMenuEvent* /*pEvent*/)
 
 
 
-int showMessage(QWidget* pParent, QMessageBox::Icon icon, int nDefault, int nEscape, const QString& qstrTitle, const QString& qstrMessage, const QString& qstrButton1, const QString& qstrButton2 /*= ""*/, const QString& qstrButton3 /*= ""*/, const QString& qstrButton4 /*= ""*/)
+int showMessage(QWidget* pParent, QMessageBox::Icon icon, int nDefault, int nEscape, const QString& qstrTitle, const QString& qstrMessage, const QString& qstrButton0, const QString& qstrButton1 /*= ""*/, const QString& qstrButton2 /*= ""*/, const QString& qstrButton3 /*= ""*/)
 {
     QStringList l;
-    l << qstrButton1;
-    if (!qstrButton2.isEmpty())
+    l << qstrButton0;
+    if (!qstrButton1.isEmpty())
     {
-        l << qstrButton2;
-        if (!qstrButton3.isEmpty())
+        l << qstrButton1;
+        if (!qstrButton2.isEmpty())
         {
-            l << qstrButton3;
-            if (!qstrButton4.isEmpty())
+            l << qstrButton2;
+            if (!qstrButton3.isEmpty())
             {
-                l << qstrButton4;
+                l << qstrButton3;
             }
         }
     }
@@ -260,4 +264,124 @@ ThreadLocalDlgList& getThreadLocalDlgList()
 }
 
 #endif
+
+
+
+/*static*/ int HtmlMsg::msg(QWidget* pParent, int nDefault, int nEscape, bool* pbGotTheMessage, int nFlags, const QString& qstrTitle, const QString& qstrMessage, int nWidth, int nHeight, const QString& qstrButton0, const QString& qstrButton1 /*= ""*/, const QString& qstrButton2 /*= ""*/, const QString& qstrButton3 /*= ""*/)
+{
+    LAST_STEP("HtmlMsg::msg()");
+
+    //QDialog dlg (pParent, Qt::Dialog | getNoResizeWndFlags() | (bStayOnTop ? Qt::WindowStaysOnTopHint : Qt::WindowFlags(0)));
+    QDialog dlg (pParent, getDialogWndFlags() | (nFlags & STAY_ON_TOP ? Qt::WindowStaysOnTopHint : Qt::WindowFlags(0)));
+
+    dlg.setWindowTitle(qstrTitle);
+    dlg.setWindowIcon(QIcon(":/images/logo.svg"));
+    QVBoxLayout* pLayout (new QVBoxLayout(&dlg));
+
+    QTextBrowser* pContent (new QTextBrowser(&dlg));
+
+    if (nFlags & CRITICAL)
+    {
+        QPalette pal (pContent->palette());
+        pal.setColor(QPalette::Base, QColor(192, 0, 0));
+        pal.setColor(QPalette::Text, QColor(255, 255, 0));
+        pContent->setPalette(pal);
+
+        QFont fnt (pContent->font());
+        fnt.setBold(true);
+        pContent->setFont(fnt);
+    }
+
+    pContent->setOpenExternalLinks(true);
+    pContent->setHtml(qstrMessage + (nFlags & SHOW_SYS_INFO ? "<hr/><p style=\"margin-bottom:1px; margin-top:8px; \">" + getSystemInfo() + "</p>" : "")); //ttt1 perhaps use CSS
+    pLayout->addWidget(pContent);
+
+    QHBoxLayout btnLayout;
+    QCheckBox* pCheck (0);
+    if (0 != pbGotTheMessage)
+    {
+        pCheck = new QCheckBox("I got the message; don't show this again", &dlg);
+        btnLayout.addWidget(pCheck);
+    }
+
+    HtmlMsg msg (&dlg, nEscape);
+
+    btnLayout.addStretch(0);
+
+    QPushButton* pBtn0 (0); QPushButton* pBtn1 (0); QPushButton* pBtn2 (0); QPushButton* pBtn3 (0);
+
+    pBtn0 = new QPushButton(qstrButton0, &dlg);
+    (nFlags & VERT_BUTTONS ? (QLayout&)(*pLayout) : (QLayout&)btnLayout).addWidget(pBtn0);
+    QObject::connect(pBtn0, SIGNAL(clicked()), &msg, SLOT(onClick0()));
+    if (0 == nDefault) { pBtn0->setDefault(true); }
+
+    if (!qstrButton1.isEmpty())
+    {
+        pBtn1 = new QPushButton(qstrButton1, &dlg);
+        (nFlags & VERT_BUTTONS ? (QLayout&)(*pLayout) : (QLayout&)btnLayout).addWidget(pBtn1);
+        QObject::connect(pBtn1, SIGNAL(clicked()), &msg, SLOT(onClick1()));
+        if (1 == nDefault) { pBtn1->setDefault(true); }
+
+        if (!qstrButton2.isEmpty())
+        {
+            pBtn2 = new QPushButton(qstrButton2, &dlg);
+            (nFlags & VERT_BUTTONS ? (QLayout&)(*pLayout) : (QLayout&)btnLayout).addWidget(pBtn2);
+            QObject::connect(pBtn2, SIGNAL(clicked()), &msg, SLOT(onClick2()));
+            if (2 == nDefault) { pBtn2->setDefault(true); }
+
+            if (!qstrButton3.isEmpty())
+            {
+                pBtn3 = new QPushButton(qstrButton3, &dlg);
+                (nFlags & VERT_BUTTONS ? (QLayout&)(*pLayout) : (QLayout&)btnLayout).addWidget(pBtn3);
+                QObject::connect(pBtn3, SIGNAL(clicked()), &msg, SLOT(onClick3()));
+                if (3 == nDefault) { pBtn3->setDefault(true); }
+            }
+        }
+    }
+
+    pLayout->addLayout(&btnLayout);
+
+    dlg.resize(nWidth, nHeight);
+    dlg.setSizeGripEnabled(true);
+
+    dlg.exec();
+
+    LAST_STEP1("HtmlMsg::msg 2()", 1);
+
+    if (0 != pbGotTheMessage)
+    {
+        *pbGotTheMessage = pCheck->isChecked();
+    }
+
+    return msg.m_nBtn;
+}
+
+void HtmlMsg::onClick0()
+{
+    m_nBtn = 0;
+    m_pDlg->accept();
+}
+
+
+void HtmlMsg::onClick1()
+{
+    m_nBtn = 1;
+    m_pDlg->accept();
+}
+
+void HtmlMsg::onClick2()
+{
+    m_nBtn = 2;
+    m_pDlg->accept();
+}
+
+void HtmlMsg::onClick3()
+{
+    m_nBtn = 3;
+    m_pDlg->accept();
+}
+
+
+
+
 

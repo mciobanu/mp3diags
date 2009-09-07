@@ -325,6 +325,7 @@ class TagWriter : public QObject
     std::set<int> m_snUnassignedImages;
 
     const bool& m_bIsFastSaving;
+    bool m_bShouldShowPatternsNote;
 
     int m_nFileToErase;
 
@@ -396,6 +397,8 @@ public:
 
     bool isFastSaving() const { return m_bIsFastSaving; }
 
+    bool shouldShowPatternsNote() const { return m_bShouldShowPatternsNote; }
+
     enum ConsiderAssigned { CONSIDER_UNASSIGNED, CONSIDER_ASSIGNED };
     int addImage(const ImageInfo& img, bool bConsiderAssigned); // returns the index of the image; if it already exists it's not added again; if it's invalid returns -1 // "unassigned" images cause warnings when going to another album
     void addImgWidget(ImageInfoPanelWdgImpl*);
@@ -409,6 +412,7 @@ private slots:
     void onAssignImage(int);
     void onEraseFile(int);
     void onEraseFileDelayed();
+    void onDelayedTrackSeqWarn();
 
 signals:
     void albumChanged(/*bool bContentOnly*/); // the selection may be kept iff bContentOnly is true

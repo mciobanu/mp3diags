@@ -95,7 +95,7 @@ void RenamerPatternsDlgImpl::on_m_pOkB_clicked()
             string strErr;
             try
             {
-                Renamer r (s1);
+                Renamer r (s1, 0);
             }
             catch (const Renamer::InvalidPattern& ex)
             {

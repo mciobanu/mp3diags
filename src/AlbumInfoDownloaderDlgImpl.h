@@ -78,6 +78,7 @@ class AlbumInfoDownloaderDlgImpl : public QDialog, protected Ui::AlbumInfoDownlo
     time_t m_nLastTime;
     std::string getTempName(); // time-based, with no extension; doesn't check for existing names, but uses a counter, so files shouldn't get removed (except during daylight saving time changes)
     void saveDownloadedData(const char*, int nSize, const char* szExt);
+    virtual char getReplacementChar() const = 0;
 
 protected:
     bool m_bSaveImageOnly;
@@ -138,6 +139,8 @@ protected:
     void updateTrackList();
 
     virtual void saveSize() = 0;
+
+    std::string replaceSymbols(std::string); // replaces everything besides letters and digits with getReplacementChar()
 
     WebDwnldModel* m_pModel;
 

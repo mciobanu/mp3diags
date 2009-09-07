@@ -32,6 +32,9 @@
 #include  <QToolTip>
 #include  <QSettings>
 #include  <QTime>
+#include  <QHttp>
+#include  <QHttpRequestHeader>
+#include  <QHttpResponseHeader>
 
 #ifndef WIN32
     //#include <sys/utsname.h>
@@ -85,261 +88,318 @@ void trace(const string& s)
     }
 }
 
+
+
 namespace
 {
-    static string s_strTraceFile; // these get reinitialized when each session starts
-    static bool s_bEnableTraceToFile;
-    static bool s_bDontTouchTraceToFile;
 
-    static vector<string> s_vstrStepFile;
-    int s_nStepFile;
-    int s_nCrtStepSize;
-    int s_nPage;
 
 #ifndef WIN32
+    class NativeFile
+    {
+        string m_strFileName;
+    public:
+        NativeFile() {}
+        bool open(const string& strFileName) // doesn't truncate the file
+        {
+            ofstream_utf8 out (m_strFileName.c_str(), ios_base::app);
+            m_strFileName = strFileName;
+            return out;
+        }
+
+        void close() { m_strFileName.clear(); }
+
+        bool write(const string& s)
+        {
+            ofstream_utf8 out (m_strFileName.c_str(), ios_base::app);
+            out << s;
+            return out;
+        }
+    };
+#else // #ifndef WIN32
+    void CB_LIB_CALL displayOsErrorIfExists(const char* szTitle)
+    {
+        unsigned int nErr (GetLastError());
+        if (0 == nErr) return;
+
+        LPVOID lpMsgBuf;
+
+        FormatMessageA(
+            FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+            NULL,
+            nErr,
+            MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
+            (LPSTR) &lpMsgBuf,
+            0,
+            NULL
+        );
+
+        string strRes ((LPSTR)lpMsgBuf);
+
+        // Free the buffer.
+        LocalFree(lpMsgBuf);
+        unsigned int nSize ((unsigned int)strRes.size());
+        if (nSize - 2 == strRes.rfind("\r\n"))
+        {
+            strRes.resize(nSize - 2);
+        }
+
+        QMessageBox::critical(0, szTitle, convStr(strRes));
+    }
+
+
+    class NativeFile //ttt0 test on wnd
+    {
+        HANDLE m_hStepFile;
+    public:
+        NativeFile() : m_hStepFile (INVALID_HANDLE_VALUE) {}
+
+        bool open(const string& strFileName)
+        {
+            m_hStepFile = CreateFileA(strFileName.c_str(),
+                         GENERIC_WRITE,
+                         FILE_SHARE_WRITE | FILE_SHARE_READ,
+                         0,
+                         OPEN_ALWAYS,
+                         //CREATE_ALWAYS,
+                         FILE_ATTRIBUTE_TEMPORARY,
+                         //FILE_ATTRIBUTE_NORMAL,
+                         0);
+            if (INVALID_HANDLE_VALUE == m_hStepFile)
+            {
+                displayOsErrorIfExists("Error");
+                return false;
+            }
+
+            SetFilePointer(m_hStepFile, 0, 0, FILE_END);
+            return true;
+        }
+
+        void close()
+        {
+            CloseHandle(m_hStepFile);
+            m_hStepFile = INVALID_HANDLE_VALUE;
+        }
+
+        bool write(const string& s)
+        {
+            DWORD dwWrt;
+            //WriteFile(s_hStepFile, a, strlen(a), &dwWrt, 0);
+            WriteFile(m_hStepFile, s.c_str(), s.size(), &dwWrt, 0);
+            //WriteFile(s_hStepFile, "\r\n", 2, &dwWrt, 0);
+            return (dwWrt == s.size());
+        }
+    };
+#endif // #ifndef WIN32
+
+
+
+    class FileTracer
+    {
+        string m_strTraceFile;
+        vector<string> m_vstrStepFile;
+
+        bool m_bEnabled1, m_bEnabled2; // both have to be true for the trace to actually be enabled; they are not symmetrical: changing m_bEnabled2 while m_bEnabled1 is true also removes the files, but doesn't happen the other way; the reason for doing this is that we want trace files from previous run deleted (regardless of how it finished) but we don't want them deleted too early, so the user has a chance to mail them; to complicate the things, there is loading the settings, which may call enable2(true);
+
+        int m_nStepFile;
+        int m_nCrtStepSize;
+        int m_nPage;
+        int m_nStepLevel;
+        int m_nTraceLevel;
+
+        NativeFile m_stepFile;
+        void setupFiles();
+        void removeFiles();
+
+    public:
+        FileTracer() : m_bEnabled1(false), m_bEnabled2(false), m_nStepFile(-1), m_nCrtStepSize(-1), m_nPage(-1), m_nStepLevel(-1), m_nTraceLevel(-1)
+        {
+        }
+
+        //void setupTraceToFile(bool bEnable);
+        void setName(const string& strNameRoot); // also disables
+        void enable1(bool); // used as a master control, by MainFormDlgImpl and assert; if m_bEnabled1 is true, changing m_bEnabled2 triggers the removal of files
+        void enable2(bool); // set based on config
+        //void removeFilesIfDisabled();
+
+        void traceToFile(const string& s, int nLevelChange);
+        void traceLastStep(const string& s, int nLevelChange);
+
+        const string& getTraceFile() const { return m_strTraceFile; }
+        const vector<string>& getStepFiles() const { return m_vstrStepFile; }
+    };
+
+
+    void FileTracer::traceToFile(const string& s, int nLevelChange) //ttt0 use NativeFile
+    {
+        if (!m_bEnabled1 || !m_bEnabled2 || m_strTraceFile.empty()) { return; }
+
+        static QMutex mutex;
+        QMutexLocker lck (&mutex);
+
+        m_nTraceLevel += nLevelChange;
+        if (m_nTraceLevel < 0) { m_nTraceLevel = 20; }
+        string s1 (m_nTraceLevel, ' '); // !!! may happen in this case: trace gets enabled by assert, then the Tracer destructor runs, trying to decrease what was never increased
+        s1 += s;
+
+        QTime t (QTime::currentTime());
+        char a [15];
+        sprintf(a, "%02d:%02d:%02d.%03d", t.hour(), t.minute(), t.second(), t.msec());
+
+        ofstream_utf8 out (m_strTraceFile.c_str(), ios_base::app);
+        out << a << s1 << endl;
+    }
+
+    void FileTracer::traceLastStep(const string& s, int nLevelChange)
+    {
+        if (!m_bEnabled1 || !m_bEnabled2 || m_strTraceFile.empty()) { return; }
+
+        static QMutex mutex;
+        QMutexLocker lck (&mutex);
+
+        m_nStepLevel += nLevelChange;
+        if (m_nStepLevel < 0) { m_nStepLevel = 20; } // !!! may happen in this case: trace gets enabled by assert, then the LastStepTracer destructor runs, trying to decrease what was never increased
+        string s1 (m_nStepLevel, ' ');
+        //string s1; char b [20]; sprintf(b, "%d", s_nLevel); s1 = b;
+        s1 += s;
+
+        char a [15];
+        a[0] = 0;
+        //QTime t (QTime::currentTime()); sprintf(a, "%02d:%02d:%02d.%03d ", t.hour(), t.minute(), t.second(), t.msec());
+
+#ifndef WIN32
+        m_stepFile.write(a + s1 + "\n");
+        m_nCrtStepSize += s1.size() + 1;
 #else
-    HANDLE s_hStepFile (INVALID_HANDLE_VALUE);
+        m_stepFile.write(a + s1 + "\r\n");
+        m_nCrtStepSize += s1.size() + 2;
 #endif
+
+
+        if (m_nCrtStepSize > 50000)
+        {
+            m_stepFile.close();
+
+            m_nCrtStepSize = 0;
+            m_nStepFile = 1 - m_nStepFile;
+            try
+            {
+                deleteFile(m_vstrStepFile[m_nStepFile]);
+            }
+            catch (...)
+            { //ttt0
+            }
+
+            {
+                ofstream_utf8 out (m_vstrStepFile[m_nStepFile].c_str(), ios_base::app);
+                out << "page " << ++m_nPage << endl;
+            }
+
+            m_stepFile.open(m_vstrStepFile[m_nStepFile]);
+        }
+    }
+
+
+
+    void FileTracer::setName(const string& strNameRoot)
+    {
+        m_stepFile.close();
+        m_bEnabled1 = m_bEnabled2 = false;
+
+        CB_ASSERT (!strNameRoot.empty());
+
+        m_strTraceFile = strNameRoot + "_trace.txt";
+
+        m_vstrStepFile.clear();
+        m_vstrStepFile.push_back(strNameRoot + "_step1.txt");
+        m_vstrStepFile.push_back(strNameRoot + "_step2.txt");
+    }
+
+    /*void FileTracer::removeFilesIfDisabled()
+    {
+        if (!m_bEnabled1 || !m_bEnabled2)
+        {
+            removeFiles();
+        }
+    }*/
+
+    void FileTracer::removeFiles()
+    {
+        try
+        {
+            deleteFile(m_strTraceFile);
+            deleteFile(m_vstrStepFile[0]);
+            deleteFile(m_vstrStepFile[1]);
+        }
+        catch (...)
+        { //ttt0
+        }
+    }
+
+    void FileTracer::setupFiles()
+    {
+        if (!m_bEnabled1 || !m_bEnabled2)
+        {
+            if (m_bEnabled1)
+            {
+                removeFiles();
+            }
+            return;
+        }
+
+        removeFiles();
+
+        m_nStepFile = 0;
+        m_nCrtStepSize = 0;
+        m_nPage = 0;
+        m_nStepLevel = 0;
+        m_nTraceLevel = 0;
+
+        m_stepFile.open(m_vstrStepFile[0]);
+
+        traceToFile(convStr(getSystemInfo()), 0);
+        traceLastStep(convStr(getSystemInfo()), 0);
+    }
+
+    void FileTracer::enable1(bool b)
+    {
+        if (b == m_bEnabled1) { return; }
+        m_bEnabled1 = b;
+        setupFiles();
+    }
+
+    void FileTracer::enable2(bool b)
+    {
+        if (b == m_bEnabled2) { return; }
+        m_bEnabled2 = b;
+        setupFiles();
+    }
+
+    FileTracer s_fileTracer;
 }
 
 
 
 void traceToFile(const string& s, int nLevelChange)
 {
-    if (!s_bEnableTraceToFile) { return; }
-
-    static QMutex mutex;
-    QMutexLocker lck (&mutex);
-
-    static int s_nLevel (0);
-    s_nLevel += nLevelChange;
-    string s1 (s_nLevel, ' ');
-    s1 += s;
-
-    QTime t (QTime::currentTime());
-    char a [15];
-    sprintf(a, "%02d:%02d:%02d.%03d", t.hour(), t.minute(), t.second(), t.msec());
-
-    ofstream_utf8 out (s_strTraceFile.c_str(), ios_base::app);
-    out << a << s1 << endl;
+    s_fileTracer.traceToFile(s, nLevelChange);
 }
 
-
-
-#ifndef WIN32
-#else
-void CB_LIB_CALL displayOsErrorIfExists(const char* szTitle)
+void setupTraceToFile(bool b)
 {
-    unsigned int nErr (GetLastError());
-    if (0 == nErr) return;
-
-    LPVOID lpMsgBuf;
-
-    FormatMessageA(
-        FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-        NULL,
-        nErr,
-        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
-        (LPSTR) &lpMsgBuf,
-        0,
-        NULL
-    );
-
-    string strRes ((LPSTR)lpMsgBuf);
-
-    // Free the buffer.
-    LocalFree(lpMsgBuf);
-    unsigned int nSize ((unsigned int)strRes.size());
-    if (nSize - 2 == strRes.rfind("\r\n"))
-    {
-        strRes.resize(nSize - 2);
-    }
-
-    QMessageBox::critical(0, szTitle, convStr(strRes));
+    s_fileTracer.enable2(b);
 }
-
-
-#endif
-
 
 
 
 void traceLastStep(const string& s, int nLevelChange)
 {
-    if (!s_bEnableTraceToFile) { return; }
-
-    static QMutex mutex;
-    QMutexLocker lck (&mutex);
-
-    static int s_nLevel (0);
-    s_nLevel += nLevelChange;
-    string s1 (s_nLevel, ' ');
-    //string s1; char b [20]; sprintf(b, "%d", s_nLevel); s1 = b;
-    s1 += s;
-
-    char a [15];
-    a[0] = 0;
-    //QTime t (QTime::currentTime()); sprintf(a, "%02d:%02d:%02d.%03d ", t.hour(), t.minute(), t.second(), t.msec());
-
-#ifndef WIN32
-    ofstream_utf8 out (s_vstrStepFile[s_nStepFile].c_str(), ios_base::app);
-    out << a << s1 << endl;
-#else
-    /*FILE* f (fopen(s_vstrStepFile[s_nStepFile].c_str(), "a+"));
-    fwrite(a, strlen(a), 1, f);
-    fwrite(s.c_str(), s.size(), 1, f);
-    fwrite("\n", 1, 1, f);
-    fclose(f);*/
-
-/*
-    //HANDLE h (CreateFileA(toNativeSeparators(s_vstrStepFile[s_nStepFile]).c_str(), GENERIC_WRITE, FILE_SHARE_WRITE, 0, OPEN_ALWAYS,
-    HANDLE h (CreateFileA(s_vstrStepFile[s_nStepFile].c_str(), GENERIC_WRITE, FILE_SHARE_WRITE | FILE_SHARE_READ, 0, OPEN_ALWAYS,
-    //HANDLE h (CreateFileA("C:\\Mp3DiagsWindows\\debug\\aaa.txt", GENERIC_WRITE, FILE_SHARE_WRITE, 0, OPEN_ALWAYS,
-    //HANDLE h (CreateFileA("C:\\Mp3DiagsWindows\\debug\\aaa.txt", GENERIC_WRITE, 0, 0, OPEN_ALWAYS,
-                          FILE_ATTRIBUTE_TEMPORARY,
-                          //FILE_ATTRIBUTE_NORMAL,
-                          0));
-    if (INVALID_HANDLE_VALUE == h)
-    {
-        displayOsErrorIfExists();
-    }
-
-    SetFilePointer(h, 0, 0, FILE_END);
-    DWORD dwWrt;
-    WriteFile(h, a, strlen(a), &dwWrt, 0);
-    WriteFile(h, s.c_str(), s.size(), &dwWrt, 0);
-    WriteFile(h, "\n", 1, &dwWrt, 0);
-    //const char* qq ("abcdefg");
-    //QMessageBox::critical(0, "abc", "before wrt");
-    //WriteFile(h, qq, 4, 0, 0);
-    //QMessageBox::critical(0, "123", "after wrt");
-    CloseHandle(h);
-*/
-
-/*
-    s_nCrtStepSize += s.size() + 1;
-    if (s_nCrtStepSize > 5000000)
-    {
-        s_nCrtStepSize = 0;
-        s_nStepFile = 1 - s_nStepFile;
-        try
-        {
-            deleteFile(s_vstrStepFile[s_nStepFile]);
-        }
-        catch (...)
-        { //ttt0
-        }
-        //ofstream_utf8 out (s_vstrStepFile[s_nStepFile].c_str(), ios_base::app);
-        //out << "page " << s_nPage++ << endl;
-    }
-*/
-
-    //HANDLE h (CreateFileA("C:\\Mp3DiagsWindows\\debug\\aaa.txt", GENERIC_WRITE, FILE_SHARE_WRITE, 0, OPEN_ALWAYS,
-    //HANDLE h (CreateFileA("C:\\Mp3DiagsWindows\\debug\\aaa.txt", GENERIC_WRITE, 0, 0, OPEN_ALWAYS,
-    /*static HANDLE h (CreateFileA(s_vstrStepFile[s_nStepFile].c_str(),
-                                 GENERIC_WRITE,
-                                 FILE_SHARE_WRITE | FILE_SHARE_READ,
-                                 0,
-                                 //OPEN_ALWAYS,
-                                 CREATE_ALWAYS,
-                                 FILE_ATTRIBUTE_TEMPORARY,
-                                 //FILE_ATTRIBUTE_NORMAL,
-                                 0));*/
-
-    DWORD dwWrt;
-    WriteFile(s_hStepFile, a, strlen(a), &dwWrt, 0);
-    WriteFile(s_hStepFile, s1.c_str(), s1.size(), &dwWrt, 0);
-    WriteFile(s_hStepFile, "\r\n", 2, &dwWrt, 0);
-#endif
-
-    s_nCrtStepSize += s1.size() +
-#ifndef WIN32
-                      1;
-#else
-                      2;
-#endif
-
-    if (s_nCrtStepSize > 50000)
-    {
-        s_nCrtStepSize = 0;
-        s_nStepFile = 1 - s_nStepFile;
-        try
-        {
-            deleteFile(s_vstrStepFile[s_nStepFile]);
-        }
-        catch (...)
-        { //ttt0
-        }
-#ifndef WIN32
-#else
-        CloseHandle(s_hStepFile);
-#endif
-        {
-            ofstream_utf8 out (s_vstrStepFile[s_nStepFile].c_str(), ios_base::app);
-            out << "page " << ++s_nPage << endl;
-        }
-
-#ifndef WIN32
-#else
-        s_hStepFile = CreateFileA(s_vstrStepFile[s_nStepFile].c_str(),
-                         GENERIC_WRITE,
-                         FILE_SHARE_WRITE | FILE_SHARE_READ,
-                         0,
-                         OPEN_ALWAYS,
-                         //CREATE_ALWAYS,
-                         FILE_ATTRIBUTE_TEMPORARY,
-                         //FILE_ATTRIBUTE_NORMAL,
-                         0);
-        if (INVALID_HANDLE_VALUE == s_hStepFile) { displayOsErrorIfExists("Error in traceLastStep()"); }
-        SetFilePointer(s_hStepFile, 0, 0, FILE_END);
-#endif
-    }
-}
-//ttt0 implement abstract "NativeFile"
-
-
-void setupTraceToFile(bool bEnable)
-{
-    if (s_bDontTouchTraceToFile || (s_bEnableTraceToFile && bEnable)) { return; } // happens as a result of playing in the config dlg
-
-    s_bEnableTraceToFile = bEnable;
-
-    try
-    {
-#ifndef WIN32
-#else
-        CloseHandle(s_hStepFile);
-        s_hStepFile = INVALID_HANDLE_VALUE;
-#endif
-        deleteFile(s_strTraceFile);
-        deleteFile(s_vstrStepFile[0]);
-        deleteFile(s_vstrStepFile[1]);
-    }
-    catch (...)
-    { //ttt0
-    }
-
-    if (s_bEnableTraceToFile)
-    {
-#ifndef WIN32
-#else
-        s_hStepFile = CreateFileA(s_vstrStepFile[s_nStepFile].c_str(),
-                         GENERIC_WRITE,
-                         FILE_SHARE_WRITE | FILE_SHARE_READ,
-                         0,
-                         OPEN_ALWAYS,
-                         //CREATE_ALWAYS,
-                         FILE_ATTRIBUTE_TEMPORARY,
-                         //FILE_ATTRIBUTE_NORMAL,
-                         0);
-        if (INVALID_HANDLE_VALUE == s_hStepFile) { displayOsErrorIfExists("Error in setupTraceToFile()"); }
-#endif
-        traceToFile(convStr(getSystemInfo()), 0);
-        traceLastStep(convStr(getSystemInfo()), 0);
-    }
+    s_fileTracer.traceLastStep(s, nLevelChange);
 }
 
-//ttt0 add checkbox to uninst on wnd to remove data and settings; //ttt0 uninst should remove log file as well
+
+
+//ttt0 add checkbox to uninst on wnd to remove data and settings; //ttt0 uninst should remove log file as well, including the file created when "debug/log transf" is turned on
 //ttt0 msvc 2008 fails to compile "cout << strRes << endl;" see if printing strings is GCC extension
 //static QString s_strAssertTitle ("Assertion failure");
 //static QString s_strCrashWarnTitle ("Crash detected");
@@ -367,84 +427,16 @@ static bool s_bMainAssertOut;
 }*/
 
 
-
-
-static void showErrorDlg1(QWidget* pParent)
+static void showAssertMsg(QWidget* pParent)
 {
-    //QMessageBox dlg (QMessageBox::Critical, s_strAssertTitle, s_strErrorMsg, QMessageBox::Close, 0, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint); // ttt1 this might fail / crash, as it may be called from a secondary thread
-
-//getDialogWndFlags
-    QDialog dlg (pParent, Qt::Dialog | getNoResizeWndFlags() | Qt::WindowStaysOnTopHint); // Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint |
-    //QDialog dlg (pParent, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint);
-
-    dlg.setWindowTitle("Assertion failure");
-    dlg.setWindowIcon(QIcon(":/images/logo.svg"));
-    QVBoxLayout* pLayout (new QVBoxLayout(&dlg));
-    //delete dlg.layout();
-    //dlg.setLayout(pLayout);
-    /*QLabel* pTitle (new QLabel(&dlg));
-    pTitle->setText(s_strAssertTitle);
-    pLayout->addWidget(pTitle);*/
-
-    QTextBrowser* pContent (new QTextBrowser(&dlg));
-
-    //QString qstrVer (getSystemInfo());
-
-
-    pContent->setOpenExternalLinks(true);
-    //QString s ("<p/>Please notify <a href=\"mailto:ciobi@inbox.com?subject=000 MP3 Diags assertion failure&body=" + replaceDblQuotes(Qt::escape(s_strErrorMsg + " " + qstrVer)) + "\">ciobi@inbox.com</a> about this. (If your email client is properly configured, it's enough to click on the account name and then send.) <p/>Alternatively, you can report the bug at the <a href=\"http://sourceforge.net/forum/forum.php?forum_id=947207\">MP3 Diags Help Forum</a> (<a href=\"http://sourceforge.net/forum/forum.php?forum_id=947207\">http://sourceforge.net/forum/forum.php?forum_id=947207</a>)");
-
-    /*QString s ("<p/>Please report this issue on the <a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">MP3 Diags Issue Tracker</a> (<a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a>). Make sure to include the data below, as well as any other detail that seems relevant (what might have caused the failure, steps to reproduce it, ...)<p/><p/><hr/><p/>");*/
-
-//qDebug("%s", s.toUtf8().data());
-    pContent->setHtml(Qt::escape(s_qstrErrorMsg) /*+ s + Qt::escape(s_qstrErrorMsg)*/ + "<p style=\"margin-bottom:1px; margin-top:12px; \">Please restart the application for instructions about how to report this issue</p>");
-    pLayout->addWidget(pContent);
-
-    QHBoxLayout btnLayout;
-    btnLayout.addStretch(0);
-    QPushButton* pBtn (new QPushButton("Exit", &dlg));
-    btnLayout.addWidget(pBtn);
-    QObject::connect(pBtn, SIGNAL(clicked()), &dlg, SLOT(accept()));
-
-    pLayout->addLayout(&btnLayout);
-
-    dlg.resize(750, 300);
-
-    dlg.exec();
+    HtmlMsg::msg(pParent, 0, 0, 0, HtmlMsg::SHOW_SYS_INFO, "Assertion failure", Qt::escape(s_qstrErrorMsg) + "<p style=\"margin-bottom:1px; margin-top:12px; \">Please restart the application for instructions about how to report this issue</p>", 750, 300, "Exit");
 }
 
 
-static void showErrorDlg2(QWidget* pParent, const QString& qstrTitle, const QString& qstrText, const QString& qstrCloseBtn) //ttt0 unify code with the one above
+void MainFormDlgImpl::showRestartAfterCrashMsg(const QString& qstrText, const QString& qstrCloseBtn)
 {
-    QDialog dlg (pParent, Qt::Dialog | getNoResizeWndFlags() | Qt::WindowStaysOnTopHint); // Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint |
-
-    dlg.setWindowTitle(qstrTitle);
-    dlg.setWindowIcon(QIcon(":/images/logo.svg"));
-    QVBoxLayout* pLayout (new QVBoxLayout(&dlg));
-
-    QTextBrowser* pContent (new QTextBrowser(&dlg));
-
-    QString qstrVer (getSystemInfo());
-
-
-    pContent->setOpenExternalLinks(true);
-
-    pContent->setHtml(qstrText + "<hr/><p style=\"margin-bottom:1px; margin-top:8px; \">" + qstrVer + "</p>"); //ttt0 perhaps use CSS
-    pLayout->addWidget(pContent);
-
-    QHBoxLayout btnLayout;
-    btnLayout.addStretch(0);
-    QPushButton* pBtn (new QPushButton(qstrCloseBtn, &dlg));
-    btnLayout.addWidget(pBtn);
-    QObject::connect(pBtn, SIGNAL(clicked()), &dlg, SLOT(accept()));
-
-    pLayout->addLayout(&btnLayout);
-
-    dlg.resize(750, 300);
-
-    dlg.exec();
+    HtmlMsg::msg(this, 0, 0, 0, HtmlMsg::SHOW_SYS_INFO, "Restarting after crash", qstrText, 750, 450, qstrCloseBtn);
 }
-
 
 
 void logAssert(const char* szFile, int nLine, const char* szCond)
@@ -453,7 +445,8 @@ void logAssert(const char* szFile, int nLine, const char* szCond)
     /*QMessageBox dlg (QMessageBox::Critical, "Assertion failure", QString("Assertion failure in file %1, line %2: %3").arg(szFile).arg(nLine).arg(szCond), QMessageBox::Close, getThreadLocalDlgList().getDlg(), Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint);*/
 
     s_qstrErrorMsg = QString("Assertion failure in file %1, line %2: %3. The program will exit.").arg(szFile).arg(nLine).arg(szCond);
-    setupTraceToFile(true);
+    s_fileTracer.enable1(true);
+    s_fileTracer.enable2(true);
     traceToFile(convStr(s_qstrErrorMsg), 0);
     qDebug("Assertion failure in file %s, line %d: %s", szFile, nLine, szCond);
 
@@ -484,7 +477,7 @@ void logAssert(const char* szFile, int nLine, const char* szCond)
         /*QMessageBox dlg (QMessageBox::Critical, s_strAssertTitle, s_strErrorMsg, QMessageBox::Close, 0, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint); // ttt1 this might fail / crash, as it may be called from a secondary thread
 
         dlg.exec();*/
-        showErrorDlg1(0);
+        showAssertMsg(0);
     }
 }
 
@@ -500,7 +493,7 @@ void MainFormDlgImpl::onShowAssert()
     /*QMessageBox dlg (QMessageBox::Critical, s_strAssertTitle, s_strErrorMsg, QMessageBox::Close, this, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint);
 
     dlg.exec();*/
-    showErrorDlg1(this);
+    showAssertMsg(this);
 
     s_bMainAssertOut = true;
 }
@@ -524,59 +517,17 @@ void defaultResize(QDialog& dlg)
 //=====================================================================================================================
 
 
-// shows a dialog with a message and a checkbox; returns true if the user checked the box)
-bool MainFormDlgImpl::notif(const char* szTitle, const char* szMessage, bool bCritical)
-{
-    QDialog dlg (this, Qt::Dialog | getNoResizeWndFlags()); // Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint |  | Qt::WindowStaysOnTopHint
 
-    dlg.setWindowTitle(szTitle);
-    QVBoxLayout* pLayout (new QVBoxLayout(&dlg));
-
-    QTextBrowser* pContent (new QTextBrowser(&dlg));
-
-    pContent->setOpenExternalLinks(true);
-
-    pContent->setHtml(szMessage);
-
-    if (bCritical)
-    {
-        QPalette pal (pContent->palette());
-        pal.setColor(QPalette::Base, QColor(192, 0, 0));
-        pal.setColor(QPalette::Text, QColor(255, 255, 0));
-        pContent->setPalette(pal);
-
-        QFont fnt (pContent->font());
-        fnt.setBold(true);
-        pContent->setFont(fnt);
-    }
-
-    pLayout->addWidget(pContent);
-
-    QHBoxLayout btnLayout;
-    QCheckBox* pCheck (new QCheckBox("I got the message; don't show this again", &dlg));
-    btnLayout.addWidget(pCheck);
-
-    btnLayout.addStretch(0);
-    QPushButton* pBtn (new QPushButton("O&K", &dlg));
-    btnLayout.addWidget(pBtn);
-    QObject::connect(pBtn, SIGNAL(clicked()), &dlg, SLOT(accept()));
-
-    pLayout->addLayout(&btnLayout);
-
-    dlg.resize(550, 300);
-
-    dlg.exec();
-
-    return pCheck->isChecked();
-}
 
 
 void MainFormDlgImpl::showBackupWarn()
 {
     if (m_pCommonData->m_bWarnedAboutBackup) { return; }
-    if (!notif("Warning", "Although MP3 Diags is very stable on the developer's computer, who hasn't experienced a crash in a long time and never needed to restore MP3 files from a backup, the program is currently in beta, meaning that it hasn't been thoroughly tested and there are open issues that may lead to data loss. Therefore, it is highly advisable to back up your files first.", true)) { return; }
 
-    m_pCommonData->m_bWarnedAboutBackup = true;
+    HtmlMsg::msg(this, 0, 0, &m_pCommonData->m_bWarnedAboutBackup, HtmlMsg::CRITICAL, "Warning", "<p>Although MP3 Diags is very stable on the developer's computer, who hasn't experienced a crash in a long time and never needed to restore MP3 files from a backup, the program is currently in beta, meaning that it hasn't been thoroughly tested and there are open issues that may lead to data loss.</p><p>Therefore, it is highly advisable to back up your files first.</p>", 520, 300, "O&K");
+
+    if (!m_pCommonData->m_bWarnedAboutBackup) { return; }
+
     m_settings.saveMiscConfigSettings(m_pCommonData);
 }
 
@@ -584,9 +535,11 @@ void MainFormDlgImpl::showBackupWarn()
 void MainFormDlgImpl::showSelWarn()
 {
     if (m_pCommonData->m_bWarnedAboutSel) { return; }
-    if (!notif("Note", "If you just left-click, all the visible files get processed. However, it is possible to process only the selected files. To do that, either keep SHIFT pressed down while clicking or use the right button, as described at <a href=\"http://mp3diags.sourceforge.net/140_main_window_tools.html\">http://mp3diags.sourceforge.net/140_main_window_tools.html</a>", false)) { return; }
 
-    m_pCommonData->m_bWarnedAboutSel = true;
+    HtmlMsg::msg(this, 0, 0, &m_pCommonData->m_bWarnedAboutSel, HtmlMsg::DEFAULT, "Note", "If you simply left-click, all the visible files get processed. However, it is possible to process only the selected files. To do that, either keep SHIFT pressed down while clicking or use the right button, as described at <a href=\"http://mp3diags.sourceforge.net/140_main_window_tools.html\">http://mp3diags.sourceforge.net/140_main_window_tools.html</a>", 520, 300, "O&K");
+
+    if (!m_pCommonData->m_bWarnedAboutSel) { return; }
+
     m_settings.saveMiscConfigSettings(m_pCommonData);
 }
 
@@ -673,6 +626,8 @@ void MainFormDlgImpl::loadIgnored()
 }
 
 
+static bool s_bToldAboutSupportInCrtRun (false); // to limit to 1 per run the number of times the user is told about support
+
 //=====================================================================================================================
 //=====================================================================================================================
 //=====================================================================================================================
@@ -718,16 +673,24 @@ struct SerLoadThread : public PausableThread
 
     /*override*/ void run()
     {
-        CompleteNotif notif(this);
+        try
+        {
+            CompleteNotif notif(this);
 
-        bool bAborted (!load());
+            bool bAborted (!load());
 
-        notif.setSuccess(!bAborted);
+            notif.setSuccess(!bAborted);
+        }
+        catch (...)
+        {
+            LAST_STEP("SerLoadThread::run()");
+            CB_ASSERT (false);
+        }
     }
 
     bool load()
     {
-        m_strErr = m_pCommonData->load(SessionEditorDlgImpl::getDataFileName(m_strSession)); //ttt0 something like this for trace files
+        m_strErr = m_pCommonData->load(SessionEditorDlgImpl::getDataFileName(m_strSession));
         m_pCommonData->m_strTransfLog = SessionEditorDlgImpl::getLogFileName(m_strSession);
         return true;
     }
@@ -743,11 +706,19 @@ struct SerSaveThread : public PausableThread
 
     /*override*/ void run()
     {
-        CompleteNotif notif(this);
+        try
+        {
+            CompleteNotif notif(this);
 
-        bool bAborted (!load());
+            bool bAborted (!load());
 
-        notif.setSuccess(!bAborted);
+            notif.setSuccess(!bAborted);
+        }
+        catch (...)
+        {
+            LAST_STEP("SerSaveThread::run()");
+            CB_ASSERT (false);
+        }
     }
 
     bool load()
@@ -756,6 +727,7 @@ struct SerSaveThread : public PausableThread
         return true;
     }
 };
+
 
 /*
 // a subset of m_vpExisting  gets copied to m_vpDel; so if m_vpExisting is empty, m_vpDel will be empty too;
@@ -811,16 +783,10 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) 
 //int x (2); CB_ASSERT(x > 4);
 //CB_ASSERT("345" == "ab");
 //CB_ASSERT(false);
-    s_pGlobalDlg = this;
-    setupUi(this);
-    s_strTraceFile = strSession.substr(0, m_strSession.size() - 4) + "_trace.txt";
+    s_fileTracer.setName(strSession.substr(0, m_strSession.size() - 4)); // also disables both flags
 
-    s_vstrStepFile.clear();
-    s_vstrStepFile.push_back(strSession.substr(0, m_strSession.size() - 4) + "_step1.txt");
-    s_vstrStepFile.push_back(strSession.substr(0, m_strSession.size() - 4) + "_step2.txt");
-    s_nStepFile = 0;
-    s_nCrtStepSize = 0;
-    s_nPage = 0;
+    s_pGlobalDlg = 0;
+    setupUi(this);
 
 
     {
@@ -833,9 +799,8 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) 
 
     m_pCommonData = new CommonData(m_settings, m_pFilesG, m_pNotesG, m_pStreamsG, m_pUniqueNotesG, /*m_pCurrentFileG, m_pCurrentAlbumG,*/ /*m_pLogG,*/ /*m_pAssignedB,*/ m_pNoteFilterB, m_pDirFilterB, m_pModeAllB, m_pModeAlbumB, m_pModeSongB, bUniqueSession);
 
-    s_bDontTouchTraceToFile = true; // !!! needed so the next line doesn't create the file (it indirectly calls setupTraceToFile())
     m_settings.loadMiscConfigSettings(m_pCommonData);
-    s_bDontTouchTraceToFile = false;
+
     m_pCommonData->m_bScanAtStartup = m_settings.loadScanAtStartup();
 
     string strVersion;
@@ -846,23 +811,23 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) 
         m_settings.loadDbDirty(bDirty);
         if (bDirty)
         {
-            if (m_pCommonData->isTraceToFileEnabled() || fileExists(s_strTraceFile)) // !!! fileExists(s_strTraceFile) allows new asserts to be reported
+            if (m_pCommonData->isTraceToFileEnabled() || fileExists(s_fileTracer.getTraceFile())) // !!! fileExists(s_strTraceFile) allows new asserts to be reported (when m_pCommonData->isTraceToFileEnabled() would still return false)
             {
-                if (fileExists(s_strTraceFile))
+                if (fileExists(s_fileTracer.getTraceFile()))
                 {
-                    showErrorDlg2(this, "Restarting after crash", "<p style=\"margin-bottom:8px; margin-top:1px; \">MP3 Diags is restarting after a crash. Information in the files \"" + Qt::escape(toNativeSeparators(convStr(s_strTraceFile))) + "\", \"" + Qt::escape(toNativeSeparators(convStr(s_vstrStepFile[0]))) + "\", and \"" + Qt::escape(toNativeSeparators(convStr(s_vstrStepFile[1]))) + "\" may help identify the cause of the crash, so please make them available to the developer by mailing them to <a href=\"mailto:ciobi@inbox.com?subject=000 MP3 Diags crash/\">ciobi@inbox.com</a>, by reporting an issue to the project's <a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">Issue Tracker</a> (<a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a>) and attaching the files to the report, or by some other means (like putting them on a web server.)</p><p style=\"margin-bottom:8px; margin-top:1px; \">These are plain text files, which you can review before sending, if you have privacy concerns.</p><p style=\"margin-bottom:8px; margin-top:1px; \">After getting the files, the developer will probably want to contact you for more details, so please check back on the status of your report.</p><p style=\"margin-bottom:8px; margin-top:1px; \">So please send these files, as well as any other detail that seems relevant (what might have caused the failure, steps to reproduce it, ...)</p>", "Remove these files and continue");
+                    showRestartAfterCrashMsg("<p style=\"margin-bottom:8px; margin-top:1px; \">MP3 Diags is restarting after a crash. Information in the files \"<b>" + Qt::escape(toNativeSeparators(convStr(s_fileTracer.getTraceFile()))) + "</b>\", \"<b>" + Qt::escape(toNativeSeparators(convStr(s_fileTracer.getStepFiles()[0]))) + "</b>\", and \"<b>" + Qt::escape(toNativeSeparators(convStr(s_fileTracer.getStepFiles()[1]))) + "</b>\" may help identify the cause of the crash, so please make them available to the developer by mailing them to <a href=\"mailto:ciobi@inbox.com?subject=000 MP3 Diags crash/\">ciobi@inbox.com</a>, by reporting an issue to the project's Issue Tracker at <a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a> and attaching the files to the report, or by some other means (like putting them on a web server.)</p><p style=\"margin-bottom:8px; margin-top:1px; \">These are plain text files, which you can review before sending, if you have privacy concerns.</p><p style=\"margin-bottom:8px; margin-top:1px; \">After getting the files, the developer will probably want to contact you for more details, so please check back on the status of your report.</p><p style=\"margin-bottom:8px; margin-top:1px; \">Note that these files will be removed when you close this window.</p><p style=\"margin-bottom:8px; margin-top:1px; \">So please send these files, as well as any other detail that seems relevant (what might have caused the failure, steps to reproduce it, ...)</p>", "Remove these files and continue");
                     //ttt0 perhaps loop until the file is deleted
                 }
                 else
                 {
-                    showErrorDlg2(this, "Restarting after crash", "<p style=\"margin-bottom:8px; margin-top:1px; \">MP3 Diags is restarting after a crash. There was supposed to be some information about what led to the crash in the file \"" + Qt::escape(toNativeSeparators(convStr(s_strTraceFile))) + "\", but that file cannot be found. Please report this issue to the project's <a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">Issue Tracker</a> (<a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a>)</p><p style=\"margin-bottom:8px; margin-top:1px; \">The developer will probably want to contact you for more details, so please check back on the status of your report.</p><p style=\"margin-bottom:8px; margin-top:1px; \">Make sure to include the data below, as well as any other detail that seems relevant (what might have caused the failure, steps to reproduce it, ...)</p>", "OK");
+                    showRestartAfterCrashMsg("<p style=\"margin-bottom:8px; margin-top:1px; \">MP3 Diags is restarting after a crash. There was supposed to be some information about what led to the crash in the file \"<b>" + Qt::escape(toNativeSeparators(convStr(s_fileTracer.getTraceFile()))) + "</b>\", but that file cannot be found. Please report this issue to the project's Issue Tracker at <a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a></p><p style=\"margin-bottom:8px; margin-top:1px; \">The developer will probably want to contact you for more details, so please check back on the status of your report.</p><p style=\"margin-bottom:8px; margin-top:1px; \">Make sure to include the data below, as well as any other detail that seems relevant (what might have caused the failure, steps to reproduce it, ...)</p>", "OK");
                 }
             }
 
 
             if (!m_pCommonData->isTraceToFileEnabled())
             {
-                QMessageBox::critical(this, "Restarting after crash", "MP3 Diags is restarting after a crash. To help determine the reason for the crash, the \"Trace actions to file\" option has been activated. This logs to a file what the program is doing, which might make it slightly slower.\n\nIt is recommended to not process more than several thousand MP3 files while this option is turned on. You can turn it off manually, in the configuration dialog, in the \"Others\" tab, but keeping it turned on may provide very useful feedback to the developer, should the program crash again. With this feedback, future versions of MP3 Diags will get closer to being bug free.");
+                showRestartAfterCrashMsg("<p style=\"margin-bottom:8px; margin-top:1px; \">MP3 Diags is restarting after a crash. To help determine the reason for the crash, the \"Trace actions to file\" option has been activated. This logs to a file what the program is doing, which might make it slightly slower.</p><p style=\"margin-bottom:8px; margin-top:1px; \">It is recommended to not process more than several thousand MP3 files while this option is turned on. You can turn it off manually, in the configuration dialog, in the \"Others\" tab, but keeping it turned on may provide very useful feedback to the developer, should the program crash again. With this feedback, future versions of MP3 Diags will get closer to being bug free.</p>", "OK");
 
                 m_pCommonData->setTraceToFile(true);
                 m_settings.saveMiscConfigSettings(m_pCommonData);
@@ -874,12 +839,13 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) 
         // !!! nothing to do if not dirty
     }
     else
-    { // it's a new version, so we start over //ttt0 perhaps also use some counter, like "20 runs without crash"
+    { // it's a new version, so we start over //ttt1 perhaps also use some counter, like "20 runs without crash"
         m_pCommonData->setTraceToFile(false);
         m_settings.saveMiscConfigSettings(m_pCommonData);
     }
 
-    setupTraceToFile(m_pCommonData->isTraceToFileEnabled()); // this might get called a second time (the first time is from within m_pCommonData->setTraceToFile()), but that's OK
+    s_fileTracer.enable2(m_pCommonData->isTraceToFileEnabled()); // this might get called a second time (the first time is from within m_pCommonData->setTraceToFile()), but that's OK
+    s_fileTracer.enable1(true); // !!! after loadMiscConfigSettings(), so the previous files aren't deleted too early
 
     m_settings.saveVersion(APP_VER);
 
@@ -1107,6 +1073,8 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) 
         m_pCommonData->setViewMode(eMode, m_pCommonData->getCrtMp3Handler());
     }
 */
+    s_pGlobalDlg = this;
+
     QTimer::singleShot(1, this, SLOT(onShow()));
 }
 
@@ -1330,6 +1298,8 @@ void MainFormDlgImpl::onShow()
     string strCrt (m_pCommonData->getCrtName());
     m_pFilesG->setCurrentIndex(m_pFilesG->model()->index(0, 0));
     m_pCommonData->updateWidgets(strCrt);
+
+    checkForNewVersion();
 }
 
 
@@ -1499,7 +1469,7 @@ void MainFormDlgImpl::onCrtFileChanged()
 #else
     if (2 == qs.size() && ':' == qs[1])
     {
-        qs += "\\"; //ttt0 test
+        qs += "\\";
     }
 #endif
     m_pCrtDirE->setText(qs);
@@ -1546,17 +1516,25 @@ struct Mp3ProcThread : public PausableThread
 
     /*override*/ void run()
     {
-        CompleteNotif notif(this);
-
-        bool bAborted (!scan());
-
-        if (!bAborted)
+        try
         {
-            sort(m_vpKeep.begin(), m_vpKeep.end(), CmpMp3HandlerPtrByName());
-            set_difference(m_vpExisting.begin(), m_vpExisting.end(), m_vpKeep.begin(), m_vpKeep.end(), back_inserter(m_vpDel), CmpMp3HandlerPtrByName());
-        }
+            CompleteNotif notif(this);
 
-        notif.setSuccess(!bAborted);
+            bool bAborted (!scan());
+
+            if (!bAborted)
+            {
+                sort(m_vpKeep.begin(), m_vpKeep.end(), CmpMp3HandlerPtrByName());
+                set_difference(m_vpExisting.begin(), m_vpExisting.end(), m_vpKeep.begin(), m_vpKeep.end(), back_inserter(m_vpDel), CmpMp3HandlerPtrByName());
+            }
+
+            notif.setSuccess(!bAborted);
+        }
+        catch (...)
+        {
+            LAST_STEP("Mp3ProcThread::run()");
+            CB_ASSERT (false);
+        }
     }
 
     bool scan();
@@ -1606,7 +1584,7 @@ bool Mp3ProcThread::scan()
 
 } // namespace
 
-
+//ttt0 perhaps: Too many notes that you don't care about are cluttering your screen? You can hide such notes, so you don't see them again. To do this, open the configuration dialog and go to the "Ignored notes" tab. See more details at ...
 
 //ttt2 album detection: folder / tags /both
 
@@ -1630,6 +1608,27 @@ void MainFormDlgImpl::scan(FileEnumerator& fileEnum, bool bForce, deque<const Mp
         m_nScanWidth = dlg.width();
         vpAdd = p->m_vpAdd;
         vpDel = p->m_vpDel;
+    }
+
+    if (!m_pCommonData->m_bToldAboutSupport && !s_bToldAboutSupportInCrtRun)
+    {
+        const vector<const Note*>& v (m_pCommonData->getUniqueNotes().getFltVec());
+        vector<const Note*>::const_iterator it (lower_bound(v.begin(), v.end(), &Notes::unsupportedFound(), CmpNotePtrById()));
+        if (v.end() != it && &Notes::unsupportedFound() == *it)
+        {
+            s_bToldAboutSupportInCrtRun = true;
+
+            HtmlMsg::msg(this, 0, 0, &m_pCommonData->m_bToldAboutSupport, HtmlMsg::DEFAULT, "Info", "<p style=\"margin-bottom:1px; margin-top:12px; \">Your files are not fully supported by the current version of MP3 Diags. The main reason for this is that the developer is aware of some MP3 features but doesn't have actual MP3 files to implement support for those features and test the code.</p>"
+
+            "<p style=\"margin-bottom:1px; margin-top:12px; \">You can help improve MP3 Diags by making files with unsupported notes available to the developer. The preferred way to do this is to report an issue on the project's Issue Tracker at <a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a>, after checking if others made similar files available. To actually send the files, you can mail them to <a href=\"mailto:ciobi@inbox.com?subject=000 MP3 Diags support note/\">ciobi@inbox.com</a> or put them on a web server. It would be a good idea to make sure that you have the latest version of MP3 Diags.</p>"
+
+            "<p style=\"margin-bottom:1px; margin-top:12px; \">You can identify unsupported notes by the blue color that is used for their labels.</p>", 750, 300, "OK");
+
+            if (m_pCommonData->m_bToldAboutSupport)
+            {
+                m_settings.saveMiscConfigSettings(m_pCommonData);
+            }
+        }
     }
 
     m_pCommonData->mergeHandlerChanges(vpAdd, vpDel, nKeepWhenUpdate);
@@ -2142,16 +2141,18 @@ void MainFormDlgImpl::transform(std::vector<Transformation*>& vpTransf, bool bAl
         }
     }
 
-    qstrConf += "\n\nActions to be taken:";
     {
         const char* aOrig[] = { "don't change", "erase", "move", "move", "rename", "move if destination doesn't exist" };
-        if (!vpTransf.empty())
+        if (m_transfConfig.m_optionsWrp.m_opt.m_nProcOrigChange != 1 || m_transfConfig.m_optionsWrp.m_opt.m_nUnprocOrigChange != 0)
         {
-            qstrConf += "\n- original file that has been transformed: ";
-            qstrConf += aOrig[m_transfConfig.m_optionsWrp.m_opt.m_nProcOrigChange];
-        }
+            qstrConf += "\n\nActions to be taken:";
 
-        {
+            if (!vpTransf.empty())
+            {
+                qstrConf += "\n- original file that has been transformed: ";
+                qstrConf += aOrig[m_transfConfig.m_optionsWrp.m_opt.m_nProcOrigChange];
+            }
+
             qstrConf += "\n- original file that has not been transformed: ";
             qstrConf += aOrig[m_transfConfig.m_optionsWrp.m_opt.m_nUnprocOrigChange];
         }
@@ -2230,6 +2231,7 @@ void MainFormDlgImpl::on_m_pPrevB_clicked()
 {
 //CB_ASSERT("345" == "ab");
 //traceLastStep("tsterr", 0); char* p (0); *p = 11;
+//throw 1;
 
     m_pCommonData->previous();
     //updateWidgets();
@@ -2256,16 +2258,22 @@ void MainFormDlgImpl::on_m_pTagEdtB_clicked()
 
     m_pCommonData->setSongInCrtAlbum();
 
-    TagEditorDlgImpl dlg (this, m_pCommonData, m_transfConfig);
+    bool bDataSaved (false);
+    TagEditorDlgImpl dlg (this, m_pCommonData, m_transfConfig, bDataSaved);
 
     //if (QDialog::Accepted == dlg.exec())
+    bool bToldAboutPatterns (m_pCommonData->m_bToldAboutPatterns);
     string strCrt (dlg.run());
+    if (!bToldAboutPatterns && m_pCommonData->m_bToldAboutPatterns)
+    {
+        m_settings.saveMiscConfigSettings(m_pCommonData);
+    }
 
     updateUi(strCrt); // needed because the tag editor might have called the config and changed things; it would be nicer to send a signal when config changes, but IIRC in Qt 4.3.1 resizing things in a dialog that opened another one doesn't work very well; (see also TagEditorDlgImpl::on_m_pQueryDiscogsB_clicked())
 
     if (m_pCommonData->useFastSave())
     {
-        fullReload(DONT_FORCE);
+        if (bDataSaved) { fullReload(DONT_FORCE); }
     }
     else
     {
@@ -2478,6 +2486,147 @@ void MainFormDlgImpl::on_m_pSessionsB_clicked()
     accept();
 }
 
+
+
+
+void MainFormDlgImpl::checkForNewVersion() // returns immediately; when the request completes it will send a signal
+{
+    const int MIN_INTERVAL_BETWEEN_CHECKS (4); // hours
+
+    if ("yes" != m_pCommonData->m_strCheckForNewVersions && "no" != m_pCommonData->m_strCheckForNewVersions)
+    {
+        int nRes (HtmlMsg::msg(this, 0, 0, 0, HtmlMsg::DEFAULT, "Info",
+        "<p style=\"margin-bottom:1px; margin-top:12px; \">MP3 Diags can check at startup if a new version of the program has been released. Here's how this is supposed to work:"
+            "<ul>"
+                "<li>The check is done in the background, when the program starts, so there should be no performance penalties</li>"
+                "<li>A notification message is displayed only if there's a new version available</li>"
+                "<li>The update is manual. You are told that there is a new version and are offered links to see what's new, but nothing gets downloaded and / or installed automatically</li>"
+                "<li>There is no System Tray process checking periodically for updates</li>"
+                "<li>You can turn the notifications on and off from the configurations dialog</li>"
+                "<li>If you restart the program withing 4 hours after a check, no new check is done</li>"
+            "</ul>"
+        "</p>"
+        /*"
+        "<p style=\"margin-bottom:1px; margin-top:12px; \">QQQ</p>"
+        "<p style=\"margin-bottom:1px; margin-top:12px; \">QQQ</p>"
+        "<p style=\"margin-bottom:1px; margin-top:12px; \">QQQ</p>"
+        */
+        , 750, 300, "Disable checking for new versions", "Enable checking for new versions"));
+        qDebug("ret %d", nRes);
+
+        m_pCommonData->m_strCheckForNewVersions = (1 == nRes ? "yes" : "no");
+        m_settings.saveMiscConfigSettings(m_pCommonData);
+    }
+
+    if ("yes" != m_pCommonData->m_strCheckForNewVersions) { return; }
+
+    QDateTime t1 (QDateTime::currentDateTime());
+    t1 = t1.addSecs(-MIN_INTERVAL_BETWEEN_CHECKS*3600);
+    //qDebug("ini: %s, crt: %s", m_pCommonData->m_timeLastNewVerCheck.toString().toUtf8().data(), t1.toString().toUtf8().data());
+    if (t1 < m_pCommonData->m_timeLastNewVerCheck)
+    {
+        return;
+    }
+
+    m_pCommonData->m_timeLastNewVerCheck = QDateTime(QDateTime::currentDateTime());
+
+    m_pQHttp = new QHttp (this);
+
+    connect(m_pQHttp, SIGNAL(requestFinished(int, bool)), this, SLOT(onNewVersionQueryFinished(int, bool)));
+    //connect(m_pQHttp, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)), this, SLOT(readResponseHeader(const QHttpResponseHeader&)));
+
+    m_pQHttp->setHost("mp3diags.sourceforge.net");
+    //http://mp3diags.sourceforge.net/010_getting_the_program.html
+    QHttpRequestHeader header ("GET", "/version.txt"); header.setValue("Host", "mp3diags.sourceforge.net");
+    //QHttpRequestHeader header ("GET", "/mciobanu/mp3diags/010_getting_the_program.html"); header.setValue("Host", "web.clicknet.ro");
+    m_pQHttp->request(header);
+}
+//mp3diags.sourceforge.net/010_getting_the_program.html
+//web.clicknet.ro/mciobanu/mp3diags/010_getting_the_program.html
+
+void MainFormDlgImpl::readResponseHeader(const QHttpResponseHeader& h)
+{
+    qDebug("status %d", h.statusCode());
+}
+
+
+
+
+void MainFormDlgImpl::onNewVersionQueryFinished(int /*nId*/, bool bError)
+{
+    if (bError)
+    { //ttt1 log something, tell user after a while
+        qDebug("HTTP error");
+        return;
+    }
+
+    qint64 nAv (m_pQHttp->bytesAvailable());
+    if (0 == nAv)
+    {
+        // !!! JUST return; empty responses come for no identifiable requests and they should be just ignored
+        return;
+    }
+
+    QByteArray b (m_pQHttp->readAll());
+    CB_ASSERT (b.size() == nAv);
+
+    qDebug("ver: %s", b.data());
+
+    m_qstrNewVer = b;
+    m_qstrNewVer = m_qstrNewVer.trimmed();
+
+    if (APP_VER == m_qstrNewVer)
+    {
+        return;
+    }
+
+#if 0
+    //const int WAIT (15); //crashes
+    //const int WAIT (12); // doesn't crash
+    const int WAIT (14); //crashes
+#ifndef WIN32
+    qDebug("wait %d seconds", WAIT); sleep(WAIT); QMessageBox::critical(this, "resume", "resume resume resume resume resume"); // crashes
+    //ttt1 see if this crash affects discogs dwnld //??? why doesn't crash if no message is shown?
+#else
+    //Sleep(WAIT*1000); // Qt 4.5 doesn't seem to crash
+#endif
+#endif
+
+    QTimer::singleShot(1, this, SLOT(onNewVersionQueryFinished2()));
+}
+
+
+void MainFormDlgImpl::onNewVersionQueryFinished2()
+{
+    //QMessageBox::critical(this, "wait", "bb urv huervhuervhuerv erve rvhu ervervhuer vher vrhe rv evr ev erv erv");
+    //qDebug("ver: %s", b.data());
+    //QMessageBox::critical(this, "resume", "bb urv huervhuervhuerv erve rvhu ervervhuer vher vrhe rv evr ev erv erv");
+    if (m_pCommonData->m_strDontTellAboutVer == convStr(m_qstrNewVer)) { return; }
+
+    int nRes (HtmlMsg::msg(this, 0, 0, 0, HtmlMsg::VERT_BUTTONS, "Info",
+    "<p style=\"margin-bottom:1px; margin-top:12px; \">Version " + m_qstrNewVer + " has been published. You are running " + APP_VER + ". You can see what's new in the <a href=\"http://mp3diags.blogspot.com/\">MP3 Diags blog</a>. A more technical list with changes can be seen in the <a href=\"http://mp3diags.sourceforge.net/015_changelog.html\">change log</a>.</p>"
+    "<p style=\"margin-bottom:1px; margin-top:12px; \">You should review the changes and decide if you want to upgrade or not.</p>"
+    "<p style=\"margin-bottom:1px; margin-top:12px; \">Note: if you want to upgrade, you should <b>close MP3 Diags first</b></p>"
+    "<p style=\"margin-bottom:1px; margin-top:12px; \">Choose what do you want to do:</p>"
+    /*"<p style=\"margin-bottom:1px; margin-top:12px; \">QQQ</p>"*/
+    , 600, 400, "Just close this message", "Don't tell me about version " + m_qstrNewVer + " again", "Disable checking for new versions"));
+
+    qDebug("ret %d", nRes);
+    switch (nRes)
+    {
+    case 0: m_pCommonData->m_strDontTellAboutVer.clear(); break;
+    case 1: m_pCommonData->m_strDontTellAboutVer = convStr(m_qstrNewVer); break;
+    case 2: m_pCommonData->m_strDontTellAboutVer.clear(); m_pCommonData->m_strCheckForNewVersions = "no"; break;
+    default: CB_ASSERT (false);
+    }
+
+    m_settings.saveMiscConfigSettings(m_pCommonData);
+}
+
+
+//=============================================================================================================================
+//=============================================================================================================================
+//=============================================================================================================================
 
 
 void MainFormDlgImpl::testSlot()

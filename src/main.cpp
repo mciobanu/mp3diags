@@ -135,6 +135,24 @@ void newHandler()
 }
 
 
+class QMp3DiagsApplication : public QApplication
+{
+public:
+    /*override*/ bool notify(QObject* pReceiver, QEvent *pEvent)
+    {
+        try
+        {
+            return QApplication::notify(pReceiver, pEvent);
+        }
+        catch (...)
+        {
+            CB_ASSERT (false);
+        }
+    }
+
+    QMp3DiagsApplication(int& argc, char** argv) : QApplication(argc, argv) {}
+};
+
 
 int main(int argc, char *argv[])
 {
@@ -149,7 +167,7 @@ int main(int argc, char *argv[])
     //for (int i = 0; i < 200; ++i) { new char[1000000]; }
 
     Q_INIT_RESOURCE(Mp3Diags); // base name of the ".qrc" file
-    QApplication app(argc, argv);
+    QMp3DiagsApplication app(argc, argv);
 
     { // by default on Windows the selection is hard to see in the main window, because it's some gray;
         QPalette pal (QApplication::palette());
@@ -210,7 +228,7 @@ int main(int argc, char *argv[])
 
     bool bOpenSelDlg (strStartSession.empty() || !bOpenLast);
 
-    //try
+    try
     {
         for (;;)
         {
@@ -262,13 +280,14 @@ int main(int argc, char *argv[])
             if (MainFormDlgImpl::OPEN_SESS_DLG != mainDlg.run()) { return 0; }
         }
     }
-    /*catch (...) // ttt1 see if this can be handled; it seems that nothing can be done if an exception leaves a slot / event handler, but maybe there are ways around
+    catch (...) // ttt1 for now it doesn't catch many exceptions; it seems that nothing can be done if an exception leaves a slot / event handler, but maybe there are ways around
     {
-        //QMessageBox dlg (QMessageBox::Critical, "Error", "Caught generic exception. Exiting ...", QMessageBox::Close, 0, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint);
+        /*QMessageBox dlg (QMessageBox::Critical, "Error", "Caught generic exception. Exiting ...", QMessageBox::Close, 0, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint);
 
-        //dlg.exec();
-        //qDebug("out - err");
-    }*/
+        dlg.exec();
+        qDebug("out - err");*/
+        CB_ASSERT (false);
+    }
 
     /*mainDlg.show();
     return app.exec();*/

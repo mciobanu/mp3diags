@@ -1,3 +1,25 @@
+mp3diags (0.99.05.034) testing; urgency=low
+
+  * drive labels shown in Windows
+  * mp3gain can be started now if it's in a directory containing spaces
+  * configurable invalid characters and replacement for file renamer
+  * automatic check for new versions
+  * text inside square, curly, and angle brackets removed from web queries
+  * improved tracing code
+  * no longer rescan the files if exiting tag editor without changes
+  * replace non-alphanumeric chars with spaces in web queries (issue 2)
+  * better sorting in the tag editor for albums with unusual track numbers
+  * a default .ini name is generated in most cases
+  * (probably) fixed an assert (not sure because couldn't reproduce it)
+  * tracks without a track number are put at the end in the tag editor
+  * let the user know about reporting support notes and about patterns
+  * better detection of exceptions in threads
+  * exceptions that propagate from slots are now caught
+  * default "actions to be taken" no longer shown when applying transforms
+  * file info for StreamWriter
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Mon, 07 Sep 2009 22:00:00 +0200
+
 mp3diags (0.99.05.033) testing; urgency=low
 
   * fixed crash in Windows when checking a whole drive

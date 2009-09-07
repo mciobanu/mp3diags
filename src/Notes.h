@@ -121,7 +121,7 @@ protected:
 
 private:
     friend class boost::serialization::access;
-    Note() {}
+    Note();
     /*template<class Archive>
     void serialize(Archive& ar, const unsigned int / *nVersion* /)
     {

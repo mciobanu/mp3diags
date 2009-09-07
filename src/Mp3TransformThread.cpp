@@ -83,9 +83,17 @@ struct Mp3TransformThread : public PausableThread
 
     /*override*/ void run()
     {
-        CompleteNotif notif(this);
+        try
+        {
+            CompleteNotif notif(this);
 
-        notif.setSuccess(transform());
+            notif.setSuccess(transform());
+        }
+        catch (...)
+        {
+            LAST_STEP("Mp3TransformThread::run()");
+            CB_ASSERT (false);
+        }
     }
 
     bool transform();
@@ -209,209 +217,221 @@ bool Mp3TransformThread::transform()
             //emit stepChanged(l);
             auto_ptr<const Mp3Handler> pNewHndl (pOrigHndl);
 
-            long long nSize, nOrigTime;
-            getFileInfo(strOrigName, nOrigTime, nSize);
 
-            for (int j = 0, m = cSize(m_vpTransf); j < m; ++j)
+            try
             {
-                Transformation& t (*m_vpTransf[j]);
-                TRACER("Mp3TransformThread::transform()" + strOrigName + "/" + t.getActionName());
-                l[1] = t.getActionName();
-                emit stepChanged(l, i + 1);
-                Transformation::Result eTransf;
+                long long nSize, nOrigTime;
+                getFileInfo(strOrigName, nOrigTime, nSize);
+
+                for (int j = 0, m = cSize(m_vpTransf); j < m; ++j)
+                {
+                    Transformation& t (*m_vpTransf[j]);
+                    TRACER("Mp3TransformThread::transform()" + strOrigName + "/" + t.getActionName());
+                    l[1] = t.getActionName();
+                    emit stepChanged(l, i + 1);
+                    Transformation::Result eTransf;
+                    try
+                    {
+                        eTransf = t.apply(*pNewHndl, m_transfConfig, strOrigName, strTempName);
+                    }
+                    catch (const WriteError&)
+                    {
+        //qDebug("disk err");
+                        m_strErrorFile = strTempName;
+                        m_bWriteError = true;
+                        if (pNewHndl.get() == pOrigHndl)
+                        {
+                            pNewHndl.release();
+                        }
+                        return false; //ttt2 review what happens to pNewHndl
+                    }
+                    catch (const EndOfFile&) //ttt2 catch other exceptions, perhaps in the outer loop
+                    {
+                        m_strErrorFile = strOrigName;
+                        m_bWriteError = false;
+                        if (pNewHndl.get() == pOrigHndl)
+                        {
+                            pNewHndl.release();
+                        }
+                        return false;
+                    }
+
+                    if (eTransf != Transformation::NOT_CHANGED)
+                    {
+                        CB_ASSERT (!m_pCommonData->m_strTransfLog.empty());
+                        if (m_pCommonData->m_bLogTransf)
+                        {
+                            logTransformation(m_pCommonData->m_strTransfLog, t.getActionName(), pNewHndl.get());
+                        }
+
+                        if (pNewHndl.get() == pOrigHndl)
+                        {
+                            pNewHndl.release();
+                            CB_ASSERT (strPrevTempName.empty());
+                        }
+                        else
+                        {
+                            CB_ASSERT (!strPrevTempName.empty());
+                            switch (m_transfConfig.getTempAction())
+                            {
+                            case TransfConfig::TRANSF_DONT_CREATE: deleteFile(strPrevTempName); break; //ttt2 try ... // or perhaps a try-catch for file errors for the whole block
+                            case TransfConfig::TRANSF_CREATE: break;
+                            default: CB_ASSERT (false);
+                            }
+                        }
+
+                        strPrevTempName = strTempName;
+                        pNewHndl.reset(new Mp3Handler(strTempName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds())); //ttt1 try..catch
+                        checkPause();
+                        if (isAborted())
+                        {
+                            bAborted = true;
+                            break; // needed because it is possible that a bug in a transformation to make it create "transformations" that are equal to the original, so the loop never exits;
+                            // not 100% right, but seems better anyway than just returning; // ttt3 fix: we should delete all the temp and comp files and return false, but for now it can stay as is;
+                        }
+
+                        if (Transformation::CHANGED_NO_RECALL != eTransf)
+                        {
+                            CB_ASSERT (Transformation::CHANGED == eTransf);
+                            j = -1; // !!! start again with the first transformation
+                            //ttt2 consider: 5 transforms, 1 and 2 are CHANGE_NO_RECALL, 3 is CHANGE, causing 1 and 2 to be called again; probably OK, but review
+                        }
+                    }
+                }
+
+                string strNewOrigName;  // new name for the orig file; if this is empty, the original file wasn't changed; if it's "*", it was erased; if it's something else, it was renamed;
+                string strProcName;     // name for the proc file; if this is empty, a proc file doesn't exist; if it's something else, it's the file name;
+
+                bool bErrorInTransform (false);
+
+                FileEraser fileEraser;
+
                 try
                 {
-                    eTransf = t.apply(*pNewHndl, m_transfConfig, strOrigName, strTempName);
-                }
-                catch (const WriteError&)
-                {
-    //qDebug("disk err");
-                    m_strErrorFile = strTempName;
-                    m_bWriteError = true;
+                    //bool bChanged (true);
                     if (pNewHndl.get() == pOrigHndl)
-                    {
+                    { // nothing changed
                         pNewHndl.release();
-                    }
-                    return false; //ttt2 review what happens to pNewHndl
-                }
-                catch (const EndOfFile&) //ttt2 catch other exceptions, perhaps in the outer loop
-                {
-                    m_strErrorFile = strOrigName;
-                    m_bWriteError = false;
-                    if (pNewHndl.get() == pOrigHndl)
-                    {
-                        pNewHndl.release();
-                    }
-                    return false;
-                }
-
-                if (eTransf != Transformation::NOT_CHANGED)
-                {
-                    CB_ASSERT (!m_pCommonData->m_strTransfLog.empty());
-                    if (m_pCommonData->m_bLogTransf)
-                    {
-                        logTransformation(m_pCommonData->m_strTransfLog, t.getActionName(), pNewHndl.get());
-                    }
-
-                    if (pNewHndl.get() == pOrigHndl)
-                    {
-                        pNewHndl.release();
-                        CB_ASSERT (strPrevTempName.empty());
+                        switch (m_transfConfig.getUnprocOrigAction())
+                        {
+                        case TransfConfig::ORIG_DONT_CHANGE: break;
+                        case TransfConfig::ORIG_ERASE: { strNewOrigName = "*"; fileEraser.erase(strOrigName); } break; //ttt2 try ...
+                        case TransfConfig::ORIG_MOVE: { m_transfConfig.getUnprocOrigName(strOrigName, strNewOrigName); renameFile(strOrigName, strNewOrigName); } break;
+                        default: CB_ASSERT (false);
+                        }
                     }
                     else
-                    {
-                        CB_ASSERT (!strPrevTempName.empty());
-                        switch (m_transfConfig.getTempAction())
+                    { // at least a processed file exists
+                        CB_ASSERT (!strTempName.empty());
+
+                        // first we have to handle the original file;
+
+                        switch (m_transfConfig.getProcOrigAction())
                         {
-                        case TransfConfig::TRANSF_DONT_CREATE: deleteFile(strPrevTempName); break; //ttt2 try ... // or perhaps a try-catch for file errors for the whole block
-                        case TransfConfig::TRANSF_CREATE: break;
+                        case TransfConfig::ORIG_DONT_CHANGE: break;
+                        case TransfConfig::ORIG_ERASE: { strNewOrigName = "*"; fileEraser.erase(strOrigName); } break; //ttt2 try ...
+                        case TransfConfig::ORIG_MOVE: { m_transfConfig.getProcOrigName(strOrigName, strNewOrigName); renameFile(strOrigName, strNewOrigName); } break;
+                        case TransfConfig::ORIG_MOVE_OR_ERASE:
+                            {
+                                m_transfConfig.getProcOrigName(strOrigName, strNewOrigName);
+                                if (fileExists(strNewOrigName))
+                                {
+                                    strNewOrigName = "*";
+                                    fileEraser.erase(strOrigName);
+                                }
+                                else
+                                {
+                                    renameFile(strOrigName, strNewOrigName);
+                                }
+                            }
+                            break;
+                        default: CB_ASSERT (false);
+                        }
+
+                        // the last processed file exists in the "temp" folder, its name is in strTempName, and we have to see what to do with it (erase, rename, or copy);
+                        switch (m_transfConfig.getProcessedAction())
+                        {
+                        case TransfConfig::TRANSF_DONT_CREATE: deleteFile(strTempName); break;
+                        case TransfConfig::TRANSF_CREATE:
+                            {
+                                m_transfConfig.getProcessedName(strOrigName, strProcName);
+                                switch (m_transfConfig.getTempAction())
+                                {
+                                case TransfConfig::TRANSF_DONT_CREATE: renameFile(strTempName, strProcName); break;
+                                case TransfConfig::TRANSF_CREATE: copyFile(strTempName, strProcName); break;
+                                default: CB_ASSERT (false);
+                                }
+                            }
+                            break;
+
                         default: CB_ASSERT (false);
                         }
                     }
 
-                    strPrevTempName = strTempName;
-                    pNewHndl.reset(new Mp3Handler(strTempName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds())); //ttt1 try..catch
-                    checkPause();
-                    if (isAborted())
-                    {
-                        bAborted = true;
-                        break; // needed because it is possible that a bug in a transformation to make it create "transformations" that are equal to the original, so the loop never exits;
-                        // not 100% right, but seems better anyway than just returning; // ttt3 fix: we should delete all the temp and comp files and return false, but for now it can stay as is;
-                    }
-
-                    if (Transformation::CHANGED_NO_RECALL != eTransf)
-                    {
-                        CB_ASSERT (Transformation::CHANGED == eTransf);
-                        j = -1; // !!! start again with the first transformation
-                        //ttt2 consider: 5 transforms, 1 and 2 are CHANGE_NO_RECALL, 3 is CHANGE, causing 1 and 2 to be called again; probably OK, but review
-                    }
+                    fileEraser.finalize();
                 }
-            }
-
-            string strNewOrigName;  // new name for the orig file; if this is empty, the original file wasn't changed; if it's "*", it was erased; if it's something else, it was renamed;
-            string strProcName;     // name for the proc file; if this is empty, a proc file doesn't exist; if it's something else, it's the file name;
-
-            bool bErrorInTransform (false);
-
-            FileEraser fileEraser;
-
-            try
-            {
-                //bool bChanged (true);
-                if (pNewHndl.get() == pOrigHndl)
-                { // nothing changed
-                    pNewHndl.release();
-                    switch (m_transfConfig.getUnprocOrigAction())
-                    {
-                    case TransfConfig::ORIG_DONT_CHANGE: break;
-                    case TransfConfig::ORIG_ERASE: { strNewOrigName = "*"; fileEraser.erase(strOrigName); } break; //ttt2 try ...
-                    case TransfConfig::ORIG_MOVE: { m_transfConfig.getUnprocOrigName(strOrigName, strNewOrigName); renameFile(strOrigName, strNewOrigName); } break;
-                    default: CB_ASSERT (false);
-                    }
+                catch (const CannotDeleteFile&)
+                {
+                    bErrorInTransform = true;
                 }
-                else
-                { // at least a processed file exists
-                    CB_ASSERT (!strTempName.empty());
+                catch (const CannotRenameFile&) //ttt1 perhaps also NameNotFound, AlreadyExists, ...
+                {
+                    bErrorInTransform = true;
+                }
+                catch (const CannotCopyFile&) //ttt1 perhaps also NameNotFound, AlreadyExists, ...
+                {
+                    CB_ASSERT(false);
+                    //bErrorInTransform = true;
+                }
 
-                    // first we have to handle the original file;
-
-                    switch (m_transfConfig.getProcOrigAction())
+                if (bErrorInTransform)
+                {
+                    if (!strProcName.empty())
                     {
-                    case TransfConfig::ORIG_DONT_CHANGE: break;
-                    case TransfConfig::ORIG_ERASE: { strNewOrigName = "*"; fileEraser.erase(strOrigName); } break; //ttt2 try ...
-                    case TransfConfig::ORIG_MOVE: { m_transfConfig.getProcOrigName(strOrigName, strNewOrigName); renameFile(strOrigName, strNewOrigName); } break;
-                    case TransfConfig::ORIG_MOVE_OR_ERASE:
+                        try
                         {
-                            m_transfConfig.getProcOrigName(strOrigName, strNewOrigName);
-                            if (fileExists(strNewOrigName))
-                            {
-                                strNewOrigName = "*";
-                                fileEraser.erase(strOrigName);
-                            }
-                            else
-                            {
-                                renameFile(strOrigName, strNewOrigName);
-                            }
+                            deleteFile(strProcName);
                         }
-                        break;
-                    default: CB_ASSERT (false);
+                        catch (...)
+                        { //ttt0 not sure what to do
+                        }
                     }
+                    m_strErrorFile = strOrigName;
+                    m_bWriteError = false;
+                    return false;
+                }
+                //ttt1 perhaps do something similar to strNewOrigName
+                //ttt1 review the whole thing
 
-                    // the last processed file exists in the "temp" folder, its name is in strTempName, and we have to see what to do with it (erase, rename, or copy);
-                    switch (m_transfConfig.getProcessedAction())
+                if (!strNewOrigName.empty())
+                {
+                    m_vpDel.push_back(pOrigHndl);
+                    if ("*" != strNewOrigName && m_pCommonData->m_dirTreeEnum.isIncluded(strNewOrigName))
                     {
-                    case TransfConfig::TRANSF_DONT_CREATE: deleteFile(strTempName); break;
-                    case TransfConfig::TRANSF_CREATE:
-                        {
-                            m_transfConfig.getProcessedName(strOrigName, strProcName);
-                            switch (m_transfConfig.getTempAction())
-                            {
-                            case TransfConfig::TRANSF_DONT_CREATE: renameFile(strTempName, strProcName); break;
-                            case TransfConfig::TRANSF_CREATE: copyFile(strTempName, strProcName); break;
-                            default: CB_ASSERT (false);
-                            }
-                        }
-                        break;
-
-                    default: CB_ASSERT (false);
+                        m_vpAdd.push_back(new Mp3Handler(strNewOrigName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds()));
                     }
                 }
 
-                fileEraser.finalize();
-            }
-            catch (const CannotDeleteFile&)
-            {
-                bErrorInTransform = true;
-            }
-            catch (const CannotRenameFile&) //ttt1 perhaps also NameNotFound, AlreadyExists, ...
-            {
-                bErrorInTransform = true;
-            }
-            catch (const CannotCopyFile&) //ttt1 perhaps also NameNotFound, AlreadyExists, ...
-            {
-                CB_ASSERT(false);
-                //bErrorInTransform = true;
-            }
-
-            if (bErrorInTransform)
-            {
                 if (!strProcName.empty())
                 {
-                    try
+                    if (m_transfConfig.m_optionsWrp.m_opt.m_bKeepOrigTime)
                     {
-                        deleteFile(strProcName);
+                        setFileDate(strProcName, nOrigTime);
                     }
-                    catch (...)
-                    { //ttt0 not sure what to do
-                    }
-                }
-                m_strErrorFile = strOrigName;
-                m_bWriteError = false;
-                return false;
-            }
-            //ttt1 perhaps do something similar to strNewOrigName
-            //ttt1 review the whole thing
 
-            if (!strNewOrigName.empty())
-            {
-                m_vpDel.push_back(pOrigHndl);
-                if ("*" != strNewOrigName && m_pCommonData->m_dirTreeEnum.isIncluded(strNewOrigName))
-                {
-                    m_vpAdd.push_back(new Mp3Handler(strNewOrigName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds()));
+                    if (m_pCommonData->m_dirTreeEnum.isIncluded(strProcName))
+                    {
+                        m_vpAdd.push_back(new Mp3Handler(strProcName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds())); // !!! a new Mp3Handler is needed, because pNewHndl has an incorrect file name (but otherwise they should be identical)
+                    }
                 }
             }
-
-            if (!strProcName.empty())
+            catch (...)
             {
-                if (m_transfConfig.m_optionsWrp.m_opt.m_bKeepOrigTime)
+                if (pNewHndl.get() == pOrigHndl)
                 {
-                    setFileDate(strProcName, nOrigTime);
+                    pNewHndl.release();
                 }
-
-                if (m_pCommonData->m_dirTreeEnum.isIncluded(strProcName))
-                {
-                    m_vpAdd.push_back(new Mp3Handler(strProcName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds())); // !!! a new Mp3Handler is needed, because pNewHndl has an incorrect file name (but otherwise they should be identical)
-                }
+                throw;
             }
         }
     }

@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>971</width>
-    <height>613</height>
+    <width>988</width>
+    <height>670</height>
    </rect>
   </property>
   <property name="minimumSize" >
@@ -2443,6 +2443,13 @@
                  </property>
                 </widget>
                </item>
+               <item>
+                <widget class="QCheckBox" name="m_pCheckForUpdatesCkB" >
+                 <property name="text" >
+                  <string>Check for new version at startup</string>
+                 </property>
+                </widget>
+               </item>
               </layout>
              </widget>
             </item>
@@ -2596,47 +2603,109 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="m_pNormalizeGrp" >
-         <property name="title" >
-          <string>Normalize</string>
-         </property>
-         <layout class="QVBoxLayout" >
+        <widget class="QWidget" native="1" name="widget_23" >
+         <layout class="QHBoxLayout" >
+          <property name="leftMargin" >
+           <number>0</number>
+          </property>
           <property name="topMargin" >
            <number>0</number>
           </property>
+          <property name="rightMargin" >
+           <number>0</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>0</number>
+          </property>
           <item>
-           <widget class="QWidget" native="1" name="widget_20" >
-            <layout class="QHBoxLayout" >
-             <property name="leftMargin" >
-              <number>0</number>
-             </property>
+           <widget class="QGroupBox" name="m_pNormalizeGrp" >
+            <property name="sizePolicy" >
+             <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+              <horstretch>7</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="title" >
+             <string>Normalizer</string>
+            </property>
+            <layout class="QVBoxLayout" >
              <property name="topMargin" >
               <number>0</number>
              </property>
-             <property name="rightMargin" >
-              <number>0</number>
-             </property>
-             <property name="bottomMargin" >
-              <number>0</number>
-             </property>
              <item>
-              <widget class="QLabel" name="label_16" >
-               <property name="text" >
-                <string>Command (file names will get added at the end)</string>
-               </property>
+              <widget class="QWidget" native="1" name="widget_20" >
+               <layout class="QHBoxLayout" >
+                <property name="leftMargin" >
+                 <number>0</number>
+                </property>
+                <property name="topMargin" >
+                 <number>0</number>
+                </property>
+                <property name="rightMargin" >
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin" >
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="label_16" >
+                  <property name="text" >
+                   <string>Command (file names will get added at the end)</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="m_pNormalizerE" />
+                </item>
+               </layout>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="m_pNormalizerE" />
+              <widget class="QCheckBox" name="m_pKeepNormOpenCkB" >
+               <property name="text" >
+                <string>Keep the window open after completion</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="m_pKeepNormOpenCkB" >
-            <property name="text" >
-             <string>Keep the window open after completion</string>
+           <widget class="QGroupBox" name="m_pRenamerGrp" >
+            <property name="sizePolicy" >
+             <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+              <horstretch>4</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
             </property>
+            <property name="title" >
+             <string>File renamer</string>
+            </property>
+            <layout class="QGridLayout" >
+             <property name="topMargin" >
+              <number>0</number>
+             </property>
+             <item row="0" column="0" >
+              <widget class="QLabel" name="label_33" >
+               <property name="text" >
+                <string>Invalid characters</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1" >
+              <widget class="QLineEdit" name="m_pInvalidCharsE" />
+             </item>
+             <item row="1" column="0" >
+              <widget class="QLabel" name="label_34" >
+               <property name="text" >
+                <string>Replace with</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1" >
+              <widget class="QLineEdit" name="m_pInvalidReplacementE" />
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>
@@ -2649,8 +2718,8 @@
          </property>
          <property name="sizeHint" >
           <size>
-           <width>81</width>
-           <height>111</height>
+           <width>161</width>
+           <height>66</height>
           </size>
          </property>
         </spacer>
@@ -2790,8 +2859,6 @@
   <tabstop>m_pNonId3v2DiscardRB</tabstop>
   <tabstop>m_pNonId3v2AskRB</tabstop>
   <tabstop>m_pIconSizeSB</tabstop>
-  <tabstop>m_pNormalizerE</tabstop>
-  <tabstop>m_pKeepNormOpenCkB</tabstop>
  </tabstops>
  <resources>
   <include location="Mp3Diags.qrc" />

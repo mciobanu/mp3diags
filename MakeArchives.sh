@@ -239,6 +239,8 @@ function createSfDoc
     cp -p COPYING $LongDestDir
     rm $LongDestDir/010_getting_the_program_local.html
 
+    echo $Ver > $LongDestDir/version.txt
+
     #rm $LongDestDir/010a_getting_the_program.html
 
     cd package/out

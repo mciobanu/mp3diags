@@ -25,7 +25,6 @@
 #include  <QTimer>
 #include  <QPainter>
 #include  <QHeaderView>
-#include  <QSizeGrip>
 
 #include  "FileRenamerDlgImpl.h"
 
@@ -373,7 +372,7 @@ void FileRenamerDlgImpl::onPatternClicked()
     {
         m_nVaButton = nId;
     }
-    m_pHndlrListModel->setRenamer(new Renamer(m_vstrPatterns[nId]));
+    m_pHndlrListModel->setRenamer(new Renamer(m_vstrPatterns[nId], m_pCommonData));
 }
 
 
@@ -703,12 +702,12 @@ void FileRenamerDlgImpl::selectPattern()
         if (isSingleArtist())
         {
             m_pButtonGroup->button(m_nSaButton)->setChecked(true);
-            m_pHndlrListModel->setRenamer(new Renamer(m_vstrPatterns[m_nSaButton]));
+            m_pHndlrListModel->setRenamer(new Renamer(m_vstrPatterns[m_nSaButton], m_pCommonData));
         }
         else
         {
             m_pButtonGroup->button(m_nVaButton /*+ cSize(m_vstrPatterns)*/)->setChecked(true);
-            m_pHndlrListModel->setRenamer(new Renamer(m_vstrPatterns[m_nVaButton]));
+            m_pHndlrListModel->setRenamer(new Renamer(m_vstrPatterns[m_nVaButton], m_pCommonData));
         }
     }
     else
@@ -736,7 +735,7 @@ void FileRenamerDlgImpl::loadPatterns()
         string strPatt (v[i]);
         try
         {
-            Renamer r (strPatt);
+            Renamer r (strPatt, m_pCommonData);
             m_vstrPatterns.push_back(strPatt);
         }
         catch (const Renamer::InvalidPattern&)
@@ -801,15 +800,45 @@ void FileRenamerDlgImpl::onHelp()
 
 namespace FileRenamer {
 
+
+class InvalidCharsReplacer
+{
+    string m_strRenamerInvalidChars;
+    string m_strRenamerReplacementString;
+public:
+    std::string fixName(std::string s) const;
+    InvalidCharsReplacer(const string& strRenamerInvalidChars, const string& strRenamerReplacementString) : m_strRenamerInvalidChars(strRenamerInvalidChars), m_strRenamerReplacementString(strRenamerReplacementString) {}
+};
+
+
+string InvalidCharsReplacer::fixName(string s) const
+{
+    CB_ASSERT (string::npos == m_strRenamerReplacementString.find_first_of(m_strRenamerInvalidChars));
+    if (m_strRenamerInvalidChars.empty()) { return s; }
+
+    for (;;)
+    {
+        string::size_type n (s.find_first_of(m_strRenamerInvalidChars));
+        if (string::npos == n) { break; }
+        s.replace(n, 1, m_strRenamerReplacementString);
+    }
+    return s;
+}
+
+
+
+
 struct PatternBase
 {
+    const InvalidCharsReplacer* m_pInvalidCharsReplacer;
+    PatternBase(const InvalidCharsReplacer* pInvalidCharsReplacer) : m_pInvalidCharsReplacer(pInvalidCharsReplacer) {}
     virtual ~PatternBase() {}
     virtual string getVal(const Mp3Handler*) const = 0;
 };
 
 struct StaticPattern : public PatternBase
 {
-    StaticPattern(string strVal) : m_strVal(strVal) {}
+    StaticPattern(string strVal, const InvalidCharsReplacer* pInvalidCharsReplacer) : PatternBase(pInvalidCharsReplacer), m_strVal(strVal) {}
     /*override*/ string getVal(const Mp3Handler*) const { return m_strVal; }
 private:
     string m_strVal;
@@ -818,32 +847,20 @@ private:
 
 struct FieldPattern : public PatternBase
 {
-    FieldPattern(TagReader::Feature eFeature) : m_eFeature(eFeature) {}
+    FieldPattern(TagReader::Feature eFeature, const InvalidCharsReplacer* pInvalidCharsReplacer) : PatternBase(pInvalidCharsReplacer), m_eFeature(eFeature) {}
     /*override*/ string getVal(const Mp3Handler* pHndl) const
     {
         const Id3V2StreamBase* p (pHndl->getId3V2Stream());
         if (0 == p) { return ""; }
-        return fixName(p->getValue(m_eFeature));
+        return m_pInvalidCharsReplacer->fixName(p->getValue(m_eFeature));
     }
 private:
     TagReader::Feature m_eFeature;
-    string fixName(string s) const
-    {
-        for (;;)
-        {
-#ifndef WIN32
-            string::size_type n (s.find_first_of("/\"\\*?<>|")); //ttt2 even in Unix, it might be a good idea to not allow ":" as well in some cases, depending on the file system
-#else
-            string::size_type n (s.find_first_of("/\"\\*?<>|:"));
-#endif
-            if (string::npos == n) { return s; }
-            s[n] = '_';
-        }
-    }
 };
 
 struct YearPattern : public PatternBase
 {
+    YearPattern(const InvalidCharsReplacer* pInvalidCharsReplacer) : PatternBase(pInvalidCharsReplacer) {}
     /*override*/ string getVal(const Mp3Handler* pHndl) const
     {
         const Id3V2StreamBase* p (pHndl->getId3V2Stream());
@@ -854,6 +871,7 @@ struct YearPattern : public PatternBase
 
 struct TrackNoPattern : public PatternBase
 {
+    TrackNoPattern(const InvalidCharsReplacer* pInvalidCharsReplacer) : PatternBase(pInvalidCharsReplacer) {}
     /*override*/ string getVal(const Mp3Handler* pHndl) const
     {
         const Id3V2StreamBase* p (pHndl->getId3V2Stream());
@@ -871,6 +889,7 @@ struct TrackNoPattern : public PatternBase
 
 struct RatingPattern : public PatternBase
 {
+    RatingPattern(const InvalidCharsReplacer* pInvalidCharsReplacer) : PatternBase(pInvalidCharsReplacer) {}
     /*override*/ string getVal(const Mp3Handler* pHndl) const
     {
         const Id3V2StreamBase* p (pHndl->getId3V2Stream());
@@ -897,6 +916,7 @@ struct RatingPattern : public PatternBase
 
 struct SequencePattern : public PatternBase
 {
+    SequencePattern(const InvalidCharsReplacer* pInvalidCharsReplacer) : PatternBase(pInvalidCharsReplacer) {}
     /*override*/ ~SequencePattern() { clearPtrContainer(m_vpPatterns); }
     /*override*/ string getVal(const Mp3Handler* pHndl) const { return getVal(pHndl, ACCEPT_EMPTY); }
     string getNonNullVal(const Mp3Handler* pHndl) const { return getVal(pHndl, DONT_ACCEPT_EMPTY); } // returns an empty string if any of its components are empty
@@ -920,7 +940,7 @@ private:
 struct OptionalPattern : public PatternBase
 {
     /*override*/ ~OptionalPattern() { delete m_pSequencePattern; }
-    OptionalPattern(SequencePattern* pSequencePattern) : m_pSequencePattern(pSequencePattern) {}
+    OptionalPattern(SequencePattern* pSequencePattern, const InvalidCharsReplacer* pInvalidCharsReplacer) : PatternBase(pInvalidCharsReplacer), m_pSequencePattern(pSequencePattern) {}
     /*override*/ string getVal(const Mp3Handler* pHndl) const { return m_pSequencePattern->getNonNullVal(pHndl); }
 private:
     SequencePattern* m_pSequencePattern;
@@ -931,8 +951,19 @@ private:
 //using namespace RenamerPatterns;
 
 
-Renamer::Renamer(const std::string& strPattern) : m_strPattern(strPattern), m_pRoot(new SequencePattern()), m_bSameDir(string::npos == strPattern.find(getPathSep()))
+Renamer::Renamer(const std::string& strPattern, const CommonData* pCommonData) : m_strPattern(strPattern), m_bSameDir(string::npos == strPattern.find(getPathSep())), m_pCommonData(pCommonData)
 {
+    if (0 != pCommonData)
+    {
+        m_pInvalidCharsReplacer.reset(new InvalidCharsReplacer(pCommonData->m_strRenamerInvalidChars, pCommonData->m_strRenamerReplacementString));
+    }
+    else
+    {
+        m_pInvalidCharsReplacer.reset(new InvalidCharsReplacer("", ""));
+    }
+
+    m_pRoot = new SequencePattern(m_pInvalidCharsReplacer.get());
+
     auto_ptr<SequencePattern> ap (m_pRoot);
     const char* p (strPattern.c_str());
 
@@ -953,7 +984,7 @@ Renamer::Renamer(const std::string& strPattern) : m_strPattern(strPattern), m_pR
             throw InvalidPattern(strPattern, "A pattern must either begin with \"<drive>:\\\" or contain no '\\' at all");
         }
         p += 2;
-        m_pRoot->addPattern(new StaticPattern(strPattern.substr(0, 2)));
+        m_pRoot->addPattern(new StaticPattern(strPattern.substr(0, 2), m_pInvalidCharsReplacer.get()));
         if (getPathSep() != *p) { throw InvalidPattern(strPattern, "A pattern must either begin with \"<drive>:\\\" or contain no '\\' at all"); }
 
 #endif
@@ -989,19 +1020,19 @@ Renamer::Renamer(const std::string& strPattern) : m_strPattern(strPattern), m_pR
                 case 'g':
                 case 'c':
                 case 'r':
-                    if (!strStatic.empty()) { pSeq->addPattern(new StaticPattern(strStatic)); strStatic.clear(); }
+                    if (!strStatic.empty()) { pSeq->addPattern(new StaticPattern(strStatic, m_pInvalidCharsReplacer.get())); strStatic.clear(); }
                 }
 
                 switch (c1)
                 {
-                case 'n': pSeq->addPattern(new TrackNoPattern()); break;
-                case 'a': pSeq->addPattern(new FieldPattern(TagReader::ARTIST)); break;
-                case 't': pSeq->addPattern(new FieldPattern(TagReader::TITLE)); bTitleFound = true; break;
-                case 'b': pSeq->addPattern(new FieldPattern(TagReader::ALBUM)); break;
-                case 'y': pSeq->addPattern(new YearPattern()); break;
-                case 'g': pSeq->addPattern(new FieldPattern(TagReader::GENRE)); break;
-                case 'c': pSeq->addPattern(new FieldPattern(TagReader::COMPOSER)); break;
-                case 'r': pSeq->addPattern(new RatingPattern()); break;
+                case 'n': pSeq->addPattern(new TrackNoPattern(m_pInvalidCharsReplacer.get())); break;
+                case 'a': pSeq->addPattern(new FieldPattern(TagReader::ARTIST, m_pInvalidCharsReplacer.get())); break;
+                case 't': pSeq->addPattern(new FieldPattern(TagReader::TITLE, m_pInvalidCharsReplacer.get())); bTitleFound = true; break;
+                case 'b': pSeq->addPattern(new FieldPattern(TagReader::ALBUM, m_pInvalidCharsReplacer.get())); break;
+                case 'y': pSeq->addPattern(new YearPattern(m_pInvalidCharsReplacer.get())); break;
+                case 'g': pSeq->addPattern(new FieldPattern(TagReader::GENRE, m_pInvalidCharsReplacer.get())); break;
+                case 'c': pSeq->addPattern(new FieldPattern(TagReader::COMPOSER, m_pInvalidCharsReplacer.get())); break;
+                case 'r': pSeq->addPattern(new RatingPattern(m_pInvalidCharsReplacer.get())); break;
 
                 case '%':
                 case '[':
@@ -1021,18 +1052,18 @@ Renamer::Renamer(const std::string& strPattern) : m_strPattern(strPattern), m_pR
 
         case '[':
             {
-                if (!strStatic.empty()) { pSeq->addPattern(new StaticPattern(strStatic)); strStatic.clear(); }
+                if (!strStatic.empty()) { pSeq->addPattern(new StaticPattern(strStatic, m_pInvalidCharsReplacer.get())); strStatic.clear(); }
                 if (pSeq != m_pRoot) { throw InvalidPattern(strPattern, "Nested optional elements are not allowed"); } //ttt2 column
-                pSeq = new SequencePattern();
+                pSeq = new SequencePattern(m_pInvalidCharsReplacer.get());
                 optAp.reset(pSeq);
                 break;
             }
 
         case ']':
             {
-                if (!strStatic.empty()) { pSeq->addPattern(new StaticPattern(strStatic)); strStatic.clear(); }
+                if (!strStatic.empty()) { pSeq->addPattern(new StaticPattern(strStatic, m_pInvalidCharsReplacer.get())); strStatic.clear(); }
                 if (pSeq == m_pRoot) { throw InvalidPattern(strPattern, "Trying to close and optional element although none is open"); } //ttt2 column
-                m_pRoot->addPattern(new OptionalPattern(pSeq));
+                m_pRoot->addPattern(new OptionalPattern(pSeq, m_pInvalidCharsReplacer.get()));
                 pSeq = m_pRoot;
                 optAp.release();
                 break;
@@ -1043,7 +1074,7 @@ Renamer::Renamer(const std::string& strPattern) : m_strPattern(strPattern), m_pR
         }
     }
 
-    if (!strStatic.empty()) { pSeq->addPattern(new StaticPattern(strStatic)); strStatic.clear(); }
+    if (!strStatic.empty()) { pSeq->addPattern(new StaticPattern(strStatic, m_pInvalidCharsReplacer.get())); strStatic.clear(); }
 
     if (pSeq != m_pRoot) { throw InvalidPattern(strPattern, "Optional element must be closed"); } //ttt2 column
 

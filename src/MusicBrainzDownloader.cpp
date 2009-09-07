@@ -327,7 +327,7 @@ void MusicBrainzDownloader::clear()
 
 /*override*/ std::string MusicBrainzDownloader::createQuery()
 {
-    string s ("/ws/1/release/?type=xml&artist=" + convStr(m_pSrchArtistE->text()) + "&title=" + convStr(m_pSrchAlbumE->text()));
+    string s ("/ws/1/release/?type=xml&artist=" + replaceSymbols(convStr(m_pSrchArtistE->text())) + "&title=" + replaceSymbols(convStr(m_pSrchAlbumE->text())));
     //qDebug("qry: %s", s.c_str());
     if (m_pMatchCountCkB->isChecked())
     {

@@ -75,6 +75,7 @@ class DiscogsDownloader : public AlbumInfoDownloaderDlgImpl
     /*override*/ int getColumnCount() const { return 4; }
 
     /*override*/ void saveSize();
+    /*override*/ char getReplacementChar() const { return '+'; }
 
 public:
     DiscogsDownloader(QWidget* pParent, SessionSettings& settings, bool bSaveResults);

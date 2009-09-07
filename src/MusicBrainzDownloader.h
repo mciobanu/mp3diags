@@ -85,6 +85,7 @@ class MusicBrainzDownloader : public AlbumInfoDownloaderDlgImpl
     /*override*/ int getColumnCount() const { return 3; }
 
     /*override*/ void saveSize();
+    /*override*/ char getReplacementChar() const { return ' '; }
 
     QString getAmazonText() const;
 public:

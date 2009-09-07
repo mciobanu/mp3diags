@@ -84,10 +84,11 @@ class Id3V230StreamWriter
     std::vector<const Id3V2Frame*> m_vpAllFrames;
     bool m_bKeepOneValidImg;
     bool m_bFastSave;
+    const std::string m_strDebugFileName; // used only to show debug info from asserts
 
 public:
     enum { KEEP_ALL_IMG, KEEP_ONE_VALID_IMG };
-    Id3V230StreamWriter(bool bKeepOneValidImg, bool bFastSave, Id3V2StreamBase*); // if bKeepOneValidImg is true, at most an APIC frame is kept, and it has to be valid or at least link; Id3V2StreamBase* may be 0;
+    Id3V230StreamWriter(bool bKeepOneValidImg, bool bFastSave, Id3V2StreamBase*, const std::string& strDebugFileName); // if bKeepOneValidImg is true, at most an APIC frame is kept, and it has to be valid or at least link; Id3V2StreamBase* may be 0;
     ~Id3V230StreamWriter();
 
 
@@ -99,7 +100,7 @@ public:
     // the image type is ignored; images are always added as cover;
     // if there is an APIC frame with the same image, it is removed (it doesn't matter if it has different type, description ...);
     // if cover image already exists it is removed;
-    void addImage(std::vector<char>& vcData);
+    void addImg(std::vector<char>& vcData);
 
     void addNonOwnedFrame(const Id3V2Frame* p);
 

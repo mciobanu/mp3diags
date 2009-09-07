@@ -69,6 +69,7 @@ CurrentAlbumModel::CurrentAlbumModel(TagEditorDlgImpl* pTagEditorDlgImpl) : m_pT
 
 /*override*/ int CurrentAlbumModel::rowCount(const QModelIndex&) const
 {
+//qDebug("rowCount ret %d", cSize(m_pTagWriter->m_vpMp3HandlerTagData));
     return cSize(m_pTagWriter->m_vpMp3HandlerTagData);
 }
 
@@ -85,11 +86,13 @@ LAST_STEP("CurrentAlbumModel::data()");
     if (!index.isValid()) { return QVariant(); }
     int i (index.row());
     int j (index.column());
+//qDebug("ndx %d %d", i, j);
 
     if (Qt::DisplayRole != nRole && Qt::ToolTipRole != nRole && Qt::EditRole != nRole) { return QVariant(); }
     QString s;
 
     if (m_pTagEditorDlgImpl->isSaving()) { return "N/A"; }
+    if (m_pTagEditorDlgImpl->isNavigating()) { return ""; }
 
     if (0 == j)
     {
@@ -196,6 +199,7 @@ LAST_STEP("CurrentFileModel::data()");
     if (Qt::DisplayRole != nRole && Qt::ToolTipRole != nRole) { return QVariant(); }
 
     if (m_pTagEditorDlgImpl->isSaving()) { return "N/A"; }
+    if (m_pTagEditorDlgImpl->isNavigating()) { return ""; }
 
     if (0 == m_pTagWriter->getCurrentHndl()) { return QVariant(); } // may happen in transient states (prev/next album)
 
@@ -288,9 +292,11 @@ LAST_STEP("CurrentFileModel::headerData");
 
 
 
-TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, TransfConfig& transfConfig) : QDialog(pParent, getDialogWndFlags()), Ui::TagEditorDlg(), m_pCommonData(pCommonData), m_bSectionMovedLock(false), m_transfConfig(transfConfig), m_bIsFastSaving(false), m_bIsSaving(false)
+TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, TransfConfig& transfConfig, bool& bDataSaved) : QDialog(pParent, getDialogWndFlags()), Ui::TagEditorDlg(), m_pCommonData(pCommonData), m_bSectionMovedLock(false), m_transfConfig(transfConfig), m_bIsFastSaving(false), m_bIsSaving(false), m_bIsNavigating(false), m_bDataSaved(bDataSaved)
 {
     setupUi(this);
+
+    m_bDataSaved = false;
 
 
     m_pAssgnBtnWrp = new AssgnBtnWrp (m_pToggleAssignedB);
@@ -671,7 +677,15 @@ void TagEditorDlgImpl::onAlbumChanged(/*bool bContentOnly*/)
     m_pCurrentAlbumModel->emitLayoutChanged();
 
     const Mp3Handler* p (m_pTagWriter->m_vpMp3HandlerTagData.at(0)->getMp3Handler());
-    m_pCrtDirTagEdtE->setText(toNativeSeparators(convStr(p->getDir())));
+    QString qs (toNativeSeparators(convStr(p->getDir())));
+#ifndef WIN32
+#else
+    if (2 == qs.size() && ':' == qs[1])
+    {
+        qs += "\\";
+    }
+#endif
+    m_pCrtDirTagEdtE->setText(qs);
 }
 
 void TagEditorDlgImpl::on_m_pConfigB_clicked()
@@ -964,9 +978,14 @@ void TagEditorDlgImpl::on_m_pNextB_clicked()
 
     if (m_pCommonData->nextAlbum())
     {
+        ValueRestorer<bool> rst1 (m_bIsNavigating);
+        m_bIsNavigating = true;
+
         m_pTagWriter->clearShowedNonSeqWarn();
         m_pTagWriter->reloadAll("", TagWriter::CLEAR_DATA, TagWriter::CLEAR_ASSGN);
         clearSelection(); // actually here it selects the first cell
+
+        QTimer::singleShot(1, this, SLOT(onShowPatternNote()));
     }
 }
 
@@ -979,9 +998,14 @@ void TagEditorDlgImpl::on_m_pPrevB_clicked()
 
     if (m_pCommonData->prevAlbum())
     {
+        ValueRestorer<bool> rst1 (m_bIsNavigating);
+        m_bIsNavigating = true;
+
         m_pTagWriter->clearShowedNonSeqWarn();
         m_pTagWriter->reloadAll("", TagWriter::CLEAR_DATA, TagWriter::CLEAR_ASSGN);
         clearSelection(); // actually here it selects the first cell
+
+        QTimer::singleShot(1, this, SLOT(onShowPatternNote()));
     }
 }
 
@@ -1294,7 +1318,7 @@ void Id3V230Writer::setupWriter(Id3V230StreamWriter& wrt, const Mp3HandlerTagDat
         *q++ = Id3V2Frame::COVER;
         *q++ = 0; // null-term descr
         memcpy(q, pImgData, nImgSize);
-        wrt.addImage(frm);
+        wrt.addImg(frm);
     }
 
     {
@@ -1319,6 +1343,7 @@ void Id3V230Writer::setupWriter(Id3V230StreamWriter& wrt, const Mp3HandlerTagDat
 
 /*override*/ Transformation::Result Id3V230Writer::apply(const Mp3Handler& h, const TransfConfig& transfConfig, const std::string& strOrigSrcName, std::string& strTempName)
 {
+    LAST_STEP("Id3V230Writer::apply() " + h.getName());
     const vector<DataStream*>& vpStreams (h.getStreams());
 
     const Mp3HandlerTagData* pMp3HandlerTagData (0);
@@ -1348,7 +1373,7 @@ e1:
             if (0 != pId3V2Source) { break; }
         }
 
-        Id3V230StreamWriter wrt (m_bKeepOneValidImg, m_bFastSave, pId3V2Source); // OK if pId3V2Source is 0
+        Id3V230StreamWriter wrt (m_bKeepOneValidImg, m_bFastSave, pId3V2Source, h.getName()); // OK if pId3V2Source is 0
 
         setupWriter(wrt, pMp3HandlerTagData);
 
@@ -1482,6 +1507,8 @@ TagEditorDlgImpl::SaveOpt TagEditorDlgImpl::save(bool bImplicitCall)
         if (2 == nOpt) { return CANCELLED; }
     }
 
+    m_bDataSaved = true;
+
     Id3V230Writer wrt (m_pTagWriter, m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave());
     vector<Transformation*> vpTransf;
     vpTransf.push_back(&wrt);
@@ -1510,6 +1537,22 @@ void TagEditorDlgImpl::onHelp()
 {
     openHelp("190_tag_editor.html");
 }
+
+
+extern bool s_bToldAboutPatternsInCrtRun;
+
+void TagEditorDlgImpl::onShowPatternNote()
+{
+    if (m_pTagWriter->shouldShowPatternsNote())
+    {
+        s_bToldAboutPatternsInCrtRun = true;
+
+        HtmlMsg::msg(this, 0, 0, &m_pCommonData->m_bToldAboutPatterns, HtmlMsg::DEFAULT, "Info", "<p style=\"margin-bottom:1px; margin-top:12px; \">Some fields are missing or may be incomplete. While this is usually solved by downloading correct information, there are a cases when this approach doesn't work, like custom compilations, rare albums, or missing tracks.</p>"
+
+        "<p style=\"margin-bottom:1px; margin-top:12px; \">If your current folder fits one of these cases or you simply have consistently named files that you would prefer to use as a source of track info, you may want to take a look at the tag editor's patterns, at <a href=\"http://mp3diags.sourceforge.net/220_tag_editor_patterns.html\">http://mp3diags.sourceforge.net/220_tag_editor_patterns.html</a>.</p>", 550, 300, "OK");
+    }
+}
+
 
 
 
@@ -1595,7 +1638,7 @@ CurrentAlbumDelegate::CurrentAlbumDelegate(QTableView* pTableView, TagEditorDlgI
 
 /*override*/ void CurrentAlbumDelegate::paint(QPainter* pPainter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-    if (m_pTagEditorDlgImpl->isSaving())
+    if (m_pTagEditorDlgImpl->isSaving() || m_pTagEditorDlgImpl->isNavigating())
     {
         QItemDelegate::paint(pPainter, option, index);
         return;
@@ -1704,3 +1747,4 @@ A less important performance issue is in ImageInfoPanelWdgImpl::ImageInfoPanelWd
 */
 
 //ttt0 perhaps check boxes or something to have many patterns defined, yet several used at a time; one idea: another window where fields are shown for all the patterns and the user can pick; other idea: buttons underneath the file view, which can toggle
+//ttt0 "fix" on right-click

@@ -131,6 +131,20 @@ bool AlbumInfoDownloaderDlgImpl::getInfo(const std::string& strArtist, const std
 }
 
 
+
+string AlbumInfoDownloaderDlgImpl::replaceSymbols(string s) // replaces everything besides letters and digits with getReplacementChar()
+{
+    char c (getReplacementChar());
+    for (int i = 0; i < cSize(s); ++i)
+    {
+        if ((unsigned char)(s[i]) < 128 && !isalnum(s[i]))
+        {
+            s[i] = c;
+        }
+    }
+    return s;
+}
+
 /*static*/ const char* AlbumInfoDownloaderDlgImpl::NOT_FOUND_AT_AMAZON = "not found at amazon.com";
 
 void AlbumInfoDownloaderDlgImpl::search()
@@ -873,21 +887,45 @@ void AlbumInfoDownloaderDlgImpl::reloadGui()
 /*static*/ string AlbumInfoDownloaderDlgImpl::removeParentheses(const string& s)
 {
     string r;
-    int k (0);
+    int k1 (0), k2 (0), k3 (0), k4 (0);
     for (int i = 0, n = cSize(s); i < n; ++i)
     {
         char c (s[i]);
         if ('(' == c)
         {
-            ++k;
+            ++k1;
         }
-        if (0 == k)
+        if ('[' == c)
+        {
+            ++k2;
+        }
+        if ('{' == c)
+        {
+            ++k3;
+        }
+        if ('<' == c)
+        {
+            ++k3;
+        }
+        if (0 == k1 && 0 == k2 && 0 == k3 && 0 == k4)
         {
             r += c;
         }
         if (')' == c)
         {
-            --k;
+            --k1;
+        }
+        if (']' == c)
+        {
+            --k2;
+        }
+        if ('}' == c)
+        {
+            --k3;
+        }
+        if ('>' == c)
+        {
+            --k4;
         }
     }
     trim(r);

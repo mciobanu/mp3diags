@@ -24,6 +24,7 @@
 #include  <QFileDialog>
 #include  <QTimer>
 #include  <QHeaderView>
+#include  <QSettings>
 
 #include  "SessionEditorDlgImpl.h"
 
@@ -66,12 +67,42 @@ SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strDi
 {
     commonConstr();
 
+    bool bAutoFileName (false);
+    {
+#ifndef WIN32
+        QString qs (QDir::homePath() + "/Documents"); // OK on openSUSE, not sure how standardized it is
+#else
+        QSettings settings (QSettings::UserScope, "Microsoft", "Windows");
+        settings.beginGroup("CurrentVersion/Explorer/Shell Folders"); //ttt0 test on W7
+        QString qs (fromNativeSeparators(settings.value("Personal").toString()));
+#endif
+        if (QFileInfo(qs).isDir())
+        {
+            qs += "/MP3Diags.ini";
+            if (!QDir().exists(qs))
+            {
+                m_pFileNameE->setText(toNativeSeparators(qs));
+                bAutoFileName = true;
+            }
+        }
+    }
+
     //setWindowTitle("MP3 Diags - Create a new session or load an existing one");
     setWindowTitle("MP3 Diags - Create new session");
     m_pDontCreateBackupRB->setChecked(true);
     m_pScanAtStartupCkB->setChecked(true);
 
-    m_pFileNameE->setToolTip("Here you need to specify the name of a \"settings file\"\n\nThis is supposed to be a file that doesn't already exist. You don't need to set\nit up. MP3 Diags will store its settings in this file.\n\nSimply click on the button at the right to choose the name of the settings file.");
+    m_pFileNameE->setToolTip(bAutoFileName ?
+        "This is the name of the \"settings file\"\n\n"
+        "It is supposed to be a file that doesn't already exist. You don't need to set it up. MP3 Diags\n"
+        "will store its settings in this file.\n\n"
+        "The name was generated automatically. If you want to choose a different name, simply click on\n"
+        "the button at the right to change it." :
+
+        "Here you need to specify the name of a \"settings file\"\n\n"
+        "This is supposed to be a file that doesn't already exist. You don't need to set it up. MP3 Diags\n"
+        "will store its settings in this file.\n\n"
+        "To change it, simply click on the button at the right to choose the name of the settings file.");
 
     if (!bFirstTime)
     {
@@ -310,7 +341,7 @@ void SessionEditorDlgImpl::on_m_pFileNameB_clicked()
 /*static*/ string SessionEditorDlgImpl::getLogFileName(const string& strIniName)
 {
     CB_ASSERT (endsWith(strIniName, ".ini"));
-    return strIniName.substr(0, strIniName.size() - 4) + ".log";
+    return strIniName.substr(0, strIniName.size() - 4) + ".transf_log.txt";
 }
 
 

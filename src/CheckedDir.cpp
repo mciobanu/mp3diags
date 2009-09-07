@@ -23,6 +23,11 @@
 #include  <QTreeView>
 #include  <QScrollBar>
 
+#ifndef WIN32
+#else
+    #include  <windows.h>
+#endif
+
 #include  "CheckedDir.h"
 
 #include  "Helpers.h"
@@ -33,6 +38,7 @@ using namespace std;
 
 /*override*/ QVariant CheckedDirModel::data(const QModelIndex& index, int nRole /*= Qt::DisplayRole*/) const
 {
+    //qDebug("CheckedDirModel::data(%d, %d, role=%d)", index.row(), index.column(), nRole);
     LAST_STEP("CheckedDirModel::data()");
     if (Qt::CheckStateRole == nRole)
     {
@@ -93,6 +99,41 @@ using namespace std;
         return bHasUncheckedDescendant ? Qt::PartiallyChecked : Qt::Checked;
     }
 
+#ifndef WIN32
+#else
+    if (Qt::DisplayRole == nRole)
+    {
+        QVariant x (QDirModel::data(index, nRole));
+        if (!x.isNull())
+        {
+            QString qs (x.toString());
+            if (2 == qs.size() && ':' == qs[1] && 'A' != qs[0] && 'B' != qs[0])
+            { // get the drive label, but not for floppies
+                char szLabel [MAX_PATH + 1];
+                char szFsType [MAX_PATH + 1];
+                static bool s_bSetErrorModeCalled (false);
+                //ttt2 perhaps see how long it takes and disable this if it's too long; OTOH all the drives get stat'ed anyway, so one more time isn't such a big deal
+                if (!s_bSetErrorModeCalled)
+                {
+                    s_bSetErrorModeCalled = true;
+                    SetErrorMode(SEM_FAILCRITICALERRORS); // so the user isn't told to insert the floppy or CD just to stat it; apparently this happens if set up so
+                }
+
+                if (GetVolumeInformationA(qs.toUtf8().data(), szLabel, MAX_PATH + 1, 0, 0, 0, szFsType, MAX_PATH + 1))
+                {
+                    //return qs + " " + szLabel + " " + szFsType;
+                    return qs + " [" + szLabel + "]";
+                }
+            }
+        }
+    }
+
+    /*if (0 == index.row() && 0 == index.column()) // failed attempt to get rid of scanning A: the thing is that more than just data() needs to be overridden (e.g. roCount())
+    {
+        return QVariant();
+    }*/
+
+#endif
     return QDirModel::data(index, nRole);
 }
 
@@ -214,7 +255,7 @@ void CheckedDirModel::setDirs(const vector<string>& vstrCheckedDirs, const vecto
     m_vUncheckedDirs = convStr(vstrUncheckedDirs);
     expandNodes(pTreeView);
 }
-//ttt0 wnd: see if possible to show labels, not just drive letters
+
 void CheckedDirModel::expandNodes(QTreeView* pTreeView)
 {
     for (int i = cSize(m_vUncheckedDirs) - 1; i >= 0; --i)
@@ -279,4 +320,9 @@ std::vector<std::string> CheckedDirModel::getUncheckedDirs() const { return conv
 
 
 #endif
+
+
+//ttt0 perhaps replace QDirModel with QFileSystemModel on Qt>4.4. See also https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=34 ; at least should be more responsive when there are network and floppy drives; see also http://lists.trolltech.com/qt-interest/2007-12/thread00336-0.html and http://www.qtcentre.org/forum/f-qt-programming-2/t-disable-floppy-reading-in-a-qfiledialog-1799.html
+//ttt1 perhaps use QDirModel::lazyChildCount; or maybe not; it will show that all dirs have children
+//ttt1 ? use QFileSystemWatcher
 

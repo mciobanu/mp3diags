@@ -128,7 +128,7 @@ void DirTreeEnumerator::DirTreeEnumeratorImpl::reset(const vector<string>& vstrI
     {
         ClosestAncestorState e (getClosestAncestorState(*it));
         CB_CHECK1 (NO_ANCESTOR == e || EXCLUDED == e, DirTreeEnumerator::InvalidDirs());
-    }//ttt0 ??? some means to log only uncaught exceptions //ttt0 see what to do with CB_CHECK1: on Wnd it logs errors to a file but the user isn't told about them; have a check in main() and show error
+    }
 
     for (set<string>::iterator it = m_sstrExcludeDirs.begin(), end = m_sstrExcludeDirs.end(); it != end; ++it)
     {

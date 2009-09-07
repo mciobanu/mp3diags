@@ -28,6 +28,7 @@
 
 //#include  <QColor>
 #include  <QFont>
+#include  <QDateTime>
 
 #include  "SerSupport.h"
 
@@ -448,9 +449,18 @@ public:
 
     bool m_bWarnedAboutSel;
     bool m_bWarnedAboutBackup;
+    bool m_bToldAboutPatterns; // see also s_bToldAboutPatternsInCrtRun
+    bool m_bToldAboutSupport; // see also s_bToldAboutSupportInCrtRun
+
+    std::string m_strCheckForNewVersions; // really an enum with 3 values
+    QDateTime m_timeLastNewVerCheck;
+    std::string m_strDontTellAboutVer;
 
     bool isTraceToFileEnabled() const { return m_bTraceToFile; }
     void setTraceToFile(bool bTraceToFile); // also removes the file
+
+    std::string m_strRenamerInvalidChars;
+    std::string m_strRenamerReplacementString;
 
 private:
     std::deque<const Mp3Handler*> m_vpAllHandlers; // owns the pointers; sorted by CmpMp3HandlerPtrByName;

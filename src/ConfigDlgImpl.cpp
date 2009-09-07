@@ -297,6 +297,7 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
         //m_pIconConfW->hide();
         //m_pFontsW->hide();
         m_pNormalizeGrp->hide();
+        m_pRenamerGrp->hide();
     }
 
     m_pSourceDirF->hide();
@@ -586,6 +587,11 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
         m_pMaxImgSizeSB->setValue(ImageInfo::MAX_IMAGE_SIZE/1024);
         m_pTraceToFileCkB->setChecked(m_pCommonData->isTraceToFileEnabled());
 
+        m_pInvalidCharsE->setText(convStr(m_pCommonData->m_strRenamerInvalidChars));
+        m_pInvalidReplacementE->setText(convStr(m_pCommonData->m_strRenamerReplacementString));
+
+        m_pCheckForUpdatesCkB->setChecked("yes" == m_pCommonData->m_strCheckForNewVersions);
+
         m_generalFont = m_pCommonData->getNewGeneralFont();
         m_pDecrLabelFontSB->setValue(m_pCommonData->getLabelFontSizeDecr());
         m_fixedFont = m_pCommonData->getNewFixedFont();
@@ -613,6 +619,11 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
     m_pSrcDirE->setFocus();
 
     { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
+
+    m_pInvalidCharsE->setToolTip("Characters in this list get replaced with the string below, in \"Replace with\"\n\n"
+        "An underlined font is used to allow spaces to be seen");
+    m_pInvalidReplacementE->setToolTip("This string replaces invalid characters in the file renamer\"\n\n"
+        "An underlined font is used to allow spaces to be seen");
 }
 
 
@@ -880,6 +891,20 @@ void ConfigDlgImpl::getTransfData()
 
 void ConfigDlgImpl::on_m_pOkB_clicked()
 {
+    {
+        string strInv (convStr(m_pInvalidCharsE->text()));
+        string strRepl (convStr(m_pInvalidReplacementE->text()));
+        if (!strInv.empty())
+        {
+            string::size_type n (strRepl.find_first_of(strInv));
+            if (string::npos != n)
+            {
+                QMessageBox::critical(this, "Error", QString("You can't have '") + strRepl[n] + "' in both the list of invalid characters and the string that invalid characters are replaced with.");
+                return;
+            }
+        }
+    }
+
     //logState("on_m_pOkB_clicked 1");
     try
     {
@@ -983,6 +1008,11 @@ void ConfigDlgImpl::on_m_pOkB_clicked()
             m_pCommonData->setTraceToFile(m_pTraceToFileCkB->isChecked());
 
             m_pCommonData->setFontInfo(convStr(m_generalFont.family()), m_generalFont.pointSize(), m_pDecrLabelFontSB->value(), convStr(m_fixedFont.family()), m_fixedFont.pointSize());
+
+            m_pCommonData->m_strRenamerInvalidChars = convStr(m_pInvalidCharsE->text());
+            m_pCommonData->m_strRenamerReplacementString = convStr(m_pInvalidReplacementE->text());
+
+            m_pCommonData->m_strCheckForNewVersions = m_pCheckForUpdatesCkB->isChecked() ? "yes" : "no";
         }
 
         accept();
@@ -1028,6 +1058,11 @@ void ConfigDlgImpl::setFontLabels()
     m_pGeneralFontL->setFont(m_generalFont);
     m_pFixedFontL->setText(QString("%1, %2pt").arg(m_fixedFont.family()).arg(m_fixedFont.pointSize()));
     m_pFixedFontL->setFont(m_fixedFont);
+
+    QFont f (m_fixedFont);
+    f.setUnderline(true);
+    m_pInvalidReplacementE->setFont(f);
+    m_pInvalidCharsE->setFont(f);
 }
 
 

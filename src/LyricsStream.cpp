@@ -97,7 +97,7 @@ LyricsStream::LyricsStream(int nIndex, NoteColl& notes, std::istream& in, const 
 
         string strVal (convStr(QString::fromLatin1(&vcBfr[0])));
 
-        qDebug("field %s, size %d, pos %x, val %s", strField.c_str(), nSize, int(pos), strVal.c_str());
+        //qDebug("field %s, size %d, pos %x, val %s", strField.c_str(), nSize, int(pos), strVal.c_str());
 
         if ("LYR" == strField)
         {

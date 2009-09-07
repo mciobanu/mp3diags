@@ -72,7 +72,30 @@ public:
 
 
 
-int showMessage(QWidget* pParent, QMessageBox::Icon icon, int nDefault, int nEscape, const QString& qstrTitle, const QString& qstrMessage, const QString& qstrButton1, const QString& qstrButton2 = "", const QString& qstrButton3 = "", const QString& qstrButton4 = "");
+int showMessage(QWidget* pParent, QMessageBox::Icon icon, int nDefault, int nEscape, const QString& qstrTitle, const QString& qstrMessage, const QString& qstrButton0, const QString& qstrButton1 = "", const QString& qstrButton2 = "", const QString& qstrButton3 = "");
+
+
+
+class QDialog;
+
+class HtmlMsg : public QObject
+{
+Q_OBJECT
+    int m_nBtn;
+    QDialog* m_pDlg;
+    HtmlMsg(QDialog* pDlg, int nBtn) : m_nBtn(nBtn), m_pDlg(pDlg) {}
+
+public:
+    static int msg(QWidget* pParent, int nDefault, int nEscape, bool* pbGotTheMessage, int nFlags, const QString& qstrTitle, const QString& qstrMessage, int nWidth, int nHeight, const QString& qstrButton0, const QString& qstrButton1 = "", const QString& qstrButton2 = "", const QString& qstrButton3 = "");
+    enum Flags { DEFAULT = 0, STAY_ON_TOP = 1, SHOW_SYS_INFO = 2, CRITICAL = 4, VERT_BUTTONS = 8 };
+
+public slots:
+    void onClick0();
+    void onClick1();
+    void onClick2();
+    void onClick3();
+};
+
 
 
 // switches the cursor to hourglass on the constructor and back to normal on the destructor

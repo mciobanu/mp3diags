@@ -38,6 +38,7 @@
 #include  "Id3V240Stream.h"
 #include  "Mp3Manip.h"
 #include  "CommonData.h"
+#include  "MpegStream.h"
 
 ////#include  <iostream> //ttt remove
 
@@ -792,12 +793,20 @@ namespace
 {
     struct SortByTrack
     {
-        static int getTrack(const string& s) // returns -1 if it can't identify a track number
+        enum { NO_TRACK = 999999 };
+        static double getTrack(const string& s) // returns -1 if it can't identify a track number
         {
             const char* p (s.c_str()); // requiring all chars to be digits isn't OK, because "5/12" should be handled as "5"
             for (; ' ' == *p; ++p) {}
-            if (0 == *p || !isdigit(*p)) { return -1; }
-            return atoi(p);
+            if (0 == *p || !isdigit(*p)) { return NO_TRACK; }
+            char* pLast;
+            double d (int(strtol(p, &pLast, 10)));
+            for (; 0 != *pLast && !isdigit(*pLast); ++pLast) {}
+            if (0 != *pLast)
+            {
+                d += atoi(pLast)/100000.0; // this sort of takes care of tracks in the format <total>/<track>
+            }
+            return d;
         }
 
         bool operator()(const Mp3HandlerTagData* p1, const Mp3HandlerTagData* p2) const
@@ -805,17 +814,19 @@ namespace
             // !!! this defines a "strict partial order" (irreflexive and transitive) iff the codes for digits are grouped together (as is the case with ASCII)
             const string& s1 (p1->getData(TagReader::TRACK_NUMBER));
             const string& s2 (p2->getData(TagReader::TRACK_NUMBER));
-            int n1 (getTrack(s1));
-            int n2 (getTrack(s2));
-            if (n1 >= 0 && n2 >= 0) { return n1 < n2; }
+            double d1 (getTrack(s1));
+            double d2 (getTrack(s2));
+            //if (d1 < NO_TRACK && d2 < NO_TRACK) { return d1 < d2; }
+            if (d1 != d2) { return d1 < d2; }
             return s1 < s2;
         }
     };
 }
-//ttt0 note on albums with no track number that they can use patterns
+
+
 
 void TagWriter::sortSongs() // sorts by track number; shows a warning if issues are detected (should be exactly one track number, from 1 to the track count)
-{ //ttt0 put last tracks with no track number
+{
     stable_sort(m_vpMp3HandlerTagData.begin(), m_vpMp3HandlerTagData.end(), SortByTrack());
     int n (cSize(m_vpMp3HandlerTagData));
     vector<pair<int, int> > v (n);
@@ -834,15 +845,13 @@ void TagWriter::sortSongs() // sorts by track number; shows a warning if issues 
     m_bNonStandardTrackNo = false;
     for (int i = 0; i < n; ++i)
     {
-        if (SortByTrack::getTrack(m_vpMp3HandlerTagData[i]->getData(TagReader::TRACK_NUMBER)) != i + 1)
+        if (int(SortByTrack::getTrack(m_vpMp3HandlerTagData[i]->getData(TagReader::TRACK_NUMBER))) != i + 1)
         {
             m_bNonStandardTrackNo = true;
             if (m_pCommonData->m_bWarnOnNonSeqTracks && !m_bShowedNonSeqWarn)
             {
-                CursorOverrider crs (Qt::ArrowCursor);
-                QMessageBox::warning(m_pParentWnd, "Warning", "Track numbers are supposed to be consecutive numbers from 1 to the total number of tracks. This is not the case with the current album, which may lead to incorrect assignments when pasting information.");
                 m_bShowedNonSeqWarn = true;
-                //ttt1 when this is shown, the number of lines in the album grid is for the old album, but the text is from the new one
+                QTimer::singleShot(1, this, SLOT(onDelayedTrackSeqWarn()));
             }
             break;
         }
@@ -850,7 +859,11 @@ void TagWriter::sortSongs() // sorts by track number; shows a warning if issues 
 
 }
 
-
+void TagWriter::onDelayedTrackSeqWarn()
+{
+    //CursorOverrider crs (Qt::ArrowCursor);
+    QMessageBox::warning(m_pParentWnd, "Warning", "Track numbers are supposed to be consecutive numbers from 1 to the total number of tracks. This is not the case with the current album, which may lead to incorrect assignments when pasting information.");
+}
 
 
 // returns 0 if there's no current handler
@@ -873,6 +886,8 @@ const Mp3HandlerTagData* TagWriter::getCrtMp3HandlerTagData() const
     if (m_nCurrentFile < 0 || m_nCurrentFile >= cSize(m_vpMp3HandlerTagData)) { return 0; }
     return m_vpMp3HandlerTagData[m_nCurrentFile];
 }
+
+bool s_bToldAboutPatternsInCrtRun (false); // to limit to 1 per run the number of times the user is told about support
 
 
 //void TagWriter::reloadAll(string strCrt, ReloadOption eReloadOption/*, bool bKeepUnassgnImg*/)
@@ -924,11 +939,14 @@ void TagWriter::reloadAll(string strCrt, bool bClearData, bool bClearAssgn)
     CB_ASSERT (v.empty() || cSize(v) == cSize(vpHndl));
 
     int n (cSize(vpHndl));
+    bool bFullReaderNotFound (false); // ID3V1 is not full, while the others are
 
     for (int i = 0; i < n; ++i)
     {
         const Mp3Handler* p (vpHndl[i]);
         std::map<std::string, int> m;
+
+        bool bTrackHasFullReader (false);
 
         const vector<DataStream*>& vStreams (p->getStreams());
         for (int i = 0, n = cSize(vStreams); i < n; ++i)
@@ -938,6 +956,8 @@ void TagWriter::reloadAll(string strCrt, bool bClearData, bool bClearAssgn)
             {
                 sReaders.insert(make_pair(string(pRd->getName()), m[pRd->getName()]));
                 ++m[pRd->getName()];// = m[pRd->getName()] + 1;
+
+                if (pRd->getName() != Id3V1Stream::getClassDisplayName()) { bTrackHasFullReader = true; }
 
                 mReaderCount[pRd->getName()] = max(mReaderCount[pRd->getName()], m[pRd->getName()]);
 
@@ -954,6 +974,8 @@ void TagWriter::reloadAll(string strCrt, bool bClearData, bool bClearAssgn)
                 }
             }
         }
+
+        if (!bTrackHasFullReader) { bFullReaderNotFound = true; }
     }
 
     for (int i = 0, n = cSize(m_vpTrackTextParsers); i < n; ++i)
@@ -1011,6 +1033,31 @@ void TagWriter::reloadAll(string strCrt, bool bClearData, bool bClearAssgn)
             }
         }
     }
+
+
+    m_bShouldShowPatternsNote = false;
+    if (!m_pCommonData->m_bToldAboutPatterns && !s_bToldAboutPatternsInCrtRun)
+    {
+        bool bIncompleteInfo (false); // turns true if a track is found that has empty artist, track number, or title; or if it only has ID3V1
+
+        if (!bFullReaderNotFound)
+        {
+            for (int i = 0; i < n; ++i)
+            {
+                if (m_vpMp3HandlerTagData[i]->getData(TagReader::TRACK_NUMBER).empty() || m_vpMp3HandlerTagData[i]->getData(TagReader::TITLE).empty() || m_vpMp3HandlerTagData[i]->getData(TagReader::ALBUM).empty() || m_vpMp3HandlerTagData[i]->getData(TagReader::ARTIST).empty())
+                {
+                    bIncompleteInfo = true;
+                    break;
+                }
+            }
+        }
+
+        if (bIncompleteInfo || bFullReaderNotFound)
+        {
+            m_bShouldShowPatternsNote = true;
+        }
+    }
+
 
     if (v.empty())
     {

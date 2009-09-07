@@ -345,7 +345,7 @@ Id3V230StreamWriter::~Id3V230StreamWriter()
 
 
 
-Id3V230StreamWriter::Id3V230StreamWriter(bool bKeepOneValidImg, bool bFastSave, Id3V2StreamBase* p) : m_bKeepOneValidImg(bKeepOneValidImg), m_bFastSave(bFastSave)
+Id3V230StreamWriter::Id3V230StreamWriter(bool bKeepOneValidImg, bool bFastSave, Id3V2StreamBase* p, const std::string& strDebugFileName) : m_bKeepOneValidImg(bKeepOneValidImg), m_bFastSave(bFastSave), m_strDebugFileName(strDebugFileName)
 {
     if (0 != p)
     {
@@ -356,7 +356,7 @@ Id3V230StreamWriter::Id3V230StreamWriter(bool bKeepOneValidImg, bool bFastSave, 
             for (int i = 0; i < cSize(p->getFrames()); ++i)
             {
                 const Id3V2Frame* q (p->getFrames()[i]);
-                CB_ASSERT ((0 == strcmp(q->m_szName, KnownFrames::LBL_IMAGE())) ^ (Id3V2Frame::NO_APIC == q->m_eApicStatus));
+                CB_ASSERT1 ((0 == strcmp(q->m_szName, KnownFrames::LBL_IMAGE())) ^ (Id3V2Frame::NO_APIC == q->m_eApicStatus), m_strDebugFileName);
                 if (Id3V2Frame::NO_APIC == q->m_eApicStatus)
                 {
                     bool bCopyFrame (true);
@@ -486,7 +486,7 @@ void Id3V230StreamWriter::addTextFrame(const std::string& strName, const std::st
 void Id3V230StreamWriter::addBinaryFrame(const std::string& strName, vector<char>& vcData)
 {
     Id3V230Frame* p (new Id3V230Frame(strName, vcData));
-    CB_ASSERT (0 != strcmp(KnownFrames::LBL_IMAGE(), p->m_szName));
+    CB_ASSERT1 (0 != strcmp(KnownFrames::LBL_IMAGE(), p->m_szName), m_strDebugFileName);
     addNonOwnedFrame(p);
     m_vpOwnFrames.push_back(p);
 }
@@ -498,20 +498,21 @@ void Id3V230StreamWriter::addBinaryFrame(const std::string& strName, vector<char
 // the image type is ignored; images are always added as cover;
 // if there is an APIC frame with the same image, it is removed (it doesn't matter if it has different type, description ...); // ttt2 description should be counted too, if used
 // if cover image already exists it is removed;
-void Id3V230StreamWriter::addImage(std::vector<char>& vcData)
+void Id3V230StreamWriter::addImg(std::vector<char>& vcData)
 {
     int n (cSize(vcData));
-    CB_ASSERT (n > 100);
+    CB_ASSERT1 (n > 100, m_strDebugFileName);
     char* p (&vcData[0]);
-    CB_ASSERT (0 == *p || 3 == *p); // text encoding // this should be kept in synch with Id3V2StreamBase::decodeApic()
+    CB_ASSERT1 (0 == *p || 3 == *p, m_strDebugFileName); // text encoding // this should be kept in synch with Id3V2StreamBase::decodeApic() //ttt0 triggered according to mail; might have been caused by SmallerImageRemover::apply() incorrectly assuming that an invalid APIC frame is a large picture; the test using the frame name was replaced after the assert with a test using m_eApicStatus; will have to wait until some MP3 is received that triggered this to be sure
+
     char* q (p + 1);
     for (; q < p + 90 && 0 != *q; ++q) {}
-    CB_ASSERT (0 == *q);
+    CB_ASSERT1 (0 == *q, m_strDebugFileName);
     ++q;
     *q = Id3V2Frame::COVER;
     ++q;
     for (; q < p + n && 0 != *q; ++q) {}
-    CB_ASSERT (0 == *q);
+    CB_ASSERT1 (0 == *q, m_strDebugFileName);
     ++q; // now q points to the beginning of the actual image
     int nOffs (q - p);
     int nImgSize (n - nOffs);
@@ -583,7 +584,7 @@ void Id3V230StreamWriter::removeFrames(const std::string& strName, int nPictureT
     for (int i = cSize(m_vpAllFrames) - 1; i >= 0; --i)
     {
         p = m_vpAllFrames[i];
-        CB_ASSERT (-1 == nPictureType || KnownFrames::LBL_IMAGE() == strName);
+        CB_ASSERT1 (-1 == nPictureType || KnownFrames::LBL_IMAGE() == strName, m_strDebugFileName);
         if (p->m_szName == strName && (p->m_nPictureType == nPictureType || m_bKeepOneValidImg))
         {
             m_vpAllFrames.erase(m_vpAllFrames.begin() + i);
@@ -593,7 +594,7 @@ void Id3V230StreamWriter::removeFrames(const std::string& strName, int nPictureT
     for (int i = cSize(m_vpOwnFrames) - 1; i >= 0; --i)
     {
         p = m_vpOwnFrames[i];
-        CB_ASSERT (-1 == nPictureType || KnownFrames::LBL_IMAGE() == strName);
+        CB_ASSERT1 (-1 == nPictureType || KnownFrames::LBL_IMAGE() == strName, m_strDebugFileName);
         if (p->m_szName == strName && (p->m_nPictureType == nPictureType || m_bKeepOneValidImg))
         {
             delete p;

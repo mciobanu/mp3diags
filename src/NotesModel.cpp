@@ -217,7 +217,8 @@ NotesGDelegate::NotesGDelegate(CommonData* pCommonData) : MultiLineTvDelegate(pC
 //f1();
     pPainter->save();
 
-    const Note* pNote (m_pCommonData->getCrtNotes()[nRow]);
+    CB_ASSERT (nRow >= 0 && nRow < cSize(m_pCommonData->getCrtNotes()));
+    const Note* pNote (m_pCommonData->getCrtNotes().at(nRow));
     QStyleOptionViewItemV2 myOption (option);
 
     //myOption.palette.setColor(QPalette::Base, pal.color(QPalette::Disabled, QPalette::Window)); // !!! the palette doesn't matter; fillRect() should be called

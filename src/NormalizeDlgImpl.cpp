@@ -78,7 +78,7 @@ NormalizeDlgImpl::~NormalizeDlgImpl()
 void logTransformation(const string& strLogFile, const char* szActionName, const string& strMp3File);
 
 
-void NormalizeDlgImpl::normalize(const QString& qstrProg, const QStringList& lFiles) //ttt2 in Windows MP3Gain doesn't seem to care about Unicode (well, the GUI version does, but that doesn't help). aacgain doesn't work either; see if there's a good way to deal with this; doc about using short filenames
+void NormalizeDlgImpl::normalize(const QString& qstrProg1, const QStringList& lFiles) //ttt2 in Windows MP3Gain doesn't seem to care about Unicode (well, the GUI version does, but that doesn't help). aacgain doesn't work either; see if there's a good way to deal with this; doc about using short filenames
 {
     m_pProc = new QProcess(this);
     connect(m_pProc, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onFinished()));
@@ -93,11 +93,18 @@ void NormalizeDlgImpl::normalize(const QString& qstrProg, const QStringList& lFi
         }
     }
 
-    QStringList l (qstrProg.split(" ", QString::SkipEmptyParts)); // ttt2 perhaps accomodate params that contain spaces, but mp3gain doesn't seem to need them;
-    QString qstrName (l.front());
-    l.removeFirst();
+    //
+    int k (1);
+    for (; k < qstrProg1.size() && (qstrProg1[k - 1] != ' '  || (qstrProg1[k] != '-' && qstrProg1[k] != '/')); ++k) {}
+    QString qstrProg (qstrProg1.left(k).trimmed());
+    QString qstrArg (qstrProg1.right(qstrProg1.size() - k).trimmed());
+    //qDebug("prg <%s>  arg <%s>", qstrProg.toUtf8().data(), qstrArg.toUtf8().data());
+
+    QStringList l (qstrArg.split(" ", QString::SkipEmptyParts)); // ttt2 perhaps accomodate params that contain spaces, but mp3gain doesn't seem to need them;
+    //QString qstrName (l.front());
+    //l.removeFirst();
     l << lFiles;
-    m_pProc->start(qstrName, l);
+    m_pProc->start(qstrProg, l);
 
     if (!m_pProc->waitForStarted(5000))
     {

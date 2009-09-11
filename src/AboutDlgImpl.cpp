@@ -173,4 +173,4 @@ dpkg-genchanges: warning: the current version (0.99.01.009) is smaller than the 
 
 
 // backport jaunty 9.04 : https://bugs.launchpad.net/jaunty-backports/+bug/423560
-
+//ttt0 doc: intended target: not those who want to push a button and have everything fixed

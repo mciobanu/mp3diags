@@ -46,6 +46,7 @@
 #include  "StreamsModel.h"    // current streams
 #include  "UniqueNotesModel.h"   // all notes
 #include  "CommonTypes.h"
+#include  "Widgets.h"
 
 using namespace std;
 using namespace pearl;
@@ -976,6 +977,7 @@ int CommonData::getPosInFlt(const Mp3Handler* pMp3Handler) const
 
 void CommonData::onCrtFileChanged()
 {
+    CursorOverrider crs;
     updateCurrentNotes();
     updateCurrentStreams();
 }
@@ -1683,6 +1685,8 @@ void Filter::restoreAll() // loads m_bNoteFilter from m_bSavedNoteFilter and m_b
 // this is needed after transforms/normalization/tag editing, but there's no need for an explicit call, because all these call mergeHandlerChanges() (directly or through MainFormDlgImpl::scan())
 void CommonData::updateWidgets(const std::string& strCrtName /*= ""*/, const std::vector<std::string>& vstrSel /*= std::vector<std::string>()*/)
 {
+    CursorOverrider crs;
+
     if (m_vpViewHandlers.empty() && !m_vpFltHandlers.empty())
     {
         CommonData::ViewMode eViewMode (getViewMode());

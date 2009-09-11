@@ -150,6 +150,27 @@ These are the transformations that are currently part of MP3 Diags:
         <td> Fill in composer field based on artist in ID3V2 frames </td>
         <td> Copies to the "Composer" field the beginning of an "Artist" field that is formatted as "Composer [Artist]". Does nothing if the "Artist" field doesn't have this format. </td>
     </tr>
+
+    <tr>
+        <td> Make the largest image "Front Cover" and remove the rest </td>
+        <td> Keeps only the biggest (and supposedly the best) image in a file. The image type is set to Front Cover. (This may result in the replacement of the Front Cover image.) </td>
+    </tr>
+    <tr>
+        <td> Copy missing ID3V2 frames from ID3V1 </td>
+        <td> Copies frames from ID3V1 to ID3V2 if those tags don't exist in the destination or if the destination doesn't exist at all. </td>
+    </tr>
+    <tr>
+        <td> Remove all ID3V1 streams </td>
+        <td> Removes all ID3V1 streams. </td>
+    </tr>
+    <tr>
+        <td> Reserve space in ID3V2 for fast tag editing </td>
+        <td> Adds extra spacing to the ID3V2 tag. This allows subsequent saving from the tag editor to complete quicker. </td>
+    </tr>
+    <tr>
+        <td> Remove extra space from ID3V2 </td>
+        <td> Removes large unused blocks from ID3V2 tags. (Usually these have been reserved for fast tag editing, in which case they should be removed only after the ID3V2 tag has all the right values.) </td>
+    </tr>
 </table>
 </div>
 

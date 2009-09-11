@@ -73,7 +73,7 @@ SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strDi
         QString qs (QDir::homePath() + "/Documents"); // OK on openSUSE, not sure how standardized it is
 #else
         QSettings settings (QSettings::UserScope, "Microsoft", "Windows");
-        settings.beginGroup("CurrentVersion/Explorer/Shell Folders"); //ttt0 test on W7
+        settings.beginGroup("CurrentVersion/Explorer/Shell Folders");
         QString qs (fromNativeSeparators(settings.value("Personal").toString()));
 #endif
         if (QFileInfo(qs).isDir())

@@ -159,6 +159,7 @@ int main(int argc, char *argv[])
 /*      QCoreApplication app(argc, argv);
       qDebug("Hello from Qt 4!");
       return 0;*/
+
     //DEFINE_PROF_ROOT("mp3diags");
     //PROF("root");
 

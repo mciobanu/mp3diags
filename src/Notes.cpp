@@ -42,7 +42,7 @@ static const char* s_szPlaceholderDescr ("<Placeholder for a note that can no lo
 // to be used by serialization: if a description is no longer found, the note gets replace with a default, "missing", one
 /*static*/ const Note* Notes::getMissingNote()
 {
-    static Note::SharedData sd (Note::SUPPORT, Note::CUSTOM, s_szPlaceholderDescr); // !!! m_nLabelIndex is initialized to -1, which will result in an empty label;
+    static Note::SharedData sd (Note::SUPPORT, Note::CUSTOM, s_szPlaceholderDescr, false); // !!! m_nLabelIndex is initialized to -1, which will result in an empty label;
     static Note note (sd, -1);
     return &note;
 }
@@ -244,7 +244,7 @@ static const char* s_szPlaceholderDescr ("<Placeholder for a note that can no lo
 {
     initVec();
 
-    Note::SharedData d (strDescr.c_str()); // !!! sev doesn't matter
+    Note::SharedData d (strDescr.c_str(), false); // !!! sev doesn't matter
     Note n (d);
     NoteSet::iterator it;
     it = (s_spAllNotes.find(&n));

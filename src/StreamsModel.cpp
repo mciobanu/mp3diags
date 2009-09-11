@@ -58,6 +58,27 @@ StreamsModel::StreamsModel(CommonData* pCommonData) : QAbstractTableModel(pCommo
 /*override*/ QVariant StreamsModel::data(const QModelIndex& index, int nRole) const
 {
 LAST_STEP("StreamsModel::data()");
+
+/*
+//ttt1
+
+Excessive calls to this from MultiLineTvDelegate::sizeHint() might make applying a filter pretty slow. To reproduce:
+
+1) The first file that will get selected by the filter should be badly broken, having 1000 streams.
+2) Apply a filter by a note of that file
+
+The issue is that StreamsModel::data() gets called way too many times from MultiLineTvDelegate::sizeHint(). So even if a single call is pretty quick (not leaving room to much improvement), the total time is noticeable.
+
+Since this is a pathologic case and even then it's only a matter of several seconds, the fix can wait. (One idea would be to report that all lines above 200 have a height of one line, but perhaps there's something better.)
+
+static int CRT (0);
+++CRT;
+if (0 == CRT % 2000)
+{
+    qDebug("StreamsModel::data() call %d", CRT);
+}
+*/
+
     int j (index.column());
     //if (nRole == Qt::SizeHintRole && j > 0) { return QSize(CELL_WIDTH - 1, CELL_HEIGHT - 1); }  // !!! "-1" so one pixel can be used to draw the grid
     //if (nRole == Qt::SizeHintRole) { return QSize(CELL_WIDTH - 10, CELL_HEIGHT - 10); }  // !!! "-1" so one pixel can be used to draw the grid

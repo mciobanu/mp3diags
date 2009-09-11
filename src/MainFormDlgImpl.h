@@ -146,8 +146,8 @@ private:
     void saveVisibleTransf();
     void loadVisibleTransf();
 
-    enum { SELECTED, ALL };
-    void transform(std::vector<Transformation*>& vpTransf, bool bAll);
+    enum Subset { SELECTED, ALL, CURRENT };
+    void transform(std::vector<Transformation*>& vpTransf, Subset eSubset);
 
     std::vector<ModifInfoToolButton*> m_vpTransfButtons;
     void setTransfTooltip(int k);
@@ -172,6 +172,12 @@ private:
     void showSelWarn();
     void showRestartAfterCrashMsg(const QString& qstrText, const QString& qstrCloseBtn);
     void checkForNewVersion(); // returns immediately; when the request completes it will send a signal
+
+    void fixCurrentNote(int nGlobalX, int nGlobalY);
+    void fixCurrentNoteOneFile(int nGlobalX, int nGlobalY);
+    void fixCurrentNoteAllFiles(int nCol, int nGlobalX, int nGlobalY);
+    std::vector<Transformation*> getFixes(const Note* pNote, const DataStream* pStream) const; // what might fix a note
+    void showFixes(std::vector<Transformation*>& vpTransf, Subset eSubset, int nGlobalX, int nGlobalY);
 
     QHttp* m_pQHttp;
     QString m_qstrNewVer; // needed by onNewVersionQueryFinished2()

@@ -137,11 +137,12 @@ string AlbumInfoDownloaderDlgImpl::replaceSymbols(string s) // replaces everythi
     char c (getReplacementChar());
     for (int i = 0; i < cSize(s); ++i)
     {
-        if ((unsigned char)(s[i]) < 128 && !isalnum(s[i]))
+        if ((unsigned char)(s[i]) < 128 && '\'' != s[i] && !isalnum(s[i]))
         {
             s[i] = c;
         }
     }
+
     return s;
 }
 
@@ -589,7 +590,7 @@ void AlbumInfoDownloaderDlgImpl::onRequestFinished(int /*nId*/, bool bError)
                 continue;
             }
 
-            addNote("unexpected result"); goto e2;
+            addNote("unexpected result"); goto e2; // ttt0 comment out code above so this gets executed; the the busy cursor remains on
         }
 
         {

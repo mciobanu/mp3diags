@@ -29,12 +29,12 @@
 #include  "CommonTypes.h"
 
 #define MP3_CHECK(COND, POS, MSG_ID, EXCP) { if (!(COND)) { notes.add(new Note(Notes::MSG_ID(), POS)); throw EXCP; } }
-#define MP3_CHECK_T(COND, POS, MSG, EXCP) { if (!(COND)) { static Note::SharedData d (MSG); notes.add(new Note(d, POS)); throw EXCP; } }
+#define MP3_CHECK_T(COND, POS, MSG, EXCP) { if (!(COND)) { static Note::SharedData d (MSG, false); notes.add(new Note(d, POS)); throw EXCP; } }
 #define MP3_THROW(POS, MSG_ID, EXCP) { notes.add(new Note(Notes::MSG_ID(), POS)); throw EXCP; }
-#define MP3_THROW_T(POS, MSG, EXCP) { static Note::SharedData d (MSG); notes.add(new Note(d, POS)); throw EXCP; }
+#define MP3_THROW_T(POS, MSG, EXCP) { static Note::SharedData d (MSG, false); notes.add(new Note(d, POS)); throw EXCP; }
 #define MP3_NOTE(POS, MSG_ID) { notes.add(new Note(Notes::MSG_ID(), POS)); }
 #define MP3_NOTE_D(POS, MSG_ID, DETAIL) { notes.add(new Note(Notes::MSG_ID(), POS, DETAIL)); }
-#define MP3_TRACE(POS, MSG) { static Note::SharedData d (MSG); notes.add(new Note(d, POS)); }
+#define MP3_TRACE(POS, MSG) { static Note::SharedData d (MSG, false); notes.add(new Note(d, POS)); }
 
 /*
 

@@ -58,7 +58,7 @@ ImageInfoPanelWdgImpl::ImageInfoPanelWdgImpl(QWidget* pParent, const TagWrtImage
         if (tagWrtImageInfo.m_sstrFiles.size() > 1)
         {
             s = "Erase these files:";
-            for (set<string>::iterator it = tagWrtImageInfo.m_sstrFiles.begin(); it != tagWrtImageInfo.m_sstrFiles.end(); ++it)
+            for (set<string>::const_iterator it = tagWrtImageInfo.m_sstrFiles.begin(); it != tagWrtImageInfo.m_sstrFiles.end(); ++it)
             {
                 s += "\n" + convStr(*it);
             }

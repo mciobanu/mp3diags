@@ -51,7 +51,7 @@ class DiscogsDownloader : public AlbumInfoDownloaderDlgImpl
 
     std::vector<Discogs::DiscogsAlbumInfo> m_vAlbums;
 
-    friend class Discogs::SearchXmlHandler;
+    friend struct Discogs::SearchXmlHandler;
 
     void clear();
 

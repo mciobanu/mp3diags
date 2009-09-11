@@ -62,7 +62,7 @@ struct Id3V2Frame
     struct NotId3V2Frame {};
     struct UnsupportedId3V2Frame {};
 
-    enum ApicStatus { NO_APIC, ERROR, USES_LINK, NOT_SUPPORTED, OK };
+    enum ApicStatus { NO_APIC, ERR, USES_LINK, NOT_SUPPORTED, OK }; // !!! the reason "ERR" is used (and not "ERROR") is that "ERROR" is a macro in MSVC
     ApicStatus m_eApicStatus;
     enum PictureType { OTHER = 0, ICON = 1, COVER = 3 };
     int m_nPictureType; // for APIC only (cover, back, ...)

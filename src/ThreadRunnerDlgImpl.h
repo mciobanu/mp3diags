@@ -103,7 +103,7 @@ public:
 
 private:
     friend class ThreadRunnerDlgImpl;
-    friend struct PausableThread::CompleteNotif;
+    friend class PausableThread::CompleteNotif;
     void notifComplete(bool bSuccess) { emit completed(bSuccess); }
 
 signals:

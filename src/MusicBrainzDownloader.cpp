@@ -24,12 +24,10 @@
 #include  <QDesktopServices>
 
 #ifndef WIN32
+    #include  <sys/time.h>
 #else
     #include  <windows.h>
-    #include  <QDateTime>
 #endif
-
-#include  <sys/time.h>
 
 #include  <QDateTime>
 

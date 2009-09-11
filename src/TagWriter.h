@@ -84,7 +84,7 @@ public:
 
 namespace SongInfoParser
 {
-    struct TrackTextParser;
+    class TrackTextParser;
 }
 
 

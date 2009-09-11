@@ -138,7 +138,7 @@ void DirFilterDlgImpl::populateLists()
         }
     }
 
-    for (set<string>::iterator it = sDirs.begin(), end = sDirs.end(); it != end; ++it)
+    for (set<string>::const_iterator it = sDirs.begin(), end = sDirs.end(); it != end; ++it)
     {
         const string& strDir(*it);
         CB_ASSERT(beginsWith(strDir, mCommonDirs[getDrive(strDir)].first));

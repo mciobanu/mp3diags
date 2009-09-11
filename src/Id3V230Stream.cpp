@@ -379,7 +379,7 @@ Id3V230StreamWriter::Id3V230StreamWriter(bool bKeepOneValidImg, bool bFastSave, 
                 }
                 else
                 {
-                    if ((0 == pPic && q->m_eApicStatus > Id3V2Frame::ERROR) ||
+                    if ((0 == pPic && q->m_eApicStatus > Id3V2Frame::ERR) ||
                         (0 != pPic && pPic->m_eApicStatus < q->m_eApicStatus))
                     {
                         pPic = q;
@@ -469,8 +469,8 @@ void Id3V230StreamWriter::addTextFrame(const std::string& strName, const std::st
         int nOrder (0);
 #endif
 
-        vcData[2 - nOrder] = 0xff;
-        vcData[1 + nOrder] = 0xfe;
+        vcData[2 - nOrder] = char(0xff);
+        vcData[1 + nOrder] = char(0xfe);
 
         const char* pcUtf16 (reinterpret_cast<const char*>(pUtf16));
         copy(pcUtf16, pcUtf16 + nSize - 3, &vcData[0] + 3);

@@ -23,6 +23,9 @@
 #ifndef CommonTypesH
 #define CommonTypesH
 
+#include  <string>
+#include  <vector>
+
 //#include  <QByteArray> // ttt1 see why this includes QByteRef, which gives warnings for lots of functions returning "const char" or "const bool", saying that "const" is going to be ignored; perhaps #define something before "//#include  <QByteArray>"; QtGui and QPixmap avoid this issue, but take longer
 #include  <QPixmap>
 

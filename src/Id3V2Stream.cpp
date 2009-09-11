@@ -337,7 +337,7 @@ e1:
         {
         case USES_LINK: out << "link"; break;
         case NOT_SUPPORTED: out << "not supported"; break;
-        case ERROR: out << "error"; break;
+        case ERR: out << "error"; break;
         case OK: out << "OK"; break;
         default: CB_ASSERT1 (false, m_pFileName->s);
         }
@@ -796,7 +796,7 @@ void Id3V2StreamBase::preparePictureHlp(NoteColl& notes, Id3V2Frame* pFrame, con
         return;
     }
 
-    pFrame->m_eApicStatus = Id3V2Frame::ERROR;
+    pFrame->m_eApicStatus = Id3V2Frame::ERR;
 
     if (pFrame->m_nMemDataSize > 100)
     {
@@ -886,7 +886,7 @@ void Id3V2StreamBase::preparePicture(NoteColl& notes) // initializes fields used
     switch (pFirstApicFrame->m_eApicStatus)
     {
     case Id3V2Frame::USES_LINK: m_eImageStatus = ImageInfo::USES_LINK; return;
-    case Id3V2Frame::ERROR: m_eImageStatus = ImageInfo::ERROR_LOADING; return;
+    case Id3V2Frame::ERR: m_eImageStatus = ImageInfo::ERROR_LOADING; return;
     case Id3V2Frame::NOT_SUPPORTED: m_eImageStatus = ImageInfo::ERROR_LOADING; return;
     default: CB_ASSERT1 (false, m_pFileName->s); // all cases should have been covered
     }

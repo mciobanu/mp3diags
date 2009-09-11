@@ -40,7 +40,7 @@ class QStackedLayout;
 class QHttp;
 class QHttpResponseHeader;
 
-class FileEnumerator;
+struct FileEnumerator;
 
 /**
     @author ciobi

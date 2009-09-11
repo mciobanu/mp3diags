@@ -23,6 +23,8 @@
 #ifndef SessionsDlgImplH
 #define SessionsDlgImplH
 
+#include  <vector>
+
 #include  <QDialog>
 
 #include  "ui_Sessions.h"

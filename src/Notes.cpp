@@ -21,6 +21,7 @@
 
 
 #include  <sstream>
+#include  <vector>
 #include  <algorithm>
 
 #include  "Notes.h"
@@ -33,7 +34,7 @@ using namespace pearl;
 
 /*static*/ Notes::NoteSet Notes::s_spAllNotes;
 
-/*static*/ vector<vector<const Note*> > Notes::s_vpNotesByCateg (int(Note::CATEG_CNT));
+/*static*/ vector<vector<const Note*> > Notes::s_vpNotesByCateg (static_cast<int>(Note::CATEG_CNT));
 /*static*/ vector<const Note*> Notes::s_vpAllNotes;
 
 

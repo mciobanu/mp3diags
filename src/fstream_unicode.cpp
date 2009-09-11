@@ -26,6 +26,9 @@
 
 #include  <sys/stat.h>
 
+#ifdef _MSC_VER
+    #include  <fcntl.h>
+#endif
 
 // might want to look at basic_file_stdio.cc or ext/stdio_filebuf.h
 
@@ -120,8 +123,14 @@ static int getAcc(std::ios_base::openmode __mode)
     #include  <string>
 
     using namespace std;
-    using namespace __gnu_cxx;
 
+#ifdef __GNUC__
+    using namespace __gnu_cxx; //ttt0 see if needed
+#else
+    // Add a dummy primary template to specialize, so this code compiles with VS2008.
+    template<class T>
+    int unicodeOpenHlp(T handle, std::ios_base::openmode __mode) {}
+#endif
 
     wstring wstrFromUtf8(const string& s)
     {

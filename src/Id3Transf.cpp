@@ -166,7 +166,7 @@ bool Id3V2Rescuer::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8* pOut
         else if (0 == strcmp(KnownFrames::LBL_IMAGE(), pFrm->m_szName))
         {
             CB_ASSERT (Id3V2Frame::NO_APIC != pFrm->m_eApicStatus);
-            if (Id3V2Frame::ERROR != pFrm->m_eApicStatus)
+            if (Id3V2Frame::ERR != pFrm->m_eApicStatus)
             {
                 wrt.addNonOwnedFrame(pFrm);
             }

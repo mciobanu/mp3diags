@@ -24,6 +24,7 @@
 #define TagEditorDlgImplH
 
 #include  <set>
+#include  <vector>
 
 #include  <QDialog>
 #include  <QItemDelegate>
@@ -144,7 +145,7 @@ private slots:
 
 } // namespace TagEditor
 
-class AssgnBtnWrp;
+struct AssgnBtnWrp;
 
 class TagEditorDlgImpl : public QDialog, private Ui::TagEditorDlg
 {

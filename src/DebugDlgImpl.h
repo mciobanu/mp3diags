@@ -23,6 +23,8 @@
 #ifndef DebugDlgImplH
 #define DebugDlgImplH
 
+#include  <string>
+
 #include  <QDialog>
 
 #include  "ui_Debug.h"

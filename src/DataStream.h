@@ -243,7 +243,7 @@ private:
 
 
 class MpegStream;
-class MpegFrameBase;
+struct MpegFrameBase;
 
 
 // follows an MPEG stream and is compatible with it but it is truncated; some other frame begins before where it should end

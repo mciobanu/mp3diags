@@ -46,9 +46,9 @@
 
 class QToolButton;
 class FilesModel;
-class NotesModel;
-class StreamsModel;
-class UniqueNotesModel;
+struct NotesModel;
+struct StreamsModel;
+struct UniqueNotesModel;
 
 extern int CELL_WIDTH; // ttt1 perhaps replace with functions
 extern int CELL_HEIGHT;

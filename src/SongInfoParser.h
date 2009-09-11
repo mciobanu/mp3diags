@@ -155,8 +155,8 @@ Since "%", "[" and "]" are used as special characters, they can't appear on thei
 
 */
 
-class SequenceReader;
-class Reader;
+struct SequenceReader;
+struct Reader;
 
 
 // gets track info from a full file name or from a generic string, normally a line from a multi-line track listing

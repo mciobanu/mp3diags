@@ -1180,9 +1180,9 @@ set<string> CommonData::getAllDirs() const
     {
         const Mp3Handler* p (m_vpAllHandlers[i]);
         const string& s (p->getName());
-        string::size_type n (s.rfind(getPathSep()));
-        CB_ASSERT(string::npos != n);
-        string strDir (s.substr(0, n));
+        string::size_type k (s.rfind(getPathSep()));
+        CB_ASSERT(string::npos != k);
+        string strDir (s.substr(0, k));
         sDirs.insert(strDir);
     }
 

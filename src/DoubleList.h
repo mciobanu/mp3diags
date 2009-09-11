@@ -24,6 +24,7 @@
 #define DoubleListH
 
 #include  <set>
+#include  <vector>
 
 #include  <QWidget>
 

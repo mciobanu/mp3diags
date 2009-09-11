@@ -252,7 +252,7 @@ void DebugDlgImpl::on_m_pSaveLogB_clicked()
 
 void DebugDlgImpl::on_m_pDecodeMpegFrameB_clicked()
 {
-    istringstream s (m_pFrameHdrE->text().toStdString());
+    istringstream s (m_pFrameHdrE->text().toUtf8().data());
     s >> hex;
     unsigned int n;
     s >> n;

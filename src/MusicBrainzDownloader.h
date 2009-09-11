@@ -54,7 +54,7 @@ class MusicBrainzDownloader : public AlbumInfoDownloaderDlgImpl
 
     std::vector<MusicBrainz::MusicBrainzAlbumInfo> m_vAlbums;
 
-    friend class MusicBrainz::SearchXmlHandler;
+    friend struct MusicBrainz::SearchXmlHandler;
 
     void delay();
     long long getTime(); // time in milliseconds

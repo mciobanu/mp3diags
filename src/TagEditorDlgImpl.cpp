@@ -1747,4 +1747,3 @@ A less important performance issue is in ImageInfoPanelWdgImpl::ImageInfoPanelWd
 */
 
 //ttt0 perhaps check boxes or something to have many patterns defined, yet several used at a time; one idea: another window where fields are shown for all the patterns and the user can pick; other idea: buttons underneath the file view, which can toggle
-//ttt0 "fix" on right-click

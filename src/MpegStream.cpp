@@ -320,8 +320,11 @@ XingStreamBase::XingStreamBase(int nIndex, NoteColl& notes, istream& in) : MpegS
     int nSideInfoSize (m_firstFrame.getSideInfoSize());
 
     int nBfrSize (MpegFrame::MPEG_FRAME_HDR_SIZE + nSideInfoSize + XING_LABEL_SIZE);
+
+    MP3_CHECK_T (nBfrSize <= m_firstFrame.getSize(), m_pos, "Not a Xing stream. This kind of MPEG audio doesn't support Xing.", NotXingStream()); // !!! some kinds of MPEG audio (e.g. "MPEG-1 Layer I, 44100Hz 32000bps" or "MPEG-2 Layer III, 22050Hz 8000bps") have very short frames, which can't accomodate a Xing header
+
     streamsize nRead (read(in, bfr, nBfrSize));
-    STRM_ASSERT (nBfrSize == nRead); // this was supposed to be a valid frame to begin with (otherwise the base class would have thrown)
+    STRM_ASSERT (nBfrSize == nRead); // this was supposed to be a valid frame to begin with (otherwise the base class would have thrown) and nBfrSize is no bigger than the frame
 
     char* pLabel (bfr + MpegFrame::MPEG_FRAME_HDR_SIZE + nSideInfoSize);
     MP3_CHECK_T (0 == strncmp("Xing", pLabel, XING_LABEL_SIZE) || 0 == strncmp("Info", pLabel, XING_LABEL_SIZE), m_pos, "Not a Xing stream. Header not found.", NotXingStream());
@@ -434,8 +437,10 @@ LameStream::LameStream(int nIndex, NoteColl& notes, istream& in) : XingStreamBas
     const int BFR_SIZE (LAME_OFFS + LAME_LABEL_SIZE); // MPEG header + side info + "Xing" size //ttt1 not sure if space for CRC16 should be added; then not sure if frame size should be increased by 2 when CRC is found
     char bfr [BFR_SIZE];
 
+    MP3_CHECK_T (BFR_SIZE <= m_firstFrame.getSize(), m_pos, "Not a LAME stream. This kind of MPEG audio doesn't support LAME.", NotLameStream()); // !!! some kinds of MPEG audio have very short frames, which can't accomodate a VBRI header
+
     streamsize nRead (read(in, bfr, BFR_SIZE));
-    STRM_ASSERT (BFR_SIZE == nRead); // this was supposed to be a valid frame to begin with (otherwise the base class would have thrown)
+    STRM_ASSERT (BFR_SIZE == nRead); // this was supposed to be a valid frame to begin with (otherwise the base class would have thrown) and BFR_SIZE is no bigger than the frame
 
     MP3_CHECK_T (0 == strncmp("LAME", bfr + LAME_OFFS, LAME_LABEL_SIZE), m_pos, "Not a LAME stream. Header not found.", NotLameStream());
 
@@ -468,8 +473,10 @@ VbriStream::VbriStream(int nIndex, NoteColl& notes, istream& in) : MpegStreamBas
     const int BFR_SIZE (MpegFrame::MPEG_FRAME_HDR_SIZE + 32 + VBRI_LABEL_SIZE); // MPEG header + side info + "Xing" size //ttt1 not sure if space for CRC16 should be added; then not sure if frame size should be increased by 2 when CRC is found
     char bfr [BFR_SIZE];
 
+    MP3_CHECK_T (BFR_SIZE <= m_firstFrame.getSize(), m_pos, "Not a VBRI stream. This kind of MPEG audio doesn't support VBRI.", NotVbriStream()); // !!! some kinds of MPEG audio have very short frames, which can't accomodate a VBRI header
+
     streamsize nRead (read(in, bfr, BFR_SIZE));
-    STRM_ASSERT (BFR_SIZE == nRead); // this was supposed to be a valid frame to begin with (otherwise the base class would have thrown) // ttt0 was reported as triggered at https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=8
+    STRM_ASSERT (BFR_SIZE == nRead); // this was supposed to be a valid frame to begin with (otherwise the base class would have thrown) and BFR_SIZE is no bigger than the frame
 
     char* pLabel (bfr + MpegFrame::MPEG_FRAME_HDR_SIZE + 32);
     MP3_CHECK_T (0 == strncmp("VBRI", pLabel, VBRI_LABEL_SIZE), m_pos, "Not a VBRI stream. Header not found.", NotVbriStream());

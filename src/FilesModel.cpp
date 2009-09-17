@@ -284,7 +284,7 @@ void FilesModel::matchSelToNotes()
 
     m_pCommonData->m_pFilesG->selectionModel()->clearSelection();
 
-    for (set<int, int>::const_iterator it = sSel.begin(), end = sSel.end(); it != end; ++it)
+    for (set<int>::const_iterator it = sSel.begin(), end = sSel.end(); it != end; ++it)
     {
         m_pCommonData->m_pFilesG->selectionModel()->select(index(m_pCommonData->getFilesGCrtRow(), *it + 1), QItemSelectionModel::Select);
 //cout << "selecting " << m_pCommonData->getFilesGCrtRow() << "x" << *it + 1 << endl;

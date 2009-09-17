@@ -19,16 +19,13 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-//#include  <QSettings> //ttt
-//#include  <iostream>
+#ifdef __GNUC__
+
 
 #include  "fstream_unicode.h"
 
 #include  <sys/stat.h>
 
-#ifdef _MSC_VER
-    #include  <fcntl.h>
-#endif
 
 // might want to look at basic_file_stdio.cc or ext/stdio_filebuf.h
 
@@ -42,12 +39,11 @@
 
 
 
-//#include  "Helpers.h" //ttt remove
-
 //ttt1 perhaps add flush()
 
 
-static int getAcc(std::ios_base::openmode __mode)
+// converts __mode to flags that can be used by the POSIX open() function
+int getOpenFlags(std::ios_base::openmode __mode)
 {
     int nAcc;
     if (std::ios_base::in & __mode)
@@ -94,13 +90,21 @@ static int getAcc(std::ios_base::openmode __mode)
     return nAcc;
 }
 
+/*
+template<>
+int unicodeOpenHlp(const QString& s, std::ios_base::openmode __mode)
+{
+    int nFd (open(s.toUtf8().data(), getOpenFlags(__mode), S_IREAD | S_IWRITE));
+    return nFd;
+}
+*/
 
 #ifndef WIN32
 
     template<>
-    int unicodeOpenHlp(const char* szUtf8Name, std::ios_base::openmode __mode)
+    int unicodeOpenHlp(const char* const& szUtf8Name, std::ios_base::openmode __mode)
     {
-        int nAcc (getAcc(__mode));
+        int nAcc (getOpenFlags(__mode));
         int nFd (open(szUtf8Name, nAcc, S_IREAD | S_IWRITE));
         //qDebug("fd %d %s acc=%d", nFd, szUtf8Name, nAcc);
         return nFd;
@@ -108,13 +112,13 @@ static int getAcc(std::ios_base::openmode __mode)
 
 #if 0
     template<>
-    int unicodeOpenHlp(const wchar_t* /*wszUtf16Name*/, std::ios_base::openmode /*__mode*/)
+    int unicodeOpenHlp(const wchar_t* const& /*wszUtf16Name*/, std::ios_base::openmode /*__mode*/)
     {
         throw 1; //ttt2 add if needed
     }
 #endif
 
-#else
+#else // #ifndef WIN32
 
 
     #include  <windows.h>
@@ -124,15 +128,8 @@ static int getAcc(std::ios_base::openmode __mode)
 
     using namespace std;
 
-#ifdef __GNUC__
-    using namespace __gnu_cxx; //ttt0 see if needed
-#else
-    // Add a dummy primary template to specialize, so this code compiles with VS2008.
-    template<class T>
-    int unicodeOpenHlp(T handle, std::ios_base::openmode __mode) {}
-#endif
 
-    wstring wstrFromUtf8(const string& s)
+    static wstring wstrFromUtf8(const string& s)
     {
         vector<wchar_t> w (s.size() + 1);
         MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, &w[0], w.size());
@@ -142,9 +139,9 @@ static int getAcc(std::ios_base::openmode __mode)
 
 
     template<>
-    int unicodeOpenHlp(const wchar_t* wszUtf16Name, std::ios_base::openmode __mode)
+    int unicodeOpenHlp(const wchar_t* const& wszUtf16Name, std::ios_base::openmode __mode)
     {
-        int nAcc (getAcc(__mode));
+        int nAcc (getOpenFlags(__mode));
 
         int nFd (_wopen(wszUtf16Name, nAcc, S_IREAD | S_IWRITE));
         //int nFd (open(szUtf8Name, nAcc, S_IREAD | S_IWRITE));
@@ -153,7 +150,7 @@ static int getAcc(std::ios_base::openmode __mode)
     }
 
     template<>
-    int unicodeOpenHlp(const char* szUtf8Name, std::ios_base::openmode __mode)
+    int unicodeOpenHlp(const char* const& szUtf8Name, std::ios_base::openmode __mode)
     {
         return unicodeOpenHlp(wstrFromUtf8(szUtf8Name).c_str(), __mode);
     }
@@ -161,28 +158,9 @@ static int getAcc(std::ios_base::openmode __mode)
 #endif // #ifndef WIN32 / #else
 
 
-template<>
-int unicodeOpenHlp(char* szUtf8Name, std::ios_base::openmode __mode)
-{
-    return unicodeOpenHlp<const char*>(szUtf8Name, __mode);
-}
-
-
-#ifndef WIN32 // ttt2 remove conditional if needed
-
-#else
 
 template<>
-int unicodeOpenHlp(wchar_t* wszUtf16Name, std::ios_base::openmode __mode)
-{
-    return unicodeOpenHlp<const wchar_t*>(wszUtf16Name, __mode);
-}
-
-#endif
-
-
-template<>
-int unicodeOpenHlp(int fd, std::ios_base::openmode /*__mode*/)
+int unicodeOpenHlp(const int& fd, std::ios_base::openmode /*__mode*/)
 {
     return fd;
 }
@@ -191,4 +169,10 @@ int unicodeOpenHlp(int fd, std::ios_base::openmode /*__mode*/)
 
 
 //ttt1 review O_SHORT_LIVED
+
+#else // #ifdef __GNUC__
+
+// nothing to do for now; the MSVC version is fully inline and no ports to other compilers exist
+
+#endif // #ifdef __GNUC__
 

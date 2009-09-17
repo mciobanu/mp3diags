@@ -590,7 +590,7 @@ void AlbumInfoDownloaderDlgImpl::onRequestFinished(int /*nId*/, bool bError)
                 continue;
             }
 
-            addNote("unexpected result"); goto e2; // ttt0 comment out code above so this gets executed; the the busy cursor remains on
+            addNote("unexpected result"); goto e2;
         }
 
         {
@@ -611,13 +611,14 @@ void AlbumInfoDownloaderDlgImpl::onRequestFinished(int /*nId*/, bool bError)
     if (qstrXml.isEmpty())
     {
         addNote("empty string received");
-        return;
     }
-
-    if (m_bSaveResults)
+    else
     {
-        QByteArray b1 (qstrXml.toUtf8());
-        saveDownloadedData(b1.data(), b1.size(), "xml");
+        if (m_bSaveResults)
+        {
+            QByteArray b1 (qstrXml.toUtf8());
+            saveDownloadedData(b1.data(), b1.size(), "xml");
+        }
     }
 
     switch (m_eWaiting)
@@ -717,7 +718,7 @@ void AlbumInfoDownloaderDlgImpl::onSearchLoaded(const QString& qstrXml)
         return;
     }
 
-    if (0 == getAlbumCount())
+    if (0 == getAlbumCount() && m_nLastLoadedPage == m_nTotalPages - 1)
     {
         QMessageBox::critical(this, "Error", "No results found");
     }

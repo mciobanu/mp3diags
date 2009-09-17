@@ -34,7 +34,7 @@
 using namespace std;
 using namespace pearl;
 
-//ttt0 https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=18#bugnotes - support UTF8 in ID3V2.3.0
+
 //============================================================================================================
 //============================================================================================================
 //============================================================================================================
@@ -101,6 +101,14 @@ Id3V230Frame::Id3V230Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
         try
         {
             getUtf8String();
+
+            Id3V2FrameDataLoader wrp (*this);
+            const char* pData (wrp.getData());
+            if (3 == pData[0])
+            {
+                //MP3_NOTE (pos, id3v230UsesUtf8);
+                MP3_NOTE_D (pos, id3v230UsesUtf8, Notes::id3v230UsesUtf8().getDescription() + string(" (Frame:") + m_szName + ")"); // perhaps drop the frame name if too many such notes get generated
+            }
         }
         catch (const NotId3V2Frame&)
         {
@@ -201,6 +209,21 @@ string Id3V230Frame::getUtf8String() const
     {
         return utf8FromBomUtf16(pData + 1, m_nMemDataSize - 1);
     }
+
+    if (3 == pData[0]) // not valid, but used by some tools; a note will get generated in this case
+    {
+        string s (pData + 1, m_nMemDataSize - 1);
+        if (!s.empty())
+        {
+            char c (s[s.size() - 1]);
+            if (0 == c) // this string is supposed to be 0-terminated; silently remove the ending null, if it's there; // ttt2 perhaps have warning, but only if somebody actually cares
+            {
+                s.erase(s.size() - 1);
+            }
+        }
+        return s;
+    }
+
 
     // pData[0] has an invalid value
     CB_THROW1 (NotId3V2Frame());

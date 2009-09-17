@@ -165,139 +165,140 @@ struct Notes
 
     static const std::vector<int>& getDefaultIgnoredNoteIds();
 
-    // audio
-    DECL_NOTE_INFO(twoAudio, ERR, AUDIO, "Two MPEG audio streams found, but a file should have exactly one.", false);
-    DECL_NOTE_INFO(lowQualAudio, WARNING, AUDIO, "Low quality MPEG audio stream.", false);
-    DECL_NOTE_INFO(noAudio, ERR, AUDIO, "No MPEG audio stream found.", false);
-    DECL_NOTE_INFO(vbrUsedForNonMpg1L3, WARNING, AUDIO, "VBR with audio streams other than MPEG1 Layer III might work incorrectly.", false);
-    DECL_NOTE_INFO(incompleteFrameInAudio, ERR, AUDIO, "Incomplete MPEG frame at the end of an MPEG stream.", false);
-    DECL_NOTE_INFO(validFrameDiffVer, ERR, AUDIO, "Valid frame with a different version found after an MPEG stream.", false);
-    DECL_NOTE_INFO(validFrameDiffLayer, ERR, AUDIO, "Valid frame with a different layer found after an MPEG stream.", false);
-    DECL_NOTE_INFO(validFrameDiffMode, ERR, AUDIO, "Valid frame with a different channel mode found after an MPEG stream.", false);
-    DECL_NOTE_INFO(validFrameDiffFreq, ERR, AUDIO, "Valid frame with a different frequency found after an MPEG stream.", false);
-    DECL_NOTE_INFO(validFrameDiffCrc, ERR, AUDIO, "Valid frame with a different CRC policy found after an MPEG stream.", false);
-    DECL_NOTE_INFO(audioTooShort, ERR, AUDIO, "Invalid MPEG stream. Stream has fewer than 10 frames.", false);
-    DECL_NOTE_INFO(diffBitrateInFirstFrame, ERR, AUDIO, "Invalid MPEG stream. First frame has different bitrate than the rest.", false);
-    DECL_NOTE_INFO(noMp3Gain, WARNING, AUDIO, "No normalization undo information found. The song is probably not normalized by MP3Gain or a similar program. As a result, it may sound too loud or too quiet when compared to songs from other albums.", false);
-    DECL_NOTE_INFO(untestedEncoding, SUPPORT, AUDIO, "Found audio stream in an encoding other than \"MPEG-1 Layer 3\" or \"MPEG-2 Layer 3.\" While MP3 Diags understands such streams, very few tests were run on files containing them (because they are not supposed to be found inside files with the \".mp3\" extension), so there is a bigger chance of something going wrong while processing them.", false);
+    // audio // a
+    DECL_NOTE_INFO(twoAudio, ERR, AUDIO, "Two MPEG audio streams found, but a file should have exactly one.", false); // a
+    DECL_NOTE_INFO(lowQualAudio, WARNING, AUDIO, "Low quality MPEG audio stream.", false); // b
+    DECL_NOTE_INFO(noAudio, ERR, AUDIO, "No MPEG audio stream found.", false); // c
+    DECL_NOTE_INFO(vbrUsedForNonMpg1L3, WARNING, AUDIO, "VBR with audio streams other than MPEG1 Layer III might work incorrectly.", false); // d
+    DECL_NOTE_INFO(incompleteFrameInAudio, ERR, AUDIO, "Incomplete MPEG frame at the end of an MPEG stream.", false); // e
+    DECL_NOTE_INFO(validFrameDiffVer, ERR, AUDIO, "Valid frame with a different version found after an MPEG stream.", false); // f
+    DECL_NOTE_INFO(validFrameDiffLayer, ERR, AUDIO, "Valid frame with a different layer found after an MPEG stream.", false); // g
+    DECL_NOTE_INFO(validFrameDiffMode, ERR, AUDIO, "Valid frame with a different channel mode found after an MPEG stream.", false); // h
+    DECL_NOTE_INFO(validFrameDiffFreq, ERR, AUDIO, "Valid frame with a different frequency found after an MPEG stream.", false); // i
+    DECL_NOTE_INFO(validFrameDiffCrc, ERR, AUDIO, "Valid frame with a different CRC policy found after an MPEG stream.", false); // j
+    DECL_NOTE_INFO(audioTooShort, ERR, AUDIO, "Invalid MPEG stream. Stream has fewer than 10 frames.", false); // k
+    DECL_NOTE_INFO(diffBitrateInFirstFrame, ERR, AUDIO, "Invalid MPEG stream. First frame has different bitrate than the rest.", false); // l
+    DECL_NOTE_INFO(noMp3Gain, WARNING, AUDIO, "No normalization undo information found. The song is probably not normalized by MP3Gain or a similar program. As a result, it may sound too loud or too quiet when compared to songs from other albums.", false); // n
+    DECL_NOTE_INFO(untestedEncoding, SUPPORT, AUDIO, "Found audio stream in an encoding other than \"MPEG-1 Layer 3\" or \"MPEG-2 Layer 3.\" While MP3 Diags understands such streams, very few tests were run on files containing them (because they are not supposed to be found inside files with the \".mp3\" extension), so there is a bigger chance of something going wrong while processing them.", false); // o
 
-    // xing
-    DECL_NOTE_INFO(twoLame, ERR, XING, "Two Lame headers found, but a file should have at most one of them.", true);
-    DECL_NOTE_INFO(xingAddedByMp3Fixer, WARNING, XING, "Xing header seems added by Mp3Fixer, which makes the first frame unusable and causes a 16-byte unknown or null stream to be detected next.", false);
-    DECL_NOTE_INFO(xingFrameCountMismatch, ERR, XING, "Frame count mismatch between the Xing header and the audio stream.", false);
-    DECL_NOTE_INFO(twoXing, ERR, XING, "Two Xing headers found, but a file should have at most one of them.", false);
-    DECL_NOTE_INFO(xingNotBeforeAudio, ERR, XING, "The Xing header should be located immediately before the MPEG audio stream.", false);
-    DECL_NOTE_INFO(incompatXing, ERR, XING, "The Xing header should be compatible with the MPEG audio stream, meaning that their MPEG version, layer and frequency must be equal.", false);
-    DECL_NOTE_INFO(missingXing, WARNING, XING, "The MPEG audio stream uses VBR but a Xing header wasn't found. This will confuse some players, which won't be able to display the song duration or to seek.", false);
+    // xing // b
+    DECL_NOTE_INFO(twoLame, ERR, XING, "Two Lame headers found, but a file should have at most one of them.", true); // a
+    DECL_NOTE_INFO(xingAddedByMp3Fixer, WARNING, XING, "Xing header seems added by Mp3Fixer, which makes the first frame unusable and causes a 16-byte unknown or null stream to be detected next.", false); // b
+    DECL_NOTE_INFO(xingFrameCountMismatch, ERR, XING, "Frame count mismatch between the Xing header and the audio stream.", false); // c
+    DECL_NOTE_INFO(twoXing, ERR, XING, "Two Xing headers found, but a file should have at most one of them.", false); // d
+    DECL_NOTE_INFO(xingNotBeforeAudio, ERR, XING, "The Xing header should be located immediately before the MPEG audio stream.", false); // e
+    DECL_NOTE_INFO(incompatXing, ERR, XING, "The Xing header should be compatible with the MPEG audio stream, meaning that their MPEG version, layer and frequency must be equal.", false); // f
+    DECL_NOTE_INFO(missingXing, WARNING, XING, "The MPEG audio stream uses VBR but a Xing header wasn't found. This will confuse some players, which won't be able to display the song duration or to seek.", false); // g
 
-    // vbri
-    DECL_NOTE_INFO(twoVbri, ERR, VBRI, "Two VBRI headers found, but a file should have at most one of them.", true);
-    DECL_NOTE_INFO(vbriFound, WARNING, VBRI, "VBRI headers aren't well supported by some players. They should be replaced by Xing headers.", true);
-    DECL_NOTE_INFO(foundVbriAndXing, WARNING, VBRI, "VBRI header found alongside Xing header. The VBRI header should probably be removed.", true);
+    // vbri // c
+    DECL_NOTE_INFO(twoVbri, ERR, VBRI, "Two VBRI headers found, but a file should have at most one of them.", true); // a
+    DECL_NOTE_INFO(vbriFound, WARNING, VBRI, "VBRI headers aren't well supported by some players. They should be replaced by Xing headers.", true); // b
+    DECL_NOTE_INFO(foundVbriAndXing, WARNING, VBRI, "VBRI header found alongside Xing header. The VBRI header should probably be removed.", true); // c
 
-    // id3 v2
-    DECL_NOTE_INFO(id3v2FrameTooShort, ERR, ID3V2, "Invalid ID3V2 frame. File too short.", false);
-    DECL_NOTE_INFO(id3v2InvalidName, ERR, ID3V2, "Invalid frame name in ID3V2 tag.", true);
-    DECL_NOTE_INFO(id3v2IncorrectFlg1, WARNING, ID3V2, "Flags in the first flag group that are supposed to always be 0 are set to 1. They will be ignored.", true);
-    DECL_NOTE_INFO(id3v2IncorrectFlg2, WARNING, ID3V2, "Flags in the second flag group that are supposed to always be 0 are set to 1. They will be ignored.", true);
-    DECL_NOTE_INFO(id3v2TextError, ERR, ID3V2, "Error decoding value of text frame while reading an Id3V2 Stream.", true);
-    DECL_NOTE_INFO(id3v2HasLatin1NonAscii, WARNING, ID3V2, "ID3V2 tag has text frames using Latin-1 encoding that contain characters with a code above 127. While this is legal, those frames may have their content set or displayed incorrectly by software that uses the local code page instead of Latin-1. Conversion to Unicode (UTF16) is recommended.", true);
-    DECL_NOTE_INFO(id3v2EmptyTcon, WARNING, ID3V2, "Empty genre frame (TCON) found.", true);
-    DECL_NOTE_INFO(id3v2MultipleFramesWithSameName, WARNING, ID3V2, "Multiple frame instances, but only the first copy will be used.", true);
-    DECL_NOTE_INFO(id3v2PaddingTooLarge, WARNING, ID3V2, "The padding in the ID3V2 tag is too large, wasting space. (Large padding improves the tag editor saving speed, if fast saving is enabled, so you may want to delay compacting the tag until after you're done with the tag editor.)", false);
-    DECL_NOTE_INFO(id3v2UnsuppVer, SUPPORT, ID3V2, "Unsupported ID3V2 version.", true);
-    DECL_NOTE_INFO(id3v2UnsuppFlag, SUPPORT, ID3V2, "Unsupported ID3V2 tag. Unsupported flag.", true);
-    DECL_NOTE_INFO(id3v2UnsuppFlags1, SUPPORT, ID3V2, "Unsupported value for Flags1 in ID3V2 frame. (This may also indicate that the file contains garbage where it was supposed to be zero.)", true);
-    DECL_NOTE_INFO(id3v2UnsuppFlags2, SUPPORT, ID3V2, "Unsupported value for Flags2 in ID3V2 frame. (This may also indicate that the file contains garbage where it was supposed to be zero.)", true);
-    DECL_NOTE_INFO(id3v2DuplicatePopm, SUPPORT, ID3V2, "Multiple instances of the POPM frame found in ID3V2 tag. The current version discards all the instances except the first when processing this tag.", true);
+    // id3 v2 // d
+    DECL_NOTE_INFO(id3v2FrameTooShort, ERR, ID3V2, "Invalid ID3V2 frame. File too short.", false); // a
+    DECL_NOTE_INFO(id3v2InvalidName, ERR, ID3V2, "Invalid frame name in ID3V2 tag.", true); // b
+    DECL_NOTE_INFO(id3v2IncorrectFlg1, WARNING, ID3V2, "Flags in the first flag group that are supposed to always be 0 are set to 1. They will be ignored.", true); // c
+    DECL_NOTE_INFO(id3v2IncorrectFlg2, WARNING, ID3V2, "Flags in the second flag group that are supposed to always be 0 are set to 1. They will be ignored.", true); // d
+    DECL_NOTE_INFO(id3v2TextError, ERR, ID3V2, "Error decoding value of text frame while reading an Id3V2 Stream.", true); // e
+    DECL_NOTE_INFO(id3v2HasLatin1NonAscii, WARNING, ID3V2, "ID3V2 tag has text frames using Latin-1 encoding that contain characters with a code above 127. While this is legal, those frames may have their content set or displayed incorrectly by software that uses the local code page instead of Latin-1. Conversion to Unicode (UTF16) is recommended.", true); // f
+    DECL_NOTE_INFO(id3v2EmptyTcon, WARNING, ID3V2, "Empty genre frame (TCON) found.", true); // g
+    DECL_NOTE_INFO(id3v2MultipleFramesWithSameName, WARNING, ID3V2, "Multiple frame instances, but only the first copy will be used.", true); // h
+    DECL_NOTE_INFO(id3v2PaddingTooLarge, WARNING, ID3V2, "The padding in the ID3V2 tag is too large, wasting space. (Large padding improves the tag editor saving speed, if fast saving is enabled, so you may want to delay compacting the tag until after you're done with the tag editor.)", false); // i
+    DECL_NOTE_INFO(id3v2UnsuppVer, SUPPORT, ID3V2, "Unsupported ID3V2 version.", true); // j
+    DECL_NOTE_INFO(id3v2UnsuppFlag, SUPPORT, ID3V2, "Unsupported ID3V2 tag. Unsupported flag.", true); // k
+    DECL_NOTE_INFO(id3v2UnsuppFlags1, SUPPORT, ID3V2, "Unsupported value for Flags1 in ID3V2 frame. (This may also indicate that the file contains garbage where it was supposed to be zero.)", true); // l
+    DECL_NOTE_INFO(id3v2UnsuppFlags2, SUPPORT, ID3V2, "Unsupported value for Flags2 in ID3V2 frame. (This may also indicate that the file contains garbage where it was supposed to be zero.)", true); // n
+    DECL_NOTE_INFO(id3v2DuplicatePopm, SUPPORT, ID3V2, "Multiple instances of the POPM frame found in ID3V2 tag. The current version discards all the instances except the first when processing this tag.", true); // o
 
-    // apic
-    DECL_NOTE_INFO(id3v2NoApic, WARNING, APIC, "ID3V2 tag doesn't have an APIC frame (which is used to store images).", true);
-    DECL_NOTE_INFO(id3v2CouldntLoadPic, WARNING, APIC, "ID3V2 tag has an APIC frame (which is used to store images), but the image couldn't be loaded.", true);
-    DECL_NOTE_INFO(id3v2NotCoverPicture, WARNING, APIC, "ID3V2 tag has at least one valid APIC frame (which is used to store images), but no frame has a type that is associated with an album cover.", true);
-    DECL_NOTE_INFO(id3v2ErrorLoadingApic, WARNING, APIC, "Error loading image in APIC frame.", true);
-    DECL_NOTE_INFO(id3v2ErrorLoadingApicTooShort, WARNING, APIC, "Error loading image in APIC frame. The frame is too short anyway to have space for an image.", true);
-    DECL_NOTE_INFO(id3v2DuplicatePic, ERR, APIC, "ID3V2 tag has multiple APIC frames with the same picture type.", true);
-    DECL_NOTE_INFO(id3v2MultipleApic, WARNING, APIC, "ID3V2 tag has multiple APIC frames. While this is valid, players usually use only one of them to display an image, discarding the others.", true);
+    // apic // e
+    DECL_NOTE_INFO(id3v2NoApic, WARNING, APIC, "ID3V2 tag doesn't have an APIC frame (which is used to store images).", true); // a
+    DECL_NOTE_INFO(id3v2CouldntLoadPic, WARNING, APIC, "ID3V2 tag has an APIC frame (which is used to store images), but the image couldn't be loaded.", true); // b
+    DECL_NOTE_INFO(id3v2NotCoverPicture, WARNING, APIC, "ID3V2 tag has at least one valid APIC frame (which is used to store images), but no frame has a type that is associated with an album cover.", true); // c
+    DECL_NOTE_INFO(id3v2ErrorLoadingApic, WARNING, APIC, "Error loading image in APIC frame.", true); // d
+    DECL_NOTE_INFO(id3v2ErrorLoadingApicTooShort, WARNING, APIC, "Error loading image in APIC frame. The frame is too short anyway to have space for an image.", true); // e
+    DECL_NOTE_INFO(id3v2DuplicatePic, ERR, APIC, "ID3V2 tag has multiple APIC frames with the same picture type.", true); // f
+    DECL_NOTE_INFO(id3v2MultipleApic, WARNING, APIC, "ID3V2 tag has multiple APIC frames. While this is valid, players usually use only one of them to display an image, discarding the others.", true); // g
     //DECL_NOTE_INFO(id3v2LinkNotSupported, SUPPORT, APIC, "ID3V2 tag has an APIC frame (which is used to store images), but it uses a link to an external file, which is not supported.", false);
-    DECL_NOTE_INFO(id3v2UnsupApicTextEnc, SUPPORT, APIC, "Unsupported text encoding for APIC frame in ID3V2 tag.", true);
-    DECL_NOTE_INFO(id3v2LinkInApic, SUPPORT, APIC, "APIC frame uses a link to a file as a MIME Type, which is not supported.", true);
-    DECL_NOTE_INFO(id3v2PictDescrIgnored, SUPPORT, APIC, "Picture description is ignored in the current version.", true);
+    DECL_NOTE_INFO(id3v2UnsupApicTextEnc, SUPPORT, APIC, "Unsupported text encoding for APIC frame in ID3V2 tag.", true); // h
+    DECL_NOTE_INFO(id3v2LinkInApic, SUPPORT, APIC, "APIC frame uses a link to a file as a MIME Type, which is not supported.", true); // i
+    DECL_NOTE_INFO(id3v2PictDescrIgnored, SUPPORT, APIC, "Picture description is ignored in the current version.", true); // j
 
-    // id3 v2.3.0
-    DECL_NOTE_INFO(noId3V230, WARNING, ID3V230, "No ID3V2.3.0 tag found, although this is the most popular tag for storing song information.", false);
-    DECL_NOTE_INFO(twoId3V230, ERR, ID3V230, "Two ID3V2.3.0 tags found, but a file should have at most one of them.", true);
-    DECL_NOTE_INFO(bothId3V230_V240, WARNING, ID3V230, "Both ID3V2.3.0 and ID3V2.4.0 tags found, but there should be only one of them.", true);
-    DECL_NOTE_INFO(id3v230AfterAudio, ERR, ID3V230, "The ID3V2.3.0 tag should be the first tag in a file.", true);
-    DECL_NOTE_INFO(id3v230UnsuppText, SUPPORT, ID3V230, "Unsupported value of text frame while reading an Id3V2 Stream.", true);
+    // id3 v2.3.0 // f
+    DECL_NOTE_INFO(noId3V230, WARNING, ID3V230, "No ID3V2.3.0 tag found, although this is the most popular tag for storing song information.", false); // a
+    DECL_NOTE_INFO(twoId3V230, ERR, ID3V230, "Two ID3V2.3.0 tags found, but a file should have at most one of them.", true); // b
+    DECL_NOTE_INFO(bothId3V230_V240, WARNING, ID3V230, "Both ID3V2.3.0 and ID3V2.4.0 tags found, but there should be only one of them.", true); // c
+    DECL_NOTE_INFO(id3v230AfterAudio, ERR, ID3V230, "The ID3V2.3.0 tag should be the first tag in a file.", true); // d
+    DECL_NOTE_INFO(id3v230UsesUtf8, WARNING, ID3V230, "ID3V2.3.0 tag contains a text frame encoded as UTF-8, which is valid in ID3V2.4.0 but not in ID3V2.3.0.", true); // e
+    DECL_NOTE_INFO(id3v230UnsuppText, SUPPORT, ID3V230, "Unsupported value of text frame while reading an Id3V2 Stream.", true); // f
 
-    // id3 v2.4.0
-    DECL_NOTE_INFO(twoId3V240, ERR, ID3V240, "Two ID3V2.4.0 tags found, but a file should have at most one of them.", true);
-    DECL_NOTE_INFO(id3v240FrameTooShort, ERR, ID3V240, "Invalid ID3V2.4.0 frame. Incorrect frame size or file too short. Unable to read all the bytes declared in SIZE.", false);
-    DECL_NOTE_INFO(id3v240IncorrectSynch, WARNING, ID3V240, "Invalid ID3V2.4.0 frame. Frame size is supposed to be stored as a synchsafe integer, which uses only 7 bits in a byte, but the size uses all 8 bits, as in ID3V2.3.0. This will confuse some applications", true);
-    DECL_NOTE_INFO(id3v240DeprTyerAndTdrc, WARNING, ID3V240, "Deprecated TYER frame found in 2.4.0 tag alongside a TDRC frame.", true);
-    DECL_NOTE_INFO(id3v240DeprTyer, WARNING, ID3V240, "Deprecated TYER frame found in 2.4.0 tag. It's supposed to be replaced by a TDRC frame.", true);
-    DECL_NOTE_INFO(id3v240DeprTdatAndTdrc, WARNING, ID3V240, "Deprecated TDAT frame found in 2.4.0 tag alongside a TDRC frame.", true);
-    DECL_NOTE_INFO(id3v240DeprTdat, WARNING, ID3V240, "Deprecated TDAT frame found in 2.4.0 tag. It's supposed to be replaced by a TDRC frame.", true);
-    DECL_NOTE_INFO(id3v240UnsuppText, SUPPORT, ID3V240, "Unsupported value of text frame while reading an Id3V2.4.0 stream. It may be using an unsupported text encoding.", true);
+    // id3 v2.4.0 // g
+    DECL_NOTE_INFO(twoId3V240, ERR, ID3V240, "Two ID3V2.4.0 tags found, but a file should have at most one of them.", true); // a
+    DECL_NOTE_INFO(id3v240FrameTooShort, ERR, ID3V240, "Invalid ID3V2.4.0 frame. Incorrect frame size or file too short. Unable to read all the bytes declared in SIZE.", false); // b
+    DECL_NOTE_INFO(id3v240IncorrectSynch, WARNING, ID3V240, "Invalid ID3V2.4.0 frame. Frame size is supposed to be stored as a synchsafe integer, which uses only 7 bits in a byte, but the size uses all 8 bits, as in ID3V2.3.0. This will confuse some applications", true); // c
+    DECL_NOTE_INFO(id3v240DeprTyerAndTdrc, WARNING, ID3V240, "Deprecated TYER frame found in 2.4.0 tag alongside a TDRC frame.", true); // d
+    DECL_NOTE_INFO(id3v240DeprTyer, WARNING, ID3V240, "Deprecated TYER frame found in 2.4.0 tag. It's supposed to be replaced by a TDRC frame.", true); // e
+    DECL_NOTE_INFO(id3v240DeprTdatAndTdrc, WARNING, ID3V240, "Deprecated TDAT frame found in 2.4.0 tag alongside a TDRC frame.", true); // f
+    DECL_NOTE_INFO(id3v240DeprTdat, WARNING, ID3V240, "Deprecated TDAT frame found in 2.4.0 tag. It's supposed to be replaced by a TDRC frame.", true); // g
+    DECL_NOTE_INFO(id3v240UnsuppText, SUPPORT, ID3V240, "Unsupported value of text frame while reading an Id3V2.4.0 stream. It may be using an unsupported text encoding.", true); // h
 
-    // id3 v1
-    DECL_NOTE_INFO(onlyId3V1, WARNING, ID3V1, "The only tag found that is capable of storing song information is ID3V1, which has pretty limited capabilities.", false);
-    DECL_NOTE_INFO(id3v1BeforeAudio, ERR, ID3V1, "The ID3V1 tag should be located after the MPEG audio stream.", true);
-    DECL_NOTE_INFO(id3v1TooShort, ERR, ID3V1, "Invalid ID3V1 tag. File too short.", false);
-    DECL_NOTE_INFO(twoId3V1, ERR, ID3V1, "Two ID3V1 tags found, but a file should have at most one of them.", true);
+    // id3 v1 // h
+    DECL_NOTE_INFO(onlyId3V1, WARNING, ID3V1, "The only tag found that is capable of storing song information is ID3V1, which has pretty limited capabilities.", false); // a
+    DECL_NOTE_INFO(id3v1BeforeAudio, ERR, ID3V1, "The ID3V1 tag should be located after the MPEG audio stream.", true); // b
+    DECL_NOTE_INFO(id3v1TooShort, ERR, ID3V1, "Invalid ID3V1 tag. File too short.", false); // c
+    DECL_NOTE_INFO(twoId3V1, ERR, ID3V1, "Two ID3V1 tags found, but a file should have at most one of them.", true); // d
     //DECL_NOTE_INFO(zeroInId3V1, WARNING, ID3V1, "ID3V1 tag contains characters with the code 0, although this is not allowed by the standard (yet used by some tools).", false);
-    DECL_NOTE_INFO(mixedPaddingInId3V1, WARNING, ID3V1, "ID3V1 tag contains fields padded with spaces alongside fields padded with zeroes. The standard only allows zeroes, but some tools use spaces. Even so, zero-padding and space-padding shouldn't be mixed.", true);
-    DECL_NOTE_INFO(mixedFieldPaddingInId3V1, WARNING, ID3V1, "ID3V1 tag contains fields that are padded with spaces mixed with zeroes. The standard only allows zeroes, but some tools use spaces. Even so, one character should be used for padding for the whole tag.", true);
-    DECL_NOTE_INFO(id3v1InvalidName, ERR, ID3V1, "Invalid ID3V1 tag. Invalid characters in Name field.", false);
-    DECL_NOTE_INFO(id3v1InvalidArtist, ERR, ID3V1, "Invalid ID3V1 tag. Invalid characters in Artist field.", false);
-    DECL_NOTE_INFO(id3v1InvalidAlbum, ERR, ID3V1, "Invalid ID3V1 tag. Invalid characters in Album field.", false);
-    DECL_NOTE_INFO(id3v1InvalidYear, ERR, ID3V1, "Invalid ID3V1 tag. Invalid characters in Year field.", false);
-    DECL_NOTE_INFO(id3v1InvalidComment, ERR, ID3V1, "Invalid ID3V1 tag. Invalid characters in Comment field.", false);
+    DECL_NOTE_INFO(mixedPaddingInId3V1, WARNING, ID3V1, "ID3V1 tag contains fields padded with spaces alongside fields padded with zeroes. The standard only allows zeroes, but some tools use spaces. Even so, zero-padding and space-padding shouldn't be mixed.", true); // e
+    DECL_NOTE_INFO(mixedFieldPaddingInId3V1, WARNING, ID3V1, "ID3V1 tag contains fields that are padded with spaces mixed with zeroes. The standard only allows zeroes, but some tools use spaces. Even so, one character should be used for padding for the whole tag.", true); // f
+    DECL_NOTE_INFO(id3v1InvalidName, ERR, ID3V1, "Invalid ID3V1 tag. Invalid characters in Name field.", true); // g
+    DECL_NOTE_INFO(id3v1InvalidArtist, ERR, ID3V1, "Invalid ID3V1 tag. Invalid characters in Artist field.", true); // h
+    DECL_NOTE_INFO(id3v1InvalidAlbum, ERR, ID3V1, "Invalid ID3V1 tag. Invalid characters in Album field.", true); // i
+    DECL_NOTE_INFO(id3v1InvalidYear, ERR, ID3V1, "Invalid ID3V1 tag. Invalid characters in Year field.", true); // j
+    DECL_NOTE_INFO(id3v1InvalidComment, ERR, ID3V1, "Invalid ID3V1 tag. Invalid characters in Comment field.", true); // k
 
-    // broken
-    DECL_NOTE_INFO(brokenAtTheEnd, ERR, BROKEN, "Broken stream found.", true);
-    DECL_NOTE_INFO(brokenInTheMiddle, ERR, BROKEN, "Broken stream found. Since other streams follow, it is possible that players and tools will have problems using the file. Removing the stream is recommended.", true);
+    // broken // i
+    DECL_NOTE_INFO(brokenAtTheEnd, ERR, BROKEN, "Broken stream found.", true); // a
+    DECL_NOTE_INFO(brokenInTheMiddle, ERR, BROKEN, "Broken stream found. Since other streams follow, it is possible that players and tools will have problems using the file. Removing the stream is recommended.", true); // b
 
-    // trunc
-    DECL_NOTE_INFO(truncAudioWithWholeFile, ERR, TRUNCATED, "Truncated MPEG stream found. The cause for this seems to be that the file was truncated.", false);
-    DECL_NOTE_INFO(truncAudio, ERR, TRUNCATED, "Truncated MPEG stream found. Since other streams follow, it is possible that players and tools will have problems using the file. Removing the stream or padding it with 0 to reach its declared size is strongly recommended.", false);
+    // trunc // j
+    DECL_NOTE_INFO(truncAudioWithWholeFile, ERR, TRUNCATED, "Truncated MPEG stream found. The cause for this seems to be that the file was truncated.", false); // a
+    DECL_NOTE_INFO(truncAudio, ERR, TRUNCATED, "Truncated MPEG stream found. Since other streams follow, it is possible that players and tools will have problems using the file. Removing the stream or padding it with 0 to reach its declared size is strongly recommended.", false); // b
 
-    // unknown
-    DECL_NOTE_INFO(unknTooShort, WARNING, UNKNOWN, "Not enough remaining bytes to create an UnknownDataStream.", false);
-    DECL_NOTE_INFO(unknownAtTheEnd, ERR, UNKNOWN, "Unknown stream found.", true);
-    DECL_NOTE_INFO(unknownInTheMiddle, ERR, UNKNOWN, "Unknown stream found. Since other streams follow, it is possible that players and tools will have problems using the file. Removing the stream is recommended.", true);
-    DECL_NOTE_INFO(foundNull, WARNING, UNKNOWN, "File contains null streams.", true);
+    // unknown // k
+    DECL_NOTE_INFO(unknTooShort, WARNING, UNKNOWN, "Not enough remaining bytes to create an UnknownDataStream.", false); // a
+    DECL_NOTE_INFO(unknownAtTheEnd, ERR, UNKNOWN, "Unknown stream found.", true); // b
+    DECL_NOTE_INFO(unknownInTheMiddle, ERR, UNKNOWN, "Unknown stream found. Since other streams follow, it is possible that players and tools will have problems using the file. Removing the stream is recommended.", true); // c
+    DECL_NOTE_INFO(foundNull, WARNING, UNKNOWN, "File contains null streams.", true); // d
 
-    // lyrics
-    DECL_NOTE_INFO(lyrTooShort, ERR, LYRICS, "Invalid Lyrics stream tag. File too short.", false);
-    DECL_NOTE_INFO(twoLyr, SUPPORT, LYRICS, "Two Lyrics tags found, but only one is supported.", true); // ttt1 see if this is error
+    // lyrics // l
+    DECL_NOTE_INFO(lyrTooShort, ERR, LYRICS, "Invalid Lyrics stream tag. File too short.", false); // a
+    DECL_NOTE_INFO(twoLyr, SUPPORT, LYRICS, "Two Lyrics tags found, but only one is supported.", true); // b // ttt1 see if this is error
     //DECL_NOTE_INFO(lyricsNotSupported, SUPPORT, LYRICS, "Lyrics tags cannot be processed in the current version. Some players don't understand them.", false);
-    DECL_NOTE_INFO(invalidLyr, ERR, LYRICS, "Invalid Lyrics stream tag. Unexpected characters found.", false);
-    DECL_NOTE_INFO(duplicateFields, SUPPORT, LYRICS, "Multiple fields with the same name were found in a Lyrics tag, but only one is supported.", true);
-    DECL_NOTE_INFO(imgInLyrics, SUPPORT, LYRICS, "Currently images referenced from Lyrics tags are ignored.", true);
-    DECL_NOTE_INFO(infInLyrics, SUPPORT, LYRICS, "Currently INF fields in Lyrics tags are not fully supported.", true);
+    DECL_NOTE_INFO(invalidLyr, ERR, LYRICS, "Invalid Lyrics stream tag. Unexpected characters found.", false); // c
+    DECL_NOTE_INFO(duplicateFields, SUPPORT, LYRICS, "Multiple fields with the same name were found in a Lyrics tag, but only one is supported.", true); // d
+    DECL_NOTE_INFO(imgInLyrics, SUPPORT, LYRICS, "Currently images referenced from Lyrics tags are ignored.", true); // e
+    DECL_NOTE_INFO(infInLyrics, SUPPORT, LYRICS, "Currently INF fields in Lyrics tags are not fully supported.", true); // f
 
-    // ape
-    DECL_NOTE_INFO(apeItemTooShort, ERR, APE, "Invalid Ape Item. File too short.", false);
-    DECL_NOTE_INFO(apeItemTooBig, ERR, APE, "Ape Item seems too big. Although the size may be any 32-bit integer, 256 bytes should be enough in practice. If this message is determined to be incorrect, it will be removed in the future.", false);
-    DECL_NOTE_INFO(apeMissingTerminator, ERR, APE, "Invalid Ape Item. Terminator not found for item name.", false);
-    DECL_NOTE_INFO(apeFoundFooter, ERR, APE, "Invalid Ape tag. Header expected but footer found.", false);
-    DECL_NOTE_INFO(apeTooShort, ERR, APE, "Not an Ape tag. File too short.", false);
-    DECL_NOTE_INFO(apeFoundHeader, ERR, APE, "Invalid Ape tag. Footer expected but header found.", false);
-    DECL_NOTE_INFO(apeHdrFtMismatch, ERR, APE, "Invalid Ape tag. Mismatch between header and footer.", false);
-    DECL_NOTE_INFO(twoApe, SUPPORT, APE, "Two Ape tags found, but only one is supported.", true); // ttt1 see if this is error
-    DECL_NOTE_INFO(apeFlagsNotSupported, SUPPORT, APE, "Ape item flags not supported.", false);
-    DECL_NOTE_INFO(apeUnsupported, SUPPORT, APE, "Unsupported Ape tag. Currently a missing header or footer are not supported.", false);
+    // ape // n
+    DECL_NOTE_INFO(apeItemTooShort, ERR, APE, "Invalid Ape Item. File too short.", false); // a
+    DECL_NOTE_INFO(apeItemTooBig, ERR, APE, "Ape Item seems too big. Although the size may be any 32-bit integer, 256 bytes should be enough in practice. If this message is determined to be incorrect, it will be removed in the future.", false); // b
+    DECL_NOTE_INFO(apeMissingTerminator, ERR, APE, "Invalid Ape Item. Terminator not found for item name.", false); // c
+    DECL_NOTE_INFO(apeFoundFooter, ERR, APE, "Invalid Ape tag. Header expected but footer found.", false); // d
+    DECL_NOTE_INFO(apeTooShort, ERR, APE, "Not an Ape tag. File too short.", false); // e
+    DECL_NOTE_INFO(apeFoundHeader, ERR, APE, "Invalid Ape tag. Footer expected but header found.", false); // f
+    DECL_NOTE_INFO(apeHdrFtMismatch, ERR, APE, "Invalid Ape tag. Mismatch between header and footer.", false); // g
+    DECL_NOTE_INFO(twoApe, SUPPORT, APE, "Two Ape tags found, but only one is supported.", true); // h // ttt1 see if this is error
+    DECL_NOTE_INFO(apeFlagsNotSupported, SUPPORT, APE, "Ape item flags not supported.", false); // i
+    DECL_NOTE_INFO(apeUnsupported, SUPPORT, APE, "Unsupported Ape tag. Currently a missing header or footer are not supported.", false); // j
 
-    // misc
-    DECL_NOTE_INFO(fileWasChanged, WARNING, MISC, "The file seems to have been changed in the (short) time that passed between parsing it and the initial search for pictures. If you think that's not the case, report a bug.", false);
-    DECL_NOTE_INFO(noInfoTag, WARNING, MISC, "No tag found that is capable of storing song information.", false);
-    DECL_NOTE_INFO(tooManyTraceNotes, WARNING, MISC, "Too many TRACE notes added. The rest will be discarded.", false);
-    DECL_NOTE_INFO(tooManyNotes, WARNING, MISC, "Too many notes added. The rest will be discarded.", false);
-    DECL_NOTE_INFO(tooManyStreams, WARNING, MISC, "Too many streams found. Aborting processing.", false);
-    DECL_NOTE_INFO(unsupportedFound, WARNING, MISC, "Unsupported stream found. It may be supported in the future if there's a real need for it.", false);
-    DECL_NOTE_INFO(rescanningNeeded, WARNING, MISC, "The file was saved using the \"fast\" option. While this improves the saving speed, it may leave the notes in an inconsistent state, so you should rescan the file.", false);
+    // misc // o
+    DECL_NOTE_INFO(fileWasChanged, WARNING, MISC, "The file seems to have been changed in the (short) time that passed between parsing it and the initial search for pictures. If you think that's not the case, report a bug.", false); // a
+    DECL_NOTE_INFO(noInfoTag, WARNING, MISC, "No tag found that is capable of storing song information.", false); // b
+    DECL_NOTE_INFO(tooManyTraceNotes, WARNING, MISC, "Too many TRACE notes added. The rest will be discarded.", false); // c
+    DECL_NOTE_INFO(tooManyNotes, WARNING, MISC, "Too many notes added. The rest will be discarded.", false); // d
+    DECL_NOTE_INFO(tooManyStreams, WARNING, MISC, "Too many streams found. Aborting processing.", false); // e
+    DECL_NOTE_INFO(unsupportedFound, WARNING, MISC, "Unsupported stream found. It may be supported in the future if there's a real need for it.", false); // f
+    DECL_NOTE_INFO(rescanningNeeded, WARNING, MISC, "The file was saved using the \"fast\" option. While this improves the saving speed, it may leave the notes in an inconsistent state, so you should rescan the file.", false); // g
 
     struct CompNoteByName // needed for searching
     {

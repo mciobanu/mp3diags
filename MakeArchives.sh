@@ -74,6 +74,8 @@ function createLinuxSrc
     cp -p mp3diags.pro $LongDestDir
     cp -p Uninstall.sh $LongDestDir
     cp -p AdjustMt.sh $LongDestDir
+    cp -p CMakeLists.txt $LongDestDir
+    cp -p CMake-VS2008-Win32.cmd $LongDestDir
 
     echo const char* APP_VER '("'$Ver'");'> $LongDestDir/src/Version.cpp
     echo >> $LongDestDir/src/Version.cpp

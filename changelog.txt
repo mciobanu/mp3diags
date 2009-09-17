@@ -1,5 +1,14 @@
 ---------------------------------------------------------------------------
 
+17.09.2009 - 0.99.05.037
+- fixes on right-click
+- UTF-8 strings recognized in ID3V2.3.0
+- fixed bug 35 (assertion failure)
+- faster tracer
+- code compilable with VS 2008 (port by Sebastian Schuberth)
+
+---------------------------------------------------------------------------
+
 07.09.2009 - 0.99.05.034
 - drive labels shown in Windows
 - mp3gain can be started now if it's in a directory containing spaces

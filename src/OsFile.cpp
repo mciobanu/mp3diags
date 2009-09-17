@@ -37,6 +37,12 @@
 #else
     #include  <sys/utime.h>
 #endif
+
+#ifndef WIN32
+#else
+    #include  <windows.h>
+#endif
+
 /*
 #include  <sys/stat.h>
 //#include  <sys/types.h>
@@ -218,7 +224,16 @@ void CB_LIB_CALL getFileInfo(const string& strFileName, long long & nChangeTime,
 }
 
 
-wstring wstrFromUtf8(const string& s);
+#ifndef WIN32
+#else
+static wstring wstrFromUtf8(const string& s)
+{
+    vector<wchar_t> w (s.size() + 1);
+    MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, &w[0], w.size());
+    //inspect(&w[0], w.size()*2);
+    return &w[0];
+}
+#endif
 
 //void CB_LIB_CALL setFileDate(const char* szFileName, time_t nCreationTime, long long nChangeTime)
 void CB_LIB_CALL setFileDate(const string& strFileName, long long nChangeTime)

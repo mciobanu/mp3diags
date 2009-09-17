@@ -54,7 +54,7 @@ public:
     Id3V2Rescuer(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Copies only ID3V2 frames that seem valid, discarding those that are invalid (e.g. an APIC frame claiming to hold a picture although it doesn't.) Handles both loadable and broken ID3V2 tags, in the latter case copying being stopped when a fatal error occurs."; }
+    /*override*/ const char* getDescription() const { return "Copies only ID3V2 frames that seem valid or can be made valid, discarding those that are invalid and can't be fixed (e.g. an APIC frame claiming to hold a picture although it doesn't.) Handles both loadable and broken ID3V2 tags, in the latter case copying being stopped when a fatal error occurs."; }
 
     static const char* getClassName() { return "Discard invalid ID3V2 data"; }
 };
@@ -65,10 +65,12 @@ class Id3V2UnicodeTransformer : public Transformation
 {
     void processId3V2Stream(Id3V2StreamBase& frm, ofstream_utf8& out);
     CommonData* m_pCommonData;
+    mutable std::string m_strActionName; // contains the current codepage
 public:
     Id3V2UnicodeTransformer(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
+    /*override*/ const char* getVisibleActionName() const;
     /*override*/ const char* getDescription() const { return "Transforms text frames in ID3V2 encoded as Latin1 to Unicode (UTF16.) The reason to do this is that sometimes non-conforming software treats these frames as they are encoded in a different code page, causing other programs to display unexpected data."; }
 
     static const char* getClassName() { return "Convert non-ASCII ID3V2 text frames to Unicode"; }

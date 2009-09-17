@@ -211,6 +211,7 @@ struct CmpMp3HandlerPtrByName
     }*/
 
     bool operator()(const Mp3Handler* p1, const std::string& strName2) const;
+    bool operator()(const std::string& strName1, const Mp3Handler* p2) const;
     bool operator()(const Mp3Handler* p1, const Mp3Handler* p2) const;
 
 private:

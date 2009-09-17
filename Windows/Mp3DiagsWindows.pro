@@ -141,7 +141,13 @@ RESOURCES += Mp3Diags.qrc
 
 INCLUDEPATH += C:/boost_1_39_0 C:/zlib123-dll/include
 
-#LIBS += -L/path/to -lpsapi
-LIBS += -LC:/boost_1_39_0/bin.v2/libs/serialization/build/gcc-mingw-3.4.5/release/threading-multi -lboost_serialization-mgw34-mt-1_39
-LIBS += -LC:/zlib123-dll/lib -lzdll
-LIBS += -lpsapi
+##LIBS += -L/path/to -lpsapi
+
+#LIBS += -LC:/boost_1_39_0/bin.v2/libs/serialization/build/gcc-mingw-3.4.5/release/threading-multi -lboost_serialization-mgw34-mt-1_39
+#LIBS += -LC:/zlib123-dll/lib -lzdll
+#LIBS += -lpsapi
+
+win32:LIBS += C:/boost_1_39_0/bin.v2/libs/serialization/build/gcc-mingw-3.4.5/release/threading-multi/boost_serialization-mgw34-mt-1_39.lib
+#win32:LIBS += C:/boost_1_39_0_VS/bin.v2/libs/serialization/build/msvc-9.0express/release/threading-multi/boost_serialization-vc90-mt-1_39.lib
+win32:LIBS += C:/zlib123-dll/lib/zdll.lib
+win32:LIBS += -lpsapi

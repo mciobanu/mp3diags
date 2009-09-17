@@ -416,7 +416,9 @@ void MusicBrainzDownloader::on_m_pSearchB_clicked()
 
 void MusicBrainzDownloader::loadNextPage()
 {
-    CB_ASSERT (!m_pQHttp->hasPendingRequests() && !m_pImageQHttp->hasPendingRequests());
+    CB_ASSERT (!m_pQHttp->hasPendingRequests());
+    CB_ASSERT (!m_pImageQHttp->hasPendingRequests());
+
     ++m_nLastLoadedPage;
     CB_ASSERT (m_nLastLoadedPage <= m_nTotalPages - 1);
 
@@ -477,7 +479,10 @@ void MusicBrainzDownloader::reloadGui()
 
 void MusicBrainzDownloader::requestAlbum(int nAlbum)
 {
-    CB_ASSERT (!m_pQHttp->hasPendingRequests() && !m_pImageQHttp->hasPendingRequests());
+    //CB_ASSERT (!m_pQHttp->hasPendingRequests() && !m_pImageQHttp->hasPendingRequests());  // ttt0 triggered: https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=36 ?? perhaps might happen when MB returns errors
+    CB_ASSERT (!m_pQHttp->hasPendingRequests());
+    CB_ASSERT (!m_pImageQHttp->hasPendingRequests());
+
     m_nLoadingAlbum = nAlbum;
     setWaiting(ALBUM);
     //string s ("/release/" + m_vAlbums[nAlbum].m_strId + "?f=xml&api_key=f51e9c8f6c");
@@ -496,7 +501,8 @@ void MusicBrainzDownloader::requestAlbum(int nAlbum)
 
 void MusicBrainzDownloader::requestImage(int nAlbum, int nImage)
 {
-    CB_ASSERT (!m_pQHttp->hasPendingRequests() && !m_pImageQHttp->hasPendingRequests());
+    CB_ASSERT (!m_pQHttp->hasPendingRequests());
+    CB_ASSERT (!m_pImageQHttp->hasPendingRequests());
 
     m_nLoadingAlbum = nAlbum;
     m_nLoadingImage = nImage;

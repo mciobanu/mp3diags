@@ -627,7 +627,7 @@ void DiscogsDownloader::requestImage(int nAlbum, int nImage)
     //cout << "sent img " <<  m_vAlbums[nAlbum].m_vstrImageNames[nImage] << " - " << m_pQHttp->request(header) << endl;
     addNote("getting image ...");
 }
-//ttt0 query with "barry" tells "not found" many times
+
 
 //==========================================================================================================================
 //==========================================================================================================================

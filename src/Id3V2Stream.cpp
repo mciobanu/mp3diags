@@ -37,7 +37,7 @@ using namespace pearl;
 
 
 
-
+//ttt0 warn note: empty id3v2 (should have at least a frame)
 
 
 /*
@@ -1102,14 +1102,24 @@ vector<const Id3V2Frame*> Id3V2StreamBase::getKnownFrames() const // to be used 
 
         if (KnownFrames::getKnownFrames().count(p->m_szName) > 0)
         {
+            // add if known except if a picture with the same type was already added; don't add duplicates even if Id3V230StreamWriter could take care of them, because it keeps the last value and we want the first one
             bool bAdd (true);
             for (int j = 0; j < cSize(v); ++j)
             {
                 if (p->m_nPictureType == v[j]->m_nPictureType && 0 == strcmp(v[j]->m_szName, p->m_szName))
                 {
+                    // !!! important for both image and non-image frames; while Id3V230StreamWriter would remove duplicates as configured, we want to get rid of them now, so the first value is kept; Id3V230StreamWriter removes old values as new ones are added, which would keep the last value
+                    //ttt1 not always right for multiple pictures if "keep one" is checked;
+
                     bAdd = false;
                     break;
                 }
+
+            }
+
+            if (bAdd && 0 == strcmp(KnownFrames::LBL_IMAGE(), p->m_szName) && Id3V2Frame::OK != p->m_eApicStatus && Id3V2Frame::NOT_SUPPORTED != p->m_eApicStatus)
+            { // !!! get rid of broken pictures and links
+                bAdd = false;
             }
 
             if (bAdd)

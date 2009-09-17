@@ -252,11 +252,16 @@ Uninstallation can be done through <span class="Reference">Uninstall.sh</span>. 
 
 
 <div class="NormalText RegFnt ChpCol1">
-If you want to build the project yourself, you should download the <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-windows-src/MP3DiagsWndSrc-QQQVERQQQ.zip">Windows source</a>. The executable can be created by <span class="Reference">build.bat</span>, but, as pointed out in README.TXT, you'll have to change some paths manually.
+If you want to build the project yourself, you should probably download the <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-windows-src/MP3DiagsWndSrc-QQQVERQQQ.zip">Windows source</a>. The executable can be created by <span class="Reference">build.bat</span>, but, as pointed out in README.TXT, you'll have to change some paths manually. This archive is meant to be used with Qt Creator.
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-The actual source files are the same for Linux and Windows, but the archives are different because of some bugs preventing the Qt for Windows from using several of the button images that are available in Linux. Also, the install scripts are different.
+The actual source files are the same for Linux and Windows, but the archives are different mostly for hystorical reasons. Also, the install scripts are different.
+</div>
+
+
+<div class="NormalText RegFnt ChpCol1">
+Sebastian Schuberth did a Visual C++ port, so it is also possible to compile the project with Visual C++ (including Express.) That works with the generic sources, from <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-src/MP3Diags-QQQVERQQQ.tar.gz">MP3Diags-QQQVERQQQ.tar.gz</a>. You'll need to build Qt and Boost yourself, install CMake if you don't have it, then set BOOST_ROOT and QTDIR, then run CMake-VS2008-Win32.cmd to generate MP3Diags.sln and MP3Diags.vcproj.
 </div>
 
 
@@ -271,11 +276,11 @@ The actual source files are the same for Linux and Windows, but the archives are
 
 
 <div class="NormalText RegFnt ChpCol2">
-The source code may also be downloaded from the Subversion server provided by SourceForge, by using this command:
+The source code may also be downloaded from the Subversion server provided by SourceForge, by going to the <a href="http://mp3diags.svn.sourceforge.net/viewvc/mp3diags/trunk/mp3diags/">SVN Browser</a> and clicking on <a href="http://mp3diags.svn.sourceforge.net/viewvc/mp3diags/trunk/mp3diags.tar.gz?view=tar">Download GNU tarball</a> at the bottom of the page. Or you can check out the trunk using this command:
 </div>
 
 <div class="NormalText RegFnt ChpCol2 GenericSpace">
-<span class="Reference">svn export https://mp3diags.svn.sourceforge.net/svnroot/mp3diags</span>
+<span class="Reference">svn co https://mp3diags.svn.sourceforge.net/svnroot/mp3diags/trunk/mp3diags mp3diags</span>
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
@@ -310,7 +315,7 @@ Since this is my first attempt at creating distributable binaries, I'm not very 
 
 
 <div class="NormalText RegFnt ChpCol1">
-My hope is that sometime in the future the program will get included in more well-known repositories, and perhaps official distributions, so I don't have to concern myself with building binaries for various platforms. This has already started to happen: You can get MP3 Diags for Debian 5 and Gentoo from repositories that are not built by me. <!--ttto-->
+My hope is that sometime in the future the program will get included in more well-known repositories, and perhaps official distributions, so I don't have to concern myself with building binaries for various platforms. This has already started to happen: You can get MP3 Diags for Debian 5, Gentoo, and openSUSE from repositories that are not built by me. <!--ttto-->
 </div>
 
 

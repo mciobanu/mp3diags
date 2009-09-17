@@ -276,6 +276,7 @@ public:
 
     virtual Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName) = 0; // this may throw
     virtual const char* getActionName() const = 0;
+    virtual const char* getVisibleActionName() const { return getActionName(); } // to be used only by the UI, providing more details to the user
     virtual const char* getDescription() const = 0;
 
     struct InvalidInputFile {}; // thrown if the input file was changed so it can no longer be processed

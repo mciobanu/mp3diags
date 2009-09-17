@@ -112,6 +112,7 @@ public slots:
     void onNewVersionQueryFinished2(); // needed because some bug in Qt4.3.1, 4.4.3 and some others, resulting in a segfault if onNewVersionQueryFinished() lasts 14 seconds or more
     void readResponseHeader(const QHttpResponseHeader&);
 
+    void onFixCurrentNote();
 private:
     void scan(FileEnumerator& fileEnum, bool bForce, std::deque<const Mp3Handler*> vpExisting, int nKeepWhenUpdate); // a subset of vpExisting gets copied to vpDel in the m_pCommonData->mergeHandlerChanges() call; so if vpExisting is empty, vpDel will be empty too; if bForce is true, thw whole vpExisting is copied to vpDel;
 
@@ -173,14 +174,16 @@ private:
     void showRestartAfterCrashMsg(const QString& qstrText, const QString& qstrCloseBtn);
     void checkForNewVersion(); // returns immediately; when the request completes it will send a signal
 
-    void fixCurrentNote(int nGlobalX, int nGlobalY);
-    void fixCurrentNoteOneFile(int nGlobalX, int nGlobalY);
-    void fixCurrentNoteAllFiles(int nCol, int nGlobalX, int nGlobalY);
-    std::vector<Transformation*> getFixes(const Note* pNote, const DataStream* pStream) const; // what might fix a note
-    void showFixes(std::vector<Transformation*>& vpTransf, Subset eSubset, int nGlobalX, int nGlobalY);
+    void fixCurrentNoteOneFile();
+    void fixCurrentNoteAllFiles(int nCol);
+    std::vector<Transformation*> getFixes(const Note* pNote, const Mp3Handler* pHndl) const; // what might fix a note
+    void showFixes(std::vector<Transformation*>& vpTransf, Subset eSubset);
 
     QHttp* m_pQHttp;
     QString m_qstrNewVer; // needed by onNewVersionQueryFinished2()
+
+    int m_nGlobalX, m_nGlobalY; // needed so fixCurrentNote() can be called on a timer, rather than directly (which seems to guarantee that tooltips are shown for menus in Linux; with a direct call it's sort of random; well, right-clicking on a non-current cell rather than left click followed by right click incresases the odds of the tooltips not being shown)
+
 signals:
     void tagEditorClosed();
 };

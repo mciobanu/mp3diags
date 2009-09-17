@@ -149,7 +149,7 @@ namespace
     }
 
 
-    class NativeFile //ttt0 test on wnd
+    class NativeFile
     {
         HANDLE m_hStepFile;
     public:
@@ -410,7 +410,6 @@ void traceLastStep(const string& s, int nLevelChange)
 
 
 //ttt0 add checkbox to uninst on wnd to remove data and settings; //ttt0 uninst should remove log file as well, including the file created when "debug/log transf" is turned on
-//ttt0 msvc 2008 fails to compile "cout << strRes << endl;" see if printing strings is GCC extension
 //static QString s_strAssertTitle ("Assertion failure");
 //static QString s_strCrashWarnTitle ("Crash detected");
 static QString s_qstrErrorMsg;
@@ -781,6 +780,21 @@ bool SerLoadThread::scan()
     }
 }*/
 
+void listKnownFormats()
+{
+    for (unsigned i = 0x240; i < 1024; ++i) // everything below 0x240 is invalid
+    {
+        unsigned x (0xffe00000);
+        x += (i & 0x300) << (19 - 8);
+        x += (i & 0x0c0) << (17 - 6);
+
+        x += (i & 0x03c) << (12 - 2);
+        x += (i & 0x003) << (6 - 0);
+        qDebug("%x: %s", x, decodeMpegFrame(x, ", ").c_str());
+    }
+}
+
+
 } // namespace
 
 
@@ -788,7 +802,7 @@ extern const char* APP_VER;
 
 
 
-MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) : QDialog(0, getMainWndFlags()), m_settings(strSession), m_nLastKey(0)/*, m_settings("Ciobi", "Mp3Diags_v01")*/ /*, m_nPrevTabIndex(-1), m_bTagEdtWasEntered(false)*/, m_pCommonData(0), m_strSession(strSession), m_bShowMaximized(false), m_nScanWidth(0)
+MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) : QDialog(0, getMainWndFlags()), m_settings(strSession), m_nLastKey(0)/*, m_settings("Ciobi", "Mp3Diags_v01")*/ /*, m_nPrevTabIndex(-1), m_bTagEdtWasEntered(false)*/, m_pCommonData(0), m_strSession(strSession), m_bShowMaximized(false), m_nScanWidth(0), m_pQHttp(0), m_nGlobalX(0), m_nGlobalY(0)
 {
 //int x (2); CB_ASSERT(x > 4);
 //CB_ASSERT("345" == "ab");
@@ -798,6 +812,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) 
     s_pGlobalDlg = 0;
     setupUi(this);
 
+    //listKnownFormats(); // ttt0 sizes for many formats seem way too low (e.g. "MPEG-1 Layer I, 44100Hz 32000bps" or "MPEG-2 Layer III, 22050Hz 8000bps")
 
     {
         /*KbdNotifTableView* pStreamsG (new KbdNotifTableView(m_pStreamsG));
@@ -1296,7 +1311,6 @@ void MainFormDlgImpl::onShow()
         }
     }
 
-    //qDebug("MainFormDlgImpl::onShow() 1 %s", QDateTime::currentDateTime().toString("ss.zzz").toUtf8().data());
     m_settings.saveDbDirty(true);
 
     if (m_pCommonData->m_bScanAtStartup || bDirty)
@@ -1308,7 +1322,7 @@ void MainFormDlgImpl::onShow()
 
     // !!! without these the the file grid may look bad if it has a horizontal scrollbar and one of the last files is current
     string strCrt (m_pCommonData->getCrtName());
-    m_pFilesG->setCurrentIndex(m_pFilesG->model()->index(0, 0)); // 2.4 //ttt0 trace
+    m_pFilesG->setCurrentIndex(m_pFilesG->model()->index(0, 0));
     m_pCommonData->updateWidgets(strCrt);
 
     checkForNewVersion();
@@ -1320,8 +1334,8 @@ void MainFormDlgImpl::fullReload(bool bForceReload)
     CommonData::ViewMode eMode (m_pCommonData->getViewMode());
     m_pCommonData->setViewMode(CommonData::ALL, m_pCommonData->getCrtMp3Handler());
     m_pCommonData->m_filter.disableAll();
-    reload(IGNORE_SEL, bForceReload); // 1 //ttt0 trace
-    m_pCommonData->m_filter.restoreAll(); // 2.7 //ttt0 trace
+    reload(IGNORE_SEL, bForceReload);
+    m_pCommonData->m_filter.restoreAll();
     m_pCommonData->setViewMode(eMode, m_pCommonData->getCrtMp3Handler());
 }
 
@@ -1866,7 +1880,7 @@ void MainFormDlgImpl::on_m_pTransformB_clicked() //ttt2 an alternative is to use
     for (int i = 0, n = cSize(vnVisualNdx); i < n; ++i)
     {
         Transformation* pTransf (vpTransf.at(vnVisualNdx[i]));
-        QAction* pAct (new QAction(pTransf->getActionName(), &menu));
+        QAction* pAct (new QAction(pTransf->getVisibleActionName(), &menu));
         pAct->setToolTip(makeMultiline(pTransf->getDescription()));
 
         //connect(pAct, SIGNAL(triggered()), this, SLOT(onExecTransform(i))); // !!! Qt doesn't seem to support parameter binding
@@ -1889,8 +1903,6 @@ void MainFormDlgImpl::on_m_pTransformB_clicked() //ttt2 an alternative is to use
 
 void MainFormDlgImpl::onMenuHovered(QAction* pAction)
 {
-//qDebug("hov %s", pAction->toolTip().toUtf8().data()); //ttt0 while this seems to work OK for the single transf menu, many times no tooltip is shown for the right-click to fix notes, though pAction->toolTip() returns a valid string; changes in hideText() / showText() don't seem to matter
-    //QToolTip::hideText();
     QToolTip::showText(QCursor::pos(), "");
     QToolTip::showText(QCursor::pos(), pAction->toolTip());
     // see http://www.mail-archive.com/pyqt@riverbankcomputing.com/msg17214.html and http://www.mail-archive.com/pyqt@riverbankcomputing.com/msg17245.html ; apparently there's some inconsistency in when the menus are shown
@@ -2159,7 +2171,7 @@ void MainFormDlgImpl::transform(std::vector<Transformation*>& vpTransf, Subset e
     }
     else if (1 == cSize(vpTransf))
     {
-        qstrConf = (convStr(string("Apply transformation \"") + vpTransf[0]->getActionName() + "\" to ")) + qstrListInfo + "?";
+        qstrConf = (convStr(string("Apply transformation \"") + vpTransf[0]->getVisibleActionName() + "\" to ")) + qstrListInfo + "?";
     }
     else
     {
@@ -2167,7 +2179,7 @@ void MainFormDlgImpl::transform(std::vector<Transformation*>& vpTransf, Subset e
         for (int i = 0, n = cSize(vpTransf); i < n; ++i)
         {
             qstrConf += "\n      ";
-            qstrConf += vpTransf[i]->getActionName();
+            qstrConf += vpTransf[i]->getVisibleActionName();
         }
     }
 
@@ -2238,7 +2250,7 @@ void MainFormDlgImpl::setTransfTooltip(int k)
     for (int i = 0, n = cSize(m_pCommonData->getCustomTransf()[k]); i < n; ++i)
     {
         s2 += "    ";
-        s2 += m_pCommonData->getAllTransf()[m_pCommonData->getCustomTransf()[k][i]]->getActionName();
+        s2 += m_pCommonData->getAllTransf()[m_pCommonData->getCustomTransf()[k][i]]->getVisibleActionName();
         if (i < n - 1) { s2 += "\n"; }
     }
     if (s2.isEmpty()) { s2 = "   <empty list>\n\n(you can edit the list in the Settings dialog)"; }
@@ -2415,7 +2427,6 @@ public:
 
 
 
-
 //void MainFormDlgImpl::onStreamsGKeyPressed(int nKey)
 /*override*/ bool MainFormDlgImpl::eventFilter(QObject* pObj, QEvent* pEvent)
 {
@@ -2447,7 +2458,7 @@ public:
 
         vector<Transformation*> v;
         v.push_back(&rmv);
-        transform(v, CURRENT); //ttt2 currently (2009.04.20) this works OK, but there's this issue: we don't want the second param to be SELECTED, but "CURRENT", because it only applies to the streams of the current file; however, when selecting streams, all songs except for the current one get deselected; even if this changes, and more files could be selected, it will still work OK, except that the confirmation message will ask about deleting streams from several files, while it only cares about one; //ttt0 check, remove
+        transform(v, CURRENT);
         return true;
     }
     else if (pObj == m_pFilesG)
@@ -2455,9 +2466,10 @@ public:
         //qDebug("type %d", pEvent->type());
         QContextMenuEvent* pCtx (dynamic_cast<QContextMenuEvent*>(pEvent));
         if (0 != pCtx)
-        //if (QEvent::ContextMenu == pEvent->type())
         {
-            fixCurrentNote(pCtx->globalX(), pCtx->globalY());
+            m_nGlobalX = pCtx->globalX();
+            m_nGlobalY = pCtx->globalY();
+            QTimer::singleShot(1, this, SLOT(onFixCurrentNote()));
         }
     }
     return QDialog::eventFilter(pObj, pEvent);
@@ -2652,7 +2664,7 @@ void MainFormDlgImpl::onNewVersionQueryFinished(int /*nId*/, bool bError)
 
     QTimer::singleShot(1, this, SLOT(onNewVersionQueryFinished2()));
 }
-//ttt0 https://sourceforge.net/forum/forum.php?thread_id=3391593&forum_id=947206 - txt/m3u export
+
 
 void MainFormDlgImpl::onNewVersionQueryFinished2()
 {
@@ -2697,7 +2709,7 @@ namespace
 
         bool operator()(const Transformation* p) const
         {
-            return p->getActionName() == m_szName; // !!! pointer comparison
+            return 0 == strcmp(p->getActionName(), m_szName);
         }
     };
 
@@ -2723,7 +2735,8 @@ namespace
             m_strDescr = out.str();
         }
 
-        /*override*/ const char* getActionName() const { return m_strDescr.c_str(); }
+        /*override*/ const char* getActionName() const { return getClassName(); }
+        /*override*/ const char* getVisibleActionName() const { return m_strDescr.c_str(); }
         /*override*/ const char* getDescription() const { return "Removes specified stream."; }
 
         static const char* getClassName() { return "Remove specified stream"; }
@@ -2731,10 +2744,11 @@ namespace
 }
 
 
-vector<Transformation*> MainFormDlgImpl::getFixes(const Note* pNote, const DataStream* pStream) const // what might fix a note
+vector<Transformation*> MainFormDlgImpl::getFixes(const Note* pNote, const Mp3Handler* pHndl) const // what might fix a note
 {
 //qDebug("strm %s", pStream ? pStream->getDisplayName() : "");
-    CB_ASSERT (0 == pStream || (pNote->getPos() >= pStream->getPos() && pNote->getPos() < pStream->getPos() + pStream->getSize()));
+    //CB_ASSERT (0 == pStream || (pNote->getPos() >= pStream->getPos() && pNote->getPos() < pStream->getPos() + pStream->getSize()));
+    //CB_ASSERT (0 == pHndl || -1 != pNote->getPos());
 
     static map<int, vector<Transformation*> > s_mFixes;
     static bool s_bInitialized (false);
@@ -2771,14 +2785,16 @@ vector<Transformation*> MainFormDlgImpl::getFixes(const Note* pNote, const DataS
         ADD_FIX(foundVbriAndXing, VbrRepairer);
 
         ADD_FIX(id3v2FrameTooShort, Id3V2Rescuer);
-        ADD_FIX(id3v2FrameTooShort, Id3V2Cleaner);
+        //ADD_FIX(id3v2FrameTooShort, Id3V2Cleaner);
         ADD_FIX(id3v2InvalidName, Id3V2Rescuer);
-        ADD_FIX(id3v2InvalidName, Id3V2Cleaner);
+        //ADD_FIX(id3v2InvalidName, Id3V2Cleaner);
         ADD_FIX(id3v2TextError, Id3V2Rescuer);
-        ADD_FIX(id3v2TextError, Id3V2Cleaner);
+        //ADD_FIX(id3v2TextError, Id3V2Cleaner);
         ADD_FIX(id3v2HasLatin1NonAscii, Id3V2UnicodeTransformer);
         ADD_FIX(id3v2EmptyTcon, Id3V2Rescuer);
-        ADD_FIX(id3v2EmptyTcon, Id3V2Cleaner);
+        //ADD_FIX(id3v2EmptyTcon, Id3V2Cleaner);
+        ADD_FIX(id3v2MultipleFramesWithSameName, Id3V2Rescuer);
+        ADD_FIX(id3v2MultipleFramesWithSameName, Id3V2Cleaner);
         ADD_FIX(id3v2PaddingTooLarge, Id3V2Compactor);
         ADD_FIX(id3v2UnsuppVer, UnsupportedId3V2Remover);
         ADD_FIX(id3v2UnsuppFlag, UnsupportedDataStreamRemover);
@@ -2786,14 +2802,14 @@ vector<Transformation*> MainFormDlgImpl::getFixes(const Note* pNote, const DataS
         ADD_FIX(id3v2UnsuppFlags2, UnsupportedDataStreamRemover);
 
         ADD_FIX(id3v2CouldntLoadPic, Id3V2Rescuer);
-        ADD_FIX(id3v2CouldntLoadPic, Id3V2Cleaner);
+        //ADD_FIX(id3v2CouldntLoadPic, Id3V2Cleaner);
         ADD_FIX(id3v2NotCoverPicture, SmallerImageRemover);
         ADD_FIX(id3v2ErrorLoadingApic, Id3V2Rescuer);
-        ADD_FIX(id3v2ErrorLoadingApic, Id3V2Cleaner);
+        //ADD_FIX(id3v2ErrorLoadingApic, Id3V2Cleaner);
         ADD_FIX(id3v2ErrorLoadingApicTooShort, Id3V2Rescuer);
-        ADD_FIX(id3v2ErrorLoadingApicTooShort, Id3V2Cleaner);
-        ADD_FIX(id3v2DuplicatePic, Id3V2Rescuer); //ttt0 check if true
-        ADD_FIX(id3v2DuplicatePic, Id3V2Cleaner); //ttt0 check if true
+        //ADD_FIX(id3v2ErrorLoadingApicTooShort, Id3V2Cleaner);
+        ADD_FIX(id3v2DuplicatePic, Id3V2Rescuer);
+        ADD_FIX(id3v2DuplicatePic, Id3V2Cleaner);
         ADD_FIX(id3v2DuplicatePic, SmallerImageRemover);
         ADD_FIX(id3v2MultipleApic, Id3V2Rescuer);
         ADD_FIX(id3v2MultipleApic, Id3V2Cleaner);
@@ -2805,18 +2821,21 @@ vector<Transformation*> MainFormDlgImpl::getFixes(const Note* pNote, const DataS
 
         ADD_FIX(twoId3V230, MultipleId3StreamRemover);
         ADD_FIX(bothId3V230_V240, MultipleId3StreamRemover);
+        ADD_FIX(id3v230UsesUtf8, Id3V2Rescuer);
+        //ADD_FIX(id3v230UsesUtf8, Id3V2Cleaner);
 
         ADD_FIX(twoId3V240, MultipleId3StreamRemover);
-        ADD_FIX(id3v240IncorrectSynch, Id3V2Rescuer); //ttt0
-        ADD_FIX(id3v240IncorrectSynch, Id3V2Cleaner); //ttt0
-        ADD_FIX(id3v240DeprTyerAndTdrc, Id3V2Rescuer); //ttt0
-        ADD_FIX(id3v240DeprTyerAndTdrc, Id3V2Cleaner); //ttt0
-        ADD_FIX(id3v240DeprTyer, Id3V2Rescuer); //ttt0
-        ADD_FIX(id3v240DeprTyer, Id3V2Cleaner); //ttt0
-        ADD_FIX(id3v240DeprTdatAndTdrc, Id3V2Rescuer); //ttt0
-        ADD_FIX(id3v240DeprTdatAndTdrc, Id3V2Cleaner); //ttt0
-        ADD_FIX(id3v240DeprTdat, Id3V2Rescuer); //ttt0
-        ADD_FIX(id3v240DeprTdat, Id3V2Cleaner); //ttt0
+        ADD_FIX(id3v240IncorrectSynch, Id3V2Rescuer);
+        ADD_FIX(id3v240IncorrectSynch, Id3V2Cleaner);
+
+        ADD_FIX(id3v240DeprTyerAndTdrc, Id3V2Rescuer);  //ttt1 no id3v240DeprXX tested, but it looks like they should work
+        ADD_FIX(id3v240DeprTyerAndTdrc, Id3V2Cleaner);
+        ADD_FIX(id3v240DeprTyer, Id3V2Rescuer);
+        ADD_FIX(id3v240DeprTyer, Id3V2Cleaner);
+        ADD_FIX(id3v240DeprTdatAndTdrc, Id3V2Rescuer);
+        ADD_FIX(id3v240DeprTdatAndTdrc, Id3V2Cleaner);
+        ADD_FIX(id3v240DeprTdat, Id3V2Rescuer);
+        ADD_FIX(id3v240DeprTdat, Id3V2Cleaner);
 
         ADD_FIX(twoId3V1, MultipleId3StreamRemover);
 
@@ -2850,40 +2869,90 @@ vector<Transformation*> MainFormDlgImpl::getFixes(const Note* pNote, const DataS
     }*/
 
     #define ADD_CUSTOM_FIX(NOTE, STREAM, TRANSF) \
-    if (0 != pStream) \
+    if (pNote->getNoteId() == Notes::NOTE().getNoteId()) \
     { \
-        if (pNote->getNoteId() == Notes::NOTE().getNoteId()) \
+        if (pCrtStream->getDisplayName() == STREAM::getClassDisplayName()) \
         { \
-            if (pStream->getDisplayName() == STREAM::getClassDisplayName()) \
+            vector<Transformation*>::const_iterator it (find_if(vpAllTransf.begin(), vpAllTransf.end(), CmpTransfAndName(TRANSF::getClassName()))); \
+            CB_ASSERT (vpAllTransf.end() != it); \
+            Transformation* pTransf (*it); \
+            if (0 == spTransf.count(pTransf)) \
             { \
-                vector<Transformation*>::const_iterator it (find_if(vpAllTransf.begin(), vpAllTransf.end(), CmpTransfAndName(TRANSF::getClassName()))); \
-                CB_ASSERT (vpAllTransf.end() != it); \
-                vpTransf.push_back(*it); \
+                vpTransf.push_back(pTransf); \
+                spTransf.insert(pTransf); \
             } \
         } \
     }
 
-    //ttt0 None of the following is shown for header (e.g. SingleBitRepairer is shown for validFrameDiffVer only when clicking on circle, not when clicking on header), maybe we should drop the dtream test; OTOH the case of audioTooShort shows that it matters what stream the error is occuring on; so maybe drop the stream check only for some ... // workaround: see what's available for single song, then use the menu for all
 
-    ADD_CUSTOM_FIX(validFrameDiffVer, UnknownDataStream, SingleBitRepairer);
-    ADD_CUSTOM_FIX(validFrameDiffLayer, UnknownDataStream, SingleBitRepairer);
-    ADD_CUSTOM_FIX(validFrameDiffMode, UnknownDataStream, SingleBitRepairer);
-    ADD_CUSTOM_FIX(validFrameDiffFreq, UnknownDataStream, SingleBitRepairer);
-    ADD_CUSTOM_FIX(validFrameDiffCrc, UnknownDataStream, SingleBitRepairer);
+    //ttt0 None of the ADD_CUSTOM_FIX fixes is shown for header (e.g. SingleBitRepairer is shown for validFrameDiffVer only when clicking on circle, not when clicking on header), maybe we should drop the stream test; OTOH the case of audioTooShort shows that it matters what stream the error is occuring on; so maybe drop the stream check only for some ... // workaround: see what's available for single song, then use the menu for all;
+    //ttt0 other example: mismatched xing fixable by SingleBitRepairer to other stream; probably document that all the notes should be looked at;
+    // or: add all transforms that in some context might fix a note
+    // or: extend ADD_CUSTOM_FIX to look at the other notes, similarly to how it looks at the stream it's in; add some transform if some other note is present; (note: use a set to not have duplicates entered via different rules)
+    // perhaps unknown size 16 between xing and audio -> repair vbr, but seems too specific
+    // unknown between audio and audio -> restore flipped
 
-    ADD_CUSTOM_FIX(audioTooShort, TruncatedMpegDataStream, TruncatedMpegDataStreamRemover);
-    ADD_CUSTOM_FIX(audioTooShort, TruncatedMpegDataStream, TruncatedAudioPadder);
+    if (0 != pHndl)
+    { // for each matching note, see if additional fixes exist that take into account the stream the note is in and (in the future) other streams, their sizes, ...
+        const vector<Note*>& vpHndlNotes (pHndl->getNotes().getList());
+        const vector<DataStream*>& vpStreams (pHndl->getStreams());
 
-    ADD_CUSTOM_FIX(audioTooShort, UnknownDataStream, UnknownDataStreamRemover);
-    ADD_CUSTOM_FIX(audioTooShort, UnknownDataStream, SingleBitRepairer);
+        set<Transformation*> spTransf (vpTransf.begin(), vpTransf.end());
 
-    static FixedAddrRemover s_fixedAddrRemover;
+        static vector<FixedAddrRemover> s_vFixedAddrRemovers;
+        s_vFixedAddrRemovers.clear();
+        set<const DataStream*> spRemovableStreams;
 
-    if (pNote->allowErase() && -1 != pNote->getPos()) // if this is called from fixCurrentNoteOneFile() there should be a valid pos if allowErase() is true
-    {
-        s_fixedAddrRemover.setStream(pStream);
-        vpTransf.push_back(&s_fixedAddrRemover);
+        for (int i = 0; i < cSize(vpHndlNotes); ++i)
+        {
+            if (-1 == vpHndlNotes[i]->getNoteId()) { goto e1; } // takes care of trace notes
+
+            const Note* pCrtNote (vpHndlNotes[i]);
+
+            if (pCrtNote->getNoteId() == pNote->getNoteId() && -1 != pCrtNote->getPos())
+            {
+                for (int i = 0, n = cSize(vpStreams); i < n; ++i)
+                {
+                    //qDebug("s %s", v[i]->getDisplayName());
+                    if (n - 1 == i || pCrtNote->getPos() < vpStreams[i + 1]->getPos()) //ttt2 lower_bound
+                    {
+                        const DataStream* pCrtStream (vpStreams[i]);
+                        CB_ASSERT (pCrtNote->getPos() >= pCrtStream->getPos() && pCrtNote->getPos() < pCrtStream->getPos() + pCrtStream->getSize());
+
+                        ADD_CUSTOM_FIX(validFrameDiffVer, UnknownDataStream, SingleBitRepairer);
+                        ADD_CUSTOM_FIX(validFrameDiffLayer, UnknownDataStream, SingleBitRepairer);
+                        ADD_CUSTOM_FIX(validFrameDiffMode, UnknownDataStream, SingleBitRepairer);
+                        ADD_CUSTOM_FIX(validFrameDiffFreq, UnknownDataStream, SingleBitRepairer);
+                        ADD_CUSTOM_FIX(validFrameDiffCrc, UnknownDataStream, SingleBitRepairer);
+
+                        ADD_CUSTOM_FIX(audioTooShort, TruncatedMpegDataStream, TruncatedMpegDataStreamRemover);
+                        ADD_CUSTOM_FIX(audioTooShort, TruncatedMpegDataStream, TruncatedAudioPadder);
+
+                        ADD_CUSTOM_FIX(audioTooShort, UnknownDataStream, UnknownDataStreamRemover);
+                        ADD_CUSTOM_FIX(audioTooShort, UnknownDataStream, SingleBitRepairer);
+
+                        // ADD_CUSTOM_FIX(brokenInTheMiddle, ??? , Id3V2Rescuer); //ttt0 see about this
+
+
+                        if (pCrtNote->allowErase() && 0 == spRemovableStreams.count(pCrtStream))
+                        {
+                            spRemovableStreams.insert(pCrtStream);
+                            s_vFixedAddrRemovers.push_back(FixedAddrRemover());
+                            s_vFixedAddrRemovers.back().setStream(pCrtStream);
+                        }
+
+                        break;
+                    }
+                }
+            }
+        }
+e1:;
+        for (int i = 0; i < cSize(s_vFixedAddrRemovers); ++i)
+        {
+            vpTransf.push_back(&s_vFixedAddrRemovers[i]);
+        }
     }
+
 
     return vpTransf;
 }
@@ -2891,10 +2960,11 @@ vector<Transformation*> MainFormDlgImpl::getFixes(const Note* pNote, const DataS
 
 int getHeaderDrawOffset();
 
-//ttt0 usually right-clicking on a non-current cell resultsin tooltips no shown; test on ubuntu //ttt0 try using a timer
-void MainFormDlgImpl::fixCurrentNote(int nGlobalX, int nGlobalY)
+
+void MainFormDlgImpl::onFixCurrentNote()
 {
-    QPoint coords (m_pFilesG->mapFromGlobal(QPoint(nGlobalX, nGlobalY)));
+LAST_STEP("MainFormDlgImpl::onFixCurrentNote()");
+    QPoint coords (m_pFilesG->mapFromGlobal(QPoint(m_nGlobalX, m_nGlobalY)));
     //int nHorHdrHght ();
     //if (coords.x() < nVertHdrWdth) { return; }
     int nCol (m_pFilesG->columnAt(coords.x() - m_pFilesG->verticalHeader()->width()));
@@ -2903,8 +2973,8 @@ void MainFormDlgImpl::fixCurrentNote(int nGlobalX, int nGlobalY)
     if (coords.y() < m_pFilesG->horizontalHeader()->height())
     {
         int x (coords.x());
-        x -= 2;
-        //ttt0 also use getHeaderDrawOffset();
+        x -= 2; // hard-coded
+        x += getHeaderDrawOffset() / 2; //ttt1 this "/2" doesn't make sense but it works best
         //qDebug("offs %d", getHeaderDrawOffset());
         nCol = m_pFilesG->columnAt(x - m_pFilesG->verticalHeader()->width());
 
@@ -2914,17 +2984,18 @@ void MainFormDlgImpl::fixCurrentNote(int nGlobalX, int nGlobalY)
             return;
         }
 
-        fixCurrentNoteAllFiles(nCol - 1, nGlobalX, nGlobalY);
+        fixCurrentNoteAllFiles(nCol - 1);
     }
     else
     {
-        fixCurrentNoteOneFile(nGlobalX, nGlobalY);
+        fixCurrentNoteOneFile();
     }
 
     //qDebug("r %d, c %d", m_pFilesG->rowAt(coords.y() - nHorHdrHght), );
 }
 
-void MainFormDlgImpl::fixCurrentNoteOneFile(int nGlobalX, int nGlobalY)
+
+void MainFormDlgImpl::fixCurrentNoteOneFile()
 {
     QModelIndex ndx (m_pFilesG->currentIndex());
     if (!ndx.isValid() || 0 == ndx.column()) { return; }
@@ -2934,61 +3005,19 @@ void MainFormDlgImpl::fixCurrentNoteOneFile(int nGlobalX, int nGlobalY)
 
     const vector<const Note*>& vpNotes (m_pCommonData->getUniqueNotes().getFltVec());
     const Note* pNote (vpNotes.at(ndx.column() - 1));
-    {
-        const NoteColl& coll (pHndl->getNotes());
-        const vector<Note*>& vpNotes (coll.getList());
-        for (int i = 0; i < cSize(vpNotes); ++i)
-        {
-            if (-1 == vpNotes[i]->getNoteId()) { return; } // takes care of trace notes
-
-            if (vpNotes[i]->getNoteId() == pNote->getNoteId())
-            {
-                pNote = vpNotes[i]; // ttt0 should really check for multiple instances, but it may take longer; then getFixes() should take a vector of pStream
-                goto e1;
-            }
-        }
-
-        //CB_ASSERT (false);
-        return;
-        e1:;
-    }
     //qDebug("fixing note '%s' for file '%s'", pNote->getDescription(), pHndl->getName().c_str());
 
-    const vector<Note*>& vpHndlNotes (pHndl->getNotes().getList());
     //int nCnt (0);
 
-    for (int i = 0; i < cSize(vpHndlNotes); ++i)
-    {
-        if (pNote->getDescription() == vpHndlNotes[i]->getDescription())
-        {
-            //qDebug("found %d", ++nCnt);
-            const DataStream* pStream (0);
-            if (-1 != pNote->getPos())
-            {
-                const vector<DataStream*>& v (pHndl->getStreams());
-                for (int i = 0, n = cSize(v); i < n; ++i)
-                {
-                //qDebug("s %s", v[i]->getDisplayName());
-                    if (n - 1 == i || pNote->getPos() < v[i + 1]->getPos()) //ttt2 lower_bound
-                    {
-                        pStream = v[i];
-                        break;
-                    }
-                }
-            }
+    vector<Transformation*> vpTransf (getFixes(pNote, pHndl));
+    if (vpTransf.empty()) { return; }
 
-            vector<Transformation*> vpTransf (getFixes(vpHndlNotes[i], pStream));
-            if (vpTransf.empty()) { return; }
+    showFixes(vpTransf, CURRENT);
 
-            showFixes(vpTransf, CURRENT, nGlobalX, nGlobalY);
-
-            break; //ttt1 perhaps do something else if nCnt > 1
-        }
-    }
 }
 
 
-void MainFormDlgImpl::fixCurrentNoteAllFiles(int nCol, int nGlobalX, int nGlobalY)
+void MainFormDlgImpl::fixCurrentNoteAllFiles(int nCol)
 {
     const vector<const Note*>& vpNotes (m_pCommonData->getUniqueNotes().getFltVec());
     const Note* pNote (vpNotes.at(nCol));
@@ -2996,11 +3025,11 @@ void MainFormDlgImpl::fixCurrentNoteAllFiles(int nCol, int nGlobalX, int nGlobal
     vector<Transformation*> vpTransf (getFixes(pNote, 0));
     if (vpTransf.empty()) { return; }
 
-    showFixes(vpTransf, ALL, nGlobalX, nGlobalY); //ttt0 use right click for sel
+    showFixes(vpTransf, ALL);
 }
 
 
-void MainFormDlgImpl::showFixes(vector<Transformation*>& vpTransf, Subset eSubset, int nGlobalX, int nGlobalY)
+void MainFormDlgImpl::showFixes(vector<Transformation*>& vpTransf, Subset eSubset)
 {
     ModifInfoMenu menu;
     vector<QAction*> vpAct;
@@ -3008,7 +3037,7 @@ void MainFormDlgImpl::showFixes(vector<Transformation*>& vpTransf, Subset eSubse
     for (int i = 0, n = cSize(vpTransf); i < n; ++i)
     {
         Transformation* pTransf (vpTransf[i]);
-        QAction* pAct (new QAction(pTransf->getActionName(), &menu));
+        QAction* pAct (new QAction(pTransf->getVisibleActionName(), &menu)); //ttt0 use getVisibleActionName in other places where it makes sense;
         pAct->setToolTip(makeMultiline(pTransf->getDescription()));
 
         //connect(pAct, SIGNAL(triggered()), this, SLOT(onExecTransform(i))); // !!! Qt doesn't seem to support parameter binding
@@ -3019,7 +3048,7 @@ void MainFormDlgImpl::showFixes(vector<Transformation*>& vpTransf, Subset eSubse
     connect(&menu, SIGNAL(hovered(QAction*)), this, SLOT(onMenuHovered(QAction*)));
 
     //QAction* p (menu.exec(m_pTransformB->mapToGlobal(QPoint(0, m_pTransformB->height()))));
-    QAction* p (menu.exec(QPoint(nGlobalX, nGlobalY + 10)));
+    QAction* p (menu.exec(QPoint(m_nGlobalX, m_nGlobalY + 10)));
     if (0 != p)
     {
         int nIndex (std::find(vpAct.begin(), vpAct.end(), p) - vpAct.begin());
@@ -3147,6 +3176,11 @@ Development machine:
 //ttt1 a "reload" that only looks for new / removed files
 
 //ttt1 handle symbolic links to ancestors
-//ttt0 https://sourceforge.net/forum/message.php?msg_id=7613657 - export as txt/m3u
+//ttt0 https://sourceforge.net/forum/message.php?msg_id=7613657 - export as txt/m3u: probably a new window, where several formats and their options can be chosen from
+//ttt0 https://sourceforge.net/forum/forum.php?thread_id=3391593&forum_id=947206 - txt/m3u export
 //ttt0 custom btn 4 - do all
 //ttt0 handle various artists https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=33
+
+
+//ttt0 http://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=489099
+

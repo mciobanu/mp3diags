@@ -297,7 +297,7 @@ e1:
 //========================================================================================================================
 
 
-/*override*/ const char* Id3V2UnicodeTransformer::getVisibleActionName() const // ttt0 see if this makes sense for other transforms
+/*override*/ const char* Id3V2UnicodeTransformer::getVisibleActionName() const
 {
     string strActionName (string("Convert non-ASCII ID3V2 text frames to Unicode assuming codepage ") + m_pCommonData->m_pCodec->name().data());
     if (strActionName != m_strActionName)

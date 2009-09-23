@@ -763,7 +763,24 @@ void initDefaultCustomTransf(int k, vector<vector<int> >& vv, CommonData* pCommo
         break;
 
     case 3: // CUSTOM_TRANSF_CNT
-        //v.push_back(pCommonData->getTransfPos(InnerNonAudioRemover::getClassName())); //ttt1 see if there is a better way to set this up
+        v.push_back(pCommonData->getTransfPos(SingleBitRepairer::getClassName()));
+        v.push_back(pCommonData->getTransfPos(InnerNonAudioRemover::getClassName()));
+        v.push_back(pCommonData->getTransfPos(TruncatedMpegDataStreamRemover::getClassName()));
+        v.push_back(pCommonData->getTransfPos(VbrRepairer::getClassName()));
+
+        v.push_back(pCommonData->getTransfPos(Id3V2Rescuer::getClassName()));
+        v.push_back(pCommonData->getTransfPos(UnsupportedId3V2Remover::getClassName()));
+        v.push_back(pCommonData->getTransfPos(MultipleId3StreamRemover::getClassName()));
+        //v.push_back(pCommonData->getTransfPos(Id3V1ToId3V2Copier::getClassName()));
+
+        //v.push_back(pCommonData->getTransfPos(InnerNonAudioRemover::getClassName()));
+        v.push_back(pCommonData->getTransfPos(UnknownDataStreamRemover::getClassName()));
+        v.push_back(pCommonData->getTransfPos(BrokenDataStreamRemover::getClassName()));
+        v.push_back(pCommonData->getTransfPos(UnsupportedDataStreamRemover::getClassName()));
+        v.push_back(pCommonData->getTransfPos(TruncatedMpegDataStreamRemover::getClassName()));
+        v.push_back(pCommonData->getTransfPos(NullStreamRemover::getClassName()));
+        //v.push_back(pCommonData->getTransfPos(MultipleId3StreamRemover::getClassName()));
+        //v.push_back(pCommonData->getTransfPos(MismatchedXingRemover::getClassName()));
         break;
 
     default:

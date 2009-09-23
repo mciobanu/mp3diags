@@ -384,6 +384,11 @@ Id3V240Stream::Id3V240Stream(int nIndex, NoteColl& notes, istream& in, StringWrp
         MP3_NOTE (m_pos, "APIC in ID3 2.4.0 has never been tested. It may not work."); //ttt1 test & remove
     }*/
 
+    if (m_vpFrames.empty())
+    {
+        MP3_NOTE (m_pos, id3v2EmptyTag);
+    }
+
     MP3_TRACE (m_pos, "Id3V240Stream built.");
 
     rst.setOk();

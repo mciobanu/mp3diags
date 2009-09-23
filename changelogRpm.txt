@@ -1,4 +1,9 @@
-* Wed Sep 17 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.05.037
+* Wed Sep 23 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.05.038
+- fixed bug introduced in 0.99.05.037 causing crashes when finding empty ID3V2 frames
+- new build process for Windows
+- 4th custom transf list now defaults to a "fix-all" approach
+
+* Thu Sep 17 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.05.037
 - fixes on right-click
 - UTF-8 strings recognized in ID3V2.3.0
 - fixed bug 35 (assertion failure)

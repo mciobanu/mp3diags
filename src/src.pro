@@ -66,7 +66,6 @@ DESTDIR = ../bin
 
 QT += xml \
 network
-LIBS += -lboost_serialization
 
 RESOURCES += Mp3Diags.qrc
 
@@ -155,4 +154,5 @@ ThreadRunner.ui
 
 
 
+LIBS += -lboost_serialization
 

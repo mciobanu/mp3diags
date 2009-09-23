@@ -47,9 +47,9 @@ function initialize
 }
 
 
-function createLinuxSrc
+function createSrc
 {
-    echo Creating Linux source
+    echo Creating source
     DestDir=MP3Diags-$Ver
     LongDestDir=package/out/$DestDir
     rm -f -r $LongDestDir
@@ -76,6 +76,7 @@ function createLinuxSrc
     cp -p AdjustMt.sh $LongDestDir
     cp -p CMakeLists.txt $LongDestDir
     cp -p CMake-VS2008-Win32.cmd $LongDestDir
+    cp -p BuildMp3Diags.hta $LongDestDir
 
     echo const char* APP_VER '("'$Ver'");'> $LongDestDir/src/Version.cpp
     echo >> $LongDestDir/src/Version.cpp
@@ -97,52 +98,6 @@ function createLinuxSrc
     #rm -f -r $LongDestDir
 }
 
-
-function createWindowsSrc
-{
-    echo Creating Windows source
-    DestDir=MP3DiagsWndSrc-$Ver
-    LongDestDir=package/out/$DestDir
-    rm -f -r $LongDestDir
-    mkdir -p $LongDestDir
-
-    #cp -pr desktop $LongDestDir
-    cp -pr src $LongDestDir
-    rm -f -r $LongDestDir/src/debug
-    rm -f -r $LongDestDir/src/release
-    rm -f -r $LongDestDir/src/.svn
-    rm -f -r $LongDestDir/src/images/.svn
-    rm -f -r $LongDestDir/src/licences/.svn
-    cat COPYING | unix2dos > $LongDestDir/COPYING
-    cat changelog.txt | unix2dos > $LongDestDir/changelog.txt
-    #cp -p Install.sh $LongDestDir
-    #cp mp3diags.kdevelop $LongDestDir
-    #cat mp3diags.kdevelop | grep -v "cwd" | grep -v "home" > $LongDestDir/mp3diags.kdevelop
-    #cp -p mp3diags.pro $LongDestDir
-    #cp -p Uninstall.sh $LongDestDir
-    #cp -p Windows/SVGs/* $LongDestDir/src/images
-    rm -f $LongDestDir/src/src.pro
-    #cp -p Windows/build.bat $LongDestDir
-    cat Windows/build.bat | unix2dos > $LongDestDir/build.bat
-    #cp -p Windows/README.TXT $LongDestDir
-    cat Windows/README.TXT | unix2dos > $LongDestDir/README.TXT
-    #cp -p Windows/Mp3DiagsWindows.pro $LongDestDir/src
-    cat Windows/Mp3DiagsWindows.pro | unix2dos > $LongDestDir/src/Mp3DiagsWindows.pro
-
-    echo const char* APP_VER '("'$Ver'");'> $LongDestDir/src/Version.cpp
-    echo >> $LongDestDir/src/Version.cpp
-
-    for i in $( ls src/licences | sed 's%.*/%%' ); do
-        cp -p src/licences/$i $LongDestDir/license.$i
-    done
-
-    cd package/out
-    #tar czf $DestDir.tar.gz $DestDir
-    zip -r -9 $DestDir.zip $DestDir > /dev/null
-    cd ../..
-
-    #rm -f -r $LongDestDir
-}
 
 
 #function updateDwnldLinks
@@ -267,9 +222,7 @@ function createPackagerSrc
 #pwd > /home/ciobi/cpp/Mp3Utils/MP3Diags/d
 
 initialize
-createLinuxSrc
-createWindowsSrc
-#updateDwnldLinks
+createSrc
 createDoc
 createClicknetDoc
 createSfDoc

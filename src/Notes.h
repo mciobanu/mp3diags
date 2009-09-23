@@ -200,7 +200,7 @@ struct Notes
     DECL_NOTE_INFO(id3v2InvalidName, ERR, ID3V2, "Invalid frame name in ID3V2 tag.", true); // b
     DECL_NOTE_INFO(id3v2IncorrectFlg1, WARNING, ID3V2, "Flags in the first flag group that are supposed to always be 0 are set to 1. They will be ignored.", true); // c
     DECL_NOTE_INFO(id3v2IncorrectFlg2, WARNING, ID3V2, "Flags in the second flag group that are supposed to always be 0 are set to 1. They will be ignored.", true); // d
-    DECL_NOTE_INFO(id3v2TextError, ERR, ID3V2, "Error decoding value of text frame while reading an Id3V2 Stream.", true); // e
+    DECL_NOTE_INFO(id3v2TextError, ERR, ID3V2, "Error decoding the value of a text frame while reading an Id3V2 Stream.", true); // e
     DECL_NOTE_INFO(id3v2HasLatin1NonAscii, WARNING, ID3V2, "ID3V2 tag has text frames using Latin-1 encoding that contain characters with a code above 127. While this is legal, those frames may have their content set or displayed incorrectly by software that uses the local code page instead of Latin-1. Conversion to Unicode (UTF16) is recommended.", true); // f
     DECL_NOTE_INFO(id3v2EmptyTcon, WARNING, ID3V2, "Empty genre frame (TCON) found.", true); // g
     DECL_NOTE_INFO(id3v2MultipleFramesWithSameName, WARNING, ID3V2, "Multiple frame instances, but only the first copy will be used.", true); // h
@@ -210,6 +210,7 @@ struct Notes
     DECL_NOTE_INFO(id3v2UnsuppFlags1, SUPPORT, ID3V2, "Unsupported value for Flags1 in ID3V2 frame. (This may also indicate that the file contains garbage where it was supposed to be zero.)", true); // l
     DECL_NOTE_INFO(id3v2UnsuppFlags2, SUPPORT, ID3V2, "Unsupported value for Flags2 in ID3V2 frame. (This may also indicate that the file contains garbage where it was supposed to be zero.)", true); // n
     DECL_NOTE_INFO(id3v2DuplicatePopm, SUPPORT, ID3V2, "Multiple instances of the POPM frame found in ID3V2 tag. The current version discards all the instances except the first when processing this tag.", true); // o
+    DECL_NOTE_INFO(id3v2EmptyTag, WARNING, ID3V2, "ID3V2 tag contains no frames, which is invalid. This note will disappear once you add track information in the tag editor.", true); //p
 
     // apic // e
     DECL_NOTE_INFO(id3v2NoApic, WARNING, APIC, "ID3V2 tag doesn't have an APIC frame (which is used to store images).", true); // a

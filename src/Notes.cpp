@@ -136,6 +136,7 @@ static const char* s_szPlaceholderDescr ("<Placeholder for a note that can no lo
     addNote(&Notes::id3v2UnsuppFlags1()); // s
     addNote(&Notes::id3v2UnsuppFlags2()); // s
     addNote(&Notes::id3v2DuplicatePopm()); //s
+    addNote(&Notes::id3v2EmptyTag()); //w // ttt1 perhaps move up in a new release, so it isn't shown after support notes; better: assign ids to support notes at the end of the alphabet;
 
     // apic
     addNote(&Notes::id3v2NoApic()); // w

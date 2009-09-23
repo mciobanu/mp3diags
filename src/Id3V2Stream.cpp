@@ -37,7 +37,7 @@ using namespace pearl;
 
 
 
-//ttt0 warn note: empty id3v2 (should have at least a frame)
+
 
 
 /*
@@ -416,7 +416,16 @@ Id3V2FrameDataLoader::Id3V2FrameDataLoader(const Id3V2Frame& frame) : m_frame(fr
     else
     {
         m_bOwnsData = false;
-        m_pData = &frame.m_vcData[0];
+
+        if (frame.m_vcData.empty())
+        {
+            static char c (0);
+            m_pData = &c;
+        }
+        else
+        {
+            m_pData = &frame.m_vcData[0];
+        }
     }
 }
 

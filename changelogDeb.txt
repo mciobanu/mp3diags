@@ -1,3 +1,11 @@
+mp3diags (0.99.05.038) testing; urgency=low
+
+  * fixed bug introduced in 0.99.05.037 causing crashes when finding empty ID3V2 frames
+  * new build process for Windows
+  * 4th custom transf list now defaults to a "fix-all" approach
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Wed, 23 Sep 2009 22:00:00 +0200
+
 mp3diags (0.99.05.037) testing; urgency=low
 
   * fixes on right-click
@@ -6,7 +14,7 @@ mp3diags (0.99.05.037) testing; urgency=low
   * faster tracer
   * code compilable with VS 2008 (port by Sebastian Schuberth)
 
- -- Marian Ciobanu <ciobi@inbox.com>  Wed, 17 Sep 2009 22:00:00 +0200
+ -- Marian Ciobanu <ciobi@inbox.com>  Thu, 17 Sep 2009 22:00:00 +0200
 
 mp3diags (0.99.05.034) testing; urgency=low
 

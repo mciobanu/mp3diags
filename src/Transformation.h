@@ -275,7 +275,7 @@ public:
     static Result CHANGED_NO_RECALL;*/
 
     virtual Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName) = 0; // this may throw
-    virtual const char* getActionName() const = 0;
+    virtual const char* getActionName() const = 0; // should return the same thing for all objects of a class, as this is used in string comparisons in several places (visible transformations, custom transformation lists, ...)
     virtual const char* getVisibleActionName() const { return getActionName(); } // to be used only by the UI, providing more details to the user
     virtual const char* getDescription() const = 0;
 

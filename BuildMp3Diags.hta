@@ -1,0 +1,616 @@
+<head>
+<title>MP3 Diags build configuration</title>
+<HTA:APPLICATION
+    APPLICATIONNAME="MP3 Diags build configuration"
+    SCROLL="yes"
+    SINGLEINSTANCE="yes"
+>
+</head>
+
+
+
+<script type="text/javascript">
+
+    var EDIT_COUNT = 6;
+    var CONF_FILE_VER = 1;
+    var editControls = new Array(EDIT_COUNT);
+
+    var DIR_COUNT;
+    var MAX_DIR_COUNT;
+    var MIN_MAX_DIR_COUNT = 4;
+    var MAX_MAX_DIR_COUNT = 100;
+    var DEF_MAX_DIR_COUNT = 10;
+
+    var TOOLCHAIN_MSVC = "MSVC";
+    var TOOLCHAIN_MINGW_QMAKE = "MinGW_QMake";
+
+    var folderSettings; // array; each element is an array with EDIT_COUNT+2 elements; first element is the folder, second is the compiler, and the others are the values of the edit boxes
+    var crtFolderSettings; // first elem in folderSettings
+
+    var SETTINGS_FILE;
+
+    var wsShell = new ActiveXObject("WScript.Shell");
+    var fsObj = new ActiveXObject("Scripting.FileSystemObject");
+
+    function printSett(title)
+    {
+        /*title += "\r\n";
+        for (i = 0; i < ARRAY_SIZE; ++i)
+        {
+            title += settings[i] + "\r\n";
+        }
+        alert(title);*/
+    }
+
+    function preload()
+    {
+        SETTINGS_FILE = wsShell.SpecialFolders("MyDocuments") + "\\mp3diagsSetup.conf";
+    }
+
+    function checkSettings()
+    {
+        var res = "";
+
+        var isGcc = TOOLCHAIN_MINGW_QMAKE == crtFolderSettings[1];
+
+        var compChk = crtFolderSettings[2] + (isGcc ? "\\g++.exe" : "\\VC\\vcvarsall.bat");
+        if (!fsObj.FileExists(compChk))
+        {
+            res += "Cannot open file " + compChk + "\r\n";
+        }
+
+        var qtChk = crtFolderSettings[3] + "\\bin\\qmake.exe";
+        if (!fsObj.FileExists(qtChk))
+        {
+            res += "Cannot open file " + qtChk + "\r\n";
+        }
+
+        var boostRootChk = crtFolderSettings[4] + "\\boost\\serialization\\serialization.hpp";
+        if (!fsObj.FileExists(boostRootChk))
+        {
+            res += "Cannot open file " + boostRootChk + "\r\n";
+        }
+
+        var boostLibChk = crtFolderSettings[5];
+        if (!fsObj.FileExists(boostLibChk))
+        {
+            res += "Cannot open file " + boostLibChk + "\r\n";
+        }
+
+        var zlibInclChk = crtFolderSettings[6] + "\\zlib.h";
+        if (!fsObj.FileExists(zlibInclChk))
+        {
+            res += "Cannot open file " + zlibInclChk + "\r\n";
+        }
+
+        var zlibLibChk = crtFolderSettings[7];
+        if (!fsObj.FileExists(zlibLibChk))
+        {
+            res += "Cannot open file " + zlibLibChk + "\r\n";
+        }
+
+        return res;
+    }
+
+
+
+    function settingsToForm()
+    {
+        document.getElementById("compilerId").selectedIndex = (TOOLCHAIN_MINGW_QMAKE == crtFolderSettings[1] ? 0 : 1);
+
+        for (i = 0; i < EDIT_COUNT; i++)
+        {
+            document.getElementById(editControls[i]).value = crtFolderSettings[i + 2];
+        }
+
+        document.getElementById("maxFolders").value = MAX_DIR_COUNT;
+    }
+
+    function formToSettings()
+    {
+        crtFolderSettings[1] = (0 == document.getElementById("compilerId").selectedIndex ? TOOLCHAIN_MINGW_QMAKE : TOOLCHAIN_MSVC);
+        for (i = 0; i < EDIT_COUNT; i++)
+        {
+            crtFolderSettings[i + 2] = document.getElementById(editControls[i]).value;
+        }
+
+        MAX_DIR_COUNT = parseInt(document.getElementById("maxFolders").value);
+        if (MAX_DIR_COUNT > MAX_MAX_DIR_COUNT || MAX_DIR_COUNT < MIN_MAX_DIR_COUNT || isNaN(MAX_DIR_COUNT))
+        {
+            alert("Invalid maximum number of folders. Value reset to default.");
+            MAX_DIR_COUNT = DEF_MAX_DIR_COUNT;
+        }
+        document.getElementById("maxFolders").value = MAX_DIR_COUNT; // to take care of float values
+    }
+
+
+    function saveSettings()
+    {
+        formToSettings();
+        var out = fsObj.CreateTextFile(SETTINGS_FILE, true);
+
+        out.writeLine(CONF_FILE_VER);
+        out.writeLine(MAX_DIR_COUNT);
+        out.writeLine(DIR_COUNT);
+
+        for (i = 0; i < DIR_COUNT; ++i)
+        {
+            for (j = 0; j < EDIT_COUNT + 2; ++j)
+            {
+                out.writeLine(folderSettings[i][j]);
+            }
+        }
+
+        out.close();
+
+        var err = checkSettings();
+        if ("" != err)
+        {
+            alert(err);
+        }
+    }
+
+    function trimFolders()
+    {
+        if (folderSettings.length > MAX_DIR_COUNT)
+        {
+            folderSettings.splice(MAX_DIR_COUNT, MAX_MAX_DIR_COUNT);
+        }
+
+        DIR_COUNT = folderSettings.length;
+    }
+
+
+    function getSettingsFrom(k)
+    {
+        for (i = 1; i < EDIT_COUNT + 2; ++i)
+        {
+            crtFolderSettings[i] = folderSettings[k][i];
+        }
+    }
+
+    function setDefaults()
+    {
+        if (TOOLCHAIN_MINGW_QMAKE == crtFolderSettings[1])
+        {
+            crtFolderSettings[2] = "? C:\\Qt\\2009.03\\mingw\\bin";
+            crtFolderSettings[3] = "? C:\\Qt\\2009.03\\qt";
+            crtFolderSettings[4] = "? C:\\boost_1_39_0";
+            crtFolderSettings[5] = "? C:\\boost_1_39_0\\bin.v2\\libs\\serialization\\build\\gcc-mingw-3.4.5\\release\\threading-multi\\boost_serialization-mgw34-mt-1_39.lib";
+            crtFolderSettings[6] = "? C:\\zlib123-dll\\include";
+            crtFolderSettings[7] = "? C:\\zlib123-dll\\lib\\zdll.lib";
+        }
+        else if (TOOLCHAIN_MSVC == crtFolderSettings[1])
+        {
+            crtFolderSettings[2] = "? C:\\Program Files\\Microsoft Visual Studio 9.0";
+            crtFolderSettings[3] = "? C:\\Qt-4.5.2-VS";
+            crtFolderSettings[4] = "? C:\\boost_1_39_0";
+            crtFolderSettings[5] = "? C:\\boost_1_39_0\\bin.v2\\libs\\serialization\\build\\msvc-9.0express\\release\\threading-multi\\boost_serialization-vc90-mt-1_39.lib";
+            crtFolderSettings[6] = "? C:\\zlib123-dll\\include";
+            crtFolderSettings[7] = "? C:\\zlib123-dll\\lib\\zdll.lib";
+        }
+        else
+        {
+            throw new Error(1000, "Invalid toolchain");
+        }
+    }
+
+
+    function initializeFirstFolder()
+    {
+        crtFolderSettings[0] = wsShell.CurrentDirectory;
+        crtFolderSettings[1] = TOOLCHAIN_MINGW_QMAKE;
+        setDefaults();
+    }
+
+
+    function switchCompiler()
+    {
+        formToSettings(); // just to set the toolchain
+        if (fsObj.FileExists("build.bat"))
+        {
+            fsObj.DeleteFile("build.bat");
+        }
+        setDefaults();
+        settingsToForm();
+    }
+
+    function loadSettings()
+    {
+        var crtDir = wsShell.CurrentDirectory;
+
+        try
+        {
+            var fIn = fsObj.OpenTextFile(SETTINGS_FILE, 1);
+            var i = 0;
+
+            var x = Number(fIn.ReadLine());
+            if (x != 1)
+            {
+                throw new Error(1000, "Invalid configuration file version"); // ttt1 perhaps close fIn
+            }
+
+            x = Number(fIn.ReadLine());
+            if (x > MAX_MAX_DIR_COUNT || x < MIN_MAX_DIR_COUNT)
+            {
+                throw new Error(1000, "Invalid maximum folder count");
+            }
+            MAX_DIR_COUNT = x;
+
+            x = Number(fIn.ReadLine());
+            if (x > MAX_DIR_COUNT || x < 0)
+            {
+                throw new Error(1000, "Invalid folder count");
+            }
+            DIR_COUNT = x;
+
+            var foundAt = -1;
+            folderSettings = new Array(DIR_COUNT);
+            for (i = 0; i < DIR_COUNT; ++i)
+            {
+                folderSettings[i] = new Array(EDIT_COUNT + 2);
+                for (j = 0; j < EDIT_COUNT + 2; ++j)
+                {
+                    folderSettings[i][j] = fIn.ReadLine();
+                }
+                if (folderSettings[i][0] == wsShell.CurrentDirectory)
+                {
+                    foundAt = i;
+                }
+            }
+
+            fIn.close();
+
+            if (-1 == foundAt)
+            {
+                folderSettings.splice(0, 0, new Array(EDIT_COUNT + 2));
+            }
+            else
+            {
+                var v = folderSettings[foundAt];
+                folderSettings.splice(foundAt, 1);
+                folderSettings.splice(0, 0, v);
+            }
+        }
+        catch (err)
+        {
+            if ("File not found" != err.message)
+            {
+                alert(err.message);
+            }
+
+            DIR_COUNT = 1;
+            folderSettings = new Array(1);
+            folderSettings[0] = new Array(EDIT_COUNT + 2);
+            MAX_DIR_COUNT = DEF_MAX_DIR_COUNT;
+        }
+
+        crtFolderSettings = folderSettings[0];
+        if (undefined == crtFolderSettings[0])
+        {
+            initializeFirstFolder();
+        }
+
+        trimFolders();
+    }
+
+    function copySettings()
+    {
+        var k = document.getElementById("copyFrom").selectedIndex + 1;
+        for (i = 1; i < EDIT_COUNT + 2; ++i)
+        {
+            folderSettings[0][i] = folderSettings[k][i];
+        }
+        settingsToForm();
+    }
+
+    function onLoad()
+    {
+        editControls[0] = 'compBinary';
+        editControls[1] = 'qtRoot';
+        editControls[2] = 'boostRoot';
+        editControls[3] = 'boostLib';
+        editControls[4] = 'zlibInclude';
+        editControls[5] = 'zlibLib';
+
+        settingsToForm();
+    }
+
+
+    function setUpSrcPro()
+    {
+        if (!fsObj.FileExists("package\\src.pro1"))
+        {
+            fsObj.CopyFile("src\\src.pro", "package\\src.pro1");
+        }
+
+        var fIn = fsObj.OpenTextFile("package\\src.pro1", 1);
+        var fOut = fsObj.CreateTextFile("src\\src.pro", true);
+        var line;
+
+        while (!fIn.AtEndOfStream)
+        {
+            line = fIn.ReadLine();
+            if ("LIBS += -lboost_serialization-mt" != line && "LIBS += -lboost_serialization" != line)
+            {
+                if ("TARGET = MP3Diags" != line)
+                {
+                    fOut.writeLine(line);
+                }
+                else
+                {
+                    fOut.writeLine("TARGET = MP3DiagsWindows"); // !!! to have consistent naming
+                }
+            }
+        }
+
+        fOut.writeLine(); fOut.writeLine();
+        fOut.writeLine("INCLUDEPATH += " + crtFolderSettings[4]);
+        fOut.writeLine("INCLUDEPATH += " + crtFolderSettings[6]);
+        fOut.writeLine(); fOut.writeLine();
+        fOut.writeLine("LIBS += " + crtFolderSettings[5]);
+        fOut.writeLine("LIBS += " + crtFolderSettings[7]);
+        fOut.writeLine("LIBS += -lpsapi");
+
+        fOut.close();
+        fIn.close();
+    }
+
+    function setUpProjGcc()
+    {
+        setUpSrcPro();
+
+        var fOut = fsObj.CreateTextFile("build.bat", true);
+        fOut.writeLine("PATH=" + crtFolderSettings[3] + "\\bin;" + crtFolderSettings[2]);
+        fOut.writeLine();
+        fOut.writeLine("qmake mp3diags.pro");
+        fOut.writeLine("mingw32-make.exe -w release");
+        fOut.writeLine();
+        fOut.writeLine("copy /y changelog.txt bin\\changelog.txt");
+        fOut.writeLine();
+        fOut.writeLine("pause");
+
+        fOut.close();
+    }
+
+
+    function setUpProjMsvc()
+    {
+        setUpSrcPro();
+
+        var fInOut = fsObj.OpenTextFile("src\\src.pro", 8/*FileSystemObject.ForAppending*/);
+        fInOut.writeLine();
+        fInOut.writeLine("DEFINES += BOOST_ALL_DYN_LINK");
+        fInOut.writeLine();
+
+        fInOut.close();
+
+        {
+            var fOut = fsObj.CreateTextFile("generateVsProject.bat", true);
+            fOut.writeLine("call \"" + crtFolderSettings[2] + "\\VC\\vcvarsall.bat\" x86");
+            fOut.writeLine("PATH=\"" + crtFolderSettings[3] + "\\bin\";%PATH%");
+            fOut.writeLine();
+            fOut.writeLine("set QTDIR=\"" + crtFolderSettings[3] + "\"");
+            fOut.writeLine();
+            fOut.writeLine("qmake -tp vc -r mp3diags.pro");
+
+            fOut.close();
+        }
+
+        {
+            var fOut = fsObj.CreateTextFile("build.bat", true);
+            fOut.writeLine("call \"" + crtFolderSettings[2] + "\\VC\\vcvarsall.bat\" x86");
+            fOut.writeLine("PATH=\"" + crtFolderSettings[3] + "\\bin\";%PATH%");
+            fOut.writeLine("");
+            //fOut.writeLine("devenv /build release mp3diags.sln");
+            fOut.writeLine("msbuild src\\MP3DiagsWindows.vcproj /p:Configuration=Release");
+            fOut.writeLine("");
+            fOut.writeLine("copy /y changelog.txt bin\\changelog.txt");
+            fOut.writeLine("");
+            fOut.writeLine("pause");
+
+            fOut.close();
+        }
+
+        {
+            wsShell.run("generateVsProject.bat", 1, true);
+
+            fsObj.MoveFile("src\\MP3DiagsWindows.vcproj", "src\\MP3DiagsWindows.vcproj1");
+            var fOut = fsObj.CreateTextFile("src\\MP3DiagsWindows.vcproj", true);
+            var fIn = fsObj.OpenTextFile("src\\MP3DiagsWindows.vcproj1", 1);
+            var regExp1 = new RegExp("release\\\\threading-multi");
+            var regExp2 = new RegExp("-mt-");
+            var regExp3 = new RegExp("QtGuid4");
+            var line;
+
+            while (!fIn.AtEndOfStream)
+            {
+                line = fIn.ReadLine();
+                if (-1 != line.search(regExp1) && -1 != line.search(regExp2) && -1 != line.search(regExp3))
+                {
+                    line = line.replace(regExp1, "debug\\threading-multi");
+                    line = line.replace(regExp2, "-mt-gd-");
+                }
+                fOut.writeLine(line);
+            }
+
+            fIn.close();
+            fOut.close();
+            fsObj.DeleteFile("src\\MP3DiagsWindows.vcproj1");
+        }
+    }
+
+
+    function setUpProj()
+    {
+        saveSettings();
+        if (crtFolderSettings[1] == TOOLCHAIN_MINGW_QMAKE)
+        {
+            setUpProjGcc();
+        }
+        else
+        {
+            setUpProjMsvc();
+        }
+    }
+
+
+    function buildProj()
+    {
+        if (!fsObj.FileExists("build.bat"))
+        {
+            setUpProj();
+        }
+
+        wsShell.run("build.bat", 1, true);
+    }
+
+
+</script>
+
+
+
+<style type="text/css">
+<!--
+
+.largeFnt { font-size: 20px; font-weight: bold; font-family: Arial; }
+.normalFnt { font-size: 14px; font-weight: normal; font-family: Arial; }
+.smallFnt { font-size: 13px; font-weight: normal; font-family: Arial; }
+.medLargeFnt { font-size: 16px; font-weight: normal; font-family: Arial; }
+
+.vertSpc1  { padding-top: 20px; }
+.vertSpc2  { padding-top: 10px; }
+.vertSpc3  { padding-top: 4px; }
+
+#Test
+{
+    position: absolute;
+    visibility: hidden;
+    font-family: Arial;
+    height: auto;
+    width: auto;
+}
+
+-->
+</style>
+
+<body onload="onLoad()">
+
+    <div id="Test">
+        Boost .lib file - release version
+    </div>
+
+    <script type="text/javascript">
+        // from http://stackoverflow.com/questions/118241/calculate-text-width-with-javascript
+        var test = document.getElementById("Test");
+        test.style.fontSize = "14px";
+        //var height = (test.clientHeight + 1) + "px";
+        var firstColWidth = (test.clientWidth + 10) + "px";
+        var firstColTag = "<td style=\"width: " + firstColWidth +"\">";
+        //document.write("h=" + height + ", w=" + width);
+    </script>
+
+    <div class="largeFnt vertSpc2">
+        <script type="text/javascript">
+            preload();
+            loadSettings();
+            document.write("MP3 Diags build configuration for folder " + wsShell.CurrentDirectory);
+        </script>
+    </div>
+
+    <div class="normalFnt vertSpc1">
+        <table border="0" cellpadding="2" cellspacing="0" width="100%" class="normalFnt">
+            <tr>
+                <script type="text/javascript">document.write(firstColTag);</script>Toolchain / IDE</td>
+                <td>
+                    <select name="compilerId" id="compilerId" onchange="switchCompiler()">
+                        <option>MinGW + QMake / Qt Creator</option>
+                        <option>Visual C++ (Express)</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <script type="text/javascript">document.write(firstColTag);</script>Compiler binary folder</td>
+                <td><input type="text" style="width: 100%" name="compBinary" id="compBinary"/></td> <!-- apparently both name and id must be used; see http://www.w3.org/TR/html401/interact/forms.html#h-17.3 for use of name -->
+            </tr>
+            <tr>
+                <script type="text/javascript">document.write(firstColTag);</script>Qt root folder</td>
+                <td><input type="text" style="width: 100%" name="qtRoot" id="qtRoot"></td>
+            </tr>
+            <tr>
+                <script type="text/javascript">document.write(firstColTag);</script>Boost root folder</td>
+                <td><input type="text" style="width: 100%" name="boostRoot" id="boostRoot"/></td>
+            </tr>
+            <tr>
+                <script type="text/javascript">document.write(firstColTag);</script>Boost .lib file - release version</td>
+                <td><input type="text" style="width: 100%" name="boostLib" id="boostLib"/></td>
+            </tr>
+            <tr>
+                <script type="text/javascript">document.write(firstColTag);</script>Zlib include folder</td>
+                <td><input type="text" style="width: 100%" name="zlibInclude" id="zlibInclude"/></td>
+            </tr>
+            <tr>
+                <script type="text/javascript">document.write(firstColTag);</script>Zlib .lib file</td>
+                <td><input type="text" style="width: 100%" name="zlibLib" id="zlibLib"/></td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div class="normalFnt vertSpc1">
+        <input type="button" onclick="copySettings()" value="Copy settings from" />
+        <select name="copyFrom" id="copyFrom">
+            <script type="text/javascript">
+                for (i = 1; i < DIR_COUNT; ++i)
+                {
+                    document.write("<option>" + folderSettings[i][0] + "</option>");
+                }
+            </script>
+        </select>
+    </div>
+
+    <div class="normalFnt vertSpc1">
+        Maximum number of folders remembered: <input type="text" size="10" name="maxFolders" id="maxFolders"/>
+    </div>
+
+    <div class="normalFnt vertSpc1">
+        <input type="button" value="Save settings" onclick="saveSettings()"/>
+        <input type="button" value="Set up project" onclick="setUpProj()"/>
+        <input type="button" value="Build MP3 Diags" onclick="buildProj()"/>
+    </div>
+
+    <div class="smallFnt vertSpc1">
+        <hr/><br/>
+        <span class="medLargeFnt"><b>Notes:</b></span>
+        <ol>
+            <li>The purpose of this utility is to allow builds to be made easily for various combinations of compiler and libraries, as well as generate project files that can be used from IDEs.</li>
+            <li class="vertSpc3">First you need to choose your compiler / IDE and configure the folders and libraries. For a given folder there is a toolchain and a set of libraries that can be configured. Others should be set up in another folder.</li>
+            <li class="vertSpc3">Folders are populated with invalid values by default. Usually it should be easy to correct them, provided that you have installed the required libraries (Qt, Boost Serialization, and zlib.) If you already configured a folder for the same toolchain, you can copy the settings to the current folder.</li>
+            <li class="vertSpc3">Note that the Qt root folder is for the Qt library, not for Qt Creator. If you installed Qt SDK, the Qt root folder is probably going to be called "qt", and it is inside 2009.03 or something similar.</li>
+            <li class="vertSpc3">After configuring the folders you need to "set up" the project. Then you can either build it, by clicking on the corresponding button, or open it in an IDE.</li>
+            <li class="vertSpc3">To open MP3 Diags with Qt Creator: set up the project, start Qt Creator and open <b>mp3diags.pro</b>. If it offers to import existing build settings, you should decline; otherwise you'll only be able to build the debug version.</li>
+            <li class="vertSpc3">To open MP3 Diags with Visual C++ (Express): set up the project, start Visual C++ and open <b>mp3diags.sln</b>. (Double-clicking on mp3diags.sln in Windows Explorer is supposed to work as well, but doesn't seem to do anything.) Only Visual C++ Express 2008 was tested, but other versions might work as well.</li>
+            <li class="vertSpc3">MinGW uses the "release" Boost serialization in both debug and and release version, while the Visual C++ debug version uses the "debug" serialization. There is little reason to debug the serialization code, but by design that's how Boost works under Visual C++. (Note that you should specify the release library in "Boost .lib file" regardless of what you want to build. The generated .vcproj file will have correct settings for both "debug" and "release" configurations.)</li>
+            <!--
+                the .obj files contain boost_serialization-vc90-mt-gd-1_39.lib, and this "gd" is what's different from release
+                http://stackoverflow.com/questions/1175505/is-it-possible-to-instruct-msvc-to-use-release-version-of-boost-when-compiling-de
+                boost/config/auto_link.hpp  - forces some .lib files to be linked
+                Access violation reading location 0xabababeb
+            -->
+
+            <li class="vertSpc3">
+                The settings are stored in the file
+                <script type="text/javascript">
+                    document.write("\"" + SETTINGS_FILE + "\".");
+                </script>
+                Up to 10 folders are remembered by default (the maximum is 100.) You can use them to keep several versions of the project, perhaps including some local changes or different libraries.
+            </li>
+            <li class="vertSpc3">The settings are saved automatically only if you set up or build the project. Otherwise you need to save them explicitely.</li>
+        </ol>
+    </div>
+
+
+<!--
+ttt0 perhaps get qt and vs location from registry
+-->
+</body>

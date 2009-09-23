@@ -86,7 +86,10 @@ Id3V230Frame::Id3V230Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
     m_vcData.resize(m_nMemDataSize);
     int nContentBytesSkipped (0);
     nRead = 0;
-    nRead = readID3V2(bHasUnsynch, in, &m_vcData[0], m_nMemDataSize, posNext, nContentBytesSkipped);
+    if (m_nMemDataSize > 0)
+    {
+        nRead = readID3V2(bHasUnsynch, in, &m_vcData[0], m_nMemDataSize, posNext, nContentBytesSkipped);
+    }
     if (m_nMemDataSize != nRead)
     {
         vector<char>().swap(m_vcData);;
@@ -104,10 +107,14 @@ Id3V230Frame::Id3V230Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
 
             Id3V2FrameDataLoader wrp (*this);
             const char* pData (wrp.getData());
-            if (3 == pData[0])
+            if ('T' == m_szName[0])
             {
-                //MP3_NOTE (pos, id3v230UsesUtf8);
-                MP3_NOTE_D (pos, id3v230UsesUtf8, Notes::id3v230UsesUtf8().getDescription() + string(" (Frame:") + m_szName + ")"); // perhaps drop the frame name if too many such notes get generated
+                CB_ASSERT(m_nMemDataSize > 0);
+                if (3 == pData[0])
+                {
+                    //MP3_NOTE (pos, id3v230UsesUtf8);
+                    MP3_NOTE_D (pos, id3v230UsesUtf8, Notes::id3v230UsesUtf8().getDescription() + string(" (Frame:") + m_szName + ")"); // perhaps drop the frame name if too many such notes get generated
+                }
             }
         }
         catch (const NotId3V2Frame&)
@@ -175,7 +182,7 @@ string Id3V230Frame::getUtf8String() const
     // or perhaps forget these and throw exceptions that have error messages, catch them and log/show dialogs
     // 2008.07.12 - actually all these proposals don't seem to work well: the callers don't catch the exceptions thrown here and wouldn't know what to do with them; there's no good place to display the errors (the end user isn't supposed to look at logs); it seems better to not throw, but return a string describing the problem;
     // 2008.07.12 - on a second thought - throw but call this on the constructor, where it can be logged properly; if it worked on the constructor it should work later too
-    CB_CHECK1 (m_nMemDataSize > 0, NotId3V2Frame());
+    CB_CHECK1 (m_nMemDataSize > 0, NotId3V2Frame()); //ttt1 perhaps other excp
     Id3V2FrameDataLoader wrp (*this);
     const char* pData (wrp.getData());
     if (0 == pData[0])
@@ -313,6 +320,11 @@ Id3V230Stream::Id3V230Stream(int nIndex, NoteColl& notes, istream& in, StringWrp
     if (m_nPaddingSize > Id3V230StreamWriter::DEFAULT_EXTRA_SPACE + 4096) //ttt2 hard-coded
     {
         MP3_NOTE (m_pos + (getSize() - m_nPaddingSize), id3v2PaddingTooLarge);
+    }
+
+    if (m_vpFrames.empty())
+    {
+        MP3_NOTE (m_pos, id3v2EmptyTag);
     }
 
     MP3_TRACE (m_pos, "Id3V230Stream built.");

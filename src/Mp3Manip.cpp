@@ -982,7 +982,7 @@ bool CmpMp3HandlerPtrByName::operator()(const Mp3Handler* p1, const std::string&
     return cmp(p1->getName(), strName2);
 }
 
-bool CmpMp3HandlerPtrByName::operator()(const std::string& strName1, const Mp3Handler* p2) const //ttt0 review the need for this
+bool CmpMp3HandlerPtrByName::operator()(const std::string& strName1, const Mp3Handler* p2) const
 {
     return cmp(strName1, p2->getName());
 }

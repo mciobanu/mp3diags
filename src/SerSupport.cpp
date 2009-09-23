@@ -25,8 +25,9 @@
 #include  "SerSupport.h"
 
 
-#include  <boost/archive/binary_oarchive.hpp>
-#include  <boost/archive/binary_iarchive.hpp>
+//#include  <boost/archive/binary_oarchive.hpp>
+//#include  <boost/archive/binary_iarchive.hpp>
+//#include  <boost/archive/xml_oarchive.hpp>
 
 #include  <boost/serialization/vector.hpp>
 //#include  "fstream_unicode.h"
@@ -332,6 +333,7 @@ string CommonData::save(const string& strFile) const
 
         //boost::archive::binary_oarchive oar (out);
         boost::archive::text_oarchive oar (out);
+        //boost::archive::xml_oarchive oar (out); // ttt1 would be nice to have this as an option, but doesn't seem possible unless we switch everything to XML, because while binary_oarchive can be used as a replacement for text_oarchive, xml_oarchive can't; the serialized classes need to be modified: http://www.boost.org/doc/libs/1_40_0/libs/serialization/doc/wrappers.html#nvp
         REGISTER_SER_TYPES(oar);
         oar << *this;
     }

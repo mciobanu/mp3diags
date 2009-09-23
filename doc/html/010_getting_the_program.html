@@ -252,16 +252,19 @@ Uninstallation can be done through <span class="Reference">Uninstall.sh</span>. 
 
 
 <div class="NormalText RegFnt ChpCol1">
-If you want to build the project yourself, you should probably download the <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-windows-src/MP3DiagsWndSrc-QQQVERQQQ.zip">Windows source</a>. The executable can be created by <span class="Reference">build.bat</span>, but, as pointed out in README.TXT, you'll have to change some paths manually. This archive is meant to be used with Qt Creator.
+Since there are <a href="#binWindows">binaries</a> available (both setup.exe and zip archive), it's more convenient to just use them. However, if you really want to build the project yourself, it's not that hard, provided that you have the required libraries. There used to be a build.bat that had to be modified manually, and only worked with MinGW. This is replaced by <span class="Reference">BuildMp3Diags.hta</span>, an HTML / JScript application that allows you to do these:
+<ul>
+    <li>Build the project using MinGW</li>
+    <li>Build the project using Visual Studio</li>
+    <li>Create a .pro file that can be open from Qt Creator</li>
+    <li>Create a .sln file that can be open from Visual C++</li>
+</ul>
+
+First you need to download and perhaps compile the required libraries: Qt, Boost Serialization, and zlib. This step is not covered here. After that is done, download and unpack MP3Diags-QQQVERQQQ.tar.gz from <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-src/MP3Diags-QQQVERQQQ.tar.gz">SourceForge</a> or from <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3Diags-QQQVERQQQ.tar.gz">my ISP</a>, run <span class="Reference">BuildMp3Diags.hta</span>, fill in the fields, and create the project files or build the program. BuildMp3Diags.hta has more details about this process.
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-The actual source files are the same for Linux and Windows, but the archives are different mostly for hystorical reasons. Also, the install scripts are different.
-</div>
-
-
-<div class="NormalText RegFnt ChpCol1">
-Sebastian Schuberth did a Visual C++ port, so it is also possible to compile the project with Visual C++ (including Express.) That works with the generic sources, from <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-src/MP3Diags-QQQVERQQQ.tar.gz">MP3Diags-QQQVERQQQ.tar.gz</a>. You'll need to build Qt and Boost yourself, install CMake if you don't have it, then set BOOST_ROOT and QTDIR, then run CMake-VS2008-Win32.cmd to generate MP3Diags.sln and MP3Diags.vcproj.
+If you don't like the idea of some JScript doing things on your hard drive, you can always change the src\src.pro file until it works. And there's another option as well: Sebastian Schuberth made it possible to compile the project with Visual C++ using CMake. You'll need to set BOOST_ROOT and QTDIR, then run CMake-VS2008-Win32.cmd to generate MP3Diags.sln and MP3Diags.vcproj. Since I don't actually use this, the code may fail to compile occasionally, due to missing headers or some other non-GCC issue. Most likely I won't notice these issues until told.
 </div>
 
 
@@ -531,31 +534,7 @@ The repository is a mirror. I'm not sure if the main repository at <a href="http
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-While I don't package MP3 Diags for Gentoo, Dominik Kapusta wrote to me that MP3 Diags is now available on Gentoo as well, from layman's qting-edge overlay.
-</div>
-
-<div class="NormalText RegFnt ChpCol1">
-There are three things to run in the terminal to install the program. (You might have already ran the first one or two, to get other packages.)
-</div>
-
-<div class="NormalText RegFnt ChpCol1">
-1) Install layman:
-</div>
-
-<div class="NormalText RegFnt ChpCol1 GenericSpace">
-<span class="Reference">emerge layman</span>
-</div>
-
-<div class="NormalText RegFnt ChpCol1">
-2) Add qting-edge overlay:
-</div>
-
-<div class="NormalText RegFnt ChpCol1 GenericSpace">
-<span class="Reference">layman -a qting-edge</span>
-</div>
-
-<div class="NormalText RegFnt ChpCol1">
-3) Install the program:
+I don't package MP3 Diags for Gentoo. There's no need for it, as the project is now included in the distribution, thanks to Dominik Kapusta. The install instructions are rather simple:
 </div>
 
 <div class="NormalText RegFnt ChpCol1 GenericSpace">

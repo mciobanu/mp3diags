@@ -812,7 +812,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) 
     s_pGlobalDlg = 0;
     setupUi(this);
 
-    //listKnownFormats(); // ttt0 sizes for many formats seem way too low (e.g. "MPEG-1 Layer I, 44100Hz 32000bps" or "MPEG-2 Layer III, 22050Hz 8000bps")
+    //listKnownFormats(); // ttt1 sizes for many formats seem way too low (e.g. "MPEG-1 Layer I, 44100Hz 32000bps" or "MPEG-2 Layer III, 22050Hz 8000bps")
 
     {
         /*KbdNotifTableView* pStreamsG (new KbdNotifTableView(m_pStreamsG));
@@ -1012,23 +1012,12 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) 
     {
         m_settings.loadTransfConfig(m_transfConfig);
 
-        bool bAllTransfEmpty (true);
         for (int i = 0; i < CUSTOM_TRANSF_CNT; ++i)
         {
             loadCustomTransf(i);
-            bAllTransfEmpty = bAllTransfEmpty && m_pCommonData->getCustomTransf()[i].empty();
-        }
-
-        if (bAllTransfEmpty)
-        {
-            vector<vector<int> > vv (CUSTOM_TRANSF_CNT);
-            for (int i = 0; i < CUSTOM_TRANSF_CNT; ++i)
-            {
-                initDefaultCustomTransf(i, vv, m_pCommonData);
-            }
-            m_pCommonData->setCustomTransf(vv);
         }
     }
+
 //ttt1 perhaps have "experimental" transforms, different color (or just have the names begin with "experimental")
     {
         loadVisibleTransf();
@@ -1809,6 +1798,14 @@ void MainFormDlgImpl::loadCustomTransf(int k)
         }
     }
 
+
+    if (v.empty())
+    {
+        vector<vector<int> > vv (CUSTOM_TRANSF_CNT);
+        initDefaultCustomTransf(k, vv, m_pCommonData);
+        v = vv[k];
+    }
+
     m_pCommonData->setCustomTransf(k, v);
 }
 
@@ -2253,7 +2250,7 @@ void MainFormDlgImpl::setTransfTooltip(int k)
         s2 += m_pCommonData->getAllTransf()[m_pCommonData->getCustomTransf()[k][i]]->getVisibleActionName();
         if (i < n - 1) { s2 += "\n"; }
     }
-    if (s2.isEmpty()) { s2 = "   <empty list>\n\n(you can edit the list in the Settings dialog)"; }
+    if (s2.isEmpty()) { s2 = "   <empty list>\n\n(you can edit the list in the Settings dialog)"; } // well; at startup it will get repopulated, so the only way for this to be empty is if it was configured like this in the current session
     m_vpTransfButtons[k]->setToolTip(s1 + s2);
 }
 
@@ -2675,9 +2672,13 @@ void MainFormDlgImpl::onNewVersionQueryFinished2()
 
     int nRes (HtmlMsg::msg(this, 0, 0, 0, HtmlMsg::VERT_BUTTONS, "Info",
     "<p style=\"margin-bottom:1px; margin-top:12px; \">Version " + m_qstrNewVer + " has been published. You are running " + APP_VER + ". You can see what's new in the <a href=\"http://mp3diags.blogspot.com/\">MP3 Diags blog</a>. A more technical list with changes can be seen in the <a href=\"http://mp3diags.sourceforge.net/015_changelog.html\">change log</a>.</p>"
+#ifndef WIN32
+    "<p style=\"margin-bottom:1px; margin-top:12px; \">This notification is about the availability of the source code. Binaries may or may not be available at this time, depending on your particular platform</p>"
+#else
+#endif
     "<p style=\"margin-bottom:1px; margin-top:12px; \">You should review the changes and decide if you want to upgrade or not.</p>"
     "<p style=\"margin-bottom:1px; margin-top:12px; \">Note: if you want to upgrade, you should <b>close MP3 Diags</b> first</p>"
-    "<p style=\"margin-bottom:1px; margin-top:12px; \">Choose what do you want to do:</p>"
+    "<hr/><p style=\"margin-bottom:1px; margin-top:12px; \">Choose what do you want to do:</p>"
     /*"<p style=\"margin-bottom:1px; margin-top:12px; \">QQQ</p>"*/
     , 600, 400, "Just close this message", "Don't tell me about version " + m_qstrNewVer + " again", "Disable checking for new versions"));
 
@@ -2891,6 +2892,7 @@ vector<Transformation*> MainFormDlgImpl::getFixes(const Note* pNote, const Mp3Ha
     // or: extend ADD_CUSTOM_FIX to look at the other notes, similarly to how it looks at the stream it's in; add some transform if some other note is present; (note: use a set to not have duplicates entered via different rules)
     // perhaps unknown size 16 between xing and audio -> repair vbr, but seems too specific
     // unknown between audio and audio -> restore flipped
+    //ttt0 perhaps just this: if there's a chance that by using transf T the note N will disappear, show it; well, this is again context-dependant
 
     if (0 != pHndl)
     { // for each matching note, see if additional fixes exist that take into account the stream the note is in and (in the future) other streams, their sizes, ...
@@ -3037,7 +3039,7 @@ void MainFormDlgImpl::showFixes(vector<Transformation*>& vpTransf, Subset eSubse
     for (int i = 0, n = cSize(vpTransf); i < n; ++i)
     {
         Transformation* pTransf (vpTransf[i]);
-        QAction* pAct (new QAction(pTransf->getVisibleActionName(), &menu)); //ttt0 use getVisibleActionName in other places where it makes sense;
+        QAction* pAct (new QAction(pTransf->getVisibleActionName(), &menu));
         pAct->setToolTip(makeMultiline(pTransf->getDescription()));
 
         //connect(pAct, SIGNAL(triggered()), this, SLOT(onExecTransform(i))); // !!! Qt doesn't seem to support parameter binding
@@ -3178,9 +3180,8 @@ Development machine:
 //ttt1 handle symbolic links to ancestors
 //ttt0 https://sourceforge.net/forum/message.php?msg_id=7613657 - export as txt/m3u: probably a new window, where several formats and their options can be chosen from
 //ttt0 https://sourceforge.net/forum/forum.php?thread_id=3391593&forum_id=947206 - txt/m3u export
-//ttt0 custom btn 4 - do all
 //ttt0 handle various artists https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=33
 
 
-//ttt0 http://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=489099
+
 

@@ -20,10 +20,13 @@
  ***************************************************************************/
 
 
-#include  <QLineEdit>
 #include  <QLabel>
-#include  <QGridLayout>
+#include  <QVBoxLayout>
 #include  <QTextEdit>
+#include  <QTableWidget>
+#include  <QHeaderView>
+#include  <QApplication>
+#include  <QToolButton>
 
 #include  "TagReadPanel.h"
 
@@ -31,202 +34,218 @@
 #include  "Helpers.h"
 
 
+extern int CELL_HEIGHT;
+
+
 using namespace std;
 
-//ttt1 switch from lineedits to grid (or make more space somehow) 25px / row with lineedit vs 20 in grid
-TagReadPanel::TagReadPanel(QWidget* pParent, TagReader* pTagReader) : QFrame(pParent), m_pTagReader(pTagReader)
+
+TagReadPanel::TagReadPanel(QWidget* pParent, TagReader* pTagReader) : QFrame(pParent)
 {
-    //QVBoxLayout* pMainLayout (new QVBoxLayout());
-    QGridLayout* pMainLayout (new QGridLayout());
-    QGridLayout* pGridLayout (new QGridLayout());
+    QVBoxLayout* pLayout (new QVBoxLayout(this));
+    pLayout->setSpacing(6);
+    pLayout->setContentsMargins(0, 10, 0, 0);
 
-    QFrame* pFrame (new QFrame(this));
-    pFrame->setLayout(pGridLayout);
-    setLayout(pMainLayout);
-    pGridLayout->setSpacing(2);
-    pMainLayout->setSpacing(2); // doesn't really matter: there's only one layout inside
-    //setFrameShadow(QFrame::Sunken);
-    setFrameShape(QFrame::StyledPanel);
-    //setContentsMargins(0, 0, 0, 0);
-    //setContentsMargins(1, 1, 1, 1);
-    //setContentsMargins(2, 2, 2, 2);
-    //setContentsMargins(20, 20, 20, 20);
-    //pMainLayout->setContentsMargins(4, 4, 4, 4);
-    pMainLayout->setContentsMargins(0, 0, 0, 0);
-    //setContentsMargins(4, 4, 4, 4);
-    //pGridLayout->setContentsMargins(4, 4, 4, 4);
-    //pGridLayout->setContentsMargins(1, 1, 1, 1);
-    //pGridLayout->setContentsMargins(3, 3, 3, 3);
-    pGridLayout->setContentsMargins(6, 6, 6, 6);
-    pMainLayout->addWidget(pFrame);
-//    pMainLayout->addStretch(0);
-
-    QLabel* pLabel (new QLabel(m_pTagReader->getName()));
-    QFont font (pLabel->font());
-    int nSize (font.pixelSize());
-    if (-1 == nSize)
-    {
-        nSize = font.pointSize();
-        if (-1 != nSize)
-        {
-            nSize = nSize*4/3;
-            font.setPointSize(nSize);
-        }
-    }
-    else
-    {
-        nSize = nSize*4/3;
-        font.setPixelSize(nSize);
-    }
-    font.setBold(true);
-    pLabel->setFont(font);
-
-    pGridLayout->addWidget(pLabel, 0, 0, 1, 2);
-
-
-    m_pTrackNameE = new QLineEdit(pFrame);
-    m_pTrackArtistE = new QLineEdit(pFrame);
-    m_pTrackNumberE = new QLineEdit(pFrame);
-    m_pTrackTimeE = new QLineEdit(pFrame);
-    m_pTrackGenreE = new QLineEdit(pFrame);
-    m_pAlbumNameE = new QLineEdit(pFrame);
-
-    m_pPictureL = new QLabel("<No picture available>", pFrame); //ttt1 ID3V1 and others don't "support" it, so of course it's not available
-    m_pPictureSizeL = new QLabel(pFrame);
-
-    pGridLayout->addWidget(m_pTrackNameE, 1, 1, 1, 2);
-    pGridLayout->addWidget(m_pTrackArtistE, 2, 1, 1, 2);
-    pGridLayout->addWidget(m_pTrackNumberE, 3, 1, 1, 2);
-    pGridLayout->addWidget(m_pTrackTimeE, 4, 1, 1, 2);
-    pGridLayout->addWidget(m_pTrackGenreE, 5, 1, 1, 2);
-    pGridLayout->addWidget(m_pAlbumNameE, 6, 1, 1, 2);
-    pGridLayout->addWidget(m_pPictureL, 7, 1, 1, 1);
-    pGridLayout->addWidget(m_pPictureSizeL, 7, 2, 1, 1);
-
-    //m_pPictureL->setMinimumSize(64, 64);
-    //m_pPictureL->setMaximumSize(64, 64);
-    m_pPictureL->setMinimumHeight(64);
-    m_pPictureL->setMaximumHeight(64);
-
-    pGridLayout->addWidget(new QLabel("Track Name"), 1, 0, 1, 1);
-    pGridLayout->addWidget(new QLabel("Track Artist"), 2, 0, 1, 1);
-    pGridLayout->addWidget(new QLabel("Track Number"), 3, 0, 1, 1);
-    pGridLayout->addWidget(new QLabel("Track Time"), 4, 0, 1, 1);
-    pGridLayout->addWidget(new QLabel("Track Genre"), 5, 0, 1, 1);
-    pGridLayout->addWidget(new QLabel("Album Name"), 6, 0, 1, 1);
-    pGridLayout->addWidget(new QLabel("Picture"), 7, 0, 1, 1);
-
-    //pMainLayout->addLayout(pGridLayout);
-    //pFrame->setFrameShape(QFrame::StyledPanel);
-
-    //pFrame->setMaximumWidth(400);
     setMaximumWidth(400);
 
-    QPalette grayPalette (m_pTrackNameE->palette());
-    //grayPalette.setColor(QPalette::Disabled, QPalette::Base, QColor(255, 0, 0));
-    grayPalette.setColor(QPalette::Base, grayPalette.color(QPalette::Disabled, QPalette::Window));
-
-    switch (pTagReader->getSupport(TagReader::TITLE))
     {
-    case TagReader::NOT_SUPPORTED: m_pTrackNameE->setEnabled(false); m_pTrackNameE->setPalette(grayPalette); break; /*m_pTrackNameE->setBackgroundRole(QPalette::Window);*/
-    case TagReader::READ_ONLY: m_pTrackNameE->setReadOnly(true); //break;
-    /*case TagReader::READ_WRITE:*/ m_pTrackNameE->setText(convStr(pTagReader->getTitle()));
-    }
-
-    switch (pTagReader->getSupport(TagReader::ARTIST))
-    {
-    case TagReader::NOT_SUPPORTED: m_pTrackArtistE->setEnabled(false); m_pTrackArtistE->setPalette(grayPalette); break;
-    case TagReader::READ_ONLY: m_pTrackArtistE->setReadOnly(true); //break;
-    /*case TagReader::READ_WRITE:*/ m_pTrackArtistE->setText(convStr(pTagReader->getArtist()));
-    }
-
-    switch (pTagReader->getSupport(TagReader::TRACK_NUMBER))
-    {
-    case TagReader::NOT_SUPPORTED: m_pTrackNumberE->setEnabled(false); m_pTrackNumberE->setPalette(grayPalette); break;
-    case TagReader::READ_ONLY: m_pTrackNumberE->setReadOnly(true); //break;
-    /*case TagReader::READ_WRITE:*/ m_pTrackNumberE->setText(convStr(pTagReader->getTrackNumber()));
-    }
-
-    switch (pTagReader->getSupport(TagReader::TIME))
-    {
-    case TagReader::NOT_SUPPORTED: m_pTrackTimeE->setEnabled(false); m_pTrackTimeE->setPalette(grayPalette); break;
-    case TagReader::READ_ONLY: m_pTrackTimeE->setReadOnly(true); //break;
-    /*case TagReader::READ_WRITE:*/
+        QLabel* pLabel (new QLabel(pTagReader->getName(), this));
+        QFont font (pLabel->font());
+        int nSize (font.pixelSize());
+        if (-1 == nSize)
         {
-            string s (pTagReader->getTime().asString());
-            m_pTrackTimeE->setText(convStr(s));
-        }
-    }
-
-    switch (pTagReader->getSupport(TagReader::GENRE))
-    {
-    case TagReader::NOT_SUPPORTED: m_pTrackGenreE->setEnabled(false); m_pTrackGenreE->setPalette(grayPalette); break;
-    case TagReader::READ_ONLY: m_pTrackGenreE->setReadOnly(true); //break;
-    /*case TagReader::READ_WRITE:*/ m_pTrackGenreE->setText(convStr(pTagReader->getGenre()));
-    }
-
-    switch (pTagReader->getSupport(TagReader::IMAGE))
-    {
-    case TagReader::NOT_SUPPORTED:
-        //m_pPictureL->setEnabled(false); m_pPictureL->setPalette(grayPalette);
-        break;
-    case TagReader::READ_ONLY: //m_pPictureL->setReadOnly(true); //break;
-    /*case TagReader::READ_WRITE:*/
-        //ImageStatus eImageStatus;
-        ImageInfo img (pTagReader->getImage());
-        switch (img.getStatus())
-        {
-        case ImageInfo::OK:
-        case ImageInfo::LOADED_NOT_COVER:
-            CB_ASSERT (!img.isNull());
+            nSize = font.pointSize();
+            if (-1 != nSize)
             {
-                m_pPictureL->setPixmap(img.getPixmap(64));
-
-                QString s;
-                s.sprintf("%d x %d", img.getWidth(), img.getHeight());
-                m_pPictureSizeL->setText(s);
-
-                m_pPictureSizeL->setText(s + "\n" + img.getImageType());
+                nSize = nSize*4/3;
+                font.setPointSize(nSize);
             }
-            break;
+        }
+        else
+        {
+            nSize = nSize*4/3;
+            font.setPixelSize(nSize);
+        }
+        font.setBold(true);
+        pLabel->setFont(font);
 
-        case ImageInfo::USES_LINK:
-            m_pPictureL->setText("Links not supported (yet)");
-            break;
+        pLayout->addWidget(pLabel);
+    }
 
-        case ImageInfo::ERROR_LOADING:
-            m_pPictureL->setText("Error loading picture.");
-            break;
+    QColor gray (palette().color(QPalette::Window));
 
-        case ImageInfo::NO_PICTURE_FOUND:
-            break;
+    {
+        QTableWidget* pTable (new QTableWidget(this));
+        pTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        pTable->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
+        pTable->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
+        pTable->horizontalHeader()->setStretchLastSection(true);
+        pTable->setRowCount(7);
+        pTable->setColumnCount(1);
+        QStringList lLabels;
+        lLabels << "Title" << "Artist" << "Track#" << "Time" << "Genre" << "Composer" << "Album";
+        pTable->setVerticalHeaderLabels(lLabels);
+        pTable->horizontalHeader()->hide();
+        //pTable->setMinimumHeight(300);
+        int nHeight (CELL_HEIGHT*7 + 2*QApplication::style()->pixelMetric(QStyle::PM_DefaultFrameWidth));  //ttt not sure it's right; try several styles
+        pTable->setMaximumHeight(nHeight);
+        pTable->setMinimumHeight(nHeight);
+        //pTable->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+        pTable->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
+        //pTable->setFrameShape(QFrame::NoFrame);
+
+        QTableWidgetItem* pItem;
+
+        pItem = new QTableWidgetItem(); // !!! from doc: The table takes ownership of the item.
+        switch (pTagReader->getSupport(TagReader::TITLE))
+        {
+        case TagReader::NOT_SUPPORTED: pItem->setBackground(gray); break;
+        default: pItem->setText(convStr(pTagReader->getTitle()));
+        }
+        pTable->setItem(0, 0, pItem);
+
+        pItem = new QTableWidgetItem();
+        switch (pTagReader->getSupport(TagReader::ARTIST))
+        {
+        case TagReader::NOT_SUPPORTED: pItem->setBackground(gray); break;
+        default: pItem->setText(convStr(pTagReader->getArtist()));
+        }
+        pTable->setItem(1, 0, pItem);
+
+        pItem = new QTableWidgetItem();
+        switch (pTagReader->getSupport(TagReader::TRACK_NUMBER))
+        {
+        case TagReader::NOT_SUPPORTED: pItem->setBackground(gray); break;
+        default: pItem->setText(convStr(pTagReader->getTrackNumber()));
+        }
+        pTable->setItem(2, 0, pItem);
+
+        pItem = new QTableWidgetItem();
+        switch (pTagReader->getSupport(TagReader::TIME))
+        {
+        case TagReader::NOT_SUPPORTED: pItem->setBackground(gray); break;
         default:
-            CB_ASSERT (false);
+            pItem->setText(pTagReader->getTime().asString());
+        }
+        pTable->setItem(3, 0, pItem);
+
+        pItem = new QTableWidgetItem();
+        switch (pTagReader->getSupport(TagReader::GENRE))
+        {
+        case TagReader::NOT_SUPPORTED: pItem->setBackground(gray); break;
+        default: pItem->setText(convStr(pTagReader->getGenre()));
+        }
+        pTable->setItem(4, 0, pItem);
+
+        pItem = new QTableWidgetItem();
+        switch (pTagReader->getSupport(TagReader::COMPOSER))
+        {
+        case TagReader::NOT_SUPPORTED: pItem->setBackground(gray); break;
+        default: pItem->setText(convStr(pTagReader->getComposer()));
+        }
+        pTable->setItem(5, 0, pItem);
+
+        pItem = new QTableWidgetItem();
+        switch (pTagReader->getSupport(TagReader::ALBUM))
+        {
+        case TagReader::NOT_SUPPORTED: pItem->setBackground(gray); break;
+        default: pItem->setText(convStr(pTagReader->getAlbumName()));
+        }
+        pTable->setItem(6, 0, pItem);
+
+        pLayout->addWidget(pTable);
+    }
+
+
+    {
+        // ttt2 perhaps use QScrollArea
+        vector<ImageInfo> vImg (pTagReader->getImages());
+        QWidget* pImgWidget (0);
+        QHBoxLayout* pImgWidgetLayout (0);
+
+        for (int i = 0; i < cSize(vImg); ++i)
+        {
+            const ImageInfo& img (vImg[i]);
+
+            if (0 == pImgWidget)
+            {
+                pImgWidget = new QWidget (this);
+                pImgWidgetLayout = new QHBoxLayout(pImgWidget);
+                pImgWidgetLayout->setContentsMargins(0, 0, 0, 0);
+                //pImgWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+                pImgWidget->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+                //pImgWidget->setMaximumHeight(40);
+            }
+
+            ImageInfoPanel* p (new ImageInfoPanel (this, img));
+
+            pImgWidgetLayout->addWidget(p);
+        }
+
+        if (0 != pImgWidget)
+        {
+            pImgWidgetLayout->addStretch();
+            pLayout->addWidget(pImgWidget);
         }
     }
 
-    switch (pTagReader->getSupport(TagReader::ALBUM))
+
     {
-    case TagReader::NOT_SUPPORTED: m_pAlbumNameE->setEnabled(false); m_pAlbumNameE->setPalette(grayPalette); break;
-    case TagReader::READ_ONLY: m_pAlbumNameE->setReadOnly(true); //break;
-    /*case TagReader::READ_WRITE:*/ m_pAlbumNameE->setText(convStr(pTagReader->getAlbumName()));
+        QTextEdit* pOtherInfoM (new QTextEdit(this));
+        pOtherInfoM->setPlainText(convStr(pTagReader->getOtherInfo()));
+        //pOtherInfoM->setTabStopWidth(fontMetrics().width("aBcDeF"));
+        pOtherInfoM->setTabStopWidth(fontMetrics().width("F"));
+
+        //pOtherInfoM->setEnabled(false);
+        QPalette grayPalette (pOtherInfoM->palette());
+        grayPalette.setColor(QPalette::Base, gray);
+        pOtherInfoM->setPalette(grayPalette);
+        pOtherInfoM->setReadOnly(true);
+
+        pOtherInfoM->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        //pOtherInfoM->setFrameShape(QFrame::NoFrame);
+
+        pLayout->addWidget(pOtherInfoM);
     }
 
-    //case TagReader::RATING:
-    //case TagReader::COMPOSER:; //ttt1
+}
 
 
-    QTextEdit* pOtherInfoM (new QTextEdit());
-    pOtherInfoM->setPlainText(convStr(pTagReader->getOtherInfo()));
-    //pOtherInfoM->setTabStopWidth(fontMetrics().width("aBcDeF"));
-    pOtherInfoM->setTabStopWidth(fontMetrics().width("F"));
-    pGridLayout->addWidget(pOtherInfoM, 8, 0, 1, 3);
-    pGridLayout->setRowStretch(8, 1); // seems to work ok without this; ttt2 see why
-//pGridLayout->setRowStretch(3, 1);
+ImageInfoPanel::ImageInfoPanel(QWidget* pParent, const ImageInfo& imageInfo) : QFrame(pParent), m_imageInfo(imageInfo)
+{
+    QVBoxLayout* pLayout (new QVBoxLayout(this));
+    pLayout->setContentsMargins(0, 0, 0, 0);
+    pLayout->setSpacing(4);
+    pLayout->addStretch();
 
-    //pOtherInfoM->setEnabled(false);
-    pOtherInfoM->setPalette(grayPalette);
-    pOtherInfoM->setReadOnly(true);
+    const int BTN_SIZE (64);
+    const int ICON_SIZE (BTN_SIZE - 2*QApplication::style()->pixelMetric(QStyle::PM_DefaultFrameWidth) - 2); //ttt2 not sure PM_DefaultFrameWidth is right
+
+    QToolButton* pBtn (new QToolButton(this));
+    pBtn->setIcon(imageInfo.getPixmap(ICON_SIZE));
+    pBtn->setMaximumSize(BTN_SIZE, BTN_SIZE);
+    pBtn->setMinimumSize(BTN_SIZE, BTN_SIZE);
+    pBtn->setAutoRaise(true);
+    pBtn->setToolTip("Click to see larger image");
+
+    pBtn->setIconSize(QSize(ICON_SIZE, ICON_SIZE));
+    pLayout->addWidget(pBtn, 0, Qt::AlignHCenter);
+
+    QLabel* pInfoLabel (new QLabel("<error>", this));
+    pInfoLabel->setText(m_imageInfo.getTextDescr());
+    pInfoLabel->setAlignment(Qt::AlignHCenter);
+    pLayout->addWidget(pInfoLabel, 0, Qt::AlignHCenter);
+
+    //setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+
+    connect(pBtn, SIGNAL(clicked(bool)), this, SLOT(onShowFull()));
+}
+
+
+void ImageInfoPanel::onShowFull()
+{
+    m_imageInfo.showFull(this);
 }
 

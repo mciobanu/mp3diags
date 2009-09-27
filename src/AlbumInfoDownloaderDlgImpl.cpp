@@ -544,7 +544,7 @@ void AlbumInfoDownloaderDlgImpl::onRequestFinished(int /*nId*/, bool bError)
             QPainter pntr (&errImg);
             pntr.fillRect(0, 0, SIZE, SIZE, QColor(255, 128, 128));
             pntr.drawRect(0, 0, SIZE - 1, SIZE - 1);
-            pntr.drawText(5, SIZE/2 + 10, "Error");
+            pntr.drawText(QRectF(0, 0, SIZE, SIZE), Qt::AlignCenter, "Error");
             qstrInfo = "Error loading image\n";
             comprImg.clear();
             QBuffer bfr (&comprImg);

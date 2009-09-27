@@ -22,8 +22,8 @@
 
 #include  <QFrame>
 
-class QLineEdit;
-class QLabel;
+#include  "CommonTypes.h"
+
 
 struct TagReader;
 
@@ -31,19 +31,23 @@ class TagReadPanel : public QFrame
 {
     Q_OBJECT
 
-    QLineEdit* m_pTrackNameE;
-    QLineEdit* m_pTrackArtistE;
-    QLineEdit* m_pTrackNumberE;
-    QLineEdit* m_pTrackTimeE;
-    QLineEdit* m_pTrackGenreE;
-    QLineEdit* m_pAlbumNameE;
-
-    QLabel* m_pPictureL;
-    QLabel* m_pPictureSizeL;
-
-    TagReader* m_pTagReader;
 public:
 
-    TagReadPanel(QWidget *pParent, TagReader* pTagReader);
+    TagReadPanel(QWidget* pParent, TagReader* pTagReader);
+};
+
+
+
+class ImageInfoPanel : public QFrame
+{
+    Q_OBJECT
+
+    ImageInfo m_imageInfo;
+public:
+
+    ImageInfoPanel(QWidget* pParent, const ImageInfo& imageInfo);
+
+protected slots:
+    void onShowFull();
 };
 

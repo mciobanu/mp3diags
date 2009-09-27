@@ -38,6 +38,7 @@ class QScrollArea;
 class TagWriter;
 class TagEditorDlgImpl;
 class TransfConfig;
+class QToolButton;
 
 namespace TagEditor {
 
@@ -192,6 +193,12 @@ class TagEditorDlgImpl : public QDialog, private Ui::TagEditorDlg
     bool m_bIsNavigating;
     bool& m_bDataSaved;
 
+    bool m_bWaitingAlbumResize, m_bWaitingFileResize; // to avoid ColumnResizer being called lots of times
+    void setupVarArtistsBtn();
+
+    void createPatternButtons();
+    std::vector<QToolButton*> m_vpPattButtons;
+
 public:
     TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, TransfConfig& transfConfig, bool& bDataSaved); // transfConfig is needed both to be able to instantiate the config dialog and for saving ID3V2
     ~TagEditorDlgImpl();
@@ -228,6 +235,7 @@ protected slots:
 
     void on_m_pToggleAssignedB_clicked();
     void on_m_pReloadB_clicked();
+    void on_m_pVarArtistsB_clicked();
     void on_m_pCopyFirstB_clicked();
     void on_m_pSaveB_clicked();
     void on_m_pPasteB_clicked();
@@ -243,8 +251,13 @@ protected slots:
     void onFileChanged();
     void onImagesChanged(); // adds new ImageInfoPanelWdgImpl instances, connects assign button and calls resizeTagEditor()
     void onShowPatternNote();
+    void onResizeTagEditorDelayed();
+    void onResizeFileDelayed();
 
     void onHelp();
+    void onVarArtistsUpdated(bool bVarArtists);
+
+    void onPatternClicked();
 };
 
 #endif

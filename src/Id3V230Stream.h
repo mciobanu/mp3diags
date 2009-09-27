@@ -106,6 +106,11 @@ public:
 
     void setRecTime(const TagTimestamp& time);
 
+    // this only changes the frames that correspond to the active settings in the configuration;
+    // if WMP handling is disabled, TPE2 is left untouched; if WMP handling is enabled, TPE2 is either removed or set to "Various Artists", based on "b"
+    // if iTunes handling is disabled, TCON is left untouched; if WMP handling is enabled, TCON is either removed or set to "1", based on "b"
+    void setVariousArtists(bool b);
+
     // throws WriteError if it cannot write, including the case when nTotalSize is too small;
     // if nTotalSize is >0, the padding will be be whatever is left;
     // if nTotalSize is <0 and m_bFastSave is true, there will be a padding of around ImageInfo::MAX_IMAGE_SIZE+Id3V2Expander::EXTRA_SPACE;

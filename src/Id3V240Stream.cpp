@@ -410,6 +410,7 @@ Id3V240Stream::Id3V240Stream(int nIndex, NoteColl& notes, istream& in, StringWrp
     case ALBUM:
     case RATING:
     case COMPOSER:
+    case VARIOUS_ARTISTS:
         return READ_ONLY;
 
     default:

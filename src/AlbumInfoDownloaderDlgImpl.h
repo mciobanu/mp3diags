@@ -40,6 +40,7 @@ class SessionSettings;
 
 struct WebAlbumInfoBase
 {
+    WebAlbumInfoBase() : m_eVarArtists(AlbumInfo::VA_NOT_SUPP) {}
     virtual ~WebAlbumInfoBase() {}
 
     std::string m_strTitle;
@@ -53,6 +54,8 @@ struct WebAlbumInfoBase
     std::vector<ImageInfo*> m_vpImages; // doesn't own the pointers; initially it contains 0s; this isn't used by MainFormDlgImpl, only internally by AlbumInfoDownloaderDlgImpl, which passes to MainFormDlgImpl at most an image, in a separate parameter
 
     std::vector<std::string> m_vstrImageInfo; // size in pixels and bytes
+
+    AlbumInfo::VarArtists m_eVarArtists;
 
     virtual void copyTo(AlbumInfo& dest) = 0;
 };

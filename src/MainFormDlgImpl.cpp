@@ -1455,7 +1455,7 @@ void MainFormDlgImpl::onCrtFileChanged()
     }
 
     QHBoxLayout* pLayout = new QHBoxLayout();
-    pLayout->setSpacing(6);
+    pLayout->setSpacing(12);
     //pLayout->setContentsMargins(6, 6, 6, 6);
     pLayout->setContentsMargins(1, 1, 1, 1);
     m_pTagDetailsW->setLayout(pLayout);

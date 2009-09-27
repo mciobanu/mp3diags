@@ -309,12 +309,12 @@ void SessionSettings::saveTagEdtSettings(int nWidth, int nHeight, const QByteArr
     m_pSettings->setValue("tagEditor/splitterState", splitterState);
 }
 
-void SessionSettings::loadTagEdtSettings(int& nWidth, int& nHeight, QByteArray& splitterState) const
+void SessionSettings::loadTagEdtSettings(int& nWidth, int& nHeight/*, QByteArray& splitterState*/) const
 {
     nWidth = m_pSettings->value("tagEditor/width").toInt();
     nHeight = m_pSettings->value("tagEditor/height").toInt();
 
-    splitterState = m_pSettings->value("tagEditor/splitterState").toByteArray();
+    //splitterState = m_pSettings->value("tagEditor/splitterState").toByteArray();
 }
 
 

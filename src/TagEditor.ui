@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>990</width>
-    <height>669</height>
+    <width>993</width>
+    <height>679</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -359,6 +359,43 @@
        </spacer>
       </item>
       <item>
+       <widget class="QToolButton" name="m_pVarArtistsB" >
+        <property name="minimumSize" >
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize" >
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="focusPolicy" >
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="toolTip" >
+         <string>Toggle "Various Artists"</string>
+        </property>
+        <property name="text" >
+         <string>V</string>
+        </property>
+        <property name="icon" >
+         <iconset resource="Mp3Diags.qrc" >:/images/va_va.svg</iconset>
+        </property>
+        <property name="iconSize" >
+         <size>
+          <width>36</width>
+          <height>36</height>
+         </size>
+        </property>
+        <property name="autoRaise" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QToolButton" name="m_pCopyFirstB" >
         <property name="minimumSize" >
          <size>
@@ -634,8 +671,14 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" native="1" name="widget" >
-     <layout class="QHBoxLayout" >
+    <widget class="QWidget" native="1" name="widget_4" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
+       <horstretch>0</horstretch>
+       <verstretch>4</verstretch>
+      </sizepolicy>
+     </property>
+     <layout class="QVBoxLayout" >
       <property name="leftMargin" >
        <number>0</number>
       </property>
@@ -649,13 +692,10 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QWidget" native="1" name="widget_2" >
-        <property name="minimumSize" >
-         <size>
-          <width>400</width>
-          <height>400</height>
-         </size>
-        </property>
+       <widget class="QTableView" name="m_pCurrentAlbumG" />
+      </item>
+      <item>
+       <widget class="QWidget" native="1" name="m_pImagesW" >
         <layout class="QHBoxLayout" >
          <property name="leftMargin" >
           <number>0</number>
@@ -670,89 +710,66 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="QSplitter" name="m_pTagEdtSplitter" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
+          <widget class="QLabel" name="m_pRemovable1L" >
+           <property name="text" >
+            <string>TextLabel</string>
            </property>
-           <property name="orientation" >
-            <enum>Qt::Vertical</enum>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" native="1" name="widget_5" >
+     <layout class="QVBoxLayout" >
+      <property name="leftMargin" >
+       <number>0</number>
+      </property>
+      <property name="topMargin" >
+       <number>0</number>
+      </property>
+      <property name="rightMargin" >
+       <number>0</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QTableView" name="m_pCurrentFileG" >
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="selectionMode" >
+         <enum>QAbstractItemView::NoSelection</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" native="1" name="m_pPatternsW" >
+        <layout class="QHBoxLayout" >
+         <property name="leftMargin" >
+          <number>0</number>
+         </property>
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <property name="rightMargin" >
+          <number>0</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="m_pRemovable2L" >
+           <property name="text" >
+            <string>TextLabel</string>
            </property>
-           <widget class="QWidget" native="1" name="widget_4" >
-            <property name="sizePolicy" >
-             <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
-              <horstretch>0</horstretch>
-              <verstretch>4</verstretch>
-             </sizepolicy>
-            </property>
-            <layout class="QVBoxLayout" >
-             <property name="leftMargin" >
-              <number>0</number>
-             </property>
-             <property name="topMargin" >
-              <number>0</number>
-             </property>
-             <property name="rightMargin" >
-              <number>0</number>
-             </property>
-             <property name="bottomMargin" >
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QTableView" name="m_pCurrentAlbumG" />
-             </item>
-             <item>
-              <widget class="QWidget" native="1" name="m_pImagesW" >
-               <layout class="QHBoxLayout" >
-                <property name="leftMargin" >
-                 <number>0</number>
-                </property>
-                <property name="topMargin" >
-                 <number>0</number>
-                </property>
-                <property name="rightMargin" >
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin" >
-                 <number>0</number>
-                </property>
-                <item>
-                 <widget class="QLabel" name="m_pRemovableL" >
-                  <property name="text" >
-                   <string>TextLabel</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QWidget" native="1" name="widget_5" >
-            <layout class="QVBoxLayout" >
-             <property name="leftMargin" >
-              <number>0</number>
-             </property>
-             <property name="topMargin" >
-              <number>0</number>
-             </property>
-             <property name="rightMargin" >
-              <number>0</number>
-             </property>
-             <property name="bottomMargin" >
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QTableView" name="m_pCurrentFileG" >
-               <property name="selectionMode" >
-                <enum>QAbstractItemView::NoSelection</enum>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
           </widget>
          </item>
         </layout>

@@ -84,7 +84,7 @@ public:
     void loadRenamerPatternsSettings(int& nWidth, int& nHeight) const;
 
     void saveTagEdtSettings(int nWidth, int nHeight, const QByteArray& splitterState);
-    void loadTagEdtSettings(int& nWidth, int& nHeight, QByteArray& splitterState) const;
+    void loadTagEdtSettings(int& nWidth, int& nHeight/*, QByteArray& splitterState*/) const;
 
     void saveVector(const std::string& strPath, const std::vector<std::string>& v);
     std::vector<std::string> loadVector(const std::string& strPath, bool& bErr) const; // allows empty entries, but stops at the first missing entry, in which case sets bErr

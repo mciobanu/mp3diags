@@ -116,7 +116,7 @@ class FileRenamerDlgImpl : public QDialog, private Ui::FileRenamerDlg
     void loadPatterns();
     void savePatterns();
     void updateButtons();
-    void createButtons(QWidget* pWidget);
+    void createButtons();
     void selectPattern(); // selects the appropriate pattern for a new album, based on whether it's VA or SA; sets m_nCrtPattern and checks the right button; assumes m_eState is properly set up;
 
     int m_nVaButton, m_nSaButton;

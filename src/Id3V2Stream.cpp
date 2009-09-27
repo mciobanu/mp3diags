@@ -27,6 +27,7 @@
 
 #include  "MpegStream.h"
 #include  "Helpers.h"
+#include  "CommonData.h"
 
 
 using namespace std;
@@ -461,6 +462,8 @@ Id3V2FrameDataLoader::~Id3V2FrameDataLoader()
 /*static*/ const char* KnownFrames::LBL_RATING() { return "POPM"; }
 /*static*/ const char* KnownFrames::LBL_COMPOSER() { return "TCOM"; }
 
+/*static*/ const char* KnownFrames::LBL_WMP_VAR_ART() { return "TPE2"; }
+/*static*/ const char* KnownFrames::LBL_ITUNES_VAR_ART() { return "TCMP"; }
 
 
 //============================================================================================================
@@ -745,6 +748,61 @@ e1:
 }
 
 
+/*override*/ vector<ImageInfo> Id3V2StreamBase::getImages() const
+{
+    vector<ImageInfo> v;
+
+    for (int i = 0; i < cSize(m_vpFrames); ++i)
+    {
+        Id3V2Frame* pFrame (m_vpFrames[i]);
+        if (Id3V2Frame::NOT_SUPPORTED == pFrame->m_eApicStatus || Id3V2Frame::OK == pFrame->m_eApicStatus)
+        {
+            try
+            {
+                Id3V2FrameDataLoader wrp (*pFrame);
+                const char* pCrtData (wrp.getData());
+                const char* pBinData (pCrtData + pFrame->m_nImgOffset);
+                //CB_CHECK (pixmap.loadFromData(pBinData, m_nImgSize));
+
+                // make sure the data is still available and correct (the file might have been modified externally)
+                if (-1 == pFrame->m_nWidth)
+                {
+                    QPixmap pic;
+                    if (!pic.loadFromData(reinterpret_cast<const unsigned char*>(pBinData), pFrame->m_nImgSize)) // this takes a lot of time
+                    {
+                        v.push_back(ImageInfo(pFrame->m_nPictureType, ImageInfo::ERROR_LOADING));
+                        continue;
+                    }
+                    pFrame->m_nWidth = short(pic.width());
+                    pFrame->m_nHeight = short(pic.height());
+                }
+
+                QByteArray b (QByteArray::fromRawData(pBinData, pFrame->m_nImgSize));
+                b.append('x'); b.resize(b.size() - 1); // !!! these are needed because fromRawData() doesn't create copies of the memory used for the byte array
+                v.push_back(ImageInfo(pFrame->m_nPictureType, Id3V2Frame::OK == pFrame->m_eApicStatus ? ImageInfo::OK : ImageInfo::LOADED_NOT_COVER, pFrame->m_eCompr, b, pFrame->m_nWidth, pFrame->m_nHeight));
+            }
+            catch (const Id3V2FrameDataLoader::LoadFailure&)
+            {
+                v.push_back(ImageInfo(pFrame->m_nPictureType, ImageInfo::ERROR_LOADING));
+            }
+
+            continue;
+        }
+
+        if (Id3V2Frame::ERR == pFrame->m_eApicStatus)
+        {
+            v.push_back(ImageInfo(pFrame->m_nPictureType, ImageInfo::ERROR_LOADING));
+        }
+
+        if (Id3V2Frame::USES_LINK == pFrame->m_eApicStatus)
+        {
+            v.push_back(ImageInfo(pFrame->m_nPictureType, ImageInfo::USES_LINK));
+        }
+    }
+
+    return v;
+}
+
 
 /*static*/ const char* Id3V2StreamBase::decodeApic(NoteColl& notes, streampos pos, const char* pData, const char*& szMimeType, int& nPictureType, const char*& szDescription)
 {
@@ -923,6 +981,55 @@ void Id3V2StreamBase::preparePicture(NoteColl& notes) // initializes fields used
 }
 
 
+// *pbFrameExists gets set if at least one frame exists
+/*override*/ int Id3V2StreamBase::getVariousArtists(bool* pbFrameExists /*= 0*/) const
+{
+    int nRes (0);
+    if (0 != pbFrameExists) { *pbFrameExists = false; }
+
+    try
+    {
+        {
+            const Id3V2Frame* p (findFrame(KnownFrames::LBL_WMP_VAR_ART()));
+            if (0 != p)
+            {
+                if (0 != pbFrameExists)
+                {
+                    *pbFrameExists = true;
+                }
+                if (0 == convStr(p->getUtf8String()).compare("VaRiOuS Artists", Qt::CaseInsensitive))
+                {
+                    nRes += TagReader::VA_WMP;
+                }
+            }
+        }
+
+        {
+            const Id3V2Frame* p (findFrame(KnownFrames::LBL_ITUNES_VAR_ART()));
+            if (0 != p)
+            {
+                if (0 != pbFrameExists)
+                {
+                    *pbFrameExists = true;
+                }
+                if ("1" == p->getUtf8String())
+                {
+                    nRes += TagReader::VA_ITUNES;
+                }
+            }
+        }
+    }
+    catch (const Id3V2Frame::NotId3V2Frame&)
+    { // !!! nothing
+    }
+    catch (const Id3V2Frame::UnsupportedId3V2Frame&)
+    { // !!! nothing
+    }
+
+    return nRes;
+}
+
+
 /*override*/ double Id3V2StreamBase::getRating(bool* pbFrameExists /*= 0*/) const
 {
     const Id3V2Frame* p (findFrame(KnownFrames::LBL_RATING()));
@@ -1014,9 +1121,12 @@ const Id3V2Frame* Id3V2StreamBase::getFrame(const char* szName) const
         }
         else
         {
-            if (b) { out << ", "; }
-            b = true;
-            p->print(out, Id3V2Frame::FULL_INFO);
+            if (Id3V2Frame::NOT_SUPPORTED != p->m_eApicStatus && Id3V2Frame::OK != p->m_eApicStatus) // images tha can be loaded are shown, so there shouldn't be another entry for them
+            {
+                if (b) { out << ", "; }
+                b = true;
+                p->print(out, Id3V2Frame::FULL_INFO);
+            }
         }
     }
     return out.str();

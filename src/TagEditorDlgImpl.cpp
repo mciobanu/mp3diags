@@ -290,14 +290,13 @@ LAST_STEP("CurrentFileModel::headerData");
 //======================================================================================================================
 
 
-
-
-TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, TransfConfig& transfConfig, bool& bDataSaved) : QDialog(pParent, getDialogWndFlags()), Ui::TagEditorDlg(), m_pCommonData(pCommonData), m_bSectionMovedLock(false), m_transfConfig(transfConfig), m_bIsFastSaving(false), m_bIsSaving(false), m_bIsNavigating(false), m_bDataSaved(bDataSaved)
+TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, TransfConfig& transfConfig, bool& bDataSaved) : QDialog(pParent, getDialogWndFlags()), Ui::TagEditorDlg(), m_pCommonData(pCommonData), m_bSectionMovedLock(false), m_transfConfig(transfConfig), m_bIsFastSaving(false), m_bIsSaving(false), m_bIsNavigating(false), m_bDataSaved(bDataSaved), m_bWaitingAlbumResize(false), m_bWaitingFileResize(false)
 {
     setupUi(this);
 
     m_bDataSaved = false;
 
+    setupVarArtistsBtn();
 
     m_pAssgnBtnWrp = new AssgnBtnWrp (m_pToggleAssignedB);
 
@@ -308,6 +307,7 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
         connect(m_pTagWriter, SIGNAL(fileChanged()), this, SLOT(onFileChanged()));
         connect(m_pTagWriter, SIGNAL(imagesChanged()), this, SLOT(onImagesChanged()));
         connect(m_pTagWriter, SIGNAL(requestSave()), this, SLOT(on_m_pSaveB_clicked()));
+        connect(m_pTagWriter, SIGNAL(varArtistsUpdated(bool)), this, SLOT(onVarArtistsUpdated(bool)));
     }
 
     m_pCurrentAlbumModel = new CurrentAlbumModel(this);
@@ -315,8 +315,8 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
 
     {
         m_pCurrentAlbumG->verticalHeader()->setResizeMode(QHeaderView::Interactive);
-        m_pCurrentAlbumG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT + 1);
-        m_pCurrentAlbumG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT + 1);//*/
+        m_pCurrentAlbumG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
+        m_pCurrentAlbumG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);//*/
 
         m_pCurrentAlbumG->setModel(m_pCurrentAlbumModel);
 
@@ -332,8 +332,8 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
 
     {
         m_pCurrentFileG->verticalHeader()->setResizeMode(QHeaderView::Interactive);
-        m_pCurrentFileG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT + 1);
-        m_pCurrentFileG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT + 1);//*/
+        m_pCurrentFileG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
+        m_pCurrentFileG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);//*/
 
         m_pCurrentFileG->setModel(m_pCurrentFileModel);
         CurrentFileDelegate* pDel (new CurrentFileDelegate(m_pCurrentFileG, m_pCommonData));
@@ -347,8 +347,7 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
 
     {
         int nWidth, nHeight;
-        QByteArray vPrevState;
-        m_pCommonData->m_settings.loadTagEdtSettings(nWidth, nHeight, vPrevState);
+        m_pCommonData->m_settings.loadTagEdtSettings(nWidth, nHeight);
         if (nWidth > 400 && nHeight > 400)
         {
             resize(nWidth, nHeight);
@@ -357,17 +356,11 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
         {
             defaultResize(*this);
         }
-
-        if (!vPrevState.isNull())
-        {
-            m_pTagEdtSplitter->restoreState(vPrevState);
-        }
-        m_pTagEdtSplitter->setOpaqueResize(false);
     }
 
 
     {
-        delete m_pRemovableL; // m_pRemovableL's only job is to make m_pImagesW visible in QtDesigner
+        delete m_pRemovable1L; // m_pRemovableL's only job is to make m_pImagesW visible in QtDesigner
 
         QWidget* pWidget (new QWidget (this));
         pWidget->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding));
@@ -375,7 +368,7 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
         QHBoxLayout* pScrlLayout (new QHBoxLayout (pWidget));
         pWidget->setLayout(pScrlLayout);
 
-        pWidget->layout()->setContentsMargins(0, 0, 0, 4 + 1); // "+1" added to look better, but don't know how to calculated
+        pWidget->layout()->setContentsMargins(0, 0, 0, 4 + 1); // "+1" added to look better, but don't know how to calculate
 
         m_pImgScrollArea = new QScrollArea (m_pImagesW);
 
@@ -383,6 +376,11 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
 
         m_pImgScrollArea->setWidget(pWidget);
         m_pImgScrollArea->setFrameShape(QFrame::NoFrame);
+    }
+
+    {
+        delete m_pRemovable2L; // m_pRemovable2L's only job is to make m_pPatternsW visible in QtDesigner
+        createPatternButtons();
     }
 
     //layout()->update();
@@ -401,18 +399,79 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
     m_pCurrentAlbumG->installEventFilter(this);
     installEventFilter(this);
 
+    {
+        int nFileHght ((CELL_HEIGHT)*10 + m_pCurrentFileG->horizontalHeader()->height() + 2*QApplication::style()->pixelMetric(QStyle::PM_DefaultFrameWidth));  //ttt0 not sure it's right; try several styles
+        m_pCurrentFileG->setMaximumHeight(nFileHght);
+        m_pCurrentFileG->setMinimumHeight(nFileHght);
+    }
+
     { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
 
     QTimer::singleShot(1, this, SLOT(onShow())); // just calls resizeTagEditor(); !!! needed to properly resize the table columns; album and file tables have very small widths until they are actually shown, so calling resizeTagEditor() earlier is pointless; calling update() on various layouts seems pointless as well; (see also DoubleList::resizeEvent() )
 }
 
 
+void TagEditorDlgImpl::createPatternButtons()
+{
+    QBoxLayout* pLayout (dynamic_cast<QBoxLayout*>(m_pPatternsW->layout()));
+    CB_ASSERT (0 != pLayout);
+
+    QObjectList l (m_pPatternsW->children());
+
+    for (int i = 0, n = l.size(); i < n; ++i)
+    {
+        if (l[i] != pLayout)
+        {
+            delete l[i];
+        }
+    }
+
+    const set<int>& snActivePatterns (m_pTagWriter->getActivePatterns());
+
+    m_vpPattButtons.clear();
+
+    const vector<string>& vstrPatterns (m_pTagWriter->getPatterns());
+    int n (cSize(vstrPatterns));
+    for (int i = 0; i < n; ++i)
+    {
+        QToolButton* p (new QToolButton(m_pPatternsW));
+        p->setText(toNativeSeparators(convStr(vstrPatterns[i])));
+        p->setCheckable(true);
+        m_vpPattButtons.push_back(p);
+        if (snActivePatterns.count(i) > 0)
+        {
+            p->setChecked(true);
+        }
+        connect(p, SIGNAL(clicked()), this, SLOT(onPatternClicked()));
+        pLayout->insertWidget(i, p);
+    }
+
+    pLayout->insertStretch(n);
+
+    m_pPatternsW->setVisible(!m_vpPattButtons.empty());
+}
+
+
+void TagEditorDlgImpl::onPatternClicked()
+{
+    set<int> s;
+    for (int i = 0; i < cSize(m_vpPattButtons); ++i)
+    {
+        if (m_vpPattButtons[i]->isChecked())
+        {
+            s.insert(i);
+        }
+    }
+
+    m_pTagWriter->setActivePatterns(s);
+}
+
 
 TagEditorDlgImpl::~TagEditorDlgImpl()
 {
     saveTagWriterInf();
-    QByteArray vState (m_pTagEdtSplitter->saveState());
-    m_pCommonData->m_settings.saveTagEdtSettings(width(), height(), vState);
+    //QByteArray vState (m_pTagEdtSplitter->saveState());
+    //m_pCommonData->m_settings.saveTagEdtSettings(width(), height(), vState);
     delete m_pCurrentAlbumModel;
     delete m_pCurrentFileModel;
     delete m_pTagWriter;
@@ -428,9 +487,32 @@ string TagEditorDlgImpl::run()
 }
 
 
+void TagEditorDlgImpl::setupVarArtistsBtn()
+{
+    m_pVarArtistsB->setEnabled(m_pCommonData->m_bItunesVarArtists || m_pCommonData->m_bWmpVarArtists);
+    m_pVarArtistsB->setToolTip(m_pVarArtistsB->isEnabled() ?
+            "Toggle \"Various Artists\"" :
+
+            "To enable \"Various Artists\" you need to open the\n"
+            "configuration dialog, go to the \"Others\" tab and\n"
+            "check the corresponding checkbox(es)");
+}
+
+
 
 void TagEditorDlgImpl::resizeTagEditor()
 {
+    if (!m_bWaitingAlbumResize)
+    {
+        m_bWaitingAlbumResize = true;
+        QTimer::singleShot(1, this, SLOT(onResizeTagEditorDelayed()));
+    }
+}
+
+
+void TagEditorDlgImpl::onResizeTagEditorDelayed() // needed because it's pointless to call this while navigating, when the text for all cells is returned as ""
+{
+    m_bWaitingAlbumResize = false;
     QWidget* pParent (m_pCurrentAlbumG->parentWidget());
 
     //cout << "\n========================\n" << endl; listWidget(pParent);
@@ -474,6 +556,16 @@ intf1.setFixedWidth(5, 50);*/
 
 void TagEditorDlgImpl::resizeFile() // resizes the "current file" grid; called by resizeTagEditor() and by onFileChanged();
 {
+    if (!m_bWaitingFileResize)
+    {
+        m_bWaitingFileResize = true;
+        QTimer::singleShot(1, this, SLOT(onResizeFileDelayed()));
+    }
+}
+
+void TagEditorDlgImpl::onResizeFileDelayed() // resizes the "current file" grid; called by resizeTagEditor() and by onFileChanged();
+{
+    m_bWaitingFileResize = false;
     SimpleQTableViewWidthInterface intf2 (*m_pCurrentFileG);
     ColumnResizer rsz2 (intf2, 100, ColumnResizer::DONT_FILL, ColumnResizer::CONSISTENT_RESULTS);
 }
@@ -626,6 +718,7 @@ void TagEditorDlgImpl::on_m_pEditPatternsB_clicked()
     if (dlg.run(v))
     {
         m_pTagWriter->updatePatterns(v);
+        createPatternButtons();
     }
 }
 
@@ -665,6 +758,16 @@ void TagEditorDlgImpl::onImagesChanged()
 }
 
 
+
+void TagEditorDlgImpl::onVarArtistsUpdated(bool bVarArtists)
+{
+    static QPixmap picSa (":/images/va_sa.svg");
+    static QPixmap picVa (":/images/va_va.svg");
+
+    m_pVarArtistsB->setIcon(bVarArtists ? picVa : picSa);
+}
+
+
 void TagEditorDlgImpl::onAlbumChanged(/*bool bContentOnly*/)
 {
     if (m_pTagWriter->m_vpMp3HandlerTagData.empty())
@@ -688,9 +791,12 @@ void TagEditorDlgImpl::onAlbumChanged(/*bool bContentOnly*/)
     m_pCrtDirTagEdtE->setText(qs);
 }
 
+
 void TagEditorDlgImpl::on_m_pConfigB_clicked()
 {
     if (!closeEditor()) { return; }
+
+    SaveOpt eSaveOpt (save(IMPLICIT)); if (SAVED != eSaveOpt && DISCARDED != eSaveOpt) { return; }
 
     ConfigDlgImpl dlg (m_transfConfig, m_pCommonData, this, ConfigDlgImpl::SOME_TABS);
 
@@ -701,6 +807,9 @@ void TagEditorDlgImpl::on_m_pConfigB_clicked()
         resizeIcons();
         resizeTagEditor();
     }
+
+    m_pTagWriter->reloadAll("", TagWriter::CLEAR_DATA, TagWriter::CLEAR_ASSGN); // !!! regardless of the conf beng cancelled, so it's consistent with 
+    setupVarArtistsBtn();
 }
 
 
@@ -807,8 +916,18 @@ void TagEditorDlgImpl::loadTagWriterInf()
         }*/
 
         bErr = !m_pTagWriter->updatePatterns(v) || bErr;
+
+        bool bErr2;
+        vector<string> vstrActivePatterns (m_pCommonData->m_settings.loadVector("tagWriter/activePatterns", bErr2));
+        set<int> snActivePatterns;
+        for (int i = 0; i < cSize(vstrActivePatterns); ++i)
+        {
+            snActivePatterns.insert(atoi(vstrActivePatterns[i].c_str()));
+        }
+        m_pTagWriter->setActivePatterns(snActivePatterns);
+
 //if (bErr) { qDebug("error when reading patterns"); } //ttt remove
-        if (bErr)
+        if (bErr || bErr2)
         {
             QMessageBox::warning(this, "Error setting up patterns", "An invalid value was found in the configuration file. You'll have to set up the patterns manually.");
         }
@@ -843,6 +962,16 @@ void TagEditorDlgImpl::saveTagWriterInf()
             v.push_back("*");
         }*/
         m_pCommonData->m_settings.saveVector("tagWriter/patterns", v);
+
+        vector<string> u;
+        char a [15];
+        const set<int>& snActivePatterns (m_pTagWriter->getActivePatterns());
+        for (set<int>::const_iterator it = snActivePatterns.begin(); it != snActivePatterns.end(); ++it)
+        {
+            sprintf(a, "%d", *it);
+            u.push_back(a);
+        }
+        m_pCommonData->m_settings.saveVector("tagWriter/activePatterns", u);
     }
 }
 
@@ -887,6 +1016,14 @@ void TagEditorDlgImpl::on_m_pCopyFirstB_clicked()
     if (!closeEditor()) { return; }
 
     m_pTagWriter->copyFirst();
+}
+
+
+void TagEditorDlgImpl::on_m_pVarArtistsB_clicked()
+{
+    if (!closeEditor()) { return; }
+
+    m_pTagWriter->toggleVarArtists();
 }
 
 
@@ -1077,6 +1214,7 @@ void TagEditorDlgImpl::resizeIcons()
     v.push_back(m_pConfigB);
     v.push_back(m_pSaveB);
     v.push_back(m_pReloadB);
+    v.push_back(m_pVarArtistsB);
     v.push_back(m_pCopyFirstB);
     v.push_back(m_pSortB);
     v.push_back(m_pToggleAssignedB);
@@ -1273,6 +1411,7 @@ void Id3V230Writer::setupWriter(Id3V230StreamWriter& wrt, const Mp3HandlerTagDat
     s = pMp3HandlerTagData->getData(TagReader::GENRE); if (s.empty()) { wrt.removeFrames(KnownFrames::LBL_GENRE()); } else { wrt.addTextFrame(KnownFrames::LBL_GENRE(), s); }
     s = pMp3HandlerTagData->getData(TagReader::ALBUM); if (s.empty()) { wrt.removeFrames(KnownFrames::LBL_ALBUM()); } else { wrt.addTextFrame(KnownFrames::LBL_ALBUM(), s); }
     s = pMp3HandlerTagData->getData(TagReader::COMPOSER); if (s.empty()) { wrt.removeFrames(KnownFrames::LBL_COMPOSER()); } else { wrt.addTextFrame(KnownFrames::LBL_COMPOSER(), s); }
+    s = pMp3HandlerTagData->getData(TagReader::VARIOUS_ARTISTS); wrt.setVariousArtists(!s.empty());
     s = pMp3HandlerTagData->getData(TagReader::TIME); if (s.empty()) { wrt.removeFrames(KnownFrames::LBL_TIME_DATE_230()); wrt.removeFrames(KnownFrames::LBL_TIME_YEAR_230()); wrt.removeFrames(KnownFrames::LBL_TIME_240()); } else { wrt.setRecTime(TagTimestamp(s)); }
 
     s = pMp3HandlerTagData->getData(TagReader::IMAGE);
@@ -1532,7 +1671,7 @@ TagEditorDlgImpl::SaveOpt TagEditorDlgImpl::save(bool bImplicitCall)
     return bRes ? SAVED : PARTIALLY_SAVED;
 }
 
-
+//ttt1 hide VA column if not used
 void TagEditorDlgImpl::onHelp()
 {
     openHelp("190_tag_editor.html");
@@ -1593,6 +1732,16 @@ CurrentFileDelegate::CurrentFileDelegate(QTableView* pTableView, const CommonDat
         pPainter->fillRect(option.rect, QBrush(m_pCommonData->m_vTagEdtColors[CommonData::COLOR_FILE_NORM]));
         QItemDelegate::paint(pPainter, option, index);
     }
+
+    /*
+    //ttt1 first 3 cases don't show the dotted line because QItemDelegate::paint() doesn't get called; perhaps drawDecoration() should be called, but copying these things from qitemdelegate.cpp didn't help:
+
+    QVariant value;
+    value = index.data(Qt::DecorationRole);
+    QPixmap pixmap;
+    pixmap = decoration(option, value);
+
+    drawDecoration(pPainter, option, QRect(0, 0, 15, 15), pixmap);*/
 
     pPainter->restore();
 }
@@ -1681,7 +1830,7 @@ CurrentAlbumDelegate::CurrentAlbumDelegate(QTableView* pTableView, TagEditorDlgI
 /*override*/ QWidget* CurrentAlbumDelegate::createEditor(QWidget* pParent, const QStyleOptionViewItem& style, const QModelIndex& index) const
 {
     int nField (index.column());
-    if (0 == nField || 7 == nField) { return 0; }
+    if (0 == nField || 5 == nField || 8 == nField) { return 0; }
     QWidget* pEditor (QItemDelegate::createEditor(pParent, style, index));
     //qDebug("%s", p->metaObject()->className());
     connect(pEditor, SIGNAL(destroyed(QObject*)), this, SLOT(onEditorDestroyed(QObject*)));

@@ -208,6 +208,8 @@ void SessionSettings::saveMiscConfigSettings(const CommonData* p)
         m_pSettings->setValue("debug/saveDownloadedData", p->m_bSaveDownloadedData);
         m_pSettings->setValue("main/autoSizeIcons", p->m_bAutoSizeIcons);
         m_pSettings->setValue("main/keepOneValidImg", p->m_bKeepOneValidImg);
+        m_pSettings->setValue("main/processWmpVarArtists", p->m_bWmpVarArtists);
+        m_pSettings->setValue("main/processItunesVarArtists", p->m_bItunesVarArtists);
         m_pSettings->setValue("main/fastSave", p->useFastSave());
         m_pSettings->setValue("debug/traceToFile", p->isTraceToFileEnabled());
 
@@ -317,6 +319,8 @@ void SessionSettings::loadMiscConfigSettings(CommonData* p) const
         p->m_bSaveDownloadedData = m_pSettings->value("debug/saveDownloadedData", false).toBool();
         p->m_bAutoSizeIcons = m_pSettings->value("main/autoSizeIcons", true).toBool();
         p->m_bKeepOneValidImg = m_pSettings->value("main/keepOneValidImg", false).toBool();
+        p->m_bWmpVarArtists = m_pSettings->value("main/processWmpVarArtists", false).toBool();
+        p->m_bItunesVarArtists = m_pSettings->value("main/processItunesVarArtists", false).toBool();
         p->setFastSave(m_pSettings->value("main/fastSave", false).toBool(), CommonData::DONT_UPDATE_TRANSFORMS);
         p->setTraceToFile(m_pSettings->value("debug/traceToFile", false).toBool());
 
@@ -557,6 +561,16 @@ QFont CommonData::getNewFixedFont() const
 //=====================================================================================================================
 
 
+namespace
+{
+    const CommonData* g_pCommonData (0);
+}
+
+const CommonData* getCommonData() // ttt0 get rid of all places passing CommonData* as a param
+{
+    return g_pCommonData;
+}
+
 
 CommonData::CommonData(
         SessionSettings& settings,
@@ -594,6 +608,8 @@ CommonData::CommonData(
         m_nMainWndIconSize(40),
         m_settings(settings),
         m_bKeepOneValidImg(false),
+        m_bWmpVarArtists(false),
+        m_bItunesVarArtists(false),
         m_bLogTransf(false),
         m_bSaveDownloadedData(false),
         m_vvnCustomTransf(CUSTOM_TRANSF_CNT),
@@ -610,6 +626,8 @@ CommonData::CommonData(
         m_pModeAlbumB(pModeAlbumB),
         m_pModeSongB(pModeSongB)
 {
+    g_pCommonData = this;
+
     m_vpAllTransf.push_back(new SingleBitRepairer());
     m_vpAllTransf.push_back(new InnerNonAudioRemover());
 
@@ -670,6 +688,7 @@ CommonData::~CommonData()
 {
     clearPtrContainer(m_vpAllHandlers);
     clearPtrContainer(m_vpAllTransf);
+    g_pCommonData = 0;
 }
 
 
@@ -1687,7 +1706,7 @@ void CommonData::updateWidgets(const std::string& strCrtName /*= ""*/, const std
 {
     CursorOverrider crs;
 
-    if (m_vpViewHandlers.empty() && !m_vpFltHandlers.empty())
+    //if (m_vpViewHandlers.empty() && !m_vpFltHandlers.empty()) // 2009.09.25 - not sure why the test was here, but its presence prevented the right song to be selected when returning from tag editing, if in album mode; ttt0 see if this takes a long time; if so, perhaps the idea was to run this only if needed, but the test was too restrictive
     {
         CommonData::ViewMode eViewMode (getViewMode());
         setViewMode(CommonData::ALL);

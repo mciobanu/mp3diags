@@ -29,6 +29,7 @@
 #include  "Helpers.h"
 #include  "MpegFrame.h"
 #include  "MpegStream.h"
+#include  "CommonData.h"
 
 
 using namespace std;
@@ -277,13 +278,13 @@ void TagTimestamp::init(std::string s)
 // text representation for each Feature
 /*static*/ const char* TagReader::getLabel(int n)
 {
-    static const char* s_szTitle[] = { "Title", "Artist", "Track #", "Time", "Genre", "Picture", "Album", "Rating", "Composer" };
+    static const char* s_szTitle[] = { "Title", "Artist", "Track #", "Time", "Genre", "Picture", "Album", "Rating", "Composer", "VA" };
     CB_ASSERT (n >= 0 && n < LIST_END);
     return s_szTitle[n];
 }
 
-                                    // orig: { TITLE, ARTIST, TRACK_NUMBER, TIME, GENRE, IMAGE, ALBUM, RATING, COMPOSER, LIST_END };
-/*static*/ int TagReader::FEATURE_ON_POS[] = { TRACK_NUMBER, ARTIST, TITLE, ALBUM, TIME, GENRE, IMAGE, RATING, COMPOSER }; //ttt1 perhaps move to CommonData and make configurable, as long as discarding some columns (e.g. composer)
+                                    // orig: { TITLE, ARTIST, TRACK_NUMBER, TIME, GENRE, IMAGE, ALBUM, RATING, COMPOSER, VARIOUS_ARTISTS, LIST_END };
+/*static*/ int TagReader::FEATURE_ON_POS[] = { TRACK_NUMBER, ARTIST, TITLE, ALBUM, VARIOUS_ARTISTS, TIME, GENRE, IMAGE, RATING, COMPOSER }; //ttt1 perhaps move to CommonData and make configurable, as long as discarding some columns (e.g. composer)
 
 
 //    static int INV_FEATURE_ON_POS[]; // the "inverse" of FEATURE_ON_POS: what Feature appears in a given position
@@ -333,10 +334,34 @@ std::string TagReader::getValue(Feature f) const
         return "";
 
     case COMPOSER: if (getSupport(COMPOSER)) { return getComposer(); } else { return ""; }
+
+    case VARIOUS_ARTISTS:
+        if (getSupport(VARIOUS_ARTISTS))
+        {
+            int nVa (getVariousArtists());
+            string s;
+            if (nVa & VA_ITUNES) { s += "i"; }
+            if (nVa & VA_WMP) { s += "w"; }
+            return s;
+        }
+        else
+        {
+            return "";
+        }
+
     default: return "";
     }
 }
 
+
+/*static*/ string TagReader::getVarArtistsValue() // what getValue(VARIOUS_ARTISTS) returns for VA tags, based on global configuration
+{
+    string s;
+    const CommonData* pCommonData (getCommonData());
+    if (pCommonData->m_bItunesVarArtists) { s += "i"; }
+    if (pCommonData->m_bWmpVarArtists) { s += "w"; }
+    return s;
+}
 
 /*virtual*/ TagReader::~TagReader()
 {

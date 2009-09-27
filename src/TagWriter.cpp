@@ -70,6 +70,7 @@ namespace
     }
 }
 
+
 ostream& operator<<(ostream& out, const TagWriter::OrigValue& val)
 {
     out << "song: " << val.m_nSong << ", field: " << val.m_nField << ", status: " << (int)val.m_eStatus << ", value: " << val.m_strVal;
@@ -229,6 +230,7 @@ TrackTextReader::TrackTextReader(SongInfoParser::TrackTextParser* pTrackTextPars
     case ALBUM:
     case RATING:
     case COMPOSER:
+    //case VARIOUS_ARTISTS:
         return READ_ONLY;
 
     default:
@@ -264,16 +266,19 @@ WebReader::WebReader(const AlbumInfo& albumInfo, int nTrackNo) : m_strType(album
     m_strAlbumName = albumInfo.m_strTitle;
     m_dRating = ti.m_dRating;
     m_strComposer = ti.m_strComposer; //(ti.m_strComposer.empty() ? albumInfo.m_strComposer : ti.m_strComposer);
+    m_eVarArtists = albumInfo.m_eVarArtists;
 
     if (DiscogsDownloader::SOURCE_NAME == albumInfo.m_strSourceName)
     {
         m_bSuppGenre = true;
         m_bSuppComposer = true;
+        m_bSuppVarArtists = false;
     }
     else if (MusicBrainzDownloader::SOURCE_NAME == albumInfo.m_strSourceName)
     {
         m_bSuppGenre = false;
         m_bSuppComposer = false;
+        m_bSuppVarArtists = true;
     }
     else
     {
@@ -308,12 +313,34 @@ WebReader::~WebReader()
     case COMPOSER:
         return m_bSuppComposer ? READ_ONLY : NOT_SUPPORTED;
 
+    case VARIOUS_ARTISTS:
+        return m_bSuppVarArtists ? READ_ONLY : NOT_SUPPORTED;
+
     case RATING:
     default:
         return NOT_SUPPORTED;
     }
 }
 
+
+int WebReader::convVarArtists() const // converts m_eVarArtists to an int is either 0 or contains all VA-enabled values, based on configuration
+{
+    switch (m_eVarArtists)
+    {
+    case AlbumInfo::VA_NOT_SUPP:
+    case AlbumInfo::VA_SINGLE:
+        return TagReader::VA_NONE;
+    case AlbumInfo::VA_VARIOUS:
+        {
+            const CommonData* p (getCommonData());
+            int nRes (0);
+            if (p->m_bItunesVarArtists) { nRes += TagReader::VA_ITUNES; }
+            if (p->m_bWmpVarArtists) { nRes += TagReader::VA_WMP; }
+            return nRes;
+        }
+    default: CB_ASSERT (false);
+    }
+}
 
 
 //======================================================================================================================
@@ -324,7 +351,7 @@ Mp3HandlerTagData::Mp3HandlerTagData(TagWriter* pTagWriter, const Mp3Handler* pM
 {
     TRACER("Mp3HandlerTagData constr");
     refreshReaders();
-    reload();
+    setUp();
     //qDebug("create %p", this);
 }
 
@@ -344,15 +371,54 @@ static bool isId3V2(const TagReader* p)
 static const char* g_szImageFmt ("# %d");
 extern const int PIC_FMT_HDR (2);
 
-// to be called initially and each time the priority of tag readers changes
-void Mp3HandlerTagData::reload()
+
+void Mp3HandlerTagData::adjustVarArtists(bool b) // if VARIOUS_ARTISTS is not ASSIGNED, sets m_strValue and m_eStatus
+{
+    ValueInfo& inf (m_vValueInfo[TagReader::VARIOUS_ARTISTS]);
+    string strAll (TagReader::getVarArtistsValue());
+
+    if (ASSIGNED != inf.m_eStatus)
+    {
+        inf.m_strValue.clear();
+
+        string s (b ? strAll : "");
+        inf.m_strValue = s;
+        inf.m_eStatus = s.empty() ? EMPTY : NON_ID3V2_VAL;
+
+        for (int i = 0, n = cSize(m_vpTagReaders); i < n; ++i)
+        {
+            TagReader* p (m_vpTagReaders[i]);
+
+            if (isId3V2(p))
+            {
+                string strId3 (p->getValue(TagReader::VARIOUS_ARTISTS));
+                string s1; // those letters from strId3 that are also in strAll; needed because strId3 contains all known letters, regardless of their being enabled
+                for (int i = 0; i < cSize(strId3); ++i)
+                {
+                    if (string::npos != strAll.find(strId3[i]))
+                    {
+                        s1 += strId3[i];
+                    }
+                }
+
+                inf.m_eStatus = s1 == s ? ID3V2_VAL : NON_ID3V2_VAL;
+
+                break;
+            }
+        }
+    }
+}
+
+
+// to be called initially and each time the priority of tag readers changes; (well, actually a new object will get constructed in the latter case, so only the first matters)
+void Mp3HandlerTagData::setUp()
 {
 
 //cout << "reload " << this; for (int i = 0, n = cSize(m_vpTagReaders); i < n; ++i) { cout << " " << m_vpTagReaders[i]; } cout << endl; //qDebug("%s", p->getName());
 
     for (int f = 0; f < TagReader::LIST_END; ++f)
     {
-        if (TagReader::IMAGE != f) // special case needed because TagReader::getValue(TagReader::IMAGE) always returns an empty string;
+        if (TagReader::IMAGE != f && TagReader::VARIOUS_ARTISTS != f) // special case needed because TagReader::getValue(TagReader::IMAGE) always returns an empty string; VARIOUS_ARTISTS is handled separately anyway
         {
             ValueInfo& inf (m_vValueInfo[f]);
             if (ASSIGNED != inf.m_eStatus)
@@ -475,6 +541,11 @@ void Mp3HandlerTagData::setData(int nField, const std::string& s)
 {
     if (s == m_vValueInfo[nField].m_strValue) { return; }
 
+    if (TagReader::ARTIST == nField)
+    {
+        m_pTagWriter->delayedAdjVarArtists();
+    }
+
     if (TagReader::TIME == nField)
     {
         try
@@ -587,11 +658,19 @@ std::string Mp3HandlerTagData::getData(int nField, int k) const
             char a [15];
             double d (p->getRating(&bFrameExists));
             if (!bFrameExists) { return "\3"; }
+            //ttt0 perhaps use this: return p->getValue(TagReader::RATING); see why there's no test for "<0" in TagReader::getValue()
             sprintf(a, "%0.1f", d);
             if ('-' == a[0]) { a[0] = 0; }
             return a;
         }
     case TagReader::COMPOSER: { if (TagReader::NOT_SUPPORTED == p->getSupport(TagReader::COMPOSER)) { return "\2"; } string s (p->getComposer(&bFrameExists)); return bFrameExists ? s : "\3"; }
+    case TagReader::VARIOUS_ARTISTS:
+        {
+            if (TagReader::NOT_SUPPORTED == p->getSupport(TagReader::VARIOUS_ARTISTS)) { return "\2"; }
+            p->getVariousArtists(&bFrameExists);
+            if (!bFrameExists) { return "\3"; }
+            return p->getValue(TagReader::VARIOUS_ARTISTS);
+        }
     }
 
     CB_ASSERT(false); // all cases have been covered and have "return"
@@ -707,7 +786,7 @@ const TagReader* Mp3HandlerTagData::getMatchingReader(int i) const
 
 
 
-TagWriter::TagWriter(CommonData* pCommonData, QWidget* pParentWnd, const bool& bIsFastSaving) : m_pCommonData(pCommonData), m_pParentWnd(pParentWnd), m_nCurrentFile(-1), m_bShowedNonSeqWarn(true), m_bIsFastSaving(bIsFastSaving), m_nFileToErase(-1)
+TagWriter::TagWriter(CommonData* pCommonData, QWidget* pParentWnd, const bool& bIsFastSaving) : m_pCommonData(pCommonData), m_pParentWnd(pParentWnd), m_nCurrentFile(-1), m_bShowedNonSeqWarn(true), m_bIsFastSaving(bIsFastSaving), m_nFileToErase(-1), m_bVariousArtists(false), m_bAutoVarArtists(false), m_bDelayedAdjVarArtists(false)
 {
 }
 
@@ -922,6 +1001,11 @@ void TagWriter::reloadAll(string strCrt, bool bClearData, bool bClearAssgn)
         m_snUnassignedImages.clear();
     }
 
+    if (bClearAssgn)
+    {
+        m_bAutoVarArtists = true;
+    }
+
 
     m_vTagReaderInfo.clear();
 
@@ -965,8 +1049,11 @@ void TagWriter::reloadAll(string strCrt, bool bClearData, bool bClearAssgn)
                 { // add images
                     try
                     {
-                        ImageInfo img (pRd->getImage());
-                        m_imageColl.addImage(img); // doesn't matter if it's null or already exists; m_imageColl handles it correctly
+                        const vector<ImageInfo> vImg (pRd->getImages());
+                        for (int i = 0; i < cSize(vImg); ++i)
+                        {
+                            m_imageColl.addImage(vImg[i]); // doesn't matter if it's null or already exists; m_imageColl handles it correctly
+                        }
                     }
                     catch (const NotSupportedOp&)
                     {
@@ -980,8 +1067,12 @@ void TagWriter::reloadAll(string strCrt, bool bClearData, bool bClearAssgn)
 
     for (int i = 0, n = cSize(m_vpTrackTextParsers); i < n; ++i)
     {
-        sReaders.insert(make_pair(string(TrackTextReader::getClassDisplayName()), i));
+        if (m_snActivePatterns.count(i) > 0)
+        {
+            sReaders.insert(make_pair(string(TrackTextReader::getClassDisplayName()), i));
+        }
     }
+
     mReaderCount[TrackTextReader::getClassDisplayName()] = cSize(m_vpTrackTextParsers);
 
     for (int i = 0, n = cSize(m_vAlbumInfo); i < n; ++i)
@@ -1032,6 +1123,8 @@ void TagWriter::reloadAll(string strCrt, bool bClearData, bool bClearAssgn)
                 }
             }
         }
+
+        adjustVarArtists();
     }
 
 
@@ -1101,7 +1194,89 @@ void TagWriter::reloadAll(string strCrt, bool bClearData, bool bClearAssgn)
     emit albumChanged(/*DONT_CLEAR == eReloadOption*/);
     emit imagesChanged();
     setCrt(strCrt);
+    emit varArtistsUpdated(m_bVariousArtists);
 }
+
+
+void TagWriter::adjustVarArtists()
+{
+    if (!m_bAutoVarArtists) { return; } // !!! this gets called from reloadAll(); without the test it would lead to overriding whatever the user set
+
+    bool bPrev (m_bVariousArtists);
+    m_bVariousArtists = false;
+    int n (cSize(m_vpMp3HandlerTagData));
+
+    if (n > 1)
+    {
+        string strArtist (m_vpMp3HandlerTagData[0]->getData(TagReader::ARTIST));
+
+        for (int i = 1; i < n; ++i)
+        {
+            if (strArtist != m_vpMp3HandlerTagData[i]->getData(TagReader::ARTIST))
+            {
+                m_bVariousArtists = true;
+                break;
+            }
+        }
+    }
+
+    for (int i = 0; i < n; ++i)
+    {
+        m_vpMp3HandlerTagData[i]->adjustVarArtists(m_bVariousArtists);
+    }
+
+    if (bPrev != m_bVariousArtists)
+    {
+        emit varArtistsUpdated(m_bVariousArtists);
+    }
+}
+
+
+void TagWriter::toggleVarArtists()
+{
+    m_bAutoVarArtists = false;
+    m_bVariousArtists = !m_bVariousArtists;
+    string s (m_bVariousArtists ? TagReader::getVarArtistsValue() : "");
+
+    set<int> snSelSongs;
+    for (set<OrigValue>::iterator it = m_sSelOrigVal.begin(), end = m_sSelOrigVal.end(); it != end; ++it)
+    {
+        const OrigValue& o (*it);
+        if (o.m_nField == (int)TagReader::VARIOUS_ARTISTS)
+        {
+            snSelSongs.insert(o.m_nSong);
+        }
+    }
+
+    for (int i = 0; i < cSize(m_vpMp3HandlerTagData); ++i)
+    {
+        Mp3HandlerTagData* p (m_vpMp3HandlerTagData[i]);
+        if (Mp3HandlerTagData::ASSIGNED != p->getStatus(TagReader::VARIOUS_ARTISTS) || m_nCurrentFile == i || snSelSongs.count(i) > 0)
+        {
+            p->setData(TagReader::VARIOUS_ARTISTS, s);
+        }
+    }
+
+    emit albumChanged();
+    emit varArtistsUpdated(m_bVariousArtists);
+}
+
+
+void TagWriter::delayedAdjVarArtists()
+{
+    if (m_bDelayedAdjVarArtists) { return; }
+
+    m_bDelayedAdjVarArtists = true;
+    QTimer::singleShot(1, this, SLOT(onDelayedAdjVarArtists()));
+}
+
+void TagWriter::onDelayedAdjVarArtists()
+{
+    m_bDelayedAdjVarArtists = false;
+    adjustVarArtists();
+    emit albumChanged();
+}
+
 
 
 void TagWriter::setCrt(const std::string& strCrt)
@@ -1145,6 +1320,16 @@ void TagWriter::setCrt(int nCrt)
 // doesn't throw, but invalid patterns are discarded; it returns false if at least one pattern was discarded;
 bool TagWriter::updatePatterns(const std::vector<std::pair<std::string, int> >& v)
 {
+    set<string> sstrActive;
+    {
+        vector<string> v (getPatterns());
+        set<int> s (getActivePatterns());
+        for (set<int>::const_iterator it = s.begin(); it != s.end(); ++it)
+        {
+            sstrActive.insert(v[*it]);
+        }
+    }
+
     clearPtrContainer(m_vpTrackTextParsers);
     bool bRes (true);
 
@@ -1197,6 +1382,18 @@ bool TagWriter::updatePatterns(const std::vector<std::pair<std::string, int> >& 
         vNew.swap(m_vSortedKnownTagReaders);
     }
 
+    {
+        vector<string> v (getPatterns());
+        m_snActivePatterns.clear();
+        for (int i = 0; i < cSize(v); ++i)
+        {
+            if (sstrActive.count(v[i]) > 0)
+            {
+                m_snActivePatterns.insert(i); //ttt2 not quite right: for 2 identical patterns of which one was selected before, both will be selected now;
+            }
+        }
+    }
+
     reloadAll("", DONT_CLEAR_DATA, DONT_CLEAR_ASSGN);
 
     return bRes;
@@ -1213,6 +1410,12 @@ vector<string> TagWriter::getPatterns() const
     return v;
 }
 
+
+void TagWriter::setActivePatterns(const std::set<int>& s)
+{
+    m_snActivePatterns = s;
+    reloadAll("", DONT_CLEAR_DATA, DONT_CLEAR_ASSGN);
+}
 
 
 int TagWriter::getIndex(const ImageInfo& img) const

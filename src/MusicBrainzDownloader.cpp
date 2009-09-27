@@ -121,6 +121,8 @@ struct AlbumXmlHandler : public SimpleSaxHandler<AlbumXmlHandler>
                             Node& trackArtistName (makeNode(trackArtist, "name")); trackArtistName.onChar = &AlbumXmlHandler::onTrackArtistName;
                 Node& relationList (makeNode(rel, "relation-list")); relationList.onStart = &AlbumXmlHandler::onRelationListStart;
                     Node& relation (makeNode(relationList, "relation")); relation.onStart = &AlbumXmlHandler::onRelationStart;
+
+        m_albumInfo.m_eVarArtists = AlbumInfo::VA_SINGLE;
     }
 
 private:
@@ -214,7 +216,11 @@ private:
 
     void onAlbArtistNameChar(const string& s)
     {
-        if (0 != convStr(s).compare("VaRiOuS Artists", Qt::CaseInsensitive))
+        if (0 == convStr(s).compare("VaRiOuS Artists", Qt::CaseInsensitive))
+        {
+            m_albumInfo.m_eVarArtists = AlbumInfo::VA_VARIOUS;
+        }
+        else
         {
             m_albumInfo.m_strArtist = s;
         }
@@ -232,7 +238,7 @@ private:
 };
 
 
-void MusicBrainzAlbumInfo::copyTo(AlbumInfo& dest)
+/*override*/ void MusicBrainzAlbumInfo::copyTo(AlbumInfo& dest)
 {
     dest.m_strTitle = m_strTitle;
     //dest.m_strArtist = m_strArtist;
@@ -242,6 +248,7 @@ void MusicBrainzAlbumInfo::copyTo(AlbumInfo& dest)
     dest.m_strReleased = m_strReleased;
     //dest.m_strNotes; // !!! missing
     dest.m_vTracks = m_vTracks;
+    dest.m_eVarArtists = m_eVarArtists;
 
     dest.m_strSourceName = MusicBrainzDownloader::SOURCE_NAME; // Discogs, MusicBrainz, ... ; needed by MainFormDlgImpl;
     //dest.m_imageInfo; // !!! not set

@@ -147,7 +147,9 @@
         if ("" != err)
         {
             alert(err);
+            return false;
         }
+        return true;
     }
 
     function trimFolders()
@@ -438,12 +440,39 @@
             fOut.close();
             fsObj.DeleteFile("src\\MP3DiagsWindows.vcproj1");
         }
+
+        //var regExp4 = new RegExp("msvc-9.0express"); //ttt0 handle other versions
+        var regExp4 = new RegExp("msvc-9.0"); //ttt0 handle other versions
+        if (-1 != crtFolderSettings[5].search(regExp4))
+        { // VS Express; add a comment to allow the file to be opened by double-clicking
+            fsObj.MoveFile("mp3diags.sln", "mp3diags.sln1");
+            var fOut = fsObj.CreateTextFile("mp3diags.sln", true);
+            var fIn = fsObj.OpenTextFile("mp3diags.sln1", 1);
+            var line;
+            var nCrt = 0;
+
+            while (!fIn.AtEndOfStream)
+            {
+                line = fIn.ReadLine();
+                ++nCrt;
+                if (2 == nCrt)
+                {
+                    //fOut.writeLine("# Visual C++ Express 2008");
+                    fOut.writeLine("# Visual Studio 2008");
+                }
+                fOut.writeLine(line);
+            }
+
+            fIn.close();
+            fOut.close();
+            fsObj.DeleteFile("mp3diags.sln1");
+        }
     }
 
 
     function setUpProj()
     {
-        saveSettings();
+        if (!saveSettings()) { return false; }
         if (crtFolderSettings[1] == TOOLCHAIN_MINGW_QMAKE)
         {
             setUpProjGcc();
@@ -452,6 +481,7 @@
         {
             setUpProjMsvc();
         }
+        return true;
     }
 
 
@@ -459,7 +489,7 @@
     {
         if (!fsObj.FileExists("build.bat"))
         {
-            setUpProj();
+            if (!setUpProj()) { return; }
         }
 
         wsShell.run("build.bat", 1, true);
@@ -497,7 +527,7 @@
 <body onload="onLoad()">
 
     <div id="Test">
-        Boost .lib file - release version
+        Boost Serialization .lib file - release
     </div>
 
     <script type="text/javascript">
@@ -542,7 +572,7 @@
                 <td><input type="text" style="width: 100%" name="boostRoot" id="boostRoot"/></td>
             </tr>
             <tr>
-                <script type="text/javascript">document.write(firstColTag);</script>Boost .lib file - release version</td>
+                <script type="text/javascript">document.write(firstColTag);</script>Boost Serialization .lib file - release</td>
                 <td><input type="text" style="width: 100%" name="boostLib" id="boostLib"/></td>
             </tr>
             <tr>
@@ -589,7 +619,7 @@
             <li class="vertSpc3">Note that the Qt root folder is for the Qt library, not for Qt Creator. If you installed Qt SDK, the Qt root folder is probably going to be called "qt", and it is inside 2009.03 or something similar.</li>
             <li class="vertSpc3">After configuring the folders you need to "set up" the project. Then you can either build it, by clicking on the corresponding button, or open it in an IDE.</li>
             <li class="vertSpc3">To open MP3 Diags with Qt Creator: set up the project, start Qt Creator and open <b>mp3diags.pro</b>. If it offers to import existing build settings, you should decline; otherwise you'll only be able to build the debug version.</li>
-            <li class="vertSpc3">To open MP3 Diags with Visual C++ (Express): set up the project, start Visual C++ and open <b>mp3diags.sln</b>. (Double-clicking on mp3diags.sln in Windows Explorer is supposed to work as well, but doesn't seem to do anything.) Only Visual C++ Express 2008 was tested, but other versions might work as well.</li>
+            <li class="vertSpc3">To open MP3 Diags with Visual C++ (Express): first set up the project. Then, if you have a 2008 version, you can double-click on <b>mp3diags.sln</b> in Windows Explorer. If you have something else, double-clicking on <b>src\MP3DiagsWindows.vcproj</b> will probably work, as well as opening either <b>src\MP3DiagsWindows.vcproj</b> or <b>mp3diags.sln</b> from the IDE; however, these haven't been tested.</li>
             <li class="vertSpc3">MinGW uses the "release" Boost serialization in both debug and and release version, while the Visual C++ debug version uses the "debug" serialization. There is little reason to debug the serialization code, but by design that's how Boost works under Visual C++. (Note that you should specify the release library in "Boost .lib file" regardless of what you want to build. The generated .vcproj file will have correct settings for both "debug" and "release" configurations.)</li>
             <!--
                 the .obj files contain boost_serialization-vc90-mt-gd-1_39.lib, and this "gd" is what's different from release

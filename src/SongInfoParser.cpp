@@ -738,6 +738,7 @@ void TrackTextParser::construct(const std::string& strPattern)
                         case 'g': { stack.top()->m_vpReaders.push_back(new UnboundReader(TagReader::GENRE)); break; }
                         case 'r': { stack.top()->m_vpReaders.push_back(new RatingReader()); break; }
                         case 'c': { stack.top()->m_vpReaders.push_back(new UnboundReader(TagReader::COMPOSER)); break; }
+                        //ttt2 perhaps add something for "various artists"
                         case 'i': { stack.top()->m_vpReaders.push_back(new UnboundReader(TagReader::LIST_END)); break; } // !!! LIST_END for ignored items
                         default: { nErrPos = p - pBegin; goto err; }
                         }

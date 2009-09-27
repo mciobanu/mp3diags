@@ -1,12 +1,34 @@
-cmake_minimum_required(VERSION 2.6.4)
+cmake_minimum_required(VERSION 2.6.0)
 
 # Avoid to include the CMakeLists.txt files themselves to the project to get rid
 # of the custom build step in Visual Studio that regenerates the project.
-set(CMAKE_SUPPRESS_REGENERATION "1")
+set(CMAKE_SUPPRESS_REGENERATION TRUE)
+
+# Use relative instead of absolute paths in generated project files.
+set(CMAKE_USE_RELATIVE_PATHS TRUE)
 
 # Do not use whitespaces in the project name.
 set(name "MP3Diags")
 project(${name})
+
+# Search for Qt in QTDIR first, then in C:\Qt\** (on Windows only).
+list(APPEND qt_glob_paths $ENV{QTDIR})
+
+if(WIN32)
+    file(GLOB dirs "C:/Qt/*")
+    foreach(dir ${dirs})
+        if(IS_DIRECTORY ${dir})
+            list(APPEND qt_glob_paths ${dir})
+        endif()
+    endforeach()
+
+    # Search paths with higher version numbers first.
+    list(SORT qt_glob_paths)
+    list(REVERSE qt_glob_paths)
+endif()
+
+set(QT_SEARCH_PATHS ${qt_glob_paths} CACHE PATH "Paths where the Qt library is searched in.")
+set(CMAKE_PREFIX_PATH ${QT_SEARCH_PATHS})
 
 # Try to find Qt, which on success provides QT_USE_FILE, which in turn provides
 # QT_LIBRARIES.
@@ -31,6 +53,9 @@ include(${QT_USE_FILE})
 include_directories(${CMAKE_BINARY_DIR})
 
 # Try to find Boost, probably requires BOOST_ROOT to be set.
+set(BOOST_SEARCH_PATHS "$ENV{BOOST_ROOT}" CACHE PATH "Paths where the Boost library is searched in.")
+set(ENV{BOOST_ROOT} ${BOOST_SEARCH_PATHS})
+
 find_package(Boost REQUIRED)
 
 include_directories(${Boost_INCLUDE_DIRS})
@@ -48,4 +73,9 @@ if(WIN32)
 
     # For "GetProcessMemoryInfo()".
     target_link_libraries(${name} psapi.lib)
-endif(WIN32)
+endif()
+
+# Hide a few variables from the CMake GUI.
+set(CMAKE_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX} CACHE INTERNAL "")
+set(QT_QMAKE_EXECUTABLE ${QT_QMAKE_EXECUTABLE} CACHE INTERNAL "")
+set(Boost_LIB_DIAGNOSTIC_DEFINITIONS ${Boost_LIB_DIAGNOSTIC_DEFINITIONS} CACHE INTERNAL "")

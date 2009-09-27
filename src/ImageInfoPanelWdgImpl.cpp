@@ -78,16 +78,7 @@ ImageInfoPanelWdgImpl::~ImageInfoPanelWdgImpl()
 
 void ImageInfoPanelWdgImpl::on_m_pFullB_clicked()
 {
-    QDialog dlg (this, getNoResizeWndFlags());
-
-    QGridLayout* pGridLayout (new QGridLayout(&dlg));
-    dlg.setLayout(pGridLayout);
-    QLabel* p (new QLabel(&dlg));
-    pGridLayout->addWidget(p);
-
-    p->setPixmap(m_tagWrtImageInfo.m_imageInfo.getPixmap()); //ttt1 see if it should limit size (IIRC QLabel scaled down once a big image)
-
-    dlg.exec();
+    m_tagWrtImageInfo.m_imageInfo.showFull(this);
 }
 
 void ImageInfoPanelWdgImpl::setNormalBackground()

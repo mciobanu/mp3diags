@@ -28,6 +28,7 @@
 #include  "Id3V240Stream.h"
 #include  "Helpers.h"
 #include  "Id3Transf.h"
+#include  "CommonData.h"
 
 
 
@@ -346,6 +347,7 @@ Id3V230Stream::Id3V230Stream(int nIndex, NoteColl& notes, istream& in, StringWrp
     case ALBUM:
     case RATING:
     case COMPOSER:
+    case VARIOUS_ARTISTS:
         return READ_ONLY;
 
     default:
@@ -459,6 +461,32 @@ void Id3V230StreamWriter::setRecTime(const TagTimestamp& time)
     addTextFrame(KnownFrames::LBL_TIME_DATE_230(), time.getDayMonth());
 }
 
+
+// this only changes the frames that correspond to the active settings in the configuration;
+// if WMP handling is disabled, TPE2 is left untouched; if WMP handling is enabled, TPE2 is either removed or set to "Various Artists", based on "b"
+// if iTunes handling is disabled, TCON is left untouched; if WMP handling is enabled, TCON is either removed or set to "1", based on "b"
+void Id3V230StreamWriter::setVariousArtists(bool b)
+{
+    const CommonData* pCommonData (getCommonData());
+
+    if (pCommonData->m_bWmpVarArtists)
+    {
+        removeFrames(KnownFrames::LBL_WMP_VAR_ART());
+        if (b)
+        {
+            addTextFrame(KnownFrames::LBL_WMP_VAR_ART(), "Various Artists");
+        }
+    }
+
+    if (pCommonData->m_bItunesVarArtists)
+    {
+        removeFrames(KnownFrames::LBL_ITUNES_VAR_ART());
+        if (b)
+        {
+            addTextFrame(KnownFrames::LBL_ITUNES_VAR_ART(), "1");
+        }
+    }
+}
 
 
 // strVal is UTF8; the frame will use ASCII if possible and UTF16 otherwise (so if there's a char with a code above 127, UTF16 gets used, to avoid codepage issues for codes between 128 and 255); nothing is added if strVal is empty;

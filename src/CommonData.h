@@ -437,6 +437,8 @@ public:
     SessionSettings& m_settings;
 
     bool m_bKeepOneValidImg;
+    bool m_bWmpVarArtists;
+    bool m_bItunesVarArtists;
 
     std::string m_strTransfLog; // log file with transformations;
     bool m_bLogTransf;
@@ -557,6 +559,10 @@ private:
     template<class Archive> void load(Archive& ar, const unsigned int /*nVersion*/);
     BOOST_SERIALIZATION_SPLIT_MEMBER();
 };
+
+
+const CommonData* getCommonData(); // the only CommonData that exists at a given moment
+
 
 
 //=====================================================================================================================

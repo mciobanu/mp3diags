@@ -228,7 +228,11 @@ public:
 
     /*override*/ std::string getComposer(bool* pbFrameExists = 0) const;
 
+    /*override*/ int getVariousArtists(bool* pbFrameExists = 0) const; // combination of VariousArtists flags; since several frames might be involved, *pbFrameExists is set to "true" if at least a frame exists
+
     /*override*/ std::string getOtherInfo() const;
+
+    /*override*/ std::vector<ImageInfo> getImages() const;
 
     const std::string& getFileName() const { return m_pFileName->s; }
 
@@ -277,10 +281,13 @@ struct KnownFrames
     static const char* LBL_RATING();
     static const char* LBL_COMPOSER();
 
+    static const char* LBL_WMP_VAR_ART();
+    static const char* LBL_ITUNES_VAR_ART();
+
     struct InvalidIndex {};
 
     static const char* getFrameName (int n); // throws InvalidIndex if n is out of bounds
-    static const std::set<std::string>& getKnownFrames();
+    static const std::set<std::string>& getKnownFrames(); // doesn't include "Various Artists" frames //ttt1 maybe it should include them as well
 
     static bool canHaveDuplicates(const char* szName); // to be counted as duplicates, 2 frames must have the same name and picture type, so the value returned here is only part of the test
 };

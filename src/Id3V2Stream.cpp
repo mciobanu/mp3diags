@@ -331,20 +331,50 @@ e1:
     }
 
 
-    if (0 == strcmp(KnownFrames::LBL_IMAGE(), m_szName))
+    if (Id3V2Frame::NO_APIC != m_eApicStatus)
     {
-        out << " status=";
-        switch(m_eApicStatus)
-        {
-        case USES_LINK: out << "link"; break;
-        case NOT_SUPPORTED: out << "not supported"; break;
-        case ERR: out << "error"; break;
-        case OK: out << "OK"; break;
-        default: CB_ASSERT1 (false, m_pFileName->s);
-        }
+        out << " status=" << getImageStatus();
     }
 
 }
+
+
+const char* Id3V2Frame::getImageType() const
+{
+    return ImageInfo::getImageType(m_nPictureType);
+}
+
+
+const char* Id3V2Frame::getImageStatus() const
+{
+    switch(m_eApicStatus)
+    {
+    case USES_LINK: return "link";
+    case NON_COVER: return "non-cover";
+    case ERR: return "error";
+    case COVER: return "cover";
+    default: CB_ASSERT1 (false, m_pFileName->s);
+    }
+}
+
+
+double Id3V2Frame::getRating() const // asserts it's POPM
+{
+    CB_ASSERT (0 == strcmp(KnownFrames::LBL_RATING(), m_szName));
+
+    Id3V2FrameDataLoader wrp (*this);
+    const char* pData (wrp.getData());
+    int k (0);
+    while (k < m_nMemDataSize && 0 != pData[k]) { ++k; } // skip email addr
+    ++k;
+    if (k >= m_nMemDataSize)
+    { // error //ttt2 add warning on constructor
+        return -1;
+    }
+    unsigned char c (pData[k]);
+    return 5*(double(c) - 1)/254;  // ttt1 not sure this is the best mapping
+}
+
 
 
 /*static*/ string Id3V2Frame::utf8FromBomUtf16(const char* pData, int nSize)
@@ -379,6 +409,43 @@ e1:
     string s (convStr(qs));
 
     rtrim(s);
+    return s;
+}
+
+
+
+static const set<string>& getAllUsedFrames()
+{
+    static set<string> sAllUsedFrames (KnownFrames::getKnownFrames());
+    static bool bFirstTime (true);
+    if (bFirstTime)
+    {
+        sAllUsedFrames.insert(KnownFrames::LBL_WMP_VAR_ART());
+        sAllUsedFrames.insert(KnownFrames::LBL_ITUNES_VAR_ART());
+    }
+
+    return sAllUsedFrames;
+}
+
+
+string Id3V2Frame::getUtf8String() const
+{
+    string s (getUtf8StringImpl());
+    if (0 == getAllUsedFrames().count(m_szName))
+    { // text frames may contain null characters, and what's after a null char isn't supposed to be displayed; however, for frames that aren't used we may want to see what's after the null
+        for (int i = 0; i < cSize(s); ++i)
+        {
+            unsigned char c (s[i]);
+            if (c < 32) // ttt3 ASCII only
+            {
+                s[i] = 32;
+            }
+        }
+    }
+
+    s = s.c_str(); // !!! so now s doesn't contain null chars
+    rtrim(s);
+
     return s;
 }
 
@@ -755,7 +822,7 @@ e1:
     for (int i = 0; i < cSize(m_vpFrames); ++i)
     {
         Id3V2Frame* pFrame (m_vpFrames[i]);
-        if (Id3V2Frame::NOT_SUPPORTED == pFrame->m_eApicStatus || Id3V2Frame::OK == pFrame->m_eApicStatus)
+        if (Id3V2Frame::NON_COVER == pFrame->m_eApicStatus || Id3V2Frame::COVER == pFrame->m_eApicStatus)
         {
             try
             {
@@ -779,7 +846,7 @@ e1:
 
                 QByteArray b (QByteArray::fromRawData(pBinData, pFrame->m_nImgSize));
                 b.append('x'); b.resize(b.size() - 1); // !!! these are needed because fromRawData() doesn't create copies of the memory used for the byte array
-                v.push_back(ImageInfo(pFrame->m_nPictureType, Id3V2Frame::OK == pFrame->m_eApicStatus ? ImageInfo::OK : ImageInfo::LOADED_NOT_COVER, pFrame->m_eCompr, b, pFrame->m_nWidth, pFrame->m_nHeight));
+                v.push_back(ImageInfo(pFrame->m_nPictureType, Id3V2Frame::COVER == pFrame->m_eApicStatus ? ImageInfo::OK : ImageInfo::LOADED_NOT_COVER, pFrame->m_eCompr, b, pFrame->m_nWidth, pFrame->m_nHeight));
             }
             catch (const Id3V2FrameDataLoader::LoadFailure&)
             {
@@ -804,6 +871,21 @@ e1:
 }
 
 
+/*override*/ std::string Id3V2StreamBase::getImageData(bool* pbFrameExists /*= 0*/) const
+{
+    if (0 != pbFrameExists)
+    {
+        *pbFrameExists = 0 != m_pPicFrame;
+    }
+
+    if (0 == m_pPicFrame) { return ""; }
+
+    ostringstream out;
+    out << "type:" << m_pPicFrame->getImageType() << ", status:" << m_pPicFrame->getImageStatus() << ", size:" << m_pPicFrame->m_nWidth << "x" << m_pPicFrame->m_nHeight << ", compr:" << ImageInfo::getComprStr(m_pPicFrame->m_eCompr);
+
+    return out.str();
+}
+
 /*static*/ const char* Id3V2StreamBase::decodeApic(NoteColl& notes, streampos pos, const char* pData, const char*& szMimeType, int& nPictureType, const char*& szDescription)
 {
     MP3_CHECK (0 == pData[0] || 3 == pData[0], pos, id3v2UnsupApicTextEnc, NotSupTextEnc()); // !!! there's no need for StreamIsUnsupported here, because this error is not fatal, and it isn't allowed to propagate, therefore doesn't cause a stream to be Unsupported; //ttt1 review, support
@@ -823,7 +905,7 @@ e1:
 static bool isTypeSupported(int nType)
 {
     //return Id3V2Frame::OTHER == nType || Id3V2Frame::ICON == nType || Id3V2Frame::COVER == nType; //ttt1 review decision to have all these map to "cover"; see also Mp3HandlerTagData::reload(), where saving of a "cover" image is influenced by what this returned
-    return Id3V2Frame::COVER == nType; // 2009.04.05 - for a while it seemed a good idea to report OTHER and ICON as "supported", but there's the issue of what to do when deleting an image in the tag editor; seems better to just use the cover; //ttt1 OTOH this creates more duplicates
+    return Id3V2Frame::PT_COVER == nType; // 2009.04.05 - for a while it seemed a good idea to report OTHER and ICON as "supported", but there's the issue of what to do when deleting an image in the tag editor; seems better to just use the cover; //ttt1 OTOH this creates more duplicates
 }
 
 
@@ -845,7 +927,7 @@ void Id3V2StreamBase::preparePictureHlp(NoteColl& notes, Id3V2Frame* pFrame, con
     {
         pFrame->m_nImgSize = nSize;
         pFrame->m_nImgOffset = pImgData - pFrameData;
-        pFrame->m_eApicStatus = Id3V2Frame::OK;
+        pFrame->m_eApicStatus = Id3V2Frame::COVER;
         pFrame->m_nWidth = short(img.width());
         pFrame->m_nHeight = short(img.height());
         if (0 == strcmp("image/jpeg", szMimeType) || 0 == strcmp("image/jpg", szMimeType))
@@ -902,14 +984,14 @@ void Id3V2StreamBase::preparePicture(NoteColl& notes) // initializes fields used
                 }
                 catch (const NotSupTextEnc&)
                 {
-                    p->m_eApicStatus = Id3V2Frame::NOT_SUPPORTED;
+                    p->m_eApicStatus = Id3V2Frame::NON_COVER;
                     continue;
                 }
                 if (0 != *szDescription) { MP3_NOTE (p->m_pos, id3v2PictDescrIgnored); }
 
                 preparePictureHlp(notes, p, pData, pCrtData, szMimeType);
 
-                if (Id3V2Frame::OK == p->m_eApicStatus)
+                if (Id3V2Frame::COVER == p->m_eApicStatus)
                 {
                     if (isTypeSupported(p->m_nPictureType))
                     {
@@ -954,7 +1036,7 @@ void Id3V2StreamBase::preparePicture(NoteColl& notes) // initializes fields used
     {
     case Id3V2Frame::USES_LINK: m_eImageStatus = ImageInfo::USES_LINK; return;
     case Id3V2Frame::ERR: m_eImageStatus = ImageInfo::ERROR_LOADING; return;
-    case Id3V2Frame::NOT_SUPPORTED: m_eImageStatus = ImageInfo::ERROR_LOADING; return;
+    case Id3V2Frame::NON_COVER: m_eImageStatus = ImageInfo::ERROR_LOADING; return; //ttt0 2009.09.29 review
     default: CB_ASSERT1 (false, m_pFileName->s); // all cases should have been covered
     }
 
@@ -1035,18 +1117,8 @@ void Id3V2StreamBase::preparePicture(NoteColl& notes) // initializes fields used
     const Id3V2Frame* p (findFrame(KnownFrames::LBL_RATING()));
     if (0 != pbFrameExists) { *pbFrameExists = 0 != p; }
     if (0 == p) { return -1; }
-    Id3V2FrameDataLoader wrp (*p);
-    const char* pData (wrp.getData());
-    int n (p->m_nMemDataSize);
-    int k (0);
-    while (k < n && 0 != pData[k]) { ++k; } // skip email addr
-    ++k;
-    if (k >= n)
-    { // error //ttt2 add warning on constructor
-        return -1;
-    }
-    unsigned char c (pData[k]);
-    return 5*(double(c) - 1)/254;  // ttt1 not sure this is the best mapping
+
+    return p->getRating();
 }
 
 
@@ -1121,7 +1193,7 @@ const Id3V2Frame* Id3V2StreamBase::getFrame(const char* szName) const
         }
         else
         {
-            if (Id3V2Frame::NOT_SUPPORTED != p->m_eApicStatus && Id3V2Frame::OK != p->m_eApicStatus) // images tha can be loaded are shown, so there shouldn't be another entry for them
+            if (Id3V2Frame::NON_COVER != p->m_eApicStatus && Id3V2Frame::COVER != p->m_eApicStatus) // images that can be loaded are shown, so there shouldn't be another entry for them
             {
                 if (b) { out << ", "; }
                 b = true;
@@ -1236,7 +1308,7 @@ vector<const Id3V2Frame*> Id3V2StreamBase::getKnownFrames() const // to be used 
 
             }
 
-            if (bAdd && 0 == strcmp(KnownFrames::LBL_IMAGE(), p->m_szName) && Id3V2Frame::OK != p->m_eApicStatus && Id3V2Frame::NOT_SUPPORTED != p->m_eApicStatus)
+            if (bAdd && 0 == strcmp(KnownFrames::LBL_IMAGE(), p->m_szName) && Id3V2Frame::COVER != p->m_eApicStatus && Id3V2Frame::NON_COVER != p->m_eApicStatus)
             { // !!! get rid of broken pictures and links
                 bAdd = false;
             }

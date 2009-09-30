@@ -38,7 +38,6 @@ protected:
     MpegFrame m_firstFrame;
 
     std::streampos m_pos;
-    const MpegFrame& getFirstFrame() const { return m_firstFrame; }
 
     MpegStreamBase(int nIndex, NoteColl& notes, std::istream& in);
 
@@ -53,6 +52,8 @@ public:
 
     /*override*/ std::streampos getPos() const { return m_pos; }
     /*override*/ std::streamoff getSize() const { return m_firstFrame.getSize(); }
+
+    const MpegFrame& getFirstFrame() const { return m_firstFrame; }
 
 private:
     friend class boost::serialization::access;
@@ -106,6 +107,8 @@ public:
 
     bool findNextCompatFrame(std::istream& in, std::streampos posMax); // moves the read pointer to the first frame compatible with the stream; returns "false" if no such frame is found
 
+    std::string getDuration() const;
+
     struct StreamTooShort // exception thrown if a stream has less than 10 frames
     {
         std::string m_strInfo;
@@ -155,6 +158,7 @@ public:
     // /*override*/ void copy(std::istream& in, std::ostream& out);
     DECL_NAME("Xing Header");
     /*override*/ std::string getInfo() const;
+    std::string getInfoForXml() const;
 
     bool matchesStructure(const MpegStream&) const; // checks that there is a metch for version, layer, frequency
     bool matches(const MpegStream&) const; // checks that there is a metch for version, layer, frequency and frame count
@@ -272,6 +276,7 @@ public:
     /*override*/ std::streampos getPos() const { return m_pos; }
     /*override*/ std::streamoff getSize() const { return 128; }
 
+    const char* getVersion() const;
 
     struct NotId3V1Stream {};
 

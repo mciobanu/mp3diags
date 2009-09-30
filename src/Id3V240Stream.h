@@ -30,10 +30,10 @@
 struct Id3V240Frame : public Id3V2Frame
 {
     Id3V240Frame(NoteColl& notes, std::istream& in, std::streampos pos, bool bHasUnsynch, std::streampos posNext, StringWrp* pFileName);
-    /*override*/ std::string getUtf8String() const;
 private:
     bool checkSize(std::istream& in, std::streampos posNext); // since broken applications may use all 8 bits for size, although only 7 should be used, this tries to figure out if the size is correct
     /*override*/ bool discardOnChange() const;
+    /*override*/ std::string getUtf8StringImpl() const;
 
 private:
     friend class boost::serialization::access;

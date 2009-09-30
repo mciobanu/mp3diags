@@ -93,7 +93,7 @@ static const char* s_szPlaceholderDescr ("<Placeholder for a note that can no lo
 
     // audio
     addNote(&Notes::twoAudio()); // e
-    addNote(&Notes::lowQualAudio()); // w //ttt0 Low quality MPEG audio stream (see Configuration>Quality thresholds) 
+    addNote(&Notes::lowQualAudio()); // w
     addNote(&Notes::noAudio()); // e
     addNote(&Notes::vbrUsedForNonMpg1L3()); // w
     addNote(&Notes::incompleteFrameInAudio()); // e
@@ -219,7 +219,7 @@ static const char* s_szPlaceholderDescr ("<Placeholder for a note that can no lo
 
     // misc
     addNote(&Notes::fileWasChanged()); // w
-    addNote(&Notes::noInfoTag()); // w //ttt0 perhaps change to "No SUPPORTED tag found that is capable of storing song information."
+    addNote(&Notes::noInfoTag()); // w
     addNote(&Notes::tooManyTraceNotes()); // w
     addNote(&Notes::tooManyNotes()); // w
     addNote(&Notes::tooManyStreams()); // w

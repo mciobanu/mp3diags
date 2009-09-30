@@ -471,7 +471,7 @@ case 3:
 
 
 FileHeaderView::FileHeaderView(CommonData* pCommonData, Qt::Orientation orientation, QWidget* pParent) : QHeaderView(orientation, pParent), m_pCommonData(pCommonData)
-{
+{ //ttt0 hard-code orientation
 }
 
 
@@ -505,7 +505,7 @@ int getHeaderDrawOffset() { return s_nCut; }
 
     pPainter->save();
 
-    // partial copy from Qt's implementation of QHeaderView
+    // partial copy from Qt's implementation of QHeaderView (qheaderview.cpp)
     QStyleOptionHeader opt;
     initStyleOption(&opt);
 

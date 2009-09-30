@@ -27,11 +27,13 @@
 #include  <QHeaderView>
 #include  <QApplication>
 #include  <QToolButton>
+#include  <QTimer>
 
 #include  "TagReadPanel.h"
 
 #include  "DataStream.h"
 #include  "Helpers.h"
+#include  "Widgets.h"
 
 
 extern int CELL_HEIGHT;
@@ -76,6 +78,8 @@ TagReadPanel::TagReadPanel(QWidget* pParent, TagReader* pTagReader) : QFrame(pPa
 
     {
         QTableWidget* pTable (new QTableWidget(this));
+        pTable->setVerticalHeader(new NoCropHeaderView(pTable));
+
         pTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
         pTable->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         pTable->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
@@ -85,9 +89,11 @@ TagReadPanel::TagReadPanel(QWidget* pParent, TagReader* pTagReader) : QFrame(pPa
         QStringList lLabels;
         lLabels << "Title" << "Artist" << "Track#" << "Time" << "Genre" << "Composer" << "Album";
         pTable->setVerticalHeaderLabels(lLabels);
+
         pTable->horizontalHeader()->hide();
         //pTable->setMinimumHeight(300);
-        int nHeight (CELL_HEIGHT*7 + 2*QApplication::style()->pixelMetric(QStyle::PM_DefaultFrameWidth));  //ttt not sure it's right; try several styles
+        int nHeight (CELL_HEIGHT*7 + 2*QApplication::style()->pixelMetric(QStyle::PM_DefaultFrameWidth, 0, pTable));
+
         pTable->setMaximumHeight(nHeight);
         pTable->setMinimumHeight(nHeight);
         //pTable->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -155,38 +161,42 @@ TagReadPanel::TagReadPanel(QWidget* pParent, TagReader* pTagReader) : QFrame(pPa
         pTable->setItem(6, 0, pItem);
 
         pLayout->addWidget(pTable);
+
+        //ttt2 Oxygen shows regular cells under mouse with diferent background color
     }
 
 
     {
         // ttt2 perhaps use QScrollArea
         vector<ImageInfo> vImg (pTagReader->getImages());
-        QWidget* pImgWidget (0);
+        m_pImgWidget = 0;
         QHBoxLayout* pImgWidgetLayout (0);
 
         for (int i = 0; i < cSize(vImg); ++i)
         {
             const ImageInfo& img (vImg[i]);
 
-            if (0 == pImgWidget)
+            if (0 == m_pImgWidget)
             {
-                pImgWidget = new QWidget (this);
-                pImgWidgetLayout = new QHBoxLayout(pImgWidget);
+                m_pImgWidget = new QWidget (this);
+                pImgWidgetLayout = new QHBoxLayout(m_pImgWidget);
                 pImgWidgetLayout->setContentsMargins(0, 0, 0, 0);
                 //pImgWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-                pImgWidget->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+                m_pImgWidget->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
                 //pImgWidget->setMaximumHeight(40);
             }
 
             ImageInfoPanel* p (new ImageInfoPanel (this, img));
+            m_vpImgPanels.push_back(p);
 
             pImgWidgetLayout->addWidget(p);
         }
 
-        if (0 != pImgWidget)
+
+        if (0 != m_pImgWidget)
         {
             pImgWidgetLayout->addStretch();
-            pLayout->addWidget(pImgWidget);
+            pLayout->addWidget(m_pImgWidget);
         }
     }
 
@@ -209,7 +219,31 @@ TagReadPanel::TagReadPanel(QWidget* pParent, TagReader* pTagReader) : QFrame(pPa
         pLayout->addWidget(pOtherInfoM);
     }
 
+    if (0 != m_pImgWidget)
+    {
+        QTimer::singleShot(1, this, SLOT(onCheckSize()));
+    }
 }
+
+
+void TagReadPanel::onCheckSize()
+{
+    QSize hint (m_pImgWidget->sizeHint());
+    QSize act (m_pImgWidget->size());
+    //qDebug("pImgWidget %dx%d  %dx%d", hint.width(), hint.height(), act.width(), act.height());
+    if (hint.width() > act.width())
+    {
+        int n (cSize(m_vpImgPanels));
+        int nNewSize ((act.width() + m_pImgWidget->layout()->spacing()) / n - m_pImgWidget->layout()->spacing() - 8); //ttt2 hard-coded "8"; it's for the frame drawn around auto-raise buttons; minimum value that works is 6, but not sure where to get it from; using 8 just in case)
+        if (nNewSize > 64) { nNewSize = 64; }
+        //qDebug("new sz %d", nNewSize);
+        for (int i = 0; i < n; ++i)
+        {
+            m_vpImgPanels[i]->resize(nNewSize);
+        }
+    }
+}
+
 
 
 ImageInfoPanel::ImageInfoPanel(QWidget* pParent, const ImageInfo& imageInfo) : QFrame(pParent), m_imageInfo(imageInfo)
@@ -219,33 +253,58 @@ ImageInfoPanel::ImageInfoPanel(QWidget* pParent, const ImageInfo& imageInfo) : Q
     pLayout->setSpacing(4);
     pLayout->addStretch();
 
-    const int BTN_SIZE (64);
-    const int ICON_SIZE (BTN_SIZE - 2*QApplication::style()->pixelMetric(QStyle::PM_DefaultFrameWidth) - 2); //ttt2 not sure PM_DefaultFrameWidth is right
+    createButton(64);
 
-    QToolButton* pBtn (new QToolButton(this));
-    pBtn->setIcon(imageInfo.getPixmap(ICON_SIZE));
-    pBtn->setMaximumSize(BTN_SIZE, BTN_SIZE);
-    pBtn->setMinimumSize(BTN_SIZE, BTN_SIZE);
-    pBtn->setAutoRaise(true);
-    pBtn->setToolTip("Click to see larger image");
-
-    pBtn->setIconSize(QSize(ICON_SIZE, ICON_SIZE));
-    pLayout->addWidget(pBtn, 0, Qt::AlignHCenter);
-
-    QLabel* pInfoLabel (new QLabel("<error>", this));
-    pInfoLabel->setText(m_imageInfo.getTextDescr());
-    pInfoLabel->setAlignment(Qt::AlignHCenter);
-    pLayout->addWidget(pInfoLabel, 0, Qt::AlignHCenter);
+    m_pInfoLabel = new QLabel("<error>", this);
+    m_pInfoLabel->setText(m_imageInfo.getTextDescr());
+    m_pInfoLabel->setAlignment(Qt::AlignHCenter);
+    pLayout->addWidget(m_pInfoLabel, 0, Qt::AlignHCenter);
 
     //setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-
-    connect(pBtn, SIGNAL(clicked(bool)), this, SLOT(onShowFull()));
 }
 
 
 void ImageInfoPanel::onShowFull()
 {
     m_imageInfo.showFull(this);
+}
+
+
+void ImageInfoPanel::createButton(int nSize)
+{
+    QVBoxLayout* pLayout (dynamic_cast<QVBoxLayout*>(layout()));
+
+    const int BTN_SIZE (nSize);
+    const int ICON_SIZE (BTN_SIZE - 2*QApplication::style()->pixelMetric(QStyle::PM_DefaultFrameWidth) - 2); //ttt2 not sure PM_DefaultFrameWidth is right
+
+    m_pBtn = new QToolButton(this);
+    m_pBtn->setIcon(m_imageInfo.getPixmap(ICON_SIZE));
+    m_pBtn->setMaximumSize(BTN_SIZE, BTN_SIZE);
+    m_pBtn->setMinimumSize(BTN_SIZE, BTN_SIZE);
+    m_pBtn->setAutoRaise(true);
+    m_pBtn->setToolTip("Click to see larger image");
+
+    m_pBtn->setIconSize(QSize(ICON_SIZE, ICON_SIZE));
+    pLayout->addWidget(m_pBtn, 0, Qt::AlignHCenter);
+
+    connect(m_pBtn, SIGNAL(clicked(bool)), this, SLOT(onShowFull()));
+}
+
+
+void ImageInfoPanel::resize(int nSize)
+{
+    delete m_pBtn;
+    delete m_pInfoLabel;
+
+    createButton(nSize);
+
+    QVBoxLayout* pLayout (dynamic_cast<QVBoxLayout*>(layout()));
+
+    // ttt2 see why is this needed (otherwise the button isn't shown)
+    m_pInfoLabel = new QLabel("", this);
+    m_pInfoLabel->setMaximumSize(100, 1);
+    pLayout->addWidget(m_pInfoLabel, 0, Qt::AlignHCenter);
+    pLayout->setSpacing(0);
 }
 

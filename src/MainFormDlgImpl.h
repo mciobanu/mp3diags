@@ -95,6 +95,7 @@ public slots:
     void on_m_pTagEdtB_clicked();
     void on_m_pRenameFilesB_clicked();
     void on_m_pDebugB_clicked();
+    void on_m_pExportB_clicked();
 
     void emptySlot() {} // needed to disable exiting on ESCAPE
 

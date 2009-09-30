@@ -20,47 +20,57 @@
  ***************************************************************************/
 
 
-#include  <vector>
 
-#include  <QFrame>
-
-#include  "CommonTypes.h"
+#ifndef EXPORTDLGIMPL_H
+#define EXPORTDLGIMPL_H
 
 
-struct TagReader;
-class QToolButton;
-class QLabel;
+#include <vector>
+
+#include <QDialog>
+
+#include "ui_Export.h"
+
+class Mp3Handler;
 
 
-class ImageInfoPanel : public QFrame
+class ExportDlgImpl : public QDialog, private Ui::ExportDlg
 {
     Q_OBJECT
 
-    ImageInfo m_imageInfo;
-    QToolButton* m_pBtn;
-    QLabel* m_pInfoLabel;
+    bool exportAsText(const std::string& strFileName);
+    bool exportAsM3u(const std::string& strFileName);
+    bool exportAsXml(const std::string& strFileName);
 
-    void createButton(int nSize);
+    void getHandlers(std::vector<const Mp3Handler*>& v);
+    void setFormatBtn();
+
+    void setExt(const char* szExt);
+
 public:
-    ImageInfoPanel(QWidget* pParent, const ImageInfo& imageInfo);
-    void resize(int nSize); // removes the label and makes the button smaller
+    ExportDlgImpl(QWidget* pParent);
+    ~ExportDlgImpl();
+    /*$PUBLIC_FUNCTIONS$*/
+
+    void run();
+
+public slots:
+    /*$PUBLIC_SLOTS$*/
+
+protected:
+    /*$PROTECTED_FUNCTIONS$*/
 
 protected slots:
-    void onShowFull();
+    /*$PROTECTED_SLOTS$*/
+
+    void on_m_pCloseB_clicked() { accept(); }
+    void on_m_pExportB_clicked();
+    void on_m_pChooseFileB_clicked();
+
+    void on_m_pXmlRB_clicked() { setExt("xml"); }
+    void on_m_pM3uRB_clicked() { setExt("m3u"); }
+    void on_m_pTextRB_clicked() { setExt("txt"); }
 };
 
-
-class TagReadPanel : public QFrame
-{
-    Q_OBJECT
-
-    QWidget* m_pImgWidget;
-    std::vector<ImageInfoPanel*> m_vpImgPanels;
-public:
-    TagReadPanel(QWidget* pParent, TagReader* pTagReader);
-
-protected slots:
-    void onCheckSize();
-};
-
+#endif
 

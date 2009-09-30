@@ -221,18 +221,22 @@ void MpegStream::removeLastFrame()
 /*override*/ std::string MpegStream::getInfo() const
 {
     ostringstream out;
-    int nDur (int(m_nSize*8.0/m_nBitrate));
-    int nMin (nDur/60);
-    int nSec (nDur - nMin*60);
-    char a [15];
-    sprintf(a, "%d:%02d", nMin, nSec);
-    out << a << ", " << m_firstFrame.getSzVersion() << " " << m_firstFrame.getSzLayer() << ", " << m_firstFrame.getSzChannelMode() << ", " <<
+    out << getDuration() << ", " << m_firstFrame.getSzVersion() << " " << m_firstFrame.getSzLayer() << ", " << m_firstFrame.getSzChannelMode() << ", " <<
         m_firstFrame.getFrequency() << "Hz, " << m_nBitrate << "bps " << (m_bVbr ? "VBR" : "CBR") << ", CRC=" <<
         boolAsYesNo(m_firstFrame.getCrcUsage()) << ", frame count=" << m_nFrameCount;
     out << "; last frame" << (m_bRemoveLastFrameCalled ? " removed; it was" : "") << " located at 0x" << hex << m_posLastFrame << dec;
     return out.str();
 }
 
+std::string MpegStream::getDuration() const
+{
+    int nDur (int(m_nSize*8.0/m_nBitrate));
+    int nMin (nDur/60);
+    int nSec (nDur - nMin*60);
+    char a [15];
+    sprintf(a, "%d:%02d", nMin, nSec);
+    return a;
+}
 
 bool MpegStream::isCompatible(const MpegFrameBase& frame)
 {
@@ -370,6 +374,16 @@ void XingStreamBase::getXingInfo(std::ostream& out) const
     if (0x04 == (m_cFlags & 0x04)) { out << (b ? "," : "") << " TOC present"; b = true; }
     if (0x08 == (m_cFlags & 0x08)) { out << (b ? "," : "") << " quality=" << m_nQuality; b = true; }
     out << "]";
+}
+
+std::string XingStreamBase::getInfoForXml() const
+{
+    ostringstream out;
+    if (0x01 == (m_cFlags & 0x01)) { out << " frameCount=\"" << m_nFrameCount << "\""; }
+    if (0x02 == (m_cFlags & 0x02)) { out << " byteCount=\"" << m_nByteCount << "\""; } //ttt1 see what to do with this: it's the size of the whole file, all headers&tags included (at least with c03 Valentin Moldovan - Marea Irlandei.mp3); ??? and anyway,  what's the point of including the size of the whole file as a field?
+    if (0x04 == (m_cFlags & 0x04)) { out << " toc=\"yes\""; }
+    if (0x08 == (m_cFlags & 0x08)) { out << " quality=\"" << m_nQuality << "\""; }
+    return out.str();
 }
 
 
@@ -610,17 +624,22 @@ static string getSpacedStr(const string& s)
     return ", " + s;
 }
 
-/*override*/ std::string Id3V1Stream::getInfo() const
+
+const char* Id3V1Stream::getVersion() const
 {
-    string strRes;
     switch (m_eVersion)
     {
-    case V10: strRes = "ID3V1.0"; break;
-    case V11: strRes = "ID3V1.1"; break;
-    case V11b: strRes = "ID3V1.1b"; break;
+    case V10: return "ID3V1.0";
+    case V11: return "ID3V1.1";
+    case V11b: return "ID3V1.1b";
     default:
         STRM_ASSERT (false);
     }
+}
+
+/*override*/ std::string Id3V1Stream::getInfo() const
+{
+    string strRes (getVersion());
     strRes += getSpacedStr(getTitle(0)) + getSpacedStr(getArtist(0)) + getSpacedStr(getAlbumName(0)) + getSpacedStr(getGenre(0));
     return strRes;
 }

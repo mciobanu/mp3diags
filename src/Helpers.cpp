@@ -374,7 +374,9 @@ namespace
         const char* getSzLayer() const;
         const char* getSzChannelMode() const;
 
+        string initialize(const unsigned char* bfr, bool* pbIsValid);
         string decodeMpegFrame(const unsigned char* bfr, const char* szSep, bool* pbIsValid);
+        string decodeMpegFrameAsXml(const unsigned char* bfr, bool* pbIsValid);
     };
 
     const char* Decoder::getSzVersion() const
@@ -395,7 +397,8 @@ namespace
         return s_channelModeName[m_eChannelMode];
     }
 
-    string Decoder::decodeMpegFrame(const unsigned char* bfr, const char* szSep, bool* pbIsValid) //ttt1 perhaps unify with MpegFrameBase::MpegFrameBase(), using the char* constructor
+
+    string Decoder::initialize(const unsigned char* bfr, bool* pbIsValid) //ttt1 perhaps unify with MpegFrameBase::MpegFrameBase(), using the char* constructor
     {
         bool b;
         bool& bRes (0 == pbIsValid ? b : *pbIsValid);
@@ -518,6 +521,15 @@ namespace
         default: throw 1; // it should have thrown before getting here
         }
 
+        return "";
+    }
+
+
+    string Decoder::decodeMpegFrame(const unsigned char* bfr, const char* szSep, bool* pbIsValid) //ttt1 perhaps unify with MpegFrameBase::MpegFrameBase(), using the char* constructor
+    {
+        string s (initialize(bfr, pbIsValid));
+        if (!s.empty()) { return s; }
+
         ostringstream out;
         /*out << getSzVersion() << " " << getSzLayer() << ", " << m_nBitrate/1000 << "kbps, " << m_nFrequency << "Hz, " << getSzChannelMode() << ", padding=" << (m_nPadding ? "true" : "false") << ", length " <<
                 m_nSize << " (0x" << hex << m_nSize << dec << ")";*/
@@ -528,6 +540,25 @@ namespace
         return out.str();
     }
 
+
+    string Decoder::decodeMpegFrameAsXml(const unsigned char* bfr, bool* pbIsValid) //ttt1 perhaps unify with MpegFrameBase::MpegFrameBase(), using the char* constructor
+    {
+        string s (initialize(bfr, pbIsValid));
+        if (!s.empty()) { return s; }
+
+        ostringstream out;
+        out << " version=\"" << getSzVersion() << "\""
+            << " layer=\"" << getSzLayer() << "\""
+            << " channelMode=\"" << getSzChannelMode() << "\""
+            << " frequency=\"" << m_nFrequency << "\""
+            << " bps=\"" << m_nBitrate << "\""
+            << " crc=\"" << boolAsYesNo(m_bCrc) << "\""
+
+            << " mpegSize=\"" << m_nSize << "\""
+            << " padding=\"" << boolAsYesNo(m_nPadding) << "\"";
+
+        return out.str();
+    }
 } // namespace
 
 
@@ -551,6 +582,12 @@ string decodeMpegFrame(const char* bfr, const char* szSep, bool* pbIsValid /*= 0
 }
 
 
+string decodeMpegFrameAsXml(const char* bfr, bool* pbIsValid /*= 0*/)
+{
+    Decoder d;
+    const unsigned char* q (reinterpret_cast<const unsigned char*>(bfr));
+    return d.decodeMpegFrameAsXml(q, pbIsValid);
+}
 
 
 StreamStateRestorer::StreamStateRestorer(istream& in) : m_in(in), m_pos(in.tellg()), m_bOk(false)
@@ -666,7 +703,7 @@ Ideally a modal dialog should minimize its parent. If that's not possible, it sh
 */
 
 #ifndef WIN32
-    Qt::WindowFlags getMainWndFlags() { return Qt::WindowTitleHint; } // !!! these are incorrect, but seem the best option; the values used for Windows are supposed to be OK; they work as expected with KDE but not with Gnome (asking for maximize button not only fails to sho it, but causes the "Close" button to disappear as well); Since in KDE min/max buttons are shown when needed anyway, it's sort of OK // ttt0 see if there is workaround/fix
+    Qt::WindowFlags getMainWndFlags() { return Qt::WindowTitleHint; } // !!! these are incorrect, but seem the best option; the values used for Windows are supposed to be OK; they work as expected with KDE but not with Gnome (asking for maximize button not only fails to sho it, but causes the "Close" button to disappear as well); Since in KDE min/max buttons are shown when needed anyway, it's sort of OK // ttt2 see if there is workaround/fix
     Qt::WindowFlags getDialogWndFlags() { return Qt::WindowTitleHint; }
     Qt::WindowFlags getNoResizeWndFlags() { return Qt::WindowTitleHint; }
 #else
@@ -774,7 +811,7 @@ QString getSystemInfo() //ttt1 perhaps store this at startup, so fewer things ma
         }*/
 //qDebug("b: %s", s.toUtf8().data());
     }
-//ttt0 search /proc for kwin, metacity, ...
+//ttt2 search /proc for kwin, metacity, ...
 
 
 #else

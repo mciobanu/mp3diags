@@ -409,7 +409,7 @@ public:
     Case m_eCaseForOthers;
 
     bool m_bWarnOnNonSeqTracks, m_bWarnPastingToNonSeqTracks;
-    bool m_bShowDebug, m_bShowSessions;
+    bool m_bShowExport, m_bShowDebug, m_bShowSessions;
     bool m_bScanAtStartup;
     std::string m_strNormalizeCmd;
     bool m_bKeepNormWndOpen;
@@ -561,7 +561,7 @@ private:
 };
 
 
-const CommonData* getCommonData(); // the only CommonData that exists at a given moment
+CommonData* getCommonData(); // the only CommonData that exists at a given moment
 
 
 

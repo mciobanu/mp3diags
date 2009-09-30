@@ -153,6 +153,22 @@ public:
     QMp3DiagsApplication(int& argc, char** argv) : QApplication(argc, argv) {}
 };
 
+#ifdef MSVC_QMAKE
+void visStudioMessageOutput(QtMsgType, const char* szMsg)
+{
+    OutputDebugStringA(szMsg);
+    OutputDebugStringA("\r\n");
+    //cerr << szMsg << endl;
+    //QMessageBox::information(0, "Debug message", szMsg, QMessageBox::Ok);
+    //throw 8; //ttt0 see why this doesn't get called for Qt-generated notes like "Corrupt JPEG data: 319 extraneous bytes before marker 0xc4"
+}
+#endif
+
+
+
+//ttt0 dwnld from MB, erase local file; dwnld is lost
+
+
 
 int main(int argc, char *argv[])
 {
@@ -169,6 +185,14 @@ int main(int argc, char *argv[])
 
     Q_INIT_RESOURCE(Mp3Diags); // base name of the ".qrc" file
     QMp3DiagsApplication app(argc, argv);
+
+
+#ifdef MSVC_QMAKE
+    qInstallMsgHandler(visStudioMessageOutput);
+    // see http://lists.trolltech.com/qt-interest/2006-10/msg00829.html
+    //OutputDebugStringA("\n\ntest output\n\n\n"); // !!! this only works if debugging (started with F5)
+#endif
+
 
     { // by default on Windows the selection is hard to see in the main window, because it's some gray;
         QPalette pal (QApplication::palette());

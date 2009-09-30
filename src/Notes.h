@@ -167,7 +167,7 @@ struct Notes
 
     // audio // a
     DECL_NOTE_INFO(twoAudio, ERR, AUDIO, "Two MPEG audio streams found, but a file should have exactly one.", false); // a
-    DECL_NOTE_INFO(lowQualAudio, WARNING, AUDIO, "Low quality MPEG audio stream.", false); // b
+    DECL_NOTE_INFO(lowQualAudio, WARNING, AUDIO, "Low quality MPEG audio stream. (What is considered \"low quality\" can be changed in the configuration dialog, under \"Quality thresholds\".)", false); // b
     DECL_NOTE_INFO(noAudio, ERR, AUDIO, "No MPEG audio stream found.", false); // c
     DECL_NOTE_INFO(vbrUsedForNonMpg1L3, WARNING, AUDIO, "VBR with audio streams other than MPEG1 Layer III might work incorrectly.", false); // d
     DECL_NOTE_INFO(incompleteFrameInAudio, ERR, AUDIO, "Incomplete MPEG frame at the end of an MPEG stream.", false); // e
@@ -201,9 +201,9 @@ struct Notes
     DECL_NOTE_INFO(id3v2IncorrectFlg1, WARNING, ID3V2, "Flags in the first flag group that are supposed to always be 0 are set to 1. They will be ignored.", true); // c
     DECL_NOTE_INFO(id3v2IncorrectFlg2, WARNING, ID3V2, "Flags in the second flag group that are supposed to always be 0 are set to 1. They will be ignored.", true); // d
     DECL_NOTE_INFO(id3v2TextError, ERR, ID3V2, "Error decoding the value of a text frame while reading an Id3V2 Stream.", true); // e
-    DECL_NOTE_INFO(id3v2HasLatin1NonAscii, WARNING, ID3V2, "ID3V2 tag has text frames using Latin-1 encoding that contain characters with a code above 127. While this is legal, those frames may have their content set or displayed incorrectly by software that uses the local code page instead of Latin-1. Conversion to Unicode (UTF16) is recommended.", true); // f
+    DECL_NOTE_INFO(id3v2HasLatin1NonAscii, WARNING, ID3V2, "ID3V2 tag has text frames using Latin-1 encoding that contain characters with a code above 127. While this is valid, those frames may have their content set or displayed incorrectly by software that uses the local code page instead of Latin-1. Conversion to Unicode (UTF16) is recommended.", true); // f
     DECL_NOTE_INFO(id3v2EmptyTcon, WARNING, ID3V2, "Empty genre frame (TCON) found.", true); // g
-    DECL_NOTE_INFO(id3v2MultipleFramesWithSameName, WARNING, ID3V2, "Multiple frame instances, but only the first copy will be used.", true); // h
+    DECL_NOTE_INFO(id3v2MultipleFramesWithSameName, WARNING, ID3V2, "Multiple frame instances found, but only the first one will be used.", true); // h
     DECL_NOTE_INFO(id3v2PaddingTooLarge, WARNING, ID3V2, "The padding in the ID3V2 tag is too large, wasting space. (Large padding improves the tag editor saving speed, if fast saving is enabled, so you may want to delay compacting the tag until after you're done with the tag editor.)", false); // i
     DECL_NOTE_INFO(id3v2UnsuppVer, SUPPORT, ID3V2, "Unsupported ID3V2 version.", true); // j
     DECL_NOTE_INFO(id3v2UnsuppFlag, SUPPORT, ID3V2, "Unsupported ID3V2 tag. Unsupported flag.", true); // k
@@ -244,7 +244,7 @@ struct Notes
     DECL_NOTE_INFO(id3v240UnsuppText, SUPPORT, ID3V240, "Unsupported value of text frame while reading an Id3V2.4.0 stream. It may be using an unsupported text encoding.", true); // h
 
     // id3 v1 // h
-    DECL_NOTE_INFO(onlyId3V1, WARNING, ID3V1, "The only tag found that is capable of storing song information is ID3V1, which has pretty limited capabilities.", false); // a
+    DECL_NOTE_INFO(onlyId3V1, WARNING, ID3V1, "The only supported tag found that is capable of storing song information is ID3V1, which has pretty limited capabilities.", false); // a
     DECL_NOTE_INFO(id3v1BeforeAudio, ERR, ID3V1, "The ID3V1 tag should be located after the MPEG audio stream.", true); // b
     DECL_NOTE_INFO(id3v1TooShort, ERR, ID3V1, "Invalid ID3V1 tag. File too short.", false); // c
     DECL_NOTE_INFO(twoId3V1, ERR, ID3V1, "Two ID3V1 tags found, but a file should have at most one of them.", true); // d
@@ -282,7 +282,7 @@ struct Notes
 
     // ape // n
     DECL_NOTE_INFO(apeItemTooShort, ERR, APE, "Invalid Ape Item. File too short.", false); // a
-    DECL_NOTE_INFO(apeItemTooBig, ERR, APE, "Ape Item seems too big. Although the size may be any 32-bit integer, 256 bytes should be enough in practice. If this message is determined to be incorrect, it will be removed in the future.", false); // b
+    DECL_NOTE_INFO(apeItemTooBig, ERR, APE, "Ape Item seems too big. Although the size may be any 32-bit integer, 256 bytes should be enough in practice. If this note is determined to be incorrect, it will be removed in the future.", false); // b
     DECL_NOTE_INFO(apeMissingTerminator, ERR, APE, "Invalid Ape Item. Terminator not found for item name.", false); // c
     DECL_NOTE_INFO(apeFoundFooter, ERR, APE, "Invalid Ape tag. Header expected but footer found.", false); // d
     DECL_NOTE_INFO(apeTooShort, ERR, APE, "Not an Ape tag. File too short.", false); // e
@@ -294,7 +294,7 @@ struct Notes
 
     // misc // o
     DECL_NOTE_INFO(fileWasChanged, WARNING, MISC, "The file seems to have been changed in the (short) time that passed between parsing it and the initial search for pictures. If you think that's not the case, report a bug.", false); // a
-    DECL_NOTE_INFO(noInfoTag, WARNING, MISC, "No tag found that is capable of storing song information.", false); // b
+    DECL_NOTE_INFO(noInfoTag, WARNING, MISC, "No supported tag found that is capable of storing song information.", false); // b
     DECL_NOTE_INFO(tooManyTraceNotes, WARNING, MISC, "Too many TRACE notes added. The rest will be discarded.", false); // c
     DECL_NOTE_INFO(tooManyNotes, WARNING, MISC, "Too many notes added. The rest will be discarded.", false); // d
     DECL_NOTE_INFO(tooManyStreams, WARNING, MISC, "Too many streams found. Aborting processing.", false); // e

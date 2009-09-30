@@ -954,7 +954,7 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8
     {
         const Id3V2Frame* p (vpFrames[i]);
         //if (0 == strcmp(p->m_szName, KnownFrames::LBL_IMAGE()))
-        if (Id3V2Frame::OK == p->m_eApicStatus || Id3V2Frame::NOT_SUPPORTED == p->m_eApicStatus)
+        if (Id3V2Frame::COVER == p->m_eApicStatus || Id3V2Frame::NON_COVER == p->m_eApicStatus)
         {
             ++nPicCnt;
             if (0 == pLargestPic || pLargestPic->m_nImgSize < p->m_nImgSize)
@@ -964,7 +964,7 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8
         }
     }
 
-    if (0 == nPicCnt || (1 == nPicCnt && Id3V2Frame::COVER == pLargestPic->m_nPictureType)) { return NOT_CHANGED; }
+    if (0 == nPicCnt || (1 == nPicCnt && Id3V2Frame::PT_COVER == pLargestPic->m_nPictureType)) { return NOT_CHANGED; }
 
 
 

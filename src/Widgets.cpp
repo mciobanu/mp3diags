@@ -30,10 +30,12 @@
 #include  <QApplication>
 #include  <QTextBrowser>
 #include  <QCheckBox>
+#include  <QPainter>
 
 #include  "Widgets.h"
 
 #include  "Helpers.h"
+#include  "CommonData.h"
 
 
 using namespace std;
@@ -385,3 +387,59 @@ void HtmlMsg::onClick3()
 
 
 
+/*override*/ void NoCropHeaderView::paintSection(QPainter* pPainter, const QRect& r, int nLogicalIndex) const
+{
+    /*{
+        QHeaderView::paintSection(pPainter, r, nLogicalIndex); return;
+        return;
+    }*/
+
+    pPainter->save();
+
+    // partial copy from Qt's implementation of QHeaderView (qheaderview.cpp)
+    QStyleOptionHeader opt;
+    initStyleOption(&opt);
+
+    opt.rect = r;
+    opt.section = nLogicalIndex;
+
+    int nVisual (visualIndex(nLogicalIndex));
+    if (count() == 1)
+        opt.position = QStyleOptionHeader::OnlyOneSection;
+    else if (nVisual == 0)
+        opt.position = QStyleOptionHeader::Beginning;
+    else if (nVisual == count() - 1)
+        opt.position = QStyleOptionHeader::End;
+    else
+        opt.position = QStyleOptionHeader::Middle;
+
+    opt.selectedPosition = QStyleOptionHeader::NotAdjacent;
+
+    style()->drawControl(QStyle::CE_Header, &opt, pPainter, this);
+
+    pPainter->restore();
+    pPainter->save();
+
+    pPainter->setFont(getCommonData()->getLabelFont());
+
+    /*{ // bold for selected
+        QModelIndexList l (getCommonData()->m_pFilesG->selectionModel()->selection().indexes());
+        for (QModelIndexList::iterator it = l.begin(); it != l.end(); ++it)
+        {
+            const QModelIndex& ndx (*it);
+            if (ndx.column() == nLogicalIndex)
+            {
+                QFont f (pPainter->font());
+                f.setWeight(QFont::Bold);
+                pPainter->setFont(f);
+                break;
+            }
+        }
+    }*/
+
+    QRect r1 (r);
+    r1.adjust(0, -1, 0, -1);
+    QString qs (model()->headerData(nLogicalIndex, Qt::Vertical).toString());
+    pPainter->drawText(r1, Qt::AlignCenter, qs);
+    pPainter->restore();
+}

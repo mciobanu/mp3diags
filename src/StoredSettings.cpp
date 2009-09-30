@@ -197,18 +197,39 @@ void SessionSettings::loadMusicBrainzSettings(int& nWidth, int& nHeight) const
 
 
 
-void SessionSettings::saveDebugSettings(int nWidth, int nHeight, bool bSortByShortNames)
+void SessionSettings::saveDebugSettings(int nWidth, int nHeight)
 {
     m_pSettings->setValue("debug/width", nWidth);
     m_pSettings->setValue("debug/height", nHeight);
-    m_pSettings->setValue("debug/sortByShortNames", bSortByShortNames);
 }
 
-void SessionSettings::loadDebugSettings(int& nWidth, int& nHeight, bool& bSortByShortNames) const
+void SessionSettings::loadDebugSettings(int& nWidth, int& nHeight) const
 {
     nWidth = m_pSettings->value("debug/width").toInt();
     nHeight = m_pSettings->value("debug/height").toInt();
-    bSortByShortNames = m_pSettings->value("debug/sortByShortNames", false).toBool();
+}
+
+
+
+void SessionSettings::saveExportSettings(int nWidth, int nHeight, bool bSortByShortNames, const std::string& strFile, bool bUseVisible, const std::string& strM3uRoot)
+{
+    m_pSettings->setValue("export/width", nWidth);
+    m_pSettings->setValue("export/height", nHeight);
+    m_pSettings->setValue("export/sortByShortNames", bSortByShortNames);
+    m_pSettings->setValue("export/fileName", convStr(strFile));
+    m_pSettings->setValue("export/useVisible", bUseVisible);
+    m_pSettings->setValue("export/m3uRoot", convStr(strM3uRoot));
+}
+
+void SessionSettings::loadExportSettings(int& nWidth, int& nHeight, bool& bSortByShortNames, std::string& strFile, bool& bUseVisible, std::string& strM3uRoot) const
+{
+    nWidth = m_pSettings->value("export/width").toInt();
+    nHeight = m_pSettings->value("export/height").toInt();
+    bSortByShortNames = m_pSettings->value("export/sortByShortNames", false).toBool();
+    QString s;
+    s = m_pSettings->value("export/fileName", "").toString(); strFile = convStr(s);
+    bUseVisible = m_pSettings->value("export/useVisible", true).toBool();
+    s = m_pSettings->value("export/m3uRoot", "").toString(); strM3uRoot = convStr(s);
 }
 
 
@@ -302,11 +323,11 @@ void SessionSettings::loadRenamerPatternsSettings(int& nWidth, int& nHeight) con
 }
 
 
-void SessionSettings::saveTagEdtSettings(int nWidth, int nHeight, const QByteArray& splitterState)
+void SessionSettings::saveTagEdtSettings(int nWidth, int nHeight/*, const QByteArray& splitterState*/)
 {
     m_pSettings->setValue("tagEditor/width", nWidth);
     m_pSettings->setValue("tagEditor/height", nHeight);
-    m_pSettings->setValue("tagEditor/splitterState", splitterState);
+    //m_pSettings->setValue("tagEditor/splitterState", splitterState);
 }
 
 void SessionSettings::loadTagEdtSettings(int& nWidth, int& nHeight/*, QByteArray& splitterState*/) const

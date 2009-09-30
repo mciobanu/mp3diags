@@ -228,7 +228,7 @@ struct UnboundReader : public Reader
     /*override*/ bool init(const char* pcLeft, const char* pcRight, bool /*bLeftFirst*/, bool /*bFixedLeft*/, bool /*bFixedRight*/)
     {
         m_pcLeft = pcLeft; m_pcRight = pcRight;
-        m_eState = m_pcLeft != m_pcRight ? ASSIGNED : FAILED; //ttt2 see about the test; not sure if allowing an empty string is ok; //ttt0 perhaps at least %i should be allowed to be empty; maybe add constructor param to tell if empty is OK
+        m_eState = m_pcLeft != m_pcRight ? ASSIGNED : FAILED; //ttt2 see about the test; not sure if allowing an empty string is ok; //ttt2 perhaps at least %i should be allowed to be empty; maybe add constructor param to tell if empty is OK
         return ASSIGNED == m_eState;
     }
 

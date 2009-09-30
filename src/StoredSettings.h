@@ -65,8 +65,11 @@ public:
     void saveConfigSize(int nWidth, int nHeight);
     void loadConfigSize(int& nWidth, int& nHeight) const;
 
-    void saveDebugSettings(int nWidth, int nHeight, bool bSortByShortNames);
-    void loadDebugSettings(int& nWidth, int& nHeight, bool& bSortByShortNames) const;
+    void saveDebugSettings(int nWidth, int nHeight);
+    void loadDebugSettings(int& nWidth, int& nHeight) const;
+
+    void saveExportSettings(int nWidth, int nHeight, bool bSortByShortNames, const std::string& strFile, bool bUseVisible, const std::string& strM3uRoot);
+    void loadExportSettings(int& nWidth, int& nHeight, bool& bSortByShortNames, std::string& strFile, bool& bUseVisible, std::string& strM3uRoot) const;
 
     void saveRenamerSettings(int nWidth, int nHeight, int nSaButton, int nVaButton, bool bKeepOrig);
     void loadRenamerSettings(int& nWidth, int& nHeight, int& nSaButton, int& nVaButton, bool& bKeepOrig) const;
@@ -83,7 +86,7 @@ public:
     void saveRenamerPatternsSettings(int nWidth, int nHeight);
     void loadRenamerPatternsSettings(int& nWidth, int& nHeight) const;
 
-    void saveTagEdtSettings(int nWidth, int nHeight, const QByteArray& splitterState);
+    void saveTagEdtSettings(int nWidth, int nHeight/*, const QByteArray& splitterState*/);
     void loadTagEdtSettings(int& nWidth, int& nHeight/*, QByteArray& splitterState*/) const;
 
     void saveVector(const std::string& strPath, const std::vector<std::string>& v);

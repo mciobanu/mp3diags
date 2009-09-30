@@ -55,7 +55,6 @@ public:
 public slots:
     /*$PUBLIC_SLOTS$*/
 
-    void on_m_pSaveFileInfoB_clicked();
     void on_m_pSaveLogB_clicked();
     void on_m_pTst01B_clicked();
     void on_m_pDecodeMpegFrameB_clicked();

@@ -444,7 +444,9 @@ struct TagReader
 
     virtual std::string getOtherInfo() const { return ""; } // non-editable tags
 
-    virtual std::vector<ImageInfo> getImages() const { return std::vector<ImageInfo>(); } // needed only by TagReadPanel, to show all images //ttt0 also use in tag editor
+    virtual std::vector<ImageInfo> getImages() const { return std::vector<ImageInfo>(); } // all images, even those with errors
+
+    virtual std::string getImageData(bool* pbFrameExists = 0) const { if (0 != pbFrameExists) { *pbFrameExists = false; } return ""; }
 
     virtual SuportLevel getSupport(Feature) const { return NOT_SUPPORTED; }
 

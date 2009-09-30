@@ -26,6 +26,7 @@
 #include  <QMenu>
 #include  <QToolButton>
 #include  <QMessageBox>
+#include  <QHeaderView>
 
 
 //=====================================================================================================================
@@ -104,6 +105,19 @@ struct CursorOverrider
     CursorOverrider(Qt::CursorShape crs = Qt::BusyCursor);
     ~CursorOverrider();
 };
+
+
+class NoCropHeaderView : public QHeaderView
+{
+    Q_OBJECT
+
+    /*override*/ void paintSection(QPainter* pPainter, const QRect& rect, int nLogicalIndex) const;
+public:
+    NoCropHeaderView(QWidget* pParent) : QHeaderView(Qt::Vertical, pParent) {}
+};
+
+
+
 
 
 #endif // #ifndef WidgetsH

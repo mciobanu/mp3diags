@@ -383,6 +383,9 @@
         var fInOut = fsObj.OpenTextFile("src\\src.pro", 8/*FileSystemObject.ForAppending*/);
         fInOut.writeLine();
         fInOut.writeLine("DEFINES += BOOST_ALL_DYN_LINK");
+        fInOut.writeLine("DEFINES += _CRT_SECURE_NO_WARNINGS");
+        fInOut.writeLine("DEFINES += _SCL_SECURE_NO_WARNINGS");
+        fInOut.writeLine("DEFINES += MSVC_QMAKE");
         fInOut.writeLine();
 
         fInOut.close();

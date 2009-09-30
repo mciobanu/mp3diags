@@ -51,7 +51,7 @@ public:
     std::string m_strAlbum;
     std::string m_strAuthor; // composer
     std::string m_strLyrics;
-    std::string m_strOther; // these are lost during transfer //ttt0 or maybe not, though not sure if transferring them to some "comment" field would be a good idea
+    std::string m_strOther; // these are lost during transfer //ttt2 or maybe not, though not sure if transferring them to some "comment" field would be a good idea
     std::string m_strInd;
 
     std::string m_strCrtDir;

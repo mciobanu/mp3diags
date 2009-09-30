@@ -29,6 +29,8 @@
 //#include  <QByteArray> // ttt1 see why this includes QByteRef, which gives warnings for lots of functions returning "const char" or "const bool", saying that "const" is going to be ignored; perhaps #define something before "//#include  <QByteArray>"; QtGui and QPixmap avoid this issue, but take longer
 #include  <QPixmap>
 
+
+
 //#include  <iosfwd>
 
 // to avoid some dependencies and shorten the compilation time //ttt1 add more types here
@@ -67,6 +69,9 @@ struct ImageInfo
 
     static int MAX_IMAGE_SIZE;
     static void compress(const QPixmap& origPic, QPixmap& scaledPic, QByteArray& comprImg); // scales down origPic and stores the pixmap in scaledPic, as well as a compressed version in comprImg; the algorithm coninues until comprImg becomes smaller than MAX_IMAGE_SIZE or until the width and the height of scaledPic get 150 or smaller; no scaling is done if comprImg turns out to be small enough for the original image;
+
+    static const char* getImageType(int nImageType);
+    static const char* getComprStr(Compr);
 
 private:
     Compr m_eCompr;

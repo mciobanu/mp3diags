@@ -33,10 +33,11 @@ struct Id3V230Frame : public Id3V2Frame
     Id3V230Frame(const std::string& strName, std::vector<char>& vcData); // needed by Id3V230StreamWriter::addBinaryFrame(), so objects created with this constructor don't get serialized; destroys vcData by doing a swap for its own representation
     /*override*/ ~Id3V230Frame();
 
-    /*override*/ std::string getUtf8String() const;
     /*override*/ bool discardOnChange() const;
 
 private:
+    /*override*/ std::string getUtf8StringImpl() const;
+
     friend class boost::serialization::access;
     Id3V230Frame() {} // serialization-only constructor
 

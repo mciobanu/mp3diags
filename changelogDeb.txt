@@ -1,3 +1,17 @@
+mp3diags (0.99.06.040) testing; urgency=low
+
+  * "Various Artists" support
+  * all pictures are shown and can be viewed in full size in "Tag details"
+  * all pictures from a file are shown in the tag editor
+  * patterns in the tag editor may now be disabled
+  * export as M3U or XML
+  * better handling of text frames containing null characters
+  * auto-size for the tag editor's "current file" area
+  * better column widths in the tag editor
+  * improved HTA for Windows build
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Wed, 30 Sep 2009 22:00:00 +0200
+
 mp3diags (0.99.05.038) testing; urgency=low
 
   * fixed bug introduced in 0.99.05.037 causing crashes when finding empty ID3V2 frames

@@ -171,7 +171,7 @@ Id3V230Frame::Id3V230Frame(const std::string& strName, vector<char>& vcData) : I
 
 // assumes Latin1, converts to UTF8; returns "<non-text value>" for non-text strings; replaces '\0' with ' ' inside tags; //ttt2 see about implications; "Momma Cried" has a tag called TXXX whose value contains a '\0': "RATING\01";
 // whitespaces at the end of the string are removed; not sure if this is how it should be, though
-string Id3V230Frame::getUtf8String() const
+string Id3V230Frame::getUtf8StringImpl() const
 {
     if ('T' != m_szName[0])
     {
@@ -209,7 +209,6 @@ string Id3V230Frame::getUtf8String() const
                 s += char(c2);
             }
         }
-        rtrim(s);
         return s;
     }
 
@@ -572,7 +571,7 @@ void Id3V230StreamWriter::addImg(std::vector<char>& vcData)
     for (; q < p + 90 && 0 != *q; ++q) {}
     CB_ASSERT1 (0 == *q, m_strDebugFileName);
     ++q;
-    *q = Id3V2Frame::COVER;
+    *q = Id3V2Frame::PT_COVER;
     ++q;
     for (; q < p + n && 0 != *q; ++q) {}
     CB_ASSERT1 (0 == *q, m_strDebugFileName);
@@ -580,7 +579,7 @@ void Id3V230StreamWriter::addImg(std::vector<char>& vcData)
     int nOffs (q - p);
     int nImgSize (n - nOffs);
 
-    removeFrames(KnownFrames::LBL_IMAGE(), Id3V2Frame::COVER);
+    removeFrames(KnownFrames::LBL_IMAGE(), Id3V2Frame::PT_COVER);
 
     {
 e1:
@@ -605,7 +604,7 @@ e1:
 
     {
         Id3V230Frame* p (new Id3V230Frame(KnownFrames::LBL_IMAGE(), vcData));
-        p->m_nPictureType = Id3V2Frame::COVER; // probably pointless, because the frame is only used internally and what gets written is vcData, regardless of p->m_nPictureType
+        p->m_nPictureType = Id3V2Frame::PT_COVER; // probably pointless, because the frame is only used internally and what gets written is vcData, regardless of p->m_nPictureType
         addNonOwnedFrame(p);
         m_vpOwnFrames.push_back(p);
     }

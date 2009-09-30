@@ -257,7 +257,7 @@ void Mp3Handler::parse(ifstream_utf8& in) // ttt2 this function is a mess; needs
         in.seekg(pos);
 
         //if (m_vpAllStreams.size() > 48)
-        if (cSize(m_vpAllStreams) > 1000) //ttt2 perhaps make this configurable
+        if (cSize(m_vpAllStreams) > 100) //ttt2 perhaps make this configurable
         {
             {
                 m_notes.resetCounter();
@@ -538,7 +538,7 @@ e1:
     //cout << "=======================\n";
 
     //CB_ASSERT (!m_vpAllStreams.empty());
-    STRM_ASSERT (pos == m_posEnd); // ttt0 triggered according to https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=23
+    STRM_ASSERT (pos == m_posEnd); // ttt0 triggered according to https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=23 //ttt0 try to create an example that has unknTooShort, to see if it triggers this
     pos = 0;
     for (int i = 0; i < cSize(m_vpAllStreams); ++i)
     {

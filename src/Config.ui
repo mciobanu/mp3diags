@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>988</width>
-    <height>670</height>
+    <width>984</width>
+    <height>681</height>
    </rect>
   </property>
   <property name="minimumSize" >
@@ -1473,7 +1473,7 @@
        <item row="2" column="0" colspan="2" >
         <widget class="QLabel" name="label_10" >
          <property name="text" >
-          <string>Note that for mono streams, one half of the value for "Dual Channel" get used.</string>
+          <string>Note that for mono streams, half of the value for "Dual Channel" is used.</string>
          </property>
          <property name="alignment" >
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -2530,6 +2530,13 @@
                 <widget class="QCheckBox" name="m_pScanAtStartupCkB" >
                  <property name="text" >
                   <string>Scan for new, modified, and deleted files at startup</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="m_pShowExportCkB" >
+                 <property name="text" >
+                  <string>Show "Export" button</string>
                  </property>
                 </widget>
                </item>

@@ -205,7 +205,7 @@ Id3V240Frame::Id3V240Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
 
 // assumes Latin1, converts to UTF8; returns "<non-text value>" for non-text strings; unlike 2.3.0, which replaces '\0' with ' ' inside tags, this just considers a 0 to be a terminator; string fields in 2.4.0 are 0-terminated, while the ones in 2.3.0 aren't
 // whitespaces at the end of the string are removed; not sure if this is how it should be, though
-string Id3V240Frame::getUtf8String() const
+string Id3V240Frame::getUtf8StringImpl() const
 {
     if ('T' != m_szName[0])
     {
@@ -240,7 +240,6 @@ string Id3V240Frame::getUtf8String() const
                 s += char(c2);
             }
         }
-        rtrim(s);
         return s;
     }
 

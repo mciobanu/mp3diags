@@ -322,7 +322,7 @@ std::vector<std::string> CheckedDirModel::getUncheckedDirs() const { return conv
 #endif
 
 
-//ttt0 perhaps replace QDirModel with QFileSystemModel on Qt>4.4. See also https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=34 ; at least should be more responsive when there are network and floppy drives; see also http://lists.trolltech.com/qt-interest/2007-12/thread00336-0.html and http://www.qtcentre.org/forum/f-qt-programming-2/t-disable-floppy-reading-in-a-qfiledialog-1799.html
+//ttt2 perhaps replace QDirModel with QFileSystemModel on Qt>4.4. See also https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=34 ; at least should be more responsive when there are network and floppy drives; see also http://lists.trolltech.com/qt-interest/2007-12/thread00336-0.html and http://www.qtcentre.org/forum/f-qt-programming-2/t-disable-floppy-reading-in-a-qfiledialog-1799.html
 //ttt1 perhaps use QDirModel::lazyChildCount; or maybe not; it will show that all dirs have children
 //ttt1 ? use QFileSystemWatcher
 

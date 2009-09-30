@@ -54,9 +54,8 @@ DebugDlgImpl::DebugDlgImpl(QWidget* pParent, CommonData* pCommonData) : QDialog(
     setupUi(this);
 
     int nWidth, nHeight;
-    bool bSortByShortNames;
-    m_pCommonData->m_settings.loadDebugSettings(nWidth, nHeight, bSortByShortNames);
-    if (nWidth > 400 && nHeight > 400)
+    m_pCommonData->m_settings.loadDebugSettings(nWidth, nHeight);
+    if (nWidth > 400 && nHeight > 200)
     {
         resize(nWidth, nHeight);
     }
@@ -64,8 +63,6 @@ DebugDlgImpl::DebugDlgImpl(QWidget* pParent, CommonData* pCommonData) : QDialog(
     {
         defaultResize(*this);
     }
-
-    m_pSortByShortNamesCkB->setChecked(bSortByShortNames);
 
     {
         m_pEnableTracingCkB->setChecked(m_pCommonData->m_bTraceEnabled);
@@ -108,7 +105,7 @@ void DebugDlgImpl::run()
     //if (QDialog::Accepted != exec()) { return false; }
     exec();
 
-    m_pCommonData->m_settings.saveDebugSettings(width(), height(), m_pSortByShortNamesCkB->isChecked());
+    m_pCommonData->m_settings.saveDebugSettings(width(), height());
     m_pCommonData->m_bTraceEnabled = m_pEnableTracingCkB->isChecked();
     m_pCommonData->m_bUseAllNotes = m_pUseAllNotesCkB->isChecked();
     m_pCommonData->m_bLogTransf = m_pLogTransfCkB->isChecked();
@@ -127,86 +124,6 @@ void DebugDlgImpl::on_m_pCloseB_clicked()
     reject(); // !!! doesn't matter if it's accept()
 }
 
-namespace {
-
-struct CmpMp3HandlerByShortNameAndSize
-{
-    bool operator()(const Mp3Handler* p1, const Mp3Handler* p2)
-    {
-        if (p1->getShortName() < p2->getShortName()) { return true; }
-        if (p2->getShortName() < p1->getShortName()) { return false; }
-        if (p1->getSize() < p2->getSize()) { return true; }
-        if (p2->getSize() < p1->getSize()) { return false; }
-        return p1->getName() < p2->getName();
-    }
-};
-
-}
-
-
-
-void DebugDlgImpl::exportAsText(const string& strFileName)
-{
-    vector<const Mp3Handler*> v (m_pCommonData->getViewHandlers().begin(), m_pCommonData->getViewHandlers().end());
-    if (m_pSortByShortNamesCkB->isChecked())
-    {
-        sort(v.begin(), v.end(), CmpMp3HandlerByShortNameAndSize());
-    }
-
-    ofstream_utf8 out (strFileName.c_str());
-    const char* aSeverity = "EWST";
-    for (int i = 0, n = cSize(v); i < n; ++i)
-    {
-        const Mp3Handler* p (v[i]);
-        out << p->getName() << " ";
-        out << p->getSize() << endl;
-
-        const vector<DataStream*>& vpStreams (p->getStreams());
-        for (int i = 0, n = cSize(vpStreams); i < n; ++i)
-        {
-            DataStream* p (vpStreams[i]);
-            out << "  " << hex << p->getPos() << "-" << (p->getPos() + (p->getSize() - 1)) << dec << " (" << p->getSize() << ") " << p->getDisplayName();
-            const string& s (p->getInfo());
-            if (!s.empty())
-            {
-                out << ": " << s;
-            }
-            out << endl;
-        }
-
-        const NoteColl& notes (p->getNotes());
-        out << "  --------------------------------------------\n";
-        vector<const Note*> vpNotes (notes.getList().begin(), notes.getList().end());
-        sort(vpNotes.begin(), vpNotes.end(), CmpNotePtrByPosAndId());
-        for (int i = 0, n = cSize(vpNotes); i < n; ++i)
-        {
-            const Note* p (vpNotes[i]);
-            if (m_pCommonData->m_bUseAllNotes || m_pCommonData->findPos(p) >= 0) // !!! "ignored" notes shouldn't be exported unless UseAllNotes is checked, so there is consistency between what is shown on the screen and what is saved
-            {
-                out << "  " << aSeverity[p->getSeverity()] << " ";
-                const string& q (p->getPosHex());
-                if (!q.empty())
-                {
-                    out << q << " ";
-                }
-                const string& s (p->getDetail());
-                if (s.empty()) // ttt2 perhaps show descr anyway
-                {
-                    out << p->getDescription();
-                }
-                else
-                {
-                    out << s;
-                }
-                out << endl;
-            }
-        }
-
-        out << "\n\n";
-    }
-}
-
-
 void DebugDlgImpl::exportLog(const string& strFileName)
 {
     const deque<std::string>& v (m_pCommonData->getLog());
@@ -218,21 +135,6 @@ void DebugDlgImpl::exportLog(const string& strFileName)
     }
 }
 
-
-
-void DebugDlgImpl::on_m_pSaveFileInfoB_clicked()
-{
-    QFileDialog dlg (this, "Choose destination file", "", "Text files (*.txt)");
-
-    dlg.setFileMode(QFileDialog::AnyFile);
-    if (QDialog::Accepted != dlg.exec()) { return; }
-
-    QStringList fileNames (dlg.selectedFiles());
-    if (1 != fileNames.size()) { return; } 
-
-    QString s (fileNames.first());
-    exportAsText(convStr(s));
-}
 
 
 void DebugDlgImpl::on_m_pSaveLogB_clicked()

@@ -46,7 +46,7 @@ void logTransformation(const string& strLogFile, const char* szActionName, const
 
 
 
-//ttt0 perhaps make "fast-save aware" other transf that operate on id3v3 only (case transf, codepage, discards, ...); OTOH how likely is it to run 2 of these one ofer another? (otherwise you'd have to rescan anyway). still, perhaps allow proceeding in most cases without rescanning ID3V2 would be better, perhaps optional; then everything would be faster with ID3V2
+//ttt2 perhaps make "fast-save aware" other transf that operate on id3v3 only (case transf, codepage, discards, ...); OTOH how likely is it to run 2 of these one ofer another? (otherwise you'd have to rescan anyway). still, perhaps allow proceeding in most cases without rescanning ID3V2 would be better, perhaps optional; then everything would be faster with ID3V2
 namespace {
 
 
@@ -151,7 +151,7 @@ public:
             renameFile(m_strChangedName, m_strOrigName);
         }
         catch (...)
-        { //ttt0 perhaps do something
+        { //ttt2 perhaps do something
         }
     }
 
@@ -393,7 +393,7 @@ bool Mp3TransformThread::transform()
                             deleteFile(strProcName);
                         }
                         catch (...)
-                        { //ttt0 not sure what to do
+                        { //ttt2 not sure what to do
                         }
                     }
                     m_strErrorFile = strOrigName;
@@ -444,7 +444,7 @@ bool Mp3TransformThread::transform()
 
     return !bAborted;
 }
-//ttt0 try to avoid rescanning the last file in a transform when intermediaries are removed;
+//ttt2 try to avoid rescanning the last file in a transform when intermediaries are removed;
 
 } // namespace
 

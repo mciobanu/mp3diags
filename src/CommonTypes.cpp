@@ -96,9 +96,10 @@ ImageInfo::ImageInfo(int nImageType, Status eStatus, const QPixmap& pic) : m_eCo
 }
 
 
-const char* ImageInfo::getImageType() const
+
+/*static*/ const char* ImageInfo::getImageType(int nImageType)
 {
-    switch (m_nImageType)
+    switch (nImageType)
     {
     case 0x00: return "other";
     case 0x01: return "32x32 icon";
@@ -124,6 +125,24 @@ const char* ImageInfo::getImageType() const
     default:
         return "unknown";
     }
+}
+
+
+const char* ImageInfo::getImageType() const
+{
+    return getImageType(m_nImageType);
+}
+
+
+/*static*/ const char* ImageInfo::getComprStr(Compr eCompr)
+{
+    switch (eCompr)
+    {
+    case INVALID: return "invalid";
+    case JPG: return "JPEG";
+    case PNG: return "PNG";
+    }
+    CB_ASSERT (false);
 }
 
 

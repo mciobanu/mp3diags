@@ -29,7 +29,6 @@
       <file>images/reset_settings.svg</file>
       <file>images/undo_settings.svg</file>
 
-      <file>images/save_info.svg</file>
       <file>images/save_log.svg</file>
       <file>images/save_notes.svg</file>
 
@@ -56,6 +55,7 @@
       <file>images/debug.svg</file>
       <file>images/tag_editor.svg</file>
       <file>images/rename.svg</file>
+      <file>images/export.svg</file>
 
       <file>images/va_sa.svg</file>
       <file>images/va_va.svg</file>

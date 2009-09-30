@@ -283,6 +283,7 @@ long getMemUsage();
 
 std::string decodeMpegFrame(unsigned int n, const char* szSep, bool* pbIsValid = 0); // on error doesn't throw, but returns an error string; szSep is used as separator for the output string
 std::string decodeMpegFrame(const char* bfr, const char* szSep, bool* pbIsValid = 0);
+std::string decodeMpegFrameAsXml(const char* bfr, bool* pbIsValid = 0);
 
 inline const char* boolAsYesNo(bool b) { return b ? "yes" : "no"; }
 

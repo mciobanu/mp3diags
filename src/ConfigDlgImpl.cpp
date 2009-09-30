@@ -560,6 +560,7 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
     {  //misc
         m_pScanAtStartupCkB->setChecked(m_pCommonData->m_bScanAtStartup);
         m_pFastSaveCkB->setChecked(m_pCommonData->useFastSave());
+        m_pShowExportCkB->setChecked(m_pCommonData->m_bShowExport);
         m_pShowDebugCkB->setChecked(m_pCommonData->m_bShowDebug);
         m_pShowSessCkB->setChecked(m_pCommonData->m_bShowSessions);
         m_pNormalizerE->setText(convStr(m_pCommonData->m_strNormalizeCmd));
@@ -1012,6 +1013,7 @@ void ConfigDlgImpl::on_m_pOkB_clicked()
         { // misc
             m_pCommonData->m_bScanAtStartup = m_pScanAtStartupCkB->isChecked();
             m_pCommonData->setFastSave(m_pFastSaveCkB->isChecked(), CommonData::UPDATE_TRANSFORMS);
+            m_pCommonData->m_bShowExport = m_pShowExportCkB->isChecked();
             m_pCommonData->m_bShowDebug = m_pShowDebugCkB->isChecked();
             m_pCommonData->m_bShowSessions = m_pShowSessCkB->isChecked();
             m_pCommonData->m_strNormalizeCmd = convStr(m_pNormalizerE->text());

@@ -20,6 +20,11 @@
  ***************************************************************************/
 
 
+#ifdef MSVC_QMAKE
+    #pragma warning (disable : 4100)
+#endif
+
+
 #include  <cmath>
 #include  <algorithm>
 #include  <sstream>
@@ -197,6 +202,7 @@ void SessionSettings::saveMiscConfigSettings(const CommonData* p)
     }
 
     { // misc
+        m_pSettings->setValue("main/showExport", p->m_bShowExport);
         m_pSettings->setValue("main/showDebug", p->m_bShowDebug);
         m_pSettings->setValue("main/showSessions", p->m_bShowSessions);
         m_pSettings->setValue("normalizer/command", convStr(p->m_strNormalizeCmd));
@@ -308,6 +314,7 @@ void SessionSettings::loadMiscConfigSettings(CommonData* p) const
     }
 
     { // misc
+        p->m_bShowExport = m_pSettings->value("main/showExport", false).toBool();
         p->m_bShowDebug = m_pSettings->value("main/showDebug", false).toBool();
         p->m_bShowSessions = m_pSettings->value("main/showSessions", !p->isUniqueSession()).toBool();
         p->m_strNormalizeCmd = convStr(m_pSettings->value("normalizer/command", "mp3gain -a -k -p -t").toString());
@@ -563,10 +570,10 @@ QFont CommonData::getNewFixedFont() const
 
 namespace
 {
-    const CommonData* g_pCommonData (0);
+    CommonData* g_pCommonData (0);
 }
 
-const CommonData* getCommonData() // ttt0 get rid of all places passing CommonData* as a param
+CommonData* getCommonData() // ttt2 get rid of all places passing CommonData* as a param
 {
     return g_pCommonData;
 }
@@ -1711,7 +1718,7 @@ void CommonData::updateWidgets(const std::string& strCrtName /*= ""*/, const std
         CommonData::ViewMode eViewMode (getViewMode());
         setViewMode(CommonData::ALL);
         int nPos (getPosInView(strCrtName)); // doesn't matter if it's empty
-        const Mp3Handler* pMp3Handler (m_vpViewHandlers[nPos]);
+        const Mp3Handler* pMp3Handler (nPos >= 0 ? m_vpViewHandlers.at(nPos) : 0);
         setViewMode(eViewMode, pMp3Handler);
     }
 

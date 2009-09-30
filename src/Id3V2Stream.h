@@ -50,7 +50,7 @@ struct Id3V2Frame
 
     enum { SHORT_INFO, FULL_INFO };
     void print(std::ostream& out, bool bFullInfo) const; // if bFullInfo is true some frames print more extensive details, e.g. lyrics
-    virtual std::string getUtf8String() const = 0;
+    std::string getUtf8String() const;
     std::string getReadableName() const; // normally returns m_szName, but if it has invalid characters (<=32 or >=127), returns a hex representation
 
     void writeUnsynch(std::ostream& out) const; // copies the frame to out, removing the unsynch bytes if they are present
@@ -62,15 +62,19 @@ struct Id3V2Frame
     struct NotId3V2Frame {};
     struct UnsupportedId3V2Frame {};
 
-    enum ApicStatus { NO_APIC, ERR, USES_LINK, NOT_SUPPORTED, OK }; // !!! the reason "ERR" is used (and not "ERROR") is that "ERROR" is a macro in MSVC
+    enum ApicStatus { NO_APIC, ERR, USES_LINK, NON_COVER, COVER }; // !!! the reason "ERR" is used (and not "ERROR") is that "ERROR" is a macro in MSVC
     ApicStatus m_eApicStatus;
-    enum PictureType { OTHER = 0, ICON = 1, COVER = 3 };
+    enum PictureType { PT_COVER = 3 };
     int m_nPictureType; // for APIC only (cover, back, ...)
     int m_nImgOffset;   // for APIC only
     int m_nImgSize;     // for APIC only
     ImageInfo::Compr m_eCompr;   // for APIC only
     short m_nWidth;     // for APIC only
     short m_nHeight;    // for APIC only
+
+    const char* getImageType() const;
+    const char* getImageStatus() const;
+    double getRating() const; // asserts it's POPM
 
 private:
     Id3V2Frame(const Id3V2Frame&);
@@ -84,6 +88,8 @@ protected:
     static std::string utf8FromBomUtf16(const char* pData, int nSize); // returns a UTF8 string from a buffer containing a UTF16 sting starting with BOM
 
 private:
+    virtual std::string getUtf8StringImpl() const = 0;
+
     friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
@@ -233,6 +239,8 @@ public:
     /*override*/ std::string getOtherInfo() const;
 
     /*override*/ std::vector<ImageInfo> getImages() const;
+
+    /*override*/ std::string getImageData(bool* pbFrameExists = 0) const;
 
     const std::string& getFileName() const { return m_pFileName->s; }
 

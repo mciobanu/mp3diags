@@ -102,6 +102,7 @@ Section "Main Application" !Required ;No components page, name is not important
   SetOutPath $INSTDIR\imageformats
   File imageformats\qsvg4.dll
   File imageformats\qjpeg4.dll
+  File imageformats\qgif4.dll
 
 
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
@@ -149,6 +150,7 @@ Section "un.Uninstall"
   Delete $INSTDIR\iconengines\qsvgicon4.dll
   Delete $INSTDIR\imageformats\qsvg4.dll
   Delete $INSTDIR\imageformats\qjpeg4.dll
+  Delete $INSTDIR\imageformats\qgif4.dll
 
   RMDir $INSTDIR\iconengines
   RMDir $INSTDIR\imageformats

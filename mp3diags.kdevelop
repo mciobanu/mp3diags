@@ -122,13 +122,13 @@
       <programargs/>
       <directoryradio>executable</directoryradio>
       <runarguments>
-        <MP3Diags/>
+        <MP3Diags></MP3Diags>
       </runarguments>
       <cwd>
         <MP3Diags>/home/ciobi/cpp/Mp3Utils/MP3Diags/..</MP3Diags>
       </cwd>
       <debugarguments>
-        <MP3Diags/>
+        <MP3Diags></MP3Diags>
       </debugarguments>
     </run>
     <general>
@@ -171,6 +171,8 @@
       <subclass uifile="src/NewSession.ui" sourcefile="NewSessionDlgImpl.h" />
       <subclass uifile="src/Scan.ui" sourcefile="ScanDlgImpl.cpp" />
       <subclass uifile="src/Scan.ui" sourcefile="ScanDlgImpl.h" />
+      <subclass uifile="src/Export.ui" sourcefile="ExportDlgImpl.cpp" />
+      <subclass uifile="src/Export.ui" sourcefile="ExportDlgImpl.h" />
     </subclassing>
   </kdevtrollproject>
   <workspace>

@@ -20,6 +20,11 @@
  ***************************************************************************/
 
 
+#ifdef MSVC_QMAKE
+    #pragma warning (disable : 4100)
+#endif
+
+
 #include  <algorithm>
 #include  <sstream>
 
@@ -67,6 +72,7 @@
 #include  "ScanDlgImpl.h"
 #include  "SessionEditorDlgImpl.h"
 #include  "Id3Transf.h"
+#include  "ExportDlgImpl.h"
 
 
 using namespace std;
@@ -295,7 +301,7 @@ namespace
                 deleteFile(m_vstrStepFile[m_nStepFile]);
             }
             catch (...)
-            { //ttt0
+            { //ttt2
             }
 
             {
@@ -341,7 +347,7 @@ namespace
             deleteFile(m_vstrStepFile[1]);
         }
         catch (...)
-        { //ttt0
+        { //ttt2
         }
     }
 
@@ -409,7 +415,7 @@ void traceLastStep(const string& s, int nLevelChange)
 
 
 
-//ttt0 add checkbox to uninst on wnd to remove data and settings; //ttt0 uninst should remove log file as well, including the file created when "debug/log transf" is turned on
+//ttt2 add checkbox to uninst on wnd to remove data and settings; //ttt2 uninst should remove log file as well, including the file created when "debug/log transf" is turned on
 //static QString s_strAssertTitle ("Assertion failure");
 //static QString s_strCrashWarnTitle ("Crash detected");
 static QString s_qstrErrorMsg;
@@ -842,7 +848,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) 
                 if (fileExists(s_fileTracer.getTraceFile()))
                 {
                     showRestartAfterCrashMsg("<p style=\"margin-bottom:8px; margin-top:1px; \">MP3 Diags is restarting after a crash. Information in the files \"<b>" + Qt::escape(toNativeSeparators(convStr(s_fileTracer.getTraceFile()))) + "</b>\", \"<b>" + Qt::escape(toNativeSeparators(convStr(s_fileTracer.getStepFiles()[0]))) + "</b>\", and \"<b>" + Qt::escape(toNativeSeparators(convStr(s_fileTracer.getStepFiles()[1]))) + "</b>\" may help identify the cause of the crash, so please make them available to the developer by mailing them to <a href=\"mailto:ciobi@inbox.com?subject=000 MP3 Diags crash/\">ciobi@inbox.com</a>, by reporting an issue to the project's Issue Tracker at <a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a> and attaching the files to the report, or by some other means (like putting them on a web server.)</p><p style=\"margin-bottom:8px; margin-top:1px; \">These are plain text files, which you can review before sending, if you have privacy concerns.</p><p style=\"margin-bottom:8px; margin-top:1px; \">After getting the files, the developer will probably want to contact you for more details, so please check back on the status of your report.</p><p style=\"margin-bottom:8px; margin-top:1px; \">Note that these files will be removed when you close this window.</p><p style=\"margin-bottom:8px; margin-top:1px; \">So please send these files, as well as any other detail that seems relevant (what might have caused the failure, steps to reproduce it, ...)</p>", "Remove these files and continue");
-                    //ttt0 perhaps loop until the file is deleted
+                    //ttt2 perhaps loop until the file is deleted
                 }
                 else
                 {
@@ -1231,6 +1237,11 @@ void MainFormDlgImpl::initializeUi()
 
     m_pCrtDirE->setFocus();
 
+    if (!m_pCommonData->m_bShowExport)
+    {
+        m_pExportB->hide();
+    }
+
     if (!m_pCommonData->m_bShowDebug)
     {
         m_pDebugB->hide();
@@ -1599,7 +1610,7 @@ bool Mp3ProcThread::scan()
 
 } // namespace
 
-//ttt0 perhaps: Too many notes that you don't care about are cluttering your screen? You can hide such notes, so you don't see them again. To do this, open the configuration dialog and go to the "Ignored notes" tab. See more details at ...
+//ttt2 perhaps: Too many notes that you don't care about are cluttering your screen? You can hide such notes, so you don't see them again. To do this, open the configuration dialog and go to the "Ignored notes" tab. See more details at ...
 
 //ttt2 album detection: folder / tags /both
 
@@ -2365,6 +2376,16 @@ void MainFormDlgImpl::updateUi(const string& strCrt) // strCrt may be empty
         saveVisibleTransf();
     }
 
+    if (m_pCommonData->m_bShowExport)
+    {
+        m_pExportB->show();
+        m_pExportB->parentWidget()->layout()->update(); // it is probably a Qt bug the fact that this is needed; should have been automatic;
+    }
+    else
+    {
+        m_pExportB->hide();
+    }
+
     if (m_pCommonData->m_bShowDebug)
     {
         m_pDebugB->show();
@@ -2395,6 +2416,15 @@ void MainFormDlgImpl::on_m_pDebugB_clicked()
 {
     DebugDlgImpl dlg (this, m_pCommonData);
     dlg.run();
+    m_settings.saveMiscConfigSettings(m_pCommonData);
+}
+
+
+
+void MainFormDlgImpl::on_m_pExportB_clicked()
+{
+    ExportDlgImpl dlg (this);
+    dlg.run(); //ttt2 perhaps use ModifInfoToolButton
     m_settings.saveMiscConfigSettings(m_pCommonData);
 }
 
@@ -2529,6 +2559,7 @@ void MainFormDlgImpl::resizeIcons()
     v.push_back(m_pConfigB);
     v.push_back(m_pDebugB);
     v.push_back(m_pAboutB);
+    v.push_back(m_pExportB);
 
     int k (m_pCommonData->m_nMainWndIconSize);
     for (int i = 0, n = cSize(v); i < n; ++i)
@@ -2886,13 +2917,13 @@ vector<Transformation*> MainFormDlgImpl::getFixes(const Note* pNote, const Mp3Ha
     }
 
 
-    //ttt0 None of the ADD_CUSTOM_FIX fixes is shown for header (e.g. SingleBitRepairer is shown for validFrameDiffVer only when clicking on circle, not when clicking on header), maybe we should drop the stream test; OTOH the case of audioTooShort shows that it matters what stream the error is occuring on; so maybe drop the stream check only for some ... // workaround: see what's available for single song, then use the menu for all;
-    //ttt0 other example: mismatched xing fixable by SingleBitRepairer to other stream; probably document that all the notes should be looked at;
+    //ttt2 None of the ADD_CUSTOM_FIX fixes is shown for header (e.g. SingleBitRepairer is shown for validFrameDiffVer only when clicking on circle, not when clicking on header), maybe we should drop the stream test; OTOH the case of audioTooShort shows that it matters what stream the error is occuring on; so maybe drop the stream check only for some ... // workaround: see what's available for single song, then use the menu for all;
+    //ttt2 other example: mismatched xing fixable by SingleBitRepairer to other stream; probably document that all the notes should be looked at;
     // or: add all transforms that in some context might fix a note
     // or: extend ADD_CUSTOM_FIX to look at the other notes, similarly to how it looks at the stream it's in; add some transform if some other note is present; (note: use a set to not have duplicates entered via different rules)
     // perhaps unknown size 16 between xing and audio -> repair vbr, but seems too specific
     // unknown between audio and audio -> restore flipped
-    //ttt0 perhaps just this: if there's a chance that by using transf T the note N will disappear, show it; well, this is again context-dependant
+    //ttt2 perhaps just this: if there's a chance that by using transf T the note N will disappear, show it; well, this is again context-dependant
 
     if (0 != pHndl)
     { // for each matching note, see if additional fixes exist that take into account the stream the note is in and (in the future) other streams, their sizes, ...
@@ -2933,7 +2964,7 @@ vector<Transformation*> MainFormDlgImpl::getFixes(const Note* pNote, const Mp3Ha
                         ADD_CUSTOM_FIX(audioTooShort, UnknownDataStream, UnknownDataStreamRemover);
                         ADD_CUSTOM_FIX(audioTooShort, UnknownDataStream, SingleBitRepairer);
 
-                        // ADD_CUSTOM_FIX(brokenInTheMiddle, ??? , Id3V2Rescuer); //ttt0 see about this
+                        // ADD_CUSTOM_FIX(brokenInTheMiddle, ??? , Id3V2Rescuer); //ttt2 see about this
 
 
                         if (pCrtNote->allowErase() && 0 == spRemovableStreams.count(pCrtStream))
@@ -3180,7 +3211,7 @@ Development machine:
 //ttt1 handle symbolic links to ancestors
 //ttt0 https://sourceforge.net/forum/message.php?msg_id=7613657 - export as txt/m3u: probably a new window, where several formats and their options can be chosen from
 //ttt0 https://sourceforge.net/forum/forum.php?thread_id=3391593&forum_id=947206 - txt/m3u export
-//ttt0 handle various artists https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=33
+
 
 
 

@@ -331,6 +331,7 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
 
 
     {
+        m_pCurrentFileG->setVerticalHeader(new NoCropHeaderView(m_pCurrentFileG));
         m_pCurrentFileG->verticalHeader()->setResizeMode(QHeaderView::Interactive);
         m_pCurrentFileG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         m_pCurrentFileG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);//*/
@@ -341,9 +342,10 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
         connect(m_pCurrentFileG->horizontalHeader(), SIGNAL(sectionMoved(int, int, int)), this, SLOT(onFileSelSectionMoved(int, int, int)));
 
         m_pCurrentFileG->setItemDelegate(pDel);
+
+        m_pCurrentFileG->horizontalHeader()->setMovable(true);
     }
 
-    m_pCurrentFileG->horizontalHeader()->setMovable(true);
 
     {
         int nWidth, nHeight;
@@ -400,7 +402,7 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
     installEventFilter(this);
 
     {
-        int nFileHght ((CELL_HEIGHT)*10 + m_pCurrentFileG->horizontalHeader()->height() + 2*QApplication::style()->pixelMetric(QStyle::PM_DefaultFrameWidth));  //ttt0 not sure it's right; try several styles
+        int nFileHght ((CELL_HEIGHT)*10 + m_pCurrentFileG->horizontalHeader()->height() + 2*QApplication::style()->pixelMetric(QStyle::PM_DefaultFrameWidth, 0, m_pCurrentFileG));
         m_pCurrentFileG->setMaximumHeight(nFileHght);
         m_pCurrentFileG->setMinimumHeight(nFileHght);
     }
@@ -470,8 +472,8 @@ void TagEditorDlgImpl::onPatternClicked()
 TagEditorDlgImpl::~TagEditorDlgImpl()
 {
     saveTagWriterInf();
-    //QByteArray vState (m_pTagEdtSplitter->saveState());
-    //m_pCommonData->m_settings.saveTagEdtSettings(width(), height(), vState);
+
+    m_pCommonData->m_settings.saveTagEdtSettings(width(), height());
     delete m_pCurrentAlbumModel;
     delete m_pCurrentFileModel;
     delete m_pTagWriter;
@@ -808,7 +810,7 @@ void TagEditorDlgImpl::on_m_pConfigB_clicked()
         resizeTagEditor();
     }
 
-    m_pTagWriter->reloadAll("", TagWriter::CLEAR_DATA, TagWriter::CLEAR_ASSGN); // !!! regardless of the conf beng cancelled, so it's consistent with 
+    m_pTagWriter->reloadAll("", TagWriter::CLEAR_DATA, TagWriter::CLEAR_ASSGN); // !!! regardless of the conf being cancelled, so it's consistent with the question asked at the beginning
     setupVarArtistsBtn();
 }
 
@@ -1008,7 +1010,7 @@ void TagEditorDlgImpl::on_m_pReloadB_clicked()
 }
 
 
-//ttt0 perhaps transf to set recording time based on file date; another to set file date based on rec time
+//ttt2 perhaps transf to set recording time based on file date; another to set file date based on rec time
 
 // copies the values from the first row to the other rows for columns that have at least a cell selected (doesn't matter if more than 1 cells are selected);
 void TagEditorDlgImpl::on_m_pCopyFirstB_clicked()
@@ -1417,7 +1419,7 @@ void Id3V230Writer::setupWriter(Id3V230StreamWriter& wrt, const Mp3HandlerTagDat
     s = pMp3HandlerTagData->getData(TagReader::IMAGE);
     if (s.empty())
     {
-        wrt.removeFrames(KnownFrames::LBL_IMAGE(), Id3V2Frame::COVER);
+        wrt.removeFrames(KnownFrames::LBL_IMAGE(), Id3V2Frame::PT_COVER);
     }
     else
     {
@@ -1454,7 +1456,7 @@ void Id3V230Writer::setupWriter(Id3V230StreamWriter& wrt, const Mp3HandlerTagDat
         *q++ = 0; // enc
         strcpy(q, szEncoding);
         q += nEncSize + 1; // enc + term
-        *q++ = Id3V2Frame::COVER;
+        *q++ = Id3V2Frame::PT_COVER;
         *q++ = 0; // null-term descr
         memcpy(q, pImgData, nImgSize);
         wrt.addImg(frm);
@@ -1733,6 +1735,7 @@ CurrentFileDelegate::CurrentFileDelegate(QTableView* pTableView, const CommonDat
         QItemDelegate::paint(pPainter, option, index);
     }
 
+
     /*
     //ttt1 first 3 cases don't show the dotted line because QItemDelegate::paint() doesn't get called; perhaps drawDecoration() should be called, but copying these things from qitemdelegate.cpp didn't help:
 
@@ -1741,7 +1744,12 @@ CurrentFileDelegate::CurrentFileDelegate(QTableView* pTableView, const CommonDat
     QPixmap pixmap;
     pixmap = decoration(option, value);
 
-    drawDecoration(pPainter, option, QRect(0, 0, 15, 15), pixmap);*/
+    drawDecoration(pPainter, option, QRect(0, 0, 15, 15), pixmap);
+
+??? or perhaps use     QApplication::style()->drawPrimitive(QStyle::PE_FrameFocusRect?, &option, pPainter);
+
+
+    */
 
     pPainter->restore();
 }
@@ -1895,4 +1903,4 @@ A less important performance issue is in ImageInfoPanelWdgImpl::ImageInfoPanelWd
 
 */
 
-//ttt0 perhaps check boxes or something to have many patterns defined, yet several used at a time; one idea: another window where fields are shown for all the patterns and the user can pick; other idea: buttons underneath the file view, which can toggle
+

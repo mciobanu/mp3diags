@@ -1481,6 +1481,7 @@ void Id3V230Writer::setupWriter(Id3V230StreamWriter& wrt, const Mp3HandlerTagDat
         }
     }
 }
+//ttt0 when multiple id3v2 are found, the bkg color doesn't change if the 2 id3v2 are switched; probably ok, though, in the sense that if at least one field is assigned, all the others will be used when saving
 
 /*override*/ Transformation::Result Id3V230Writer::apply(const Mp3Handler& h, const TransfConfig& transfConfig, const std::string& strOrigSrcName, std::string& strTempName)
 {
@@ -1533,7 +1534,7 @@ e1:
 
                 h.reloadId3V2(); //ttt2 perhaps return the pointer to the old Id3V2 instead of destroying it, and keep it somewhere until saving is done; then m_bIsFastSaving won't be needed, and no "N/A"s will be displayed in ID3V2 fields when saving; OTOH those pointers can't be kept fully alive, because they can't retrieve their data from disk; so better leave it as is;
 
-                if (transfConfig.m_optionsWrp.m_opt.m_bKeepOrigTime)
+                if (transfConfig.m_options.m_bKeepOrigTime)
                 {
                     setFileDate(h.getName(), nOrigTime);
                 }

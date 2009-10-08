@@ -470,8 +470,8 @@ case 3:
 
 
 
-FileHeaderView::FileHeaderView(CommonData* pCommonData, Qt::Orientation orientation, QWidget* pParent) : QHeaderView(orientation, pParent), m_pCommonData(pCommonData)
-{ //ttt0 hard-code orientation
+FileHeaderView::FileHeaderView(CommonData* pCommonData, QWidget* pParent) : QHeaderView(Qt::Horizontal, pParent), m_pCommonData(pCommonData)
+{
 }
 
 

@@ -55,8 +55,10 @@ private:
     ApeItem() {} // serialization-only constructor
 
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int /*nVersion*/)
+    void serialize(Archive& ar, const unsigned int nVersion)
     {
+        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+
         ar & m_cFlags1;
         ar & m_cFlags2;
         ar & m_cFlags3;
@@ -125,8 +127,10 @@ private:
     ApeStream() {} // serialization-only constructor
 
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int /*nVersion*/)
+    void serialize(Archive& ar, const unsigned int nVersion)
     {
+        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+
         ar & boost::serialization::base_object<DataStream>(*this);
         ar & m_nVersion;
         ar & m_pos;

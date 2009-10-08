@@ -96,7 +96,7 @@ class FileHeaderView : public QHeaderView
     /*override*/ void mouseMoveEvent(QMouseEvent* pEvent);
     CommonData* m_pCommonData;
 public:
-    FileHeaderView(CommonData* pCommonData, Qt::Orientation orientation, QWidget* pParent);
+    FileHeaderView(CommonData* pCommonData, QWidget* pParent);
 };
 
 

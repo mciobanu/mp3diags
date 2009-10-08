@@ -211,7 +211,7 @@ void SessionSettings::loadDebugSettings(int& nWidth, int& nHeight) const
 
 
 
-void SessionSettings::saveExportSettings(int nWidth, int nHeight, bool bSortByShortNames, const std::string& strFile, bool bUseVisible, const std::string& strM3uRoot)
+void SessionSettings::saveExportSettings(int nWidth, int nHeight, bool bSortByShortNames, const std::string& strFile, bool bUseVisible, const std::string& strM3uRoot, const std::string& strM3uLocale)
 {
     m_pSettings->setValue("export/width", nWidth);
     m_pSettings->setValue("export/height", nHeight);
@@ -219,9 +219,10 @@ void SessionSettings::saveExportSettings(int nWidth, int nHeight, bool bSortBySh
     m_pSettings->setValue("export/fileName", convStr(strFile));
     m_pSettings->setValue("export/useVisible", bUseVisible);
     m_pSettings->setValue("export/m3uRoot", convStr(strM3uRoot));
+    m_pSettings->setValue("export/m3uLocale", convStr(strM3uLocale));
 }
 
-void SessionSettings::loadExportSettings(int& nWidth, int& nHeight, bool& bSortByShortNames, std::string& strFile, bool& bUseVisible, std::string& strM3uRoot) const
+void SessionSettings::loadExportSettings(int& nWidth, int& nHeight, bool& bSortByShortNames, std::string& strFile, bool& bUseVisible, std::string& strM3uRoot, std::string& strM3uLocale) const
 {
     nWidth = m_pSettings->value("export/width").toInt();
     nHeight = m_pSettings->value("export/height").toInt();
@@ -230,6 +231,7 @@ void SessionSettings::loadExportSettings(int& nWidth, int& nHeight, bool& bSortB
     s = m_pSettings->value("export/fileName", "").toString(); strFile = convStr(s);
     bUseVisible = m_pSettings->value("export/useVisible", true).toBool();
     s = m_pSettings->value("export/m3uRoot", "").toString(); strM3uRoot = convStr(s);
+    s = m_pSettings->value("export/m3uLocale", "System").toString(); strM3uLocale = convStr(s);
 }
 
 

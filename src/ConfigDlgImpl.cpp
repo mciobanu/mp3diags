@@ -366,7 +366,7 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
     m_pSrcDirE->setText(toNativeSeparators(convStr(getSepTerminatedDir(transfCfg.getSrcDir()))));
 
     { // ProcOrig
-        switch (transfCfg.m_optionsWrp.m_opt.m_nProcOrigChange)
+        switch (transfCfg.m_options.m_nProcOrigChange)
         {
         case 0: m_pPODontChangeRB->setChecked(true); break;
         case 1: m_pPOEraseRB->setChecked(true); break;
@@ -378,14 +378,14 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
             CB_ASSERT(false); // the constructor of TransfConfig should have detected it
         }
 
-        if (transfCfg.m_optionsWrp.m_opt.m_bProcOrigUseLabel) { m_pPOUseLabelRB->setChecked(true); } else { m_pPODontUseLabelRB->setChecked(true); }
-        if (transfCfg.m_optionsWrp.m_opt.m_bProcOrigAlwayUseCounter) { m_pPOAlwaysUseCounterRB->setChecked(true); } else { m_pPOUseCounterIfNeededRB->setChecked(true); }
+        if (transfCfg.m_options.m_bProcOrigUseLabel) { m_pPOUseLabelRB->setChecked(true); } else { m_pPODontUseLabelRB->setChecked(true); }
+        if (transfCfg.m_options.m_bProcOrigAlwayUseCounter) { m_pPOAlwaysUseCounterRB->setChecked(true); } else { m_pPOUseCounterIfNeededRB->setChecked(true); }
 
         m_pPODestE->setText(toNativeSeparators(convStr(getSepTerminatedDir(transfCfg.getProcOrigDir()))));
     }
 
     { // UnprocOrig
-        switch (transfCfg.m_optionsWrp.m_opt.m_nUnprocOrigChange)
+        switch (transfCfg.m_options.m_nUnprocOrigChange)
         {
         case 0: m_pUODontChangeRB->setChecked(true); break;
         case 1: m_pUOEraseRB->setChecked(true); break;
@@ -396,14 +396,14 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
             CB_ASSERT(false); // the constructor of TransfConfig should have detected it
         }
 
-        if (transfCfg.m_optionsWrp.m_opt.m_bUnprocOrigUseLabel) { m_pUOUseLabelRB->setChecked(true); } else { m_pUODontUseLabelRB->setChecked(true); }
-        if (transfCfg.m_optionsWrp.m_opt.m_bUnprocOrigAlwayUseCounter) { m_pUOAlwaysUseCounterRB->setChecked(true); } else { m_pUOUseCounterIfNeededRB->setChecked(true); }
+        if (transfCfg.m_options.m_bUnprocOrigUseLabel) { m_pUOUseLabelRB->setChecked(true); } else { m_pUODontUseLabelRB->setChecked(true); }
+        if (transfCfg.m_options.m_bUnprocOrigAlwayUseCounter) { m_pUOAlwaysUseCounterRB->setChecked(true); } else { m_pUOUseCounterIfNeededRB->setChecked(true); }
 
         m_pUODestE->setText(toNativeSeparators(convStr(getSepTerminatedDir(transfCfg.getUnprocOrigDir()))));
     }
 
     { // Processed
-        switch (transfCfg.m_optionsWrp.m_opt.m_nProcessedCreate)
+        switch (transfCfg.m_options.m_nProcessedCreate)
         {
         case 0: m_pProcDontCreateRB->setChecked(true); break;
         case 1: m_pProcCreateAlwaysChangeRB->setChecked(true); break;
@@ -412,24 +412,24 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
             CB_ASSERT(false); // the constructor of TransfConfig should have detected it
         }
 
-        if (transfCfg.m_optionsWrp.m_opt.m_bProcessedUseLabel) { m_pProcUseLabelRB->setChecked(true); } else { m_pProcDontUseLabelRB->setChecked(true); }
-        if (transfCfg.m_optionsWrp.m_opt.m_bProcessedAlwayUseCounter) { m_pProcAlwaysUseCounterRB->setChecked(true); } else { m_pProcUseCounterIfNeededRB->setChecked(true); }
-        if (transfCfg.m_optionsWrp.m_opt.m_bProcessedUseSeparateDir) { m_pProcUseSeparateDirRB->setChecked(true); } else { m_pProcUseSrcRB->setChecked(true); }
+        if (transfCfg.m_options.m_bProcessedUseLabel) { m_pProcUseLabelRB->setChecked(true); } else { m_pProcDontUseLabelRB->setChecked(true); }
+        if (transfCfg.m_options.m_bProcessedAlwayUseCounter) { m_pProcAlwaysUseCounterRB->setChecked(true); } else { m_pProcUseCounterIfNeededRB->setChecked(true); }
+        if (transfCfg.m_options.m_bProcessedUseSeparateDir) { m_pProcUseSeparateDirRB->setChecked(true); } else { m_pProcUseSrcRB->setChecked(true); }
 
         m_pProcDestE->setText(toNativeSeparators(convStr(getSepTerminatedDir(transfCfg.getProcessedDir()))));
     }
 
     {
-        m_pKeepOrigTimeCkB->setChecked(transfCfg.m_optionsWrp.m_opt.m_bKeepOrigTime);
+        m_pKeepOrigTimeCkB->setChecked(transfCfg.m_options.m_bKeepOrigTime);
     }
 
     { // Temp
-        if (transfCfg.m_optionsWrp.m_opt.m_bTempCreate) { m_pTempCreateRB->setChecked(true); } else { m_pTempDontCreateRB->setChecked(true); }
+        if (transfCfg.m_options.m_bTempCreate) { m_pTempCreateRB->setChecked(true); } else { m_pTempDontCreateRB->setChecked(true); }
         m_pTempDestE->setText(toNativeSeparators(convStr(getSepTerminatedDir(transfCfg.getTempDir()))));
     }
 
     { // Comp
-        if (transfCfg.m_optionsWrp.m_opt.m_bCompCreate) { m_pCompCreateRB->setChecked(true); } else { m_pCompDontCreateRB->setChecked(true); }
+        if (transfCfg.m_options.m_bCompCreate) { m_pCompCreateRB->setChecked(true); } else { m_pCompDontCreateRB->setChecked(true); }
         m_pCompDestE->setText(toNativeSeparators(convStr(getSepTerminatedDir(transfCfg.getCompDir()))));
     }
 
@@ -508,6 +508,7 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
         {
             lNames << QString::fromLatin1(l[i]);
         }
+        lNames.sort();
 
         m_pLocaleCbB->addItems(lNames);
         int n (m_pLocaleCbB->findText(m_pCommonData->m_locale));
@@ -689,7 +690,8 @@ void SessionSettings::saveTransfConfig(const TransfConfig& transfConfig)
     }*/
 }
 
-void SessionSettings::loadTransfConfig(TransfConfig& transfConfig) const
+// returns false if there was some error while loading (so the user can be told about defaults being used and those defaults could get saved)
+bool SessionSettings::loadTransfConfig(TransfConfig& transfConfig) const
 {
     try
     {
@@ -704,11 +706,13 @@ void SessionSettings::loadTransfConfig(TransfConfig& transfConfig) const
                 m_pSettings->value("transformation/options", -1).toInt()
             );
         transfConfig = tc;
+        return !tc.hadInitError();
     }
     catch (const IncorrectDirName&)
     {
         TransfConfig tc ("*", "*", "*", "*", "*", "*", -1);
         transfConfig = tc;
+        return false;
     }
 }
 
@@ -745,6 +749,7 @@ void initDefaultCustomTransf(int k, vector<vector<int> >& vv, CommonData* pCommo
         v.push_back(pCommonData->getTransfPos(InnerNonAudioRemover::getClassName()));
         v.push_back(pCommonData->getTransfPos(TruncatedMpegDataStreamRemover::getClassName()));
         v.push_back(pCommonData->getTransfPos(VbrRepairer::getClassName()));
+        v.push_back(pCommonData->getTransfPos(MismatchedXingRemover::getClassName())); // !!! takes care of broken Xing headers for CBR files (VbrRepairer only deals with VBR files)
         break;
 
     case 1:
@@ -770,6 +775,7 @@ void initDefaultCustomTransf(int k, vector<vector<int> >& vv, CommonData* pCommo
         v.push_back(pCommonData->getTransfPos(InnerNonAudioRemover::getClassName()));
         v.push_back(pCommonData->getTransfPos(TruncatedMpegDataStreamRemover::getClassName()));
         v.push_back(pCommonData->getTransfPos(VbrRepairer::getClassName()));
+        v.push_back(pCommonData->getTransfPos(MismatchedXingRemover::getClassName())); // !!! takes care of broken Xing headers for CBR files (VbrRepairer only deals with VBR files)
 
         v.push_back(pCommonData->getTransfPos(Id3V2Rescuer::getClassName()));
         v.push_back(pCommonData->getTransfPos(UnsupportedId3V2Remover::getClassName()));
@@ -928,27 +934,26 @@ void ConfigDlgImpl::on_m_pOkB_clicked()
     //logState("on_m_pOkB_clicked 1");
     try
     {
-        TransfConfig::OptionsWrp wrp;
-        wrp.m_nVal = 0;
+        TransfConfig::Options opt;
 
-        wrp.m_opt.m_nProcOrigChange = m_pPODontChangeRB->isChecked() ? 0 : m_pPOEraseRB->isChecked() ? 1 : m_pPOMoveAlwaysChangeRB->isChecked() ? 2 : m_pPOMoveChangeIfNeededRB->isChecked() ? 3 : m_pPOChangeNameRB->isChecked() ? 4 : m_pPOMoveOrEraseRB->isChecked() ? 5 : 7;
-        wrp.m_opt.m_bProcOrigUseLabel = m_pPOUseLabelRB->isChecked();
-        wrp.m_opt.m_bProcOrigAlwayUseCounter = m_pPOAlwaysUseCounterRB->isChecked();
+        opt.m_nProcOrigChange = m_pPODontChangeRB->isChecked() ? 0 : m_pPOEraseRB->isChecked() ? 1 : m_pPOMoveAlwaysChangeRB->isChecked() ? 2 : m_pPOMoveChangeIfNeededRB->isChecked() ? 3 : m_pPOChangeNameRB->isChecked() ? 4 : m_pPOMoveOrEraseRB->isChecked() ? 5 : 7;
+        opt.m_bProcOrigUseLabel = m_pPOUseLabelRB->isChecked();
+        opt.m_bProcOrigAlwayUseCounter = m_pPOAlwaysUseCounterRB->isChecked();
 
-        wrp.m_opt.m_nUnprocOrigChange = m_pUODontChangeRB->isChecked() ? 0 : m_pUOEraseRB->isChecked() ? 1 : m_pUOMoveAlwaysChangeRB->isChecked() ? 2 : m_pUOMoveChangeIfNeededRB->isChecked() ? 3 : m_pUOChangeNameRB->isChecked() ? 4 : 7;
-        wrp.m_opt.m_bUnprocOrigUseLabel = m_pUOUseLabelRB->isChecked();
-        wrp.m_opt.m_bUnprocOrigAlwayUseCounter = m_pUOAlwaysUseCounterRB->isChecked();
+        opt.m_nUnprocOrigChange = m_pUODontChangeRB->isChecked() ? 0 : m_pUOEraseRB->isChecked() ? 1 : m_pUOMoveAlwaysChangeRB->isChecked() ? 2 : m_pUOMoveChangeIfNeededRB->isChecked() ? 3 : m_pUOChangeNameRB->isChecked() ? 4 : 7;
+        opt.m_bUnprocOrigUseLabel = m_pUOUseLabelRB->isChecked();
+        opt.m_bUnprocOrigAlwayUseCounter = m_pUOAlwaysUseCounterRB->isChecked();
 
-        wrp.m_opt.m_nProcessedCreate = m_pProcDontCreateRB->isChecked() ? 0 : m_pProcCreateAlwaysChangeRB->isChecked() ? 1 : m_pProcCreateChangeIfNeededRB->isChecked() ? 2 : 3;
-        wrp.m_opt.m_bProcessedUseLabel = m_pProcUseLabelRB->isChecked();
-        wrp.m_opt.m_bProcessedAlwayUseCounter = m_pProcAlwaysUseCounterRB->isChecked();
-        wrp.m_opt.m_bProcessedUseSeparateDir = m_pProcUseSeparateDirRB->isChecked();
+        opt.m_nProcessedCreate = m_pProcDontCreateRB->isChecked() ? 0 : m_pProcCreateAlwaysChangeRB->isChecked() ? 1 : m_pProcCreateChangeIfNeededRB->isChecked() ? 2 : 3;
+        opt.m_bProcessedUseLabel = m_pProcUseLabelRB->isChecked();
+        opt.m_bProcessedAlwayUseCounter = m_pProcAlwaysUseCounterRB->isChecked();
+        opt.m_bProcessedUseSeparateDir = m_pProcUseSeparateDirRB->isChecked();
 
-        wrp.m_opt.m_bTempCreate = m_pTempCreateRB->isChecked();
+        opt.m_bTempCreate = m_pTempCreateRB->isChecked();
 
-        wrp.m_opt.m_bCompCreate = m_pCompCreateRB->isChecked();
+        opt.m_bCompCreate = m_pCompCreateRB->isChecked();
 
-        wrp.m_opt.m_bKeepOrigTime = m_pKeepOrigTimeCkB->isChecked();
+        opt.m_bKeepOrigTime = m_pKeepOrigTimeCkB->isChecked();
 
         TransfConfig cfg (
                 getNonSepTerminatedDir(convStr(fromNativeSeparators(m_pSrcDirE->text()))),
@@ -957,7 +962,7 @@ void ConfigDlgImpl::on_m_pOkB_clicked()
                 getNonSepTerminatedDir(convStr(fromNativeSeparators(m_pProcDestE->text()))),
                 getNonSepTerminatedDir(convStr(fromNativeSeparators(m_pTempDestE->text()))),
                 getNonSepTerminatedDir(convStr(fromNativeSeparators(m_pCompDestE->text()))),
-                wrp.m_nVal
+                opt.getVal()
             );
         m_transfCfg = cfg;
 
@@ -992,7 +997,7 @@ void ConfigDlgImpl::on_m_pOkB_clicked()
 
         {
             m_pCommonData->m_locale = m_pLocaleCbB->currentText().toLatin1();
-            m_pCommonData->m_pCodec = (QTextCodec::codecForName(m_pCommonData->m_locale));
+            m_pCommonData->m_pCodec = QTextCodec::codecForName(m_pCommonData->m_locale);
             CB_ASSERT (0 != m_pCommonData->m_pCodec);
         }
 
@@ -1173,11 +1178,11 @@ void ConfigDlgImpl::onHelp()
     case 1: openHelp("260_config_ignored_notes.html"); break;
     case 2: openHelp("270_config_custom_transf.html"); break;
     case 3: openHelp("290_config_transf_params.html"); break;
-
-    case 5: openHelp("280_config_quality.html"); break;
-
+    case 4: openHelp("292_config_visible_transf.html"); break;
+    case 5: openHelp("295_config_quality.html"); break;
+    case 6: openHelp("297_config_colors.html"); break;
     case 7: openHelp("300_config_others.html"); break;
-    //ttt0 revise as needed
+    //tttr revise as needed
 
     default: /*openHelp("index.html");*/ break;
     }
@@ -1231,4 +1236,6 @@ void ConfigDlgImpl::on_m_pFastSaveCkB_stateChanged()
 
 //ttt2 dir config: perhaps something simpler, with a "more options" button
 
-//ttt1 Font style is ignored (see DejaVu Sans / Light on machines with antialiased fonts)
+//ttt2 Font style is ignored (see DejaVu Sans / Light on machines with antialiased fonts)
+
+//ttt2 proxy: QNetworkProxyFactory::systemProxyForQuery; QNetworkProxy; http://www.dbits.be/index.php/pc-problems/65-vistaproxycfg  https://sourceforge.net/projects/mp3diags/forums/forum/947207/topic/3415940

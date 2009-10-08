@@ -294,10 +294,15 @@ void SessionSettings::loadMiscConfigSettings(CommonData* p) const
         p->m_pCodec = (QTextCodec::codecForName(p->m_locale));
         if (0 == p->m_pCodec)
         {
-            QList<QByteArray> l (QTextCodec::availableCodecs());
+            /*QList<QByteArray> l (QTextCodec::availableCodecs());
             CB_ASSERT (l.size() > 0);
-            p->m_locale = l.front();
+            p->m_locale = l.front();*/
+            p->m_locale = "System";
             p->m_pCodec = (QTextCodec::codecForName(p->m_locale));
+        }
+        else
+        {
+            p->m_locale = p->m_pCodec->name(); // !!! needed because the names may be different ("ISO 8859-1" vs. "ISO-8859-1")
         }
         CB_ASSERT (0 != p->m_pCodec);
 
@@ -1713,7 +1718,7 @@ void CommonData::updateWidgets(const std::string& strCrtName /*= ""*/, const std
 {
     CursorOverrider crs;
 
-    //if (m_vpViewHandlers.empty() && !m_vpFltHandlers.empty()) // 2009.09.25 - not sure why the test was here, but its presence prevented the right song to be selected when returning from tag editing, if in album mode; ttt0 see if this takes a long time; if so, perhaps the idea was to run this only if needed, but the test was too restrictive
+    //if (m_vpViewHandlers.empty() && !m_vpFltHandlers.empty()) // 2009.09.25 - not sure why the test was here, but its presence prevented the right song to be selected when returning from tag editing, if in album mode; see if this takes a long time; if so, perhaps the idea was to run this only if needed, but the test was too restrictive
     {
         CommonData::ViewMode eViewMode (getViewMode());
         setViewMode(CommonData::ALL);

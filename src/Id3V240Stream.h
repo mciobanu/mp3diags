@@ -40,8 +40,10 @@ private:
     Id3V240Frame() {} // serialization-only constructor
 
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int /*nVersion*/)
+    void serialize(Archive& ar, const unsigned int nVersion)
     {
+        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+
         ar & boost::serialization::base_object<Id3V2Frame>(*this);
     }
 };
@@ -66,8 +68,10 @@ private:
     Id3V240Stream() {} // serialization-only constructor
 
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int /*nVersion*/)
+    void serialize(Archive& ar, const unsigned int nVersion)
     {
+        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+
         ar & boost::serialization::base_object<Id3V2StreamBase>(*this);
     }
 };

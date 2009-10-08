@@ -77,6 +77,7 @@ function createSrc
     cp -p CMakeLists.txt $LongDestDir
     cp -p CMake-VS2008-Win32.cmd $LongDestDir
     cp -p BuildMp3Diags.hta $LongDestDir
+    cp -p README.TXT $LongDestDir
 
     echo const char* APP_VER '("'$Ver'");'> $LongDestDir/src/Version.cpp
     echo >> $LongDestDir/src/Version.cpp

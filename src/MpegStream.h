@@ -58,8 +58,10 @@ public:
 private:
     friend class boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int /*nVersion*/)
+    void serialize(Archive& ar, const unsigned int nVersion)
     {
+        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+
         ar & boost::serialization::base_object<DataStream>(*this);
 
         ar & m_firstFrame;
@@ -125,8 +127,10 @@ private:
     MpegStream() {} // serialization-only constructor
 
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int /*nVersion*/)
+    void serialize(Archive& ar, const unsigned int nVersion)
     {
+        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+
         ar & boost::serialization::base_object<MpegStreamBase>(*this);
 
         ar & m_nSize;
@@ -177,8 +181,10 @@ private:
     friend class boost::serialization::access;
 
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int /*nVersion*/)
+    void serialize(Archive& ar, const unsigned int nVersion)
     {
+        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+
         ar & boost::serialization::base_object<MpegStreamBase>(*this);
 
         ar & m_cFlags;
@@ -199,8 +205,10 @@ private:
     XingStream() {} // serialization-only constructor
 
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int /*nVersion*/)
+    void serialize(Archive& ar, const unsigned int nVersion)
     {
+        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+
         ar & boost::serialization::base_object<XingStreamBase>(*this);
     }
 };
@@ -221,8 +229,10 @@ private:
     LameStream() {} // serialization-only constructor
 
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int /*nVersion*/)
+    void serialize(Archive& ar, const unsigned int nVersion)
     {
+        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+
         ar & boost::serialization::base_object<XingStreamBase>(*this);
     }
 };
@@ -245,8 +255,10 @@ private:
     VbriStream() {} // serialization-only constructor
 
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int /*nVersion*/)
+    void serialize(Archive& ar, const unsigned int nVersion)
     {
+        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+
         ar & boost::serialization::base_object<MpegStreamBase>(*this);
     }
 };
@@ -304,8 +316,10 @@ private:
 
     Id3V1Stream() {} // serialization-only constructor
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int /*nVersion*/)
+    void serialize(Archive& ar, const unsigned int nVersion)
     {
+        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+
         ar & boost::serialization::base_object<DataStream>(*this);
 
         ar & m_data;

@@ -47,192 +47,11 @@
           <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex" >
-          <number>1</number>
+          <number>0</number>
          </property>
-         <widget class="QWidget" name="tab" >
-          <attribute name="title" >
-           <string>File locations</string>
-          </attribute>
-          <layout class="QVBoxLayout" >
-           <item>
-            <widget class="QFrame" name="m_pSourceDirF" >
-             <property name="frameShape" >
-              <enum>QFrame::NoFrame</enum>
-             </property>
-             <property name="frameShadow" >
-              <enum>QFrame::Raised</enum>
-             </property>
-             <layout class="QHBoxLayout" >
-              <item>
-               <widget class="QLabel" name="label" >
-                <property name="text" >
-                 <string>Source directory</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QWidget" native="1" name="widget_9" >
-                <layout class="QHBoxLayout" >
-                 <property name="leftMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="topMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="rightMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="bottomMargin" >
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <widget class="QLineEdit" name="m_pSrcDirE" />
-                 </item>
-                 <item>
-                  <widget class="QToolButton" name="m_pSelectSrcDirB" >
-                   <property name="text" >
-                    <string>...</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QGroupBox" name="groupBox_16" >
-             <property name="title" >
-              <string>Temporary files</string>
-             </property>
-             <layout class="QGridLayout" >
-              <property name="topMargin" >
-               <number>0</number>
-              </property>
-              <property name="verticalSpacing" >
-               <number>0</number>
-              </property>
-              <item row="0" column="0" >
-               <widget class="QRadioButton" name="m_pTempDontCreateRB" >
-                <property name="text" >
-                 <string>Don't create</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0" >
-               <widget class="QRadioButton" name="m_pTempCreateRB" >
-                <property name="text" >
-                 <string>Create in</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1" >
-               <widget class="QWidget" native="1" name="widget_2" >
-                <layout class="QHBoxLayout" >
-                 <property name="leftMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="topMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="rightMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="bottomMargin" >
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <widget class="QLineEdit" name="m_pTempDestE" />
-                 </item>
-                 <item>
-                  <widget class="QToolButton" name="m_pSelectTempDirB" >
-                   <property name="text" >
-                    <string>...</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QGroupBox" name="groupBox_17" >
-             <property name="title" >
-              <string>Compare files</string>
-             </property>
-             <layout class="QGridLayout" >
-              <property name="topMargin" >
-               <number>0</number>
-              </property>
-              <property name="verticalSpacing" >
-               <number>0</number>
-              </property>
-              <item row="0" column="0" >
-               <widget class="QRadioButton" name="m_pCompDontCreateRB" >
-                <property name="text" >
-                 <string>Don't create</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0" >
-               <widget class="QRadioButton" name="m_pCompCreateRB" >
-                <property name="text" >
-                 <string>Create in</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1" >
-               <widget class="QWidget" native="1" name="widget_10" >
-                <layout class="QHBoxLayout" >
-                 <property name="leftMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="topMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="rightMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="bottomMargin" >
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <widget class="QLineEdit" name="m_pCompDestE" />
-                 </item>
-                 <item>
-                  <widget class="QToolButton" name="m_pSelectCompDirB" >
-                   <property name="text" >
-                    <string>...</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <spacer>
-             <property name="orientation" >
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" >
-              <size>
-               <width>20</width>
-               <height>81</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </widget>
          <widget class="QWidget" name="tab_3" >
           <attribute name="title" >
-           <string>Original file that was transformed</string>
+           <string>Original file that would be changed</string>
           </attribute>
           <layout class="QVBoxLayout" >
            <item>
@@ -253,7 +72,7 @@
               <item>
                <widget class="QRadioButton" name="m_pPODontChangeRB" >
                 <property name="text" >
-                 <string>Don't Change</string>
+                 <string>Don't touch</string>
                 </property>
                </widget>
               </item>
@@ -410,7 +229,7 @@
          </widget>
          <widget class="QWidget" name="tab_2" >
           <attribute name="title" >
-           <string>Original file that was not transformed</string>
+           <string>Original file that would not be changed</string>
           </attribute>
           <layout class="QVBoxLayout" >
            <item>
@@ -431,7 +250,7 @@
               <item>
                <widget class="QRadioButton" name="m_pUODontChangeRB" >
                 <property name="text" >
-                 <string>Don't Change</string>
+                 <string>Don't touch</string>
                 </property>
                </widget>
               </item>
@@ -581,7 +400,7 @@
          </widget>
          <widget class="QWidget" name="tab_4" >
           <attribute name="title" >
-           <string>Transformed file</string>
+           <string>Changed file</string>
           </attribute>
           <layout class="QVBoxLayout" >
            <item>
@@ -765,6 +584,187 @@
               <size>
                <width>591</width>
                <height>53</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="tab" >
+          <attribute name="title" >
+           <string>Temporary files</string>
+          </attribute>
+          <layout class="QVBoxLayout" >
+           <item>
+            <widget class="QFrame" name="m_pSourceDirF" >
+             <property name="frameShape" >
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="frameShadow" >
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QHBoxLayout" >
+              <item>
+               <widget class="QLabel" name="label" >
+                <property name="text" >
+                 <string>Source directory</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QWidget" native="1" name="widget_9" >
+                <layout class="QHBoxLayout" >
+                 <property name="leftMargin" >
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin" >
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin" >
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin" >
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QLineEdit" name="m_pSrcDirE" />
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="m_pSelectSrcDirB" >
+                   <property name="text" >
+                    <string>...</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_16" >
+             <property name="title" >
+              <string>Temporary files</string>
+             </property>
+             <layout class="QGridLayout" >
+              <property name="topMargin" >
+               <number>0</number>
+              </property>
+              <property name="verticalSpacing" >
+               <number>0</number>
+              </property>
+              <item row="0" column="0" >
+               <widget class="QRadioButton" name="m_pTempDontCreateRB" >
+                <property name="text" >
+                 <string>Don't create</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0" >
+               <widget class="QRadioButton" name="m_pTempCreateRB" >
+                <property name="text" >
+                 <string>Create in</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1" >
+               <widget class="QWidget" native="1" name="widget_2" >
+                <layout class="QHBoxLayout" >
+                 <property name="leftMargin" >
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin" >
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin" >
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin" >
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QLineEdit" name="m_pTempDestE" />
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="m_pSelectTempDirB" >
+                   <property name="text" >
+                    <string>...</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_17" >
+             <property name="title" >
+              <string>Compare files</string>
+             </property>
+             <layout class="QGridLayout" >
+              <property name="topMargin" >
+               <number>0</number>
+              </property>
+              <property name="verticalSpacing" >
+               <number>0</number>
+              </property>
+              <item row="0" column="0" >
+               <widget class="QRadioButton" name="m_pCompDontCreateRB" >
+                <property name="text" >
+                 <string>Don't create</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0" >
+               <widget class="QRadioButton" name="m_pCompCreateRB" >
+                <property name="text" >
+                 <string>Create in</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1" >
+               <widget class="QWidget" native="1" name="widget_10" >
+                <layout class="QHBoxLayout" >
+                 <property name="leftMargin" >
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin" >
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin" >
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin" >
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QLineEdit" name="m_pCompDestE" />
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="m_pSelectCompDirB" >
+                   <property name="text" >
+                    <string>...</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <spacer>
+             <property name="orientation" >
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" >
+              <size>
+               <width>20</width>
+               <height>81</height>
               </size>
              </property>
             </spacer>

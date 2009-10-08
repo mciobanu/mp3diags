@@ -40,7 +40,7 @@
 using namespace std;
 
 /*
-ttt0 random 30-second freeze: norm completed but not detected; window was set to stay open; abort + close sort of worked, but the main window froze and the program had to be killed; on a second run it looked like the UI freeze is not permanent, but lasts 30 seconds (so waiting some more the first time might have unfrozen the app)
+ttt2 random 30-second freeze: norm completed but not detected; window was set to stay open; abort + close sort of worked, but the main window froze and the program had to be killed; on a second run it looked like the UI freeze is not permanent, but lasts 30 seconds (so waiting some more the first time might have unfrozen the app)
 
 What seems to happen is this: QProcess loses contact with the actual process (or perhaps the program becomes a zombie or something similar, not really finished but not running anymore either); then 2 things happen: first, waitForFinished() doesn't return for 30 seconds (which is the default timeout, and can be made smaller); then, when closing the norm window there's another 30 seconds freeze, probably caused by the dialog destructor's attempt to destroy the QProcess member (which again tries to kill a dead process)
 
@@ -51,7 +51,9 @@ Might be related to the comment "!!! needed because sometimes" below, which also
 
 Note that this also happens during normal operation, even if "abort" is not pressed. The dialog might fail to detect that normalization is done. If that happens, the solution is to press Abort.
 
-ttt0 doc: might seem frozen at the end; just press abort and wait for at most a minute. i'm investigating the cause
+ttt2 - perhaps detect that no output is coming from the program, so just assume it's dead; still, the destructor would have to be detached and put on a secondary thread, or just leave a memory leak; (having a timer "clean" a vector with QProcess objects doesn't work, because it would freeze whatever object it's attached to)
+
+ttt2 doc: might seem frozen at the end; just press abort and wait for at most a minute. i'm investigating the cause
 same may happen after pressing abort while the normalization is running
 */
 
@@ -81,6 +83,7 @@ void logTransformation(const string& strLogFile, const char* szActionName, const
 void NormalizeDlgImpl::normalize(const QString& qstrProg1, const QStringList& lFiles) //ttt2 in Windows MP3Gain doesn't seem to care about Unicode (well, the GUI version does, but that doesn't help). aacgain doesn't work either; see if there's a good way to deal with this; doc about using short filenames
 {
     m_pProc = new QProcess(this);
+    //m_pProc = new QProcess(); // !!! m_pProc is not owned; it will be destroyed
     connect(m_pProc, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onFinished()));
     connect(m_pProc, SIGNAL(readyReadStandardOutput()), this, SLOT(onOutputTxt()));
     connect(m_pProc, SIGNAL(readyReadStandardError()), this, SLOT(onErrorTxt()));
@@ -95,7 +98,7 @@ void NormalizeDlgImpl::normalize(const QString& qstrProg1, const QStringList& lF
 
     //
     int k (1);
-    for (; k < qstrProg1.size() && (qstrProg1[k - 1] != ' '  || (qstrProg1[k] != '-' && qstrProg1[k] != '/')); ++k) {}
+    for (; k < qstrProg1.size() && (qstrProg1[k - 1] != ' '  || (qstrProg1[k] != '-' && qstrProg1[k] != '/')); ++k) {} //ttt2 perhaps better: look for spaces from the end and stop when a dir exists from the beginning of the name till the current space
     QString qstrProg (qstrProg1.left(k).trimmed());
     QString qstrArg (qstrProg1.right(qstrProg1.size() - k).trimmed());
     //qDebug("prg <%s>  arg <%s>", qstrProg.toUtf8().data(), qstrArg.toUtf8().data());

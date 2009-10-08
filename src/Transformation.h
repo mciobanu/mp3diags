@@ -142,7 +142,7 @@ class TransfConfig
     //
     //----------------------------
     //
-    //  16: 0 = don't comp files
+    //  16: 0 = don't create comp files
     //      1 = create comp files in m_strCompDir
     //
     /*int m_nOptions;
@@ -174,8 +174,12 @@ public:
     TransfConfig();
 
 
-    struct Options
+    class Options
     {
+        static unsigned uns(bool b) { return b ? 1 : 0; }
+        static unsigned uns(unsigned x) { return x; }
+    public:
+
         unsigned m_nProcOrigChange : 3;
         bool m_bProcOrigUseLabel : 1;
         bool m_bProcOrigAlwayUseCounter : 1;
@@ -194,15 +198,59 @@ public:
         bool m_bCompCreate : 1;
 
         bool m_bKeepOrigTime : 1;
+
+        Options(); // !!! sets everything to 0; for the "default" options there is a getDefaultOptions()
+
+        int getVal() const
+        {
+            unsigned x (0); unsigned s (0);
+
+            x ^= (uns(m_nProcOrigChange) << s); s += 3; // unsigned m_nProcOrigChange : 3;
+            x ^= (uns(m_bProcOrigUseLabel) << s); s += 1; // bool m_bProcOrigUseLabel : 1;
+            x ^= (uns(m_bProcOrigAlwayUseCounter) << s); s += 1; // bool m_bProcOrigAlwayUseCounter : 1;
+
+            x ^= (uns(m_nUnprocOrigChange) << s); s += 3; // unsigned m_nUnprocOrigChange : 3;
+            x ^= (uns(m_bUnprocOrigUseLabel) << s); s += 1; // bool m_bUnprocOrigUseLabel : 1;
+            x ^= (uns(m_bUnprocOrigAlwayUseCounter) << s); s += 1; // bool m_bUnprocOrigAlwayUseCounter : 1;
+
+            x ^= (uns(m_nProcessedCreate) << s); s += 2; // unsigned m_nProcessedCreate : 2;
+            x ^= (uns(m_bProcessedUseLabel) << s); s += 1; // bool m_bProcessedUseLabel : 1;
+            x ^= (uns(m_bProcessedAlwayUseCounter) << s); s += 1; // bool m_bProcessedAlwayUseCounter : 1;
+            x ^= (uns(m_bProcessedUseSeparateDir) << s); s += 1; // bool m_bProcessedUseSeparateDir : 1;
+
+            x ^= (uns(m_bTempCreate) << s); s += 1; // bool m_bTempCreate : 1;
+
+            x ^= (uns(m_bCompCreate) << s); s += 1; // bool m_bCompCreate : 1;
+
+            x ^= (uns(m_bKeepOrigTime) << s); s += 1; // bool m_bKeepOrigTime : 1;
+
+            return int(x);
+        }
+
+        void setVal(int x)
+        {
+            m_nProcOrigChange = x & 0x07; x >>= 3; // unsigned m_nProcOrigChange : 3;
+            m_bProcOrigUseLabel = x & 0x01; x >>= 1; // bool m_bProcOrigUseLabel : 1;
+            m_bProcOrigAlwayUseCounter = x & 0x01; x >>= 1; // bool m_bProcOrigAlwayUseCounter : 1;
+
+            m_nUnprocOrigChange = x & 0x07; x >>= 3; // unsigned m_nUnprocOrigChange : 3;
+            m_bUnprocOrigUseLabel = x & 0x01; x >>= 1; // bool m_bUnprocOrigUseLabel : 1;
+            m_bUnprocOrigAlwayUseCounter = x & 0x01; x >>= 1; // bool m_bUnprocOrigAlwayUseCounter : 1;
+
+            m_nProcessedCreate = x & 0x03; x >>= 2; // unsigned m_nProcessedCreate : 2;
+            m_bProcessedUseLabel = x & 0x01; x >>= 1; // bool m_bProcessedUseLabel : 1;
+            m_bProcessedAlwayUseCounter = x & 0x01; x >>= 1; // bool m_bProcessedAlwayUseCounter : 1;
+            m_bProcessedUseSeparateDir = x & 0x01; x >>= 1; // bool m_bProcessedUseSeparateDir : 1;
+
+            m_bTempCreate = x & 0x01; x >>= 1; // bool m_bTempCreate : 1;
+
+            m_bCompCreate = x & 0x01; x >>= 1; // bool m_bCompCreate : 1;
+
+            m_bKeepOrigTime = x & 0x01; x >>= 1; // bool m_bKeepOrigTime : 1;
+        }
     };
 
-    union OptionsWrp
-    {
-        int m_nVal;
-        Options m_opt;
-    };
-
-    OptionsWrp m_optionsWrp;
+    Options m_options;
 /*
     // the name for an "intermediate" file; it's obtained from the "temp dir" and from the short name of the original file, with a ".temp.<NNN>" inserted before the extension, where <NNN> is a number chosen such that a file with this new name doesn't exist;
     std::string getTempName(const std::string& strOrigSrcName, const std::string& strOpName) const;
@@ -248,7 +296,9 @@ public:
 
     void setProcOrigDir(const std::string& s) { m_strProcOrigDir = s; } // needed by the session dialog //ttt1 perhaps some checks
 
-    int getOptions() const { return m_optionsWrp.m_nVal; }
+    int getOptions() const { return m_options.getVal(); }
+
+    bool hadInitError() const { return m_bInitError; }
 
     //struct DirOverlap {};
     //struct InvalidName {}; // something is wrong with the file name
@@ -258,6 +308,7 @@ public:
 private:
     OrigFile getChangedOrigNameHlp(const std::string& strOrigSrcName, const std::string& strDestDir, int nChange, bool bUseLabel, bool bAlwayUseCounter, std::string& strNewName) const;
     void removeSuffix(std::string& s) const;
+    bool m_bInitError;
 };
 
 

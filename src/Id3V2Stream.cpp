@@ -203,7 +203,14 @@ void Id3V2Frame::print(ostream& out, bool bFullInfo) const
     out << m_szName;
     if ('T' == m_szName[0])
     {
-        out << "=\"" << getUtf8String() << "\""; //ttt2 probably specific to particular versions of Linux and GCC
+        string s (getUtf8String());
+        if (!bFullInfo && cSize(s) > 100)
+        {
+            s.erase(90);
+            s += " ...";
+        }
+
+        out << "=\"" << s << "\""; //ttt2 probably specific to particular versions of Linux and GCC
 //cout << " value=\"" << getUtf8String() << "\""; //ttt2 probably specific to particular versions of Linux and GCC
         //out << " value=\"" << "RRRRRRRR" << "\"";
     }
@@ -430,23 +437,30 @@ static const set<string>& getAllUsedFrames()
 
 string Id3V2Frame::getUtf8String() const
 {
-    string s (getUtf8StringImpl());
-    if (0 == getAllUsedFrames().count(m_szName))
-    { // text frames may contain null characters, and what's after a null char isn't supposed to be displayed; however, for frames that aren't used we may want to see what's after the null
-        for (int i = 0; i < cSize(s); ++i)
-        {
-            unsigned char c (s[i]);
-            if (c < 32) // ttt3 ASCII only
+    try
+    {
+        string s (getUtf8StringImpl());
+        if (0 == getAllUsedFrames().count(m_szName))
+        { // text frames may contain null characters, and what's after a null char isn't supposed to be displayed; however, for frames that aren't used we may want to see what's after the null
+            for (int i = 0; i < cSize(s); ++i)
             {
-                s[i] = 32;
+                unsigned char c (s[i]);
+                if (c < 32) // ttt3 ASCII only
+                {
+                    s[i] = 32;
+                }
             }
         }
+
+        s = s.c_str(); // !!! so now s doesn't contain null chars
+        rtrim(s);
+
+        return s;
     }
-
-    s = s.c_str(); // !!! so now s doesn't contain null chars
-    rtrim(s);
-
-    return s;
+    catch (const Id3V2FrameDataLoader::LoadFailure&)
+    {
+        return "<error loading frame>"; //ttt2 not sure if this is the best thing to do, but at least avoids crashes;
+    }
 }
 
 
@@ -1036,7 +1050,7 @@ void Id3V2StreamBase::preparePicture(NoteColl& notes) // initializes fields used
     {
     case Id3V2Frame::USES_LINK: m_eImageStatus = ImageInfo::USES_LINK; return;
     case Id3V2Frame::ERR: m_eImageStatus = ImageInfo::ERROR_LOADING; return;
-    case Id3V2Frame::NON_COVER: m_eImageStatus = ImageInfo::ERROR_LOADING; return; //ttt0 2009.09.29 review
+    case Id3V2Frame::NON_COVER: m_eImageStatus = ImageInfo::ERROR_LOADING; return;
     default: CB_ASSERT1 (false, m_pFileName->s); // all cases should have been covered
     }
 
@@ -1119,6 +1133,26 @@ void Id3V2StreamBase::preparePicture(NoteColl& notes) // initializes fields used
     if (0 == p) { return -1; }
 
     return p->getRating();
+}
+
+
+bool Id3V2StreamBase::hasReplayGain() const
+{
+    for (int i = 0; i < cSize(m_vpFrames); ++i)
+    {
+        const Id3V2Frame* pFrame (m_vpFrames[i]);
+        if (0 == strcmp("TXXX", pFrame->m_szName))
+        {
+            QString qs (convStr(pFrame->getUtf8String()));
+
+            if (qs.compare("replaygain", Qt::CaseInsensitive))
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 

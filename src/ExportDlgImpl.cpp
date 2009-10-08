@@ -25,6 +25,7 @@
 
 #include  <QFileDialog>
 #include  <QTextDocument>
+#include  <QTextCodec>
 
 #include  "ExportDlgImpl.h"
 
@@ -51,9 +52,10 @@ ExportDlgImpl::ExportDlgImpl(QWidget* pParent) : QDialog(pParent, getDialogWndFl
     string strFile;
     bool bUseVisible;
     string strM3uRoot;
+    string strLocale;
 
-    getCommonData()->m_settings.loadExportSettings(nWidth, nHeight, bSortByShortNames, strFile, bUseVisible, strM3uRoot);
-    if (nWidth > 400 && nHeight > 200)
+    getCommonData()->m_settings.loadExportSettings(nWidth, nHeight, bSortByShortNames, strFile, bUseVisible, strM3uRoot, strLocale);
+    if (nWidth > 400 && nHeight > 300)
     {
         resize(nWidth, nHeight);
     }
@@ -68,6 +70,22 @@ ExportDlgImpl::ExportDlgImpl(QWidget* pParent) : QDialog(pParent, getDialogWndFl
 
     m_pM3uRootE->setText(toNativeSeparators(convStr(strM3uRoot)));
 
+    { // locale
+        QStringList lNames;
+        QList<QByteArray> l (QTextCodec::availableCodecs());
+        for (int i = 0, n = l.size(); i < n; ++i)
+        {
+            lNames << QString::fromUtf8(l[i]);
+        }
+        lNames.sort();
+
+        m_pLocaleCbB->addItems(lNames);
+        int n (m_pLocaleCbB->findText(strLocale.c_str()));
+        if (-1 == n) { n = 0; }
+        m_pLocaleCbB->setCurrentIndex(n);
+    }
+
+
     m_pM3uRB->setChecked(true);
     setFormatBtn();
 }
@@ -78,21 +96,72 @@ ExportDlgImpl::~ExportDlgImpl()
 }
 
 
-
 void ExportDlgImpl::run()
 {
     if (QDialog::Accepted != exec()) { return; }
 
-    getCommonData()->m_settings.saveExportSettings(width(), height(), m_pSortByShortNamesCkB->isChecked(), convStr(fromNativeSeparators(m_pFileNameE->text())), m_pVisibleRB->isChecked(), convStr(fromNativeSeparators(m_pM3uRootE->text())));
+    getCommonData()->m_settings.saveExportSettings(width(), height(), m_pSortByShortNamesCkB->isChecked(), convStr(fromNativeSeparators(m_pFileNameE->text())), m_pVisibleRB->isChecked(), convStr(fromNativeSeparators(m_pM3uRootE->text())), m_pLocaleCbB->currentText().toUtf8().data());
+}
+
+
+QString ExportDlgImpl::getFileName()
+{
+    QString qs (fromNativeSeparators(m_pFileNameE->text()));
+
+    if (qs.isEmpty())
+    {
+        QMessageBox::critical(this, "Error", "The file name cannot be empty. Exiting ...");
+        return "";
+    }
+
+    if (QFileInfo(qs).isAbsolute()) { return qs; }
+
+    if (!m_pM3uRB->isChecked())
+    {
+        QMessageBox::critical(this, "Error", "You need to specify an absolute file name when exporting to formats other than .m3u. Exiting ...");
+        return "";
+    }
+
+    QString qstrRoot (fromNativeSeparators(m_pM3uRootE->text()));
+    if (qstrRoot.isEmpty())
+    {
+        QMessageBox::critical(this, "Error", "The root cannot be empty if the file name is relative. Exiting ...");
+        return "";
+    }
+
+    if (!QFileInfo(qstrRoot).isAbsolute())
+    {
+        QMessageBox::critical(this, "Error", "The root must be an absolute directory name. Exiting ...");
+        return "";
+    }
+
+    if (!qstrRoot.endsWith(getPathSep()))
+    {
+        qstrRoot += getPathSep();
+    }
+
+    if (!QFileInfo(qstrRoot).isDir())
+    {
+        QMessageBox::critical(this, "Error", "The root doesn't exist. Exiting ...");
+        return "";
+    }
+
+    return qstrRoot + qs;
 }
 
 
 void ExportDlgImpl::on_m_pExportB_clicked()
 {
-    QString qs (fromNativeSeparators(m_pFileNameE->text()));
+    QString qs (getFileName());
+
+    if (qs.isEmpty()) { return; }
+
     if (QFileInfo(qs).isFile())
     {
-        HtmlMsg::msg(this, 1, 1, 0, 0, "Warning", "A file called \"" + m_pFileNameE->text() + "\" already exists. Do you want to overwrite it?", 600, 200, "Overwrite", "Cancel");
+        if (0 != HtmlMsg::msg(this, 1, 1, 0, 0, "Warning", "A file called \"" + toNativeSeparators(qs) + "\" already exists. Do you want to overwrite it?", 600, 200, "Overwrite", "Cancel"))
+        {
+            return;
+        }
     }
 
     bool b (false);
@@ -120,11 +189,11 @@ void ExportDlgImpl::on_m_pExportB_clicked()
 
     if (b)
     {
-        HtmlMsg::msg(this, 0, 0, 0, 0, "Info", "Successfully created file \"" + m_pFileNameE->text() + "\"", 600, 200, "OK");
+        HtmlMsg::msg(this, 0, 0, 0, 0, "Info", "Successfully created file \"" + toNativeSeparators(qs) + "\"", 600, 200, "OK");
     }
     else
     {
-        HtmlMsg::msg(this, 0, 0, 0, 0, "Error", "There was an error writing to the file \"" + m_pFileNameE->text() + "\"", 600, 200, "OK");
+        HtmlMsg::msg(this, 0, 0, 0, 0, "Error", "There was an error writing to the file \"" + toNativeSeparators(qs) + "\"", 600, 200, "OK");
     }
 }
 
@@ -183,7 +252,7 @@ void ExportDlgImpl::setFormatBtn()
         m_pM3uRB->setChecked(true);
     }
 }
-//ttt0 README.TXT in root with build instructions
+
 
 
 void ExportDlgImpl::setExt(const char* szExt)
@@ -249,7 +318,7 @@ bool ExportDlgImpl::exportAsText(const string& strFileName)
     for (int i = 0, n = cSize(v); i < n; ++i)
     {
         const Mp3Handler* p (v[i]);
-        out << p->getName() << " ";
+        out << toNativeSeparators(p->getName()) << " ";
         out << p->getSize() << endl;
 
         const vector<DataStream*>& vpStreams (p->getStreams());
@@ -299,27 +368,59 @@ bool ExportDlgImpl::exportAsText(const string& strFileName)
     return out;
 }
 
+
+
 bool ExportDlgImpl::exportAsM3u(const std::string& strFileName)
 {
-    vector<const Mp3Handler*> v; //ttt0 use Codepage
+    QTextCodec* pCodec (QTextCodec::codecForName(m_pLocaleCbB->currentText().toUtf8()));
+    CB_ASSERT (0 != pCodec);
+
+
+    vector<const Mp3Handler*> v;
     getHandlers(v);
 
-    ofstream_utf8 out (strFileName.c_str());
     string strRoot (convStr(fromNativeSeparators(m_pM3uRootE->text())));
+    if (!strRoot.empty() && !endsWith(strRoot, getPathSepAsStr()))
+    {
+        strRoot += getPathSepAsStr();
+    }
+
     int nRootSize (cSize(strRoot));
+
+    ofstream_utf8 out (strFileName.c_str());
+
     for (int i = 0, n = cSize(v); i < n; ++i)
     {
         const Mp3Handler* p (v[i]);
-        string s (p->getName());
-        if (nRootSize > 0 && beginsWith(s, strRoot))
+        string s (toNativeSeparators(p->getName()));
+        if (nRootSize > 0)
         {
-            s.erase(0, nRootSize);
+            if (beginsWith(s, strRoot))
+            {
+                s.erase(0, nRootSize);
+            }
+            else
+            {
+                CursorOverrider crs (Qt::ArrowCursor);
+                QMessageBox::critical(this, "Error", "The file named \"" + convStr(s) + "\" isn't inside the specified root. Exiting ...");
+                return false;
+            }
         }
-        out << s << endl;
+
+        QString qs (convStr(s));
+        if (!pCodec->canEncode(qs))
+        {
+            CursorOverrider crs (Qt::ArrowCursor);
+            QMessageBox::critical(this, "Error", "The file named \"" + qs + "\" cannot be encoded in the selected locale. Exiting ...");
+            return false;
+        }
+
+        out << pCodec->fromUnicode(qs).data() << endl;
     }
 
     return out;
 }
+
 
 
 namespace {
@@ -327,7 +428,10 @@ namespace {
 
 string escapeXml(const string& s)
 {
-    return convStr(Qt::escape(convStr(s)));
+    QString qs (Qt::escape(convStr(s)));
+    qs.replace(QString("\""), "&quot;");
+    qs.replace(QString("#"), "&#35;");
+    return convStr(qs);
 }
 
 void printDataStream(ostream& out, DataStream* p)
@@ -453,20 +557,28 @@ void printMpegInfo(ostream& out, const MpegFrame& frm, bool bPrintBps)
 
 } // namespace
 
+
 bool ExportDlgImpl::exportAsXml(const std::string& strFileName)
 {
-    vector<const Mp3Handler*> v; //ttt0 use Codepage
+    vector<const Mp3Handler*> v;
     getHandlers(v);
 
     ofstream_utf8 out (strFileName.c_str());
 
     out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<files>\n";
 
+    /*{
+        string x;
+        for (int i = 32; i < 128; ++i)
+        x += char(i);
+        out << "<abc x=\"" << escapeXml(x) << "\">\n" << escapeXml(x) << "\n</abc>\n";
+    }*/
+
     const char* aszSeverity[] = { "error", "warning", "support", "trace" };
     for (int i = 0, n = cSize(v); i < n; ++i)
     {
         const Mp3Handler* p (v[i]);
-        out << "  <file name=\"" << escapeXml(p->getName()) << "\" size=\"" << p->getSize() << "\">\n";
+        out << "  <file name=\"" << escapeXml(toNativeSeparators(p->getName())) << "\" size=\"" << p->getSize() << "\">\n";
         out << "    <streams>\n";
 
         const vector<DataStream*>& vpStreams (p->getStreams());

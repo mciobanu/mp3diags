@@ -44,6 +44,7 @@ class ExportDlgImpl : public QDialog, private Ui::ExportDlg
 
     void getHandlers(std::vector<const Mp3Handler*>& v);
     void setFormatBtn();
+    QString getFileName();
 
     void setExt(const char* szExt);
 

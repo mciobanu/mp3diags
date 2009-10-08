@@ -61,7 +61,7 @@
 
 
 <div class="FreeNormalText RegFnt ChpCol2">
-The main purpose of the tag editor is to get track information (artist, title, album, cover art, track number, release date, genre, rating, and composer) from various sources and write everything to an ID3V2.3.0 tag. (Note that although multiple images can be stored in ID3V2, for front cover, back cover and some other things, MP3 Diags handles a single image.)
+The main purpose of the tag editor is to get track information (artist, title, album, cover art, track number, release date, genre, rating, and composer) from various sources and write everything to an ID3V2.3.0 tag. (Note that although multiple images can be stored in ID3V2, for front cover, back cover and some other things, MP3 Diags only allows you to set the "front cover".)
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
@@ -73,7 +73,6 @@ While there are many other tag editors, the one included in MP3 Diags has one ad
 </ul>
 
 </div>
-
 
 <div class="FreeNormalText RegFnt ChpCol1">
 To some the idea of tagging MP3 files might sound rather obsolete. The reason for this is that many players create a database with your MP3s and add all sorts of information there. That's nice if you only use one player and that player doesn't have the habit of crashing, destroying the database in the process. Many features of MP3 Diags are designed for a different approach, which is that all the information that can be stored inside MP3 files should be stored there, so we shouldn't care about moving to a different player (this includes a different device) and having to recreate the database. First you make sure the MP3 files are OK, then you can play them in Winamp, Amarok, VLC or whatever you prefer, as well as on your iPod.
@@ -92,7 +91,7 @@ Most of the space is taken up by two tables, one above the other. The one above 
 <div class="NormalText RegFnt ChpCol2">
 The table below contains the current song. The 9 lines correspond to the 9 fields that the tag editor supports. The columns contain track information as retrieved from various sources:
 <ul class="ListLev1">
-    <li> Existing ID3 or Ape tags </li>
+    <li> Existing ID3, Lyrics, or Ape tags </li>
     <li> Information downloaded from the Internet (from Discogs or from MusicBrainz) </li>
     <li> Information pasted from the clipboard </li>
     <li> Information extracted from the file name </li>
@@ -128,6 +127,36 @@ A field in the "current album" is marked as assigned in either of these cases:
 These may sound more complicated than they actually are. In many cases all you'll need to do is drag the column headers of the "current file" table to the left or to the right, download an image from the Internet, assign it, and then save.
 </div>
 
+
+<div class="SubChapterText RegFnt ChpCol1">
+"Various artists" albums
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+By default the "single artist" / "various artists" status of an album is ignored, except that there is a button that is disabled but has a picture that changes according to the detected status of the current album (a single difference between the artist fields of two songs is enough to make an album be considered "various artists".) The reason for this is that there is no standard way to deal with "various artists" albums. Various players use various things.
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+The default behaviour can be changed, though, in the <a href="300_config_others.html">configuration dialog</a>, where it is possible to tell MP3 Diags to handle "various artists" data in ways compatible with specific players. Currently only Windows Media Player and iTunes are supported, but some other players are probably compatible with these as well. The "various artists" data is displayed in a column called "VA" in the "current album" table and in the row also called "VA" in the "current file" table (the latter is for informative purposes only, so you see what's in your file; it's not used to decide if an album is "various artists" or not.) After enabling "various artists" for at least one player,  corresponding information is shown in the "current album" table: if an album is "various artists", there's an "i" in the "VA" column if the iTunes support is enabled, and an "w" if WMP is enabled. After saving, WMP / iTunes should recognize "various artists" albums as such. Note, though, that I don't use either of these, so I didn't test if everything works as expected.
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+If you don't agree with how the automatic detection works, you can use the "various artists" button to toggle the status.
+</div>
+
+
+
+<div class="SubChapterText RegFnt ChpCol2">
+Performance note
+</div>
+
+<div class="NormalText RegFnt ChpCol2">
+In order to avoid bad things happening to your files if the program / computer crashes while changing an MP3 file, the default behavior is to write all changes to a temporary file and do a rename at the end. However, doing so might make the program rather sluggish when saving. In the <a href="300_config_others.html">configuration dialog</a> there's an option called "Use fast save in the tag editor". This makes the writing be done in place, which greatly speeds up the save, at the slight risk of damage occuring to the ID3V2 tag (the audio data should escape unharmed even in case of a crash.) If you want to use it, it would be a good idea to run the transformation called "Reserve space in ID3V2 for fast tag editing" before going to the tag editor, othewise you'll only see performance improvements after saving once. Reserving space takes time, but it's unattended time and you can let the program do its thing in the background and do something else in the meantime, knowing that saving will be fast after it's done.
+</div>
+
+<div class="NormalText RegFnt ChpCol2">
+After making sure that you no longer need to use the tag editor for some albums, it would be a good idea to run the "Remove extra space from ID3V2" transformation, especially if you put the files on a mobile device.
+</div>
 
 
 <div class="NavPadTable RegFnt ChpCol1">

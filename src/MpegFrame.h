@@ -25,6 +25,7 @@
 
 #include  <iosfwd>
 #include  <string>
+#include  <stdexcept>
 
 #include  "SerSupport.h"
 
@@ -99,8 +100,10 @@ public:
 private:
     friend class boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int /*nVersion*/)
+    void serialize(Archive& ar, const unsigned int nVersion)
     {
+        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+
         //ar & boost::serialization::base_object<DataStream>(*this);
         ar & m_header;
 

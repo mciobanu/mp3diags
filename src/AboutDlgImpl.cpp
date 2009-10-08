@@ -152,7 +152,7 @@ dpkg-genchanges: warning: the current version (0.99.01.009) is smaller than the 
 */
 
 
-//ttt0 doc: use case: compare images, id3v2 tags
+//ttt0 doc: use case: compare images, id3v2 tags; first use right-click to see what happens, then transf lists
 
 //ttt2 perhaps "Scan images in the current folder", checked by default
 //ttt2 perhaps something to remove image files after assigning them, or at least show them in a different color; it was suggested to add a "-" button to remove images, below the "v" for "assigning them", but not sure it's such great idea; perhaps some option to delete local images that were assigned (but perhaps the unassigned CD scan should go as well); // perhaps "-" works, though; should be enabled/visible only for local files
@@ -160,12 +160,12 @@ dpkg-genchanges: warning: the current version (0.99.01.009) is smaller than the 
 
 //ttt1 handle Lyrics tag, display, transform, download ...
 
-//ttt0 doc: visible transf hdr can be dragged
-
-//ttt0 doc: might be a good idea to check the Issue Tracker, to see if you'd also want some change that others already asked for (gives you ideas ...)
 
 
-//ttt0 doc: look at other bug reports, see possible workarounds
+
+
+
+
 
 //ttt1 some standard means to log only uncaught exceptions
 
@@ -173,7 +173,23 @@ dpkg-genchanges: warning: the current version (0.99.01.009) is smaller than the 
 
 
 // backport jaunty 9.04 : https://bugs.launchpad.net/jaunty-backports/+bug/423560
-//ttt0 doc: intended target: not those who want to push a button and have everything fixed
-//ttt0 doc: just because you tell it to do a transform doesn't mean it will change the file; only if it makes sense
+
+
+
+
+
+
+/*
+//ttt2 w7 8.3 names
+
+C:\Windows\system32>fsutil behavior query disable8dot3 c:
+The volume state for Disable8dot3 is 0 (8dot3 name creation is enabled).
+The registry state of NtfsDisable8dot3NameCreation is 2, the default (Volume level setting).
+Based on the above two settings, 8dot3 name creation is enabled on c:.
+*/
+
+
+//ttt0 Perhaps linking Boost statically and Qt dynamically would solve most dependency issues - http://pages.cs.wisc.edu/~thomas/X/static-linking.html : "surround the libraries you wish to link statically with -static and -dynamic (in that order)"; OTOH "-dynamic" is not in man
+
 
 

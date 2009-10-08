@@ -18,11 +18,12 @@ To add new lines: first create new layers, at the end merge them with the helper
 
 ===========================================================================
 
-1. Specify which folders contain your MP3 files
+Specify which folders contain your MP3 files
 
 2. Press this button to choose the name of the file where your settings will be stored
+A default name is chosen for a file that stores program settings. Press this button if you want to change that name.
 
-3. Press OK
+Press OK
 
 -----------------------------------
 
@@ -82,6 +83,8 @@ Open file renamer
 
 Open configuration dialog
 
+Hover to see what a note means. Right-click to get a list with possible fixes.
+
 
 -----------------------------------
 
@@ -131,6 +134,8 @@ Press F2 to enter values manually
 
 Drag the column headers to sort the track info sources. A source's priority decreases as it is moved to the right.
 
+Manually set "Various artists" or "Single artist" (needs to be enabled in the configuration.)
+
 -----------------------------------
 
 Navigation buttons skip entries that don't meet the criteria specified in "Filter"
@@ -168,6 +173,8 @@ Extracting info from consistently (an correctly) named files is possible, and ma
 Track number, artist name, song title, album, and rating have been computed from the full file name
 
 Patterns may also be used to extract track info from data pasted from the clipboard
+
+Patterns may be enabled or disabled by using the buttons at the bottom of the window
 
 -----------------------------------
 
@@ -216,6 +223,8 @@ Configure what should happen with the fields whose value is different from the o
 
 If you want to use the normalization, make sure that this is correct
 
+"Various artists" functionality must be enabled manually, if wanted
+
 -----------------------------------
 
 You may want to use this if incorrect names are shown in files using a language other than English
@@ -226,7 +235,7 @@ Also used for composers
 
 -----------------------------------
 
-
+The visible transformations are listed in the same order as they appear when you click the single transformation button. Drag the row headers up and down to change that order.
 
 -----------------------------------
 

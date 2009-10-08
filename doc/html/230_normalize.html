@@ -65,8 +65,22 @@ Normalization isn't done internally by MP3 Diags; instead, an an external progra
 </div>
 
 
+<div class="FreeNormalText RegFnt ChpCol1">
+It is possible that your files are normalized even if MP3 Diags says otherwise. The reason for this is that there are several ways to mark a file as normalized and MP3 Diags knows only about one 2 of them. If you have a normalized file showing the "an" note, please make it available so support can be added for it as well.
+</div>
 
-<div class="NavPadTable RegFnt ChpCol1">
+
+<div class="FreeNormalText RegFnt ChpCol2">
+Normalization doesn't always work as it should. Several times there was a freeze after the normalization was done. If that happens, the thing to do is to press the "Abort" button (if the normalization window is still open but nothing seems to be going on) and then wait for at most 1 minute for the program to come back to life. The reason this is happening is not completely clear, but it seems to be a bug in the Qt library that MP3 Diags uses. For now this issue is under investigation. Since it happens quite seldom, it's hard to make sure what the problem is and to provide a fix or a workaround. Also, it was only seen on an rather old version of Qt, so it may be fixed in newer versions. Well, an workaround is possible, but might not be needed if everything works with newer Qt versions. If you encounter this issue, file a bug report and the workaround will be included in the next MP3 Diags version.
+</div>
+
+<div class="FreeNormalText RegFnt ChpCol1">
+On Windows there's an issue with non-English file names. The problem is that MP3Gain and its derivatives can't use Unicode, which would be needed for such file names. The real solution is to find a program that has Unicode support. I'm not aware of such a program, but I welcome suggestions. Other options are to do the normalization externally, to rename the files that have non-ASCII names, or to write a little program that understands Unicode and can forward the request to MP3Gain in a way that it understands, e.g. using short (8.3) file names.
+</div>
+
+
+
+<div class="NavPadTable RegFnt ChpCol2">
 <div style="width:100%">
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="NavTable">
     <tr>

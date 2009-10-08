@@ -56,15 +56,19 @@
 
 
 <div class="FreeNormalText RegFnt ChpCol1">
-In the <a href="300_config_others.html">Config - Others</a> tab you can see in the middle of the window a "Misc" group. Inside it there are 2 checkboxes that allow you to add to the main window's toolbar two buttons that are invisible by default: "Debug" and "Sessions".
+In the <a href="300_config_others.html">Config - Others</a> tab you can see in the middle of the window a "Misc" group. Inside it there are 3 checkboxes that allow you to add to the main window's toolbar three buttons that are invisible by default: "Export", "Debug", and "Sessions".
 </div>
 
 
 <div class="FreeNormalText RegFnt ChpCol2">
 <table border="0" cellpadding="0" cellspacing="0" class="NoBrdTableText RegFnt">
     <tr>
-        <td> <img src="310_debug.png" /> </td>
-        <td> The "Debug" button opens up a new window where you can export song information to a text file or see trace messages from the last file scan (as long as you didn't close the application, because these are not stored on the disk, and provided that logging is enabled.) <br/><br/> Another option that you can configure here is logging all the changes to a file. The log file is located in the same directory as the ".ini" session file</td>
+        <td> <img src="310_export_btn.png" /> </td>
+        <td> The "Export" button allows you to save the data in 3 formats: XML, text, and M3U. The XML format is probably best suited for further processing, by importing the data to a database or spreadsheet. The text format is intended more for human consumption. You can use it, for example, to compare files before and after applying some transformation. Exporting as M3U can be useful to listen in an external player to files that are filtered by some criteria, e.g. those found as "low quality", those having 2 images (so which will the player pick?), or whatever criteria you select. </td>
+    </tr>
+    <tr>
+        <td> </td>
+        <td class="FreeNormalText"> <img src="310_export.png" /> </td>
     </tr>
 </table>
 </div>
@@ -73,14 +77,24 @@ In the <a href="300_config_others.html">Config - Others</a> tab you can see in t
 <div class="FreeNormalText RegFnt ChpCol1">
 <table border="0" cellpadding="0" cellspacing="0" class="NoBrdTableText RegFnt">
     <tr>
-        <td> <img src="310_sessions_btn.png" /> </td>
-        <td> The "Sessions" button should be more interesting. It allows you to keep several separated sets of folders containing MP3s, each set with its own settings. Everything that you see in the configuration dialog is stored "per session". Once the button is visible, you can click on it to see the "Sessions dialog", where you can add / remove / change sessions. Note that if you spent some time getting the settings right, you may want to use the "Save as ..." button, which will copy your settings to a new session. </td>
+        <td> <img src="310_debug.png" /> </td>
+        <td> The "Debug" button opens up a new window where you can see trace messages from the last file scan (as long as you didn't close the application, because these are not stored on the disk, and provided that logging is enabled.) <br/><br/> Another option that you can configure here is logging all the changes to a file. The log file is located in the same directory as the ".ini" session file</td>
     </tr>
 </table>
 </div>
 
+
 <div class="FreeNormalText RegFnt ChpCol2">
-<img src="310_sessions.png" />
+<table border="0" cellpadding="0" cellspacing="0" class="NoBrdTableText RegFnt">
+    <tr>
+        <td> <img src="310_sessions_btn.png" /> </td>
+        <td> The "Sessions" button allows you to keep several separate sets of folders containing MP3s, each set with its own settings. Everything that you see in the configuration dialog is stored "per session". Once the button is visible, you can click on it to see the "Sessions dialog", where you can add / remove / change sessions. Note that if you spent some time getting the settings right, you may want to use the "Save as ..." button, which will copy your settings to a new session. </td>
+    </tr>
+    <tr>
+        <td> </td>
+        <td class="FreeNormalText"> <img src="310_sessions.png" /> </td>
+    </tr>
+</table>
 </div>
 
 

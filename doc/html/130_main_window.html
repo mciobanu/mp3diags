@@ -63,21 +63,9 @@
 </div>
 
 
-<div class="RegFnt NoteCol FreeNormalText">
-<span class="NoteCol">The screenshots are slightly out of date, because they still shows 1-letter labels instead of the 2-letter labels that are used now. Background colors have have been changed as well. However, these shouldn't matter much, so I'm postponing taking new screenshots until I'm done with the UI changes.</span>
-</div>
-
-
 <div class="FreeNormalText RegFnt ChpCol2">
 After scanning completes, you see the main window, having a table with files (and quite likely "notes") in the upper part of the screen and tables with the "notes" and "streams" of the current file in the lower part.
 </div>
-
-
-
-
-
-
-
 
 
 
@@ -111,12 +99,12 @@ The notes in the file table are grouped according to these categories:
 
 
 <div class="NormalText RegFnt ChpCol2">
-A note has a two-letter label, which is used for convenience, to make it easy to track notes from one part of the UI to another, or to report bugs / ask questions. The first letter of the label identifies the group, while the second letter identifies a note within its group.
+A note has a two-letter label, which is used for convenience, to make it easy to track notes from one part of the UI to another, or to report bugs / ask questions. The first letter of the label identifies the category, while the second letter identifies a note within its category.
 </div>
 
 
 <div class="NormalText RegFnt ChpCol2">
-By default all note groups use the same background color, but the colors are configurable individually.
+By default all note groups use the same background color, but the colors are <a href="297_config_colors.html">configurable</a> individually. Throughout this documentation, ID3V2-related groups (ID3V2, APIC, ID3V2.3.0, and ID3V2.4.0) use a different color, to make it easier to see what can be fixed in the tag editor.
 </div>
 
 
@@ -133,17 +121,16 @@ Notes may have addresses, which allow them to be connected to particular streams
 <div class="FreeNormalText RegFnt ChpCol1">
 MP3 Diags has its own, rather rigid, idea about how an MP3 file should look like, and it will show errors or warnings for non-compliant files. A "good" file should contain these streams:
 <ul class="ListLev1">
-    <li> an ID3V2 tag that meets the criteria described in the <a href="190_tag_editor.html">tag editor</a> </li>
+    <li> an ID3V2 tag that meets the criteria described in the <a href="190_tag_editor.html">tag editor</a> (this may also be located at the end of the file, if it's V2.4.0)</li>
     <li> a LAME or Xing header; optional if the audio is CBR </li>
     <li> audio data </li>
     <li> optional ID3V1 tag </li>
-    <li> optional (and ignored) Lyrics tag </li>
+    <li> optional Lyrics tag </li>
     <li> Ape tag containing normalization undo data </li>
 </ul>
 
 There are further restrictions on the order of the streams:
 <ul class="ListLev1">
-    <li> if the ID3V2 tag is ID3V2.3.0, it must be the first stream in the file </li>
     <li> the LAME / Xing header is right before the audio </li>
     <li> ID3V1 and Ape tags are after the audio </li>
 </ul>

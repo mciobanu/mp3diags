@@ -84,15 +84,16 @@ TagReadPanel::TagReadPanel(QWidget* pParent, TagReader* pTagReader) : QFrame(pPa
         pTable->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         pTable->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
         pTable->horizontalHeader()->setStretchLastSection(true);
-        pTable->setRowCount(7);
+        const int ROW_CNT (8);
+        pTable->setRowCount(ROW_CNT);
         pTable->setColumnCount(1);
         QStringList lLabels;
-        lLabels << "Title" << "Artist" << "Track#" << "Time" << "Genre" << "Composer" << "Album";
+        lLabels << "Title" << "Artist" << "Track#" << "Time" << "Genre" << "Composer" << "Album" << "VA";
         pTable->setVerticalHeaderLabels(lLabels);
 
         pTable->horizontalHeader()->hide();
         //pTable->setMinimumHeight(300);
-        int nHeight (CELL_HEIGHT*7 + 2*QApplication::style()->pixelMetric(QStyle::PM_DefaultFrameWidth, 0, pTable));
+        int nHeight (CELL_HEIGHT*ROW_CNT + 2*QApplication::style()->pixelMetric(QStyle::PM_DefaultFrameWidth, 0, pTable));
 
         pTable->setMaximumHeight(nHeight);
         pTable->setMinimumHeight(nHeight);
@@ -159,6 +160,14 @@ TagReadPanel::TagReadPanel(QWidget* pParent, TagReader* pTagReader) : QFrame(pPa
         default: pItem->setText(convStr(pTagReader->getAlbumName()));
         }
         pTable->setItem(6, 0, pItem);
+
+        pItem = new QTableWidgetItem();
+        switch (pTagReader->getSupport(TagReader::VARIOUS_ARTISTS))
+        {
+        case TagReader::NOT_SUPPORTED: pItem->setBackground(gray); break;
+        default: pItem->setText(convStr(pTagReader->getValue(TagReader::VARIOUS_ARTISTS)));
+        }
+        pTable->setItem(7, 0, pItem);
 
         pLayout->addWidget(pTable);
 

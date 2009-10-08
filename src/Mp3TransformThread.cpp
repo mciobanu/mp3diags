@@ -414,7 +414,7 @@ bool Mp3TransformThread::transform()
 
                 if (!strProcName.empty())
                 {
-                    if (m_transfConfig.m_optionsWrp.m_opt.m_bKeepOrigTime)
+                    if (m_transfConfig.m_options.m_bKeepOrigTime)
                     {
                         setFileDate(strProcName, nOrigTime);
                     }

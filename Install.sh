@@ -3,7 +3,7 @@
 # Tested on several systems only
 # ttt1 Quite likely this needs changes to work with other distros and / or versions
 
-./AdjustMt.sh
+sh ./AdjustMt.sh
 #exit 1
 
 QMake=qmake

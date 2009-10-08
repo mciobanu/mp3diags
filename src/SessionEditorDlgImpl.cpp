@@ -136,7 +136,7 @@ SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strIn
 
     TransfConfig tc;
     st.loadTransfConfig(tc);
-    if (5 == tc.m_optionsWrp.m_opt.m_nProcOrigChange)
+    if (5 == tc.m_options.m_nProcOrigChange)
     {
         m_pCreateBackupRB->setChecked(true);
     }
@@ -238,11 +238,11 @@ void SessionEditorDlgImpl::on_m_pOkB_clicked()
 
         if (m_pDontCreateBackupRB->isChecked())
         {
-            tc.m_optionsWrp.m_opt.m_nProcOrigChange = 1;
+            tc.m_options.m_nProcOrigChange = 1;
         }
         else
         {
-            tc.m_optionsWrp.m_opt.m_nProcOrigChange = 5;
+            tc.m_options.m_nProcOrigChange = 5;
             tc.setProcOrigDir(fromNativeSeparators(convStr(m_pBackupE->text())));
         }
 

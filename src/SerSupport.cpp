@@ -273,8 +273,10 @@ void qwrqwrqsrq()
 
 
 
-template<class Archive> void CommonData::save(Archive& ar, const unsigned int /*nVersion*/) const
+template<class Archive> void CommonData::save(Archive& ar, const unsigned int nVersion) const
 {
+    if (nVersion > 1) { throw std::runtime_error("invalid version of serialized file"); }
+
     int n1 (10);
     ar << n1;
     ar << getCrtName();
@@ -289,6 +291,8 @@ template<class Archive> void CommonData::save(Archive& ar, const unsigned int /*
 
 template<class Archive> void CommonData::load(Archive& ar, const unsigned int nVersion)
 {
+    if (nVersion > 1) { throw std::runtime_error("invalid version of serialized file"); }
+
     int n1 (100);
     ar >> n1;
     //string strCrtName;

@@ -156,8 +156,10 @@ private:
 
     Mp3Handler() {} // serialization-only constructor
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int /*nVersion*/)
+    void serialize(Archive& ar, const unsigned int nVersion)
     {
+        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+
         ar & m_pFileName;
 
         ar & m_pId3V230Stream;

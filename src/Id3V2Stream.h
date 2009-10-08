@@ -94,6 +94,8 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
+        if (nVersion > 1) { throw std::runtime_error("invalid version of serialized file"); }
+
         ar & m_szName;
         ar & m_nMemDataSize;
         ar & m_nDiskDataSize;
@@ -209,6 +211,8 @@ public:
 
     const Id3V2Frame* getFrame(const char* szName) const; // returns a frame with the given name; normally it returns the first such frame, but it may return another if there's a good reason (currently this is done for APIC only); returns 0 if no frame was found;
 
+    bool hasReplayGain() const;
+
     enum { ID3_HDR_SIZE = 10 };
 
     std::vector<const Id3V2Frame*> getKnownFrames() const; // to be used by Id3V2Cleaner;
@@ -249,8 +253,10 @@ public:
 private:
     friend class boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int /*nVersion*/)
+    void serialize(Archive& ar, const unsigned int nVersion)
     {
+        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+
         ar & boost::serialization::base_object<DataStream>(*this);
 
         ar & m_vpFrames;

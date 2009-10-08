@@ -277,7 +277,7 @@ void InnerNonAudioRemover::setupDiscarded(const Mp3Handler& h)
         }
     }
 }
-//ttt1 see about unsynch audio (when some frames use data from other frames) ; http://www.hydrogenaudio.org/forums/index.php?showtopic=35654&st=25&p=354991&#entry354991
+//ttt1 see about unsynch audio (when some frames use data from other frames - bit reservoirs) ; http://www.hydrogenaudio.org/forums/index.php?showtopic=35654&st=25&p=354991&#entry354991 http://www.hydrogenaudio.org/forums/lofiversion/index.php/t42194.html ; http://www.hydrogenaudio.org/forums/index.php?showtopic=38510&pid=347136&mode=threaded&start=0#entry347136
 
 /*override*/ bool InnerNonAudioRemover::matches(DataStream* p) const
 {
@@ -681,7 +681,7 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
     return CHANGED_NO_RECALL;
 }
 
-//ttt0 deal with 05 Are You Gonna Go My Way.mp3 - mismatched xing but cbr
+
 
 //================================================================================================================================
 //================================================================================================================================

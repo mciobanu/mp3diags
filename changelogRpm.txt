@@ -1,3 +1,16 @@
+* Fri Oct 09 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.06.041
+
+- brought documentation up to date
+- added test for ReplayGain info stored inside Id3V2
+- failing to read text frames from files no longer causes crashes
+- fixed bug resulting in crash when 2 ID3V2 tags are present and "Discard invalid ID3V2 data" gets called
+- XML export now works when names contain double quotes
+- locale in export dialog
+- locale lists are now sorted
+- long text frames are now truncated when shown in the "File info" area
+- changed names and order for tabs under Config/Files
+- made transformation options work correctly in MSVC
+
 * Wed Sep 30 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.06.040
 - "Various Artists" support
 - all pictures are shown and can be viewed in full size in "Tag details"

@@ -146,11 +146,11 @@ It took some fiddling with Qt, GCC, and Boost, to get a Windows version working.
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-One thing that bothers me is a 1-second delay between the time when the frame of a window appears and the time the content of that window is shown properly. This makes MP3 Diags appear as running on some emulator. I (sort of) got used to it, though.
+Something that bothers me is a 1-second delay between the time when the frame of a window appears and the time the content of that window is shown properly. This makes MP3 Diags appear as running on some emulator. I (sort of) got used to it, though.
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-I tested a previous version of the executable on XP SP1, XP SP2, XP SP3 and some Vista Home. I didn't yet test more recent versions on Vista. I did test Windows 7 RC, though, and it looked and ran pretty good.
+I tested a previous version of the executable on XP SP1, XP SP2, XP SP3 and some Vista Home. Currently the build and tests are done on Windows 7 RC.
 </div>
 
 
@@ -159,10 +159,13 @@ I tested a previous version of the executable on XP SP1, XP SP2, XP SP3 and some
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-I'm not aware of attempts to compile and run the project on other platforms (xBSD, OS X, ...), but I'd like to know if somebody tried it and what the results were. If somebody wants to publish builds, it would probably be a good idea to tell me, so I can add a link to the build for that platform.
+I'm not aware of attempts to compile and run the project on other platforms (xBSD, OS X, ...), but I'd like to know if somebody tried it and what the results were. At any rate, there is a file that only works with GCC or MSVC, so other compilers should fail until that file gets ported. If somebody wants to publish builds, it would probably be a good idea to tell me, so I can add a link to the build for that platform.
 </div>
 
 
+<div class="NormalText RegFnt ChpCol2">
+Well, there is <a href="http://pdb.finkproject.org/pdb/package.php/mp3diags-mac">this page</a> in the Fink Project, so it looks like the program should work on OS X; also, several percent of the visits to the web site are by OS X users. However, I have never heard from any Mac user about their experience with MP3 Diags, so I can't really say that it works there. Or perhaps they would have told me if it didn't ...
+</div>
 
 
 
@@ -184,11 +187,11 @@ I'm not aware of attempts to compile and run the project on other platforms (xBS
 
 
 <div class="NormalText RegFnt ChpCol2">
-You can download MP3Diags-QQQVERQQQ.tar.gz from <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-src/MP3Diags-QQQVERQQQ.tar.gz">SourceForge</a> or from <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3Diags-QQQVERQQQ.tar.gz">my ISP</a> (SourceForge seems to be in a perpetual restructuring process, so downloads from it don't always work.) At my ISP you can also find a <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3Diags_Src+Doc-QQQVERQQQ.tar.gz">source + documentation bundle</a>. The intended target for the bundle are the packagers. In particular, the documentation doesn't get installed anywhere, but is mereley available for packagers to copy it wherever is appropriate for a distribution.
+You can download MP3Diags-QQQVERQQQ.tar.gz from <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-src/MP3Diags-QQQVERQQQ.tar.gz">SourceForge</a> or from <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3Diags-QQQVERQQQ.tar.gz">my ISP</a> (SourceForge seems to be in a perpetual restructuring process, so downloads from it don't always work.) At my ISP you can also find a <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3Diags_Src+Doc-QQQVERQQQ.tar.gz">source + documentation bundle</a>. The intended target for the bundle are the packagers. In particular, the documentation doesn't get installed anywhere, but is mereley available for packagers to copy it wherever is appropriate for their distribution.
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-The development system is openSUSE 10.3. I also compiled MP3 Diags on openSUSE 11.1 and on Ubuntu 9.04, and it seemed to work fine.
+The development system is openSUSE 10.3. I sometimes compile MP3 Diags on openSUSE 11.1 or Ubuntu 9.04, and it worked fine thus far.
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
@@ -200,7 +203,7 @@ In order to compile and run the project, these packages should be installed:
 <table border="1" cellpadding="3" cellspacing="1" class="TableText RegFnt ChpCol1">
     <tr>
         <td> <b>Generic names</b> </td>
-        <td> C++ compiler, Qt4 development, zlib development, Boost development, Qt4 SVG and JPEG plugins (if they are separate packages) </td>
+        <td> C++ compiler, Qt4 development, zlib development, Boost development, Qt4 SVG, GIF and JPEG plugins (if they are separate packages) </td>
     </tr>
     <tr>
         <td> <b>openSUSE 10.3, openSUSE 11.1</b> </td>
@@ -291,8 +294,13 @@ Builds created from code from this server are supposed to be of the same quality
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-The Subversion repository stores all the tools that are needed to build the project, not just the source code. So you can find there the documentation, installer and build scripts, Windows-specific icons, and desktop integration files. The build scripts can be used as a starting point for creating binary packages for other .rpm- or Debian- based distributions. Before trying to compile on openSUSE 10.3 (and perhaps other distributions), you should run <span class="Reference">AdjustMt.sh</span> or <span class="Reference">Install.sh</span>
+The Subversion repository stores all the tools that are needed to build the project, not just the source code. So you can find there the documentation, installer and build scripts, and desktop integration files. The build scripts can be used as a starting point for creating binary packages for other .rpm- or Debian- based distributions. Before trying to compile on openSUSE 10.3 (and perhaps other distributions), you should run <span class="Reference">AdjustMt.sh</span> or <span class="Reference">Install.sh</span>
 </div>
+
+<div class="NormalText RegFnt ChpCol2">
+Note that you may need to set the executable bit for <span class="Reference">AdjustMt.sh</span>, <span class="Reference">Install.sh</span>, and <span class="Reference">Uninstall.sh</span>, at least when downloading the tarball.
+</div>
+
 
 <div class="NormalText RegFnt ChpCol2">
 See the notes above about <a href="#code">requirements and how to build the code</a>.
@@ -318,7 +326,7 @@ Since this is my first attempt at creating distributable binaries, I'm not very 
 
 
 <div class="NormalText RegFnt ChpCol1">
-My hope is that sometime in the future the program will get included in more well-known repositories, and perhaps official distributions, so I don't have to concern myself with building binaries for various platforms. This has already started to happen: You can get MP3 Diags for Debian 5, Gentoo, and openSUSE from repositories that are not built by me. <!--ttto-->
+My hope is that sometime in the future the program will get included in more well-known repositories, and perhaps official distributions, so I don't have to concern myself with building binaries for various platforms. This has already started to happen: MP3 Diags is included in Gentoo and Ubuntu 9.10 (Karmic Koala); repositories that have MP3 Diags and are not built by me exist for Debian 5, openSUSE, and Mac OS X.<!--ttto-->
 </div>
 
 
@@ -365,11 +373,11 @@ There are also binaries that I build at openSUSE Build Service:
 <div class="NormalText RegFnt ChpCol1">
 <table border="1" cellpadding="5" cellspacing="2" class="RegFnt ChpCol2">
     <tr>
-        <td> openSUSE 10.3 </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_10.3/"> Repository </a> </td>
-        <td> <a class="NoUnderline" href="http://software.opensuse.org/ymp/home:ciobi/openSUSE_10.3/MP3Diags.ymp"> 1-Click Install </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_10.3/i586/"> i586 .rpm </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_10.3/x86_64/"> x86_64 .rpm </a> </td>
+        <td> openSUSE 11.1 </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.1/"> Repository </a> </td>
+        <td> <a class="NoUnderline" href="http://software.opensuse.org/ymp/home:ciobi/openSUSE_11.1/MP3Diags.ymp"> 1-Click Install </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.1/i586/"> i586 .rpm </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.1/x86_64/"> x86_64 .rpm </a> </td>
     </tr>
     <tr>
         <td> openSUSE 11.0 </td>
@@ -379,11 +387,11 @@ There are also binaries that I build at openSUSE Build Service:
         <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.0/x86_64/"> x86_64 .rpm </a> </td>
     </tr>
     <tr>
-        <td> openSUSE 11.1 </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.1/"> Repository </a> </td>
-        <td> <a class="NoUnderline" href="http://software.opensuse.org/ymp/home:ciobi/openSUSE_11.1/MP3Diags.ymp"> 1-Click Install </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.1/i586/"> i586 .rpm </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.1/x86_64/"> x86_64 .rpm </a> </td>
+        <td> openSUSE 10.3 </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_10.3/"> Repository </a> </td>
+        <td> <a class="NoUnderline" href="http://software.opensuse.org/ymp/home:ciobi/openSUSE_10.3/MP3Diags.ymp"> 1-Click Install </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_10.3/i586/"> i586 .rpm </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_10.3/x86_64/"> x86_64 .rpm </a> </td>
     </tr>
 </table>
 </div>
@@ -410,10 +418,10 @@ Binaries that I build at openSUSE Build Service:
 <div class="NormalText RegFnt ChpCol2">
 <table border="1" cellpadding="5" cellspacing="2" class="RegFnt ChpCol1">
     <tr>
-        <td> Fedora 9 </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_9/"> Home directory </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_9/i386/"> i386 .rpm </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_9/x86_64/"> x86_64 .rpm </a> </td>
+        <td> Fedora 11 </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_11/"> Home directory </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_11/i386/"> i386 .rpm </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_11/x86_64/"> x86_64 .rpm </a> </td>
     </tr>
     <tr>
         <td> Fedora 10 </td>
@@ -422,10 +430,10 @@ Binaries that I build at openSUSE Build Service:
         <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_10/x86_64/"> x86_64 .rpm </a> </td>
     </tr>
     <tr>
-        <td> Fedora 11 </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_11/"> Home directory </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_11/i386/"> i386 .rpm </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_11/x86_64/"> x86_64 .rpm </a> </td>
+        <td> Fedora 9 </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_9/"> Home directory </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_9/i386/"> i386 .rpm </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_9/x86_64/"> x86_64 .rpm </a> </td>
     </tr>
 </table>
 </div>
@@ -444,24 +452,29 @@ For Fedora there are no repositories, so newer versions can only be installed ma
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-Binaries that I build at openSUSE Build Service:
+Starting with 9.10 (Karmic Koala), MP3 Diags is included in Ubuntu, so you can simply install it from Synaptic. The package's page is <a href="http://packages.ubuntu.com/karmic/mp3diags">here</a>. (Note, though, that it won't necessarily be the latest version; that shouldn't matter in most cases, as the program seems stable enough and no major feature changes are planned.)
+</div>
+
+
+<div class="NormalText RegFnt ChpCol1">
+For the latest version, there are binaries that I build at openSUSE Build Service:
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
 <table border="1" cellpadding="5" cellspacing="2" class="RegFnt ChpCol2">
-    <tr>
-        <td> Ubuntu 8.10 </td>
-        <!-- <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_8.10/"> Repository </a> (<a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/xUbuntu_8.10/">mirror</a>)</td> -->
-        <td> <a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/xUbuntu_8.10/"> Repository </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_8.10/i386/mp3diags_QQQVERQQQ_i386.deb"> i386 .deb </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_8.10/amd64/mp3diags_QQQVERQQQ_amd64.deb"> amd64 .deb </a> </td>
-    </tr>
     <tr>
         <td> Ubuntu 9.04 </td>
         <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/"> Repository </a> (<a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/xUbuntu_9.04/">mirror</a>)</td>
         <!-- <td> <a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/xUbuntu_9.04/"> Repository </a> </td> -->
         <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/i386/mp3diags_QQQVERQQQ_i386.deb"> i386 .deb </a> </td>
         <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/amd64/mp3diags_QQQVERQQQ_amd64.deb"> amd64 .deb </a> </td>
+    </tr>
+    <tr>
+        <td> Ubuntu 8.10 </td>
+        <!-- <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_8.10/"> Repository </a> (<a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/xUbuntu_8.10/">mirror</a>)</td> -->
+        <td> <a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/xUbuntu_8.10/"> Repository </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_8.10/i386/mp3diags_QQQVERQQQ_i386.deb"> i386 .deb </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_8.10/amd64/mp3diags_QQQVERQQQ_amd64.deb"> amd64 .deb </a> </td>
     </tr>
 </table>
 </div>
@@ -472,7 +485,7 @@ Normally you should use the repositories rather than the .deb file, so you are n
 
 
 <div class="NormalText RegFnt ChpCol1">
-I tested the Ubuntu 9.04 i386 .deb installation and it seemed OK except for a warning about the package not being authenticated, because it's not digitally signed. I looked at this and I think I can't sign Ubuntu / Debian packages that are hosted on the openSUSE servers. I might be wrong, though, since I know next to nothing about building .deb files or signing them. However, I'm not going to look any further into this by my own, but merely hope that somebody more experienced would offer to help (or even better, take ownership of the build process, so I don't have to deal with it.) At any rate, the program installs and runs OK if you ignore that warning. You can read about adding repositories on Ubuntu <a href="https://help.ubuntu.com/community/Repositories/Ubuntu">here</a>. The command I used when prompted for the "APT line" was:
+In my tests, the Ubuntu 9.04 i386 .deb installation was OK except for a warning about the package not being authenticated, because it's not digitally signed. I looked at this and I think I can't sign Ubuntu / Debian packages that are hosted on the openSUSE servers. I might be wrong, though, since I know next to nothing about building .deb files or signing them. However, I'm not going to look any further into this by my own, but merely hope that somebody more experienced would offer to help (or even better, take ownership of the build process, so I don't have to deal with it.) At any rate, the program installs and runs OK if you ignore that warning. You can read about adding repositories on Ubuntu <a href="https://help.ubuntu.com/community/Repositories/Ubuntu">here</a>. The command I used when prompted for the "APT line" was:
 </div>
 
 <div class="NormalText RegFnt ChpCol1 GenericSpace">

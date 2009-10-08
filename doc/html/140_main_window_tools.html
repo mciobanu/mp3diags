@@ -76,11 +76,6 @@ border="0" class="RightAlign"
 </div>
 
 
-<div class="RegFnt NoteCol FreeNormalText">
-<span class="NoteCol">The screenshots are slightly out of date, because they still shows 1-letter labels instead of the 2-letter labels that are used now. Background colors have have been changed as well. However, these shouldn't matter much, so I'm postponing taking new screenshots until I'm done with the UI changes.</span>
-</div>
-
-
 <div class="FreeNormalText RegFnt WarnCol">
 <span class="WarnCol"> Before going any further, I should state the obvious: if you like your files and they don't bother you, then you probably shouldn't change them. Anyway, if MP3 Diags finds errors, it is possible for you to have problems playing those files with other players or processing them with other tools. Still, it's a good idea to delay any changes until they seem to be needed. When you start to make changes, it's probably best to just back up all your files before proceeding. Or you may want to use the backup functionality that MP3 Diags provides, by using the simple option provided at startup or by playing with various options in the <a href="250_config_files.html" class="Warn">configuration</a>. </span>
 </div>
@@ -89,9 +84,8 @@ border="0" class="RightAlign"
 
 
 <div class="FreeNormalText RegFnt ChpCol2">
-There are two ways to change a file in MP3 Diags: saving ID3V2 tags in the <a href="190_tag_editor.html">tag editor</a> and applying a "transformation" (or a "transformation list"); there are some configuration settings that determine what happens with the files when transformations are applied, and, because saving from the tag editor is treated internally as just another transformation, these settings also concern saving ID3V2. (Well, there's also a third way to change files, the <a href="230_normalize.html">normalization</a>, but that's done by an external program, so it's a different story. All that MP3 Diags does with the files when asked to do a normalization is rescan them after calling the external program.)
+There are two ways to change a file in MP3 Diags: saving ID3V2 tags in the <a href="190_tag_editor.html">tag editor</a> and applying a "transformation" (or a "transformation list"); there are some configuration settings that determine what happens with the files when transformations are applied, and, because saving from the tag editor is treated internally as just another transformation, these settings also concern saving ID3V2. (Well, there's also a third way to change files, the <a href="230_normalize.html">normalization</a>, but that's done by an external program, so it's a different story; all that MP3 Diags does with the files when asked to do a normalization is rescan them after calling the external program.)
 </div>
-
 
 <div class="FreeNormalText RegFnt ChpCol1">
 There are more than 20 transformations that can be applied to an MP3 file or to a group of files. There are 2 ways to apply transformations:
@@ -101,23 +95,32 @@ There are more than 20 transformations that can be applied to an MP3 file or to 
 </ol>
 
 Normally transformations are applied to all the files that are visible (well, or can be made visible by using the vertical scrollbar.) However, if you press SHIFT while clicking, the transformations apply only to the files that are selected. The same can be achieved by clicking on the right button after clicking on the left one and before releasing it. This is similar to "rocker gestures" in web browsers, about which I only found out (believe it or not) some time after implementing this functionality in MP3 Diags. For the "single transformation button", opening the menu with the left button and making the selection with the right button does the trick. (I assume that left-handed people already know that "left is right" when it comes to mouse buttons.)
-
-<!-- ttt0 some are hidden until enabled from config -->
 </div>
+
+<div class="NormalText RegFnt ChpCol1">
+In order to reduce the screen clutter a little, not all transformations are shown be default. Those that seemed quite unlikely to be needed are hidden. What is hidden and visible can be changed in the <a href="292_config_visible_transf.html">configuration dialog</a>.
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+<b>Note.</b> When you "apply a transformation" it doesn't necessarily mean that a file will get changed in some way. If the transformation doesn't make sense to a particular file (e.g. trying to "Repair VBR data" in a CBR file), that file is left untouched. So even if the transformation lists contain many transformations, they may still end up leaving the file unchanged. The lists may work pretty well when applied to whole collections, because they take into account various problems and only change the files that have those problems. If you want to get a list of all the transformations that have actually changed files, you can make visible the <a href="310_advanced.html">"Debug" button</a> and enable "Log transformation".
+</div>
+
+
+
 
 
 <div class="FreeNormalText RegFnt ChpCol2">
-You can get an idea about what the "custom transformation lists" are good for by looking at the default values (either by holding the mouse over the buttons, to show tooltips, or by going to the <a href="270_config_custom_transf.html">configuration</a>.) The point is that for some of the 20+ transformations it makes sense to apply them sequentially to a file to achieve a "higher goal". In the default configuration, the first custom button fixes the audio part of a file, the second takes care of the ID3V2 tag, while the third cleans up the rest of the file.
+You can get an idea about what the "custom transformation lists" are good for by looking at the default values (either by hovering the mouse over the buttons, to show tooltips, or by going to the <a href="270_config_custom_transf.html">configuration</a>.) The point is that for some of the 20+ transformations it makes sense to apply them sequentially to a file to achieve a "higher goal". In the default configuration, the first custom button fixes the audio part of a file, the second takes care of the ID3V2 tag, the third cleans up the rest of the file, and the fourth is a combination of the first three.
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-So why use three lists when one could do everything? Well, because I feel more comfortable this way. Personally, I like to review the effects of some changes before going any further, and this grouping seems to work best for me. Anyway, the fourth list is empty by default, and you can configure it, as well as the first three, to do whatever you want.
+I think it's better to use the first three buttons, rather than the fourth. I feel more comfortable this way. Personally, I like to review the effects of some changes before going any further, and this grouping seems to work best for me.
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol1">
 Several points need to be made about the custom transformation lists:
 <ol class="ListNum1">
-    <li class="ListSpace"> You shoudln't blindly use the default lists. Try to understand what each transformation does and how it may affect your files.</li>
+    <li class="ListSpace"> You shoudln't blindly use the default lists. Try to understand what each transformation does and how it may affect your files, then perhaps go to the <a href="270_config_custom_transf.html">configuration</a> and make some changes to the lists so they better fit your particular needs.</li>
     <li class="ListSpace"> Review the order in which transformations get applied. Sometimes it doesn't matter but usually it does. </li>
     <li class="ListSpace"> Look at what the other transformations are doing, and change the lists to better suit your needs. Then test your changes. </li>
     <li class="ListSpace"> The same transformation may be added multiple times, but usually there's no need for such a thing. </li>
@@ -126,7 +129,18 @@ Several points need to be made about the custom transformation lists:
 <!-- They may have to be adusted. Maybe adding padding would make sense before rebuilding VBR, because ID3V1 truncated the last frame, but I feel that it's better without it, because I have this issue in very few files -->
 </div>
 
+
 <div class="FreeNormalText RegFnt ChpCol2">
+It is possible to right-click on a cell with a note or on the note's column header to get a list of possible fixes and perhaps apply one of them. The way this works is adequate in many cases,  but far from perfect. The implementation can be refined a bit, but there's the more serious issue that whether doing something that makes a note disappear can really be considered a "fix". This is something subjective. Another factor making the right-click less than ideal is that usually it's better to look at all the notes instead of focusing on any particular one, because many times one issue can be seen as the "real problem", but it causes several notes to be shown, and focusing on the "wrong one" might lead to confusion. So I would recommended the right-click mainly as a means to get familiar with the program's capabilities, rather than for heavy use.
+</div>
+
+
+<div class="NormalText RegFnt ChpCol2">
+Note that to apply a transformation only to the selected files when right-clicking on the header you need to keep SHIFT pressed, or to make the selection with the right button.
+</div>
+
+
+<div class="FreeNormalText RegFnt ChpCol1">
 There are a number of files involved in applying a transformation to a file. Besides the original file and the modified one, "comparison" files may be created in some cases and "temporary" files may be created too, their name containing the name of the transformation that created them. These are disabled by default, but may be enabled in the <a href="250_config_files.html">configuration dialog</a> to gain a better understanding of what is happening, or for debug purposes.
 </div>
 
@@ -163,7 +177,7 @@ qqq <a href="145_transformations_list.html"> <img src="logo.png" border=0 align=
 
 -->
 
-<div class="NavPadTable RegFnt ChpCol1">
+<div class="NavPadTable RegFnt ChpCol2">
 <div style="width:100%">
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="NavTable">
     <tr>

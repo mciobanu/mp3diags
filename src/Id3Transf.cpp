@@ -255,6 +255,7 @@ e1:
             }
             else if (0 != pBrk && pBrk->getBaseName() == Id3V230Stream::getClassDisplayName())
             {
+                in.seekg(pBrk->getPos());
                 NoteColl notes (20);
                 StringWrp fileName (h.getName());
                 Id3V230Stream strm (0, notes, in, &fileName, Id3V230Stream::ACCEPT_BROKEN);
@@ -265,9 +266,10 @@ e1:
             }
             else if (0 != pBrk && pBrk->getBaseName() == Id3V240Stream::getClassDisplayName())
             {
+                in.seekg(pBrk->getPos());
                 NoteColl notes (20);
                 StringWrp fileName (h.getName());
-                Id3V240Stream strm (0, notes, in, &fileName, Id3V230Stream::ACCEPT_BROKEN);
+                Id3V240Stream strm (0, notes, in, &fileName, Id3V240Stream::ACCEPT_BROKEN);
                 Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave(), &strm, h.getName()); //ttt1 if useFastSave is true there should probably be an automatic reload; OTOH we may want to delay until more transforms are applied, so probably it's OK as is
                 wrt.write(out);
                 bChanged = true;

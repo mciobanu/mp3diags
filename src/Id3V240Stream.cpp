@@ -129,6 +129,7 @@ Id3V240Frame::Id3V240Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
     MP3_CHECK (0 == (m_cFlag1 & ~0x60), pos, id3v2UnsuppFlags1, StreamIsUnsupported(Id3V240Stream::getClassDisplayName(), "ID3V2.4.0 tag containing a frame with an unsupported flag.")); // ignores "Tag alter preservation" and "File alter preservation" // ttt1 use them
     MP3_CHECK (0 == (m_cFlag2 & ~0x02), pos, id3v2UnsuppFlags2, StreamIsUnsupported(Id3V240Stream::getClassDisplayName(), "ID3V2.4.0 tag containing a frame with an unsupported flag."));
     m_bHasUnsynch = m_bHasUnsynch || (0 != (m_cFlag2 & ~0x02));
+//m_bHasUnsynch = false;
 
     int nContentBytesSkipped (0);
     nRead = 0;
@@ -143,6 +144,7 @@ Id3V240Frame::Id3V240Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
         m_vcData.resize(m_nMemDataSize);
         streampos posUndo (in.tellg());
         nRead = readID3V2(bHasUnsynch || (m_cFlag2 & 0x02), in, &m_vcData[0], m_nMemDataSize, posNext, nContentBytesSkipped); // ttt2 makes the assumption that unsynch is used if at least one of the global or frame-specific flag is set; not sure if it's right
+        //nRead = readID3V2(false, in, &m_vcData[0], m_nMemDataSize, posNext, nContentBytesSkipped);
         m_nDiskHdrSize = ID3_FRAME_HDR_SIZE + nHdrBytesSkipped;
         m_nDiskDataSize = m_nMemDataSize + nContentBytesSkipped;
         if (m_nMemDataSize != nRead || !checkSize(in, posNext))
@@ -173,7 +175,7 @@ Id3V240Frame::Id3V240Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
             MP3_NOTE (pos, id3v240IncorrectSynch);
         }
     }
-
+//ttt0 if still failed try again, overriding the synch flag; make 01 - Wanna Be Startin' Somethin'.mp3 work
 
     try
     {

@@ -1622,6 +1622,11 @@ void TagWriter::onEraseFileDelayed()
         if (bAssigned) { return; }
     }
 
+    if (!m_vAlbumInfo.empty() || !m_vstrPastedValues.empty())
+    {
+        if (0 != showMessage(m_pParentWnd, QMessageBox::Critical, 1, 1, "Warning", "Erasing image files triggers a full reload, which results in downloaded and pasted data being lost. Erase anyway?", "Erase", "Cancel")) { return; }
+    }
+
     for (set<string>::const_iterator it = inf.m_sstrFiles.begin(); it != inf.m_sstrFiles.end(); ++it)
     {
         if (!QFile(convStr(*it)).remove())

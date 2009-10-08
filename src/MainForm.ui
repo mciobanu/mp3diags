@@ -81,7 +81,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QWidget" native="1" name="widget_8" >
+       <widget class="QWidget" native="1" name="m_pOptBtn1W" >
         <layout class="QHBoxLayout" >
          <property name="spacing" >
           <number>0</number>

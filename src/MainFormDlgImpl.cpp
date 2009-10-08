@@ -670,6 +670,11 @@ MainFormDlgImpl* getGlobalDlg()
     return s_pGlobalDlg;
 }
 
+QWidget* getMainForm()
+{
+    return getGlobalDlg();
+}
+
 static PausableThread* s_pSerThread;
 PausableThread* getSerThread() //ttt1 global function
 {
@@ -890,7 +895,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) 
         FilesGDelegate* pDel (new FilesGDelegate(m_pCommonData, m_pFilesG));
         m_pFilesG->setItemDelegate(pDel);
 
-        m_pFilesG->setHorizontalHeader(new FileHeaderView(m_pCommonData, Qt::Horizontal, m_pFilesG));
+        m_pFilesG->setHorizontalHeader(new FileHeaderView(m_pCommonData, m_pFilesG));
 
         m_pFilesG->horizontalHeader()->setMinimumSectionSize(CELL_WIDTH);
         m_pFilesG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
@@ -1016,7 +1021,10 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) 
     loadIgnored();
 
     {
-        m_settings.loadTransfConfig(m_transfConfig);
+        if (!m_settings.loadTransfConfig(m_transfConfig))
+        {
+            m_settings.saveTransfConfig(m_transfConfig);
+        }
 
         for (int i = 0; i < CUSTOM_TRANSF_CNT; ++i)
         {
@@ -1117,7 +1125,22 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) 
 
 void MainFormDlgImpl::onHelp()
 {
-    openHelp("130_main_window.html");
+    if (m_pViewFileInfoB->isChecked())
+    {
+        openHelp("130_main_window.html");
+    }
+    else if (m_pViewAllNotesB->isChecked())
+    {
+        openHelp("150_main_window_all_notes.html");
+    }
+    else if (m_pViewTagDetailsB->isChecked())
+    {
+        openHelp("160_main_window_tag_details.html");
+    }
+    else
+    {
+        CB_ASSERT(false);
+    }
 }
 
 /*override*/ void MainFormDlgImpl::keyReleaseEvent(QKeyEvent* pEvent)
@@ -1250,6 +1273,10 @@ void MainFormDlgImpl::initializeUi()
     if (!m_pCommonData->m_bShowSessions)
     {
         m_pSessionsB->hide();
+        if (!m_pCommonData->m_bShowExport)
+        {
+            m_pOptBtn1W->hide();
+        }
     }
 
     resizeIcons();
@@ -1301,7 +1328,7 @@ void MainFormDlgImpl::onShow()
         /*s_strErrorMsg = "Rescanning files after crash.";
         showErrorDlg(this, false);*/
 
-        if (m_transfConfig.m_optionsWrp.m_opt.m_bKeepOrigTime)
+        if (m_transfConfig.m_options.m_bKeepOrigTime)
         {
             QMessageBox::warning(this, "Warning", "It seems that MP3 Diags is restarting after a crash. Your files will be rescanned.\n\n(Since this may take a long time for large collections, you may want to abort the full rescanning and apply a filter to include only the files that you changed since the last time the program closed correctly, then manually rescan only those files.)");
         }
@@ -2170,7 +2197,7 @@ void MainFormDlgImpl::transform(std::vector<Transformation*>& vpTransf, Subset e
     QString qstrConf;
     if (vpTransf.empty())
     {
-        if (0 == m_transfConfig.m_optionsWrp.m_opt.m_nUnprocOrigChange)
+        if (0 == m_transfConfig.m_options.m_nUnprocOrigChange)
         {
             QMessageBox::warning(this, "Warning", "The transformation list is empty.\n\nBased on the configuration, it is possible for changes to the files in the list to be performed, even in this case (the files may still be moved, renamed or erased). However, the current settings are to leave the original files unchanged, so currently there's no point in applying an empty transformation list.\n\nExiting ...");
             return;
@@ -2193,18 +2220,18 @@ void MainFormDlgImpl::transform(std::vector<Transformation*>& vpTransf, Subset e
 
     {
         const char* aOrig[] = { "don't change", "erase", "move", "move", "rename", "move if destination doesn't exist" };
-        if (m_transfConfig.m_optionsWrp.m_opt.m_nProcOrigChange != 1 || m_transfConfig.m_optionsWrp.m_opt.m_nUnprocOrigChange != 0)
+        if (m_transfConfig.m_options.m_nProcOrigChange != 1 || m_transfConfig.m_options.m_nUnprocOrigChange != 0)
         {
             qstrConf += "\n\nActions to be taken:";
 
             if (!vpTransf.empty())
             {
                 qstrConf += "\n- original file that has been transformed: ";
-                qstrConf += aOrig[m_transfConfig.m_optionsWrp.m_opt.m_nProcOrigChange];
+                qstrConf += aOrig[m_transfConfig.m_options.m_nProcOrigChange];
             }
 
             qstrConf += "\n- original file that has not been transformed: ";
-            qstrConf += aOrig[m_transfConfig.m_optionsWrp.m_opt.m_nUnprocOrigChange];
+            qstrConf += aOrig[m_transfConfig.m_options.m_nUnprocOrigChange];
         }
     }
 
@@ -2292,6 +2319,7 @@ void MainFormDlgImpl::on_m_pPrevB_clicked()
 //CB_ASSERT("345" == "ab");
 //traceLastStep("tsterr", 0); char* p (0); *p = 11;
 //throw 1;
+//int x (2), y (3); CB_ASSERT(x >= y);
 
     m_pCommonData->previous();
     //updateWidgets();
@@ -2376,6 +2404,16 @@ void MainFormDlgImpl::updateUi(const string& strCrt) // strCrt may be empty
         saveVisibleTransf();
     }
 
+    if (m_pCommonData->m_bShowExport || m_pCommonData->m_bShowSessions)
+    {
+        m_pOptBtn1W->show();
+    }
+    else
+    {
+        m_pOptBtn1W->hide();
+    }
+
+
     if (m_pCommonData->m_bShowExport)
     {
         m_pExportB->show();
@@ -2386,6 +2424,7 @@ void MainFormDlgImpl::updateUi(const string& strCrt) // strCrt may be empty
         m_pExportB->hide();
     }
 
+
     if (m_pCommonData->m_bShowDebug)
     {
         m_pDebugB->show();
@@ -2395,6 +2434,7 @@ void MainFormDlgImpl::updateUi(const string& strCrt) // strCrt may be empty
     {
         m_pDebugB->hide();
     }
+
 
     if (m_pCommonData->m_bShowSessions)
     {
@@ -3209,8 +3249,8 @@ Development machine:
 //ttt1 a "reload" that only looks for new / removed files
 
 //ttt1 handle symbolic links to ancestors
-//ttt0 https://sourceforge.net/forum/message.php?msg_id=7613657 - export as txt/m3u: probably a new window, where several formats and their options can be chosen from
-//ttt0 https://sourceforge.net/forum/forum.php?thread_id=3391593&forum_id=947206 - txt/m3u export
+
+
 
 
 

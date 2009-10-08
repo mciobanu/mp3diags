@@ -538,7 +538,7 @@ e1:
     //cout << "=======================\n";
 
     //CB_ASSERT (!m_vpAllStreams.empty());
-    STRM_ASSERT (pos == m_posEnd); // ttt0 triggered according to https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=23 //ttt0 try to create an example that has unknTooShort, to see if it triggers this
+    STRM_ASSERT (pos == m_posEnd); // ttt0 triggered according to https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=23 ; the code here seems OK, though; the most likely reason is that in some cases a stream uses the wrong size and then pos gets an invalid value in "pos += m_vpAllStreams.back()->getSize();"
     pos = 0;
     for (int i = 0; i < cSize(m_vpAllStreams); ++i)
     {
@@ -752,7 +752,14 @@ void Mp3Handler::analyze(const QualThresholds& qualThresholds)
     if (0 != m_pId3V230Stream && 0 != m_pId3V230Stream->getIndex()) { MP3_NOTE (m_pId3V230Stream->getPos(), id3v230AfterAudio); }
     if (0 == m_pXingStream && 0 != m_pMpegStream && m_pMpegStream->isVbr()) { MP3_NOTE (m_pMpegStream->getPos(), missingXing); }
     if (0 != m_pMpegStream && m_pMpegStream->isVbr() && (MpegFrame::MPEG1 != m_pMpegStream->getFirstFrame().getVersion() || MpegFrame::LAYER3 != m_pMpegStream->getFirstFrame().getLayer())) { MP3_NOTE (m_pMpegStream->getPos(), vbrUsedForNonMpg1L3); }
-    if ((0 != m_pMpegStream) && (0 == m_pApeStream || !m_pApeStream->hasMp3Gain())) { MP3_NOTE (m_pMpegStream->getPos(), noMp3Gain); }
+    if (
+            (0 != m_pMpegStream) &&
+            (0 == m_pApeStream || !m_pApeStream->hasMp3Gain()) &&
+            (0 == m_pId3V230Stream || !m_pId3V230Stream->hasReplayGain()) &&
+            (0 == m_pId3V240Stream || !m_pId3V240Stream->hasReplayGain())) //ttt2 not quite OK when mutliple ID3V2 streams are found
+    {
+        MP3_NOTE (m_pMpegStream->getPos(), noMp3Gain);
+    }
 
     if (!m_vpBrokenStreams.empty())
     {

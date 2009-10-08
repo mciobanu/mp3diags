@@ -56,15 +56,15 @@
 
 
 <div class="FreeNormalText RegFnt ChpCol1">
-Only a single image per file is displayed or can be added.
+Only the "album cover" image in a file can be set (all are displayed, though.)
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-Currently, if asked to save an image that is identical to an existing one except for the picture type, the new image is not saved. This approach looks the least likely to confuse players. If needed, a  transformation that changes picture types can be added.
+Currently, if asked to save an image that is identical to an existing one except for the picture type, the new image is not saved. This approach looks the least likely to confuse players. If this is not OK, there is a transformation called "Make the largest image Front Cover and remove the rest" that might help in some cases. (Note that this is hidden by default.)
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-Links are not supported for images. This is bad if you REALLY need to scan your vinyl collection at 4800dpi and save the result as an uncompressed TIFF. Instead, images are stored inside the MP3s themselves and if they are big they get resized so they take less than 100KB. For now this maximum size is hard-coded.
+Links are not supported for images. This is bad if you REALLY need to scan your vinyl collection at 4800dpi and save the result as an uncompressed TIFF. Instead, images are stored inside the MP3s themselves and if they are big they get resized so they take less than 100KB. This maximum size is configurable.
 </div>
 
 
@@ -103,7 +103,7 @@ There is no automatic detection of a file being changed by an external tool or r
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol2">
-It is possible for audio frames to store some of their data in the neighboring frames, but I haven't looked into how to detect when this is happening. Currently MP3 Diags only reads the header of the audio frames (which doesn't have neighbor information.) As a result, it doesn't detect that some frames are missing or should be deleted.
+It is possible for audio frames to store some of their data in the neighboring frames (see "bit reservoirs"), but I haven't looked into how to detect when this is happening. Currently MP3 Diags only reads the header of the audio frames (which doesn't have neighbor information.) As a result, it doesn't detect that some frames are missing or should be deleted.
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol1">

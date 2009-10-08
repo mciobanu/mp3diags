@@ -201,8 +201,10 @@ private:
         ar & m_vpNotes;
     }*/
 
-    template<class Archive> void save(Archive& ar, const unsigned int /*nVersion*/) const
+    template<class Archive> void save(Archive& ar, const unsigned int nVersion) const
     {
+        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+
         ar << m_bNoteFilter;
         ar << m_bDirFilter;
 
@@ -222,8 +224,10 @@ private:
         ar << (const std::vector<std::string>&)v;//*/
     }
 
-    template<class Archive> void load(Archive& ar, const unsigned int /*nVersion*/)
+    template<class Archive> void load(Archive& ar, const unsigned int nVersion)
     {
+        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+
         ar >> m_bNoteFilter;
         ar >> m_bDirFilter;
 
@@ -555,14 +559,15 @@ public slots:
 private:
     friend class boost::serialization::access;
 
-    template<class Archive> void save(Archive& ar, const unsigned int /*nVersion*/) const;
-    template<class Archive> void load(Archive& ar, const unsigned int /*nVersion*/);
+    template<class Archive> void save(Archive& ar, const unsigned int nVersion) const;
+    template<class Archive> void load(Archive& ar, const unsigned int nVersion);
     BOOST_SERIALIZATION_SPLIT_MEMBER();
 };
 
 
 CommonData* getCommonData(); // the only CommonData that exists at a given moment
 
+QWidget* getMainForm();
 
 
 //=====================================================================================================================

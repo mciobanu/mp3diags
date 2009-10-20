@@ -31,6 +31,8 @@
 
 #include  "ui_TagEditor.h"
 
+#include  "CommonTypes.h"
+
 
 class CommonData;
 class QSettings;
@@ -182,7 +184,7 @@ class TagEditorDlgImpl : public QDialog, private Ui::TagEditorDlg
     enum { EXPLICIT, IMPLICIT };
     SaveOpt save(bool bImplicitCall); // based on configuration, either just saves the tags or asks the user for confirmation; returns true iff all tags have been saved or if none needed saving; it should be followed by a reload(), either for the current or for the next/prev album; if bImplicitCall is false, the "ASK" option is turned into "SAVE";
 
-    bool closeEditor(/*const std::string& strAction*/) { return m_pAlbumDel->closeEditor(); } // closes the editor opened with F2, saving the data; returns false if there was some error and it couldn't close //ttt1 perhaps use strAction for a more personalize message
+    bool closeEditor(/*const std::string& strAction*/) { return m_pAlbumDel->closeEditor(); } // closes the editor opened with F2, saving the data; returns false if there was some error and it couldn't close //ttt2 perhaps use strAction for a more personalize message
 
     /*override*/ bool eventFilter(QObject* pObj, QEvent* pEvent);
     std::vector<std::pair<int, int> > getSelFields() const; // returns the selceted fields, with the first elem as the song number and the second as the field index in TagReader::Feature (it converts columns to fields using TagReader::FEATURE_ON_POS); first column (file name) is ignored
@@ -198,6 +200,8 @@ class TagEditorDlgImpl : public QDialog, private Ui::TagEditorDlg
 
     void createPatternButtons();
     std::vector<QToolButton*> m_vpPattButtons;
+
+    TextCaseOptions m_eArtistsCase, m_eOthersCase;
 
 public:
     TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, TransfConfig& transfConfig, bool& bDataSaved); // transfConfig is needed both to be able to instantiate the config dialog and for saving ID3V2
@@ -236,6 +240,7 @@ protected slots:
     void on_m_pToggleAssignedB_clicked();
     void on_m_pReloadB_clicked();
     void on_m_pVarArtistsB_clicked();
+    void on_m_pCaseB_clicked();
     void on_m_pCopyFirstB_clicked();
     void on_m_pSaveB_clicked();
     void on_m_pPasteB_clicked();
@@ -247,7 +252,7 @@ protected slots:
     void onFileSelSectionMoved(int nLogicalIndex, int nOldVisualIndex, int nNewVisualIndex);
     void onShow() { resizeTagEditor(); onShowPatternNote(); }
 
-    void onAlbumChanged(/*bool bContentOnly*/); // the param was meant to determine if the selection should be kept (bContentOnly is true) or cleared (false); no longer needed, because the clearing the selection is done separately; //ttt1 perhaps put back, after restructuring the tag editor signals
+    void onAlbumChanged(/*bool bContentOnly*/); // the param was meant to determine if the selection should be kept (bContentOnly is true) or cleared (false); no longer needed, because the clearing the selection is done separately; //ttt2 perhaps put back, after restructuring the tag editor signals
     void onFileChanged();
     void onImagesChanged(); // adds new ImageInfoPanelWdgImpl instances, connects assign button and calls resizeTagEditor()
     void onShowPatternNote();

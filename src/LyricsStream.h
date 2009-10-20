@@ -34,7 +34,7 @@ class LyricsStream : public DataStream, public TagReader
     std::streampos m_pos;
     std::streamoff m_nSize;
 public:
-    LyricsStream(int nIndex, NoteColl& notes, std::istream& in, const std::string& strCrtDir);
+    LyricsStream(int nIndex, NoteColl& notes, std::istream& in, const std::string& strFileName);
 
     /*override*/ void copy(std::istream& in, std::ostream& out);
     DECL_RD_NAME("Lyrics3 V2.00");
@@ -48,20 +48,22 @@ public:
     std::string m_strTitle;
     std::string m_strArtist;
     std::string m_strGenre;
-    std::string m_strImageFile;
+    std::string m_strImageFiles;
     std::string m_strAlbum;
     std::string m_strAuthor; // composer
     std::string m_strLyrics;
     std::string m_strOther; // these are lost during transfer //ttt2 or maybe not, though not sure if transferring them to some "comment" field would be a good idea
     std::string m_strInd;
 
-    std::string m_strCrtDir;
+    std::string m_strFileName;
 
     bool m_bHasTitle;
     bool m_bHasArtist;
     bool m_bHasGenre;
     bool m_bHasImage;
     bool m_bHasAlbum;
+
+    ImageInfo readImage(const QString& strRelName) const;
 private:
     friend class boost::serialization::access;
     LyricsStream(); // serialization-only constructor
@@ -86,6 +88,8 @@ private:
 
     /*override*/ SuportLevel getSupport(Feature) const;
 
+    /*override*/ std::vector<ImageInfo> getImages() const;
+
 
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
@@ -102,14 +106,14 @@ private:
             ar & m_strTitle;
             ar & m_strArtist;
             ar & m_strGenre;
-            ar & m_strImageFile;
+            ar & m_strImageFiles;
             ar & m_strAlbum;
             ar & m_strAuthor;
             ar & m_strLyrics;
             ar & m_strOther;
             ar & m_strInd;
 
-            ar & m_strCrtDir;
+            ar & m_strFileName;
 
             ar & m_bHasTitle;
             ar & m_bHasArtist;

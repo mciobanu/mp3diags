@@ -284,7 +284,7 @@ long getMemUsage()
     int n ((int)getpid());
     char a [30];
     sprintf (a, "/proc/%d/status", n); // ttt2 linux-specific; not sure how version-specific this is;
-    // sprintf (a, "/proc/self/status", n); // ttt1 try this (after checking portability)
+    // sprintf (a, "/proc/self/status", n); // ttt2 try this (after checking portability)
     ifstream_utf8 in (a);
     string s;
     while (getline(in, s))
@@ -398,7 +398,7 @@ namespace
     }
 
 
-    string Decoder::initialize(const unsigned char* bfr, bool* pbIsValid) //ttt1 perhaps unify with MpegFrameBase::MpegFrameBase(), using the char* constructor
+    string Decoder::initialize(const unsigned char* bfr, bool* pbIsValid) //ttt2 perhaps unify with MpegFrameBase::MpegFrameBase(), using the char* constructor
     {
         bool b;
         bool& bRes (0 == pbIsValid ? b : *pbIsValid);
@@ -412,7 +412,7 @@ namespace
             int nVer ((*pHeader & 0x18) >> 3);
             switch (nVer)
             {//TRACE
-            case 0x00: bRes = false; return "Not an MPEG frame. Unsupported version (2.5)."; //ttt1 see about supporting this: search for MPEG1 to find other places
+            case 0x00: bRes = false; return "Not an MPEG frame. Unsupported version (2.5)."; //ttt2 see about supporting this: search for MPEG1 to find other places
                 // ttt2 in a way it would make more sense to warn that it's not supported, with "MP3_THROW(SUPPORT, ...)", but before warn, make sure it's a valid 2.5 frame, followed by another frame ...
 
             case 0x02: m_eVersion = MPEG2; break;
@@ -525,7 +525,7 @@ namespace
     }
 
 
-    string Decoder::decodeMpegFrame(const unsigned char* bfr, const char* szSep, bool* pbIsValid) //ttt1 perhaps unify with MpegFrameBase::MpegFrameBase(), using the char* constructor
+    string Decoder::decodeMpegFrame(const unsigned char* bfr, const char* szSep, bool* pbIsValid) //ttt2 perhaps unify with MpegFrameBase::MpegFrameBase(), using the char* constructor
     {
         string s (initialize(bfr, pbIsValid));
         if (!s.empty()) { return s; }
@@ -541,7 +541,7 @@ namespace
     }
 
 
-    string Decoder::decodeMpegFrameAsXml(const unsigned char* bfr, bool* pbIsValid) //ttt1 perhaps unify with MpegFrameBase::MpegFrameBase(), using the char* constructor
+    string Decoder::decodeMpegFrameAsXml(const unsigned char* bfr, bool* pbIsValid) //ttt2 perhaps unify with MpegFrameBase::MpegFrameBase(), using the char* constructor
     {
         string s (initialize(bfr, pbIsValid));
         if (!s.empty()) { return s; }
@@ -714,7 +714,7 @@ Ideally a modal dialog should minimize its parent. If that's not possible, it sh
 
 
 #if 0
-//ttt1 add desktop, distribution, WM, ...
+//ttt2 add desktop, distribution, WM, ...
 #ifndef WIN32
     utsname info;
     uname(&info);
@@ -747,7 +747,7 @@ static void removeStr(string& main, const string& sub)
 extern const char* APP_VER;
 
 
-QString getSystemInfo() //ttt1 perhaps store this at startup, so fewer things may go wrong fhen the assertion handler needs it
+QString getSystemInfo() //ttt2 perhaps store this at startup, so fewer things may go wrong fhen the assertion handler needs it
 {
     QString s ("OS: ");
 
@@ -916,7 +916,7 @@ void configureGradient(QGradient& grad, const QColor& col, double dStart, double
         }
     }
 #else
-    grad.setColorAt(0, col.lighter(dStart < 0.0001 ? 119 : 100)); //ttt1 perhaps use this or at least add an option
+    grad.setColorAt(0, col.lighter(dStart < 0.0001 ? 119 : 100)); //ttt2 perhaps use this or at least add an option
     grad.setColorAt(0.48, col);
     grad.setColorAt(0.52, col);
     grad.setColorAt(1, col.lighter(dEnd > 0.9999 ? 80 : 100));

@@ -60,7 +60,7 @@ static string addSepToRoot(const string& s)
 {
 #ifndef WIN32
     return s;
-#else //ttt1
+#else //ttt2
     if (s.size() != 2) { return s; }
     return s + "\\";
 #endif
@@ -70,7 +70,7 @@ static string removeSepFromRoot(const string& s)
 {
 #ifndef WIN32
     return s;
-#else //ttt1
+#else //ttt2
     if (s.size() != 3) { return s; }
     return s.substr(0, 2);
 #endif
@@ -80,7 +80,7 @@ static string removeSepFromRoot(const string& s)
 
 #ifndef WIN32
     static char getDrive(const string&) { return '.'; }
-#else //ttt1
+#else //ttt2
     static char getDrive(const string& s) { CB_ASSERT(s.size() > 2); return s[0]; }
 #endif
 
@@ -117,7 +117,7 @@ void DirFilterDlgImpl::populateLists()
             //if (cSize(strCommonDir) <= 1) { break; }
         }
     }
-//ttt1 strCommonDir should be drive-specific on Wnd
+//ttt2 strCommonDir should be drive-specific on Wnd
     set<string> sDirsAndParents (sDirs);
 
     for (map<char, pair<string, int> >::iterator it = mCommonDirs.begin(), end = mCommonDirs.end(); it != end; ++it)

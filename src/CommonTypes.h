@@ -26,14 +26,14 @@
 #include  <string>
 #include  <vector>
 
-//#include  <QByteArray> // ttt1 see why this includes QByteRef, which gives warnings for lots of functions returning "const char" or "const bool", saying that "const" is going to be ignored; perhaps #define something before "//#include  <QByteArray>"; QtGui and QPixmap avoid this issue, but take longer
+//#include  <QByteArray> // ttt2 see why this includes QByteRef, which gives warnings for lots of functions returning "const char" or "const bool", saying that "const" is going to be ignored; perhaps #define something before "//#include  <QByteArray>"; QtGui and QPixmap avoid this issue, but take longer
 #include  <QPixmap>
 
 
 
 //#include  <iosfwd>
 
-// to avoid some dependencies and shorten the compilation time //ttt1 add more types here
+// to avoid some dependencies and shorten the compilation time //ttt2 add more types here
 
 struct ImageInfo
 {
@@ -114,6 +114,14 @@ struct AlbumInfo
 };
 
 std::ostream& operator<<(std::ostream&, const AlbumInfo&);
+
+enum TextCaseOptions { TC_NONE = -1, TC_LOWER = 0, TC_UPPER, TC_TITLE, TC_SENTENCE };
+
+QString getCaseConv(const QString& s, TextCaseOptions eCase);
+
+const char* getCaseAsStr(TextCaseOptions e);
+
+
 
 #endif // #ifndef CommonTypesH
 

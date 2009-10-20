@@ -96,6 +96,8 @@ bool AlbumInfoDownloaderDlgImpl::getInfo(const std::string& strArtist, const std
         {
             pAlbumInfo = new AlbumInfo();
             album(m_nCrtAlbum).copyTo(*pAlbumInfo);
+            //pAlbumInfo->m_strReleased = convStr(m_pRealeasedE->text()); //ttt2 maybe allow users to overwrite fields in edit boxes, esp. genre; however, most of the cases it's almost as easy to make any changes in the tag editor (well, there's an F2 and then "copy form first"); there are several issues in implementing this: 1) going to prev/next album; 2) artist name gets copied to each track; 3) consistency: if the edit boxes are editable why not the table? so, better without
+
             if (m_pVolumeCbB->isEnabled() && m_pVolumeCbB->currentIndex() != m_pVolumeCbB->count() - 1)
             {
                 vector<TrackInfo> vTracks;
@@ -291,7 +293,7 @@ void AlbumInfoDownloaderDlgImpl::on_m_pSaveImageB_clicked()
         QMessageBox::critical(this, "Error", "You cannot save any image now, because there is no image loaded");
         return;
     }
-    // ttt1 perhaps shouldn't save an "error" image
+    // ttt2 perhaps shouldn't save an "error" image
 
     m_bSaveImageOnly = true;
     accept();
@@ -361,7 +363,7 @@ void AlbumInfoDownloaderDlgImpl::next()
 
         if ((m_pImageFltCkB->isChecked() && album(nNextAlbum).m_vpImages.empty()) ||
             (m_pCdFltCkB->isChecked() && string::npos == album(nNextAlbum).m_strFormat.find("CD")) ||
-            (m_pTrackCntFltCkB->isChecked() && m_nExpectedTracks != cSize(album(nNextAlbum).m_vTracks))) // ttt1 MusicBrainz could perform better here, because it knows how many tracks are in an album without actually loading it; ttt1 redo the whole next() / prev() thing in a more logical way; perhaps separate next() from nextAlbum();
+            (m_pTrackCntFltCkB->isChecked() && m_nExpectedTracks != cSize(album(nNextAlbum).m_vTracks))) // ttt2 MusicBrainz could perform better here, because it knows how many tracks are in an album without actually loading it; ttt2 redo the whole next() / prev() thing in a more logical way; perhaps separate next() from nextAlbum();
         {
             continue;
         }
@@ -378,7 +380,7 @@ void AlbumInfoDownloaderDlgImpl::next()
         return;
     }
 }
-//ttt1 perhaps filter by durations (but see first how it works without it)
+//ttt2 perhaps filter by durations (but see first how it works without it)
 
 
 
@@ -467,7 +469,7 @@ void AlbumInfoDownloaderDlgImpl::setImageType(const string& strName)
     }
 }
 
-//ttt1 2009.05.18 - once the "format" edit in MusicBrainz dwnld was very narrow; it was OK after the program was restarted, and the issue didn't repeat again
+
 
 void AlbumInfoDownloaderDlgImpl::onRequestFinished(int /*nId*/, bool bError)
 {
@@ -691,7 +693,7 @@ void AlbumInfoDownloaderDlgImpl::retryNavigation()
     {
         resetNavigation();
     }
-    // ttt1 perhaps add assert that either there are no pending requests and NOTHING==m_eWaiting or there is 1 pending request and NOTHING!=m_eWaiting (keep in mind that when the connection is opened there is a system-generated request);
+    // ttt2 perhaps add assert that either there are no pending requests and NOTHING==m_eWaiting or there is 1 pending request and NOTHING!=m_eWaiting (keep in mind that when the connection is opened there is a system-generated request);
 }
 
 
@@ -1106,5 +1108,4 @@ LAST_STEP("WebDwnldModel::data()");
     return nSection + 1;
 }
 
-//ttt0 allow users to overwrite fields in edit boxes, esp. genre
 

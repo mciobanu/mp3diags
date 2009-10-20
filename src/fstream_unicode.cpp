@@ -39,7 +39,15 @@
 
 
 
-//ttt1 perhaps add flush()
+//ttt2 perhaps add flush()
+/* ttt2 see about file flushing:
+    http://support.microsoft.com/default.aspx/kb/148505
+    - fdatasync() - like fsync() but doesn't change metadata (e.g. mtime) so it's faster
+    - since the C++ Library has nothing to do flushing, perhaps this would work: standalone "commit(const ofstream_utf8&)" and/or "commit(const string&)" ; also, we don't want to commit all the files; or perhaps "commit(ofstream_utf8&)" is needed, which would first close the file
+    - there's also out.rdbud()->pubsync(), but what it does is OS-dependent
+    - use external disk / flash, to see the LED, for testing
+*/
+
 
 
 // converts __mode to flags that can be used by the POSIX open() function
@@ -63,7 +71,7 @@ int getOpenFlags(std::ios_base::openmode __mode)
     }
     else
     {
-        throw 1; // ttt1
+        throw 1; // ttt2
     }
 
     #ifdef O_LARGEFILE
@@ -168,7 +176,7 @@ int unicodeOpenHlp(const int& fd, std::ios_base::openmode /*__mode*/)
 
 
 
-//ttt1 review O_SHORT_LIVED
+//ttt2 review O_SHORT_LIVED
 
 #else // #ifdef __GNUC__
 

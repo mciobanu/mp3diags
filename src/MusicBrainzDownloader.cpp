@@ -179,7 +179,7 @@ private:
                     m_albumInfo.m_vstrImageNames.push_back(strUrl);
                 }
                 else
-                { //ttt1 perhaps tell the user
+                { //ttt2 perhaps tell the user
                     qDebug("Unsupported image link");
                 }
             }
@@ -211,7 +211,7 @@ private:
     void onAsinChar(const string& s)
     {
         m_albumInfo.m_strAsin = s;
-        m_albumInfo.m_vstrImageNames.push_back("http://images.amazon.com/images/P/" + s + ".01.LZZZZZZZ.jpg"); // ttt1 "01" is country code for US, perhaps try others //ttt1 perhaps check for duplicates
+        m_albumInfo.m_vstrImageNames.push_back("http://images.amazon.com/images/P/" + s + ".01.LZZZZZZZ.jpg"); // ttt2 "01" is country code for US, perhaps try others //ttt2 perhaps check for duplicates
     }
 
     void onAlbArtistNameChar(const string& s)
@@ -240,6 +240,7 @@ private:
 
 /*override*/ void MusicBrainzAlbumInfo::copyTo(AlbumInfo& dest)
 {
+
     dest.m_strTitle = m_strTitle;
     //dest.m_strArtist = m_strArtist;
     //dest.m_strComposer; // !!! missing
@@ -288,6 +289,8 @@ MusicBrainzDownloader::MusicBrainzDownloader(QWidget* pParent, SessionSettings& 
     m_pAlbumNotesM->hide();
 
     m_pVolumeL->hide(); m_pVolumeCbB->hide();
+
+    m_pStyleL->hide(); m_pStyleCbB->hide();
 
     m_pImgSizeL->setMinimumHeight(m_pImgSizeL->height()*2);
 
@@ -447,7 +450,7 @@ void MusicBrainzDownloader::loadNextPage()
 }
 
 
-//ttt1 see if it is possible for a track to have its own genre
+//ttt2 see if it is possible for a track to have its own genre
 
 QString MusicBrainzDownloader::getAmazonText() const
 {
@@ -586,10 +589,10 @@ void MusicBrainzDownloader::requestImage(int nAlbum, int nImage)
 */
 
 
-//ttt1 perhaps look at Last.fm for more pictures (see Cover Fetcher for AmaroK 1.4; a brief look at the API seems to indicate that a generic "search" is not possible)
+//ttt2 perhaps look at Last.fm for more pictures (see Cover Fetcher for AmaroK 1.4; a brief look at the API seems to indicate that a generic "search" is not possible)
 
 
-//ttt1 detect Qt 4.4 and use QWebView
+//ttt2 detect Qt 4.4 and use QWebView
 #endif
 
 

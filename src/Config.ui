@@ -1345,7 +1345,7 @@
            <widget class="QComboBox" name="m_pArtistsCaseCbB" >
             <property name="minimumSize" >
              <size>
-              <width>250</width>
+              <width>150</width>
               <height>0</height>
              </size>
             </property>
@@ -1378,7 +1378,7 @@
            <widget class="QComboBox" name="m_pOthersCaseCbB" >
             <property name="minimumSize" >
              <size>
-              <width>250</width>
+              <width>150</width>
               <height>0</height>
              </size>
             </property>
@@ -2557,7 +2557,7 @@
                <item>
                 <widget class="QCheckBox" name="m_pTraceToFileCkB" >
                  <property name="text" >
-                  <string>Trace actions to file (for debugging)</string>
+                  <string>Log program state to "_trace" and "_step" files</string>
                  </property>
                 </widget>
                </item>

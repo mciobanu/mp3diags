@@ -68,7 +68,7 @@ void MpegFrameBase::init(NoteColl& notes, const char* bfr) //ttt2 should have so
         int nVer ((*pHeader & 0x18) >> 3);
         switch (nVer)
         {//TRACE
-        case 0x00: MP3_THROW_T (m_pos, "Not an MPEG frame. Unsupported version (2.5).", NotMpegFrame()); //ttt1 see about supporting this: search for MPEG1 to find other places
+        case 0x00: MP3_THROW_T (m_pos, "Not an MPEG frame. Unsupported version (2.5).", NotMpegFrame()); //ttt2 see about supporting this: search for MPEG1 to find other places
             // ttt2 in a way it would make more sense to warn that it's not supported, with "MP3_THROW(SUPPORT, ...)", but before warn, make sure it's a valid 2.5 frame, followed by another frame ...
 
         case 0x02: m_eVersion = MPEG2; break;

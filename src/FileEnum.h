@@ -44,7 +44,7 @@ If the directories have redundant information, an InvalidDirs is thrown. Here's 
     - a directory may be "excluded" iff it has ancestors AND its closest ancestor is "included";
     - duplicates are not allowed;
 
-Assumes there are no "." or ".." in the paths, but doesn't check. // ttt1 perhaps check
+Assumes there are no "." or ".." in the paths, but doesn't check. // ttt2 perhaps check
 
 What is really on the disk is not important, in the sense that names of directories that don't exist or of files are ignored.
 

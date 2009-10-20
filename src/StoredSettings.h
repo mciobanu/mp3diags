@@ -27,7 +27,7 @@
 #include  <vector>
 
 //#include  <QByteArray>
-#include  <QStringList>  // ttt1 what we really want is QByteArray; however, by including QByteArray directly, lots of warnings get displayed; perhaps some defines are needed but don't know which; so we just include QStringList to avoid the warnings (see also Helpers.h)
+#include  <QStringList>  // ttt2 what we really want is QByteArray; however, by including QByteArray directly, lots of warnings get displayed; perhaps some defines are needed but don't know which; so we just include QStringList to avoid the warnings (see also Helpers.h)
 
 
 class QSettings;
@@ -56,8 +56,8 @@ public:
     void saveDirFilterSettings(int nWidth, int nHeight);
     void loadDirFilterSettings(int& nWidth, int& nHeight) const;
 
-    void saveDiscogsSettings(int nWidth, int nHeight);
-    void loadDiscogsSettings(int& nWidth, int& nHeight) const;
+    void saveDiscogsSettings(int nWidth, int nHeight, int nStyleOption);
+    void loadDiscogsSettings(int& nWidth, int& nHeight, int& nStyleOption) const;
 
     void saveMusicBrainzSettings(int nWidth, int nHeight);
     void loadMusicBrainzSettings(int& nWidth, int& nHeight) const;
@@ -71,8 +71,8 @@ public:
     void saveExportSettings(int nWidth, int nHeight, bool bSortByShortNames, const std::string& strFile, bool bUseVisible, const std::string& strM3uRoot, const std::string& strM3uLocale);
     void loadExportSettings(int& nWidth, int& nHeight, bool& bSortByShortNames, std::string& strFile, bool& bUseVisible, std::string& strM3uRoot, std::string& strM3uLocale) const;
 
-    void saveRenamerSettings(int nWidth, int nHeight, int nSaButton, int nVaButton, bool bKeepOrig);
-    void loadRenamerSettings(int& nWidth, int& nHeight, int& nSaButton, int& nVaButton, bool& bKeepOrig) const;
+    void saveRenamerSettings(int nWidth, int nHeight, int nSaButton, int nVaButton, bool bKeepOrig, bool bUnratedAsDuplicate);
+    void loadRenamerSettings(int& nWidth, int& nHeight, int& nSaButton, int& nVaButton, bool& bKeepOrig, bool& bUnratedAsDuplicate) const;
 
     void saveMainSettings(int nWidth, int nHeight, int nNotesGW0, int nNotesGW2, int nStrmsGW0, int nStrmsGW1, int nStrmsGW2, int nStrmsGW3, int nUnotesGW0, const QByteArray& stateMainSpl, const QByteArray& stateLwrSpl, int nIconSize, int nScanWidth);
     void loadMainSettings(int& nWidth, int& nHeight, int& nNotesGW0, int& nNotesGW2, int& nStrmsGW0, int& nStrmsGW1, int& nStrmsGW2, int& nStrmsGW3, int& nUnotesGW0, QByteArray& stateMainSpl, QByteArray& stateLwrSpl, int& nIconSize, int& nScanWidth) const;
@@ -86,8 +86,8 @@ public:
     void saveRenamerPatternsSettings(int nWidth, int nHeight);
     void loadRenamerPatternsSettings(int& nWidth, int& nHeight) const;
 
-    void saveTagEdtSettings(int nWidth, int nHeight/*, const QByteArray& splitterState*/);
-    void loadTagEdtSettings(int& nWidth, int& nHeight/*, QByteArray& splitterState*/) const;
+    void saveTagEdtSettings(int nWidth, int nHeight, int nArtistCase, int nTitleCase); // Case params are really enum
+    void loadTagEdtSettings(int& nWidth, int& nHeight, int& nArtistsCase, int& nOthersCase) const;
 
     void saveVector(const std::string& strPath, const std::vector<std::string>& v);
     std::vector<std::string> loadVector(const std::string& strPath, bool& bErr) const; // allows empty entries, but stops at the first missing entry, in which case sets bErr
@@ -104,7 +104,7 @@ public:
     void saveVersion(const std::string& strVersion);
     void loadVersion(std::string& strVersion);
 
-    //ttt1 ??? see about ThreadRunner size; perhaps set width to its parent
+    //ttt2 ??? see about ThreadRunner size; perhaps set width to its parent
 
     bool sync();
 };

@@ -113,7 +113,7 @@ static streampos findNearMpegFrameAtRight(streampos pos, istream& in, MpegStream
 /*override*/ Transformation::Result SingleBitRepairer::apply(const Mp3Handler& h, const TransfConfig& transfConfig, const string& strOrigSrcName, string& strTempName)
 {
     //CB_ASSERT(UnknownDataStreamBase::BEGIN_SIZE >= x)
-    //if (strOrigSrcName in tmp or proc) throw; //ttt1
+    //if (strOrigSrcName in tmp or proc) throw; //ttt2
     const vector<DataStream*>& vpStreams (h.getStreams());
     for (int i = 0, n = cSize(vpStreams); i < n - 2; ++i)
     {
@@ -277,7 +277,22 @@ void InnerNonAudioRemover::setupDiscarded(const Mp3Handler& h)
         }
     }
 }
-//ttt1 see about unsynch audio (when some frames use data from other frames - bit reservoirs) ; http://www.hydrogenaudio.org/forums/index.php?showtopic=35654&st=25&p=354991&#entry354991 http://www.hydrogenaudio.org/forums/lofiversion/index.php/t42194.html ; http://www.hydrogenaudio.org/forums/index.php?showtopic=38510&pid=347136&mode=threaded&start=0#entry347136
+/*
+ttt2 see about unsynch audio (when some frames use data from other frames - bit reservoirs)
+
+diagram at http://www.hydrogenaudio.org/forums/index.php?showtopic=36445&pid=321867&mode=threaded&start=#entry321867
+
+http://www.hydrogenaudio.org/forums/index.php?showtopic=35654&st=25&p=354991&#entry354991
+http://www.hydrogenaudio.org/forums/lofiversion/index.php/t42194.html http://www.hydrogenaudio.org/forums/index.php?showtopic=38510&pid=347136&mode=threaded&start=0#entry347136
+
+the issue is that this is stored in the "side info" area, which is poorly documented, the main way to figure out what's going on being to look at working code;
+
+so it's probably not worth the bother; something that could probably be done is to remove some/most of the "truncated audio" notes, where the last frame only uses the beginning of the area; still, padding with 0 is probably better, as most stand-alone taggers shoudln't care about side info, and probably just expect a full frame;
+
+note that inserting a blank frame before a cut duesn't really solve the warning in mplayer about being unable to rewind, because the side info needs to be modified in the affected frames
+*/
+
+
 
 /*override*/ bool InnerNonAudioRemover::matches(DataStream* p) const
 {
@@ -314,7 +329,7 @@ void InnerNonAudioRemover::setupDiscarded(const Mp3Handler& h)
         return NOT_CHANGED;
     }
 
-//ttt1 see InnerNonAudioRemover: Lambo has an error in mplayer, because of frame dependency
+//ttt2 see InnerNonAudioRemover: Lambo has an error in mplayer, because of bit reservoir
 
     ifstream_utf8 in (h.getName().c_str(), ios::binary);
 
@@ -568,7 +583,10 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
 //================================================================================================================================
 //================================================================================================================================
 
-//ttt1 in a way this could take care of Xing headers for CBR streams as well, but it doesn't seem the best place to do it, especially as we ignore most of the data in the Lame header and "restoring a header" means just putting back byte count and frame count
+//ttt2 see how adding a Xing header affects gapless playing. split a VBR file
+
+
+//ttt2 in a way this could take care of Xing headers for CBR streams as well, but it doesn't seem the best place to do it, especially as we ignore most of the data in the Lame header and "restoring a header" means just putting back byte count and frame count
 /*override*/ Transformation::Result VbrRepairerBase::repair(const Mp3Handler& h, const TransfConfig& transfConfig, const std::string& strOrigSrcName, std::string& strTempName, bool bForceRebuild)
 {
     const vector<DataStream*>& vpStreams (h.getStreams());
@@ -702,12 +720,4 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
 //================================================================================================================================
 //================================================================================================================================
 //================================================================================================================================
-
-/* ttt1 see about file flushing:
-    http://support.microsoft.com/default.aspx/kb/148505
-    - fdatasync() - like fsync() but doesn't change metadata (e.g. mtime) so it's faster
-    - since the C++ Library has nothing to do flushing, perhaps this would work: standalone "commit(const ofstream_utf8&)" and/or "commit(const string&)" ; also, we don't want to commit all the files; or perhaps "commit(ofstream_utf8&)" is needed, which would first close the file
-    - there's also out.rdbud()->pubsync(), but what it does is OS-dependent
-    - use external disk / flash, to see the LED, for testing
-*/
 

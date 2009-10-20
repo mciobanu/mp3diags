@@ -53,7 +53,7 @@ using namespace pearl;
 }
 */
 
-//ttt1 review all defaults
+//ttt2 review all defaults
 static string getDefaultSrc() { return ""; } //ttt2 see if src dir needs to be revived
 
 static string getDefaultUnprocOrig() { return convStr(getTempDir()) + "/mp3diags/unprocOrig"; }
@@ -187,7 +187,7 @@ void TransfConfig::splitOrigName(const string& strOrigSrcName, std::string& strR
 #ifndef WIN32
     CB_CHECK1 (beginsWith(strRelDir, getPathSepAsStr()), IncorrectPath());
 #else
-    //CB_CHECK1 (beginsWith(strRelDir, getPathSepAsStr()), IncorrectPath()); //ttt1 see if it's OK to skip this test on Windows; it probably is, because it's more of an assert and the fact that it's not triggered on Linux should be enough
+    //CB_CHECK1 (beginsWith(strRelDir, getPathSepAsStr()), IncorrectPath()); //ttt2 see if it's OK to skip this test on Windows; it probably is, because it's more of an assert and the fact that it's not triggered on Linux should be enough
 #endif
 
 
@@ -757,14 +757,14 @@ std::string TransfConfig::getProcName(const std::string& strOrigSrcName) const
     return CHANGED_NO_RECALL;
 }
 
-//ttt1 test transformation (and perhaps the other threads) with this: wheat happens if something takes very long and the user presses both pause and resume before the UI checks
+//ttt2 test transformation (and perhaps the other threads) with this: wheat happens if something takes very long and the user presses both pause and resume before the UI checks
 
 
 
 
 /*
 
-ttt1 warnings + info
+ttt2 warnings + info
 
 
 ID3 V2.3
@@ -796,11 +796,11 @@ ttt2 When removing frames and Xing/Lame is present, adjust header for count and 
 //ttt2 perhaps separate tab with actions: "check quality", ... ; or perhaps tab with settings, so the quality is checked the first time
 
 //ttt2 there are both "fixes" (pad truncated ...) and "actions" ("remove lyrics", "add picture", "check ID3"); perhaps distinguish between them
-//ttt1 "check tags" command - goes to musicbrainz and checks all known tags; 2009.03.19 - this doesn't seem to make much sense, given that there are many albums with the same name, ... ; perhaps we should search by track duration too;
+//ttt2 "check tags" command - goes to musicbrainz and checks all known tags; 2009.03.19 - this doesn't seem to make much sense, given that there are many albums with the same name, ... ; perhaps we should search by track duration too;
 
 
 
-//ttt1 transform: convert to id3v2: assumes whatever reader order is currently in tag editor and writes to id3v2 if there are differences (including rating); maybe option to convert ID3V2.4.0 reagrdless; doing it manually isn't such a big pain, though;
+//ttt2 transform: convert to id3v2: assumes whatever reader order is currently in tag editor and writes to id3v2 if there are differences (including rating); maybe option to convert ID3V2.4.0 reagrdless; doing it manually isn't such a big pain, though;
 
 
 //ttt0 see why some files are read-only on W7

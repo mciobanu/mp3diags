@@ -406,6 +406,6 @@ bool ApeStream::hasMp3Gain() const
 }
 
 
-//ttt1 see if any file uses Ape for song/artist/...
+
 
 

@@ -42,7 +42,7 @@ struct Id3V2Frame
     unsigned char m_cFlag2;
     enum { ID3_FRAME_HDR_SIZE = 10 };
     std::streampos m_pos; // position of the frame on the disk, including the header
-    StringWrp* m_pFileName; // needed for serialization (it seems that the serialization cannot save pointers to strings, which makes some sense given that std::string is a "fundamental" type for the Boost serialization) // ttt1 make sure it's true
+    StringWrp* m_pFileName; // needed for serialization (it seems that the serialization cannot save pointers to strings, which makes some sense given that std::string is a "fundamental" type for the Boost serialization) // ttt2 make sure it's true
     bool m_bHasUnsynch;
     mutable bool m_bHasLatin1NonAscii; //ttt2 "mutable" doesn't look right
 
@@ -75,6 +75,8 @@ struct Id3V2Frame
     const char* getImageType() const;
     const char* getImageStatus() const;
     double getRating() const; // asserts it's POPM
+
+    virtual int getOffset() const { return 0; } // to accomodate "Data length indicator" in Id3V240Stream
 
 private:
     Id3V2Frame(const Id3V2Frame&);
@@ -134,7 +136,7 @@ class Id3V2FrameDataLoader
     Id3V2FrameDataLoader& operator=(const Id3V2FrameDataLoader&);
     const Id3V2Frame& m_frame;
     const char* m_pData;
-    bool m_bOwnsData;
+    std::vector<char> m_vcOwnData;
 public:
     Id3V2FrameDataLoader(const Id3V2Frame& frame);
 
@@ -183,7 +185,7 @@ protected:
 
     ImageInfo::Status m_eImageStatus;
     Id3V2Frame* m_pPicFrame;
-    static const char* decodeApic(NoteColl& notes, std::streampos pos, const char* pData, const char*& szMimeType, int& nPictureType, const char*& szDescription);
+    static const char* decodeApic(NoteColl& notes, int nDataSize, std::streampos pos, const char* pData, const char*& szMimeType, int& nPictureType, const char*& szDescription);
     void preparePictureHlp(NoteColl& notes, Id3V2Frame* pFrame, const char* pFrameData, const char* pImgData, const char* szMimeType);
     void preparePicture(NoteColl& notes); // initializes fields used by the APIC frame
 
@@ -193,6 +195,7 @@ protected:
     Id3V2StreamBase() {} // serialization-only constructor
 
     struct NotSupTextEnc {};
+    struct ErrorDecodingApic {};
 public:
     /*override*/ ~Id3V2StreamBase();
 
@@ -301,7 +304,7 @@ struct KnownFrames
     struct InvalidIndex {};
 
     static const char* getFrameName (int n); // throws InvalidIndex if n is out of bounds
-    static const std::set<std::string>& getKnownFrames(); // doesn't include "Various Artists" frames //ttt1 maybe it should include them as well
+    static const std::set<std::string>& getKnownFrames(); // doesn't include "Various Artists" frames //ttt2 maybe it should include them as well
 
     static bool canHaveDuplicates(const char* szName); // to be counted as duplicates, 2 frames must have the same name and picture type, so the value returned here is only part of the test
 };

@@ -20,6 +20,8 @@
  ***************************************************************************/
 
 
+#include  <algorithm>
+
 #include  <QScrollArea>
 #include  <QScrollBar>
 #include  <QPainter>
@@ -162,7 +164,7 @@ LAST_STEP("CurrentAlbumModel::headerData");
     catch (const Mp3HandlerTagData::InvalidValue&)
     {
         QMessageBox::critical(m_pTagEditorDlgImpl, "Error", "The data contained errors and couldn't be saved"); //ttt2 put focus on album table
-        return false; // ttt1 if it gets here the data is lost; perhaps CurrentAlbumDelegate should be modified more extensively, to not close the editor on Enter if this returns false;
+        return false; // ttt2 if it gets here the data is lost; perhaps CurrentAlbumDelegate should be modified more extensively, to not close the editor on Enter if this returns false;
     }
 }
 
@@ -290,7 +292,7 @@ LAST_STEP("CurrentFileModel::headerData");
 //======================================================================================================================
 
 
-TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, TransfConfig& transfConfig, bool& bDataSaved) : QDialog(pParent, getDialogWndFlags()), Ui::TagEditorDlg(), m_pCommonData(pCommonData), m_bSectionMovedLock(false), m_transfConfig(transfConfig), m_bIsFastSaving(false), m_bIsSaving(false), m_bIsNavigating(false), m_bDataSaved(bDataSaved), m_bWaitingAlbumResize(false), m_bWaitingFileResize(false)
+TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, TransfConfig& transfConfig, bool& bDataSaved) : QDialog(pParent, getDialogWndFlags()), Ui::TagEditorDlg(), m_pCommonData(pCommonData), m_bSectionMovedLock(false), m_transfConfig(transfConfig), m_bIsFastSaving(false), m_bIsSaving(false), m_bIsNavigating(false), m_bDataSaved(bDataSaved), m_bWaitingAlbumResize(false), m_bWaitingFileResize(false), m_eArtistsCase(TC_NONE), m_eOthersCase(TC_NONE)
 {
     setupUi(this);
 
@@ -301,7 +303,7 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
     m_pAssgnBtnWrp = new AssgnBtnWrp (m_pToggleAssignedB);
 
     {
-        m_pTagWriter = new TagWriter(m_pCommonData, this, m_bIsFastSaving);
+        m_pTagWriter = new TagWriter(m_pCommonData, this, m_bIsFastSaving, m_eArtistsCase, m_eOthersCase);
         loadTagWriterInf();
         connect(m_pTagWriter, SIGNAL(albumChanged()), this, SLOT(onAlbumChanged()));
         connect(m_pTagWriter, SIGNAL(fileChanged()), this, SLOT(onFileChanged()));
@@ -324,7 +326,7 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
         m_pCurrentAlbumG->setItemDelegate(m_pAlbumDel);
 
 
-        //connect(m_pCurrentAlbumG, SIGNAL(clicked(const QModelIndex &)), this, SLOT(onAlbSelChanged())); // ttt1 see if both this and next are needed (next seems enough)
+        //connect(m_pCurrentAlbumG, SIGNAL(clicked(const QModelIndex &)), this, SLOT(onAlbSelChanged())); // ttt2 see if both this and next are needed (next seems enough)
         connect(m_pCurrentAlbumG->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), this, SLOT(onAlbSelChanged()));
         connect(m_pCurrentAlbumG->selectionModel(), SIGNAL(currentChanged(const QModelIndex&, const QModelIndex &)), this, SLOT(onAlbCrtChanged()));
     }
@@ -349,7 +351,10 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
 
     {
         int nWidth, nHeight;
-        m_pCommonData->m_settings.loadTagEdtSettings(nWidth, nHeight);
+        int nArtistsCase, nOthersCase;
+        m_pCommonData->m_settings.loadTagEdtSettings(nWidth, nHeight, nArtistsCase, nOthersCase);
+        m_eArtistsCase = TextCaseOptions(nArtistsCase);
+        m_eOthersCase = TextCaseOptions(nOthersCase);
         if (nWidth > 400 && nHeight > 400)
         {
             resize(nWidth, nHeight);
@@ -473,7 +478,7 @@ TagEditorDlgImpl::~TagEditorDlgImpl()
 {
     saveTagWriterInf();
 
-    m_pCommonData->m_settings.saveTagEdtSettings(width(), height());
+    m_pCommonData->m_settings.saveTagEdtSettings(width(), height(), int(m_eArtistsCase), int(m_eOthersCase));
     delete m_pCurrentAlbumModel;
     delete m_pCurrentFileModel;
     delete m_pTagWriter;
@@ -527,12 +532,12 @@ void TagEditorDlgImpl::onResizeTagEditorDelayed() // needed because it's pointle
         int nScrollBarWidth (QApplication::style()->pixelMetric(QStyle::PM_ScrollBarExtent));
         /*if (0 != QApplication::style()->styleHint(QStyle::SH_ScrollView_FrameOnlyAroundContents)) // see if this is needed for Oxygen
         {
-            nRes -= 2*QApplication::style()->pixelMetric(QStyle::PM_DefaultFrameWidth, 0, &m_tbl); //ttt1 Qt 4.4 (and below) - specific; in 4.5 there's a QStyle::PM_ScrollView_ScrollBarSpacing
+            nRes -= 2*QApplication::style()->pixelMetric(QStyle::PM_DefaultFrameWidth, 0, &m_tbl); //ttt2 Qt 4.4 (and below) - specific; in 4.5 there's a QStyle::PM_ScrollView_ScrollBarSpacing
         }*/
 
         nHeight += nScrollBarWidth;
     }
-    m_pImagesW->setMaximumSize(100000, nHeight); // ttt1 see about adding space for horizontal scrollbar
+    m_pImagesW->setMaximumSize(100000, nHeight); // ttt2 see about adding space for horizontal scrollbar
 
 
     pParent->layout()->activate(); // resize m_pCurrentAlbumG based on the image list being visible or not
@@ -1029,7 +1034,51 @@ void TagEditorDlgImpl::on_m_pVarArtistsB_clicked()
 }
 
 
-void TagEditorDlgImpl::on_m_pSaveB_clicked() //ttt1 perhaps make this save selected list, by using SHIFT
+void TagEditorDlgImpl::on_m_pCaseB_clicked()
+{
+    QMenu menu;
+    vector<QAction*> vpAct;
+
+    QAction* pAct;
+    for (int i = TC_NONE; i <= TC_SENTENCE; ++i)
+    {
+        pAct = new QAction(QString("Artists - ") + getCaseAsStr(TextCaseOptions(i)), &menu); menu.addAction(pAct); vpAct.push_back(pAct);
+    }
+    menu.addSeparator();
+    for (int i = TC_NONE; i <= TC_SENTENCE; ++i)
+    {
+        pAct = new QAction(QString("Others - ") + getCaseAsStr(TextCaseOptions(i)), &menu); menu.addAction(pAct); vpAct.push_back(pAct);
+    }
+
+    for (int i = 0; i < cSize(vpAct); ++i) { vpAct[i]->setCheckable(true); }
+
+    CB_ASSERT(m_eArtistsCase >= TC_NONE && m_eArtistsCase <= TC_SENTENCE);
+    CB_ASSERT(m_eOthersCase >= TC_NONE && m_eOthersCase <= TC_SENTENCE);
+
+    vpAct[m_eArtistsCase - TC_NONE]->setChecked(true);
+    vpAct[m_eOthersCase - TC_NONE + 5]->setChecked(true);
+
+
+    QAction* p (menu.exec(m_pCaseB->mapToGlobal(QPoint(0, m_pCaseB->height()))));
+    if (0 != p)
+    {
+        int nIndex (std::find(vpAct.begin(), vpAct.end(), p) - vpAct.begin());
+        if (nIndex < 5)
+        {
+            m_eArtistsCase = TextCaseOptions(nIndex - 1);
+        }
+        else
+        {
+            m_eOthersCase = TextCaseOptions(nIndex - 1 - 5);
+        }
+
+        m_pTagWriter->reloadAll(m_pTagWriter->getCurrentName(), TagWriter::DONT_CLEAR_DATA, TagWriter::DONT_CLEAR_ASSGN);
+    }
+}
+
+
+
+void TagEditorDlgImpl::on_m_pSaveB_clicked() //ttt2 perhaps make this save selected list, by using SHIFT
 {
     if (!closeEditor()) { return; }
 
@@ -1104,7 +1153,7 @@ void TagEditorDlgImpl::onFileSelSectionMoved(int /*nLogicalIndex*/, int nOldVisu
     pSelModel->setCurrentIndex(selNdx, QItemSelectionModel::SelectCurrent);
     m_pCurrentAlbumG->horizontalScrollBar()->setValue(nHrzPos);
     m_pCurrentAlbumG->verticalScrollBar()->setValue(nVertPos);
-//ttt1 perhaps detect when files are removed/changed; while most tags in Id3V2 are stored with the handler, the longer ones (e.g. pictures, but others might be affected too) are dumped from memory by Id3V230Frame's constructor and retrieved from disk when needed; the user should be notified when something becomes unavailable; not sure where to do this, though: Id3V2StreamBase::getImage() is good for images, but other frames might need something similar;
+//ttt2 perhaps detect when files are removed/changed; while most tags in Id3V2 are stored with the handler, the longer ones (e.g. pictures, but others might be affected too) are dumped from memory by Id3V230Frame's constructor and retrieved from disk when needed; the user should be notified when something becomes unavailable; not sure where to do this, though: Id3V2StreamBase::getImage() is good for images, but other frames might need something similar;
 }
 
 
@@ -1155,7 +1204,7 @@ void TagEditorDlgImpl::clearSelection()
     QItemSelectionModel* pSelModel (m_pCurrentAlbumG->selectionModel());
     pSelModel->setCurrentIndex(m_pCurrentAlbumModel->index(0, 0), QItemSelectionModel::SelectCurrent); // !!! needed because otherwise pSelModel->clear() might trigger onAlbSelChanged() for an invalid cell (e.g. when current album has 15 songs, with 12th selected, and the next only has 10)
     pSelModel->clear();
-    pSelModel->setCurrentIndex(m_pCurrentAlbumModel->index(0, 0), QItemSelectionModel::SelectCurrent); // !!! needed to have a cell selected //ttt1 try and get rid of  duplicate call to setCurrentIndex;
+    pSelModel->setCurrentIndex(m_pCurrentAlbumModel->index(0, 0), QItemSelectionModel::SelectCurrent); // !!! needed to have a cell selected //ttt2 try and get rid of  duplicate call to setCurrentIndex;
 }
 
 
@@ -1217,6 +1266,7 @@ void TagEditorDlgImpl::resizeIcons()
     v.push_back(m_pSaveB);
     v.push_back(m_pReloadB);
     v.push_back(m_pVarArtistsB);
+    v.push_back(m_pCaseB);
     v.push_back(m_pCopyFirstB);
     v.push_back(m_pSortB);
     v.push_back(m_pToggleAssignedB);
@@ -1359,7 +1409,7 @@ void TagEditorDlgImpl::eraseSelFields() // erases the values in the selected fie
     m_pAssgnBtnWrp->setState(m_pTagWriter->updateAssigned(vector<pair<int, int> >())); // we don't want to keep any previous value
     updateAssigned(); // needed for the "assign" button to work, because the previous line cleared m_pTagWriter->m_sSelOrigVal
 
-    m_pTagWriter->reloadAll(m_pTagWriter->getCurrentName(), TagWriter::DONT_CLEAR_DATA, TagWriter::DONT_CLEAR_ASSGN); //ttt1 way too many ugly calls, including 2 required calls to m_pAssgnBtnWrp->setState(); restructure the whole "assigned" thing;
+    m_pTagWriter->reloadAll(m_pTagWriter->getCurrentName(), TagWriter::DONT_CLEAR_DATA, TagWriter::DONT_CLEAR_ASSGN); //ttt2 way too many ugly calls, including 2 required calls to m_pAssgnBtnWrp->setState(); restructure the whole "assigned" thing;
     /*
         some details (not completely up-to-date):
             TagWriter::toggleAssigned() should be called when the user clicks on the assign button; changes status of selected cells and returns the new state of m_pToggleAssignedB
@@ -1381,7 +1431,7 @@ void TagEditorDlgImpl::eraseSelFields() // erases the values in the selected fie
 
 
 
-//ttt1 disabled widgets should have tooltips saying why are they disabled / how to enable them
+//ttt2 disabled widgets should have tooltips saying why are they disabled / how to enable them
 //===================================================================================================================
 
 
@@ -1399,6 +1449,7 @@ public:
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
     /*override*/ const char* getDescription() const { return "Saves user-edited ID3V2.3.0 tags."; }
+    /*override*/ bool acceptsFastSave() const { return true; }
 
     static const char* getClassName() { return "Save ID3V2.3.0 tags"; }
 };
@@ -1419,7 +1470,7 @@ void Id3V230Writer::setupWriter(Id3V230StreamWriter& wrt, const Mp3HandlerTagDat
     s = pMp3HandlerTagData->getData(TagReader::IMAGE);
     if (s.empty())
     {
-        wrt.removeFrames(KnownFrames::LBL_IMAGE(), Id3V2Frame::PT_COVER);
+        wrt.removeFrames(KnownFrames::LBL_IMAGE(), -1); // !!! this removes all APIC frames, including those non-cover frames that got assigned to Id3V2StreamBase::m_pPicFrame
     }
     else
     {
@@ -1481,7 +1532,7 @@ void Id3V230Writer::setupWriter(Id3V230StreamWriter& wrt, const Mp3HandlerTagDat
         }
     }
 }
-//ttt0 when multiple id3v2 are found, the bkg color doesn't change if the 2 id3v2 are switched; probably ok, though, in the sense that if at least one field is assigned, all the others will be used when saving
+//ttt2 when multiple id3v2 are found, the bkg color doesn't change if the 2 id3v2 are switched; probably ok, though, in the sense that if at least one field is assigned, all the others will be used when saving
 
 /*override*/ Transformation::Result Id3V230Writer::apply(const Mp3Handler& h, const TransfConfig& transfConfig, const std::string& strOrigSrcName, std::string& strTempName)
 {
@@ -1538,6 +1589,11 @@ e1:
                 {
                     setFileDate(h.getName(), nOrigTime);
                 }
+                else
+                {
+                    getFileInfo(h.getName(), nOrigTime, nSize);
+                    h.m_nFastSaveTime = nOrigTime;
+                }
 
                 return NOT_CHANGED; // !!!
             }
@@ -1580,7 +1636,7 @@ e1:
 //========================================================================================================================
 //========================================================================================================================
 
-//ttt1 perhaps all licences in root dir
+//ttt2 perhaps all licences in root dir
 
 // based on configuration, either just saves the tags or asks the user for confirmation; returns true iff all tags have been saved or if none needed saving; it should be followed by a reload(), either for the current or for the next/prev album; if bExplicitCall is true, the "ASK" option is turned into "SAVE";
 TagEditorDlgImpl::SaveOpt TagEditorDlgImpl::save(bool bImplicitCall)
@@ -1607,7 +1663,7 @@ TagEditorDlgImpl::SaveOpt TagEditorDlgImpl::save(bool bImplicitCall)
         bHasUnsavedAssgn = bHasUnsavedAssgn || bAssgn;
         bHasUnsavedNonId3V2 = bHasUnsavedNonId3V2 || bNonId3V2;
     }
-//ttt1 perhaps separate setting for showing and saving non-id3v2 fields
+//ttt2 perhaps separate setting for showing and saving non-id3v2 fields
 
     {
         int nUnassignedImagesCnt (m_pTagWriter->getUnassignedImagesCount());
@@ -1674,7 +1730,7 @@ TagEditorDlgImpl::SaveOpt TagEditorDlgImpl::save(bool bImplicitCall)
     return bRes ? SAVED : PARTIALLY_SAVED;
 }
 
-//ttt1 hide VA column if not used
+//ttt2 hide VA column if not used
 void TagEditorDlgImpl::onHelp()
 {
     openHelp("190_tag_editor.html");
@@ -1738,7 +1794,7 @@ CurrentFileDelegate::CurrentFileDelegate(QTableView* pTableView, const CommonDat
 
 
     /*
-    //ttt1 first 3 cases don't show the dotted line because QItemDelegate::paint() doesn't get called; perhaps drawDecoration() should be called, but copying these things from qitemdelegate.cpp didn't help:
+    //ttt2 first 3 cases don't show the dotted line because QItemDelegate::paint() doesn't get called; perhaps drawDecoration() should be called, but copying these things from qitemdelegate.cpp didn't help:
 
     QVariant value;
     value = index.data(Qt::DecorationRole);
@@ -1767,7 +1823,7 @@ return QItemDelegate::sizeHint(option, index);
 
     int j (index.column());
     int nColWidth (m_pTableView->horizontalHeader()->sectionSize(j));
-    //QRect r (0, 0, nColWidth - 2*nMargin - 1, 10000); // !!! this "-1" is what's different from Qt's implementation //ttt1 see if this is fixed in 4.4 2008.30.06 - apparently it's not fixed and the workaround no longer works
+    //QRect r (0, 0, nColWidth - 2*nMargin - 1, 10000); // !!! this "-1" is what's different from Qt's implementation //ttt2 see if this is fixed in 4.4 2008.30.06 - apparently it's not fixed and the workaround no longer works
 
     //QSize res (option.fontMetrics.boundingRect(r, Qt::AlignTop | Qt::TextWordWrap, index.data(Qt::DisplayRole).toString()).size());
 
@@ -1834,7 +1890,7 @@ CurrentAlbumDelegate::CurrentAlbumDelegate(QTableView* pTableView, TagEditorDlgI
 
     pPainter->restore();
 }
-//ttt1 2009.04.06 - for all delegates: see if they can be removed by using the standard delegate and adding more functionality to the models; see Qt::ForegroundRole, Qt::TextAlignmentRole, Qt::FontRole & Co
+//ttt2 2009.04.06 - for all delegates: see if they can be removed by using the standard delegate and adding more functionality to the models; see Qt::ForegroundRole, Qt::TextAlignmentRole, Qt::FontRole & Co
 
 /*override*/ QWidget* CurrentAlbumDelegate::createEditor(QWidget* pParent, const QStyleOptionViewItem& style, const QModelIndex& index) const
 {
@@ -1864,15 +1920,15 @@ bool CurrentAlbumDelegate::closeEditor() // closes the editor opened with F2, sa
     }
     //delete m_pEditor;
 
-    if (0 != showMessage(m_pTableView, QMessageBox::Warning, 1, 1, "Warning", "You are editing data in a cell. If you proceed that change will be lost. Proceed and lose the data?", "Proceed", "Cancel")) { return false; } //ttt1 try and post somehow the content of the editor (?? perhaps send it a keyboard message that ENTER was pressed)
-    //ttt1 review this
+    if (0 != showMessage(m_pTableView, QMessageBox::Warning, 1, 1, "Warning", "You are editing data in a cell. If you proceed that change will be lost. Proceed and lose the data?", "Proceed", "Cancel")) { return false; } //ttt2 try and post somehow the content of the editor (?? perhaps send it a keyboard message that ENTER was pressed)
+    //ttt2 review this
 
     delete *m_spEditors.begin();
     return true;
 }
 
 
-//ttt1 perhaps manufacture track numbers when pasting tables, if track numbers don't exist
+//ttt2 perhaps manufacture track numbers when pasting tables, if track numbers don't exist
 
 
 

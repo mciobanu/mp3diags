@@ -99,7 +99,7 @@ Symbolic links aren't handled nicely. I noticed that Qt replaces them with their
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol1">
-There is no automatic detection of a file being changed by an external tool or removed. You should use the "reload" button to update the file information. However the changes are detected the next time you start the application (assuming you didn't disable the automatic scanning) or when you try to apply transformations to such a file. Note that in either of these cases, the decision that the file has changed is made based on whether its date or its size have changed; so changing the ID3V2 tag in an external tool that keeps the file's original date may go undetected.
+There is limited automatic detection of a file being changed by an external tool or removed. You should use the "reload" button to update the file information. However the changes are detected the next time you start the application (assuming you didn't disable the automatic scanning) or when you try to apply transformations to such a file. Note that in either of these cases, the decision that the file has changed is made based on whether its date or its size have changed; so changing the ID3V2 tag in an external tool that keeps the file's original date may go undetected.
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol2">
@@ -115,9 +115,14 @@ Not really an MP3 Diags limitation, but: On Windows there may be some issues wit
 </div>
 
 
+<div class="FreeNormalText RegFnt ChpCol1">
+Daylight Saving Time is not taken into consideration. As a result, on some combinations of operating systems and file systems, it is possible for an unchanged file to seem changed after a DST transition; nothing bad should come out of this except that the file will get rescanned.
+</div>
 
 
-<div class="NavPadTable RegFnt ChpCol1">
+
+
+<div class="NavPadTable RegFnt ChpCol2">
 <div style="width:100%">
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="NavTable">
     <tr>

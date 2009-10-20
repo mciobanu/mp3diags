@@ -396,6 +396,43 @@
        </widget>
       </item>
       <item>
+       <widget class="QToolButton" name="m_pCaseB" >
+        <property name="minimumSize" >
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize" >
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="focusPolicy" >
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="toolTip" >
+         <string>Change case automatically</string>
+        </property>
+        <property name="text" >
+         <string>...</string>
+        </property>
+        <property name="icon" >
+         <iconset resource="Mp3Diags.qrc" >:/images/change-case.svg</iconset>
+        </property>
+        <property name="iconSize" >
+         <size>
+          <width>36</width>
+          <height>36</height>
+         </size>
+        </property>
+        <property name="autoRaise" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QToolButton" name="m_pCopyFirstB" >
         <property name="minimumSize" >
          <size>

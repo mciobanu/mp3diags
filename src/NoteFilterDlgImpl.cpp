@@ -138,7 +138,7 @@ void NoteFilterDlgImpl::on_m_pOkB_clicked()
         CB_ASSERT(0 != p);
         v.push_back(p->getNote());
     }
-    m_pCommonData->m_filter.setNotes(v); //ttt1 in other case changing a parent window before the modal dialog was closed led to incorrect resizing; however, here it seems OK
+    m_pCommonData->m_filter.setNotes(v); //ttt2 in other case changing a parent window before the modal dialog was closed led to incorrect resizing; however, here it seems OK
     //logState("on_m_pOkB_clicked 2");
     m_pCommonData->m_settings.saveNoteFilterSettings(width(), height());
     accept();

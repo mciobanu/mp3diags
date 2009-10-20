@@ -61,7 +61,7 @@ using namespace pearl;
 //namespace ciobi_utils {
 
 
-//ttt1 Linux-specifc; see how it works with MinGW
+
 
 
 
@@ -157,7 +157,7 @@ bool CB_LIB_CALL FileSearcher::goToNextValidEntry()
         if (!m_pImpl->m_vFileInfos[m_pImpl->m_nCrtEntry].exists())
         {
             ++m_pImpl->m_nCrtEntry;
-            continue; //ttt1 see if seeking the next is the best way to deal with this error
+            continue; //ttt2 see if seeking the next is the best way to deal with this error
         }
 
         return true;
@@ -245,7 +245,7 @@ void CB_LIB_CALL setFileDate(const string& strFileName, long long nChangeTime)
     if (0 != utime(strFileName.c_str(), &t))
     {
         //throw CannotSetDates(strFileName, getOsError(), LI);
-        throw 1; //ttt1
+        throw 1; //ttt2
     }
 #else
     _utimbuf t;
@@ -254,7 +254,7 @@ void CB_LIB_CALL setFileDate(const string& strFileName, long long nChangeTime)
     if (0 != _wutime(wstrFromUtf8(strFileName).c_str(), &t))
     {
         //throw CannotSetDates(strFileName, getOsError(), LI);
-        throw 1; //ttt1
+        throw 1; //ttt2
     }
 #endif
 }
@@ -274,7 +274,7 @@ void CB_LIB_CALL checkDirName(const string& strDirName)
 bool CB_LIB_CALL fileExists(const std::string& strFileName)
 {
     QFileInfo fi (convStr(strFileName));
-    return fi.isFile(); // ttt1 not sure if this should allow symlinks
+    return fi.isFile(); // ttt2 not sure if this should allow symlinks
 }
 
 
@@ -298,7 +298,7 @@ bool CB_LIB_CALL dirExists(const std::string& strDirName)
 #endif
 
     QFileInfo fi (convStr(strDir1));
-    return fi.isDir(); // ttt1 not sure if this should allow symlinks
+    return fi.isDir(); // ttt2 not sure if this should allow symlinks
 }
 
 
@@ -401,7 +401,7 @@ void CB_LIB_CALL renameFile(const std::string& strOldName, const std::string& st
         {
             throw CannotRenameFile();
         }
-        catch (...) //ttt1 not quite right //ttt1 perhaps also NameNotFound, AlreadyExists, ...
+        catch (...) //ttt2 not quite right //ttt2 perhaps also NameNotFound, AlreadyExists, ...
         {
             throw CannotRenameFile();
         }
@@ -485,15 +485,8 @@ void CB_LIB_CALL deleteFile(const std::string& strFileName)
 // just a name that doesn't exist; the file won't be deleted automatically; normally the name is obtained by appending something to strMasterFileName, but a more generic temp is used if the name is too long on wnd
 string getTempFile(const std::string& strMasterFileName)
 {
-    /*char a [L_tmpnam + 1];
-    char* p (tmpnam(a)); //ttt3 while this is "not safe", it is not used in programs with any privileges; also, the functionality that is actually desired isn't implemented in C or C++ : mkstemp or tmpfile return a file descriptor / stream descriptor; we want streams and at any rate we may decide later that we want or don't want to delete the temporary file;
-    CB_ASSERT (0 != p);
-    //ttt1 there may be an issue with temporary file names if they are on a different partition than the proc files, and "rename" gets called a lot; perhaps we should just use the "proc" dir if it is not empty
-    return a;*/
-
-//string strMasterFileName1 (strMasterFileName + string(MAX_PATH - 3 - strMasterFileName.size(), 'a'));
     QTemporaryFile tmp (convStr(strMasterFileName));
-    //QTemporaryFile tmp ("");
+
     QString qs;
     if (tmp.open()
 #ifndef WIN32
@@ -507,14 +500,14 @@ string getTempFile(const std::string& strMasterFileName)
     else
     {
         QTemporaryFile tmp1;
-        CB_ASSERT (tmp1.open()); //ttt2 if it gets to this on W7 (and perhaps others) the file attributes are wrong, probably allowing only the current user to see it; ttt1 perhaps only use the dir, instead of the full file name in such case; //ttt0 doc
+        CB_ASSERT (tmp1.open()); //ttt2 if it gets to this on W7 (and perhaps others) the file attributes are wrong, probably allowing only the current user to see it; ttt2 perhaps only use the dir, instead of the full file name in such case; //ttt2 doc
         qs = tmp1.fileName();
     }
 
     string s (convStr(qs));
     //qDebug("patt: '%s', tmp: '%s'", strMasterFileName.c_str(), s.c_str());
     return s;
-    //ttt1 make sure it works OK if strMasterFileName is empty
+    //ttt2 make sure it works OK if strMasterFileName is empty
 }
 
 

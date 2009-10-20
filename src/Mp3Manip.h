@@ -54,7 +54,7 @@ class TruncatedMpegDataStream;
 
 class DataStream;
 
-PausableThread* getSerThread(); //ttt1 global function
+PausableThread* getSerThread(); //ttt2 global function
 
 struct QualThresholds
 {
@@ -139,8 +139,8 @@ public:
 
     const Id3V2StreamBase* getId3V2Stream() const;
 
-    bool id3V2NeedsReload(bool bConsiderTime) const;
-    bool needsReload() const; // if the underlying file seems changed (or removed); looks at time and size, as well as FastSaveWarn and Notes::getMissingNote();
+    // if the underlying file seems changed (or removed); looks at time and size, as well as FastSaveWarn and Notes::getMissingNote(); a difference in size always makes this return true; if bUseFastSave is true, both m_nFastSaveTime and m_nTime are tested, while m_notes.hasFastSaveWarn() and Notes::getMissingNote() are ignored; if it is false, m_nFastSaveTime is ignored, while m_nTime, m_notes.hasFastSaveWarn(), and Notes::getMissingNote() are tested
+    bool needsReload(bool bUseFastSave) const;
 
     void sortNotes() { m_notes.sort(); } // this is needed when loading from the disk, if unknown (most likely obsolete) notes are found
 
@@ -148,6 +148,9 @@ public:
     // asserts that there was an existing ID3V2 tag at the beginning and it had the same size as the new one;
     // this isn't really const, but it seems better to have a const_cast in the only place where it is needed rather than remove the const restriction from many places
     void reloadId3V2() const;
+
+    mutable long long m_nFastSaveTime;
+    enum { DONT_USE_FAST_SAVE, USE_FAST_SAVE };
 
     struct FileNotFound {};
 

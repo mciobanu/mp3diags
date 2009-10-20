@@ -1,5 +1,24 @@
 ---------------------------------------------------------------------------
 
+20.10.2009 - 0.99.06.042
+
+- better support for binary frames in ID2V2.4.0
+- fixed bug resulting in crash when files were modified in external tools
+- fixed bug resulting in crash when renaming files if a filter is applied
+- fixed bug resulting in crash when going to "Tag details" for files using
+    Unicode in USLT (issue 40)
+- added option to include styles in Discogs info
+- added case-change option to the tag editor
+- better detection and notification for changed files before applying
+    transformations or saving from the tag editor
+- file renamer allows file names to be changed manually
+- file renamer can use "duplicate" label for unrated songs
+- images shown for Lyrics tags
+- improved case-change transformation
+- removing images from the tag editor now works even for non-cover images
+
+---------------------------------------------------------------------------
+
 09.10.2009 - 0.99.06.041
 
 - brought documentation up to date

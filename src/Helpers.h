@@ -32,19 +32,14 @@
 #include  <vector>
 
 //#include  <QString>
-#include  <QStringList>  // ttt1 what we really want is QString; however, by including QString directly, lots of warnings get displayed; perhaps some defines are needed but don't know which; so we just include QStringList to avoid the warnings
+#include  <QStringList>  // ttt2 what we really want is QString; however, by including QString directly, lots of warnings get displayed; perhaps some defines are needed but don't know which; so we just include QStringList to avoid the warnings
 
 
 void logToGlobalFile(const std::string& s);
 
 
-//#define CB_CHECK(COND, MSG) { if (!(COND)) { throw std::runtime_error(MSG); } }
-#ifndef WIN32
-    #define CB_CHECK1(COND, EXCP) { if (!(COND)) { ::trace(#EXCP); throw EXCP; } }
-#else //ttt1
-    //#define CB_CHECK1(COND, EXCP) { if (!(COND)) { ::trace(#EXCP); logToGlobalFile(std::string(#COND) + " - " + #EXCP); throw EXCP; } }
-    #define CB_CHECK1(COND, EXCP) { if (!(COND)) { ::trace(#EXCP); throw EXCP; } }
-#endif
+#define CB_CHECK1(COND, EXCP) { if (!(COND)) { ::trace(#EXCP); throw EXCP; } }
+
 
 //#define CB_THROW(MSG) { throw std::runtime_error(MSG); }
 #define CB_THROW1(EXCP) { ::trace(#EXCP); throw EXCP; }
@@ -307,19 +302,19 @@ class NoDefaults
 {
     CB_LIB_CALL NoDefaults();
     CB_LIB_CALL NoDefaults(const NoDefaults&);
-    NoDefaults& CB_LIB_CALL operator=(NoDefaults&); //ttt1 see if there are other generated operations and include them all
+    NoDefaults& CB_LIB_CALL operator=(NoDefaults&); //ttt2 see if there are other generated operations and include them all
 public:
     CB_LIB_CALL NoDefaults(int) {}
 };
 
 
 class QWidget;
-void listWidget(QWidget* p, int nIndent = 0); //ttt1 move this elsewhere
+void listWidget(QWidget* p, int nIndent = 0); //ttt2 move this elsewhere
 
 std::string escapeHttp(const std::string& s); // replaces invalid HTTP characters like ' ' or '"' with their hex code (%20 or %22)
 
-inline QString convStr(const std::string& s) { return QString::fromUtf8(s.c_str()); } //ttt1 perhaps move
-inline std::string convStr(const QString& s) { return s.toUtf8().data(); } //ttt1 perhaps move
+inline QString convStr(const std::string& s) { return QString::fromUtf8(s.c_str()); } //ttt2 perhaps move
+inline std::string convStr(const QString& s) { return s.toUtf8().data(); } //ttt2 perhaps move
 
 std::vector<std::string> convStr(const std::vector<QString>&);
 std::vector<QString> convStr(const std::vector<std::string>&);

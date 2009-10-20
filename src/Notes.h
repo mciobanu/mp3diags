@@ -238,13 +238,15 @@ struct Notes
 
     // id3 v2.4.0 // g
     DECL_NOTE_INFO(twoId3V240, ERR, ID3V240, "Two ID3V2.4.0 tags found, but a file should have at most one of them.", true); // a
-    DECL_NOTE_INFO(id3v240FrameTooShort, ERR, ID3V240, "Invalid ID3V2.4.0 frame. Incorrect frame size or file too short. Unable to read all the bytes declared in SIZE.", false); // b
+    DECL_NOTE_INFO(id3v240CantReadFrame, ERR, ID3V240, "Invalid ID3V2.4.0 frame. Incorrect frame size or file too short.", true); // b
     DECL_NOTE_INFO(id3v240IncorrectSynch, WARNING, ID3V240, "Invalid ID3V2.4.0 frame. Frame size is supposed to be stored as a synchsafe integer, which uses only 7 bits in a byte, but the size uses all 8 bits, as in ID3V2.3.0. This will confuse some applications", true); // c
     DECL_NOTE_INFO(id3v240DeprTyerAndTdrc, WARNING, ID3V240, "Deprecated TYER frame found in 2.4.0 tag alongside a TDRC frame.", true); // d
     DECL_NOTE_INFO(id3v240DeprTyer, WARNING, ID3V240, "Deprecated TYER frame found in 2.4.0 tag. It's supposed to be replaced by a TDRC frame.", true); // e
     DECL_NOTE_INFO(id3v240DeprTdatAndTdrc, WARNING, ID3V240, "Deprecated TDAT frame found in 2.4.0 tag alongside a TDRC frame.", true); // f
     DECL_NOTE_INFO(id3v240DeprTdat, WARNING, ID3V240, "Deprecated TDAT frame found in 2.4.0 tag. It's supposed to be replaced by a TDRC frame.", true); // g
-    DECL_NOTE_INFO(id3v240UnsuppText, SUPPORT, ID3V240, "Unsupported value of text frame while reading an Id3V2.4.0 stream. It may be using an unsupported text encoding.", true); // h
+    DECL_NOTE_INFO(id3v240IncorrectDli, WARNING, ID3V240, "Invalid ID3V2.4.0 frame. Mismatched Data length indicator. Frame value is probably incorrect", true); // h
+    DECL_NOTE_INFO(id3v240IncorrectFrameSynch, WARNING, ID3V240, "Invalid ID3V2.4.0 frame. Incorrect unsynchronization bit.", true); // i
+    DECL_NOTE_INFO(id3v240UnsuppText, SUPPORT, ID3V240, "Unsupported value of text frame while reading an Id3V2.4.0 stream. It may be using an unsupported text encoding.", true); // j
 
     // id3 v1 // h
     DECL_NOTE_INFO(onlyId3V1, WARNING, ID3V1, "The only supported tag found that is capable of storing song information is ID3V1, which has pretty limited capabilities.", false); // a
@@ -276,12 +278,12 @@ struct Notes
 
     // lyrics // l
     DECL_NOTE_INFO(lyrTooShort, ERR, LYRICS, "Invalid Lyrics stream tag. File too short.", false); // a
-    DECL_NOTE_INFO(twoLyr, SUPPORT, LYRICS, "Two Lyrics tags found, but only one is supported.", true); // b // ttt1 see if this is error
+    DECL_NOTE_INFO(twoLyr, SUPPORT, LYRICS, "Two Lyrics tags found, but only one is supported.", true); // b // ttt2 see if this is error
     //DECL_NOTE_INFO(lyricsNotSupported, SUPPORT, LYRICS, "Lyrics tags cannot be processed in the current version. Some players don't understand them.", false);
     DECL_NOTE_INFO(invalidLyr, ERR, LYRICS, "Invalid Lyrics stream tag. Unexpected characters found.", false); // c
     DECL_NOTE_INFO(duplicateFields, SUPPORT, LYRICS, "Multiple fields with the same name were found in a Lyrics tag, but only one is supported.", true); // d
-    DECL_NOTE_INFO(imgInLyrics, SUPPORT, LYRICS, "Currently images referenced from Lyrics tags are ignored.", true); // e
-    DECL_NOTE_INFO(infInLyrics, SUPPORT, LYRICS, "Currently INF fields in Lyrics tags are not fully supported.", true); // f
+    //DECL_NOTE_INFO(imgInLyrics, SUPPORT, LYRICS, "Currently images referenced from Lyrics tags are ignored.", true); // (e)
+    DECL_NOTE_INFO(infInLyrics, SUPPORT, LYRICS, "Currently INF fields in Lyrics tags are not fully supported.", true); // e
 
     // ape // n
     DECL_NOTE_INFO(apeItemTooShort, ERR, APE, "Invalid Ape Item. File too short.", false); // a
@@ -291,7 +293,7 @@ struct Notes
     DECL_NOTE_INFO(apeTooShort, ERR, APE, "Not an Ape tag. File too short.", false); // e
     DECL_NOTE_INFO(apeFoundHeader, ERR, APE, "Invalid Ape tag. Footer expected but header found.", false); // f
     DECL_NOTE_INFO(apeHdrFtMismatch, ERR, APE, "Invalid Ape tag. Mismatch between header and footer.", false); // g
-    DECL_NOTE_INFO(twoApe, SUPPORT, APE, "Two Ape tags found, but only one is supported.", true); // h // ttt1 see if this is error
+    DECL_NOTE_INFO(twoApe, SUPPORT, APE, "Two Ape tags found, but only one is supported.", true); // h // ttt2 see if this is error
     DECL_NOTE_INFO(apeFlagsNotSupported, SUPPORT, APE, "Ape item flags not supported.", false); // i
     DECL_NOTE_INFO(apeUnsupported, SUPPORT, APE, "Unsupported Ape tag. Currently a missing header or footer are not supported.", false); // j
 

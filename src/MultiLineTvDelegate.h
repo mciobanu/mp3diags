@@ -28,7 +28,7 @@
 
 class QTableView;
 
-// This helps fix an issue with the default delegate, namely the fact that there is a shight discrepancy between the estimated size returned by sizeHint() and the actual size used when drawing; when a column gets resized, it is quite likely that close to the limit when the number of lines changes the last letters in a word will be changed to "...", because sizeHint() detects that 1 line is enough while paint() wants 2 lines. //ttt1 doesn't seem to work in Qt 4.4; instead, it always uses a single line
+// This helps fix an issue with the default delegate, namely the fact that there is a shight discrepancy between the estimated size returned by sizeHint() and the actual size used when drawing; when a column gets resized, it is quite likely that close to the limit when the number of lines changes the last letters in a word will be changed to "...", because sizeHint() detects that 1 line is enough while paint() wants 2 lines.
 class MultiLineTvDelegate : public QItemDelegate
 {
     Q_OBJECT

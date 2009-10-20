@@ -56,9 +56,9 @@ QSize MultiLineTvDelegate::sizeHint(const QStyleOptionViewItem& option, const QM
     {
         qDebug("%s %d %d", m_pTableView->objectName().toUtf8().data(), m_pTableView->verticalScrollBar()->maximum(), nColWidth);
     }
-    QRect r (0, 0, nColWidth - 2*nMargin - 1, 10000); // !!! this "-1" is what's different from Qt's implementation (4.3); it is for the vertical line that delimitates the cells //ttt1 do a screen capture to be sure //ttt1 see if this is fixed in 4.4 2008.30.06 - apparently it's not fixed and the workaround no longer works
+    QRect r (0, 0, nColWidth - 2*nMargin - 1, 10000); // !!! this "-1" is what's different from Qt's implementation (4.3); it is for the vertical line that delimitates the cells //ttt2 do a screen capture to be sure //ttt2 see if this is fixed in 4.4 2008.30.06 - apparently it's not fixed and the workaround no longer works
 */
-    // !!! 2009.04.17 - while working in most cases, the "1" above has this issue: Qt may toggle between showing a scrollbar and hiding it, doing this as many times per second as the CPU can handle; while the app is not frozen, what happens is quite annoying; so we'll just assume there's a scrollbar, until a proper solution is found; (it looks like Qt bug, though, because it can't make up its mind about showing a scrollbar; what Qt should do is try first to remove the scrollbar, see if it can fit everything and if not put back the scrollbar and don't try anything more); the downside is that in some cases more lines are requested than actually needed, but that happened before too (but to a lesser extent); //ttt1 perhaps at least don't do the same for all columns, normally only one is stretcheable
+    // !!! 2009.04.17 - while working in most cases, the "1" above has this issue: Qt may toggle between showing a scrollbar and hiding it, doing this as many times per second as the CPU can handle; while the app is not frozen, what happens is quite annoying; so we'll just assume there's a scrollbar, until a proper solution is found; (it looks like Qt bug, though, because it can't make up its mind about showing a scrollbar; what Qt should do is try first to remove the scrollbar, see if it can fit everything and if not put back the scrollbar and don't try anything more); the downside is that in some cases more lines are requested than actually needed, but that happened before too (but to a lesser extent); //ttt2 perhaps at least don't do the same for all columns, normally only one is stretcheable
     int nSpace (1);
     //if (m_pTableView->verticalScrollBar()->isVisible())
     if (1 == m_pTableView->verticalScrollBar()->maximum()) // the scrollbar gets 1 up for each line; the issues are around switching between no scrollbar and a scrollbar for 1 line, so hopefully this should take care of the issue;
@@ -66,7 +66,7 @@ QSize MultiLineTvDelegate::sizeHint(const QStyleOptionViewItem& option, const QM
         nSpace += QApplication::style()->pixelMetric(QStyle::PM_ScrollBarExtent);
         if (0 != QApplication::style()->styleHint(QStyle::SH_ScrollView_FrameOnlyAroundContents))
         {
-            nSpace += 2*QApplication::style()->pixelMetric(QStyle::PM_DefaultFrameWidth, 0, m_pTableView); //ttt1 Qt 4.4 (and below) - specific; in 4.5 there's a QStyle::PM_ScrollView_ScrollBarSpacing // see also ColumnResizer
+            nSpace += 2*QApplication::style()->pixelMetric(QStyle::PM_DefaultFrameWidth, 0, m_pTableView); //ttt2 Qt 4.4 (and below) - specific; in 4.5 there's a QStyle::PM_ScrollView_ScrollBarSpacing // see also ColumnResizer
         }
     }
     QRect r (0, 0, nColWidth - 2*nMargin - nSpace, 10000);//*/
@@ -137,7 +137,7 @@ void MultiLineTvDelegate::calibrate(const QFontMetrics& fm, const QFont& /*f*/) 
     m_nAddPerLine = res.height() - fm.lineSpacing();
 //qDebug("%d ww", m_nAddPerLine);
 
-    //CB_ASSERT (0 <= m_nAddPerLine && m_nAddPerLine <= 1); //ttt1 triggered by "Microsoft Sans Serif 7pt"; see if it can be fixed
+    //CB_ASSERT (0 <= m_nAddPerLine && m_nAddPerLine <= 1); //ttt2 triggered by "Microsoft Sans Serif 7pt"; see if it can be fixed
     /*if (m_nAddPerLine < 0 || m_nAddPerLine > 1)
     {
         QString s (QString("%1, %2pt").arg(f.family()).arg(f.pointSize()));

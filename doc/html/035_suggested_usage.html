@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="keywords" content="MP3, diags, diagnosis, tag editor, tagger, normalizer" />
+<meta name="description" content="End-user documentation for MP3 Diags, an MP3 analysis tool that also includes correction and tag editing functionality" />
+<title>MP3 Diags - Suggested usage</title>
+<link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+<!--[if lte IE 6]>  <link rel="stylesheet" type="text/css" href="style_ie6.css" />  <![endif]-->
+<!--[if IE 7]>  <link rel="stylesheet" type="text/css" href="style_ie7.css" />  <![endif]-->
+</head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+<body>
+
+<!-- add_this_conf -->
+
+<div class="HeaderTableText RegFnt ChpCol1">
+<table width="100%" class="HeaderTable">
+    <tr>
+        <td border="0" class="HeaderText">
+            <span class="HeaderPadLeft">
+                <a href="index.html" class="RightMargin"><img src="logo.png" border="0" alt="MP3 Diags" align="middle" /></a>
+                <!-- add_this_link -->
+            </span>
+        </td>
+
+        <!-- sf_hosting -->
+    </tr>
+</table>
+</div>
+
+
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+
+
+
+
+<div class="NavPadTable RegFnt ChpCol2">
+<div style="width:100%">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="NavTable">
+    <tr>
+        <td width="30%" align="left"> <a href="030_users_guide.html"><img src="arrow_left_small.png" class="ImgNoBorder NavPadLeft" align="absmiddle" /></a> <a href="030_users_guide.html">User's guide</a> </td>
+        <td width="40%" align="center" valign="middle" class="NavBarText"><a href="030_users_guide.html">User's guide</a> - Suggested usage</td>
+        <td width="30%" align="right"> <a href="110_first_run.html">First run</a> <a href="110_first_run.html"> <img src="arrow_right_small.png" class="ImgNoBorder NavPadRight" align="absmiddle" /> </a> </td>
+    </tr>
+</table>
+</div>
+</div>
+
+
+<div class="FreeNormalText RegFnt ChpCol1">
+First of all you should get familiar with the program, especially if you intend to make any changes to your MP3 files. (It can be useful even if you don't, because you can see all sorts of details about your files even if you prefer to change them with some other tool.)
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+MP3 Diags is not meant for daily use, but rather for cleaning up large, rather static, collections. Sure, you can use it on a daily basis, but some parts of the functionality might not be best suited for such use.
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+MP3 Diags is supposed to be the only tool that makes changes to MP3 files. It does everything I need. Now, it obviously doesn't do everything everybody else needs, so using several tools in parallel might be required (though I would suggest making sure that that's the case; MP3 Diags can do many things, although it may not be immediately obvious how.) However, there may be some issues when using other tools, especially if both programs are running at the same time or if both are configured to not alter a file's "changed time" / "mtime" as they change it.
+</div>
+
+<div class="FreeNormalText RegFnt ChpCol2">
+To familiarize yourself with the program:
+<ul>
+    <li>create temporary copies of some of your files to try various changes on them without any fear of data loss</li>
+    <li>read the documentation</li>
+    <li>go to the configuration dialog and see what settings you might want to change</li>
+    <li>when using the program remember that you can press F1 to open the documentation page corresponding to the current window</li>
+    <li>right-click on the circles corresponding to notes or on the corresponding column headers to see what fixes might be available, then apply those fixes to see what happens; remember, though, that sometimes a note is just a side-effect of another note, and fixing that other note is what should really be done; also, sometimes it is possible to make a note go away by applying some transformation even though that transformation isn't listed when you right-click</li>
+    <li>enable the creation of temporary and comparison files in "Configuration dialog / Files / Temporary files", then run custom transformation lists and examine those files; (note that comparison files are created only for a handful of transformations that change the audio, so in many cases they won't get created)</li>
+    <li><a href="310_advanced.html">export</a> the file list as XML or TXT before and after applying transformations and compare those files to see what changes were made</li>
+    <li>apply filters by various notes and export the file list as M3U, then open the M3U in your favorite player and see if the issues reported by MP3 Diags seem to matter in that player; perhaps also try some other player</li>
+</ul>
+</div>
+
+
+
+
+<div class="FreeNormalText RegFnt ChpCol1">
+Once you think you know enough about the program, you may want to start processing your collection, <b>AFTER</b> creating a backup (well, or at least set up MP3 Diags to create backups when changing a file.)
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+Here's what I do to process files in my collection:
+<ol>
+    <li>I create a full backup on another drive; the built-in backup only copies files that are about to be changed, but I'd rather have everything in one place</li>
+    <li>I have several sessions, for various tests; however, one is enough for "real" files, so I open it</li>
+    <li>I do the processing in batches of several thousand files at a time, so when I want to start a new batch I have to change the directories; this is mostly to give me some incentive to do tests on real files from time to time, to make sure that nothing too serious is broken as I release new versions; another reason to limit these to several thousand files at a time is that it's just fewer files to rescan if the program crashes</li>
+    <li>I look at the "All notes" note list and if I see anything unusual I apply a filter by those notes to take a closer look at the files having them, then perhaps apply some transformations</li>
+    <li>I run the first custom transformation list; (even if the list has several elements, suggesting that plenty of changes would be done to every single file, most of the time nothing gets changed, because transformations only change a file if it makes sense)</li>
+    <li>I look again at the "All notes" note list</li>
+    <li>I run the second custom transformation list</li>
+    <li>I look again at the "All notes" note list</li>
+    <li>I make sure that the "<a href="300_config_others.html">Use fast save in the tag editor</a>" option is enabled, then I run "Reserve space in ID3V2 for fast tag editing"</li>
+    <li>I go to the tag editor and get the tags right; this is the most time-consuming operation; I usually do a combination consisting of a track list taken from some place and album cover taken from another; opening the tag editor now makes sure that all the tag data is available, including that in second or third copy of ID3 V1 or V2 tags, which would be removed by the third custom transformation list</li>
+    <li>I run the third custom transformation list</li>
+    <li>now very few note remain, and they are there for valid reasons, but usually I choose to ignore them</li>
+    <li>sometimes I do an in-place file renaming</li>
+    <li>if I'm sure that I'm done with the tag editor, I run "Remove extra space from ID3V2"</li>
+</ol>
+</div>
+
+<div class="FreeNormalText RegFnt ChpCol2">
+Some may be reluctant to use transformation lists on whole collections, and would rather look closely at each and every note and decide what to do. I feel that giving each note an individual treatment stops working if you have several hundred files or more. It's just too time consuming. Therefore I recommend making a backup and actually use the lists, perhaps after tweaking them. Then if something got messed up you can restore the original file from the backup, but that shouldn't be needed. I don't need it, and if you find yourself needing it you should probably file a bug report, so MP3 Diags is improved and you no longer need it as well.
+</div>
+
+
+
+<div class="FreeNormalText RegFnt ChpCol1">
+Non-default settings that I use:
+<ul>
+    <li>Transformation params - Keep original modification time when changing a file - enabled</li>
+    <li>Transformation params - Keep a single image for a file - enabled</li>
+
+    <li style="padding-top: 8px;">Colors - different background for ID3V2-related notes: ID3V2, APIC, ID3V2.3.0, ID3V2.4.0</li>
+
+    <li style="padding-top: 8px;">Others - Use "fast save" in the tag editor - enabled</li>
+    <li>Others - If a field's value is different from that in the ID3V2 tag when exiting an album - Discard</li>
+    <li>Others - Show "Export" button, Show "Debug" button, Show "Sessions" button - enabled</li>
+
+    <li style="padding-top: 8px;">In the Debug dialog: Log transformations - enabled, so I can get a list with all the changes that were applied to a file</li>
+</ul>
+</div>
+
+
+
+
+<div class="NavPadTable RegFnt ChpCol2">
+<div style="width:100%">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="NavTable">
+    <tr>
+        <td width="30%" align="left"> <a href="030_users_guide.html"><img src="arrow_left_small.png" class="ImgNoBorder NavPadLeft" align="absmiddle" /></a> <a href="030_users_guide.html">User's guide</a> </td>
+        <td width="40%" align="center" valign="middle" class="NavBarText"><a href="030_users_guide.html">User's guide</a> - Suggested usage</td>
+        <td width="30%" align="right"> <a href="110_first_run.html"> First run</a> <a href="110_first_run.html"> <img src="arrow_right_small.png" class="ImgNoBorder NavPadRight" align="absmiddle" /> </a> </td>
+    </tr>
+</table>
+</div>
+</div>
+
+
+
+
+<!--QQQStatCounterQQQ-->
+
+</body>
+
+</html>
+

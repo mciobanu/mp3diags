@@ -57,7 +57,7 @@ Id3V230Frame::Id3V230Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
     if (0 == bfr[0])
     { // padding
         //m_nMemDataSize = -1; // !!! not needed; the constructor makes it -1
-        m_nDiskDataSize = -1;
+        //m_nDiskDataSize = -1; // !!! not needed; the constructor makes it -1
         m_szName[0] = 0;
         return;
     }
@@ -183,7 +183,7 @@ string Id3V230Frame::getUtf8StringImpl() const
     // or perhaps forget these and throw exceptions that have error messages, catch them and log/show dialogs
     // 2008.07.12 - actually all these proposals don't seem to work well: the callers don't catch the exceptions thrown here and wouldn't know what to do with them; there's no good place to display the errors (the end user isn't supposed to look at logs); it seems better to not throw, but return a string describing the problem;
     // 2008.07.12 - on a second thought - throw but call this on the constructor, where it can be logged properly; if it worked on the constructor it should work later too
-    CB_CHECK1 (m_nMemDataSize > 0, NotId3V2Frame()); //ttt1 perhaps other excp
+    CB_CHECK1 (m_nMemDataSize > 0, NotId3V2Frame()); //ttt2 perhaps other excp
     Id3V2FrameDataLoader wrp (*this);
     const char* pData (wrp.getData());
     if (0 == pData[0])
@@ -263,7 +263,7 @@ Id3V230Stream::Id3V230Stream(int nIndex, NoteColl& notes, istream& in, StringWrp
     MP3_CHECK_T (3 == bfr[3] && 0 == bfr[4], pos, "Invalid ID3V2.3.0 tag. Invalid ID3V2.3.0 header.", NotId3V2());
     m_nTotalSize = getId3V2Size (bfr);
     m_cFlags = bfr[5];
-    MP3_CHECK (0 == (m_cFlags & 0x7f), pos, id3v2UnsuppFlag, StreamIsUnsupported(Id3V230Stream::getClassDisplayName(), "ID3V2 tag with unsupported flag.")); //ttt1 review, support
+    MP3_CHECK (0 == (m_cFlags & 0x7f), pos, id3v2UnsuppFlag, StreamIsUnsupported(Id3V230Stream::getClassDisplayName(), "ID3V2 tag with unsupported flag.")); //ttt2 review, support
 
     streampos posNext (pos);
     posNext += m_nTotalSize;
@@ -592,7 +592,7 @@ e1:
                 if (pFrm->m_nImgSize == nImgSize)
                 {
                     Id3V2FrameDataLoader ldr (*pFrm);
-                    if (0 == memcmp(&vcData[nOffs], ldr.getData() + pFrm->m_nImgOffset, nImgSize)) // !!! related to ImageInfo::operator==() status is ignored in both places //ttt1 review decision to ignore status
+                    if (0 == memcmp(&vcData[nOffs], ldr.getData() + pFrm->m_nImgOffset, nImgSize)) // !!! related to ImageInfo::operator==() status is ignored in both places //ttt2 review decision to ignore status
                     {
                         removeFrames(KnownFrames::LBL_IMAGE(), pFrm->m_nPictureType);
                         goto e1;
@@ -619,7 +619,7 @@ void Id3V230StreamWriter::addNonOwnedFrame(const Id3V2Frame* p)
     if (0 == strcmp(KnownFrames::LBL_IMAGE(), p->m_szName) || !KnownFrames::canHaveDuplicates(p->m_szName))
     {
         removeFrames(p->m_szName, p->m_nPictureType);
-        // m_vpAllFrames.insert(m_vpAllFrames.begin(), p); //ttt1 putting a front cover image after a back cover might not be the best idea; see if it makes sense to sort the frames; (perhaps have something to sort all frames before saving)
+        // m_vpAllFrames.insert(m_vpAllFrames.begin(), p); //ttt2 putting a front cover image after a back cover might not be the best idea; see if it makes sense to sort the frames; (perhaps have something to sort all frames before saving)
     }
 
     if ('T' == p->m_szName[0] && p->m_nMemDataSize > 0 && 0 != dynamic_cast<const Id3V240Frame*>(p))
@@ -636,9 +636,9 @@ void Id3V230StreamWriter::addNonOwnedFrame(const Id3V2Frame* p)
     m_vpAllFrames.push_back(p);
 }
 
-//ttt1 perhaps transform to change image types to Cover
 
-// if multiple frames with the same name exist, they are all removed; asserts that nPictureType is -1 for non-APIC frames
+
+// if multiple frames with the same name exist, they are all removed; asserts that nPictureType is -1 for non-APIC frames; if nPictureType is -1 and strName is APIC, it removes all APIC frames
 void Id3V230StreamWriter::removeFrames(const std::string& strName, int nPictureType /*= -1*/)
 {
     const Id3V2Frame* p;
@@ -647,7 +647,7 @@ void Id3V230StreamWriter::removeFrames(const std::string& strName, int nPictureT
     {
         p = m_vpAllFrames[i];
         CB_ASSERT1 (-1 == nPictureType || KnownFrames::LBL_IMAGE() == strName, m_strDebugFileName);
-        if (p->m_szName == strName && (p->m_nPictureType == nPictureType || m_bKeepOneValidImg))
+        if (p->m_szName == strName && (p->m_nPictureType == nPictureType || m_bKeepOneValidImg || -1 == nPictureType))
         {
             m_vpAllFrames.erase(m_vpAllFrames.begin() + i);
         }
@@ -657,7 +657,7 @@ void Id3V230StreamWriter::removeFrames(const std::string& strName, int nPictureT
     {
         p = m_vpOwnFrames[i];
         CB_ASSERT1 (-1 == nPictureType || KnownFrames::LBL_IMAGE() == strName, m_strDebugFileName);
-        if (p->m_szName == strName && (p->m_nPictureType == nPictureType || m_bKeepOneValidImg))
+        if (p->m_szName == strName && (p->m_nPictureType == nPictureType || m_bKeepOneValidImg || -1 == nPictureType))
         {
             delete p;
             m_vpOwnFrames.erase(m_vpOwnFrames.begin() + i);
@@ -665,7 +665,7 @@ void Id3V230StreamWriter::removeFrames(const std::string& strName, int nPictureT
     }
 }
 
-//ttt1 after rescanning when note text changed, the refound error was not visible once (couldn't replicate)
+//ttt2 after rescanning when note text changed, the refound error was not visible once (couldn't replicate)
 
 
 static int getUnsynchVal(int x)

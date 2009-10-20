@@ -27,6 +27,7 @@
 
 #include  <algorithm>
 #include  <sstream>
+//#include  <iostream>
 
 #include  <QFileDialog>
 #include  <QKeyEvent>
@@ -81,7 +82,7 @@ using namespace pearl;
 
 //ttt2 try to switch from QDialog to QWidget, to see if min/max in gnome show up; or add Qt::Dialog flag (didn't seem to work, though)
 
-MainFormDlgImpl* getGlobalDlg();  //ttt1 remove
+MainFormDlgImpl* getGlobalDlg();  //ttt2 review
 
 void trace(const string& s)
 {
@@ -421,25 +422,6 @@ void traceLastStep(const string& s, int nLevelChange)
 static QString s_qstrErrorMsg;
 static bool s_bMainAssertOut;
 
-/*static QString replaceDblQuotes(const QString& s)
-{
-    QString s1 (s);
-    for (;;)
-    {
-        int k (s1.indexOf('\"'));
-        if (-1 == k) { break; }
-        s1.replace(k, 1, "&quot;");
-    }
-
-    for (;;)
-    {
-        int k (s1.indexOf('#')); //ttt1 this is not right, but everything after # gets truncated, even if "&num;" is used; see if # can be included
-        if (-1 == k) { break; }
-        s1.replace(k, 1, " ");
-    }
-
-    return s1;
-}*/
 
 
 static void showAssertMsg(QWidget* pParent)
@@ -470,7 +452,7 @@ void logAssert(const char* szFile, int nLine, const char* szCond)
     if (0 != p)
     {
         s_bMainAssertOut = false;
-        //QTimer::singleShot(1, p, SLOT(onShowAssert())); //ttt1 see why this doesn't work
+        //QTimer::singleShot(1, p, SLOT(onShowAssert())); //ttt2 see why this doesn't work
         AssertSender s (p);
 
         for (;;)
@@ -489,7 +471,7 @@ void logAssert(const char* szFile, int nLine, const char* szCond)
     }
     else
     {
-        /*QMessageBox dlg (QMessageBox::Critical, s_strAssertTitle, s_strErrorMsg, QMessageBox::Close, 0, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint); // ttt1 this might fail / crash, as it may be called from a secondary thread
+        /*QMessageBox dlg (QMessageBox::Critical, s_strAssertTitle, s_strErrorMsg, QMessageBox::Close, 0, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint); // ttt2 this might fail / crash, as it may be called from a secondary thread
 
         dlg.exec();*/
         showAssertMsg(0);
@@ -581,7 +563,7 @@ void MainFormDlgImpl::saveIgnored()
 
 void MainFormDlgImpl::loadIgnored()
 {
-    bool bRes (true); //ttt1 ? use
+    bool bRes (true); //ttt2 ? use
     vector<string> v (m_settings.loadVector("ignored/list", bRes));
 
     vector<int> vnIgnored;
@@ -657,7 +639,7 @@ currentFileChanged() - sent by m_pCommonData->m_pFilesModel and received by both
 filterChanged() - sent by m_pCommonData->m_filter and received by m_pCommonData; it updates m_pCommonData->m_vpFltHandlers and calls m_pCommonData->updateWidgets(); updateWidgets() calls m_pFilesModel->selectRow(), which triggers currentFileChanged(), which causes the note and stream grids to be updated
 
 
-// ttt1 finish documenting the signal flow (mainly changing of "current" for both main window and tag editor); then check that it is properly implemented; pay attention to not calling signal handlers directly unless there's a very good reason to do so
+// ttt2 finish documenting the signal flow (mainly changing of "current" for both main window and tag editor); then check that it is properly implemented; pay attention to not calling signal handlers directly unless there's a very good reason to do so
 
 
 */
@@ -676,7 +658,7 @@ QWidget* getMainForm()
 }
 
 static PausableThread* s_pSerThread;
-PausableThread* getSerThread() //ttt1 global function
+PausableThread* getSerThread() //ttt2 global function
 {
     return s_pSerThread;
 }
@@ -749,47 +731,6 @@ struct SerSaveThread : public PausableThread
 };
 
 
-/*
-// a subset of m_vpExisting  gets copied to m_vpDel; so if m_vpExisting is empty, m_vpDel will be empty too;
-bool SerLoadThread::scan()
-{
-    //cout << "################### procRec(" << strDir << ")\n";
-    //FileSearcher fs ((strDir + "/ *").c_str());
-    m_fileEnum.reset();
-
-    for (;;)
-    {
-        string strName (m_fileEnum.next());
-        if (strName.empty()) { return true; }
-        if (endsWith(strName, ".mp3") || endsWith(strName, ".MP3"))
-        {
-            if (isAborted()) { return false; }
-            checkPause();
-
-            StrList l;
-            l.push_back(convStr(strName));
-            emit stepChanged(l);
-            if (!m_bForce)
-            {
-                deque<const Mp3Handler*>::iterator it (lower_bound(m_vpExisting.begin(), m_vpExisting.end(), strName, CmpMp3HandlerPtrByName()));
-                if (m_vpExisting.end() != it && (*it)->getName() == strName && !(*it)->needsReload())
-                {
-                    m_vpKeep.push_back(*it);
-                    continue;
-                }
-            }
-
-            try
-            {
-                const Mp3Handler* p (new Mp3Handler(strName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds()));
-                m_vpAdd.push_back(p);
-            }
-            catch (const Mp3Handler::FileNotFound&) //ttt1 see if it should catch more
-            {
-            }
-        }
-    }
-}*/
 
 void listKnownFormats()
 {
@@ -823,7 +764,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) 
     s_pGlobalDlg = 0;
     setupUi(this);
 
-    //listKnownFormats(); // ttt1 sizes for many formats seem way too low (e.g. "MPEG-1 Layer I, 44100Hz 32000bps" or "MPEG-2 Layer III, 22050Hz 8000bps")
+    //listKnownFormats(); // ttt2 sizes for many formats seem way too low (e.g. "MPEG-1 Layer I, 44100Hz 32000bps" or "MPEG-2 Layer III, 22050Hz 8000bps")
 
     {
         /*KbdNotifTableView* pStreamsG (new KbdNotifTableView(m_pStreamsG));
@@ -852,7 +793,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) 
             {
                 if (fileExists(s_fileTracer.getTraceFile()))
                 {
-                    showRestartAfterCrashMsg("<p style=\"margin-bottom:8px; margin-top:1px; \">MP3 Diags is restarting after a crash. Information in the files \"<b>" + Qt::escape(toNativeSeparators(convStr(s_fileTracer.getTraceFile()))) + "</b>\", \"<b>" + Qt::escape(toNativeSeparators(convStr(s_fileTracer.getStepFiles()[0]))) + "</b>\", and \"<b>" + Qt::escape(toNativeSeparators(convStr(s_fileTracer.getStepFiles()[1]))) + "</b>\" may help identify the cause of the crash, so please make them available to the developer by mailing them to <a href=\"mailto:ciobi@inbox.com?subject=000 MP3 Diags crash/\">ciobi@inbox.com</a>, by reporting an issue to the project's Issue Tracker at <a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a> and attaching the files to the report, or by some other means (like putting them on a web server.)</p><p style=\"margin-bottom:8px; margin-top:1px; \">These are plain text files, which you can review before sending, if you have privacy concerns.</p><p style=\"margin-bottom:8px; margin-top:1px; \">After getting the files, the developer will probably want to contact you for more details, so please check back on the status of your report.</p><p style=\"margin-bottom:8px; margin-top:1px; \">Note that these files will be removed when you close this window.</p><p style=\"margin-bottom:8px; margin-top:1px; \">So please send these files, as well as any other detail that seems relevant (what might have caused the failure, steps to reproduce it, ...)</p>", "Remove these files and continue");
+                    showRestartAfterCrashMsg("<p style=\"margin-bottom:8px; margin-top:1px; \">MP3 Diags is restarting after a crash. Information in the files \"<b>" + Qt::escape(toNativeSeparators(convStr(s_fileTracer.getTraceFile()))) + "</b>\", \"<b>" + Qt::escape(toNativeSeparators(convStr(s_fileTracer.getStepFiles()[0]))) + "</b>\", and \"<b>" + Qt::escape(toNativeSeparators(convStr(s_fileTracer.getStepFiles()[1]))) + "</b>\" may help identify the cause of the crash, so please make them available to the developer by mailing them to <a href=\"mailto:ciobi@inbox.com?subject=000 MP3 Diags crash/\">ciobi@inbox.com</a>, by reporting an issue to the project's Issue Tracker at <a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a> and attaching the files to the report, or by some other means (like putting them on a web server.)</p><p style=\"margin-bottom:8px; margin-top:1px; \">These are plain text files, which you can review before sending, if you have privacy concerns.</p><p style=\"margin-bottom:8px; margin-top:1px; \">After getting the files, the developer will probably want to contact you for more details, so please check back on the status of your report.</p><p style=\"margin-bottom:8px; margin-top:1px; \">Note that these files <b>will be removed</b> when you close this window.</p><p style=\"margin-bottom:8px; margin-top:1px; \">So please send these files, as well as any other detail that seems relevant (what might have caused the failure, steps to reproduce it, ...)</p>", "Remove these files and continue");
                     //ttt2 perhaps loop until the file is deleted
                 }
                 else
@@ -876,7 +817,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) 
         // !!! nothing to do if not dirty
     }
     else
-    { // it's a new version, so we start over //ttt1 perhaps also use some counter, like "20 runs without crash"
+    { // it's a new version, so we start over //ttt2 perhaps also use some counter, like "20 runs without crash"
         m_pCommonData->setTraceToFile(false);
         m_settings.saveMiscConfigSettings(m_pCommonData);
     }
@@ -1032,7 +973,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) 
         }
     }
 
-//ttt1 perhaps have "experimental" transforms, different color (or just have the names begin with "experimental")
+//ttt2 perhaps have "experimental" transforms, different color (or just have the names begin with "experimental")
     {
         loadVisibleTransf();
         if (m_pCommonData->getVisibleTransf().empty())
@@ -1071,37 +1012,6 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) 
 
     connect(this, SIGNAL(tagEditorClosed()), m_pCommonData, SLOT(onFilterChanged())); // !!! needed because CommonData::mergeHandlerChanges() adds changed files that shouldn't normally be there in album / filter mode; the reason it does this is to allow comparisons after making changes, but this doesn't make much sense when those changes are done in the tag editor, (saving in the tag editor is different from regular transformations because album navigation is allowed)
 
-    //delete m_pSpacing01W;
-/*
-    {
-        string strErr;
-        SerLoadThread* p (new SerLoadThread(m_pCommonData, strSession, strErr));
-
-        ThreadRunnerDlgImpl dlg (p, ThreadRunnerDlgImpl::SHOW_COUNTER, this);
-        CB_ASSERT (m_nScanWidth > 400);
-        dlg.resize(m_nScanWidth, dlg.height());
-        dlg.setWindowIcon(QIcon(":/images/logo.svg"));
-        //dlg.setWindowTitle(bForce ? "Scanning MP3 files" : "x" : reloading / all / list / "Reloading all MP3 files" : "Reloading selected MP3 files"); //ttt1
-        dlg.setWindowTitle("Loading data");
-        s_pSerThread = p;
-        dlg.exec();
-        s_pSerThread = 0;
-        m_nScanWidth = dlg.width();
-
-        if (!strErr.empty())
-        {
-            QMessageBox::critical(this, "Error", "An error occured while loading the MP3 information. You will have to scan your files again.\n\n" + convStr(strErr));
-        }
-    }
-
-    if (m_pCommonData->m_bScanAtStartup)
-    {
-        CommonData::ViewMode eMode (m_pCommonData->getViewMode());
-        m_pCommonData->setViewMode(CommonData::ALL, m_pCommonData->getCrtMp3Handler());
-        reload(RELOAD_ALL, DONT_FORCE);
-        m_pCommonData->setViewMode(eMode, m_pCommonData->getCrtMp3Handler());
-    }
-*/
     s_pGlobalDlg = this;
 
     QTimer::singleShot(1, this, SLOT(onShow()));
@@ -1195,7 +1105,7 @@ void MainFormDlgImpl::initializeUi()
         int nTitleHeight(GetSystemMetrics(SM_CYSIZE)); // ttt2 actually there's a pixel missing but not obvious where to get it from; nApprox should allow enough tolerance, though
 #endif
 
-        if (r.width() - nWidth < nApprox && r.height() - nHeight - nTitleHeight < nApprox) //ttt1 no idea how this works on Vista (+Aero)
+        if (r.width() - nWidth < nApprox && r.height() - nHeight - nTitleHeight < nApprox)
         {
             m_bShowMaximized = true;
         }
@@ -1304,7 +1214,7 @@ void MainFormDlgImpl::onShow()
         CB_ASSERT (m_nScanWidth > 400);
         dlg.resize(m_nScanWidth, dlg.height());
         dlg.setWindowIcon(QIcon(":/images/logo.svg"));
-        //dlg.setWindowTitle(bForce ? "Scanning MP3 files" : "x" : reloading / all / list / "Reloading all MP3 files" : "Reloading selected MP3 files"); //ttt1
+
         dlg.setWindowTitle("Loading data");
         s_pSerThread = p;
         dlg.exec();
@@ -1375,7 +1285,7 @@ void MainFormDlgImpl::fullReload(bool bForceReload)
     CB_ASSERT (m_nScanWidth > 400);
     dlg.resize(m_nScanWidth, dlg.height());
     dlg.setWindowIcon(QIcon(":/images/logo.svg"));
-    //dlg.setWindowTitle(bForce ? "Scanning MP3 files" : "x" : reloading / all / list / "Reloading all MP3 files" : "Reloading selected MP3 files"); //ttt1
+
     dlg.setWindowTitle("Saving data");
     s_pSerThread = p;
     dlg.exec();
@@ -1616,7 +1526,7 @@ bool Mp3ProcThread::scan()
             if (!m_bForce)
             {
                 deque<const Mp3Handler*>::iterator it (lower_bound(m_vpExisting.begin(), m_vpExisting.end(), strName, CmpMp3HandlerPtrByName()));
-                if (m_vpExisting.end() != it && (*it)->getName() == strName && !(*it)->needsReload())
+                if (m_vpExisting.end() != it && (*it)->getName() == strName && !(*it)->needsReload(Mp3Handler::DONT_USE_FAST_SAVE))
                 {
                     m_vpKeep.push_back(*it);
                     continue;
@@ -1628,7 +1538,7 @@ bool Mp3ProcThread::scan()
                 const Mp3Handler* p (new Mp3Handler(strName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds()));
                 m_vpAdd.push_back(p);
             }
-            catch (const Mp3Handler::FileNotFound&) //ttt1 see if it should catch more
+            catch (const Mp3Handler::FileNotFound&) //ttt2 see if it should catch more
             {
             }
         }
@@ -1655,13 +1565,15 @@ void MainFormDlgImpl::scan(FileEnumerator& fileEnum, bool bForce, deque<const Mp
         CB_ASSERT (m_nScanWidth > 400);
         dlg.resize(m_nScanWidth, dlg.height());
         dlg.setWindowIcon(QIcon(":/images/logo.svg"));
-        //dlg.setWindowTitle(bForce ? "Scanning MP3 files" : "x" : reloading / all / list / "Reloading all MP3 files" : "Reloading selected MP3 files"); //ttt1
+
         dlg.setWindowTitle("Scanning MP3 files");
         dlg.exec(); //ttt2 perhaps see if it ended with ok/reject and clear all on reject
         m_nScanWidth = dlg.width();
         vpAdd = p->m_vpAdd;
         vpDel = p->m_vpDel;
     }
+
+    m_pCommonData->mergeHandlerChanges(vpAdd, vpDel, nKeepWhenUpdate);
 
     if (!m_pCommonData->m_bToldAboutSupport && !s_bToldAboutSupportInCrtRun)
     {
@@ -1683,14 +1595,12 @@ void MainFormDlgImpl::scan(FileEnumerator& fileEnum, bool bForce, deque<const Mp
             }
         }
     }
-
-    m_pCommonData->mergeHandlerChanges(vpAdd, vpDel, nKeepWhenUpdate);
 }
 
 
 
 
-//ttt1 disable trace to see impact on memory
+
 void MainFormDlgImpl::on_m_pScanB_clicked()
 {
     bool bForce;
@@ -1896,8 +1806,8 @@ void MainFormDlgImpl::loadVisibleTransf()
 //ttt3 set focus on some edit box when changing tabs;
 
 
-//ttt1 perhaps add "whatsThis" texts
-//ttt1 perhaps add "what's this" tips
+//ttt2 perhaps add "whatsThis" texts
+//ttt2 perhaps add "what's this" tips
 
 
 
@@ -2131,7 +2041,7 @@ void MainFormDlgImpl::applyCustomTransf(int k)
 
 
 // The file list is updated in the sense that if a file was changed or removed, this is reflected in the UI. However, new files are not seen. For one thing, rebuilding a 10000-file list takes a lot of time. OTOH perhaps just the new files could be added. Also, perhaps the user could be asked about updating the list.
-//ttt1 review
+//ttt2 review
 void MainFormDlgImpl::transform(std::vector<Transformation*>& vpTransf, Subset eSubset)
 {
     if (m_pCommonData->getViewHandlers().empty())
@@ -2546,7 +2456,7 @@ public:
 void MainFormDlgImpl::on_m_pViewFileInfoB_clicked()
 {
     m_pLowerHalfLayout->setCurrentWidget(m_pFileInfoTab);
-    m_pViewFileInfoB->setChecked(true); //ttt1 use autoExclusive instead
+    m_pViewFileInfoB->setChecked(true); //ttt2 use autoExclusive instead
     m_pViewAllNotesB->setChecked(false);
     m_pViewTagDetailsB->setChecked(false);
     m_pNotesG->resizeRowsToContents();
@@ -2624,7 +2534,7 @@ void MainFormDlgImpl::on_m_pSessionsB_clicked()
 
 void MainFormDlgImpl::checkForNewVersion() // returns immediately; when the request completes it will send a signal
 {
-    const int MIN_INTERVAL_BETWEEN_CHECKS (4); // hours
+    const int MIN_INTERVAL_BETWEEN_CHECKS (24); // hours
 
     if ("yes" != m_pCommonData->m_strCheckForNewVersions && "no" != m_pCommonData->m_strCheckForNewVersions)
     {
@@ -2636,7 +2546,7 @@ void MainFormDlgImpl::checkForNewVersion() // returns immediately; when the requ
                 "<li>The update is manual. You are told that there is a new version and are offered links to see what's new, but nothing gets downloaded and / or installed automatically</li>"
                 "<li>There is no System Tray process checking periodically for updates</li>"
                 "<li>You can turn the notifications on and off from the configurations dialog</li>"
-                "<li>If you restart the program withing 4 hours after a check, no new check is done</li>"
+                "<li>If you restart the program withing a day after a check, no new check is done</li>"
             "</ul>"
         "</p>"
         /*"
@@ -2688,7 +2598,7 @@ void MainFormDlgImpl::readResponseHeader(const QHttpResponseHeader& h)
 void MainFormDlgImpl::onNewVersionQueryFinished(int /*nId*/, bool bError)
 {
     if (bError)
-    { //ttt1 log something, tell user after a while
+    { //ttt2 log something, tell user after a while
         qDebug("HTTP error");
         return;
     }
@@ -2709,7 +2619,7 @@ void MainFormDlgImpl::onNewVersionQueryFinished(int /*nId*/, bool bError)
     m_qstrNewVer = m_qstrNewVer.trimmed();
 
     if (m_qstrNewVer.size() > 50)
-    { //ttt1
+    { //ttt2
         return; // most likely some error message
     }
 
@@ -2724,7 +2634,7 @@ void MainFormDlgImpl::onNewVersionQueryFinished(int /*nId*/, bool bError)
     const int WAIT (14); //crashes
 #ifndef WIN32
     qDebug("wait %d seconds", WAIT); sleep(WAIT); QMessageBox::critical(this, "resume", "resume resume resume resume resume"); // crashes
-    //ttt1 see if this crash affects discogs dwnld //??? why doesn't crash if no message is shown?
+    //ttt2 see if this crash affects discogs dwnld //??? why doesn't crash if no message is shown?
 #else
     //Sleep(WAIT*1000); // Qt 4.5 doesn't seem to crash
 #endif
@@ -2900,7 +2810,7 @@ vector<Transformation*> MainFormDlgImpl::getFixes(const Note* pNote, const Mp3Ha
         ADD_FIX(id3v240IncorrectSynch, Id3V2Rescuer);
         ADD_FIX(id3v240IncorrectSynch, Id3V2Cleaner);
 
-        ADD_FIX(id3v240DeprTyerAndTdrc, Id3V2Rescuer);  //ttt1 no id3v240DeprXX tested, but it looks like they should work
+        ADD_FIX(id3v240DeprTyerAndTdrc, Id3V2Rescuer);
         ADD_FIX(id3v240DeprTyerAndTdrc, Id3V2Cleaner);
         ADD_FIX(id3v240DeprTyer, Id3V2Rescuer);
         ADD_FIX(id3v240DeprTyer, Id3V2Cleaner);
@@ -3047,7 +2957,7 @@ LAST_STEP("MainFormDlgImpl::onFixCurrentNote()");
     {
         int x (coords.x());
         x -= 2; // hard-coded
-        x += getHeaderDrawOffset() / 2; //ttt1 this "/2" doesn't make sense but it works best
+        x += getHeaderDrawOffset() / 2; //ttt2 this "/2" doesn't make sense but it works best
         //qDebug("offs %d", getHeaderDrawOffset());
         nCol = m_pFilesG->columnAt(x - m_pFilesG->verticalHeader()->width());
 
@@ -3212,16 +3122,15 @@ QStyle ; ./myapplication -style motif
 
 */
 
-//ttt1 ? option to discard errors in unknown streams: probably not; at any rate, that's the only chance to learn that there was an error there (instead of a really unknown stream)
+//ttt2 ? option to discard errors in unknown streams: probably not; at any rate, that's the only chance to learn that there was an error there (instead of a really unknown stream)
 
-//ttt1 how to process: run an automated check, then filter the files to only show those with issues; the user chooses how to deal with those issues; then the changes are applied
 
-//ttt1 persistent note filter
+
 
 
 // ttt2 make sure that everything that doesn't take a "parent" on the constructor gets deleted;
 
-//ttt1 configurable icon size
+
 
 /*
 
@@ -3240,15 +3149,12 @@ Development machine:
 
 */
 
-//ttt1 build: not sure is possible, but have the .pro file include another file, which is generated by a "pre-config" script, which figures out if the lib is installed
+//ttt2 build: not sure is possible, but have the .pro file include another file, which is generated by a "pre-config" script, which figures out if the lib is installed
 
-//ttt1 perhaps a "consider unknown" function for streams; then it would be possible for a truncated id3v1 tag that seems ok to be marked as unknown, thus allowing the following tag's start to be detected (see "c09 Mark Knopfler - The Long Road.mp3")
+//ttt2 perhaps a "consider unknown" function for streams; then it would be possible for a truncated id3v1 tag that seems ok to be marked as unknown, thus allowing the following tag's start to be detected (see "c09 Mark Knopfler - The Long Road.mp3")
 
-//ttt1 perhaps implement a playlist generator
 
-//ttt1 a "reload" that only looks for new / removed files
-
-//ttt1 handle symbolic links to ancestors
+//ttt2 handle symbolic links to ancestors
 
 
 

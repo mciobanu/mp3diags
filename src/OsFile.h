@@ -45,12 +45,12 @@ public:
 
     CB_LIB_CALL ~FileSearcher();
 
-    //ttt1 this seems bad design: getName() & Co shouldn't be callable if the search is not open
+    //ttt2 this seems bad design: getName() & Co shouldn't be callable if the search is not open
     std::string CB_LIB_CALL getName() const; // returns the full name found; throws if nothing found
-    std::string CB_LIB_CALL getShortName() const; // returns the short name found; throws if nothing found //ttt1 have short/long/default (default is for "../tst/1" and is what is implemented now; long should be "/dir/tst/1")
+    std::string CB_LIB_CALL getShortName() const; // returns the short name found; throws if nothing found //ttt2 have short/long/default (default is for "../tst/1" and is what is implemented now; long should be "/dir/tst/1")
     int CB_LIB_CALL getAttribs() const; //ddd maybe filter out volume attributes / or include UNIX attribs
     long long CB_LIB_CALL getSize() const;
-    //long long CB_LIB_CALL getCreationTime() const; //int64FromFileDateTime(sr.sr.FindData.ftCreationTime)  //ttt1 replace "long long" with a class representing time with nanosecond resolution, with conversions to what various OSs are using for various tasks
+    //long long CB_LIB_CALL getCreationTime() const; //int64FromFileDateTime(sr.sr.FindData.ftCreationTime)  //ttt2 replace "long long" with a class representing time with nanosecond resolution, with conversions to what various OSs are using for various tasks
     long long CB_LIB_CALL getChangeTime() const; //int64FromFileDateTime(sr.sr.FindData.ftLastWriteTime),
     bool CB_LIB_CALL isFile() const;
     bool CB_LIB_CALL isDir() const;
@@ -84,7 +84,7 @@ public:
 
 
 
-void CB_LIB_CALL getFileInfo(const std::string& strFileName, long long& nChangeTime, long long& nSize); // throws NameNotFound // ttt1 currently doesn't really matter the format of nChangeTime, because it is only used in equality comparisons; so it uses time_t; however, this should be reviewed and probably choose nanoseconds from 01.01.1970 (QDateTime is better avoided, because of several issues, like serialization or low resolution)
+void CB_LIB_CALL getFileInfo(const std::string& strFileName, long long& nChangeTime, long long& nSize); // throws NameNotFound // ttt2 currently doesn't really matter the format of nChangeTime, because it is only used in equality comparisons; so it uses time_t; however, this should be reviewed and probably choose nanoseconds from 01.01.1970 (QDateTime is better avoided, because of several issues, like serialization or low resolution)
 void CB_LIB_CALL setFileDate(const std::string& strFileName, long long nChangeTime);
 
 
@@ -132,7 +132,7 @@ void CB_LIB_CALL renameFile(const std::string& strOldName, const std::string& st
 // throws WriteError or EndOfFile from Helpers //ttt2 switch to: throws FoundDir, AlreadyExists, NameNotFound, CannotCopyFile, ?IncorrectDirName,
 void CB_LIB_CALL copyFile(const std::string& strSourceName, const std::string& strDestName /*, OverwriteOption eOverwriteOption*/);
 
-// throws FoundDir, AlreadyExists, NameNotFound, CannotCopyFile, ?IncorrectDirName, //ttt1 unify with copyFile(), or rather restructure all file operations (perhaps see what Qt has)
+// throws FoundDir, AlreadyExists, NameNotFound, CannotCopyFile, ?IncorrectDirName, //ttt2 unify with copyFile(), or rather restructure all file operations (perhaps see what Qt has)
 void CB_LIB_CALL copyFile2(const std::string& strSourceName, const std::string& strDestName /*, OverwriteOption eOverwriteOption*/);
 
 

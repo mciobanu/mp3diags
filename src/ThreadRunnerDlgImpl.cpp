@@ -317,7 +317,7 @@ void ThreadRunnerDlgImpl::onUpdateTimer()
 
 void ThreadRunnerDlgImpl::onHelp()
 {
-    // openHelp("index.html"); //ttt1 see if anything more specific can be done
+    // openHelp("index.html"); //ttt2 see if anything more specific can be done
 }
 
 

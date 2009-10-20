@@ -21,6 +21,9 @@
 
 
 #include  <algorithm>
+#include  <cstdio>
+#include  <iostream>
+#include  <locale>
 
 #include  <QApplication>
 #include  <QSettings>
@@ -35,8 +38,6 @@
 #include  "OsFile.h"
 
 //#include  "Profiler.h"
-#include  <cstdio>
-#include  <iostream>
 
 using namespace std;
 
@@ -68,7 +69,7 @@ void GlobalSettings::saveSessions(const vector<string>& vstrSess1, const string&
         {
             if (vstrSess.end() == find(vstrSess.begin(), vstrSess.end(), vstrSess2[i]))
             {
-                vstrSess.push_back(vstrSess2[i]); // ttt1 perhaps add a return value to the function, so the caller would know to update the UI; however, what is done here is more important, because it prevents data loss
+                vstrSess.push_back(vstrSess2[i]); // ttt2 perhaps add a return value to the function, so the caller would know to update the UI; however, what is done here is more important, because it prevents data loss
             }
         }
     }
@@ -165,13 +166,20 @@ void visStudioMessageOutput(QtMsgType, const char* szMsg)
 #endif
 
 
+#include <sstream>
 
-
+// http://stackoverflow.com/questions/760323/why-does-my-qt4-5-app-open-a-console-window-under-windows - The option under Visual Studio for setting the subsystem is under Project Settings->Linker->System->SubSystem
 
 int main(int argc, char *argv[])
 {
     //DEFINE_PROF_ROOT("mp3diags");
     //PROF("root");
+/*
+    //locale::global(locale(""));
+    ostringstream o;
+    o << 12345.78;
+    cout << o.str() << endl;
+    printf("%f\n", 12345.78);//*/
 
     void (*nh)() = set_new_handler(newHandler);
     if (0 != nh) { cerr << "previous new handler: " << (void*)nh << endl; }
@@ -298,7 +306,7 @@ int main(int argc, char *argv[])
             if (MainFormDlgImpl::OPEN_SESS_DLG != mainDlg.run()) { return 0; }
         }
     }
-    catch (...) // ttt1 for now it doesn't catch many exceptions; it seems that nothing can be done if an exception leaves a slot / event handler, but maybe there are ways around
+    catch (...) // ttt2 for now it doesn't catch many exceptions; it seems that nothing can be done if an exception leaves a slot / event handler, but maybe there are ways around
     {
         /*QMessageBox dlg (QMessageBox::Critical, "Error", "Caught generic exception. Exiting ...", QMessageBox::Close, 0, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint);
 
@@ -321,7 +329,7 @@ int main(int argc, char *argv[])
 
 
 
-//ttt1 perhaps sign package
+//ttt2 perhaps sign package
 
 /*
 rpmlint:

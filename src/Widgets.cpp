@@ -90,7 +90,7 @@ ModifInfoToolButton::ModifInfoToolButton(QToolButton* pOldBtn) : QToolButton(pOl
 
 /*override*/ void ModifInfoToolButton::keyPressEvent(QKeyEvent* pEvent)
 {
-    m_modif = pEvent->modifiers(); // ttt1 actually this never seems to get triggered; see if it's true (perhaps it matters if the button can get keyboard focus)
+    m_modif = pEvent->modifiers(); // ttt2 actually this never seems to get triggered; see if it's true (perhaps it matters if the button can get keyboard focus)
 //int x (m_modif); qDebug("modif %d", x);
     QToolButton::keyPressEvent(pEvent);
 }
@@ -295,7 +295,7 @@ ThreadLocalDlgList& getThreadLocalDlgList()
     }
 
     pContent->setOpenExternalLinks(true);
-    pContent->setHtml(qstrMessage + (nFlags & SHOW_SYS_INFO ? "<hr/><p style=\"margin-bottom:1px; margin-top:8px; \">" + getSystemInfo() + "</p>" : "")); //ttt1 perhaps use CSS
+    pContent->setHtml(qstrMessage + (nFlags & SHOW_SYS_INFO ? "<hr/><p style=\"margin-bottom:1px; margin-top:8px; \">" + getSystemInfo() + "</p>" : "")); //ttt2 perhaps use CSS
     pLayout->addWidget(pContent);
 
     QHBoxLayout btnLayout;

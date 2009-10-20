@@ -306,8 +306,8 @@ void SessionSettings::loadMiscConfigSettings(CommonData* p) const
         }
         CB_ASSERT (0 != p->m_pCodec);
 
-        p->m_eCaseForArtists = (CommonData::Case)m_pSettings->value("id3V2Transf/caseForArtists", 2).toInt();
-        p->m_eCaseForOthers = (CommonData::Case)m_pSettings->value("id3V2Transf/caseForOthers", 3).toInt();
+        p->m_eCaseForArtists = (TextCaseOptions)m_pSettings->value("id3V2Transf/caseForArtists", 2).toInt();
+        p->m_eCaseForOthers = (TextCaseOptions)m_pSettings->value("id3V2Transf/caseForOthers", 3).toInt();
     }
 
     { // tag editor
@@ -473,7 +473,7 @@ void CommonData::setFontInfo(const std::string& strGenName, int nGenSize, int nL
 
     if (!bFirstTime)
     {
-        QMessageBox::warning(m_pFilesG, "Info", "The font changes will only be used after restarting the application."); //ttt1 try to get this work, probably needs to call QHeaderView::resizeSection(), as well as review all setMinimumSectionSize() and setDefaultSectionSize() calls;
+        QMessageBox::warning(m_pFilesG, "Info", "The font changes will only be used after restarting the application."); //ttt2 try to get this work, probably needs to call QHeaderView::resizeSection(), as well as review all setMinimumSectionSize() and setDefaultSectionSize() calls;
         return;
     }
 
@@ -492,22 +492,11 @@ void CommonData::setFontInfo(const std::string& strGenName, int nGenSize, int nL
     //m_fixedFont.setFixedPitch(true);  // !!! needed to select some fixed font in case there's no "B&H LucidaTypewriter" installed
     m_fixedFont.setFixedPitch(true);
     m_fixedFont.setStyleHint(QFont::Courier);
-    //f.setPixelSize(12); //ttt2 hard-coded "12"; //ttt1 some back-up font instead of just letting the system decide
+    //f.setPixelSize(12); //ttt2 hard-coded "12"; //ttt2 some back-up font instead of just letting the system decide
     m_fixedFont.setPointSize(nFixedSize);
 
 
     CELL_HEIGHT = QApplication::fontMetrics().height() + 3;
-
-    //qDebug("wdth %d", QApplication::fontMetrics().width("W"));
-    //qDebug("wdth %d", QApplication::fontMetrics().maxWidth()); // too big, probably from non-ASCII-letter chars
-    /*int n (QApplication::fontMetrics().width("W")); // ttt1 switch to W', M' and m' when needed
-    n = max(n, QApplication::fontMetrics().width("M"));
-    n = max(n, QApplication::fontMetrics().width("m"));
-#ifndef WIN32
-    CELL_WIDTH = n + 5;
-#else
-    CELL_WIDTH = n + 6; //ttt2 hard-coded "6"; see how to get the correct value
-#endif*/
 
     {
         QPixmap img (100, 100); //ttt2 revisit the size; might need increase in the future
@@ -1554,8 +1543,8 @@ const QFont& getFixedFont()
         s_font.setFamily("B&H LucidaTypewriter");
         //s_font.setFamily("B&H LucidaTypewriter12c");
         s_font.setFixedPitch(true);  // !!! needed to select some fixed font in case there's no "B&H LucidaTypewriter" installed
-        s_font.setPixelSize(12); //ttt2 hard-coded "12"; //ttt1 some back-up font instead of just letting the system decide
-        //s_font.setPointSize(9); //ttt2 hard-coded "9"; //ttt2 some back-up font instead of just letting the system decide
+        s_font.setPixelSize(12); //ttt2 hard-coded "12";
+        //s_font.setPointSize(9); //ttt2 hard-coded "9";
 
 //QFont f; qDebug("default font: pix %d, point: %d, fam: %s", f.pixelSize(), f.pointSize(), f.family().toLatin1().data());
 
@@ -1896,6 +1885,7 @@ const Mp3Handler* CommonData::getHandler(const std::string& strName) const
 void CommonData::mergeHandlerChanges(const vector<const Mp3Handler*>& vpAdd1, const vector<const Mp3Handler*>& vpDel1, int nKeepWhenUpdate)
 {
     //m_bDirty = m_bDirty || !vpAdd1.empty() || !vpDel1.empty();
+    string strSongInCrtAlbum (m_nSongInCrtAlbum >= 0 && m_nSongInCrtAlbum < cSize(m_vpAllHandlers) ? m_vpAllHandlers[m_nSongInCrtAlbum]->getName() : "");
 
     const string& strCrtName (nKeepWhenUpdate & CURRENT ? getCrtName() : "");
     const vector<string>& vstrSel (nKeepWhenUpdate & SEL ? getSelNames() : vector<string>());
@@ -1936,15 +1926,24 @@ qDebug("1c %d %d %d", cSize(vpAll), cSize(vpFlt), cSize(vpView));*/
     set_difference(m_vpAllHandlers.begin(), m_vpAllHandlers.end(), vpDel.begin(), vpDel.end(), back_inserter(vpAll), CmpMp3HandlerPtrByName());
     set_difference(m_vpFltHandlers.begin(), m_vpFltHandlers.end(), vpDel.begin(), vpDel.end(), back_inserter(vpFlt), CmpMp3HandlerPtrByName());
     set_difference(m_vpViewHandlers.begin(), m_vpViewHandlers.end(), vpDel.begin(), vpDel.end(), back_inserter(vpView), CmpMp3HandlerPtrByName());
+//qDebug("m_vpAllHandlers.z()=%d, m_vpFltHandlers.size()=%d, m_nSongInCrtAlbum=%d, vpDel.sz=%d, vpDel1.sz=%d, vpAdd1.sz=%d", cSize(m_vpAllHandlers), cSize(m_vpFltHandlers), m_nSongInCrtAlbum, cSize(vpDel), cSize(vpDel1), cSize(vpAdd1));
 
     clearPtrContainer(vpDel);
 
     m_vpAllHandlers.clear(); m_vpFltHandlers.clear(); m_vpViewHandlers.clear();
     set_union(vpAll.begin(), vpAll.end(), vpAdd.begin(), vpAdd.end(), back_inserter(m_vpAllHandlers), CmpMp3HandlerPtrByName());
-    set_union(vpFlt.begin(), vpFlt.end(), vpAdd.begin(), vpAdd.end(), back_inserter(m_vpFltHandlers), CmpMp3HandlerPtrByName()); // !!! perhaps for view and flt we should check the directory/filter, but it seems more important that the new handlers are seen, so they can be compared to the old ones //ttt1 review
+    set_union(vpFlt.begin(), vpFlt.end(), vpAdd.begin(), vpAdd.end(), back_inserter(m_vpFltHandlers), CmpMp3HandlerPtrByName()); // !!! perhaps for view and flt we should check the directory/filter, but it seems more important that the new handlers are seen, so they can be compared to the old ones //ttt2 review
     set_union(vpView.begin(), vpView.end(), vpAdd.begin(), vpAdd.end(), back_inserter(m_vpViewHandlers), CmpMp3HandlerPtrByName());
 
     updateWidgets(strCrtName, vstrSel);
+
+    if (!strSongInCrtAlbum.empty() && !m_vpFltHandlers.empty())
+    {
+        deque<const Mp3Handler*>::const_iterator it (lower_bound(m_vpFltHandlers.begin(), m_vpFltHandlers.end(), strSongInCrtAlbum, CmpMp3HandlerPtrByName()));
+        if (m_vpFltHandlers.end() == it) { --it; }
+        it = lower_bound(m_vpAllHandlers.begin(), m_vpAllHandlers.end(), *it, CmpMp3HandlerPtrByName());
+        m_nSongInCrtAlbum = it - m_vpAllHandlers.begin();
+    }
 }
 
 
@@ -1965,7 +1964,7 @@ void CommonData::setSongInCrtAlbum()
 deque<const Mp3Handler*> CommonData::getCrtAlbum() const //ttt2 perhaps sort by track, if there's an ID3V2; anyway, this is only used by TagWriter and FileRenamer, and TagWriter does its own sorting (there might be an issue if calling getCrtAlbum() multiple times for the same album returns songs in different order because tracks changed between the calls)
 {
     deque<const Mp3Handler*> v;
-    if (m_vpAllHandlers.empty()) { return v; }
+    if (m_vpFltHandlers.empty()) { return v; }
 
     //CB_ASSERT (m_nSongInCrtAlbum >= 0 && m_nSongInCrtAlbum < cSize(m_vpAllHandlers)); // !!! incorrect assert; files migth have been deleted without updating m_nSongInCrtAlbum (well, one of the purposes of this function is to update m_nSongInCrtAlbum)
     CB_ASSERT (m_nSongInCrtAlbum >= 0);
@@ -1987,10 +1986,11 @@ deque<const Mp3Handler*> CommonData::getCrtAlbum() const //ttt2 perhaps sort by 
 // used for album navigation in tag editor and file renamer
 bool CommonData::nextAlbum() const
 {
-    if (m_vpAllHandlers.empty()) { return false; }
+    if (m_vpFltHandlers.empty()) { return false; }
 
     CB_ASSERT (m_nSongInCrtAlbum >= 0 && m_nSongInCrtAlbum < cSize(m_vpAllHandlers));
     string s (m_vpAllHandlers[m_nSongInCrtAlbum]->getDir());
+//qDebug("m_vpAllHandlers.z()=%d, m_vpFltHandlers.size()=%d, m_nSongInCrtAlbum=%d", cSize(m_vpAllHandlers), cSize(m_vpFltHandlers), m_nSongInCrtAlbum);
 
     deque<const Mp3Handler*>::const_iterator it (lower_bound(m_vpFltHandlers.begin(), m_vpFltHandlers.end(), m_vpAllHandlers[m_nSongInCrtAlbum], CmpMp3HandlerPtrByName()));
     //CB_ASSERT (m_vpAllHandlers[m_nSongInCrtAlbum] == *it); // !!! wrong - getCrtAlbum() moves m_nSongInCrtAlbum to the first song in album regardless of filter
@@ -2013,10 +2013,9 @@ bool CommonData::nextAlbum() const
 
 
 
-
 bool CommonData::prevAlbum() const
 {
-    if (m_vpAllHandlers.empty()) { return false; }
+    if (m_vpFltHandlers.empty()) { return false; }
 
     CB_ASSERT (m_nSongInCrtAlbum >= 0 && m_nSongInCrtAlbum < cSize(m_vpAllHandlers));
     string s (m_vpAllHandlers[m_nSongInCrtAlbum]->getDir());
@@ -2098,6 +2097,10 @@ void CommonData::setFastSave(bool bFastSave, bool bUpdateTransforms)
     m_bFastSave = bFastSave;
     if (!bUpdateTransforms) { return; }
 }
+
+
+
+
 
 
 /*

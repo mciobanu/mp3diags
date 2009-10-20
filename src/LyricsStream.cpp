@@ -20,9 +20,14 @@
  ***************************************************************************/
 
 
+#include  <QFile>
+#include  <QFileInfo>
+#include  <QDir>
+
 #include  "LyricsStream.h"
 
 #include  "Helpers.h"
+#include  "Widgets.h"
 
 
 using namespace std;
@@ -42,7 +47,7 @@ LyricsStream::LyricsStream()
 }
 
 
-LyricsStream::LyricsStream(int nIndex, NoteColl& notes, std::istream& in, const std::string& strCrtDir) : DataStream(nIndex), m_pos(in.tellg()), m_strCrtDir(strCrtDir)
+LyricsStream::LyricsStream(int nIndex, NoteColl& notes, std::istream& in, const std::string& strFileName) : DataStream(nIndex), m_pos(in.tellg()), m_strFileName(strFileName)
 {
     StreamStateRestorer rst (in);
     m_bHasTitle = m_bHasArtist = m_bHasGenre = m_bHasImage = m_bHasAlbum = false;
@@ -171,11 +176,11 @@ LyricsStream::LyricsStream(int nIndex, NoteColl& notes, std::istream& in, const 
         }
         else if ("IMG" == strField)
         {
-            if (m_strImageFile.empty())
+            if (m_strImageFiles.empty())
             {
-                m_strImageFile = strVal;
+                m_strImageFiles = strVal;
                 m_bHasImage = true;
-                MP3_NOTE (m_pos, imgInLyrics);
+                //MP3_NOTE (m_pos, imgInLyrics);
             }
             else
             {
@@ -264,18 +269,96 @@ LyricsStream::LyricsStream(int nIndex, NoteColl& notes, std::istream& in, const 
     return m_strGenre;
 }
 
+
+ImageInfo LyricsStream::readImage(const QString& strRelName) const //ttt2 perhaps move to Helpers and use for ID3V2 links as well; keep in mind that in many places link is considered invalid, so they would need updating;
+{
+    QString qs (QFileInfo(convStr(m_strFileName)).dir().filePath(strRelName));
+
+    //qs = convStr(m_strFileName) + getPathSep() + qs;
+
+    QFile f (qs);
+    bool bRes (false);
+
+    if (f.open(QIODevice::ReadOnly))
+    {
+        CursorOverrider crsOv;
+
+        int nSize ((int)f.size());
+        QByteArray comprImg (f.read(nSize));
+        QPixmap pic;
+
+        if (pic.loadFromData(comprImg))
+        {
+            bRes = true;
+
+            ImageInfo::Compr eCompr;
+            int nWidth, nHeight;
+
+            if (nSize <= ImageInfo::MAX_IMAGE_SIZE)
+            {
+                nWidth = pic.width(); nHeight = pic.height();
+                eCompr = qs.endsWith(".png", Qt::CaseInsensitive) ? ImageInfo::PNG : (qs.endsWith(".jpg", Qt::CaseInsensitive) || qs.endsWith(".jpeg", Qt::CaseInsensitive) ? ImageInfo::JPG : ImageInfo::INVALID); //ttt2 add more cases if supporting more image types
+            }
+            else
+            {
+                QPixmap scaledImg;
+                ImageInfo::compress(pic, scaledImg, comprImg);
+                nWidth = scaledImg.width(); nHeight = scaledImg.height();
+                eCompr = ImageInfo::JPG;
+            }
+
+            ImageInfo img (-1, ImageInfo::OK, eCompr, comprImg, nWidth, nHeight);
+
+            return img;
+        }
+    }
+
+    return ImageInfo(-1, ImageInfo::ERROR_LOADING);
+}
+
+
 /*override*/ ImageInfo LyricsStream::getImage(bool* pbFrameExists /*= 0*/) const
 {
     if (0 != pbFrameExists) { *pbFrameExists = m_bHasImage; }
-    //return m_str;
+
     if (m_bHasImage)
     {
-        //m_strImageFile //ttt0 extract file names, see which one to choose, try to load ... (use m_strCrtDir)
         // http://www.id3.org/Lyrics3v2
         // http://www.mpx.cz/mp3manager/tags.htm
+
+        QString qs (convStr(m_strImageFiles));
+        {
+            int k (qs.indexOf("\r\n"));
+            if (-1 != k)
+            {
+                qs.remove(k, qs.size());
+            }
+        }
+
+        return readImage(qs);
     }
     return ImageInfo();
 }
+
+
+/*override*/ std::vector<ImageInfo> LyricsStream::getImages() const
+{
+    vector<ImageInfo> v;
+
+    if (m_strImageFiles.empty()) { return v; }
+
+    QString qs (convStr(m_strImageFiles) + "\r\n");
+
+    for (;;)
+    {
+        int k (qs.indexOf("\r\n"));
+        if (-1 == k) { return v; }
+
+        v.push_back(readImage(qs.left(k)));
+        qs.remove(0, k + 2);
+    }
+}
+
 
 /*override*/ std::string LyricsStream::getAlbumName(bool* pbFrameExists /*= 0*/) const
 {
@@ -287,7 +370,7 @@ LyricsStream::LyricsStream(int nIndex, NoteColl& notes, std::istream& in, const 
 {
     string s;
     if (!m_strInd.empty()) { s += "IND field: " + m_strInd + "\n\n"; }
-    if (!m_strImageFile.empty()) { s += "IMG field: " + m_strImageFile + "\n\n"; }
+    if (!m_strImageFiles.empty()) { s += "IMG field: " + m_strImageFiles + "\n\n"; }
     if (!m_strAuthor.empty()) { s += "AUT field: " + m_strAuthor + "\n\n"; }
     if (!m_strLyrics.empty()) { s += "LYR field: " + m_strLyrics + "\n\n"; }
 

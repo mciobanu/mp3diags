@@ -66,7 +66,7 @@ DataStream constructors may leave the input file in EOF or other invalid state a
 
 #define STRM_ASSERT(COND) { if (!(COND)) { assertBreakpoint(); ::trace("assert"); logAssert(__FILE__, __LINE__, #COND, getGlobalMp3HandlerName()); ::exit(1); } }
 
-std::string getGlobalMp3HandlerName(); // a hack to get the name of the current file from inside various streams without storing the name there //ttt1 review
+std::string getGlobalMp3HandlerName(); // a hack to get the name of the current file from inside various streams without storing the name there //ttt2 review
 
 
 class DataStream
@@ -228,11 +228,7 @@ class UnsupportedDataStream : public UnknownDataStreamBase // ttt3 perhaps merge
     std::string m_strBaseName;
     std::string m_strInfo;
 public:
-    UnsupportedDataStream(int nIndex, NoteColl& notes, std::istream& in, std::streamoff nSize, const char* szBaseName, const std::string& strInfo) :
-            UnknownDataStreamBase(nIndex, notes, in, nSize),
-            m_strName(std::string("Unsupported ") + szBaseName),
-            m_strBaseName(szBaseName),
-            m_strInfo(strInfo.empty() ? UnknownDataStreamBase::getInfo() : strInfo + "; " + UnknownDataStreamBase::getInfo()) {}
+    UnsupportedDataStream(int nIndex, NoteColl& notes, std::istream& in, std::streamoff nSize, const char* szBaseName, const std::string& strInfo);
 
     /*override*/ const char* getDisplayName() const { return m_strName.c_str(); } // DECL_NAME doesn't work in this case
     /*override*/ std::string getInfo() const { return m_strInfo; }

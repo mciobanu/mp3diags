@@ -55,7 +55,7 @@ struct SimpleSaxHandler : public QXmlDefaultHandler
         std::string m_strName;
         void add(Node* p)
         {
-            if (0 != getChild(p->m_strName)) { throw 1; } // ttt1 throw something else
+            if (0 != getChild(p->m_strName)) { throw 1; } // ttt2 throw something else
             m_vpChildren.push_back(p);
         }
 
@@ -96,7 +96,7 @@ struct SimpleSaxHandler : public QXmlDefaultHandler
         m_lpNodes.push_back(new Node("qqq")); // to avoid comparisons to 0
         m_lpNodes.push_back(new Node(*m_lpNodes.back(), strName)); // the "root" node has a level of 1, because the artificial first elem has level 0
 
-        m_pCrtNode = m_lpNodes.front(); m_nCrtLevel = 0; // ttt1 reset these if an error occurs and then the object is used for another parsing;
+        m_pCrtNode = m_lpNodes.front(); m_nCrtLevel = 0; // ttt2 reset these if an error occurs and then the object is used for another parsing;
     }
 
     /*override*/ ~SimpleSaxHandler()

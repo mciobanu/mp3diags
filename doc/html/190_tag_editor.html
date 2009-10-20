@@ -151,7 +151,11 @@ Performance note
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-In order to avoid bad things happening to your files if the program / computer crashes while changing an MP3 file, the default behavior is to write all changes to a temporary file and do a rename at the end. However, doing so might make the program rather sluggish when saving. In the <a href="300_config_others.html">configuration dialog</a> there's an option called "Use fast save in the tag editor". This makes the writing be done in place, which greatly speeds up the save, at the slight risk of damage occuring to the ID3V2 tag (the audio data should escape unharmed even in case of a crash.) If you want to use it, it would be a good idea to run the transformation called "Reserve space in ID3V2 for fast tag editing" before going to the tag editor, othewise you'll only see performance improvements after saving once. Reserving space takes time, but it's unattended time and you can let the program do its thing in the background and do something else in the meantime, knowing that saving will be fast after it's done.
+In order to avoid bad things happening to your files if the program / computer crashes while changing an MP3 file, the default behavior is to write all changes to a temporary file and do a rename at the end. However, doing so might make MP3 Diags rather sluggish when saving. In the <a href="300_config_others.html">configuration dialog</a> there's an option called "Use fast save in the tag editor". This makes the writing be done in place, which greatly speeds up the save, at the slight risk of damage occuring to the ID3V2 tag (the audio data should escape unharmed even in case of a crash.) If you want to use it, it would be a good idea to run the transformation called "Reserve space in ID3V2 for fast tag editing" before going to the tag editor, othewise you'll only see performance improvements after saving once. Reserving space takes time, but it's unattended time and you can let the program do its thing in the background and do something else in the meantime, knowing that saving will be fast after it's done.
+</div>
+
+<div class="NormalText RegFnt ChpCol2">
+Some more unattended time is needed when closing the tag editor. The "fast-saved" files have to be rescanned for their notes to be correct.
 </div>
 
 <div class="NormalText RegFnt ChpCol2">

@@ -90,6 +90,86 @@ tryPadding:
 }
 
 
+/*override*/ int Id3V240Frame::getOffset() const
+{
+    return 0 != (m_cFlag2 & 0x01) ? 4 : 0; // not quite OK if the flag is set but the frame is only several bytes, but that was invalid to begin with; anyway, it doesn't mess up loading from disk, since none is needed for such short frames
+}
+
+
+void Id3V240Frame::load(NoteColl& notes, istream& in, streampos posNext, bool bHasUnsynch)
+{
+    StreamStateRestorer rst (in);
+    if (m_nDiskDataSize > 5000000) { return; } // there are probably no frames over 5MB
+
+    vector<char> v (m_nDiskDataSize);
+
+    m_vcData.clear();
+    //int nContentBytesSkipped (0);
+
+    int nRead (read(in, &v[0], m_nDiskDataSize));
+
+    //readID3V2(bHasUnsynch, in, &v[0], m_nMemDataSize1 w, posNext, nContentBytesSkipped));
+    //m_nDiskDataSize1 = q m_nMemDataSize1 + nContentBytesSkipped;
+    if (m_nDiskDataSize != nRead || !checkSize(in, posNext))
+    {
+        return;
+    }
+
+    rst.setOk();
+    if (bHasUnsynch && !v.empty())
+    {
+        for (int i = 0; i < cSize(v) - 1; ++i)
+        {
+            m_vcData.push_back(v[i]);
+            if (char(0xff) == v[i] && 0 == v[i + 1]) // !!! it's OK to run this on the Data length indicator, because it doesn't contain any 0xff
+            {
+                ++i;
+            }
+        }
+        m_vcData.push_back(v[v.size() - 1]);
+    }
+    else
+    {
+        v.swap(m_vcData);
+    }
+
+    m_nMemDataSize = cSize(m_vcData);
+
+    if (getOffset() > 0 && m_nMemDataSize > 3)
+    { // Data length indicator
+        unsigned char* p (reinterpret_cast<unsigned char*> (&m_vcData[0]));
+        //inspect(p, 50);
+
+        int nDli ((p[0] << 21) + (p[1] << 14) + (p[2] << 7) + (p[3] << 0));
+
+        if (nDli != m_nMemDataSize - 4)
+        {
+            MP3_NOTE (m_pos, id3v240IncorrectDli);
+        }
+        else
+        {
+            m_nMemDataSize -= 4;
+            m_vcData.erase(m_vcData.begin(), m_vcData.begin() + 4);
+        }
+    }
+}
+
+void Id3V240Frame::load(NoteColl& notes, istream& in, streampos posNext)
+{
+    load(notes, in, posNext, m_bHasUnsynch);
+    if (-1 == m_nMemDataSize)
+    {
+        load(notes, in, posNext, !m_bHasUnsynch);
+        if (-1 != m_nMemDataSize)
+        {
+            m_bHasUnsynch = !m_bHasUnsynch;
+            MP3_NOTE (m_pos, id3v240IncorrectFrameSynch);
+        }
+    }
+}
+
+
+
 Id3V240Frame::Id3V240Frame(NoteColl& notes, istream& in, streampos pos, bool bHasUnsynch, streampos posNext, StringWrp* pFileName) : Id3V2Frame(pos, bHasUnsynch, pFileName)
 {
     in.seekg(pos);
@@ -102,10 +182,11 @@ Id3V240Frame::Id3V240Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
     if (0 == bfr[0])
     { // padding
         //m_nMemDataSize = -1; // !!! not needed; the constructor makes it -1
-        m_nDiskDataSize = -1;
+        //m_nDiskDataSize = -1; // !!! not needed; the constructor makes it -1
         m_szName[0] = 0;
         return;
     }
+    m_nDiskHdrSize = ID3_FRAME_HDR_SIZE + nHdrBytesSkipped;
 //inspect(bfr, ID3_FRAME_HDR_SIZE);
     strncpy(m_szName, bfr, 4);
     m_szName[4] = 0;
@@ -120,62 +201,42 @@ Id3V240Frame::Id3V240Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
         }
     }
 
-    //MP3_CHECK (0 == (p[4] & 0x80) && 0 == (p[5] & 0x80) && 0 == (p[6] & 0x80) && 0 == (p[7] & 0x80), pos, "Invalid ID3V2.4.0 frame. Size is supposed to be synchsafe but it isn't.", Id3V240Stream::NotId3V2());
 
     m_cFlag1 = bfr[8];
     m_cFlag2 = bfr[9];
 //inspect(bfr);
 
-    MP3_CHECK (0 == (m_cFlag1 & ~0x60), pos, id3v2UnsuppFlags1, StreamIsUnsupported(Id3V240Stream::getClassDisplayName(), "ID3V2.4.0 tag containing a frame with an unsupported flag.")); // ignores "Tag alter preservation" and "File alter preservation" // ttt1 use them
-    MP3_CHECK (0 == (m_cFlag2 & ~0x02), pos, id3v2UnsuppFlags2, StreamIsUnsupported(Id3V240Stream::getClassDisplayName(), "ID3V2.4.0 tag containing a frame with an unsupported flag."));
-    m_bHasUnsynch = m_bHasUnsynch || (0 != (m_cFlag2 & ~0x02));
+    MP3_CHECK (0 == (m_cFlag1 & ~0x60), pos, id3v2UnsuppFlags1, StreamIsUnsupported(Id3V240Stream::getClassDisplayName(), "ID3V2.4.0 tag containing a frame with an unsupported flag.")); // ignores "Tag alter preservation" and "File alter preservation" // ttt2 use them
+    MP3_CHECK (0 == (m_cFlag2 & ~0x03), pos, id3v2UnsuppFlags2, StreamIsUnsupported(Id3V240Stream::getClassDisplayName(), "ID3V2.4.0 tag containing a frame with an unsupported flag."));
+
+    m_bHasUnsynch = (0 != (m_cFlag2 & ~0x02));
 //m_bHasUnsynch = false;
 
-    int nContentBytesSkipped (0);
-    nRead = 0;
 
     if (0 != (m_cFlag1 & 0x8f)) { MP3_NOTE (pos, id3v2IncorrectFlg1); }
     if (0 != (m_cFlag2 & 0xb0)) { MP3_NOTE (pos, id3v2IncorrectFlg2); }
 
-    //int nSize7Bit ((p[4] << 21) + (p[5] << 14) + (p[6] << 7) + (p[7] << 0));
+
     if (0 == (p[4] & 0x80) && 0 == (p[5] & 0x80) && 0 == (p[6] & 0x80) && 0 == (p[7] & 0x80))
-    { // could be 7 bit
-        m_nMemDataSize = (p[4] << 21) + (p[5] << 14) + (p[6] << 7) + (p[7] << 0);
-        m_vcData.resize(m_nMemDataSize);
-        streampos posUndo (in.tellg());
-        nRead = readID3V2(bHasUnsynch || (m_cFlag2 & 0x02), in, &m_vcData[0], m_nMemDataSize, posNext, nContentBytesSkipped); // ttt2 makes the assumption that unsynch is used if at least one of the global or frame-specific flag is set; not sure if it's right
-        //nRead = readID3V2(false, in, &m_vcData[0], m_nMemDataSize, posNext, nContentBytesSkipped);
-        m_nDiskHdrSize = ID3_FRAME_HDR_SIZE + nHdrBytesSkipped;
-        m_nDiskDataSize = m_nMemDataSize + nContentBytesSkipped;
-        if (m_nMemDataSize != nRead || !checkSize(in, posNext))
-        {
-            vector<char>().swap(m_vcData);;
-            m_nMemDataSize = -1;
-            in.seekg(posUndo);
-            //MP3_THROW (pos, "Invalid ID3V2.4.0 frame. File too short. Unable to read all the bytes declared in SIZE.", Id3V240Stream::NotId3V2());
-        }
+    { // by the specs it should be 7 bit unsynch
+        m_nDiskDataSize = (p[4] << 21) + (p[5] << 14) + (p[6] << 7) + (p[7] << 0);
+        load(notes, in, posNext);
     }
 
     if (-1 == m_nMemDataSize)
     { // failed to load as 7bit unsynch, so try 8bit
-        m_nMemDataSize = (p[4] << 24) + (p[5] << 16) + (p[6] << 8) + (p[7] << 0);
+        m_nDiskDataSize = (p[4] << 24) + (p[5] << 16) + (p[6] << 8) + (p[7] << 0);
+        load(notes, in, posNext);
 
-        m_vcData.resize(m_nMemDataSize);
-        nRead = readID3V2(bHasUnsynch || (m_cFlag2 & 0x02), in, &m_vcData[0], m_nMemDataSize, posNext, nContentBytesSkipped); // ttt2 makes the assumption that unsynch is used if at least one of the global or frame-specific flag is set; not sure if it's right
-        m_nDiskHdrSize = ID3_FRAME_HDR_SIZE + nHdrBytesSkipped;
-        m_nDiskDataSize = m_nMemDataSize + nContentBytesSkipped;
-        if (m_nMemDataSize != nRead || !checkSize(in, posNext))
+        if (-1 == m_nMemDataSize)
         {
-            vector<char>().swap(m_vcData);;
-            m_nMemDataSize = -1;
-            MP3_THROW (pos, id3v240FrameTooShort, StreamIsBroken(Id3V240Stream::getClassDisplayName(), "Truncated ID3V2.4.0 tag."));
+            MP3_THROW (pos, id3v240CantReadFrame, StreamIsBroken(Id3V240Stream::getClassDisplayName(), "Broken ID3V2.4.0 tag."));
         }
         else
         {
             MP3_NOTE (pos, id3v240IncorrectSynch);
         }
     }
-//ttt0 if still failed try again, overriding the synch flag; make 01 - Wanna Be Startin' Somethin'.mp3 work
 
     try
     {
@@ -266,7 +327,7 @@ string Id3V240Frame::getUtf8StringImpl() const
 
     if (2 == pData[0])
     {
-        CB_THROW1 (UnsupportedId3V2Frame()); //ttt1 add support for UTF-16BE and UTF-8 (2 = "UTF-16BE [UTF-16] encoded Unicode [UNICODE] without BOM");
+        CB_THROW1 (UnsupportedId3V2Frame()); //ttt2 add support for UTF-16BE (2 = "UTF-16BE [UTF-16] encoded Unicode [UNICODE] without BOM");
     }
 
     CB_THROW1 (NotId3V2Frame());
@@ -301,7 +362,7 @@ Id3V240Stream::Id3V240Stream(int nIndex, NoteColl& notes, istream& in, StringWrp
     MP3_CHECK_T (4 == bfr[3] && 0 == bfr[4], pos, "Invalid ID3V2.4.0 tag. Invalid ID3V2.4.0 header.", NotId3V2());
     m_nTotalSize = getId3V2Size (bfr);
     m_cFlags = bfr[5];
-    MP3_CHECK (0 == (m_cFlags & 0x7f), pos, id3v2UnsuppFlag, StreamIsUnsupported(Id3V240Stream::getClassDisplayName(), "ID3V2 tag with unsupported flag.")); //ttt1 review, support
+    MP3_CHECK (0 == (m_cFlags & 0x7f), pos, id3v2UnsuppFlag, StreamIsUnsupported(Id3V240Stream::getClassDisplayName(), "ID3V2 tag with unsupported flag.")); //ttt2 review, support
 
     streampos posNext (pos);
     posNext += m_nTotalSize;
@@ -379,11 +440,6 @@ Id3V240Stream::Id3V240Stream(int nIndex, NoteColl& notes, istream& in, StringWrp
     case ImageInfo::LOADED_NOT_COVER: MP3_NOTE (m_pos, id3v2NotCoverPicture); break;
     default:;
     }
-
-    /*if (0 != findFrame(KnownFrames::LBL_IMAGE()))
-    {
-        MP3_NOTE (m_pos, "APIC in ID3 2.4.0 has never been tested. It may not work."); //ttt1 test & remove
-    }*/
 
     if (m_vpFrames.empty())
     {

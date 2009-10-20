@@ -94,7 +94,7 @@ LAST_STEP("LogModel::headerData");
             //QSize size (fm.boundingRect(r, Qt::AlignTop | Qt::TextWordWrap, s).size());
             int nWidth (fm.width(s));
 
-            return QSize(nWidth + 10, CELL_HEIGHT); //ttt1 replace CELL_HEIGHT; ttt1 "10" hard-coded*/
+            return QSize(nWidth + 10, CELL_HEIGHT); //ttt2 replace CELL_HEIGHT; ttt2 "10" hard-coded*/
             getNumVertHdrSize ...
         }
 

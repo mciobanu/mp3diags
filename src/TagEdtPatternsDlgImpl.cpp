@@ -89,7 +89,7 @@ void TagEdtPatternsDlgImpl::on_m_pOkB_clicked()
     const char* q (p);
     for (;;)
     {
-        if ('\n' == *p || 0 == *p) // ttt1 see if this works on Windows with mingw
+        if ('\n' == *p || 0 == *p)
         {
             string s1 (q, p - q);
             s1 = fromNativeSeparators(s1);

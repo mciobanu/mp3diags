@@ -36,6 +36,7 @@
 #include  "Mp3Manip.h"
 #include  "Helpers.h"
 #include  "FileEnum.h"
+#include  "CommonTypes.h"
 
 //class QFont;
 
@@ -50,7 +51,7 @@ struct NotesModel;
 struct StreamsModel;
 struct UniqueNotesModel;
 
-extern int CELL_WIDTH; // ttt1 perhaps replace with functions
+extern int CELL_WIDTH; // ttt2 perhaps replace with functions
 extern int CELL_HEIGHT;
 
 extern const int CUSTOM_TRANSF_CNT; // search for this to find all places that need changes to add another custom transform list
@@ -213,7 +214,7 @@ private:
 
         ar << m_vDirs;
         //qDebug("saved dirs sz %d", cSize(m_vDirs));
-        //ar << m_vpNotes; //ttt1 weird behaviour: this compiles and doesn't trigger runtime errros, and neither does the loading, but when loading a vector<Note*> it always ends up empty; it's probably some incorrect use of the ser library (share / global / const pointers), but the library is broken too, because it should have failed to compile or at least crashed when running instead of just failing to load anything (the files are different, so something is saved)
+        //ar << m_vpNotes; //ttt2 weird behaviour: this compiles and doesn't trigger runtime errros, and neither does the loading, but when loading a vector<Note*> it always ends up empty; it's probably some incorrect use of the ser library (share / global / const pointers), but the library is broken too, because it should have failed to compile or at least crashed when running instead of just failing to load anything (the files are different, so something is saved)
         //ar << (const std::vector<const Note*>&)m_vpNotes; qDebug("saved notes sz %d", cSize(m_vpNotes));
 
         std::vector<std::string> v;
@@ -408,9 +409,8 @@ public:
     bool useFastSave() const { return m_bFastSave; }
 
 public:
-    enum Case { LOWER, UPPER, TITLE, PHRASE };
-    Case m_eCaseForArtists;
-    Case m_eCaseForOthers;
+    TextCaseOptions m_eCaseForArtists;
+    TextCaseOptions m_eCaseForOthers;
 
     bool m_bWarnOnNonSeqTracks, m_bWarnPastingToNonSeqTracks;
     bool m_bShowExport, m_bShowDebug, m_bShowSessions;
@@ -517,7 +517,7 @@ private:
 
     void updateUniqueNotes(); // updates m_uniqueNotes to reflect the current m_vpAllHandlers and m_vpFltHandlers;
 
-    mutable int m_nSongInCrtAlbum; // something in the "current album" used by the tag editor; might be first, last or in the middle;
+    mutable int m_nSongInCrtAlbum; // index into m_vpAllHandlers; something in the "current album" used by the tag editor; might be first, last or in the middle;
 
     std::string m_strGenFontName;
     int m_nGenFontSize;
@@ -615,7 +615,6 @@ QColor getDefaultBkgCol();
 //=====================================================================================================================
 //=====================================================================================================================
 //=====================================================================================================================
-
 
 void printFontInfo(const char* szLabel, const QFont& font);
 

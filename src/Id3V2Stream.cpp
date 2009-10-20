@@ -156,6 +156,7 @@ e1:
 
 Id3V2Frame::Id3V2Frame(streampos pos, bool bHasUnsynch, StringWrp* pFileName) :
         m_nMemDataSize(-1),
+        m_nDiskDataSize(-1),
         m_pos(pos),
         m_pFileName(pFileName),
         m_bHasUnsynch(bHasUnsynch),
@@ -221,8 +222,20 @@ void Id3V2Frame::print(ostream& out, bool bFullInfo) const
         //const char* q (pData + 1);
         out << ": ";
         int nBeg (1);
-        for (; nBeg < m_nMemDataSize && 0 != pData[nBeg]; ++nBeg) {}
-        ++nBeg;
+
+        { // skip description
+            if (0 == pData[0] || 3 == pData[0])
+            {
+                for (; nBeg < m_nMemDataSize && 0 != pData[nBeg]; ++nBeg) {}
+                ++nBeg;
+            }
+            else
+            {
+                for (; nBeg < m_nMemDataSize - 1 && (0 != pData[nBeg] || 0 != pData[nBeg + 1]); ++nBeg) {}
+                nBeg += 2;
+            }
+        }
+
         QString qs;
         switch (pData[0])
         {
@@ -231,7 +244,14 @@ void Id3V2Frame::print(ostream& out, bool bFullInfo) const
             break;
 
         case 1:
-            qs = QString::fromUtf8(utf8FromBomUtf16(pData + nBeg, m_nMemDataSize - nBeg).c_str());
+            try
+            {
+                qs = QString::fromUtf8(utf8FromBomUtf16(pData + nBeg, m_nMemDataSize - nBeg).c_str());
+            }
+            catch (const NotId3V2Frame&)
+            {
+                qs = "<< error decoding string >>";
+            }
             break;
 
         case 2:
@@ -379,7 +399,7 @@ double Id3V2Frame::getRating() const // asserts it's POPM
         return -1;
     }
     unsigned char c (pData[k]);
-    return 5*(double(c) - 1)/254;  // ttt1 not sure this is the best mapping
+    return 5*(double(c) - 1)/254;  // ttt2 not sure this is the best mapping
 }
 
 
@@ -388,7 +408,7 @@ double Id3V2Frame::getRating() const // asserts it's POPM
 {
     CB_CHECK1 (nSize > 1, NotId3V2Frame()); // UNICODE string entries must have a size of 3 or more."
     const unsigned char* p (reinterpret_cast<const unsigned char*> (pData));
-    CB_CHECK1 ((0xff == p[0] && 0xfe == p[1]) || (0xff == p[1] && 0xfe == p[0]), NotId3V2Frame());
+    CB_CHECK1 ((0xff == p[0] && 0xfe == p[1]) || (0xff == p[1] && 0xfe == p[0]), NotId3V2Frame()); //ttt2 perhaps use other exception
 
 #if Q_BYTE_ORDER == Q_LITTLE_ENDIAN
     bool bIsFffeOk (true); // x86
@@ -461,6 +481,10 @@ string Id3V2Frame::getUtf8String() const
     {
         return "<error loading frame>"; //ttt2 not sure if this is the best thing to do, but at least avoids crashes;
     }
+    catch (const Id3V2Frame::NotId3V2Frame&)
+    {
+        return "<error decoding frame>"; //ttt2 not sure if this is the best thing to do, but at least avoids crashes;
+    }
 }
 
 
@@ -475,11 +499,12 @@ Id3V2FrameDataLoader::Id3V2FrameDataLoader(const Id3V2Frame& frame) : m_frame(fr
 {
     if (cSize(frame.m_vcData) < m_frame.m_nMemDataSize)
     {
-        m_bOwnsData = true;
+        int nDiscard (frame.getOffset()); // for DataLengthIndicator
+        //m_bOwnsData = true;
         CB_ASSERT1 (frame.m_vcData.empty(), m_frame.m_pFileName->s);
         CB_ASSERT1 (0 != frame.m_pFileName, m_frame.m_pFileName->s);
-        char* pData (new char[m_frame.m_nMemDataSize]);
-        m_pData = pData;
+
+        m_vcOwnData.resize(m_frame.m_nMemDataSize);
         ifstream_utf8 in (m_frame.m_pFileName->s.c_str(), ios::binary);
         in.seekg(m_frame.m_pos);
         in.seekg(m_frame.m_nDiskHdrSize, ios_base::cur);
@@ -487,18 +512,18 @@ Id3V2FrameDataLoader::Id3V2FrameDataLoader(const Id3V2Frame& frame) : m_frame(fr
         posNext += m_frame.m_nDiskDataSize + m_frame.m_nDiskHdrSize;
         int nContentBytesSkipped (0);
         int nRead (0);
-        nRead = readID3V2(m_frame.m_bHasUnsynch, in, pData, m_frame.m_nMemDataSize, posNext, nContentBytesSkipped);
+        in.seekg(nDiscard, ios_base::cur);
+        nRead = readID3V2(m_frame.m_bHasUnsynch, in, &m_vcOwnData[0], cSize(m_vcOwnData), posNext, nContentBytesSkipped);
         //qDebug("nRead %d ; m_frame.m_nMemDataSize %d ; nContentBytesSkipped %d ", nRead, m_frame.m_nMemDataSize, nContentBytesSkipped);
-        if (m_frame.m_nMemDataSize != nRead)
+        if (cSize(m_vcOwnData) != nRead)
         {
-            delete[] m_pData;
             throw LoadFailure();
         }
+
+        m_pData = &m_vcOwnData[0];
     }
     else
     {
-        m_bOwnsData = false;
-
         if (frame.m_vcData.empty())
         {
             static char c (0);
@@ -514,10 +539,6 @@ Id3V2FrameDataLoader::Id3V2FrameDataLoader(const Id3V2Frame& frame) : m_frame(fr
 
 Id3V2FrameDataLoader::~Id3V2FrameDataLoader()
 {
-    if (m_bOwnsData)
-    {
-        delete[] m_pData;
-    }
 }
 
 
@@ -595,7 +616,7 @@ void Id3V2StreamBase::printFrames(ostream& out) const
 
 /*override*/ void Id3V2StreamBase::copy(std::istream& in, std::ostream& out)
 {
-    appendFilePart(in, out, m_pos, m_nTotalSize); //ttt1
+    appendFilePart(in, out, m_pos, m_nTotalSize); //ttt2
 }
 
 
@@ -766,7 +787,7 @@ void Id3V2StreamBase::checkFrames(NoteColl& notes) // various checks to be calle
 
     //ttt2 add other checks
 }
-//ttt1 perhaps use links to pictures in crt dir
+//ttt2 perhaps use links to pictures in crt dir
 
 
 /*override*/ ImageInfo Id3V2StreamBase::getImage(bool* pbFrameExists /*= 0*/) const
@@ -900,26 +921,30 @@ e1:
     return out.str();
 }
 
-/*static*/ const char* Id3V2StreamBase::decodeApic(NoteColl& notes, streampos pos, const char* pData, const char*& szMimeType, int& nPictureType, const char*& szDescription)
+/*static*/ const char* Id3V2StreamBase::decodeApic(NoteColl& notes, int nDataSize, streampos pos, const char* const pData, const char*& szMimeType, int& nPictureType, const char*& szDescription)
 {
-    MP3_CHECK (0 == pData[0] || 3 == pData[0], pos, id3v2UnsupApicTextEnc, NotSupTextEnc()); // !!! there's no need for StreamIsUnsupported here, because this error is not fatal, and it isn't allowed to propagate, therefore doesn't cause a stream to be Unsupported; //ttt1 review, support
-    ++pData;
-    szMimeType = pData; // ttt3 type 0 is Latin1, while type 3 is UTF8, so this isn't quite right; however, MIME types should probably be plain ASCII, so it's the same; and anyway, we only recognize JPEG and PNG, which are ASCII
-    int nMimeSize (strlen(pData)); //ttt1 doesn't work for corrupted pData, when there is no 0 terminator
+    MP3_CHECK (0 == pData[0] || 3 == pData[0], pos, id3v2UnsupApicTextEnc, NotSupTextEnc()); // !!! there's no need for StreamIsUnsupported here, because this error is not fatal, and it isn't allowed to propagate, therefore doesn't cause a stream to be Unsupported; //ttt2 review, support
+    szMimeType = pData + 1; // ttt3 type 0 is Latin1, while type 3 is UTF8, so this isn't quite right; however, MIME types should probably be plain ASCII, so it's the same; and anyway, we only recognize JPEG and PNG, which are ASCII
+    //int nMimeSize (strnlen(pData, nDataSize));
 
-    pData += 1 + nMimeSize;
-    nPictureType = *pData++;
+    const char* p (pData + 1);
+    for (; p < pData + nDataSize && 0 != *p; ++p) {}
+    MP3_CHECK (p < pData + nDataSize - 1, pos, id3v2UnsupApicTextEnc, ErrorDecodingApic()); // "-1" to account for szDescription
+    CB_ASSERT (0 == *p);
+    ++p;
 
-    szDescription = pData;
+    nPictureType = *p++;
 
-    return pData + strlen(szDescription) + 1;
-}
+    szDescription = p;
+    for (; p < pData + nDataSize; ++p)
+    {
+        if (0 == *p)
+        {
+            return p + 1;
+        }
+    }
 
-
-static bool isTypeSupported(int nType)
-{
-    //return Id3V2Frame::OTHER == nType || Id3V2Frame::ICON == nType || Id3V2Frame::COVER == nType; //ttt1 review decision to have all these map to "cover"; see also Mp3HandlerTagData::reload(), where saving of a "cover" image is influenced by what this returned
-    return Id3V2Frame::PT_COVER == nType; // 2009.04.05 - for a while it seemed a good idea to report OTHER and ICON as "supported", but there's the issue of what to do when deleting an image in the tag editor; seems better to just use the cover; //ttt1 OTOH this creates more duplicates
+    throw ErrorDecodingApic();
 }
 
 
@@ -941,7 +966,7 @@ void Id3V2StreamBase::preparePictureHlp(NoteColl& notes, Id3V2Frame* pFrame, con
     {
         pFrame->m_nImgSize = nSize;
         pFrame->m_nImgOffset = pImgData - pFrameData;
-        pFrame->m_eApicStatus = Id3V2Frame::COVER;
+        pFrame->m_eApicStatus = pFrame->m_nPictureType == Id3V2Frame::PT_COVER ? Id3V2Frame::COVER : Id3V2Frame::NON_COVER;
         pFrame->m_nWidth = short(img.width());
         pFrame->m_nHeight = short(img.height());
         if (0 == strcmp("image/jpeg", szMimeType) || 0 == strcmp("image/jpg", szMimeType))
@@ -955,7 +980,7 @@ void Id3V2StreamBase::preparePictureHlp(NoteColl& notes, Id3V2Frame* pFrame, con
         else
         {
             pFrame->m_eCompr = ImageInfo::INVALID;
-        } //ttt1 perhaps support GIF or other formats
+        } //ttt2 perhaps support GIF or other formats; (well, GIFs can be loaded, but are recompressed when saving)
         return;
     }
 
@@ -977,15 +1002,16 @@ void Id3V2StreamBase::preparePicture(NoteColl& notes) // initializes fields used
 {
     const char* szMimeType;
     const char* szDescription;
-    Id3V2Frame* pFirstValidApicFrame (0);
-    Id3V2Frame* pFirstApicFrame (0);
+    //Id3V2Frame* pFirstLoadableCover (0);
+    Id3V2Frame* pFirstLoadableNonCover (0);
+    Id3V2Frame* pFirstApic (0); // might have errors, might be link, ...
 
     for (int i = 0, n = cSize(m_vpFrames); i < n; ++i)
-    {
+    { // go through the frame list and set m_eApicStatus
         Id3V2Frame* p = m_vpFrames[i];
         if (0 == strcmp(KnownFrames::LBL_IMAGE(), p->m_szName))
         {
-            if (0 == pFirstApicFrame) { pFirstApicFrame = p; }
+            if (0 == pFirstApic) { pFirstApic = p; } // !!! regardless of what exceptions might get thrown, p will have an m_eApicStatus other than NO_APIC; that happens either in preparePictureHlp() or with explicit assignments
             try
             {
                 Id3V2FrameDataLoader wrp (*p);
@@ -994,34 +1020,41 @@ void Id3V2StreamBase::preparePicture(NoteColl& notes) // initializes fields used
 
                 try
                 {
-                    pCrtData = decodeApic(notes, p->m_pos, pData, szMimeType, p->m_nPictureType, szDescription);
+                    pCrtData = decodeApic(notes, p->m_nMemDataSize, p->m_pos, pData, szMimeType, p->m_nPictureType, szDescription);
                 }
                 catch (const NotSupTextEnc&)
                 {
-                    p->m_eApicStatus = Id3V2Frame::NON_COVER;
+                    p->m_eApicStatus = Id3V2Frame::ERR;
                     continue;
                 }
+                catch (const ErrorDecodingApic&)
+                {
+                    p->m_eApicStatus = Id3V2Frame::ERR;
+                    continue;
+                }
+
                 if (0 != *szDescription) { MP3_NOTE (p->m_pos, id3v2PictDescrIgnored); }
 
                 preparePictureHlp(notes, p, pData, pCrtData, szMimeType);
 
                 if (Id3V2Frame::COVER == p->m_eApicStatus)
                 {
-                    if (isTypeSupported(p->m_nPictureType))
+                    if (0 == m_pPicFrame)
                     {
                         m_eImageStatus = ImageInfo::OK;
                         m_pPicFrame = p;
                     }
-                    else if (0 == pFirstValidApicFrame)
-                    {
-                        pFirstValidApicFrame = p;
-                    }
                 }
 
+                if (0 == pFirstLoadableNonCover && Id3V2Frame::NON_COVER == p->m_eApicStatus)
+                {
+                    pFirstLoadableNonCover = p;
+                }
             }
             catch (const Id3V2FrameDataLoader::LoadFailure&)
             {
                 MP3_NOTE (p->m_pos, fileWasChanged);
+                p->m_eApicStatus = Id3V2Frame::ERR;
             }
         }
     }
@@ -1032,25 +1065,25 @@ void Id3V2StreamBase::preparePicture(NoteColl& notes) // initializes fields used
         return;
     }
 
-    // no frame with supported type (0, 1, or 3) was found; just pick the first APIC frame and use it
+    // no cover frame was found; just pick the first loadable APIC frame and use it
+    CB_ASSERT (ImageInfo::NO_PICTURE_FOUND == m_eImageStatus);
 
-    if (ImageInfo::NO_PICTURE_FOUND == m_eImageStatus && 0 != pFirstValidApicFrame)
+    if (0 != pFirstLoadableNonCover)
     {
         m_eImageStatus = ImageInfo::LOADED_NOT_COVER;
-        m_pPicFrame = pFirstValidApicFrame;
+        m_pPicFrame = pFirstLoadableNonCover;
         return;
     }
 
-    if (0 == pFirstApicFrame)
+    if (0 == pFirstApic)
     {
         return;
     }
 
-    switch (pFirstApicFrame->m_eApicStatus)
+    switch (pFirstApic->m_eApicStatus)
     {
     case Id3V2Frame::USES_LINK: m_eImageStatus = ImageInfo::USES_LINK; return;
     case Id3V2Frame::ERR: m_eImageStatus = ImageInfo::ERROR_LOADING; return;
-    case Id3V2Frame::NON_COVER: m_eImageStatus = ImageInfo::ERROR_LOADING; return;
     default: CB_ASSERT1 (false, m_pFileName->s); // all cases should have been covered
     }
 
@@ -1334,7 +1367,7 @@ vector<const Id3V2Frame*> Id3V2StreamBase::getKnownFrames() const // to be used 
                 if (p->m_nPictureType == v[j]->m_nPictureType && 0 == strcmp(v[j]->m_szName, p->m_szName))
                 {
                     // !!! important for both image and non-image frames; while Id3V230StreamWriter would remove duplicates as configured, we want to get rid of them now, so the first value is kept; Id3V230StreamWriter removes old values as new ones are added, which would keep the last value
-                    //ttt1 not always right for multiple pictures if "keep one" is checked;
+                    //ttt2 not always right for multiple pictures if "keep one" is checked;
 
                     bAdd = false;
                     break;

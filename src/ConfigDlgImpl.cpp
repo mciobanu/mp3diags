@@ -45,7 +45,7 @@
 using namespace std;
 using namespace pearl;
 
-//ttt1 simple / detailed files tab, with "simple" only allowing to "create backups in ..."
+//ttt2 simple / detailed files tab, with "simple" only allowing to "create backups in ..."
 //=====================================================================================================================
 //=====================================================================================================================
 //=====================================================================================================================
@@ -518,10 +518,14 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
 
     { // case
         QStringList lNames;
-        lNames << "Lower case: first part. second part.";
+        /*lNames << "Lower case: first part. second part.";
         lNames << "Upper case: FIRST PART. SECOND PART.";
         lNames << "Title case: First Part. Second Part.";
-        lNames << "Phrase case: First part. Second part.";
+        lNames << "Sentence case: First part. Second part.";*/ // ttt2 perhaps put this back; as of 2009.10.15, "." is no longer supported as a sentence ending
+        lNames << "lower case";
+        lNames << "UPPER CASE";
+        lNames << "Title Case";
+        lNames << "Sentence case";
 
         m_pArtistsCaseCbB->addItems(lNames);
         m_pOthersCaseCbB->addItems(lNames);
@@ -1002,8 +1006,8 @@ void ConfigDlgImpl::on_m_pOkB_clicked()
         }
 
         { // case
-            m_pCommonData->m_eCaseForArtists = (CommonData::Case)m_pArtistsCaseCbB->currentIndex();
-            m_pCommonData->m_eCaseForOthers = (CommonData::Case)m_pOthersCaseCbB->currentIndex();
+            m_pCommonData->m_eCaseForArtists = (TextCaseOptions)m_pArtistsCaseCbB->currentIndex(); //ttt2 perhaps allow NONE
+            m_pCommonData->m_eCaseForOthers = (TextCaseOptions)m_pOthersCaseCbB->currentIndex();
         }
 
         { // colors
@@ -1032,7 +1036,7 @@ void ConfigDlgImpl::on_m_pOkB_clicked()
             m_pCommonData->m_bKeepOneValidImg = m_pKeepOneValidImgCkB->isChecked();
             m_pCommonData->m_bWmpVarArtists = m_pWmpCkB->isChecked();
             m_pCommonData->m_bItunesVarArtists = m_pItunesCkB->isChecked();
-            ImageInfo::MAX_IMAGE_SIZE = m_pMaxImgSizeSB->value()*1024; //ttt1 inconsistent to keep this in static var and the others in CommonData; perhaps switch to a global CommonData that anybody can access, without passing it in params
+            ImageInfo::MAX_IMAGE_SIZE = m_pMaxImgSizeSB->value()*1024; //ttt2 inconsistent to keep this in static var and the others in CommonData; perhaps switch to a global CommonData that anybody can access, without passing it in params
             m_pCommonData->setTraceToFile(m_pTraceToFileCkB->isChecked());
 
             m_pCommonData->setFontInfo(convStr(m_generalFont.family()), m_generalFont.pointSize(), m_pDecrLabelFontSB->value(), convStr(m_fixedFont.family()), m_fixedFont.pointSize());
@@ -1047,7 +1051,7 @@ void ConfigDlgImpl::on_m_pOkB_clicked()
     }
     catch (const IncorrectDirName&)
     {
-        QMessageBox::critical(this, "Invalid folder name", "A folder name is incorrect."); //ttt1 say which name
+        QMessageBox::critical(this, "Invalid folder name", "A folder name is incorrect."); //ttt2 say which name
     }
 }
 
@@ -1061,7 +1065,7 @@ void ConfigDlgImpl::on_m_pCancelB_clicked()
 void ConfigDlgImpl::on_m_pChangeGenFontB_clicked()
 {
     bool bOk;
-    QFont font = QFontDialog::getFont(&bOk, m_generalFont, this); //ttt1 see if possible to remove "What's this" button
+    QFont font = QFontDialog::getFont(&bOk, m_generalFont, this); //ttt2 see if possible to remove "What's this" button
     if (!bOk) { return; }
 
     m_generalFont = font;

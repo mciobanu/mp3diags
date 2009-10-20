@@ -75,7 +75,7 @@ Note: getTempName() and getCompNames() create the directories, if needed, so fil
 
 Note: all file names are absolute.
 
-//ttt1 option to remove the original file, once it's pretty sure that the changes the program makes are consistently good
+
 
 //ttt2 more options to change what getBackupName() and getDestName() return and some other things:
     1) the name can be the original one or changed;
@@ -88,7 +88,7 @@ Note: all file names are absolute.
 class TransfConfig
 {
     //bool m_bRename
-    std::string m_strSrcDir; // all scanned files are supposed to be here; // 2009.04.08 - for now it seems better to force this to be empty, by not allowing it to be edited // ttt1 perhaps put back, or calculate it from a session's folders in saveTransfConfig(), but seems likely to create confusion; can be edited manually in the config file to see what it does (or by commenting out "m_pSourceDirF->hide()")
+    std::string m_strSrcDir; // all scanned files are supposed to be here; // 2009.04.08 - for now it seems better to force this to be empty, by not allowing it to be edited // ttt2 perhaps put back, or calculate it from a session's folders in saveTransfConfig(), but seems likely to create confusion; can be edited manually in the config file to see what it does (or by commenting out "m_pSourceDirF->hide()")
     std::string m_strProcOrigDir;
     std::string m_strUnprocOrigDir;
     std::string m_strProcessedDir;
@@ -294,7 +294,7 @@ public:
     const std::string& getTempDir() const { return m_strTempDir; }
     const std::string& getCompDir() const { return m_strCompDir; }
 
-    void setProcOrigDir(const std::string& s) { m_strProcOrigDir = s; } // needed by the session dialog //ttt1 perhaps some checks
+    void setProcOrigDir(const std::string& s) { m_strProcOrigDir = s; } // needed by the session dialog //ttt2 perhaps some checks
 
     int getOptions() const { return m_options.getVal(); }
 
@@ -329,6 +329,8 @@ public:
     virtual const char* getActionName() const = 0; // should return the same thing for all objects of a class, as this is used in string comparisons in several places (visible transformations, custom transformation lists, ...)
     virtual const char* getVisibleActionName() const { return getActionName(); } // to be used only by the UI, providing more details to the user
     virtual const char* getDescription() const = 0;
+
+    virtual bool acceptsFastSave() const { return false; } // whether to consider Mp3Handler::m_nFastSaveTime as a match when deciding if a file was changed (so a transformation can't be applied)
 
     struct InvalidInputFile {}; // thrown if the input file was changed so it can no longer be processed
 };

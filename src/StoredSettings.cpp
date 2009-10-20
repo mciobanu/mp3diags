@@ -250,36 +250,40 @@ void SessionSettings::loadDirFilterSettings(int& nWidth, int& nHeight) const
 
 
 
-void SessionSettings::saveDiscogsSettings(int nWidth, int nHeight)
+void SessionSettings::saveDiscogsSettings(int nWidth, int nHeight, int nStyleOption)
 {
     m_pSettings->setValue("discogs/width", nWidth);
     m_pSettings->setValue("discogs/height", nHeight);
+    m_pSettings->setValue("discogs/styleOption", nStyleOption);
 }
 
-void SessionSettings::loadDiscogsSettings(int& nWidth, int& nHeight) const
+void SessionSettings::loadDiscogsSettings(int& nWidth, int& nHeight, int& nStyleOption) const
 {
     nWidth = m_pSettings->value("discogs/width").toInt();
     nHeight = m_pSettings->value("discogs/height").toInt();
+    nStyleOption = m_pSettings->value("discogs/styleOption").toInt();
 }
 
 
 
-void SessionSettings::saveRenamerSettings(int nWidth, int nHeight, int nSaButton, int nVaButton, bool bKeepOrig)
+void SessionSettings::saveRenamerSettings(int nWidth, int nHeight, int nSaButton, int nVaButton, bool bKeepOrig, bool bUnratedAsDuplicate)
 {
     m_pSettings->setValue("fileRenamer/width", nWidth);
     m_pSettings->setValue("fileRenamer/height", nHeight);
     m_pSettings->setValue("fileRenamer/saButton", nSaButton);
     m_pSettings->setValue("fileRenamer/vaButton", nVaButton);
     m_pSettings->setValue("fileRenamer/keepOriginal", bKeepOrig);
+    m_pSettings->setValue("fileRenamer/unratedAsDuplicate", bUnratedAsDuplicate);
 }
 
-void SessionSettings::loadRenamerSettings(int& nWidth, int& nHeight, int& nSaButton, int& nVaButton, bool& bKeepOrig) const
+void SessionSettings::loadRenamerSettings(int& nWidth, int& nHeight, int& nSaButton, int& nVaButton, bool& bKeepOrig, bool& bUnratedAsDuplicate) const
 {
     nWidth = m_pSettings->value("fileRenamer/width").toInt();
     nHeight = m_pSettings->value("fileRenamer/height").toInt();
     nSaButton = m_pSettings->value("fileRenamer/saButton").toInt();
     nVaButton = m_pSettings->value("fileRenamer/vaButton").toInt();
     bKeepOrig = m_pSettings->value("fileRenamer/keepOriginal", false).toBool();
+    bUnratedAsDuplicate = m_pSettings->value("fileRenamer/unratedAsDuplicate", false).toBool();
 }
 
 
@@ -325,17 +329,20 @@ void SessionSettings::loadRenamerPatternsSettings(int& nWidth, int& nHeight) con
 }
 
 
-void SessionSettings::saveTagEdtSettings(int nWidth, int nHeight/*, const QByteArray& splitterState*/)
+void SessionSettings::saveTagEdtSettings(int nWidth, int nHeight, int nArtistsCase, int nOthersCase)
 {
     m_pSettings->setValue("tagEditor/width", nWidth);
     m_pSettings->setValue("tagEditor/height", nHeight);
-    //m_pSettings->setValue("tagEditor/splitterState", splitterState);
+    m_pSettings->setValue("tagEditor/artistsCase", nArtistsCase);
+    m_pSettings->setValue("tagEditor/othersCase", nOthersCase);
 }
 
-void SessionSettings::loadTagEdtSettings(int& nWidth, int& nHeight/*, QByteArray& splitterState*/) const
+void SessionSettings::loadTagEdtSettings(int& nWidth, int& nHeight, int& nArtistCase, int& nOthersCase) const
 {
     nWidth = m_pSettings->value("tagEditor/width").toInt();
     nHeight = m_pSettings->value("tagEditor/height").toInt();
+    nArtistCase = m_pSettings->value("tagEditor/artistsCase", -1).toInt();
+    nOthersCase = m_pSettings->value("tagEditor/othersCase", -1).toInt();
 
     //splitterState = m_pSettings->value("tagEditor/splitterState").toByteArray();
 }

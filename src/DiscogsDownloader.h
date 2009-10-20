@@ -31,16 +31,21 @@ namespace Discogs
 
     struct DiscogsAlbumInfo : public WebAlbumInfoBase
     {
-        DiscogsAlbumInfo() {}
+        enum StyleOption { GENRE_ONLY, GENRE_COMMA_STYLE, GENRE_PAR_STYLE, STYLE_ONLY };
+        const StyleOption* m_peStyleOption; // should be a reference, but that would make assignment fail
+
+        DiscogsAlbumInfo(const StyleOption* peStyleOption) : m_peStyleOption(peStyleOption) {}
 
         std::string m_strComposer;
         std::string m_strGenre;
+        std::string m_strStyle;
         std::string m_strNotes;
 
         std::string m_strId;
 
         /*override*/ void copyTo(AlbumInfo& dest);
 
+        std::string getGenre() const; // combination of m_strGenre and m_strStyle
     };
 };
 
@@ -50,6 +55,7 @@ class DiscogsDownloader : public AlbumInfoDownloaderDlgImpl
     Q_OBJECT
 
     std::vector<Discogs::DiscogsAlbumInfo> m_vAlbums;
+    Discogs::DiscogsAlbumInfo::StyleOption m_eStyleOption;
 
     friend struct Discogs::SearchXmlHandler;
 
@@ -94,6 +100,7 @@ protected slots:
     /*$PROTECTED_SLOTS$*/
 
     void on_m_pSearchB_clicked();
+    void on_m_pStyleCbB_currentIndexChanged(int);
 
 private:
 };

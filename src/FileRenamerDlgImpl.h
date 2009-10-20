@@ -59,6 +59,8 @@ class HndlrListModel : public QAbstractTableModel
 
     bool m_bUseCurrentView;
 
+    /*override*/ Qt::ItemFlags flags(const QModelIndex& index) const;
+    /*override*/ bool setData(const QModelIndex& index, const QVariant& value, int nRole /*= Qt::EditRole*/);
 public:
     HndlrListModel(CommonData* pCommonData, FileRenamerDlgImpl* pFileRenamerDlgImpl, bool bUseCurrentView);
     ~HndlrListModel();
@@ -73,6 +75,7 @@ public:
 
     const Renamer* getRenamer() const { return m_pRenamer; }
     void setRenamer(const Renamer*);
+    void setUnratedAsDuplicates(bool bUnratedAsDuplicate);
 
     const std::deque<const Mp3Handler*> getHandlerList() const; // returns either m_pCommonData->getCrtAlbum() or m_pCommonData->getViewHandlers(), based on m_bUseCurrentView
 
@@ -134,6 +137,9 @@ class FileRenamerDlgImpl : public QDialog, private Ui::FileRenamerDlg
 
     //std::vector<QToolButton
     /*override*/ void resizeEvent(QResizeEvent* pEvent);
+    /*override*/ bool eventFilter(QObject* pObj, QEvent* pEvent);
+    QObject* m_pEditor;
+    void closeEditor();
 
     void resizeIcons();
 
@@ -167,8 +173,7 @@ protected slots:
 
     void onPatternClicked();
 
-    //void onPatternChanged();
-    //void onAlbumChanged();
+    void on_m_pMarkUnratedAsDuplicatesCkB_clicked();
 
     void onHelp();
 };
@@ -184,18 +189,23 @@ class Renamer
     const CommonData* m_pCommonData;
     std::auto_ptr<FileRenamer::InvalidCharsReplacer> m_pInvalidCharsReplacer;
 public:
-    Renamer(const std::string& strPattern, const CommonData* pCommonData);
+    Renamer(const std::string& strPattern, const CommonData* pCommonData, bool bUnratedAsDuplicate);
     ~Renamer();
     const std::string& getPattern() const { return m_strPattern; }
 
     //const FileRenamer::SequencePattern* getSeq() const { return m_pRoot; }
     std::string getNewName(const Mp3Handler*) const;
 
+    bool isSameDir() const { return m_bSameDir; }
+
     struct InvalidPattern
     {
         const std::string m_strErr;
         InvalidPattern(const std::string& strPattern, const std::string& strErr) : m_strErr("Pattern \"" + strPattern + "\" is invalid. " + strErr) {}
     };
+
+    mutable bool m_bUnratedAsDuplicate;
+    mutable std::map<const Mp3Handler*, std::string> m_mValues; // only has entries for custom-modified values
 };
 
 #endif

@@ -97,7 +97,7 @@ public:
     ~Id3V230StreamWriter();
 
 
-    void removeFrames(const std::string& strName, int nPictureType = -1); // if multiple frames with the same name exist, they are all removed; asserts that nPictureType is -1 for non-APIC frames
+    void removeFrames(const std::string& strName, int nPictureType = -1); // if multiple frames with the same name exist, they are all removed; asserts that nPictureType is -1 for non-APIC frames; if nPictureType is -1 and strName is APIC, it removes all APIC frames
     //void removeApicFrames(const std::vector<char>& vcData, int nPictureType); // an APIC frame is removed iff it has the image in vcData or the type nPictureType (or both)
     void addTextFrame(const std::string& strName, const std::string& strVal); // strVal is UTF8; the frame will use ASCII if possible and UTF16 otherwise (so if there's a char with a code above 127, UTF16 gets used, to avoid codepage issues for codes between 128 and 255); nothing is added if strVal is empty;
     void addBinaryFrame(const std::string& strName, std::vector<char>& vcData); // destroys vcData by doing a swap for its own representation; asserts that strName is not APIC

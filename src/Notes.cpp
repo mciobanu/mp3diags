@@ -84,7 +84,7 @@ static const char* s_szPlaceholderDescr ("<Placeholder for a note that can no lo
 }
 
 
-//ttt1 if one of the addNote() is missing, the program just crashes instead of showing an assertion; the reason seems to be that the UI will ask for the color of an invalid note;
+//ttt2 if one of the addNote() is missing, the program just crashes instead of showing an assertion; the reason seems to be that the UI will ask for the color of an invalid note;
 /*static*/ void Notes::initVec()
 {
     static bool s_bInit (false);
@@ -136,7 +136,7 @@ static const char* s_szPlaceholderDescr ("<Placeholder for a note that can no lo
     addNote(&Notes::id3v2UnsuppFlags1()); // s
     addNote(&Notes::id3v2UnsuppFlags2()); // s
     addNote(&Notes::id3v2DuplicatePopm()); //s
-    addNote(&Notes::id3v2EmptyTag()); //w // ttt1 perhaps move up in a new release, so it isn't shown after support notes; better: assign ids to support notes at the end of the alphabet;
+    addNote(&Notes::id3v2EmptyTag()); //w // ttt2 perhaps move up in a new release, so it isn't shown after support notes; better: assign ids to support notes at the end of the alphabet;
 
     // apic
     addNote(&Notes::id3v2NoApic()); // w
@@ -161,11 +161,13 @@ static const char* s_szPlaceholderDescr ("<Placeholder for a note that can no lo
 
     // id3 v2.4.0
     addNote(&Notes::twoId3V240()); // e
-    addNote(&Notes::id3v240FrameTooShort()); // e
+    addNote(&Notes::id3v240CantReadFrame()); // e
     addNote(&Notes::id3v240IncorrectSynch()); // w
     addNote(&Notes::id3v240DeprTyerAndTdrc()); // w
     addNote(&Notes::id3v240DeprTyer()); // w
     addNote(&Notes::id3v240DeprTdatAndTdrc()); // w
+    addNote(&Notes::id3v240IncorrectDli()); // w
+    addNote(&Notes::id3v240IncorrectFrameSynch()); // w
     addNote(&Notes::id3v240DeprTdat()); // w
     addNote(&Notes::id3v240UnsuppText()); // s
 
@@ -202,7 +204,7 @@ static const char* s_szPlaceholderDescr ("<Placeholder for a note that can no lo
     addNote(&Notes::twoLyr()); // s
     addNote(&Notes::invalidLyr()); // e
     addNote(&Notes::duplicateFields()); // s
-    addNote(&Notes::imgInLyrics()); // s
+    //addNote(&Notes::imgInLyrics()); // s
     addNote(&Notes::infInLyrics()); // s
 
     // ape
@@ -241,7 +243,7 @@ static const char* s_szPlaceholderDescr ("<Placeholder for a note that can no lo
 }
 
 
-//ttt1 perhaps warn that file has multiple pictures, so will get deleted; probably like unsupportedFound; anyway after deciding on some standard way to tell the user about features and limitations; a class is probably a better answer than the current approach of "told/warned/..." settings scattered over the config file; should not show the messages too soon one after another, should get rid of all the static variables, ...
+//ttt2 perhaps warn that file has multiple pictures, so will get deleted; probably like unsupportedFound; anyway after deciding on some standard way to tell the user about features and limitations; a class is probably a better answer than the current approach of "told/warned/..." settings scattered over the config file; should not show the messages too soon one after another, should get rid of all the static variables, ...
 
 /*static*/ const Note* Notes::getNote(const std::string& strDescr)
 {
@@ -308,9 +310,9 @@ static const char* s_szPlaceholderDescr ("<Placeholder for a note that can no lo
 
 
 
-//ttt1 maybe new type for Note::Severity: BROKEN, which is basically the same as ERR, but shown in UI with a different color
+//ttt2 maybe new type for Note::Severity: BROKEN, which is basically the same as ERR, but shown in UI with a different color
 
-//ttt1 maybe new type for Note::Severity: INFO, to be used for searches; normally they are "ignored", but can be used to search for, e.g., "CBR files"
+//ttt2 maybe new type for Note::Severity: INFO, to be used for searches; normally they are "ignored", but can be used to search for, e.g., "CBR files"
 
 //======================================================================================================
 //======================================================================================================
@@ -350,7 +352,7 @@ Note::~Note()
     //char a [30]; sprintf(a, "Note::~Note() %p", this); TRACER(a);
 }
 
-//ttt1 maybe get rid of some/most ser-specific contructors, revert const changes, and call real constructors from the parent (adding serialization as member functions required switching from references to pointers and from const to non-const data members)
+//ttt2 maybe get rid of some/most ser-specific constructors, revert const changes, and call real constructors from the parent (adding serialization as member functions required switching from references to pointers and from const to non-const data members)
 
 
 

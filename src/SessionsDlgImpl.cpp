@@ -89,7 +89,7 @@ SessionsDlgImpl::SessionsDlgImpl(QWidget* pParent) : QDialog(pParent, getMainWnd
 {
     {
         QApplication::setFont(getDefaultFont());
-        CELL_HEIGHT = QApplication::fontMetrics().height() + 3; //ttt1 hard-coded
+        CELL_HEIGHT = QApplication::fontMetrics().height() + 3; //ttt2 hard-coded
     }
 
     setupUi(this);
@@ -166,7 +166,7 @@ SessionsDlgImpl::~SessionsDlgImpl()
     }
 }
 
-// ttt1 generic inconsistency in what is saved depending on the user clicking the "x" button, pressing ESC, clicking other button ...
+// ttt2 generic inconsistency in what is saved depending on the user clicking the "x" button, pressing ESC, clicking other button ...
 
 
 void SessionsDlgImpl::onShow()
@@ -223,7 +223,7 @@ void SessionsDlgImpl::onCrtSessChanged()
 
     bool bOk (st.loadDirs(vstrCheckedDirs, vstrUncheckedDirs));
     if (!bOk)
-    { //ttt1 some warning
+    { //ttt2 some warning
     }
 
     m_pCheckedDirModel->setDirs(vstrCheckedDirs, vstrUncheckedDirs, m_pDirectoriesT);
@@ -363,7 +363,7 @@ void SessionsDlgImpl::on_m_pEraseB_clicked()
         }
     }
     catch (const std::bad_alloc&) { throw; }
-    catch (...) //ttt1 use specific exceptions
+    catch (...) //ttt2 use specific exceptions
     {
         QMessageBox::critical(this, "Error", "Failed to remove the data files associated with this session"); // maybe the files were already deleted ...
         return;
@@ -371,7 +371,7 @@ void SessionsDlgImpl::on_m_pEraseB_clicked()
 }
 
 
-//ttt1 perhaps: when choosing dirs show them in the title bar or a label
+//ttt2 perhaps: when choosing dirs show them in the title bar or a label
 void SessionsDlgImpl::on_m_pSaveAsB_clicked()
 {
     if (m_vstrSessions.empty()) { return; }
@@ -402,7 +402,7 @@ void SessionsDlgImpl::on_m_pSaveAsB_clicked()
     }
     catch (const std::bad_alloc&) { throw; }
     catch (...)
-    { //ttt1 show errors
+    { //ttt2 show errors
     }
     addSession(s);
 }

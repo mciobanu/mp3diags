@@ -205,6 +205,16 @@
           </widget>
          </item>
          <item>
+          <widget class="QLabel" name="m_pStyleL" >
+           <property name="text" >
+            <string>Use</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="m_pStyleCbB" />
+         </item>
+         <item>
           <widget class="QLabel" name="label_5" >
            <property name="text" >
             <string>Format</string>

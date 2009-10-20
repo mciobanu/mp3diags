@@ -174,7 +174,7 @@ MpegStream::MpegStream(int nIndex, NoteColl& notes, istream& in) : MpegStreamBas
         MP3_THROW (m_pos, audioTooShort, StreamTooShort(strInfo, m_nFrameCount));
     }
 
-    MP3_CHECK (!m_bVbr || bVbr2, m_pos, diffBitrateInFirstFrame, UnknownHeader()); //ttt1 perhaps add test for "null": whatever is in the first bytes that allows Xing & Co to not generate audio in decoders that don't know about them
+    MP3_CHECK (!m_bVbr || bVbr2, m_pos, diffBitrateInFirstFrame, UnknownHeader()); //ttt2 perhaps add test for "null": whatever is in the first bytes that allows Xing & Co to not generate audio in decoders that don't know about them
 
     m_nSize = pos - m_pos;
     in.seekg(pos);
@@ -318,7 +318,7 @@ XingStreamBase::XingStreamBase(int nIndex, NoteColl& notes, istream& in) : MpegS
     in.seekg(m_pos);
 
     const int XING_LABEL_SIZE (4);
-    const int BFR_SIZE (MpegFrame::MPEG_FRAME_HDR_SIZE + 32 + XING_LABEL_SIZE); // MPEG header + side info + "Xing" size //ttt1 not sure if space for CRC16 should be added; then not sure if frame size should be increased by 2 when CRC is found
+    const int BFR_SIZE (MpegFrame::MPEG_FRAME_HDR_SIZE + 32 + XING_LABEL_SIZE); // MPEG header + side info + "Xing" size //ttt2 not sure if space for CRC16 should be added; then not sure if frame size should be increased by 2 when CRC is found
     char bfr [BFR_SIZE];
 
     int nSideInfoSize (m_firstFrame.getSideInfoSize());
@@ -370,7 +370,7 @@ void XingStreamBase::getXingInfo(std::ostream& out) const
     out << "[Xing header info:";
     bool b (false);
     if (0x01 == (m_cFlags & 0x01)) { out << " frame count=" << m_nFrameCount; b = true; }
-    if (0x02 == (m_cFlags & 0x02)) { out << (b ? "," : "") << " byte count=" << m_nByteCount; b = true; } //ttt1 see what to do with this: it's the size of the whole file, all headers&tags included (at least with c03 Valentin Moldovan - Marea Irlandei.mp3); ??? and anyway,  what's the point of including the size of the whole file as a field?
+    if (0x02 == (m_cFlags & 0x02)) { out << (b ? "," : "") << " byte count=" << m_nByteCount; b = true; } //ttt2 see what to do with this: it's the size of the whole file, all headers&tags included (at least with c03 Valentin Moldovan - Marea Irlandei.mp3); ??? and anyway,  what's the point of including the size of the whole file as a field?
     if (0x04 == (m_cFlags & 0x04)) { out << (b ? "," : "") << " TOC present"; b = true; }
     if (0x08 == (m_cFlags & 0x08)) { out << (b ? "," : "") << " quality=" << m_nQuality; b = true; }
     out << "]";
@@ -380,7 +380,7 @@ std::string XingStreamBase::getInfoForXml() const
 {
     ostringstream out;
     if (0x01 == (m_cFlags & 0x01)) { out << " frameCount=\"" << m_nFrameCount << "\""; }
-    if (0x02 == (m_cFlags & 0x02)) { out << " byteCount=\"" << m_nByteCount << "\""; } //ttt1 see what to do with this: it's the size of the whole file, all headers&tags included (at least with c03 Valentin Moldovan - Marea Irlandei.mp3); ??? and anyway,  what's the point of including the size of the whole file as a field?
+    if (0x02 == (m_cFlags & 0x02)) { out << " byteCount=\"" << m_nByteCount << "\""; } //ttt2 see what to do with this: it's the size of the whole file, all headers&tags included (at least with c03 Valentin Moldovan - Marea Irlandei.mp3); ??? and anyway,  what's the point of including the size of the whole file as a field?
     if (0x04 == (m_cFlags & 0x04)) { out << " toc=\"yes\""; }
     if (0x08 == (m_cFlags & 0x08)) { out << " quality=\"" << m_nQuality << "\""; }
     return out.str();
@@ -448,7 +448,7 @@ LameStream::LameStream(int nIndex, NoteColl& notes, istream& in) : XingStreamBas
 
     const int LAME_LABEL_SIZE (4);
     const int LAME_OFFS (156);
-    const int BFR_SIZE (LAME_OFFS + LAME_LABEL_SIZE); // MPEG header + side info + "Xing" size //ttt1 not sure if space for CRC16 should be added; then not sure if frame size should be increased by 2 when CRC is found
+    const int BFR_SIZE (LAME_OFFS + LAME_LABEL_SIZE); // MPEG header + side info + "Xing" size //ttt2 not sure if space for CRC16 should be added; then not sure if frame size should be increased by 2 when CRC is found
     char bfr [BFR_SIZE];
 
     MP3_CHECK_T (BFR_SIZE <= m_firstFrame.getSize(), m_pos, "Not a LAME stream. This kind of MPEG audio doesn't support LAME.", NotLameStream()); // !!! some kinds of MPEG audio have very short frames, which can't accomodate a VBRI header
@@ -479,12 +479,12 @@ LameStream::LameStream(int nIndex, NoteColl& notes, istream& in) : XingStreamBas
 
 
 
-//ttt1 see why after most VBRI headers comes an "unknown" stream; perhaps there's an error in how VbriStream works
+//ttt2 see why after most VBRI headers comes an "unknown" stream; perhaps there's an error in how VbriStream works
 VbriStream::VbriStream(int nIndex, NoteColl& notes, istream& in) : MpegStreamBase(nIndex, notes, in)
 {
     in.seekg(m_pos);
     const int VBRI_LABEL_SIZE (4);
-    const int BFR_SIZE (MpegFrame::MPEG_FRAME_HDR_SIZE + 32 + VBRI_LABEL_SIZE); // MPEG header + side info + "Xing" size //ttt1 not sure if space for CRC16 should be added; then not sure if frame size should be increased by 2 when CRC is found
+    const int BFR_SIZE (MpegFrame::MPEG_FRAME_HDR_SIZE + 32 + VBRI_LABEL_SIZE); // MPEG header + side info + "Xing" size //ttt2 not sure if space for CRC16 should be added; then not sure if frame size should be increased by 2 when CRC is found
     char bfr [BFR_SIZE];
 
     MP3_CHECK_T (BFR_SIZE <= m_firstFrame.getSize(), m_pos, "Not a VBRI stream. This kind of MPEG audio doesn't support VBRI.", NotVbriStream()); // !!! some kinds of MPEG audio have very short frames, which can't accomodate a VBRI header
@@ -550,7 +550,7 @@ Id3V1Stream::Id3V1Stream(int nIndex, NoteColl& notes, istream& in) : DataStream(
     TestResult eArtist (checkId3V1String(m_data + 33, 30)); MP3_CHECK (BAD != eArtist, m_pos, id3v1InvalidArtist, NotId3V1Stream());
     TestResult eAlbum (checkId3V1String(m_data + 63, 30)); MP3_CHECK (BAD != eAlbum, m_pos, id3v1InvalidAlbum, NotId3V1Stream());
     TestResult eYear (checkId3V1String(m_data + 93, 4)); MP3_CHECK (BAD != eYear, m_pos, id3v1InvalidYear, NotId3V1Stream());
-    TestResult eComment (checkId3V1String(m_data + 97, 28)); MP3_CHECK (BAD != eComment, m_pos, id3v1InvalidComment, NotId3V1Stream()); // "28" is for ID3V1.1b (there's no reliable way to distinguish among versions 1.0 and 1.1 by design, and in practice among any of them because some tools use 0 instead of space and 0 seems to be a valid value for 1.1b's track and genre, for "undefined") //ttt1 use m_eVersion
+    TestResult eComment (checkId3V1String(m_data + 97, 28)); MP3_CHECK (BAD != eComment, m_pos, id3v1InvalidComment, NotId3V1Stream()); // "28" is for ID3V1.1b (there's no reliable way to distinguish among versions 1.0 and 1.1 by design, and in practice among any of them because some tools use 0 instead of space and 0 seems to be a valid value for 1.1b's track and genre, for "undefined") //ttt2 use m_eVersion
 
     if (ZERO_PADDED == eTrack || ZERO_PADDED == eArtist || ZERO_PADDED == eAlbum || ZERO_PADDED == eYear || ZERO_PADDED == eComment)
     {
@@ -941,7 +941,4 @@ const char* getId3V1Genre(int n)
 
 
 
-//ttt1 see how adding a Xing frame affects gapless playing (seems that this can be checked on "Lasa, lasa Nr.5" -> "Dansul codrilor"
-
-//ttt1 warning on low bitrate or other "low quality" settings
 

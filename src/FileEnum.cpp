@@ -55,7 +55,7 @@ struct DirTreeEnumerator::DirTreeEnumeratorImpl
         for (int i = 0, n = cSize(v); i < n; ++i)
         {
             string str (v[i]);
-            CB_ASSERT (string::npos == str.find("//")); // put to see if handling of "//" is needed; // ttt1 see also QFileInfo::absoluteFilePath(), for Windows meaning
+            CB_ASSERT (string::npos == str.find("//")); // put to see if handling of "//" is needed; // ttt2 see also QFileInfo::absoluteFilePath(), for Windows meaning
             if (!endsWith(str, "/")) { str += "/"; }
             s.insert(str);
         }

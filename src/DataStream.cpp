@@ -205,6 +205,25 @@ e1:
 }
 
 
+UnsupportedDataStream::UnsupportedDataStream(int nIndex, NoteColl& notes, istream& in, streamoff nSize, const char* szBaseName, const string& strInfo) :
+            UnknownDataStreamBase(nIndex, notes, in, nSize),
+            m_strName(string("Unsupported ") + szBaseName),
+            m_strBaseName(szBaseName),
+            m_strInfo(UnknownDataStreamBase::getInfo())
+{
+    if (!strInfo.empty())
+    {
+        string s1 (strInfo);
+        if (endsWith(s1, ".") || endsWith(s1, ";"))
+        {
+            s1.erase(s1.size() - 1);
+        }
+        m_strInfo = s1 + " - " + m_strInfo;
+    }
+}
+
+
+
 //======================================================================================================
 //======================================================================================================
 
@@ -284,7 +303,7 @@ void TagTimestamp::init(std::string s)
 }
 
                                     // orig: { TITLE, ARTIST, TRACK_NUMBER, TIME, GENRE, IMAGE, ALBUM, RATING, COMPOSER, VARIOUS_ARTISTS, LIST_END };
-/*static*/ int TagReader::FEATURE_ON_POS[] = { TRACK_NUMBER, ARTIST, TITLE, ALBUM, VARIOUS_ARTISTS, TIME, GENRE, IMAGE, RATING, COMPOSER }; //ttt1 perhaps move to CommonData and make configurable, as long as discarding some columns (e.g. composer)
+/*static*/ int TagReader::FEATURE_ON_POS[] = { TRACK_NUMBER, ARTIST, TITLE, ALBUM, VARIOUS_ARTISTS, TIME, GENRE, IMAGE, RATING, COMPOSER }; //ttt2 perhaps move to CommonData and make configurable, as long as discarding some columns (e.g. composer)
 
 
 //    static int INV_FEATURE_ON_POS[]; // the "inverse" of FEATURE_ON_POS: what Feature appears in a given position

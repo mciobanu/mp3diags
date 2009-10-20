@@ -61,7 +61,7 @@ ScanDlgImpl::~ScanDlgImpl()
 
 void ScanDlgImpl::onShow()
 {
-    m_pDirModel->setDirs(m_pCommonData->getIncludeDirs(), m_pCommonData->getExcludeDirs(), m_pDirsT); // !!! needed here because on the constructor the tree view doesn't have the right size; //ttt1 perhaps do the same in SessionEditorDlgImpl / see which approach is better
+    m_pDirModel->setDirs(m_pCommonData->getIncludeDirs(), m_pCommonData->getExcludeDirs(), m_pDirsT); // !!! needed here because on the constructor the tree view doesn't have the right size; //ttt2 perhaps do the same in SessionEditorDlgImpl / see which approach is better
 }
 
 // if returning true, it also calls CommonData::setDirs()

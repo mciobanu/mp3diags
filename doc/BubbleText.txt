@@ -80,6 +80,7 @@ Open tag editor
 Open normalizer
 
 Open file renamer
+Press CTRL to use all visible files rather than the current album.
 
 Open configuration dialog
 
@@ -136,6 +137,8 @@ Drag the column headers to sort the track info sources. A source's priority decr
 
 Manually set "Various artists" or "Single artist" (needs to be enabled in the configuration.)
 
+Change the case for the text fields
+
 -----------------------------------
 
 Navigation buttons skip entries that don't meet the criteria specified in "Filter"
@@ -147,9 +150,13 @@ It is possible to manually launch a new search
 //As data is received from the internet, the status is updated
 The interaction with the database is logged here
 
+Discogs has Styles, which you may use in the genre field
+
 -----------------------------------
 
 Press this button to assign the new picture to all the tracks, then save
+
+Press the V-shaped button to the right of a picture to assign that picture to all unassigned or selected tracks (in this case - the 3rd and the last 2 tracks)
 
 Press this button to assign this picture to all unassigned tracks (in this case, the last 2 tracks)
 

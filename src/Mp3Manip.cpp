@@ -61,7 +61,7 @@ using namespace pearl;
 static string s_strCrtMp3Handler;
 static string s_strPrevMp3Handler;
 
-string getGlobalMp3HandlerName() // a hack to get the name of the current file from inside various streams without storing the name there //ttt1 review
+string getGlobalMp3HandlerName() // a hack to get the name of the current file from inside various streams without storing the name there //ttt2 review
 {
     return s_strCrtMp3Handler + "  (" + s_strPrevMp3Handler + ")";
 }
@@ -82,7 +82,9 @@ Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const Q
         m_pApeStream(0),
         m_pLyricsStream(0),
 
-        m_notes(1000) //ttt1 hard-coded
+        m_notes(1000), //ttt2 hard-coded
+
+        m_nFastSaveTime(0)
 {
     s_strPrevMp3Handler = s_strCrtMp3Handler;
     s_strCrtMp3Handler = strFileName;
@@ -147,7 +149,7 @@ Mp3Handler::~Mp3Handler()
 const Id3V2StreamBase* Mp3Handler::getId3V2Stream() const { if (0 != m_pId3V230Stream) { return m_pId3V230Stream; } return  m_pId3V240Stream; }
 
 
-// what looks like the last frame in an MPEG stream may actually be truncated and somewhere inside it an ID3V1 or Ape tag may actually begin; if that's the case, that "frame" is removed from the stream; then most likely an "Unknown" stream will be detected, followed by an ID3V1 or Ape stream //ttt1 make sure that that is the case; a possibility is that the standard allows the last frame to be shorter than the calculated size, if some condition is met; this seems unlikely, though
+// what looks like the last frame in an MPEG stream may actually be truncated and somewhere inside it an ID3V1 or Ape tag may actually begin; if that's the case, that "frame" is removed from the stream; then most likely an "Unknown" stream will be detected, followed by an ID3V1 or Ape stream //ttt2 make sure that that is the case; a possibility is that the standard allows the last frame to be shorter than the calculated size, if some condition is met; this seems unlikely, though
 void Mp3Handler::checkLastFrameInMpegStream(ifstream_utf8& in)
 {
     STRM_ASSERT (!m_vpAllStreams.empty());
@@ -282,7 +284,6 @@ void Mp3Handler::parse(ifstream_utf8& in) // ttt2 this function is a mess; needs
         }
 
         bool bBrokenMpegFrameFound (false);
-        //bool bBrokenId3V2Found (false); //ttt1 use; or perhaps replace it with something else: keep the streams as Unknown, but have a flag to tell that they seem to be a broken "something"; then perhaps drop BrokenFrame as well
         int nBrokenMpegFrameCount (0);
 
         string strBrokenInfo; const char* szBrokenName (0);
@@ -453,7 +454,7 @@ e1:
         {
             bool bAdded (false);
 
-            if (bBrokenMpegFrameFound) //ttt1 review this: "bBrokenMpegFrameFound gets set if MpegStream::StreamTooShort is thrown"; it's probably OK
+            if (bBrokenMpegFrameFound) //ttt2 review this: "bBrokenMpegFrameFound gets set if MpegStream::StreamTooShort is thrown"; it's probably OK
             {
                 try
                 {
@@ -653,7 +654,7 @@ void Mp3Handler::analyze(const QualThresholds& qualThresholds)
                 if (p->isVbr())
                 {
                     switch (p->getChannelMode())
-                    { // ttt1 should be possible that changing qual thresholds in config triggers notes being added / removed
+                    { // ttt2 should be possible that changing qual thresholds in config triggers notes being added / removed
                     case MpegFrame::STEREO: if (p->getBitrate() < qualThresholds.m_nStereoVbr) { MP3_NOTE (p->getPos(), lowQualAudio); } break;
                     case MpegFrame::JOINT_STEREO: if (p->getBitrate() < qualThresholds.m_nJointStereoVbr) { MP3_NOTE (p->getPos(), lowQualAudio); } break;
                     case MpegFrame::DUAL_CHANNEL: if (p->getBitrate() < qualThresholds.m_nDoubleChannelVbr) { MP3_NOTE (p->getPos(), lowQualAudio); } break;
@@ -806,7 +807,7 @@ void Mp3Handler::analyze(const QualThresholds& qualThresholds)
     //sort(m_notes.begin(), m_notes.end(), notePtrCmp);
 }
 
-//ttt1 perhaps add option for multiple positions to be attached to a note, so all the relevant rows can be selected for "unknown streams", duplicate ID3, ...
+
 
 // removes the ID3V2 tag and the notes associated with it and scans the file again, but only the new ID3V2 tag;
 // asserts that there was an existing ID3V2 tag at the beginning and it had the same size as the new one;
@@ -843,6 +844,8 @@ void Mp3Handler::reloadId3V2Hlp()
 
     delete pOldId3V2;
     m_vpAllStreams[0] = pNewId3V2;
+    if (m_pId3V240Stream == pOldId3V2) { m_pId3V240Stream = 0; }
+    m_pId3V230Stream = pNewId3V2;
 
     m_notes.addFastSaveWarn();
     m_notes.sort();
@@ -866,7 +869,7 @@ streampos getNextStream(istream& in, streampos pos)
     static const int BFR_SIZE (1024);
     char bfr [BFR_SIZE];
 
-    static const int MPEG_HDR_SIZE (2);
+    static const int MPEG_HDR_SIZE (4);
     static const char* ID3V2_HDR ("ID3"); static const int ID3V2_HDR_SIZE (strlen(ID3V2_HDR));
     static const char* ID3V1_HDR ("TAG"); static const int ID3V1_HDR_SIZE (strlen(ID3V1_HDR));
     static const char* APE_HDR ("APETAGEX"); static const int APE_HDR_SIZE (strlen(APE_HDR));
@@ -954,7 +957,9 @@ string Mp3Handler::getDir() const
 }
 
 
-bool Mp3Handler::id3V2NeedsReload(bool bConsiderTime) const
+
+// if the underlying file seems changed (or removed); looks at time and size, as well as FastSaveWarn and Notes::getMissingNote(); a difference in size always makes this return true; if bConsiderFastSave is true, both m_nFastSaveTime and m_nTime are tested, while m_notes.hasFastSaveWarn() and Notes::getMissingNote() are ignored; if it is false, m_nFastSaveTime is ignored, while m_nTime, m_notes.hasFastSaveWarn(), and Notes::getMissingNote() are tested
+bool Mp3Handler::needsReload(bool bUseFastSave) const
 {
     long long nSize, nTime;
     try
@@ -966,14 +971,15 @@ bool Mp3Handler::id3V2NeedsReload(bool bConsiderTime) const
         return true;
     }
 
-    return nSize != m_nSize || (bConsiderTime && nTime != m_nTime);
-}
+    if (nSize != m_nSize) { return true; }
 
+    if (bUseFastSave)
+    {
+        return nTime != m_nTime && nTime != m_nFastSaveTime;
+    }
 
-// if the underlying file seems changed (or removed); looks at time and size, as well as FastSaveWarn and Notes::getMissingNote();
-bool Mp3Handler::needsReload() const
-{
-    if (m_notes.hasFastSaveWarn() || id3V2NeedsReload(true)) { return true; }
+    if (nTime != m_nTime || m_notes.hasFastSaveWarn()) { return true; }
+
     const vector<Note*>& vpNotes (m_notes.getList());
     return !vpNotes.empty() && vpNotes[0]->getDescription() == Notes::getMissingNote()->getDescription();
 }

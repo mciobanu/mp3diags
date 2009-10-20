@@ -51,12 +51,12 @@
 namespace boost {
 namespace serialization {
 
-//ttt1 see if a newer version of Boost handles std::streampos
+//ttt2 see if a newer version of Boost handles std::streampos
 
 template<class Archive>
 inline void save(Archive& ar, const std::streampos& pos, const unsigned int /*nVersion*/)
 {
-    long long n (pos); // ttt1 this conversion isn't quite right, but it's OK for MP3 files
+    long long n (pos); // ttt2 this conversion isn't quite right, but it's OK for MP3 files
     ar << n;
 }
 
@@ -82,12 +82,12 @@ using namespace pearl;
 namespace boost {
 namespace serialization {
 
-//ttt1 see if a newer version of Boost handles std::streampos
+//ttt2 see if a newer version of Boost handles std::streampos
 
 template<class Archive>
 inline void save(Archive& ar, const std::streampos& pos, const unsigned int /*nVersion*/)
 {
-    long long n (pos); // ttt1 this conversion isn't quite right, but it's OK for MP3 files
+    long long n (pos); // ttt2 this conversion isn't quite right, but it's OK for MP3 files
     ar << n;
 }
 
@@ -140,7 +140,7 @@ namespace serialization {
 template<class Archive>
 inline void save(Archive& ar, const MyClass& x, const unsigned int /*nVersion*/)
 {
-    long long n (x.a); // ttt1 this conversion isn't quite right, but it's OK for MP3 files
+    long long n (x.a); // ttt2 this conversion isn't quite right, but it's OK for MP3 files
     ar << n;
 }
 
@@ -337,11 +337,11 @@ string CommonData::save(const string& strFile) const
 
         //boost::archive::binary_oarchive oar (out);
         boost::archive::text_oarchive oar (out);
-        //boost::archive::xml_oarchive oar (out); // ttt1 would be nice to have this as an option, but doesn't seem possible unless we switch everything to XML, because while binary_oarchive can be used as a replacement for text_oarchive, xml_oarchive can't; the serialized classes need to be modified: http://www.boost.org/doc/libs/1_40_0/libs/serialization/doc/wrappers.html#nvp
+        //boost::archive::xml_oarchive oar (out); // ttt3 would be nice to have this as an option, but doesn't seem possible unless we switch everything to XML, because while binary_oarchive can be used as a replacement for text_oarchive, xml_oarchive can't; the serialized classes need to be modified: http://www.boost.org/doc/libs/1_40_0/libs/serialization/doc/wrappers.html#nvp
         REGISTER_SER_TYPES(oar);
         oar << *this;
     }
-    catch (const std::exception& ex) //ttt1 not sure if this is the way to catch errors
+    catch (const std::exception& ex) //ttt2 not sure if this is the way to catch errors
     {
         return ex.what();
     }

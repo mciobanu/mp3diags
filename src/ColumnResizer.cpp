@@ -108,7 +108,7 @@ SimpleQTableViewWidthInterface::SimpleQTableViewWidthInterface(QTableView& tbl) 
         // nRes -= 4; // Motif
         if (0 != QApplication::style()->styleHint(QStyle::SH_ScrollView_FrameOnlyAroundContents))
         {
-            nRes -= 2*QApplication::style()->pixelMetric(QStyle::PM_DefaultFrameWidth, 0, &m_tbl); //ttt1 Qt 4.4 (and below) - specific; in 4.5 there's a QStyle::PM_ScrollView_ScrollBarSpacing
+            nRes -= 2*QApplication::style()->pixelMetric(QStyle::PM_DefaultFrameWidth, 0, &m_tbl); //ttt2 Qt 4.4 (and below) - specific; in 4.5 there's a QStyle::PM_ScrollView_ScrollBarSpacing
         }
     }
 
@@ -194,7 +194,7 @@ SimpleQTreeWidgetWidthInterface::SimpleQTreeWidgetWidthInterface(QTreeWidget& tb
         nRes -= QApplication::style()->pixelMetric(QStyle::PM_ScrollBarExtent);
     }*/
 
-    nRes -= QApplication::style()->pixelMetric(QStyle::PM_ScrollBarExtent); // just assume that the scrollbar is visible //ttt1 detect somehow when the scrollbar is visible
+    nRes -= QApplication::style()->pixelMetric(QStyle::PM_ScrollBarExtent); // just assume that the scrollbar is visible //ttt2 detect somehow when the scrollbar is visible
 
     return nRes;
 }

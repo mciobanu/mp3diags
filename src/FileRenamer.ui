@@ -162,6 +162,16 @@
        </widget>
       </item>
       <item>
+       <widget class="QCheckBox" name="m_pMarkUnratedAsDuplicatesCkB" >
+        <property name="toolTip" >
+         <string/>
+        </property>
+        <property name="text" >
+         <string>Mark unrated as duplicates</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QToolButton" name="m_pEditPatternsB" >
         <property name="minimumSize" >
          <size>

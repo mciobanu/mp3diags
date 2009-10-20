@@ -342,8 +342,10 @@ class TagWriter : public QObject
     void adjustVarArtists();
 
     bool m_bDelayedAdjVarArtists;
+    bool m_bWaitingChangeNotif;
+
 public:
-    TagWriter(CommonData* pCommonData, QWidget* pParentWnd, const bool& bIsFastSaving);
+    TagWriter(CommonData* pCommonData, QWidget* pParentWnd, const bool& bIsFastSaving, const TextCaseOptions& eArtistCase, const TextCaseOptions& eTitleCase);
     ~TagWriter();
 
     enum ClearData { DONT_CLEAR_DATA, CLEAR_DATA };
@@ -426,12 +428,16 @@ public:
     void toggleVarArtists();
     void delayedAdjVarArtists();
 
+    const TextCaseOptions& m_eArtistCase;
+    const TextCaseOptions& m_eTitleCase;
+
 private slots:
     void onAssignImage(int);
     void onEraseFile(int);
     void onEraseFileDelayed();
     void onDelayedTrackSeqWarn();
     void onDelayedAdjVarArtists();
+    void onDelayedChangeNotif();
 
 signals:
     void albumChanged(/*bool bContentOnly*/); // the selection may be kept iff bContentOnly is true

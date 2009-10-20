@@ -205,7 +205,7 @@ private:
 void addIfMissing(std::string& strDest, const std::string& strSrc);
 
 // splits a string based on a separator, putting the components in a vector; trims the substrings; discards empty components;
-void split(const std::string& s, const std::string& sep, std::vector<std::string>& v); //ttt1 move to Helpers, improve interface ...
+void split(const std::string& s, const std::string& sep, std::vector<std::string>& v); //ttt2 move to Helpers, improve interface ...
 
 void addList(std::string& strDest, const std::string& strSrc);
 

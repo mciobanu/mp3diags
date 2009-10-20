@@ -40,7 +40,7 @@ using namespace Discogs;
 
 ostream& operator<<(ostream& out, const DiscogsAlbumInfo& inf)
 {
-    out << "id: \"" << inf.m_strId << "\", artist: \"" << inf.m_strArtist << "\", title: \"" << inf.m_strTitle << "\", composer: \"" << inf.m_strComposer << "\", format: \"" << inf.m_strFormat << "\", genre: \"" << inf.m_strGenre << "\", released: \"" << inf.m_strReleased << "\"\n\nnotes: " << inf.m_strNotes << "\n\nimages:\n";
+    out << "id: \"" << inf.m_strId << "\", artist: \"" << inf.m_strArtist << "\", title: \"" << inf.m_strTitle << "\", composer: \"" << inf.m_strComposer << "\", format: \"" << inf.m_strFormat << "\", genre: \"" << inf.m_strGenre << "\", style: \"" << inf.m_strStyle << "\", released: \"" << inf.m_strReleased << "\"\n\nnotes: " << inf.m_strNotes << "\n\nimages:\n";
 
     for (int i = 0, n = cSize(inf.m_vstrImageNames); i < n; ++i)
     {
@@ -93,7 +93,7 @@ private:
         int nStart (attrs.value("start").toInt());
         int nEnd (attrs.value("end").toInt());
         int nCount (attrs.value("numResults").toInt());
-        CB_ASSERT (0 == nEnd % 20 || nEnd == nCount); //ttt1 see if this needs to be more flexible
+        CB_ASSERT (0 == nEnd % 20 || nEnd == nCount); //ttt2 see if this needs to be more flexible
         int nPageCnt ((nCount + 19) / 20);
         int nCrtPage ((nStart - 1)/20);
         if (0 == nPageCnt) { nCrtPage = -1; } // !!! needed for consistency
@@ -107,7 +107,7 @@ private:
         m_bIsRelease = "release" == attrs.value("type");
         if (m_bIsRelease)
         {
-            m_dlg.m_vAlbums.push_back(DiscogsAlbumInfo());
+            m_dlg.m_vAlbums.push_back(DiscogsAlbumInfo(&m_dlg.m_eStyleOption));
         }
     }
 
@@ -146,8 +146,8 @@ private:
                 format
             genres
                 genre
-            //styles
-                //style
+            styles
+                style
             released
             notes
             tracklist
@@ -183,8 +183,8 @@ struct AlbumXmlHandler : public SimpleSaxHandler<AlbumXmlHandler>
                     Node& format (makeNode(formats, "format")); format.onStart = &AlbumXmlHandler::onFormatStart;
                 Node& genres (makeNode(rel, "genres"));
                     Node& genre (makeNode(genres, "genre")); genre.onChar = &AlbumXmlHandler::onGenreChar;
-                //Node& QQQQQQQ (makeNode(QQQQQQQ, "styles //ttt1 see if there's a use for styles
-                    //Node& QQQQQQQ (makeNode(QQQQQQQ, "style
+                Node& styles (makeNode(rel, "styles"));
+                    Node& style (makeNode(styles, "style")); style.onChar = &AlbumXmlHandler::onStyleChar;
                 Node& released (makeNode(rel, "released")); released.onChar = &AlbumXmlHandler::onReleasedChar;
                 Node& notes (makeNode(rel, "notes")); notes.onChar = &AlbumXmlHandler::onNotesChar;
                 Node& tracklist (makeNode(rel, "tracklist"));
@@ -240,7 +240,7 @@ private:
         //qDebug(" orig role %s", s.c_str());
         s = transfRole(s);
         //qDebug(" transf role %s", s.c_str());
-        return "composedby" == s || "writtenby" == s || "musicby" == s || "lyricsby" == s; // ttt1 review whether all these should be added to "composer"; see if some others should be put here
+        return "composedby" == s || "writtenby" == s || "musicby" == s || "lyricsby" == s; // ttt2 review whether all these should be added to "composer"; see if some others should be put here
     }
 
 
@@ -346,7 +346,7 @@ private:
 
     void onTrkExtraArtistEnd()
     {
-        if (isComposerRole(m_strExtraArtistRole)) // ttt1 see if "Music By" should be compared too
+        if (isComposerRole(m_strExtraArtistRole)) // ttt2 see if "Music By" should be compared too
         {
             addIfMissing(m_albumInfo.m_vTracks.back().m_strComposer, m_strExtraArtistName);
 //inspect(m_strExtraArtistName);
@@ -361,7 +361,7 @@ private:
     void onExtraArtistNameChar(const string& s)
     {
         m_strExtraArtistName = s;
-        //addIfMissing(m_strExtraArtistName, s); // ttt1 review if this makes sense, given that for artists there is the option to join, but not sure about extraartists:
+        //addIfMissing(m_strExtraArtistName, s); // ttt2 review if this makes sense, given that for artists there is the option to join, but not sure about extraartists:
         /*
         <track>
             <position>5</position>
@@ -410,6 +410,11 @@ private:
         addIfMissing(m_albumInfo.m_strGenre, s);
     }
 
+    void onStyleChar(const string& s)
+    {
+        addIfMissing(m_albumInfo.m_strStyle, s);
+    }
+
     void onReleasedChar(const string& s)
     {
         m_albumInfo.m_strReleased = s;
@@ -450,15 +455,34 @@ private:
     //dest.m_strArtist = m_strArtist;
     //dest.m_strComposer = m_strComposer;
     //dest.m_strFormat = m_strFormat; // CD, tape, ...
-    dest.m_strGenre = m_strGenre;
+    dest.m_strGenre = getGenre();
     dest.m_strReleased = m_strReleased;
     dest.m_strNotes = m_strNotes;
     dest.m_vTracks = m_vTracks;
+    //dest.m_eVarArtists  // !!! missing
 
     dest.m_strSourceName = DiscogsDownloader::SOURCE_NAME; // Discogs, MusicBrainz, ... ; needed by MainFormDlgImpl;
     //dest.m_imageInfo; // !!! not set
 }
 
+
+std::string DiscogsAlbumInfo::getGenre() const // combination of m_strGenre and m_strStyle
+{
+    switch (*m_peStyleOption)
+    {
+    case GENRE_ONLY: return m_strGenre;
+    case GENRE_COMMA_STYLE: return m_strGenre.empty() || m_strStyle.empty() ? m_strGenre + m_strStyle : m_strGenre + ", " + m_strStyle;
+    case GENRE_PAR_STYLE:
+        {
+            if (m_strStyle.empty()) { return m_strGenre; }
+            if (m_strGenre.empty()) { return "(" + m_strStyle + ")"; } // ttt2 perhaps without "(/)"
+            return m_strGenre + " (" + m_strStyle + ")";
+        }
+    case STYLE_ONLY: return m_strStyle;
+    }
+
+    CB_ASSERT (false);
+}
 
 }; // namespace Discogs
 
@@ -469,7 +493,7 @@ private:
 
 /*override*/ void DiscogsDownloader::saveSize()
 {
-    m_settings.saveDiscogsSettings(width(), height());
+    m_settings.saveDiscogsSettings(width(), height(), m_pStyleCbB->currentIndex());
 }
 
 
@@ -481,8 +505,14 @@ DiscogsDownloader::DiscogsDownloader(QWidget* pParent, SessionSettings& settings
 {
     setWindowTitle("Download album data from Discogs.com");
 
-    int nWidth, nHeight;
-    m_settings.loadDiscogsSettings(nWidth, nHeight);
+    int nWidth, nHeight, nStyleOption;
+    m_settings.loadDiscogsSettings(nWidth, nHeight, nStyleOption);
+    if (nStyleOption < 0 || nStyleOption > Discogs::DiscogsAlbumInfo::STYLE_ONLY)
+    {
+        nStyleOption = Discogs::DiscogsAlbumInfo::GENRE_ONLY;
+    }
+    m_eStyleOption = Discogs::DiscogsAlbumInfo::StyleOption(nStyleOption);
+
     if (nWidth > 400 && nHeight > 400) { resize(nWidth, nHeight); }
 
     delete m_pSrchArtistL;
@@ -493,12 +523,21 @@ DiscogsDownloader::DiscogsDownloader(QWidget* pParent, SessionSettings& settings
     delete m_pMatchCountCkB;
     m_pViewAtAmazonL->hide();
 
+    {
+        QStringList l;
+        //l << "< don't use >" << "Genre1, Genre2, ... , Style1, Style2, ..." << "Genre1, Genre2, ... (Style1, Style2, ...)" << "Style1, Style2, ...";
+        l << "Genres" << "Genres, Styles" << "Genres (Styles)" << "Styles";
+        m_pStyleCbB->addItems(l);
+        m_pStyleCbB->setCurrentIndex(nStyleOption);
+    }
+
     m_pQHttp->setHost("www.discogs.com");
 
     m_pModel = new WebDwnldModel(*this, *m_pTrackListG); // !!! in a way these would make sense to be in the base constructor, but that would cause calls to pure virtual methods
     m_pTrackListG->setModel(m_pModel);
 
     connect(m_pSearchB, SIGNAL(clicked()), this, SLOT(on_m_pSearchB_clicked()));
+    connect(m_pStyleCbB, SIGNAL(currentIndexChanged(int)), this, SLOT(on_m_pStyleCbB_currentIndexChanged(int)));
 }
 
 
@@ -587,7 +626,7 @@ void DiscogsDownloader::reloadGui()
 
     const DiscogsAlbumInfo& album (m_vAlbums[m_nCrtAlbum]);
     m_pAlbumNotesM->setText(convStr(album.m_strNotes));
-    m_pGenreE->setText(convStr(album.m_strGenre));
+    m_pGenreE->setText(convStr(album.getGenre()));
 }
 
 
@@ -626,6 +665,15 @@ void DiscogsDownloader::requestImage(int nAlbum, int nImage)
     m_pQHttp->request(header);
     //cout << "sent img " <<  m_vAlbums[nAlbum].m_vstrImageNames[nImage] << " - " << m_pQHttp->request(header) << endl;
     addNote("getting image ...");
+}
+
+
+void DiscogsDownloader::on_m_pStyleCbB_currentIndexChanged(int k)
+{
+    if (m_nCrtAlbum < 0 || m_nCrtAlbum >= cSize(m_vAlbums)) { return; }
+    DiscogsAlbumInfo& album (m_vAlbums[m_nCrtAlbum]);
+    m_eStyleOption = Discogs::DiscogsAlbumInfo::StyleOption(k);
+    m_pGenreE->setText(convStr(album.getGenre()));
 }
 
 
@@ -669,4 +717,4 @@ void DiscogsDownloader::requestImage(int nAlbum, int nImage)
 
 
 
-//ttt1 perhaps make m_pResArtistE editable
+

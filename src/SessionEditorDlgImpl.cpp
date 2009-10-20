@@ -362,7 +362,7 @@ void SessionEditorDlgImpl::on_m_pOpenSessionsB_clicked()
 
 void SessionEditorDlgImpl::onHelp()
 {
-    openHelp("110_first_run.html"); //ttt1 not quite right, since there are 2 "modes"
+    openHelp("110_first_run.html"); //ttt2 not quite right, since there are 2 "modes"
 }
 
 
@@ -370,4 +370,4 @@ void SessionEditorDlgImpl::onHelp()
 //================================================================================================================================================
 //================================================================================================================================================
 
-//ttt1 see about dereferenced symlinks
+//ttt2 see about dereferenced symlinks

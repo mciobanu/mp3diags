@@ -60,7 +60,7 @@ StreamsModel::StreamsModel(CommonData* pCommonData) : QAbstractTableModel(pCommo
 LAST_STEP("StreamsModel::data()");
 
 /*
-//ttt1
+//ttt2
 
 Excessive calls to this from MultiLineTvDelegate::sizeHint() might make applying a filter pretty slow. To reproduce:
 

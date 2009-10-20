@@ -21,6 +21,8 @@
 
 
 #include  <cmath>
+#include  <map>
+#include  <set>
 
 #include  <QBuffer>
 #include  <QDialog>
@@ -80,7 +82,7 @@ QPixmap ImageInfo::getPixmap(int nMaxWidth /*= -1*/, int nMaxHeight /*= -1*/) co
 
 bool ImageInfo::operator==(const ImageInfo& other) const
 {
-    return m_eCompr == other.m_eCompr /*&& m_eStatus == other.m_eStatus*/ && m_nWidth == other.m_nWidth && m_compressedImg == other.m_compressedImg; // !!! related to Id3V230StreamWriter::addImage() status is ignored in both places //ttt1 review decision to ignore status
+    return m_eCompr == other.m_eCompr /*&& m_eStatus == other.m_eStatus*/ && m_nWidth == other.m_nWidth && m_compressedImg == other.m_compressedImg; // !!! related to Id3V230StreamWriter::addImage() status is ignored in both places //ttt2 review decision to ignore status
 }
 
 
@@ -149,7 +151,7 @@ const char* ImageInfo::getImageType() const
 // scales down origPic and stores the pixmap in scaledPic, as well as a compressed version in comprImg; the algorithm coninues until comprImg becomes smaller than MAX_IMAGE_SIZE or until the width and the height of scaledPic get smaller than 150; no scaling is done if comprImg turns out to be small enough for the original image;
 /*static*/ void ImageInfo::compress(const QPixmap& origPic, QPixmap& scaledPic, QByteArray& comprImg)
 {
-    const int QUAL (-1); //ttt1 hard-coded
+    const int QUAL (-1); //ttt2 hard-coded
 
     //QPixmap scaledImg;
     int n (max(origPic.width(), origPic.height()));
@@ -195,7 +197,7 @@ void ImageInfo::showFull(QWidget* pParent) const
     QVBoxLayout* pLayout (new QVBoxLayout(&dlg));
     //dlg.setLayout(pGridLayout);
     QLabel* p (new QLabel(&dlg));
-    p->setPixmap(getPixmap()); //ttt1 see if it should limit size (IIRC QLabel scaled down once a big image)
+    p->setPixmap(getPixmap()); //ttt2 see if it should limit size (IIRC QLabel scaled down once a big image)
     pLayout->addWidget(p, 0, Qt::AlignHCenter);
 
     p = new QLabel(getTextDescr(), &dlg);
@@ -225,3 +227,262 @@ ostream& operator<<(ostream& out, const AlbumInfo& inf)
 }
 
 
+//=====================================================================================================================
+//=====================================================================================================================
+//=====================================================================================================================
+
+
+static const set<QString>& getLowerCaseSet()
+{
+    static set<QString> sqstrLowCase;
+    static bool bInit (false);
+    if (!bInit)
+    {
+        bInit = true;
+        const char* aszList[] = { "a","an","the", // from http://avalon-internet.com/Capitalize_an_English_Title/en
+
+                "about","above","across","after","against","along",
+                "amid","among","around","at","before","behind","below", "beneath",
+                "beside","besides","between","beyond","but","by","concerning","despite",
+                "down","during","except","from","in","including", "inside","into","like",
+                "minus","near","notwithstanding","of","off","on", "onto","opposite","out",
+                "outside","over","past","per","plus","regarding","since","through",
+                "throughout","till","to","toward","towards","under","underneath","unless",
+                "unlike","until","up","upon","versus","via","with","within","without",
+
+                "and","but","for","nor","or","so","yet",
+
+                "after","although","as","because","if",
+                "lest","than","that","though","when","whereas","while",
+
+                "also","both","each","either","neither","whether",
+
+                0 };
+
+        for (const char** p = &aszList[0]; 0 != *p; ++p)
+        {
+            sqstrLowCase.insert(*p);
+        }
+
+        /* alternative lists/opinions:
+            http://aitech.ac.jp/~ckelly/midi/help/caps.html
+
+            http://www.cumbrowski.com/CarstenC/articles/20070623_Title_Capitalization_in_the_English_Language.asp
+            http://www.searchenginejournal.com/title-capitalization-in-the-english-language/4882/
+            http://ezinearticles.com/?Title-Capitalization-In-The-English-Language&id=658201
+        */
+    }
+
+    return sqstrLowCase;
+}
+
+
+static const map<QString, QString>& getFixedCaseMap()
+{
+    static map<QString, QString> mqstrFixedCase;
+    static bool bInit (false);
+    if (!bInit)
+    {
+        bInit = true;
+        const char* aszList[] = { "I","MTV","L.A.", 0 };
+
+        for (const char** p = &aszList[0]; 0 != *p; ++p)
+        {
+            mqstrFixedCase[QString(*p).toLower()] = *p;
+        }
+    }
+
+    return mqstrFixedCase;
+}
+
+
+
+static void dropPunct(const QString& s, int& i, int& j)
+{
+    int n (s.size());
+    i = 0; j = n;
+    for (; i < n && s[i].isPunct(); ++i) {}
+    for (; i < n && s[n - 1].isPunct(); --n) {}
+}
+
+
+
+static QString singleWordFirstLast(const QString& s)
+{
+    int i, j;
+    dropPunct(s, i, j);
+    if (i == j) { return s; }
+
+    QString s1 (s.mid(i, j - i).toLower());
+    if (getFixedCaseMap().count(s1) > 0)
+    {
+        s1 = (*getFixedCaseMap().lower_bound(s1)).second;
+    }
+    else
+    {
+        s1 = s1.toLower();
+        s1[0] = s1[0].toUpper();
+    }
+
+    QString s2 (s);
+    s2.replace(i, j - i, s1);
+
+    return s2;
+}
+
+
+static QString singleWordMiddleTitle(const QString& s)
+{
+    int i, j;
+    dropPunct(s, i, j);
+    if (i == j) { return s; }
+
+    QString s1 (s.mid(i, j - i).toLower());
+    if (getFixedCaseMap().count(s1) > 0)
+    {
+        s1 = (*getFixedCaseMap().lower_bound(s1)).second;
+    }
+    else if (getLowerCaseSet().count(s1) > 0)
+    { // !!! nothing, keep lower
+    }
+    else
+    {
+        s1 = s1.toLower();
+        s1[0] = s1[0].toUpper();
+    }
+
+    QString s2 (s);
+    s2.replace(i, j - i, s1);
+
+    return s2;
+}
+
+
+
+static QString singleWordMiddleSentence(const QString& s)
+{
+    int i, j;
+    dropPunct(s, i, j);
+    if (i == j) { return s; }
+
+    QString s1 (s.mid(i, j - i).toLower());
+    if (getFixedCaseMap().count(s1) > 0)
+    {
+        s1 = (*getFixedCaseMap().lower_bound(s1)).second;
+    }
+
+    QString s2 (s);
+    s2.replace(i, j - i, s1);
+
+    return s2;
+}
+
+
+
+QString getCaseConv(const QString& s, TextCaseOptions eCase)
+{
+/*
+    lNames << "Lower case: first part. second part.";
+    lNames << "Upper case: FIRST PART. SECOND PART.";
+    lNames << "Title case: First Part. Second Part.";
+    lNames << "Phrase case: First part. Second part.";
+*/
+    switch(eCase)
+    {
+    //case TC_NONE: CB_ASSERT (false);
+
+    case TC_LOWER: return s.toLower();
+
+    case TC_UPPER: return s.toUpper();
+
+    case TC_TITLE:
+        {
+            /*QString res;
+            int n (s.size());
+            bool bWhitesp (true);
+            for (int i = 0; i < n; ++i)
+            {
+                const QChar& qc (s[i]);
+                if (bWhitesp)
+                {
+                    res += qc.toUpper();
+                }
+                else
+                {
+                    res += qc.toLower();
+                }
+
+                bWhitesp = qc.isSpace() || qc == '.';
+            }*/
+
+            QStringList l (s.split(" ", QString::SkipEmptyParts));
+            int n (l.size());
+            if (n > 0)
+            {
+                l[0] = singleWordFirstLast(l[0]);
+            }
+            if (n > 1)
+            {
+                l[n - 1] = singleWordFirstLast(l[n - 1]);
+            }
+            for (int i = 1; i < n - 1; ++i)
+            {
+                l[i] = singleWordMiddleTitle(l[i]);
+            }
+            return l.join(" ");
+        }
+
+    case TC_SENTENCE:
+        {
+            /*int n (s.size());
+            QString res;
+            bool bPer (true);
+            for (int i = 0; i < n; ++i)
+            {
+                const QChar& qc (s[i]);
+                if (bPer)
+                {
+                    res += qc.toUpper();
+                }
+                else
+                {
+                    res += qc.toLower();
+                }
+
+                if (!qc.isSpace()) { bPer = (qc == '.'); }
+            }
+            return res;*/
+
+            QStringList l (s.split(" ", QString::SkipEmptyParts));
+            int n (l.size());
+            if (n > 0)
+            {
+                l[0] = singleWordFirstLast(l[0]);
+            }
+            for (int i = 1; i < n; ++i)
+            {
+                l[i] = singleWordMiddleSentence(l[i]);
+            }
+            return l.join(" ");
+        }
+
+    default:
+        CB_ASSERT (false);
+    }
+
+}
+
+
+const char* getCaseAsStr(TextCaseOptions e)
+{
+    switch (e)
+    {
+    case TC_NONE: return "<no change>";
+    case TC_LOWER: return "lower case";
+    case TC_UPPER: return "UPPER CASE";
+    case TC_TITLE: return "Title Case";
+    case TC_SENTENCE: return "Sentence case";
+    default:
+        CB_ASSERT (false);
+    }
+}

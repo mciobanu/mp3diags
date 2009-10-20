@@ -161,10 +161,6 @@ void NormalizeDlgImpl::onErrorTxt()
 
 void NormalizeDlgImpl::addText(QString s)
 {
-/*QFile f ("abc.txt");
-f.open(QIODevice::Append);
-f.write(s.toLatin1());*/
-
     s = s.trimmed();
     if (s.isEmpty()) { return; }
 
@@ -175,36 +171,9 @@ f.write(s.toLatin1());*/
         s.remove(n, 1);
     }
 
-    //QString q (m_qstrText.isEmpty() ? s : m_qstrText + "\n" + s);
     m_qstrText = (m_qstrText.isEmpty() ? s : m_qstrText + "\n" + s);
 
     m_pOutM->setText(m_qstrText);
-
-    /*if (!s.startsWith("[")) // ttt1 mp3gain specific, but should work ok with others too
-    {
-        m_qstrText = q;
-    }*/
-
-#if 0
-    QString q (m_pOutM->toPlainText());
-    if (!q.isEmpty()) { q += "\n"; }
-    /*{
-        //time_t t (time(0));
-        tm t;
-        timeval tv;
-        gettimeofday(&tv, 0);
-        localtime_r(&tv.tv_sec, &t);
-        char a [15];
-        sprintf(a, "%02d:%02d:%02d.%03d ", t.tm_hour, t.tm_min, t.tm_sec, int(tv.tv_usec/1000));
-        q += a;
-    }*/
-    q += s;
-    while (q.endsWith("\n"))
-    {
-        q.remove(q.size() - 1, 1);
-    }
-    m_pOutM->setText(q);
-#endif
 
     QScrollBar* p (m_pOutM->verticalScrollBar());
     if (p->isVisible())
@@ -305,4 +274,6 @@ void NormalizeDlgImpl::onHelp()
     openHelp("230_normalize.html");
 }
 
+//ttt2 timer in normalizer
+//ttt2 look at normalized loudness in tracks, maybe warn
 

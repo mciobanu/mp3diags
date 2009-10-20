@@ -114,7 +114,7 @@ private:
             return success();
         }
 
-        //if (bFixedLeft && m_pcLeft != pcLeft) || (bFixedRight && m_pcRight != pcRight)) // ttt1 suboptimal;
+        //if (bFixedLeft && m_pcLeft != pcLeft) || (bFixedRight && m_pcRight != pcRight)) // ttt2 suboptimal;
         /*if (bFixedLeft || bFixedRight)
         { // if either end was supposed to be fixed and the first step wasn't a match, there's no point in going to another step
             return failure(); // !!! incorrect; the reason is the "-1" in the first line; for example a static reader "ab" fixed at right would fail on "xxab", because the first test would be for "b", and only the second test for "ab"; if we fail after first test there's no chance for the second; replacing "-1" with "-2" would fix the problem in this case, but that doesn't quite work, because static readers aren't the only bound readers, and the other ones may have variable length
@@ -357,7 +357,7 @@ struct SequenceReader : public Reader
         m_pcLeft = pcLeft; m_pcRight = pcRight; // needed to allow findLimits() to work
 
         const int nCnt (cSize(m_vpReaders));
-        vector<ReaderInfo> v; // ttt1 perhaps move this to setBounds(), to avoid building it every time; it seems that both a "left" and a "right" vector would be needed, since it's possible for bLeftFirst to come with either value, depending on other Readers failing or not (to be further analyzed)
+        vector<ReaderInfo> v; // ttt2 perhaps move this to setBounds(), to avoid building it every time; it seems that both a "left" and a "right" vector would be needed, since it's possible for bLeftFirst to come with either value, depending on other Readers failing or not (to be further analyzed)
         {
             int l (0);
             for (; l < nCnt; ++l) // bound at the beginning, on the left (or rather on the side indicated by bLeftFirst, but to understand the comments in this block it's easier to assume that bLeftFirst is true)
@@ -835,7 +835,7 @@ string testPattern(const string& strPattern)
     catch (const TrackTextParser::InvalidPattern& ex)
     {
         ostringstream s;
-        s << "\"" << toNativeSeparators(strPattern) << "\" is not a valid pattern. Error in column " << ex.m_nPos <<  "."; //ttt1 perhaps more details
+        s << "\"" << toNativeSeparators(strPattern) << "\" is not a valid pattern. Error in column " << ex.m_nPos <<  "."; //ttt2 perhaps more details
         return s.str();
     }
 }
@@ -948,7 +948,7 @@ struct TestTrackTextParser
 
 
         /*{
-            //ttt1 make these work:
+            //ttt2 make these work:
             SongInfoParser::TrackTextParser fr ("/[ [ ]][-[ [ ]]]%t");
             //SongInfoParser::TrackTextParser fr ("/%t");
             const char* s ("-------------------------------\n");
@@ -960,7 +960,7 @@ struct TestTrackTextParser
 
 
         /*{
-            //ttt1 make these work:
+            //ttt2 make these work:
             SongInfoParser::TrackTextParser fr ("/[[%r]%n][[ ] ][-[[ ] ]]%t");
             //SongInfoParser::TrackTextParser fr ("/%t");
             const char* s ("-------------------------------\n");

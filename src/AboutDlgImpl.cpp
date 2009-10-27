@@ -171,7 +171,7 @@ Based on the above two settings, 8dot3 name creation is enabled on c:.
 */
 
 
-//ttt2 Perhaps linking Boost statically and Qt dynamically would solve most dependency issues - http://pages.cs.wisc.edu/~thomas/X/static-linking.html : "surround the libraries you wish to link statically with -static and -dynamic (in that order)"; OTOH "-dynamic" is not in man
+//ttt2 Perhaps linking Boost statically and Qt dynamically would solve most dependency issues - http://pages.cs.wisc.edu/~thomas/X/static-linking.html : "surround the libraries you wish to link statically with -static and -dynamic (in that order)"; OTOH "-dynamic" is not in man, and that page is from 1997; things have changed, and -static seems to be a global option, so it doesn't matter if you put it first or last; what should work is specifying the file name: -l:libboost_serialization.a rather than -lboost_serialization (!!! note the ":")
 
 
 

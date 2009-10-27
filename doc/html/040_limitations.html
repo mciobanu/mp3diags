@@ -114,15 +114,19 @@ The function calls to the file system (open file, search for files, ...) provide
 Not really an MP3 Diags limitation, but: On Windows there may be some issues with the normalization of files whose names fall outside the system codepage. This is because although MP3 Diags passes such names correctly to MP3Gain, MP3Gain doesn't seem to use Unicode even in the beta version that allegedly added Unicode support. Anyway, testing this took me all of 2 minutes, so I might have missed something. If somebody knows how to make MP3Gain use Unicode names, please let me know. Two options that I could think of were to either use some other normalizer or a small intermediate program, which would rename the files so that MP3Gain could access them, then call MP3Gain, and then rename them back. Also, maybe changing MP3Gain to use Unicode names isn't that hard.
 </div>
 
-
 <div class="FreeNormalText RegFnt ChpCol1">
+Under some circumstances, it is not possible to change files in some folders under Windows 7. There are more details <a href="010_getting_the_program.html#windowsNotes">here</a>.
+</div>
+
+
+<div class="FreeNormalText RegFnt ChpCol2">
 Daylight Saving Time is not taken into consideration. As a result, on some combinations of operating systems and file systems, it is possible for an unchanged file to seem changed after a DST transition; nothing bad should come out of this except that the file will get rescanned.
 </div>
 
 
 
 
-<div class="NavPadTable RegFnt ChpCol2">
+<div class="NavPadTable RegFnt ChpCol1">
 <div style="width:100%">
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="NavTable">
     <tr>

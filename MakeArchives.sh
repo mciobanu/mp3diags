@@ -92,6 +92,11 @@ function createSrc
     cp -p package/out/deb/* $LongDestDir/package/deb
     rm -f -r $LongDestDir/desktop/.svn
 
+    cp -p BuildWithStaticSer.sh $LongDestDir
+    fixVersion $LongDestDir/BuildWithStaticSer.sh
+    chmod a+x $LongDestDir/BuildWithStaticSer.sh
+
+
     cd package/out
     tar czf $DestDir.tar.gz $DestDir
     cd ../..
@@ -239,6 +244,10 @@ function createPackagerSrc
     mv MP3Diags_Src+Doc-$Ver.tar.gz MP3DiagsClicknetDoc-$Ver
     cd ../..
 }
+
+
+
+
 
 
 #pwd > /home/ciobi/cpp/Mp3Utils/MP3Diags/d

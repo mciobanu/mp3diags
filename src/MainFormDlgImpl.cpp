@@ -110,8 +110,8 @@ namespace
         NativeFile() {}
         bool open(const string& strFileName) // doesn't truncate the file
         {
-            ofstream_utf8 out (m_strFileName.c_str(), ios_base::app);
             m_strFileName = strFileName;
+            ofstream_utf8 out (m_strFileName.c_str(), ios_base::app);
             return out;
         }
 
@@ -341,6 +341,12 @@ namespace
 
     void FileTracer::removeFiles()
     {
+        m_nStepFile = 0;
+        m_nCrtStepSize = 0;
+        m_nPage = 0;
+        m_nStepLevel = 0;
+        m_nTraceLevel = 0;
+
         try
         {
             deleteFile(m_strTraceFile);
@@ -364,12 +370,6 @@ namespace
         }
 
         removeFiles();
-
-        m_nStepFile = 0;
-        m_nCrtStepSize = 0;
-        m_nPage = 0;
-        m_nStepLevel = 0;
-        m_nTraceLevel = 0;
 
         m_stepFile.open(m_vstrStepFile[0]);
         m_traceFile.open(m_strTraceFile);
@@ -793,19 +793,40 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) 
             {
                 if (fileExists(s_fileTracer.getTraceFile()))
                 {
-                    showRestartAfterCrashMsg("<p style=\"margin-bottom:8px; margin-top:1px; \">MP3 Diags is restarting after a crash. Information in the files \"<b>" + Qt::escape(toNativeSeparators(convStr(s_fileTracer.getTraceFile()))) + "</b>\", \"<b>" + Qt::escape(toNativeSeparators(convStr(s_fileTracer.getStepFiles()[0]))) + "</b>\", and \"<b>" + Qt::escape(toNativeSeparators(convStr(s_fileTracer.getStepFiles()[1]))) + "</b>\" may help identify the cause of the crash, so please make them available to the developer by mailing them to <a href=\"mailto:ciobi@inbox.com?subject=000 MP3 Diags crash/\">ciobi@inbox.com</a>, by reporting an issue to the project's Issue Tracker at <a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a> and attaching the files to the report, or by some other means (like putting them on a web server.)</p><p style=\"margin-bottom:8px; margin-top:1px; \">These are plain text files, which you can review before sending, if you have privacy concerns.</p><p style=\"margin-bottom:8px; margin-top:1px; \">After getting the files, the developer will probably want to contact you for more details, so please check back on the status of your report.</p><p style=\"margin-bottom:8px; margin-top:1px; \">Note that these files <b>will be removed</b> when you close this window.</p><p style=\"margin-bottom:8px; margin-top:1px; \">So please send these files, as well as any other detail that seems relevant (what might have caused the failure, steps to reproduce it, ...)</p>", "Remove these files and continue");
-                    //ttt2 perhaps loop until the file is deleted
+                    vector<string> v;
+                    if (fileExists(s_fileTracer.getTraceFile())) { v.push_back(s_fileTracer.getTraceFile()); }
+                    if (fileExists(s_fileTracer.getStepFiles()[0])) { v.push_back(s_fileTracer.getStepFiles()[0]); }
+                    if (fileExists(s_fileTracer.getStepFiles()[1])) { v.push_back(s_fileTracer.getStepFiles()[1]); }
+                    CB_ASSERT (!v.empty()); // really v should have at least 2 elements
+                    QString qs (v.size() > 1 ? "files" : "file");
+                    qs += " <b>" + Qt::escape(toNativeSeparators(convStr(v[0]))) + "</b>";
+                    if (v.size() > 1)
+                    {
+                        qs += (v.size() > 2 ? "," : " and");
+                        qs += " <b>" + Qt::escape(toNativeSeparators(convStr(v[1]))) + "</b>";
+                        if (v.size() > 2)
+                        {
+                            qs += ", and";
+                            qs += " <b>" + Qt::escape(toNativeSeparators(convStr(v[2]))) + "</b>";
+                        }
+                    }
+
+                    if (v.size() > 1)
+                    {
+                        showRestartAfterCrashMsg("<p style=\"margin-bottom:8px; margin-top:1px; \">MP3 Diags is restarting after a crash. Information in the " + qs + " may help identify the cause of the crash, so please make them available to the developer by mailing them to <a href=\"mailto:ciobi@inbox.com?subject=000 MP3 Diags crash/\">ciobi@inbox.com</a>, by reporting an issue to the project's Issue Tracker at <a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a> and attaching the files to the report, or by some other means (like putting them on a file sharing site.)</p><p style=\"margin-bottom:8px; margin-top:1px; \">These are plain text files, which you can review before sending, if you have privacy concerns.</p><p style=\"margin-bottom:8px; margin-top:1px; \">After getting the files, the developer will probably want to contact you for more details, so please check back on the status of your report.</p><p style=\"margin-bottom:8px; margin-top:1px; \">Note that these files <b>will be removed</b> when you close this window.</p>" + (m_pCommonData->isTraceToFileEnabled() ? "<p style=\"margin-bottom:8px; margin-top:1px; \">If there is a name of an MP3 file at the end of <b>" + Qt::escape(toNativeSeparators(convStr(v[0]))) + "</b>, that might be a file that consistently causes a crash. Please check if it is so. Then, if confirmed, please make that file available by mailing it to <a href=\"mailto:ciobi@inbox.com?subject=000 MP3 Diags crash report/\">ciobi@inbox.com</a> or by putting it on a file sharing site.</b></p>" : "<p style=\"margin-bottom:8px; margin-top:1px; \">Please also try to <b>repeat the steps that led to the crash</b> before reporting the crash, which will probably result in a new set of files being generated; these files are more likely to contain relevant information than the current set of files, because they will also have information on what happened before the crash, while the current files only tell where the crash occured.</p>") + "<p style=\"margin-bottom:8px; margin-top:1px; \">You should include in your report any other details that seem relevant (what might have caused the failure, steps to reproduce it, ...)</p>", "Remove these files and continue");
+                        //ttt3 as of 2009.10.24 there are 2 files that are expected to be found here, though sometimes there may be 3; if this is cut down to 1, a "them => it" would be needed
+                    }
                 }
                 else
                 {
-                    showRestartAfterCrashMsg("<p style=\"margin-bottom:8px; margin-top:1px; \">MP3 Diags is restarting after a crash. There was supposed to be some information about what led to the crash in the file \"<b>" + Qt::escape(toNativeSeparators(convStr(s_fileTracer.getTraceFile()))) + "</b>\", but that file cannot be found. Please report this issue to the project's Issue Tracker at <a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a></p><p style=\"margin-bottom:8px; margin-top:1px; \">The developer will probably want to contact you for more details, so please check back on the status of your report.</p><p style=\"margin-bottom:8px; margin-top:1px; \">Make sure to include the data below, as well as any other detail that seems relevant (what might have caused the failure, steps to reproduce it, ...)</p>", "OK");
+                    showRestartAfterCrashMsg("<p style=\"margin-bottom:8px; margin-top:1px; \">MP3 Diags is restarting after a crash. There was supposed to be some information about what led to the crash in the file <b>" + Qt::escape(toNativeSeparators(convStr(s_fileTracer.getTraceFile()))) + "</b>, but that file cannot be found. Please report this issue to the project's Issue Tracker at <a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a></p><p style=\"margin-bottom:8px; margin-top:1px; \">The developer will probably want to contact you for more details, so please check back on the status of your report.</p><p style=\"margin-bottom:8px; margin-top:1px; \">Make sure to include the data below, as well as any other detail that seems relevant (what might have caused the failure, steps to reproduce it, ...)</p>", "OK");
                 }
             }
 
 
             if (!m_pCommonData->isTraceToFileEnabled())
             {
-                showRestartAfterCrashMsg("<p style=\"margin-bottom:8px; margin-top:1px; \">MP3 Diags is restarting after a crash. To help determine the reason for the crash, the \"Trace actions to file\" option has been activated. This logs to a file what the program is doing, which might make it slightly slower.</p><p style=\"margin-bottom:8px; margin-top:1px; \">It is recommended to not process more than several thousand MP3 files while this option is turned on. You can turn it off manually, in the configuration dialog, in the \"Others\" tab, but keeping it turned on may provide very useful feedback to the developer, should the program crash again. With this feedback, future versions of MP3 Diags will get closer to being bug free.</p>", "OK");
+                showRestartAfterCrashMsg("<p style=\"margin-bottom:8px; margin-top:1px; \">MP3 Diags is restarting after a crash. To help determine the reason for the crash, the <i>Log program state to _trace and _step files</i> option has been activated. This logs to 3 files what the program is doing, which might make it slightly slower.</p><p style=\"margin-bottom:8px; margin-top:1px; \">It is recommended to not process more than several thousand MP3 files while this option is turned on. You can turn it off manually, in the configuration dialog, in the <i>Others</i> tab, but keeping it turned on may provide very useful feedback to the developer, should the program crash again. With this feedback, future versions of MP3 Diags will get closer to being bug free.</p>", "OK");
 
                 m_pCommonData->setTraceToFile(true);
                 m_settings.saveMiscConfigSettings(m_pCommonData);
@@ -1585,7 +1606,7 @@ void MainFormDlgImpl::scan(FileEnumerator& fileEnum, bool bForce, deque<const Mp
 
             HtmlMsg::msg(this, 0, 0, &m_pCommonData->m_bToldAboutSupport, HtmlMsg::DEFAULT, "Info", "<p style=\"margin-bottom:1px; margin-top:12px; \">Your files are not fully supported by the current version of MP3 Diags. The main reason for this is that the developer is aware of some MP3 features but doesn't have actual MP3 files to implement support for those features and test the code.</p>"
 
-            "<p style=\"margin-bottom:1px; margin-top:12px; \">You can help improve MP3 Diags by making files with unsupported notes available to the developer. The preferred way to do this is to report an issue on the project's Issue Tracker at <a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a>, after checking if others made similar files available. To actually send the files, you can mail them to <a href=\"mailto:ciobi@inbox.com?subject=000 MP3 Diags support note/\">ciobi@inbox.com</a> or put them on a web server. It would be a good idea to make sure that you have the latest version of MP3 Diags.</p>"
+            "<p style=\"margin-bottom:1px; margin-top:12px; \">You can help improve MP3 Diags by making files with unsupported notes available to the developer. The preferred way to do this is to report an issue on the project's Issue Tracker at <a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a>, after checking if others made similar files available. To actually send the files, you can mail them to <a href=\"mailto:ciobi@inbox.com?subject=000 MP3 Diags support note/\">ciobi@inbox.com</a> or put them on a file sharing site. It would be a good idea to make sure that you have the latest version of MP3 Diags.</p>"
 
             "<p style=\"margin-bottom:1px; margin-top:12px; \">You can identify unsupported notes by the blue color that is used for their labels.</p>", 750, 300, "OK");
 
@@ -2107,7 +2128,7 @@ void MainFormDlgImpl::transform(std::vector<Transformation*>& vpTransf, Subset e
     QString qstrConf;
     if (vpTransf.empty())
     {
-        if (0 == m_transfConfig.m_options.m_nUnprocOrigChange)
+        if (TransfConfig::Options::UPO_DONT_CHG == m_transfConfig.m_options.m_eUnprocOrigChange)
         {
             QMessageBox::warning(this, "Warning", "The transformation list is empty.\n\nBased on the configuration, it is possible for changes to the files in the list to be performed, even in this case (the files may still be moved, renamed or erased). However, the current settings are to leave the original files unchanged, so currently there's no point in applying an empty transformation list.\n\nExiting ...");
             return;
@@ -2130,18 +2151,18 @@ void MainFormDlgImpl::transform(std::vector<Transformation*>& vpTransf, Subset e
 
     {
         const char* aOrig[] = { "don't change", "erase", "move", "move", "rename", "move if destination doesn't exist" };
-        if (m_transfConfig.m_options.m_nProcOrigChange != 1 || m_transfConfig.m_options.m_nUnprocOrigChange != 0)
+        if ((m_transfConfig.m_options.m_eProcOrigChange != TransfConfig::Options::PO_MOVE_OR_ERASE && m_transfConfig.m_options.m_eProcOrigChange != TransfConfig::Options::PO_ERASE) || m_transfConfig.m_options.m_eUnprocOrigChange != TransfConfig::Options::UPO_DONT_CHG) //ttt2 improve
         {
             qstrConf += "\n\nActions to be taken:";
 
             if (!vpTransf.empty())
             {
                 qstrConf += "\n- original file that has been transformed: ";
-                qstrConf += aOrig[m_transfConfig.m_options.m_nProcOrigChange];
+                qstrConf += aOrig[m_transfConfig.m_options.m_eProcOrigChange];
             }
 
             qstrConf += "\n- original file that has not been transformed: ";
-            qstrConf += aOrig[m_transfConfig.m_options.m_nUnprocOrigChange];
+            qstrConf += aOrig[m_transfConfig.m_options.m_eUnprocOrigChange];
         }
     }
 
@@ -2663,7 +2684,7 @@ void MainFormDlgImpl::onNewVersionQueryFinished2()
     /*"<p style=\"margin-bottom:1px; margin-top:12px; \">QQQ</p>"*/
     , 600, 400, "Just close this message", "Don't tell me about version " + m_qstrNewVer + " again", "Disable checking for new versions"));
 
-    qDebug("ret %d", nRes);
+    //qDebug("ret %d", nRes);
     switch (nRes)
     {
     case 0: m_pCommonData->m_strDontTellAboutVer.clear(); break;
@@ -3157,7 +3178,7 @@ Development machine:
 //ttt2 handle symbolic links to ancestors
 
 
-
+//ttt2 fix on right-click for notes table
 
 
 

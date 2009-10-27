@@ -1201,7 +1201,7 @@ string Renamer::getNewName(const Mp3Handler* pHndl) const
 }
 
 
-//ttt0 should be possible to filter by var/single artists and do the renaming for all; or have a checkbox in the renamer, but that requires the renamer to have the concept of an album
-//ttt0 add "reload()"
-//ttt0 add palette
+//ttt2 should be possible to filter by var/single artists and do the renaming for all; or have a checkbox in the renamer, but that requires the renamer to have the concept of an album
+//ttt2 add "reload()"
+//ttt2 add palette
 

@@ -65,11 +65,15 @@
 </div>
 
 <div class="FreeNormalText RegFnt NoteCol">
-<span class="NoteCol">You may want to look at change log <a href="015_changelog.html" class="Note">here</a>, especially if you installed an older version before.</span>
+<span class="NoteCol">You may want to look at the change log <a href="015_changelog.html" class="Note">here</a>, especially if you installed an older version before.</span>
 </div>
 
 <div class="NormalText RegFnt NoteCol">
-<span class="NoteCol">While MP3 Diags is quite usable, it is currently in active development and new versions are released once or twice a week. Usually they contain rather minor tweaks, or perhaps changes that would only affect some users, but a more serious bug fix may also be included. I generally don't like the idea of always downloading the latest version just because it's the latest; I'd rather keep using something that I already tested and it seemed to work fine. However, from time to time you may want to check the <a href="http://mp3diags.blogspot.com/" class="Note" onClick="javascript: pageTracker._trackPageview('/mp3diagsblog');">MP3 Diags blog</a>, where announcements about new releases are made. Then you can decide based on what changed in a given release if you want to upgrade or not. (If you use an RSS reader, you can add that page to it, so you see the notifications automatically.)</span>
+<span class="NoteCol">The development for the version 1.0 is basically frozen. There are several outstanding bugs that can't be fixed due to lack of user feedback: I can't reproduce the bug and I can't make a reasonable guess as to what's causing it, so I need more details from the reporter, but the reporter doesn't provide those details. After a while the bugs will be closed and 1.0 declared finished. In the meantime I'll fix any bugs that are found and reported, provided that I can reproduce them or at least have a good idea about what might be causing them. To some extent I'm also willing to add support for some of the various things that are currently unsupported, if such support is requested and the changes would be small and pretty isolated.</span>
+</div>
+
+<div class="NormalText RegFnt NoteCol">
+<span class="NoteCol">So nothing major is going to follow for a while. However, from time to time you may want to check the <a href="http://mp3diags.blogspot.com/" class="Note" onClick="javascript: pageTracker._trackPageview('/mp3diagsblog');">MP3 Diags blog</a>, where announcements about new releases are made. Then you can decide based on what changed in a given release if you want to upgrade or not. (If you use an RSS reader, you can add that page to it, so you see the notifications automatically.)</span>
 </div>
 
 
@@ -101,6 +105,7 @@ There are both source files and binaries, for several Linux platforms, as well a
     <tr> <td>
         <table border="0" cellpadding="0" cellspacing="0" class="NoBrdTableText RegFnt ChpCol2 SubtableSpace">
             <tr> <td> <a href="#binWindows">Windows</a> </td> </tr>
+            <tr> <td> <a href="#binLinux">Linux generic</a> </td> </tr>
             <tr> <td> <a href="#binOpenSUSE">openSUSE</a> </td> </tr>
             <tr> <td> <a href="#binFedora">Fedora</a> </td> </tr>
             <tr> <td> <a href="#binUbuntu">Ubuntu</a> </td> </tr>
@@ -142,15 +147,15 @@ Linux is the development platform (openSUSE, to be more precise), so the program
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-It took some fiddling with Qt, GCC, and Boost, to get a Windows version working. The first executable crashed several times for no apparent reason. Later I identified a setting that might have caused the crash; version 0.99.02.013 was the first to include a fix. While I didn't experience the crash after that, I don't feel very confident that the problem is gone, so I recommend using Linux instead, if at all possible. At any rate, I did process some 1600 songs with the Windows port to fix issues in the audio part, and then I corrected the ID3V2 tags and added images for 85 of my albums and everything went OK, no crash whatsoever. But, as they say, your mileage may vary. For one thing, there are some reports of random crashes from Windows users, while others are happily using the program.
+Since this really is a Linux program, there might be some Windows-specific crashes or other issues, so I recommend using Linux instead, if at all possible. At any rate, I did process some 1600 songs with the Windows port to fix issues in the audio part, and then I corrected the ID3V2 tags and added images for 85 of my albums and everything went OK, no crash whatsoever. But, as they say, your mileage may vary. For one thing, there are some reports of crashes from Windows users, while others are happily using the program. I try to fix those crashes, but usually I need more details and quite often those who report the crash don't seem interested in providing those details. OTOH others have been really helpful, so the crashes that affected them got fixed.
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-Something that bothers me is a 1-second delay between the time when the frame of a window appears and the time the content of that window is shown properly. This makes MP3 Diags appear as running on some emulator. I (sort of) got used to it, though.
+There is one outstanding bug causing files to be read-only on Windows 7. There were several reports, and I've seen it myself; however, when I wanted to get a closer look, the files became writable again (or perhaps I didn't remember their location correctly.) This seems to be related to user rights / file permissions, but for now it's an open issue and suggestions about why is this happening and how to make the program work are welcome. Some things that I would expect to help in this situation are running the program as an Administrator, copying files to a FAT partition, or turning off User Account Control. However, at least in one case they didn'do any good.
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-I tested a previous version of the executable on XP SP1, XP SP2, XP SP3 and some Vista Home. Currently the build and tests are done on Windows 7 RC.
+I tested previous versions of the executable on XP SP1, XP SP2, XP SP3, and Vista Home. Currently the build and tests are done on Windows 7 RC.
 </div>
 
 
@@ -255,15 +260,88 @@ Uninstallation can be done through <span class="Reference">Uninstall.sh</span>. 
 
 
 <div class="NormalText RegFnt ChpCol1">
-Since there are <a href="#binWindows">binaries</a> available (both setup.exe and zip archive), it's more convenient to just use them. However, if you really want to build the project yourself, it's not that hard, provided that you have the required libraries. There used to be a build.bat that had to be modified manually, and only worked with MinGW. This is replaced by <span class="Reference">BuildMp3Diags.hta</span>, an HTML / JScript application that allows you to do these:
+Since there are <a href="#binWindows">binaries</a> available (both setup.exe and zip archive), it's more convenient to just use them. However, if you really want to build the project yourself, it's not that hard. You should run <span class="Reference">BuildMp3Diags.hta</span>, an HTML / JScript application that allows you to do these:
 <ul>
     <li>Build the project using MinGW</li>
-    <li>Build the project using Visual Studio</li>
+    <li>Build the project using Visual C++</li>
     <li>Create a .pro file that can be open from Qt Creator</li>
     <li>Create a .sln file that can be open from Visual C++</li>
 </ul>
 
-First you need to download and perhaps compile the required libraries: Qt, Boost Serialization, and zlib. This step is not covered here. After that is done, download and unpack MP3Diags-QQQVERQQQ.tar.gz from <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-src/MP3Diags-QQQVERQQQ.tar.gz" onClick="javascript: pageTracker._trackPageview('/files/src');">SourceForge</a> or from <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3Diags-QQQVERQQQ.tar.gz" onClick="javascript: pageTracker._trackPageview('/clicknet/src');">my ISP</a>, run <span class="Reference">BuildMp3Diags.hta</span>, fill in the fields, and create the project files or build the program. BuildMp3Diags.hta has more details about this process.
+First you need to download and perhaps compile the required libraries: zlib, Qt, and Boost Serialization. In case it's not obvious, you cannot mix C++ libraries created by / for different compilers. The Qt DLLs that you get from Nokia when downloading Qt SDK are for MinGW, and they are of no use to a Visual C++ project; so you have to compile Qt yourself if you want to use Visual C++. (Or, well, get precompiled binaries from somewhere, but I couldn't find such a thing.) Also, care should be taken not to use incompatible flags for various pieces of code. So it may be better to compile from source, even if you find binaries that look like they should work. Well, here's what I do:
+</div>
+
+
+<div class="NormalText RegFnt ChpCol1">
+<table border="1" cellpadding="5" cellspacing="2" class="RegFnt ChpCol2">
+    <tr>
+        <td>zlib for MinGW and Visual C++</td>
+        <td>
+            <ul>
+                <li>Go to <a href="http://www.zlib.net/" onClick="javascript: pageTracker._trackPageview('/zlib');">http://www.zlib.net/</a> and get the "zlib compiled DLL". Unpack it somewhere and you're done. (This is a C DLL, not a C++ one, so it works with all the compilers)</td></li>
+            </ul>
+        </td>
+    </tr>
+
+    <tr>
+        <td>Qt for MinGW</td>
+        <td>
+            <ul>
+                <li>Simply go to <a href="http://qt.nokia.com/downloads/sdk-windows-cpp" onClick="javascript: pageTracker._trackPageview('/nokia/sdk-windows-cpp');">http://qt.nokia.com/downloads/sdk-windows-cpp</a> and the download should start automatically; install, and you're good to go (if the link ceases working, hunt around for LGPL and Qt SDK); note that the "Qt root folder" that BuildMp3Diags.hta wants is called "qt" and is located inside a folder called "2009.04" or something similar</li>
+            </ul>
+        </td>
+    </tr>
+
+    <tr>
+        <td>Boost for MinGW</td>
+        <td>
+            <ul>
+                <li>Go to <a href="http://www.boost.org/users/download/" onClick="javascript: pageTracker._trackPageview('/boost/mingw');">http://www.boost.org/users/download/</a> and click on "Download". Unpack the archive in the folder where you want Boost to be located</li>
+                <li>Go to <a href="https://sourceforge.net/projects/boost/files/boost-jam/" onClick="javascript: pageTracker._trackPageview('/bjam/mingw');">https://sourceforge.net/projects/boost/files/boost-jam/</a> and download the latest ntx86.zip. Unpack the archive and copy bjam.exe to the Boost root folder</li>
+                <li>Open a <b>Qt Command Prompt</b> and go to the Boost root folder</li>
+                <li>run <span class="Reference">bjam toolset=gcc serialization threading=multi release</span> . This will only build the Serialization library, and put it inside a "bin.v2" folder</li>
+            </ul>
+        </td>
+    </tr>
+
+    <tr>
+        <td>Qt for Visual C++</td>
+        <td>
+            <ul>
+                <li>Go to <a href="http://qt.nokia.com/downloads/windows-cpp" onClick="javascript: pageTracker._trackPageview('/nokia/windows-cpp');">http://qt.nokia.com/downloads/windows-cpp</a>, cancel the download that starts automatically and choose qt-win-opensource-src-4.x.y.zip instead</li>
+                <li>Unpack the zip file in the folder where you want Qt to be located</li>
+                <li>Open a <b>Visual C++ Command Prompt</b> and go to the root folder of the unpacked Qt</li>
+                <li>run <span class="Reference">configure.exe</span> (which may take a while)</li>
+                <li>run <span class="Reference">nmake</span> (which will take much longer than configure.exe)</li>
+            </ul>
+            (These are mainly taken from <a href="http://rajorshi.net/blog/2009/01/using-qt-with-msvc-express-2008/" onClick="javascript: pageTracker._trackPageview('/rajorshi');">Rajorshi's blog</a>, where you can find more details)
+        </td>
+    </tr>
+
+    <tr>
+        <td>Boost for Visual C++</td>
+        <td>
+            <ul>
+                <li>Go to <a href="http://www.boost.org/users/download/" onClick="javascript: pageTracker._trackPageview('/boost/msvc');">http://www.boost.org/users/download/</a> and click on "Download". Unpack the archive in the folder where you want Boost to be located</li>
+                <li>Go to <a href="https://sourceforge.net/projects/boost/files/boost-jam/" onClick="javascript: pageTracker._trackPageview('/bjam/msvc');">https://sourceforge.net/projects/boost/files/boost-jam/</a> and download the latest ntx86.zip. Unpack the archive and copy bjam.exe to the Boost root folder</li>
+                <li>Open a <b>Visual C++ Command Prompt</b> and go to the Boost root folder</li>
+                <li>run <span class="Reference">bjam toolset=msvc serialization threading=multi release debug</span> . This will only build the Serialization library, and put it inside a "bin.v2" folder</li>
+            </ul>
+        </td>
+    </tr>
+
+</table>
+
+</div>
+
+
+<div class="NormalText RegFnt ChpCol1">
+In many cases it's possible to choose various options or do things differently, but I won't get into any of that, instead trying to make this as concise as possible. If you care about those options you probably shouldn't be reading this anyway, as you already know what to do.
+</div>
+
+
+<div class="NormalText RegFnt ChpCol1">
+After the libraries are downloaded / built, download and unpack MP3Diags-QQQVERQQQ.tar.gz from <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-src/MP3Diags-QQQVERQQQ.tar.gz" onClick="javascript: pageTracker._trackPageview('/files/src');">SourceForge</a> or from <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3Diags-QQQVERQQQ.tar.gz" onClick="javascript: pageTracker._trackPageview('/clicknet/src');">my ISP</a>, run <span class="Reference">BuildMp3Diags.hta</span>, fill in the fields, and create the project files or build the program. BuildMp3Diags.hta has more details about this process.
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
@@ -331,7 +409,12 @@ My hope is that sometime in the future the program will get included in more wel
 
 
 <div class="NormalText RegFnt ChpCol1">
-For Linux binaries you probably want to install from a repository (or by using 1-Click-Install on openSUSE), rather than install the .rpm or .deb file directly. This way you get new versions automatically.
+For Linux binaries you'll probably want to install from a repository (or use 1-Click-Install on openSUSE), rather than install the .rpm or .deb file directly. This way you get new versions automatically.
+</div>
+
+
+<div class="NormalText RegFnt ChpCol1">
+If you can't find a pre-packaged binary for your Linux distribution, or if what you can find is out-of-date, you you may want to try the <a href="#binLinux">generic binaries</a>.
 </div>
 
 
@@ -342,7 +425,7 @@ For Linux binaries you probably want to install from a repository (or by using 1
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-There is a pretty standard Windows installer, as well as a zip archive with the executable and the DLLs it needs. Either one of these should be OK.
+There is a pretty standard Windows installer, as well as a zip archive with the executable and the DLLs it needs. Either one of these should be OK:
 <ul>
     <li> <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-windows-setup/MP3DiagsSetup-QQQVERQQQ.exe" onClick="javascript: pageTracker._trackPageview('/files/setup');">Windows 32bit installer</a> (if the link doesn't work, there's a copy at my ISP, <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3DiagsSetup-QQQVERQQQ.exe" onClick="javascript: pageTracker._trackPageview('/clicknet/setup');">here</a>) </li>
     <li> <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-windows-exe/Mp3Diags-QQQVERQQQ.zip" onClick="javascript: pageTracker._trackPageview('/files/exe');">Zip archive with Windows 32bit executable and required DLLs</a></li>
@@ -350,7 +433,7 @@ There is a pretty standard Windows installer, as well as a zip archive with the 
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-The executable that I provide uses Qt 4.5.2 from Qt SDK 2009.03, and was compiled with the MinGW that comes with it (3.4.5.) I did the Windows version more out of curiosity; I have no need to use it. As such, the main way for me to find out about Windows-specific bugs is to have somebody report them.
+The executable that I provide uses Qt 4.5.3 from Qt SDK 2009.04, and was compiled with the MinGW that comes with it (3.4.5.) I did the Windows version more out of curiosity; I have no need to use it. As such, the main way for me to find out about Windows-specific bugs is to have somebody report them.
 </div>
 
 
@@ -358,20 +441,44 @@ The executable that I provide uses Qt 4.5.2 from Qt SDK 2009.03, and was compile
 <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
 
 <div class="NormalText TitleText RegFnt ChpCol1">
+<a name="binLinux">Linux generic</a>
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+Starting with version 0.99.06.043, "generic" Linux executables are provided. They are supposed to work on any recent distribution on x86 or x86_64 CPUs but very limited testing was done, so some tweaks might be needed (or it may prove impossible to make them work as intended.) The point of having them is to make it easier for more people to run MP3 Diags. Please share your experience if you try them. Note that running these alternatively with pre-packaged MP3 Diags might lead to the MP3 files being rescanned, due to a different serialization library.
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+This is what's available:
+<ul>
+    <li><a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-linux-bin/i686/MP3Diags-QQQVERQQQ-i686.bz2/download" onClick="javascript: pageTracker._trackPageview('/files/linux/i686');">Linux i686 binary</a></li>
+    <li><a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-linux-bin/x86_64/MP3Diags-QQQVERQQQ-x86_64.bz2/download" onClick="javascript: pageTracker._trackPageview('/files/linux/x86_64');">Linux x86-64 binary</a></li>
+</ul>
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+If you use these, you'll have to make sure that you have the correct dependencies. All you'll need to add is probably Qt 4 (if on your distribution the SVG support in Qt 4 is packaged separately, as it is on Debian-based distributions, you'll need to add that as well.) If you run KDE you probably don't need to add anything.
+</div>
+
+
+
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+
+<div class="NormalText TitleText RegFnt ChpCol2">
 <a name="binOpenSUSE">openSUSE</a>
 <span class="NormalText">(see also the generic <a href="#binaries">notes about binaries</a>)</span>
 </div>
 
-<div class="NormalText RegFnt ChpCol1">
+<div class="NormalText RegFnt ChpCol2">
 You should probably get MP3 Diags from the <a href="http://packman.links2linux.org/" onClick="javascript: pageTracker._trackPageview('/packman');">PackMan</a> repository. See <a href="http://packman.links2linux.org/package/mp3diags" onClick="javascript: pageTracker._trackPageview('/packman/mp3diags');">this link</a>.
 </div>
 
-<div class="NormalText RegFnt ChpCol1">
+<div class="NormalText RegFnt ChpCol2">
 There are also binaries that I build at openSUSE Build Service:
 </div>
 
-<div class="NormalText RegFnt ChpCol1">
-<table border="1" cellpadding="5" cellspacing="2" class="RegFnt ChpCol2">
+<div class="NormalText RegFnt ChpCol2">
+<table border="1" cellpadding="5" cellspacing="2" class="RegFnt ChpCol1">
     <tr>
         <td> openSUSE 11.1 </td>
         <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.1/" onClick="javascript: pageTracker._trackPageview('/obs/suse/11.1');"> Repository </a> </td>
@@ -386,17 +493,10 @@ There are also binaries that I build at openSUSE Build Service:
         <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.0/i586/" onClick="javascript: pageTracker._trackPageview('/obs/suse/11.0/i586');"> i586 .rpm </a> </td>
         <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.0/x86_64/" onClick="javascript: pageTracker._trackPageview('/obs/suse/11.0/x86_64');"> x86_64 .rpm </a> </td>
     </tr>
-    <tr>
-        <td> openSUSE 10.3 </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_10.3/" onClick="javascript: pageTracker._trackPageview('/obs/suse/10.3');"> Repository </a> </td>
-        <td> <a class="NoUnderline" href="http://software.opensuse.org/ymp/home:ciobi/openSUSE_10.3/MP3Diags.ymp" onClick="javascript: pageTracker._trackPageview('/obs/suse/10.3/ymp');"> 1-Click Install </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_10.3/i586/" onClick="javascript: pageTracker._trackPageview('/obs/suse/10.3/i586');"> i586 .rpm </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_10.3/x86_64/" onClick="javascript: pageTracker._trackPageview('/obs/suse/10.3/x86_64');"> x86_64 .rpm </a> </td>
-    </tr>
 </table>
 </div>
 
-<div class="NormalText RegFnt ChpCol1">
+<div class="NormalText RegFnt ChpCol2">
 I will stop building these if the PackMan repository seems to be kept pretty up-to-date.
 </div>
 
@@ -406,17 +506,17 @@ I will stop building these if the PackMan repository seems to be kept pretty up-
 
 <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
 
-<div class="NormalText TitleText RegFnt ChpCol2">
+<div class="NormalText TitleText RegFnt ChpCol1">
 <a name="binFedora">Fedora</a>
 <span class="NormalText">(see also the generic <a href="#binaries">notes about binaries</a>)</span>
 </div>
 
-<div class="NormalText RegFnt ChpCol2">
+<div class="NormalText RegFnt ChpCol1">
 Binaries that I build at openSUSE Build Service:
 </div>
 
-<div class="NormalText RegFnt ChpCol2">
-<table border="1" cellpadding="5" cellspacing="2" class="RegFnt ChpCol1">
+<div class="NormalText RegFnt ChpCol1">
+<table border="1" cellpadding="5" cellspacing="2" class="RegFnt ChpCol2">
     <tr>
         <td> Fedora 11 </td>
         <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_11/" onClick="javascript: pageTracker._trackPageview('/obs/fedora/11');"> Home directory </a> </td>
@@ -438,7 +538,7 @@ Binaries that I build at openSUSE Build Service:
 </table>
 </div>
 
-<div class="NormalText RegFnt ChpCol2">
+<div class="NormalText RegFnt ChpCol1">
 For Fedora there are no repositories, so newer versions can only be installed manually. Perhaps somebody will offer to get me started on creating repositories, or just build the program elsewhere.
 </div>
 
@@ -446,22 +546,22 @@ For Fedora there are no repositories, so newer versions can only be installed ma
 
 <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
 
-<div class="NormalText TitleText RegFnt ChpCol1">
+<div class="NormalText TitleText RegFnt ChpCol2">
 <a name="binUbuntu">Ubuntu</a>
 <span class="NormalText">(see also the generic <a href="#binaries">notes about binaries</a>)</span>
 </div>
 
-<div class="NormalText RegFnt ChpCol1">
+<div class="NormalText RegFnt ChpCol2">
 Starting with 9.10 (Karmic Koala), MP3 Diags is included in Ubuntu, so you can simply install it from Synaptic. The package's page is <a href="http://packages.ubuntu.com/karmic/mp3diags" onClick="javascript: pageTracker._trackPageview('/karmic/mp3diags');">here</a>. (Note, though, that it won't necessarily be the latest version; that shouldn't matter in most cases, as the program seems stable enough and no major feature changes are planned.)
 </div>
 
 
-<div class="NormalText RegFnt ChpCol1">
+<div class="NormalText RegFnt ChpCol2">
 For the latest version, there are binaries that I build at openSUSE Build Service:
 </div>
 
-<div class="NormalText RegFnt ChpCol1">
-<table border="1" cellpadding="5" cellspacing="2" class="RegFnt ChpCol2">
+<div class="NormalText RegFnt ChpCol2">
+<table border="1" cellpadding="5" cellspacing="2" class="RegFnt ChpCol1">
     <tr>
         <td> Ubuntu 9.04 </td>
         <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/" onClick="javascript: pageTracker._trackPageview('/obs/ubuntu/9.04');"> Repository </a> (<a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/xUbuntu_9.04/" onClick="javascript: pageTracker._trackPageview('/obs/mirror/ubuntu/9.04');">mirror</a>)</td>
@@ -479,25 +579,25 @@ For the latest version, there are binaries that I build at openSUSE Build Servic
 </table>
 </div>
 
-<div class="NormalText RegFnt ChpCol1">
+<div class="NormalText RegFnt ChpCol2">
 Normally you should use the repositories rather than the .deb file, so you are notified automatically about updates. Another issue with the .deb files is that the direct links are broken for a while after running a new build (the link is for the old version, which got replaced by the new version.) You can still get a .deb file from the repository, though.
 </div>
 
 
-<div class="NormalText RegFnt ChpCol1">
+<div class="NormalText RegFnt ChpCol2">
 In my tests, the Ubuntu 9.04 i386 .deb installation was OK except for a warning about the package not being authenticated, because it's not digitally signed. I looked at this and I think I can't sign Ubuntu / Debian packages that are hosted on the openSUSE servers. I might be wrong, though, since I know next to nothing about building .deb files or signing them. However, I'm not going to look any further into this by my own, but merely hope that somebody more experienced would offer to help (or even better, take ownership of the build process, so I don't have to deal with it.) At any rate, the program installs and runs OK if you ignore that warning. You can read about adding repositories on Ubuntu <a href="https://help.ubuntu.com/community/Repositories/Ubuntu" onClick="javascript: pageTracker._trackPageview('/ubuntu');">here</a>. The command I used when prompted for the "APT line" was:
 </div>
 
-<div class="NormalText RegFnt ChpCol1 GenericSpace">
+<div class="NormalText RegFnt ChpCol2 GenericSpace">
 <span class="Reference">deb http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/ ./</span>
 </div>
 
 
-<div class="NormalText RegFnt ChpCol1">
+<div class="NormalText RegFnt ChpCol2">
 Currently the Ubuntu 8.10 and Debian repositories are on a mirror server, so it takes some time for the latest packages to propagate. This is in the hope that new versions will be found automatically by Synaptic. If new versions don't show up as available, please let me know.
 </div>
 
-<div class="NormalText RegFnt ChpCol1">
+<div class="NormalText RegFnt ChpCol2">
 The repository on the main server uses redirection, which apparently isn't supported by Synaptic (or at least it wasn't until some time ago, because Ubuntu 9.04 works fine with the main server. Maybe the others work too, but I don't have them installed, so I'll just assume that they don't.) Perhaps somebody would like to test if installation and / or automatic updates work for the main repositories for <a href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_8.10/" onClick="javascript: pageTracker._trackPageview('/obs/ubuntu/8.10');">Ubuntu_8.10</a> and <a href="http://download.opensuse.org/repositories/home:/ciobi/Debian_5.0/" onClick="javascript: pageTracker._trackPageview('/obs/debian/5.0');">Debian 5.0</a> and then share the results.
 </div>
 
@@ -505,24 +605,24 @@ The repository on the main server uses redirection, which apparently isn't suppo
 
 <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
 
-<div class="NormalText TitleText RegFnt ChpCol2">
+<div class="NormalText TitleText RegFnt ChpCol1">
 <a name="binDebian">Debian</a>
 <span class="NormalText">(see also the generic <a href="#binaries">notes about binaries</a>)</span>
 </div>
 
 
-<div class="NormalText RegFnt ChpCol2">
+<div class="NormalText RegFnt ChpCol1">
 Christian Marillat from <a href="http://www.debian-multimedia.org/" onClick="javascript: pageTracker._trackPageview('/debian_multimedia');">http://www.debian-multimedia.org/</a> notified me that he's building MP3 Diags for Debian 5.0. It can be found in the "unstable" branch. Besides the program being built by somebody who actually knows something about building and did it many times before, you can find there binaries for many other platforms in addition to x86 and AMD64. You can download the i386 package from <a href="http://www.debian-multimedia.org/dists/unstable/main/binary-i386/package/mp3diags.php" onClick="javascript: pageTracker._trackPageview('/debian_multimedia/mp3diags/i386');">this page</a>, but you probably want to add the repository, so you are notified automatically about new releases (see the debian-multimedia.org <a href="http://www.debian-multimedia.org/" onClick="javascript: pageTracker._trackPageview('/debian_multimedia');">home page</a> for instructions about how to add the repository.)
 </div>
 
 
-<div class="NormalText RegFnt ChpCol2">
+<div class="NormalText RegFnt ChpCol1">
 There are also binaries that I build at openSUSE Build Service:
 </div>
 
 
-<div class="NormalText RegFnt ChpCol2">
-<table border="1" cellpadding="5" cellspacing="2" class="RegFnt ChpCol1">
+<div class="NormalText RegFnt ChpCol1">
+<table border="1" cellpadding="5" cellspacing="2" class="RegFnt ChpCol2">
     <tr>
         <td> Debian 5.0 </td>
         <!-- <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Debian_5.0/"> Repository </a> (<a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/Debian_5.0/">mirror</a>)</td> -->
@@ -533,7 +633,7 @@ There are also binaries that I build at openSUSE Build Service:
 </table>
 </div>
 
-<div class="NormalText RegFnt ChpCol2">
+<div class="NormalText RegFnt ChpCol1">
 The repository is a mirror. I'm not sure if the main repository at <a href="http://download.opensuse.org/repositories/home:/ciobi/Debian_5.0/" onClick="javascript: pageTracker._trackPageview('/obs/debian/5.0');">download.opensuse.org</a> can be used, because of redirection issues. (See also the notes for Ubuntu, above.)
 </div>
 
@@ -542,15 +642,15 @@ The repository is a mirror. I'm not sure if the main repository at <a href="http
 
 <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
 
-<div class="NormalText TitleText RegFnt ChpCol1">
+<div class="NormalText TitleText RegFnt ChpCol2">
 <a name="binGentoo">Gentoo</a>
 </div>
 
-<div class="NormalText RegFnt ChpCol1">
+<div class="NormalText RegFnt ChpCol2">
 I don't package MP3 Diags for Gentoo. There's no need for it, as the project is now included in the distribution, thanks to Dominik Kapusta. The install instructions are rather simple:
 </div>
 
-<div class="NormalText RegFnt ChpCol1 GenericSpace">
+<div class="NormalText RegFnt ChpCol2 GenericSpace">
 <span class="Reference">emerge mp3diags</span>
 </div>
 
@@ -558,20 +658,20 @@ I don't package MP3 Diags for Gentoo. There's no need for it, as the project is 
 <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
 
 
-<div class="NormalText TitleText RegFnt ChpCol2">
+<div class="NormalText TitleText RegFnt ChpCol1">
 <a name="binMandriva">Mandriva</a>
 <span class="NormalText">(see also the generic <a href="#binaries">notes about binaries</a>)</span>
 </div>
 
 
 
-<div class="NormalText RegFnt ChpCol2">
+<div class="NormalText RegFnt ChpCol1">
 Binaries that I build at openSUSE Build Service:
 </div>
 
 
-<div class="NormalText RegFnt ChpCol2">
-<table border="1" cellpadding="5" cellspacing="2" class="RegFnt ChpCol1">
+<div class="NormalText RegFnt ChpCol1">
+<table border="1" cellpadding="5" cellspacing="2" class="RegFnt ChpCol2">
     <tr>
         <td> Mandriva 2009.0 </td>
         <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Mandriva_2009/" onClick="javascript: pageTracker._trackPageview('/obs/mandriva/2009.0/');"> Home directory </a> </td>
@@ -587,7 +687,7 @@ Binaries that I build at openSUSE Build Service:
 </table>
 </div>
 
-<div class="NormalText RegFnt ChpCol2">
+<div class="NormalText RegFnt ChpCol1">
 I'm not familiar with Mandriva, so I have no idea if the "Home directories" can be used as repositories or not. Also, I didn't test these RPMs, but they should be OK. At least somebody said they were OK.
 </div>
 
@@ -597,12 +697,17 @@ I'm not familiar with Mandriva, so I have no idea if the "Home directories" can 
 
 <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
 
-<div class="NormalText TitleText RegFnt ChpCol1">
+<div class="NormalText TitleText RegFnt ChpCol2">
 <a name="binOthers">Others</a>
 </div>
 
 
-<div class="NormalText RegFnt ChpCol1">
+<div class="NormalText RegFnt ChpCol2">
+If you can't find a pre-packaged binary for your Linux distribution / version, and you don't want to build from sources, you you may want to try the <a href="#binLinux">generic binaries</a>.
+</div>
+
+
+<div class="NormalText RegFnt ChpCol2">
 If you want to build binaries for other platforms, please let me know, so I can add the links here.
 </div>
 
@@ -617,11 +722,11 @@ If you want to build binaries for other platforms, please let me know, so I can 
 <!-- ========================================================================================================== -->
 
 
-<div class="SubChapterText RegFnt ChpCol2">
+<div class="SubChapterText RegFnt ChpCol1">
 <a name="documentation">Documentation</a>
 </div>
 
-<div class="NormalText RegFnt ChpCol2">
+<div class="NormalText RegFnt ChpCol1">
 If for some reason you don't want to look at the documentation online, you can download it <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-doc/" onClick="javascript: pageTracker._trackPageview('/files/doc');">here</a>.
 </div>
 
@@ -673,7 +778,7 @@ http://osdir.com/ml/linux.debian.devel.games.devel/2007-08/msg00211.html
 
 
 
-<div class="NavPadTable RegFnt ChpCol1">
+<div class="NavPadTable RegFnt ChpCol2">
 <div style="width:100%">
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="NavTable">
     <tr>

@@ -27,6 +27,7 @@
 #include  <QFontDialog>
 #include  <QColorDialog>
 #include  <QPainter>
+#include  <QStackedLayout>
 
 #include  "ConfigDlgImpl.h"
 
@@ -363,75 +364,51 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
     //tab_3->installEventFilter(pEventFilter);
     */
 
-    m_pSrcDirE->setText(toNativeSeparators(convStr(getSepTerminatedDir(transfCfg.getSrcDir()))));
+    {
 
-    { // ProcOrig
-        switch (transfCfg.m_options.m_nProcOrigChange)
         {
-        case 0: m_pPODontChangeRB->setChecked(true); break;
-        case 1: m_pPOEraseRB->setChecked(true); break;
-        case 2: m_pPOMoveAlwaysChangeRB->setChecked(true); break;
-        case 3: m_pPOMoveChangeIfNeededRB->setChecked(true); break;
-        case 4: m_pPOChangeNameRB->setChecked(true); break;
-        case 5: m_pPOMoveOrEraseRB->setChecked(true); break;
-        default:
-            CB_ASSERT(false); // the constructor of TransfConfig should have detected it
-        }
+            delete m_pRemovableL;
 
-        if (transfCfg.m_options.m_bProcOrigUseLabel) { m_pPOUseLabelRB->setChecked(true); } else { m_pPODontUseLabelRB->setChecked(true); }
-        if (transfCfg.m_options.m_bProcOrigAlwayUseCounter) { m_pPOAlwaysUseCounterRB->setChecked(true); } else { m_pPOUseCounterIfNeededRB->setChecked(true); }
+            delete m_pFileSettingsW->layout();
+            m_pFileSettingsLayout = new QStackedLayout(m_pFileSettingsW);
+            //m_pFileSettingsLayout->setContentsMargins(0, 50, 50, 0);
+            //m_pFileSettingsW->setLayout(m_pFileSettingsLayout);
+            m_pFileSettingsLayout->addWidget(m_pSimpleViewTab);
+            m_pFileSettingsLayout->addWidget(m_pFullViewTab);
+
+            delete m_pDetailsTabWidget;
+        }
 
         m_pPODestE->setText(toNativeSeparators(convStr(getSepTerminatedDir(transfCfg.getProcOrigDir()))));
-    }
-
-    { // UnprocOrig
-        switch (transfCfg.m_options.m_nUnprocOrigChange)
-        {
-        case 0: m_pUODontChangeRB->setChecked(true); break;
-        case 1: m_pUOEraseRB->setChecked(true); break;
-        case 2: m_pUOMoveAlwaysChangeRB->setChecked(true); break;
-        case 3: m_pUOMoveChangeIfNeededRB->setChecked(true); break;
-        case 4: m_pUOChangeNameRB->setChecked(true); break;
-        default:
-            CB_ASSERT(false); // the constructor of TransfConfig should have detected it
-        }
-
-        if (transfCfg.m_options.m_bUnprocOrigUseLabel) { m_pUOUseLabelRB->setChecked(true); } else { m_pUODontUseLabelRB->setChecked(true); }
-        if (transfCfg.m_options.m_bUnprocOrigAlwayUseCounter) { m_pUOAlwaysUseCounterRB->setChecked(true); } else { m_pUOUseCounterIfNeededRB->setChecked(true); }
-
+        m_pPODest2E->setText(m_pPODestE->text());
         m_pUODestE->setText(toNativeSeparators(convStr(getSepTerminatedDir(transfCfg.getUnprocOrigDir()))));
-    }
+        m_pProcDestE->setText(toNativeSeparators(convStr(getSepTerminatedDir(transfCfg.getProcessedDir()))));
+        m_pTempDestE->setText(toNativeSeparators(convStr(getSepTerminatedDir(transfCfg.getTempDir()))));
+        m_pCompDestE->setText(toNativeSeparators(convStr(getSepTerminatedDir(transfCfg.getCompDir()))));
 
-    { // Processed
-        switch (transfCfg.m_options.m_nProcessedCreate)
+        m_pSrcDirE->setText(toNativeSeparators(convStr(getSepTerminatedDir(transfCfg.getSrcDir()))));
+
+        //setSimpleViewOpt(transfCfg.m_options); //!!! pointless; doesn't work if keepTime is true; anyway, the on_m_pSimpleViewB_clicked() call below will select the right radiobutton
+        setFullViewOpt(transfCfg.m_options); // !!! the buttons should be set for both views
+        setSimpleViewOpt(transfCfg.m_options);
+
+        TransfConfig::Options opt (transfCfg.m_options);
+
+        if (opt.asBackup() == opt || opt.asNonBackup() == opt)
         {
-        case 0: m_pProcDontCreateRB->setChecked(true); break;
-        case 1: m_pProcCreateAlwaysChangeRB->setChecked(true); break;
-        case 2: m_pProcCreateChangeIfNeededRB->setChecked(true); break;
-        default:
-            CB_ASSERT(false); // the constructor of TransfConfig should have detected it
+            m_pSimpleViewB->setChecked(true);
+            on_m_pSimpleViewB_clicked();
+        }
+        else
+        {
+            m_pFullViewB->setChecked(true);
+            on_m_pFullViewB_clicked();
         }
 
-        if (transfCfg.m_options.m_bProcessedUseLabel) { m_pProcUseLabelRB->setChecked(true); } else { m_pProcDontUseLabelRB->setChecked(true); }
-        if (transfCfg.m_options.m_bProcessedAlwayUseCounter) { m_pProcAlwaysUseCounterRB->setChecked(true); } else { m_pProcUseCounterIfNeededRB->setChecked(true); }
-        if (transfCfg.m_options.m_bProcessedUseSeparateDir) { m_pProcUseSeparateDirRB->setChecked(true); } else { m_pProcUseSrcRB->setChecked(true); }
 
-        m_pProcDestE->setText(toNativeSeparators(convStr(getSepTerminatedDir(transfCfg.getProcessedDir()))));
-    }
-
-    {
         m_pKeepOrigTimeCkB->setChecked(transfCfg.m_options.m_bKeepOrigTime);
     }
 
-    { // Temp
-        if (transfCfg.m_options.m_bTempCreate) { m_pTempCreateRB->setChecked(true); } else { m_pTempDontCreateRB->setChecked(true); }
-        m_pTempDestE->setText(toNativeSeparators(convStr(getSepTerminatedDir(transfCfg.getTempDir()))));
-    }
-
-    { // Comp
-        if (transfCfg.m_options.m_bCompCreate) { m_pCompCreateRB->setChecked(true); } else { m_pCompDontCreateRB->setChecked(true); }
-        m_pCompDestE->setText(toNativeSeparators(convStr(getSepTerminatedDir(transfCfg.getCompDir()))));
-    }
 
 
     // -------------------------------------------- ignored ------------------------------------------------------
@@ -918,7 +895,6 @@ void ConfigDlgImpl::getTransfData()
 }
 
 
-
 void ConfigDlgImpl::on_m_pOkB_clicked()
 {
     {
@@ -938,30 +914,11 @@ void ConfigDlgImpl::on_m_pOkB_clicked()
     //logState("on_m_pOkB_clicked 1");
     try
     {
-        TransfConfig::Options opt;
-
-        opt.m_nProcOrigChange = m_pPODontChangeRB->isChecked() ? 0 : m_pPOEraseRB->isChecked() ? 1 : m_pPOMoveAlwaysChangeRB->isChecked() ? 2 : m_pPOMoveChangeIfNeededRB->isChecked() ? 3 : m_pPOChangeNameRB->isChecked() ? 4 : m_pPOMoveOrEraseRB->isChecked() ? 5 : 7;
-        opt.m_bProcOrigUseLabel = m_pPOUseLabelRB->isChecked();
-        opt.m_bProcOrigAlwayUseCounter = m_pPOAlwaysUseCounterRB->isChecked();
-
-        opt.m_nUnprocOrigChange = m_pUODontChangeRB->isChecked() ? 0 : m_pUOEraseRB->isChecked() ? 1 : m_pUOMoveAlwaysChangeRB->isChecked() ? 2 : m_pUOMoveChangeIfNeededRB->isChecked() ? 3 : m_pUOChangeNameRB->isChecked() ? 4 : 7;
-        opt.m_bUnprocOrigUseLabel = m_pUOUseLabelRB->isChecked();
-        opt.m_bUnprocOrigAlwayUseCounter = m_pUOAlwaysUseCounterRB->isChecked();
-
-        opt.m_nProcessedCreate = m_pProcDontCreateRB->isChecked() ? 0 : m_pProcCreateAlwaysChangeRB->isChecked() ? 1 : m_pProcCreateChangeIfNeededRB->isChecked() ? 2 : 3;
-        opt.m_bProcessedUseLabel = m_pProcUseLabelRB->isChecked();
-        opt.m_bProcessedAlwayUseCounter = m_pProcAlwaysUseCounterRB->isChecked();
-        opt.m_bProcessedUseSeparateDir = m_pProcUseSeparateDirRB->isChecked();
-
-        opt.m_bTempCreate = m_pTempCreateRB->isChecked();
-
-        opt.m_bCompCreate = m_pCompCreateRB->isChecked();
-
-        opt.m_bKeepOrigTime = m_pKeepOrigTimeCkB->isChecked();
+        TransfConfig::Options opt (getOpt());
 
         TransfConfig cfg (
                 getNonSepTerminatedDir(convStr(fromNativeSeparators(m_pSrcDirE->text()))),
-                getNonSepTerminatedDir(convStr(fromNativeSeparators(m_pPODestE->text()))),
+                getNonSepTerminatedDir(convStr(fromNativeSeparators((m_pSimpleViewB->isChecked() ? m_pPODest2E : m_pPODestE)->text()))),
                 getNonSepTerminatedDir(convStr(fromNativeSeparators(m_pUODestE->text()))),
                 getNonSepTerminatedDir(convStr(fromNativeSeparators(m_pProcDestE->text()))),
                 getNonSepTerminatedDir(convStr(fromNativeSeparators(m_pTempDestE->text()))),
@@ -1234,6 +1191,149 @@ void ConfigDlgImpl::on_m_pFastSaveCkB_stateChanged()
 }
 
 
+
+TransfConfig::Options ConfigDlgImpl::getSimpleViewOpt() // doesn't set m_bKeepOrigTime
+{
+    TransfConfig::Options opt (getFullViewOpt());
+    if (m_pBackupCustomRB->isChecked()) { return opt; }
+
+    if (m_pDontCreateBackupRB->isChecked()) { return opt.asNonBackup(); }
+
+    return opt.asBackup();
+}
+
+
+TransfConfig::Options ConfigDlgImpl::getFullViewOpt() // doesn't set m_bKeepOrigTime
+{
+    TransfConfig::Options opt;
+
+    opt.m_eProcOrigChange = m_pPODontChangeRB->isChecked() ? TransfConfig::Options::PO_DONT_CHG : m_pPOEraseRB->isChecked() ? TransfConfig::Options::PO_ERASE : m_pPOMoveAlwaysChangeRB->isChecked() ? TransfConfig::Options::PO_MOVE_ALWAYS_RENAME : m_pPOMoveChangeIfNeededRB->isChecked() ? TransfConfig::Options::PO_MOVE_RENAME_IF_USED : m_pPOChangeNameRB->isChecked() ? TransfConfig::Options::PO_RENAME_SAME_DIR : m_pPOMoveOrEraseRB->isChecked() ? TransfConfig::Options::PO_MOVE_OR_ERASE : TransfConfig::Options::ProcOrig(7);
+    CB_ASSERT (7 != opt.m_eProcOrigChange);
+    opt.m_bProcOrigUseLabel = m_pPOUseLabelRB->isChecked();
+    opt.m_bProcOrigAlwayUseCounter = m_pPOAlwaysUseCounterRB->isChecked();
+
+    opt.m_eUnprocOrigChange = m_pUODontChangeRB->isChecked() ? TransfConfig::Options::UPO_DONT_CHG : m_pUOEraseRB->isChecked() ? TransfConfig::Options::UPO_ERASE : m_pUOMoveAlwaysChangeRB->isChecked() ? TransfConfig::Options::UPO_MOVE_ALWAYS_RENAME : m_pUOMoveChangeIfNeededRB->isChecked() ? TransfConfig::Options::UPO_MOVE_RENAME_IF_USED : m_pUOChangeNameRB->isChecked() ? TransfConfig::Options::UPO_RENAME_SAME_DIR : TransfConfig::Options::UnprocOrig(7);
+    CB_ASSERT (7 != opt.m_eUnprocOrigChange);
+    opt.m_bUnprocOrigUseLabel = m_pUOUseLabelRB->isChecked();
+    opt.m_bUnprocOrigAlwayUseCounter = m_pUOAlwaysUseCounterRB->isChecked();
+
+    opt.m_eProcessedCreate = m_pProcDontCreateRB->isChecked() ? TransfConfig::Options::PR_DONT_CREATE : m_pProcCreateAlwaysChangeRB->isChecked() ? TransfConfig::Options::PR_CREATE_ALWAYS_RENAME : m_pProcCreateChangeIfNeededRB->isChecked() ? TransfConfig::Options::PR_CREATE_RENAME_IF_USED : TransfConfig::Options::Processed(3);
+    CB_ASSERT (3 != opt.m_eProcessedCreate);
+    opt.m_bProcessedUseLabel = m_pProcUseLabelRB->isChecked();
+    opt.m_bProcessedAlwayUseCounter = m_pProcAlwaysUseCounterRB->isChecked();
+    opt.m_bProcessedUseSeparateDir = m_pProcUseSeparateDirRB->isChecked();
+
+    opt.m_bTempCreate = m_pTempCreateRB->isChecked();
+
+    opt.m_bCompCreate = m_pCompCreateRB->isChecked();
+
+    return opt;
+}
+
+
+TransfConfig::Options ConfigDlgImpl::getOpt() // has the correct m_bKeepOrigTime
+{
+    TransfConfig::Options opt (m_pSimpleViewB->isChecked() ? getSimpleViewOpt() : getFullViewOpt());
+    opt.m_bKeepOrigTime = m_pKeepOrigTimeCkB->isChecked();
+    return opt;
+}
+
+
+void ConfigDlgImpl::setSimpleViewOpt(const TransfConfig::Options& opt) // m_bKeepOrigTime shouldn't be set
+{
+    if (opt == opt.asNonBackup())
+    {
+        m_pDontCreateBackupRB->setChecked(true);
+    }
+    else if (opt == opt.asBackup())
+    {
+        m_pCreateBackupRB->setChecked(true);
+    }
+    else
+    {
+        m_pBackupCustomRB->setChecked(true);
+    }
+}
+
+
+void ConfigDlgImpl::setFullViewOpt(const TransfConfig::Options& opt) // m_bKeepOrigTime is ignored
+{
+    { // ProcOrig
+        switch (opt.m_eProcOrigChange)
+        {
+        case TransfConfig::Options::PO_DONT_CHG: m_pPODontChangeRB->setChecked(true); break;
+        case TransfConfig::Options::PO_ERASE: m_pPOEraseRB->setChecked(true); break;
+        case TransfConfig::Options::PO_MOVE_ALWAYS_RENAME: m_pPOMoveAlwaysChangeRB->setChecked(true); break;
+        case TransfConfig::Options::PO_MOVE_RENAME_IF_USED: m_pPOMoveChangeIfNeededRB->setChecked(true); break;
+        case TransfConfig::Options::PO_RENAME_SAME_DIR: m_pPOChangeNameRB->setChecked(true); break;
+        case TransfConfig::Options::PO_MOVE_OR_ERASE: m_pPOMoveOrEraseRB->setChecked(true); break;
+        default:
+            CB_ASSERT(false); // the constructor of TransfConfig should have detected it
+        }
+
+        if (opt.m_bProcOrigUseLabel) { m_pPOUseLabelRB->setChecked(true); } else { m_pPODontUseLabelRB->setChecked(true); }
+        if (opt.m_bProcOrigAlwayUseCounter) { m_pPOAlwaysUseCounterRB->setChecked(true); } else { m_pPOUseCounterIfNeededRB->setChecked(true); }
+    }
+
+    { // UnprocOrig
+        switch (opt.m_eUnprocOrigChange)
+        {
+        case TransfConfig::Options::UPO_DONT_CHG: m_pUODontChangeRB->setChecked(true); break;
+        case TransfConfig::Options::UPO_ERASE: m_pUOEraseRB->setChecked(true); break;
+        case TransfConfig::Options::UPO_MOVE_ALWAYS_RENAME: m_pUOMoveAlwaysChangeRB->setChecked(true); break;
+        case TransfConfig::Options::UPO_MOVE_RENAME_IF_USED: m_pUOMoveChangeIfNeededRB->setChecked(true); break;
+        case TransfConfig::Options::UPO_RENAME_SAME_DIR: m_pUOChangeNameRB->setChecked(true); break;
+        default:
+            CB_ASSERT(false); // the constructor of TransfConfig should have detected it
+        }
+
+        if (opt.m_bUnprocOrigUseLabel) { m_pUOUseLabelRB->setChecked(true); } else { m_pUODontUseLabelRB->setChecked(true); }
+        if (opt.m_bUnprocOrigAlwayUseCounter) { m_pUOAlwaysUseCounterRB->setChecked(true); } else { m_pUOUseCounterIfNeededRB->setChecked(true); }
+
+    }
+
+    { // Processed
+        switch (opt.m_eProcessedCreate)
+        {
+        case TransfConfig::Options::PR_DONT_CREATE: m_pProcDontCreateRB->setChecked(true); break;
+        case TransfConfig::Options::PR_CREATE_ALWAYS_RENAME: m_pProcCreateAlwaysChangeRB->setChecked(true); break;
+        case TransfConfig::Options::PR_CREATE_RENAME_IF_USED: m_pProcCreateChangeIfNeededRB->setChecked(true); break;
+        default:
+            CB_ASSERT(false); // the constructor of TransfConfig should have detected it
+        }
+
+        if (opt.m_bProcessedUseLabel) { m_pProcUseLabelRB->setChecked(true); } else { m_pProcDontUseLabelRB->setChecked(true); }
+        if (opt.m_bProcessedAlwayUseCounter) { m_pProcAlwaysUseCounterRB->setChecked(true); } else { m_pProcUseCounterIfNeededRB->setChecked(true); }
+        if (opt.m_bProcessedUseSeparateDir) { m_pProcUseSeparateDirRB->setChecked(true); } else { m_pProcUseSrcRB->setChecked(true); }
+    }
+
+    { // Temp
+        if (opt.m_bTempCreate) { m_pTempCreateRB->setChecked(true); } else { m_pTempDontCreateRB->setChecked(true); }
+    }
+
+    { // Comp
+        if (opt.m_bCompCreate) { m_pCompCreateRB->setChecked(true); } else { m_pCompDontCreateRB->setChecked(true); }
+    }
+}
+
+
+void ConfigDlgImpl::on_m_pSimpleViewB_clicked()
+{
+    m_pFileSettingsLayout->setCurrentWidget(m_pSimpleViewTab);
+    m_pFullViewB->setChecked(false);
+    m_pPODest2E->setText(m_pPODestE->text());
+    setSimpleViewOpt(getFullViewOpt());
+}
+
+void ConfigDlgImpl::on_m_pFullViewB_clicked()
+{
+    m_pFileSettingsLayout->setCurrentWidget(m_pFullViewTab);
+    m_pSimpleViewB->setChecked(false);
+    m_pPODestE->setText(m_pPODest2E->text());
+    setFullViewOpt(getSimpleViewOpt());
+}
+
+
 //=====================================================================================================================
 //=====================================================================================================================
 //=====================================================================================================================
@@ -1243,3 +1343,5 @@ void ConfigDlgImpl::on_m_pFastSaveCkB_stateChanged()
 //ttt2 Font style is ignored (see DejaVu Sans / Light on machines with antialiased fonts)
 
 //ttt2 proxy: QNetworkProxyFactory::systemProxyForQuery; QNetworkProxy; http://www.dbits.be/index.php/pc-problems/65-vistaproxycfg  https://sourceforge.net/projects/mp3diags/forums/forum/947207/topic/3415940
+
+

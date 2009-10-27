@@ -214,6 +214,7 @@ struct Notes
     DECL_NOTE_INFO(id3v2UnsuppFlags2, SUPPORT, ID3V2, "Unsupported value for Flags2 in ID3V2 frame. (This may also indicate that the file contains garbage where it was supposed to be zero.)", true); // n
     DECL_NOTE_INFO(id3v2DuplicatePopm, SUPPORT, ID3V2, "Multiple instances of the POPM frame found in ID3V2 tag. The current version discards all the instances except the first when processing this tag.", true); // o
     DECL_NOTE_INFO(id3v2EmptyTag, WARNING, ID3V2, "ID3V2 tag contains no frames, which is invalid. This note will disappear once you add track information in the tag editor.", true); //p
+    DECL_NOTE_INFO(id3v2EmptyTextFrame, WARNING, ID3V2, "ID3V2 tag contains an empty text frame, which is invalid.", true); //q
 
     // apic // e
     DECL_NOTE_INFO(id3v2NoApic, WARNING, APIC, "ID3V2 tag doesn't have an APIC frame (which is used to store images).", true); // a

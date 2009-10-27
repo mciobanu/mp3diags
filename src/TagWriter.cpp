@@ -632,7 +632,7 @@ void Mp3HandlerTagData::setStatus(int nField, Status eStatus)
 }
 
 
-//ttt0 ??? ptr deallocated and then reallocated in the same place most of the time?
+//ttt2 ??? ptr deallocated and then reallocated in the same place most of the time?
 // returns the data corresponding to the k-th element in m_pTagWriter->m_vTagReaderInfo; returns "\1" if it doesn't have a corresponding stream (e.g. 2nd ID3V1 tag), "\2" if the given feature is not supported (e.g. picture in ID3V1) and "\3" if this particular tag doesn't have the requested frame
 // nField is the "internal" row for which data is retrieved, so TagReader::FEATURE_ON_POS[] has to be used by the UI caller
 std::string Mp3HandlerTagData::getData(int nField, int k) const
@@ -1018,8 +1018,8 @@ void TagWriter::reloadAll(string strCrt, bool bClearData, bool bClearAssgn)
     {
         strCrt = getCurrentName();
     }
-//ttt0 ??? q ? m_vpMp3HandlerTagData gets destroyed then prev values used?" x
-//ttt0 ??? ? push_back for m_vpMp3HandlerTagData ?
+//ttt2 ??? q ? m_vpMp3HandlerTagData gets destroyed then prev values used?" x
+//ttt2 ??? ? push_back for m_vpMp3HandlerTagData ?
     vector<Mp3HandlerTagData*> v; v.swap(m_vpMp3HandlerTagData);
     const deque<const Mp3Handler*>& vpHndl (m_pCommonData->getCrtAlbum());
     if (!v.empty() && cSize(v) != cSize(vpHndl))

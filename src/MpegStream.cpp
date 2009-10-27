@@ -845,7 +845,7 @@ const char* getId3V1Genre(int n)
         "Native US",
         "Cabaret",
         "New Wave",
-        "Psychadelic",
+        "Psychedelic", // ??? "Psychadelic" in the specs
         "Rave",
         "Showtunes",
         "Trailer",

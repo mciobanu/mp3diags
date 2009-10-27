@@ -117,6 +117,10 @@ Simply double-clicking on a folder in the "Available" list creates a filter that
 
 -----------------------------------
 
+Click on these buttons to toggle between simple and full view
+
+-----------------------------------
+
 Query Discogs for album info and / or cover art
 
 Query MusicBrainz for album info and / or cover art
@@ -196,8 +200,11 @@ You may keep the original file
 
 Among other things, the selected pattern adds a "-" between the track number and title and removes the rating
 
-You have to define at least a pattern. It makes sense to have different patterns for "single artist" and "various artists" albums. Press on one of them to select it.
+You have to define at least a pattern. It makes sense to have different patterns for "single artist" and "various artists" albums. Click on one of them to select it.
 
+The first 5 files have already been renamed. This was done by selecting them and keeping SHIFT pressed when clicking on the "Rename" button. They are shown on a blue background, because their name isn't going to change again. A red background is used when the destination is in a different directory and already exists.
+
+Press F2 in cells in the "New file name" column to change names manually
 
 -----------------------------------
 

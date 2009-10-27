@@ -243,6 +243,16 @@ Id3V240Frame::Id3V240Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
         try
         {
             getUtf8String();
+            if ('T' == m_szName[0])
+            {
+                if (0 == m_nMemDataSize)
+                { // this is really invalid; text frames must have at least a byte; however, by doing these we make sure that an empty (i.e. having a single byte, for text encoding) frame gets copied if the tag is edited;
+                    m_nMemDataSize = 1;
+                    m_vcData.clear();
+                    m_vcData.push_back(0);
+                    MP3_NOTE_D (pos, id3v2EmptyTextFrame, Notes::id3v2EmptyTextFrame().getDescription() + string(" (Frame:") + m_szName + ")");
+                }
+            }
         }
         catch (const NotId3V2Frame&)
         {

@@ -28,6 +28,7 @@
 #include  "ui_Config.h"
 
 #include  "NoteFilterDlgImpl.h" // for NoteListElem and NoteListPainter //ttt2 perhaps move them in their own file
+#include  "Transformation.h"
 
 
 
@@ -44,6 +45,7 @@ class CustomTransfListPainter;
 class VisibleTransfPainter;
 
 class QSettings;
+class QStackedLayout;
 class CommonData;
 
 void initDefaultCustomTransf(int k, std::vector<std::vector<int> >& vv, CommonData* pCommonData);
@@ -96,6 +98,13 @@ class ConfigDlgImpl : public QDialog, private Ui::ConfigDlg, public NoteListPain
     void setBtnColor(int n);
     void onButtonClicked(int n);
 
+    QStackedLayout* m_pFileSettingsLayout;
+    TransfConfig::Options getOpt(); // has the correct m_bKeepOrigTime
+    TransfConfig::Options getSimpleViewOpt(); // doesn't set m_bKeepOrigTime
+    TransfConfig::Options getFullViewOpt(); // doesn't set m_bKeepOrigTime
+    void setSimpleViewOpt(const TransfConfig::Options& opt); // m_bKeepOrigTime shouldn't be set
+    void setFullViewOpt(const TransfConfig::Options& opt); // m_bKeepOrigTime is ignored
+
 public:
     enum { SOME_TABS, ALL_TABS };
     ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, QWidget* pParent, bool bFull); // bFull determines if all the tabs should be visible
@@ -120,6 +129,7 @@ public slots:
     void on_m_pSelectTempDirB_clicked() { selectDir(m_pTempDestE); }
     void on_m_pSelectCompDirB_clicked() { selectDir(m_pCompDestE); }
     void on_m_pSelectOrigTransfDestDirB_clicked() { selectDir(m_pPODestE); }
+    void on_m_pSelectOrigTransfDestDir2B_clicked() { selectDir(m_pPODest2E); }
     void on_m_pSelectOrigNotTransfDestDirB_clicked() { selectDir(m_pUODestE); }
     void on_m_pSelectTransfDestDirB_clicked() { selectDir(m_pProcDestE); }
 
@@ -146,6 +156,9 @@ public slots:
     void on_m_pResetColorsB_clicked();
 
     void on_m_pFastSaveCkB_stateChanged();
+
+    void on_m_pSimpleViewB_clicked();
+    void on_m_pFullViewB_clicked();
 
     void onHelp();
 };

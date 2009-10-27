@@ -365,6 +365,9 @@
         var fOut = fsObj.CreateTextFile("build.bat", true);
         fOut.writeLine("PATH=" + crtFolderSettings[3] + "\\bin;" + crtFolderSettings[2]);
         fOut.writeLine();
+        fOut.writeLine("del /Q src\\Makefile*");
+        fOut.writeLine("del /Q src\\object_script*");
+        fOut.writeLine();
         fOut.writeLine("qmake mp3diags.pro");
         fOut.writeLine("mingw32-make.exe -w release");
         fOut.writeLine();
@@ -390,17 +393,62 @@
 
         fInOut.close();
 
+        var msVer = "";
+
+        {
+            var fOut = fsObj.CreateTextFile("findVer.bat", true);
+            fOut.writeLine("call \"" + crtFolderSettings[2] + "\\VC\\vcvarsall.bat\" x86");
+            fOut.writeLine("cl 2> ver.txt");
+            fOut.close();
+
+            wsShell.run("findVer.bat", 1, true);
+            var fIn = fsObj.OpenTextFile("ver.txt", 1);
+            var regExp2002 = new RegExp("13\\.00");
+            var regExp2003 = new RegExp("13\\.10");
+            var regExp2005 = new RegExp("14\\.00");
+            var regExp2008 = new RegExp("15\\.00");
+            line = fIn.ReadLine();
+            fIn.close();
+
+            if (-1 != line.search(regExp2002))
+            {
+                msVer = "2002";
+            }
+            else if (-1 != line.search(regExp2003))
+            {
+                msVer = "2003";
+            }
+            else if (-1 != line.search(regExp2005))
+            {
+                msVer = "2005";
+            }
+            else if (-1 != line.search(regExp2008))
+            {
+                msVer = "2008";
+            }
+            else
+            {
+                msVer = "2010"; // ttt2 not quite right
+            }
+
+            fsObj.DeleteFile("findVer.bat");
+            fsObj.DeleteFile("ver.txt");
+        }
+
         {
             var fOut = fsObj.CreateTextFile("generateVsProject.bat", true);
             fOut.writeLine("call \"" + crtFolderSettings[2] + "\\VC\\vcvarsall.bat\" x86");
             fOut.writeLine("PATH=\"" + crtFolderSettings[3] + "\\bin\";%PATH%");
             fOut.writeLine();
+
+            //fOut.writeLine("set QMAKESPEC=\"" + crtFolderSettings[3] + "\\mkspecs\\win32-msvc" + msVer + "\""); // commented out, because the "mkspecs/default" should be OK
             fOut.writeLine("set QTDIR=\"" + crtFolderSettings[3] + "\"");
             fOut.writeLine();
             fOut.writeLine("qmake -tp vc -r mp3diags.pro");
 
             fOut.close();
         }
+
 
         {
             var fOut = fsObj.CreateTextFile("build.bat", true);
@@ -445,8 +493,8 @@
         }
 
         //var regExp4 = new RegExp("msvc-9.0express"); //ttt0 handle other versions
-        var regExp4 = new RegExp("msvc-9.0"); //ttt0 handle other versions
-        if (-1 != crtFolderSettings[5].search(regExp4))
+        //var regExp4 = new RegExp("msvc-9.0"); //ttt0 handle other versions
+        //if (-1 != crtFolderSettings[5].search(regExp4))
         { // VS Express; add a comment to allow the file to be opened by double-clicking
             fsObj.MoveFile("mp3diags.sln", "mp3diags.sln1");
             var fOut = fsObj.CreateTextFile("mp3diags.sln", true);
@@ -461,7 +509,7 @@
                 if (2 == nCrt)
                 {
                     //fOut.writeLine("# Visual C++ Express 2008");
-                    fOut.writeLine("# Visual Studio 2008");
+                    fOut.writeLine("# Visual Studio " + msVer);
                 }
                 fOut.writeLine(line);
             }
@@ -490,10 +538,7 @@
 
     function buildProj()
     {
-        if (!fsObj.FileExists("build.bat"))
-        {
-            if (!setUpProj()) { return; }
-        }
+        if (!setUpProj()) { return; }
 
         wsShell.run("build.bat", 1, true);
     }

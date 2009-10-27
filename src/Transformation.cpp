@@ -92,39 +92,96 @@ static string getDefaultComp() { return convStr(getTempDir() + "/mp3diags/comp")
 
 
 
-TransfConfig::Options::Options() // !!! sets everything to 0; for the "default" options there is a getDefaultOptions()
+TransfConfig::Options::Options() :
+        //m_nProcOrigChange(5), // move w/o renaming, if doesn't exist; discard if it exists;
+        m_eProcOrigChange(PO_ERASE), // erase
+        m_bProcOrigUseLabel(false),
+        m_bProcOrigAlwayUseCounter(false),
+
+        m_eUnprocOrigChange(UPO_DONT_CHG), // don't change
+        m_bUnprocOrigUseLabel(false),
+        m_bUnprocOrigAlwayUseCounter(false),
+
+        m_eProcessedCreate(PR_CREATE_RENAME_IF_USED), // create and rename if the name is in use
+        m_bProcessedUseLabel(true),
+        m_bProcessedAlwayUseCounter(true),
+        m_bProcessedUseSeparateDir(false),
+
+        m_bTempCreate(false),
+
+        m_bCompCreate(false),
+
+        m_bKeepOrigTime(false)
 {
-    memset(this, 0, sizeof(*this));
 }
 
 
-static TransfConfig::Options getDefaultOptions()
+
+
+// returns *this, with some fields changed to match a "backup" configuration; touches many field, but ignores others (m_bProcOrigUseLabel, m_bProcOrigAlwayUseCounter, m_bUnprocOrigUseLabel, m_bUnprocOrigAlwayUseCounter, m_bKeepOrigTime)
+TransfConfig::Options TransfConfig::Options::asBackup() const
 {
-    TransfConfig::Options x;
+    Options opt (*this);
 
-    x.m_bTempCreate = false;
+    opt.m_bTempCreate = false;
 
-    x.m_bCompCreate = false;
+    opt.m_bCompCreate = false;
 
-    //x.m_nProcOrigChange = 5; // move w/o renaming, if doesn't exist; discard if it exists;
-    x.m_nProcOrigChange = 1; // erase
-    x.m_bProcOrigUseLabel = false;
-    x.m_bProcOrigAlwayUseCounter = false;
+    opt.m_eProcOrigChange = PO_MOVE_OR_ERASE;
+    //opt.m_bProcOrigUseLabel = false;
+    //opt.m_bProcOrigAlwayUseCounter = false;
 
-    x.m_nUnprocOrigChange = 0; // don't change
-    x.m_bUnprocOrigUseLabel = false;
-    x.m_bUnprocOrigAlwayUseCounter = false;
+    opt.m_eUnprocOrigChange = UPO_DONT_CHG; // don't change
+    //opt.m_bUnprocOrigUseLabel = false;
+    //opt.m_bUnprocOrigAlwayUseCounter = false;
 
-    x.m_nProcessedCreate = 2; // create and always rename, since it is created in the same dir as the source
-    x.m_bProcessedUseLabel = true;
-    x.m_bProcessedAlwayUseCounter = true;
-    x.m_bProcessedUseSeparateDir = false;
+    opt.m_eProcessedCreate = PR_CREATE_RENAME_IF_USED; // create and rename if the name is in use
+    opt.m_bProcessedUseLabel = true;
+    opt.m_bProcessedAlwayUseCounter = true;
+    opt.m_bProcessedUseSeparateDir = false;
 
-    x.m_bKeepOrigTime = false;
+    //opt.m_bKeepOrigTime = false;
 
-    return x;
+    return opt;
 }
 
+// returns *this, with some fields changed to match a "non-backup" configuration; touches many field, but ignores others (m_bProcOrigUseLabel, m_bProcOrigAlwayUseCounter, m_bUnprocOrigUseLabel, m_bUnprocOrigAlwayUseCounter, m_bKeepOrigTime)
+TransfConfig::Options TransfConfig::Options::asNonBackup() const
+{
+    Options opt (*this);
+
+    opt.m_bTempCreate = false;
+
+    opt.m_bCompCreate = false;
+
+    opt.m_eProcOrigChange = PO_ERASE; // move w/o renaming, if doesn't exist; discard if it exists;
+    //opt.m_bProcOrigUseLabel = false;
+    //opt.m_bProcOrigAlwayUseCounter = false;
+
+    opt.m_eUnprocOrigChange = UPO_DONT_CHG; // don't change
+    //opt.m_bUnprocOrigUseLabel = false;
+    //opt.m_bUnprocOrigAlwayUseCounter = false;
+
+    opt.m_eProcessedCreate = PR_CREATE_RENAME_IF_USED; // create and rename if the name is in use
+    opt.m_bProcessedUseLabel = true;
+    opt.m_bProcessedAlwayUseCounter = true;
+    opt.m_bProcessedUseSeparateDir = false;
+
+    //opt.m_bKeepOrigTime = false;
+
+    return opt;
+}
+
+
+
+// like getDefaultOptions() but does backups rather than erase the original file (if a backup exists, the file is deleted, though)
+/*static* / TransfConfig::Options TransfConfig::getBackupDefaultOptions()
+{
+    Options opt (getDefaultOptions());
+    opt.m_nProcOrigChange = 5; // move w/o renaming, if doesn't exist; discard if it exists;
+    return opt;
+}
+*/
 
 
 TransfConfig::TransfConfig(
@@ -145,14 +202,17 @@ TransfConfig::TransfConfig(
     m_strTempDir = "*" == strTempDir ? getDefaultTemp() : strTempDir;
     m_strCompDir = "*" == strCompDir ? getDefaultComp() : strCompDir;
 
-    if (nOptions >= 0x00020000)
-    { // only the first 17 bits are supposed to be used; if more seem to be used, it is because of a manually entered wrong value or because a change in the bitfield representation;
+    if (nOptions >= 0x00040000)
+    { // only the first 18 bits are supposed to be used; if more seem to be used, it is because of a manually entered wrong value or because a change in the bitfield representation;
         QMessageBox::critical(getMainForm(), "Error", "Invalid value found for file settings. Reverting to default settings.");
         nOptions = -1;
         m_bInitError = true;
     }
 
-    m_options.setVal(-1 == nOptions ? getDefaultOptions().getVal() : nOptions);
+    if (-1 != nOptions)
+    {
+        m_options.setVal(nOptions);
+    }
 
     checkDirName(m_strSrcDir);
     checkDirName(m_strProcOrigDir);  // some of these dirs are allowed to be empty, just like src when comes from the config dialog, empty meaning "/", so that should work for all, probably
@@ -171,8 +231,6 @@ TransfConfig::TransfConfig()
     m_strProcessedDir = getDefaultProcessed();
     m_strTempDir = getDefaultTemp();
     m_strCompDir = getDefaultComp();
-
-    m_options = getDefaultOptions();
 }
 
 
@@ -306,27 +364,27 @@ string TransfConfig::getRenamedName(const std::string& strOrigSrcName, const std
 
 TransfConfig::OrigFile TransfConfig::getChangedOrigNameHlp(const string& strOrigSrcName, const string& strDestDir, int nChange, bool bUseLabel, bool bAlwayUseCounter, string& strNewName) const
 {
-    switch (nChange)
+    switch (nChange) // !!! nChange must match both ProcOrig and UnprocOrig, since getChangedOrigNameHlp() gets called in both cases
     {
-    case 0: // don't change unprocessed orig file
+    case Options::PO_DONT_CHG: // don't change unprocessed orig file
         strNewName = strOrigSrcName; return ORIG_DONT_CHANGE;
 
-    case 1: // erase unprocessed orig file
+    case Options::PO_ERASE: // erase unprocessed orig file
         strNewName = strOrigSrcName; return ORIG_ERASE;
 
-    case 2: // move unprocessed orig file to strDestDir; always rename
+    case Options::PO_MOVE_ALWAYS_RENAME: // move unprocessed orig file to strDestDir; always rename
         strNewName = getRenamedName(strOrigSrcName, strDestDir, bUseLabel ? "orig" : "", bAlwayUseCounter, ALWAYS_RENAME);
         return ORIG_MOVE;
 
-    case 3: // move unprocessed orig file to strDestDir; rename only if name is in use
+    case Options::PO_MOVE_RENAME_IF_USED: // move unprocessed orig file to strDestDir; rename only if name is in use
         strNewName = getRenamedName(strOrigSrcName, strDestDir, bUseLabel ? "orig" : "", bAlwayUseCounter, RENAME_IF_NEEDED);
         return ORIG_MOVE;
 
-    case 4: // rename in the same dir
+    case Options::PO_RENAME_SAME_DIR: // rename in the same dir
         strNewName = getRenamedName(strOrigSrcName, m_strSrcDir, bUseLabel ? "orig" : "", bAlwayUseCounter, ALWAYS_RENAME);
         return ORIG_MOVE;
 
-    case 5: // move unprocessed orig file to strDestDir if it's not already there; erase if it exists; don't
+    case Options::PO_MOVE_OR_ERASE: // move unprocessed orig file to strDestDir if it's not already there; erase if it exists;
         strNewName = getRenamedName(strOrigSrcName, strDestDir, "", USE_COUNTER_IF_NEEDED, RENAME_IF_NEEDED, ALLOW_DUPLICATES);
         return ORIG_MOVE_OR_ERASE;
 
@@ -339,14 +397,14 @@ TransfConfig::OrigFile TransfConfig::getChangedOrigNameHlp(const string& strOrig
 TransfConfig::OrigFile TransfConfig::getProcOrigName(string strOrigSrcName, string& strNewName) const
 {
     removeSuffix(strOrigSrcName);
-    return getChangedOrigNameHlp(strOrigSrcName, m_strProcOrigDir, m_options.m_nProcOrigChange, m_options.m_bProcOrigUseLabel, m_options.m_bProcOrigAlwayUseCounter, strNewName);
+    return getChangedOrigNameHlp(strOrigSrcName, m_strProcOrigDir, m_options.m_eProcOrigChange, m_options.m_bProcOrigUseLabel, m_options.m_bProcOrigAlwayUseCounter, strNewName);
 }
 
 
 TransfConfig::OrigFile TransfConfig::getUnprocOrigName(string strOrigSrcName, string& strNewName) const
 {
     removeSuffix(strOrigSrcName);
-    return getChangedOrigNameHlp(strOrigSrcName, m_strUnprocOrigDir, m_options.m_nUnprocOrigChange, m_options.m_bUnprocOrigUseLabel, m_options.m_bUnprocOrigAlwayUseCounter, strNewName);
+    return getChangedOrigNameHlp(strOrigSrcName, m_strUnprocOrigDir, m_options.m_eUnprocOrigChange, m_options.m_bUnprocOrigUseLabel, m_options.m_bUnprocOrigAlwayUseCounter, strNewName);
 }
 
 
@@ -449,16 +507,16 @@ void TransfConfig::testRemoveSuffix() const
 TransfConfig::TransfFile TransfConfig::getProcessedName(string strOrigSrcName, std::string& strName) const
 {
     removeSuffix(strOrigSrcName);
-    switch (m_options.m_nProcessedCreate)
+    switch (m_options.m_eProcessedCreate)
     {
-    case 0: // don't create proc files
+    case Options::PR_DONT_CREATE: // don't create proc files
         strName.clear(); return TRANSF_DONT_CREATE;
 
-    case 1: // create proc files and always rename
+    case Options::PR_CREATE_ALWAYS_RENAME: // create proc files and always rename
         strName = getRenamedName(strOrigSrcName, m_options.m_bProcessedUseSeparateDir ? m_strProcessedDir : m_strSrcDir, m_options.m_bProcessedUseLabel ? "proc" : "", m_options.m_bProcessedAlwayUseCounter, ALWAYS_RENAME);
         return TRANSF_CREATE;
 
-    case 2: // create proc files and rename if the name is in use
+    case Options::PR_CREATE_RENAME_IF_USED: // create proc files and rename if the name is in use
         strName = getRenamedName(strOrigSrcName, m_options.m_bProcessedUseSeparateDir ? m_strProcessedDir : m_strSrcDir, m_options.m_bProcessedUseLabel ? "proc" : "", m_options.m_bProcessedAlwayUseCounter, RENAME_IF_NEEDED);
         return TRANSF_CREATE;
 
@@ -591,20 +649,20 @@ TransfConfig::TransfFile TransfConfig::getCompNames(string strOrigSrcName, const
 
 TransfConfig::OrigFile TransfConfig::getProcOrigAction() const
 {
-    switch (m_options.m_nProcOrigChange)
+    switch (m_options.m_eProcOrigChange)
     {
-    case 0: // don't change unprocessed orig file
+    case Options::PO_DONT_CHG: // don't change unprocessed orig file
         return ORIG_DONT_CHANGE;
 
-    case 1: // erase unprocessed orig file
+    case Options::PO_ERASE: // erase unprocessed orig file
         return ORIG_ERASE;
 
-    case 2: // move unprocessed orig file to strDestDir; always rename
-    case 3: // move unprocessed orig file to strDestDir; rename only if name is in use
-    case 4: // rename in the same dir
+    case Options::PO_MOVE_ALWAYS_RENAME: // move unprocessed orig file to strDestDir; always rename
+    case Options::PO_MOVE_RENAME_IF_USED: // move unprocessed orig file to strDestDir; rename only if name is in use
+    case Options::PO_RENAME_SAME_DIR: // rename in the same dir
         return ORIG_MOVE;
 
-    case 5: // move if dest doesn't exist; erase if it does;
+    case Options::PO_MOVE_OR_ERASE: // move if dest doesn't exist; erase if it does;
         return ORIG_MOVE_OR_ERASE;
 
     default:
@@ -612,19 +670,20 @@ TransfConfig::OrigFile TransfConfig::getProcOrigAction() const
     }
 }
 
+
 TransfConfig::OrigFile TransfConfig::getUnprocOrigAction() const
 {
-    switch (m_options.m_nUnprocOrigChange)
+    switch (m_options.m_eUnprocOrigChange)
     {
-    case 0: // don't change unprocessed orig file
+    case Options::UPO_DONT_CHG: // don't change unprocessed orig file
         return ORIG_DONT_CHANGE;
 
-    case 1: // erase unprocessed orig file
+    case Options::UPO_ERASE: // erase unprocessed orig file
         return ORIG_ERASE;
 
-    case 2: // move unprocessed orig file to strDestDir; always rename
-    case 3: // move unprocessed orig file to strDestDir; rename only if name is in use
-    case 4: // rename in the same dir
+    case Options::UPO_MOVE_ALWAYS_RENAME: // move unprocessed orig file to strDestDir; always rename
+    case Options::UPO_MOVE_RENAME_IF_USED: // move unprocessed orig file to strDestDir; rename only if name is in use
+    case Options::UPO_RENAME_SAME_DIR: // rename in the same dir
         return ORIG_MOVE;
 
     default:
@@ -635,13 +694,13 @@ TransfConfig::OrigFile TransfConfig::getUnprocOrigAction() const
 
 TransfConfig::TransfFile TransfConfig::getProcessedAction() const
 {
-    switch (m_options.m_nProcessedCreate)
+    switch (m_options.m_eProcessedCreate)
     {
-    case 0: // don't create proc files
+    case Options::PR_DONT_CREATE: // don't create proc files
         return TRANSF_DONT_CREATE;
 
-    case 1: // create proc files and always rename
-    case 2: // create proc files and rename if the name is in use
+    case Options::PR_CREATE_ALWAYS_RENAME: // create proc files and always rename
+    case Options::PR_CREATE_RENAME_IF_USED: // create proc files and rename if the name is in use
         return TRANSF_CREATE;
 
     default:
@@ -804,3 +863,4 @@ ttt2 When removing frames and Xing/Lame is present, adjust header for count and 
 
 
 //ttt0 see why some files are read-only on W7
+

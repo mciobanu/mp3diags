@@ -93,7 +93,7 @@ Id3V230Frame::Id3V230Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
     }
     if (m_nMemDataSize != nRead)
     {
-        vector<char>().swap(m_vcData);;
+        vector<char>().swap(m_vcData);
         MP3_THROW (pos, id3v2FrameTooShort, StreamIsBroken(Id3V230Stream::getClassDisplayName(), "Truncated ID3V2.3.0 tag."));
     }
 
@@ -108,13 +108,23 @@ Id3V230Frame::Id3V230Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
 
             Id3V2FrameDataLoader wrp (*this);
             const char* pData (wrp.getData());
+
             if ('T' == m_szName[0])
             {
-                CB_ASSERT(m_nMemDataSize > 0);
-                if (3 == pData[0])
+                if (0 == m_nMemDataSize)
+                { // this is really invalid; text frames must have at least a byte; however, by doing these we make sure that an empty (i.e. having a single byte, for text encoding) frame gets copied if the tag is edited;
+                    m_nMemDataSize = 1;
+                    m_vcData.clear();
+                    m_vcData.push_back(0);
+                    MP3_NOTE_D (pos, id3v2EmptyTextFrame, Notes::id3v2EmptyTextFrame().getDescription() + string(" (Frame:") + m_szName + ")");
+                }
+                else
                 {
-                    //MP3_NOTE (pos, id3v230UsesUtf8);
-                    MP3_NOTE_D (pos, id3v230UsesUtf8, Notes::id3v230UsesUtf8().getDescription() + string(" (Frame:") + m_szName + ")"); // perhaps drop the frame name if too many such notes get generated
+                    if (3 == pData[0])
+                    {
+                        //MP3_NOTE (pos, id3v230UsesUtf8);
+                        MP3_NOTE_D (pos, id3v230UsesUtf8, Notes::id3v230UsesUtf8().getDescription() + string(" (Frame:") + m_szName + ")"); // perhaps drop the frame name if too many such notes get generated
+                    }
                 }
             }
         }
@@ -130,7 +140,7 @@ Id3V230Frame::Id3V230Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
     catch (const std::bad_alloc&) { throw; }
     catch (...)
     {
-        vector<char>().swap(m_vcData);;
+        vector<char>().swap(m_vcData);
         throw;
     }
 

@@ -145,6 +145,11 @@ class TransfConfig
     //  16: 0 = don't create comp files
     //      1 = create comp files in m_strCompDir
     //
+    //----------------------------
+    //
+    //  17: 0 = keep orig time
+    //      1 = don't keep orig time
+    //
     /*int m_nOptions;
 
     int getOpt(int nStartBit, int nCount) const { return (m_nOptions >> nStartBit) & ((1 << nCount) - 1); }*/
@@ -176,19 +181,31 @@ public:
 
     class Options
     {
+    public:
+        enum ProcOrig { PO_DONT_CHG, PO_ERASE, PO_MOVE_ALWAYS_RENAME, PO_MOVE_RENAME_IF_USED, PO_RENAME_SAME_DIR, PO_MOVE_OR_ERASE };
+        enum UnprocOrig { UPO_DONT_CHG, UPO_ERASE, UPO_MOVE_ALWAYS_RENAME, UPO_MOVE_RENAME_IF_USED, UPO_RENAME_SAME_DIR }; // !!! the values in UnprocOrig must match those in ProcOrig for getChangedOrigNameHlp() to work correctly
+        enum Processed { PR_DONT_CREATE, PR_CREATE_ALWAYS_RENAME, PR_CREATE_RENAME_IF_USED };
+
+    private:
         static unsigned uns(bool b) { return b ? 1 : 0; }
         static unsigned uns(unsigned x) { return x; }
+        static unsigned uns(ProcOrig x) { return x; }
+        static unsigned uns(UnprocOrig x) { return x; }
+        static unsigned uns(Processed x) { return x; }
+
     public:
 
-        unsigned m_nProcOrigChange : 3;
+        Options(); // initializes the fields to a "non-backup" state
+
+        ProcOrig m_eProcOrigChange : 4; // !!! really "3", but declares more bits than used to avoid issues with signed/unsigned enums
         bool m_bProcOrigUseLabel : 1;
         bool m_bProcOrigAlwayUseCounter : 1;
 
-        unsigned m_nUnprocOrigChange : 3;
+        UnprocOrig m_eUnprocOrigChange : 4; // !!! really "3", but declares more bits than used to avoid issues with signed/unsigned enums
         bool m_bUnprocOrigUseLabel : 1;
         bool m_bUnprocOrigAlwayUseCounter : 1;
 
-        unsigned m_nProcessedCreate : 2;
+        Processed m_eProcessedCreate : 3; // !!! really "2", but declares more bits than used to avoid issues with signed/unsigned enums
         bool m_bProcessedUseLabel : 1;
         bool m_bProcessedAlwayUseCounter : 1;
         bool m_bProcessedUseSeparateDir : 1;
@@ -199,21 +216,20 @@ public:
 
         bool m_bKeepOrigTime : 1;
 
-        Options(); // !!! sets everything to 0; for the "default" options there is a getDefaultOptions()
 
         int getVal() const
         {
             unsigned x (0); unsigned s (0);
 
-            x ^= (uns(m_nProcOrigChange) << s); s += 3; // unsigned m_nProcOrigChange : 3;
+            x ^= (uns(m_eProcOrigChange) << s); s += 3; // unsigned m_nProcOrigChange : 3;
             x ^= (uns(m_bProcOrigUseLabel) << s); s += 1; // bool m_bProcOrigUseLabel : 1;
             x ^= (uns(m_bProcOrigAlwayUseCounter) << s); s += 1; // bool m_bProcOrigAlwayUseCounter : 1;
 
-            x ^= (uns(m_nUnprocOrigChange) << s); s += 3; // unsigned m_nUnprocOrigChange : 3;
+            x ^= (uns(m_eUnprocOrigChange) << s); s += 3; // unsigned m_nUnprocOrigChange : 3;
             x ^= (uns(m_bUnprocOrigUseLabel) << s); s += 1; // bool m_bUnprocOrigUseLabel : 1;
             x ^= (uns(m_bUnprocOrigAlwayUseCounter) << s); s += 1; // bool m_bUnprocOrigAlwayUseCounter : 1;
 
-            x ^= (uns(m_nProcessedCreate) << s); s += 2; // unsigned m_nProcessedCreate : 2;
+            x ^= (uns(m_eProcessedCreate) << s); s += 2; // unsigned m_nProcessedCreate : 2;
             x ^= (uns(m_bProcessedUseLabel) << s); s += 1; // bool m_bProcessedUseLabel : 1;
             x ^= (uns(m_bProcessedAlwayUseCounter) << s); s += 1; // bool m_bProcessedAlwayUseCounter : 1;
             x ^= (uns(m_bProcessedUseSeparateDir) << s); s += 1; // bool m_bProcessedUseSeparateDir : 1;
@@ -229,15 +245,15 @@ public:
 
         void setVal(int x)
         {
-            m_nProcOrigChange = x & 0x07; x >>= 3; // unsigned m_nProcOrigChange : 3;
+            m_eProcOrigChange = ProcOrig(x & 0x07); x >>= 3; // unsigned m_nProcOrigChange : 3;
             m_bProcOrigUseLabel = x & 0x01; x >>= 1; // bool m_bProcOrigUseLabel : 1;
             m_bProcOrigAlwayUseCounter = x & 0x01; x >>= 1; // bool m_bProcOrigAlwayUseCounter : 1;
 
-            m_nUnprocOrigChange = x & 0x07; x >>= 3; // unsigned m_nUnprocOrigChange : 3;
+            m_eUnprocOrigChange = UnprocOrig(x & 0x07); x >>= 3; // unsigned m_nUnprocOrigChange : 3;
             m_bUnprocOrigUseLabel = x & 0x01; x >>= 1; // bool m_bUnprocOrigUseLabel : 1;
             m_bUnprocOrigAlwayUseCounter = x & 0x01; x >>= 1; // bool m_bUnprocOrigAlwayUseCounter : 1;
 
-            m_nProcessedCreate = x & 0x03; x >>= 2; // unsigned m_nProcessedCreate : 2;
+            m_eProcessedCreate = Processed(x & 0x03); x >>= 2; // unsigned m_nProcessedCreate : 2;
             m_bProcessedUseLabel = x & 0x01; x >>= 1; // bool m_bProcessedUseLabel : 1;
             m_bProcessedAlwayUseCounter = x & 0x01; x >>= 1; // bool m_bProcessedAlwayUseCounter : 1;
             m_bProcessedUseSeparateDir = x & 0x01; x >>= 1; // bool m_bProcessedUseSeparateDir : 1;
@@ -248,9 +264,19 @@ public:
 
             m_bKeepOrigTime = x & 0x01; x >>= 1; // bool m_bKeepOrigTime : 1;
         }
+
+        bool operator==(const Options& opt) const
+        {
+            return getVal() == opt.getVal();
+        }
+
+        // backup is 3-state; based on various fields, options may be "backup", "non-backup", or neither of them
+        Options asBackup() const; // returns *this, with some fields changed to match a "backup" configuration; touches many field, but ignores others (m_bProcOrigUseLabel, m_bProcOrigAlwayUseCounter, m_bUnprocOrigUseLabel, m_bUnprocOrigAlwayUseCounter, m_bKeepOrigTime)
+        Options asNonBackup() const; // returns *this, with some fields changed to match a "non-backup" configuration; touches many field, but ignores others (m_bProcOrigUseLabel, m_bProcOrigAlwayUseCounter, m_bUnprocOrigUseLabel, m_bUnprocOrigAlwayUseCounter, m_bKeepOrigTime)
     };
 
     Options m_options;
+
 /*
     // the name for an "intermediate" file; it's obtained from the "temp dir" and from the short name of the original file, with a ".temp.<NNN>" inserted before the extension, where <NNN> is a number chosen such that a file with this new name doesn't exist;
     std::string getTempName(const std::string& strOrigSrcName, const std::string& strOpName) const;
@@ -306,7 +332,7 @@ public:
 
     void testRemoveSuffix() const;
 private:
-    OrigFile getChangedOrigNameHlp(const std::string& strOrigSrcName, const std::string& strDestDir, int nChange, bool bUseLabel, bool bAlwayUseCounter, std::string& strNewName) const;
+    OrigFile getChangedOrigNameHlp(const std::string& strOrigSrcName, const std::string& strDestDir, int nChange, bool bUseLabel, bool bAlwayUseCounter, std::string& strNewName) const; // !!! nChange will get initialized from either ProcOrig or UnprocOrig, so their values must match
     void removeSuffix(std::string& s) const;
     bool m_bInitError;
 };

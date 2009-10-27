@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>984</width>
-    <height>681</height>
+    <width>991</width>
+    <height>673</height>
    </rect>
   </property>
   <property name="minimumSize" >
@@ -37,723 +37,162 @@
       <attribute name="title" >
        <string>Files</string>
       </attribute>
-      <layout class="QGridLayout" >
-       <item row="0" column="0" >
-        <widget class="QTabWidget" name="tabWidget" >
-         <property name="tabPosition" >
-          <enum>QTabWidget::North</enum>
+      <layout class="QVBoxLayout" >
+       <item>
+        <widget class="QWidget" native="1" name="widget_28" >
+         <layout class="QHBoxLayout" >
+          <property name="leftMargin" >
+           <number>0</number>
+          </property>
+          <property name="topMargin" >
+           <number>0</number>
+          </property>
+          <property name="rightMargin" >
+           <number>0</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QToolButton" name="m_pSimpleViewB" >
+            <property name="focusPolicy" >
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="text" >
+             <string>Simple view</string>
+            </property>
+            <property name="checkable" >
+             <bool>true</bool>
+            </property>
+            <property name="checked" >
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="m_pFullViewB" >
+            <property name="focusPolicy" >
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="text" >
+             <string>Full view</string>
+            </property>
+            <property name="checkable" >
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" >
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QWidget" native="1" name="m_pFileSettingsW" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
+           <horstretch>0</horstretch>
+           <verstretch>10</verstretch>
+          </sizepolicy>
          </property>
-         <property name="tabShape" >
-          <enum>QTabWidget::Rounded</enum>
-         </property>
+         <layout class="QHBoxLayout" >
+          <property name="leftMargin" >
+           <number>0</number>
+          </property>
+          <property name="topMargin" >
+           <number>0</number>
+          </property>
+          <property name="rightMargin" >
+           <number>0</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="m_pRemovableL" >
+            <property name="text" >
+             <string>Removable TextLabel</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTabWidget" name="m_pDetailsTabWidget" >
          <property name="currentIndex" >
           <number>0</number>
          </property>
-         <widget class="QWidget" name="tab_3" >
+         <widget class="QWidget" name="m_pSimpleViewTab" >
           <attribute name="title" >
-           <string>Original file that would be changed</string>
+           <string>Tab 1</string>
           </attribute>
           <layout class="QVBoxLayout" >
+           <property name="spacing" >
+            <number>1</number>
+           </property>
+           <property name="leftMargin" >
+            <number>0</number>
+           </property>
+           <property name="topMargin" >
+            <number>14</number>
+           </property>
+           <property name="rightMargin" >
+            <number>0</number>
+           </property>
+           <property name="bottomMargin" >
+            <number>0</number>
+           </property>
            <item>
-            <widget class="QWidget" native="1" name="widget_15" >
-             <layout class="QVBoxLayout" >
-              <property name="leftMargin" >
-               <number>0</number>
-              </property>
-              <property name="topMargin" >
-               <number>0</number>
-              </property>
-              <property name="rightMargin" >
-               <number>0</number>
-              </property>
-              <property name="bottomMargin" >
-               <number>0</number>
-              </property>
-              <item>
-               <widget class="QRadioButton" name="m_pPODontChangeRB" >
-                <property name="text" >
-                 <string>Don't touch</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QRadioButton" name="m_pPOEraseRB" >
-                <property name="text" >
-                 <string>Erase</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QRadioButton" name="m_pPOMoveAlwaysChangeRB" >
-                <property name="text" >
-                 <string>Move and change the name</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QRadioButton" name="m_pPOMoveChangeIfNeededRB" >
-                <property name="text" >
-                 <string>Move but change the name only if a name collision would occur</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QRadioButton" name="m_pPOChangeNameRB" >
-                <property name="text" >
-                 <string>Change name</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QRadioButton" name="m_pPOMoveOrEraseRB" >
-                <property name="text" >
-                 <string>Move if the destination doesn't already exist; erase if it does</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
+            <widget class="QRadioButton" name="m_pDontCreateBackupRB" >
+             <property name="text" >
+              <string>Don't create backup for modified files</string>
+             </property>
             </widget>
            </item>
            <item>
-            <widget class="QGroupBox" name="groupBox_3" >
-             <property name="title" >
-              <string>Name change params</string>
+            <layout class="QHBoxLayout" >
+             <property name="spacing" >
+              <number>9</number>
              </property>
-             <layout class="QVBoxLayout" >
-              <property name="topMargin" >
-               <number>0</number>
-              </property>
-              <item>
-               <widget class="QGroupBox" name="groupBox_2" >
-                <property name="title" >
-                 <string>Identifying label</string>
-                </property>
-                <layout class="QVBoxLayout" >
-                 <property name="spacing" >
-                  <number>0</number>
-                 </property>
-                 <property name="topMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="bottomMargin" >
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <widget class="QRadioButton" name="m_pPODontUseLabelRB" >
-                   <property name="text" >
-                    <string>Don't use an identifying label</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="m_pPOUseLabelRB" >
-                   <property name="text" >
-                    <string>Use "orig" as an identifying label</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item>
-               <widget class="QGroupBox" name="groupBox_4" >
-                <property name="title" >
-                 <string>Counter</string>
-                </property>
-                <layout class="QVBoxLayout" >
-                 <property name="spacing" >
-                  <number>0</number>
-                 </property>
-                 <property name="topMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="bottomMargin" >
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <widget class="QRadioButton" name="m_pPOAlwaysUseCounterRB" >
-                   <property name="text" >
-                    <string>Always use a counter</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="m_pPOUseCounterIfNeededRB" >
-                   <property name="text" >
-                    <string>Only use a counter when a name collision would occur</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-             </layout>
-            </widget>
+             <item>
+              <widget class="QRadioButton" name="m_pCreateBackupRB" >
+               <property name="text" >
+                <string>Create backup for modified files in</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="m_pPODest2E" />
+             </item>
+             <item>
+              <widget class="QToolButton" name="m_pSelectOrigTransfDestDir2B" >
+               <property name="text" >
+                <string>...</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
            <item>
-            <widget class="QGroupBox" name="groupBox_15" >
-             <property name="title" >
-              <string>Destination</string>
+            <widget class="QRadioButton" name="m_pBackupCustomRB" >
+             <property name="enabled" >
+              <bool>false</bool>
              </property>
-             <layout class="QHBoxLayout" >
-              <property name="topMargin" >
-               <number>0</number>
-              </property>
-              <item>
-               <widget class="QLineEdit" name="m_pPODestE" />
-              </item>
-              <item>
-               <widget class="QToolButton" name="m_pSelectOrigTransfDestDirB" >
-                <property name="text" >
-                 <string>...</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <spacer>
-             <property name="orientation" >
-              <enum>Qt::Vertical</enum>
+             <property name="text" >
+              <string>Custom settings (go to full view to make changes)</string>
              </property>
-             <property name="sizeHint" >
-              <size>
-               <width>421</width>
-               <height>37</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="tab_2" >
-          <attribute name="title" >
-           <string>Original file that would not be changed</string>
-          </attribute>
-          <layout class="QVBoxLayout" >
-           <item>
-            <widget class="QWidget" native="1" name="widget_16" >
-             <layout class="QVBoxLayout" >
-              <property name="leftMargin" >
-               <number>0</number>
-              </property>
-              <property name="topMargin" >
-               <number>0</number>
-              </property>
-              <property name="rightMargin" >
-               <number>0</number>
-              </property>
-              <property name="bottomMargin" >
-               <number>0</number>
-              </property>
-              <item>
-               <widget class="QRadioButton" name="m_pUODontChangeRB" >
-                <property name="text" >
-                 <string>Don't touch</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QRadioButton" name="m_pUOEraseRB" >
-                <property name="text" >
-                 <string>Erase</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QRadioButton" name="m_pUOMoveAlwaysChangeRB" >
-                <property name="text" >
-                 <string>Move and change the name</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QRadioButton" name="m_pUOMoveChangeIfNeededRB" >
-                <property name="text" >
-                 <string>Move but change the name only if a name collision would occur</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QRadioButton" name="m_pUOChangeNameRB" >
-                <property name="text" >
-                 <string>Change name</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QGroupBox" name="groupBox_6" >
-             <property name="title" >
-              <string>Name change params</string>
-             </property>
-             <layout class="QVBoxLayout" >
-              <property name="topMargin" >
-               <number>0</number>
-              </property>
-              <item>
-               <widget class="QGroupBox" name="groupBox_7" >
-                <property name="title" >
-                 <string>Identifying label</string>
-                </property>
-                <layout class="QVBoxLayout" >
-                 <property name="spacing" >
-                  <number>0</number>
-                 </property>
-                 <property name="topMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="bottomMargin" >
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <widget class="QRadioButton" name="m_pUODontUseLabelRB" >
-                   <property name="text" >
-                    <string>Don't use an identifying label</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="m_pUOUseLabelRB" >
-                   <property name="text" >
-                    <string>Use "orig" as an identifying label</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item>
-               <widget class="QGroupBox" name="groupBox_8" >
-                <property name="title" >
-                 <string>Counter</string>
-                </property>
-                <layout class="QVBoxLayout" >
-                 <property name="spacing" >
-                  <number>0</number>
-                 </property>
-                 <property name="topMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="bottomMargin" >
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <widget class="QRadioButton" name="m_pUOAlwaysUseCounterRB" >
-                   <property name="text" >
-                    <string>Always use a counter</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="m_pUOUseCounterIfNeededRB" >
-                   <property name="text" >
-                    <string>Only use a counter when a name collision would occur</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QGroupBox" name="groupBox_14" >
-             <property name="title" >
-              <string>Destination</string>
-             </property>
-             <layout class="QHBoxLayout" >
-              <property name="topMargin" >
-               <number>0</number>
-              </property>
-              <item>
-               <widget class="QLineEdit" name="m_pUODestE" />
-              </item>
-              <item>
-               <widget class="QToolButton" name="m_pSelectOrigNotTransfDestDirB" >
-                <property name="text" >
-                 <string>...</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <spacer>
-             <property name="orientation" >
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" >
-              <size>
-               <width>421</width>
-               <height>37</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="tab_4" >
-          <attribute name="title" >
-           <string>Changed file</string>
-          </attribute>
-          <layout class="QVBoxLayout" >
-           <item>
-            <widget class="QWidget" native="1" name="widget_17" >
-             <layout class="QVBoxLayout" >
-              <property name="leftMargin" >
-               <number>0</number>
-              </property>
-              <property name="topMargin" >
-               <number>0</number>
-              </property>
-              <property name="rightMargin" >
-               <number>0</number>
-              </property>
-              <property name="bottomMargin" >
-               <number>0</number>
-              </property>
-              <item>
-               <widget class="QRadioButton" name="m_pProcDontCreateRB" >
-                <property name="text" >
-                 <string>Don't create</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QRadioButton" name="m_pProcCreateAlwaysChangeRB" >
-                <property name="text" >
-                 <string>Create and change the name</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QRadioButton" name="m_pProcCreateChangeIfNeededRB" >
-                <property name="text" >
-                 <string>Create but change the name only if a name collision would occur</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QGroupBox" name="groupBox_10" >
-             <property name="title" >
-              <string>Name change params</string>
-             </property>
-             <layout class="QVBoxLayout" >
-              <property name="topMargin" >
-               <number>0</number>
-              </property>
-              <item>
-               <widget class="QGroupBox" name="groupBox_11" >
-                <property name="title" >
-                 <string>Identifying label</string>
-                </property>
-                <layout class="QVBoxLayout" >
-                 <property name="spacing" >
-                  <number>0</number>
-                 </property>
-                 <property name="topMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="bottomMargin" >
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <widget class="QRadioButton" name="m_pProcDontUseLabelRB" >
-                   <property name="text" >
-                    <string>Don't use an identifying label</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="m_pProcUseLabelRB" >
-                   <property name="text" >
-                    <string>Use "proc" as an identifying label</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item>
-               <widget class="QGroupBox" name="groupBox_12" >
-                <property name="title" >
-                 <string>Counter</string>
-                </property>
-                <layout class="QVBoxLayout" >
-                 <property name="spacing" >
-                  <number>0</number>
-                 </property>
-                 <property name="topMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="bottomMargin" >
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <widget class="QRadioButton" name="m_pProcAlwaysUseCounterRB" >
-                   <property name="text" >
-                    <string>Always use a counter</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="m_pProcUseCounterIfNeededRB" >
-                   <property name="text" >
-                    <string>Only use a counter when a name collision would occur</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QGroupBox" name="groupBox_13" >
-             <property name="title" >
-              <string>Destination</string>
-             </property>
-             <layout class="QGridLayout" >
-              <property name="topMargin" >
-               <number>0</number>
-              </property>
-              <property name="verticalSpacing" >
-               <number>0</number>
-              </property>
-              <item row="0" column="0" >
-               <widget class="QRadioButton" name="m_pProcUseSrcRB" >
-                <property name="text" >
-                 <string>Use the source dir</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0" >
-               <widget class="QRadioButton" name="m_pProcUseSeparateDirRB" >
-                <property name="text" >
-                 <string>Use</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1" >
-               <widget class="QWidget" native="1" name="widget_11" >
-                <layout class="QHBoxLayout" >
-                 <property name="leftMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="topMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="rightMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="bottomMargin" >
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <widget class="QLineEdit" name="m_pProcDestE" />
-                 </item>
-                 <item>
-                  <widget class="QToolButton" name="m_pSelectTransfDestDirB" >
-                   <property name="text" >
-                    <string>...</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <spacer>
-             <property name="orientation" >
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" >
-              <size>
-               <width>591</width>
-               <height>53</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="tab" >
-          <attribute name="title" >
-           <string>Temporary files</string>
-          </attribute>
-          <layout class="QVBoxLayout" >
-           <item>
-            <widget class="QFrame" name="m_pSourceDirF" >
-             <property name="frameShape" >
-              <enum>QFrame::NoFrame</enum>
-             </property>
-             <property name="frameShadow" >
-              <enum>QFrame::Raised</enum>
-             </property>
-             <layout class="QHBoxLayout" >
-              <item>
-               <widget class="QLabel" name="label" >
-                <property name="text" >
-                 <string>Source directory</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QWidget" native="1" name="widget_9" >
-                <layout class="QHBoxLayout" >
-                 <property name="leftMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="topMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="rightMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="bottomMargin" >
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <widget class="QLineEdit" name="m_pSrcDirE" />
-                 </item>
-                 <item>
-                  <widget class="QToolButton" name="m_pSelectSrcDirB" >
-                   <property name="text" >
-                    <string>...</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QGroupBox" name="groupBox_16" >
-             <property name="title" >
-              <string>Temporary files</string>
-             </property>
-             <layout class="QGridLayout" >
-              <property name="topMargin" >
-               <number>0</number>
-              </property>
-              <property name="verticalSpacing" >
-               <number>0</number>
-              </property>
-              <item row="0" column="0" >
-               <widget class="QRadioButton" name="m_pTempDontCreateRB" >
-                <property name="text" >
-                 <string>Don't create</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0" >
-               <widget class="QRadioButton" name="m_pTempCreateRB" >
-                <property name="text" >
-                 <string>Create in</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1" >
-               <widget class="QWidget" native="1" name="widget_2" >
-                <layout class="QHBoxLayout" >
-                 <property name="leftMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="topMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="rightMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="bottomMargin" >
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <widget class="QLineEdit" name="m_pTempDestE" />
-                 </item>
-                 <item>
-                  <widget class="QToolButton" name="m_pSelectTempDirB" >
-                   <property name="text" >
-                    <string>...</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QGroupBox" name="groupBox_17" >
-             <property name="title" >
-              <string>Compare files</string>
-             </property>
-             <layout class="QGridLayout" >
-              <property name="topMargin" >
-               <number>0</number>
-              </property>
-              <property name="verticalSpacing" >
-               <number>0</number>
-              </property>
-              <item row="0" column="0" >
-               <widget class="QRadioButton" name="m_pCompDontCreateRB" >
-                <property name="text" >
-                 <string>Don't create</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0" >
-               <widget class="QRadioButton" name="m_pCompCreateRB" >
-                <property name="text" >
-                 <string>Create in</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1" >
-               <widget class="QWidget" native="1" name="widget_10" >
-                <layout class="QHBoxLayout" >
-                 <property name="leftMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="topMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="rightMargin" >
-                  <number>0</number>
-                 </property>
-                 <property name="bottomMargin" >
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <widget class="QLineEdit" name="m_pCompDestE" />
-                 </item>
-                 <item>
-                  <widget class="QToolButton" name="m_pSelectCompDirB" >
-                   <property name="text" >
-                    <string>...</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-             </layout>
             </widget>
            </item>
            <item>
@@ -764,10 +203,764 @@
              <property name="sizeHint" >
               <size>
                <width>20</width>
-               <height>81</height>
+               <height>241</height>
               </size>
              </property>
             </spacer>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="m_pFullViewTab" >
+          <attribute name="title" >
+           <string>Tab 2</string>
+          </attribute>
+          <layout class="QHBoxLayout" >
+           <property name="leftMargin" >
+            <number>0</number>
+           </property>
+           <property name="topMargin" >
+            <number>0</number>
+           </property>
+           <property name="rightMargin" >
+            <number>0</number>
+           </property>
+           <property name="bottomMargin" >
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QTabWidget" name="tabWidget" >
+             <property name="tabPosition" >
+              <enum>QTabWidget::North</enum>
+             </property>
+             <property name="tabShape" >
+              <enum>QTabWidget::Rounded</enum>
+             </property>
+             <property name="currentIndex" >
+              <number>0</number>
+             </property>
+             <widget class="QWidget" name="tab_3" >
+              <attribute name="title" >
+               <string>Original file that would be changed</string>
+              </attribute>
+              <layout class="QVBoxLayout" >
+               <item>
+                <widget class="QWidget" native="1" name="widget_15" >
+                 <layout class="QVBoxLayout" >
+                  <property name="leftMargin" >
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin" >
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin" >
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin" >
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QRadioButton" name="m_pPODontChangeRB" >
+                    <property name="text" >
+                     <string>Don't touch</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QRadioButton" name="m_pPOEraseRB" >
+                    <property name="text" >
+                     <string>Erase</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QRadioButton" name="m_pPOMoveAlwaysChangeRB" >
+                    <property name="text" >
+                     <string>Move and change the name</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QRadioButton" name="m_pPOMoveChangeIfNeededRB" >
+                    <property name="text" >
+                     <string>Move but change the name only if a name collision would occur</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QRadioButton" name="m_pPOChangeNameRB" >
+                    <property name="text" >
+                     <string>Change name</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QRadioButton" name="m_pPOMoveOrEraseRB" >
+                    <property name="text" >
+                     <string>Move if the destination doesn't already exist; erase if it does</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QGroupBox" name="groupBox_3" >
+                 <property name="title" >
+                  <string>Name change params</string>
+                 </property>
+                 <layout class="QVBoxLayout" >
+                  <property name="topMargin" >
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QGroupBox" name="groupBox_2" >
+                    <property name="title" >
+                     <string>Identifying label</string>
+                    </property>
+                    <layout class="QVBoxLayout" >
+                     <property name="spacing" >
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin" >
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin" >
+                      <number>0</number>
+                     </property>
+                     <item>
+                      <widget class="QRadioButton" name="m_pPODontUseLabelRB" >
+                       <property name="text" >
+                        <string>Don't use an identifying label</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QRadioButton" name="m_pPOUseLabelRB" >
+                       <property name="text" >
+                        <string>Use "orig" as an identifying label</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QGroupBox" name="groupBox_4" >
+                    <property name="title" >
+                     <string>Counter</string>
+                    </property>
+                    <layout class="QVBoxLayout" >
+                     <property name="spacing" >
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin" >
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin" >
+                      <number>0</number>
+                     </property>
+                     <item>
+                      <widget class="QRadioButton" name="m_pPOAlwaysUseCounterRB" >
+                       <property name="text" >
+                        <string>Always use a counter</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QRadioButton" name="m_pPOUseCounterIfNeededRB" >
+                       <property name="text" >
+                        <string>Only use a counter when a name collision would occur</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QGroupBox" name="groupBox_15" >
+                 <property name="title" >
+                  <string>Destination</string>
+                 </property>
+                 <layout class="QHBoxLayout" >
+                  <property name="topMargin" >
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QLineEdit" name="m_pPODestE" />
+                  </item>
+                  <item>
+                   <widget class="QToolButton" name="m_pSelectOrigTransfDestDirB" >
+                    <property name="text" >
+                     <string>...</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <spacer>
+                 <property name="orientation" >
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" >
+                  <size>
+                   <width>421</width>
+                   <height>37</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="tab_2" >
+              <attribute name="title" >
+               <string>Original file that would not be changed</string>
+              </attribute>
+              <layout class="QVBoxLayout" >
+               <item>
+                <widget class="QWidget" native="1" name="widget_16" >
+                 <layout class="QVBoxLayout" >
+                  <property name="leftMargin" >
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin" >
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin" >
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin" >
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QRadioButton" name="m_pUODontChangeRB" >
+                    <property name="text" >
+                     <string>Don't touch</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QRadioButton" name="m_pUOEraseRB" >
+                    <property name="text" >
+                     <string>Erase</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QRadioButton" name="m_pUOMoveAlwaysChangeRB" >
+                    <property name="text" >
+                     <string>Move and change the name</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QRadioButton" name="m_pUOMoveChangeIfNeededRB" >
+                    <property name="text" >
+                     <string>Move but change the name only if a name collision would occur</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QRadioButton" name="m_pUOChangeNameRB" >
+                    <property name="text" >
+                     <string>Change name</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QGroupBox" name="groupBox_6" >
+                 <property name="title" >
+                  <string>Name change params</string>
+                 </property>
+                 <layout class="QVBoxLayout" >
+                  <property name="topMargin" >
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QGroupBox" name="groupBox_7" >
+                    <property name="title" >
+                     <string>Identifying label</string>
+                    </property>
+                    <layout class="QVBoxLayout" >
+                     <property name="spacing" >
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin" >
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin" >
+                      <number>0</number>
+                     </property>
+                     <item>
+                      <widget class="QRadioButton" name="m_pUODontUseLabelRB" >
+                       <property name="text" >
+                        <string>Don't use an identifying label</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QRadioButton" name="m_pUOUseLabelRB" >
+                       <property name="text" >
+                        <string>Use "orig" as an identifying label</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QGroupBox" name="groupBox_8" >
+                    <property name="title" >
+                     <string>Counter</string>
+                    </property>
+                    <layout class="QVBoxLayout" >
+                     <property name="spacing" >
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin" >
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin" >
+                      <number>0</number>
+                     </property>
+                     <item>
+                      <widget class="QRadioButton" name="m_pUOAlwaysUseCounterRB" >
+                       <property name="text" >
+                        <string>Always use a counter</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QRadioButton" name="m_pUOUseCounterIfNeededRB" >
+                       <property name="text" >
+                        <string>Only use a counter when a name collision would occur</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QGroupBox" name="groupBox_14" >
+                 <property name="title" >
+                  <string>Destination</string>
+                 </property>
+                 <layout class="QHBoxLayout" >
+                  <property name="topMargin" >
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QLineEdit" name="m_pUODestE" />
+                  </item>
+                  <item>
+                   <widget class="QToolButton" name="m_pSelectOrigNotTransfDestDirB" >
+                    <property name="text" >
+                     <string>...</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <spacer>
+                 <property name="orientation" >
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" >
+                  <size>
+                   <width>421</width>
+                   <height>37</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="tab_4" >
+              <attribute name="title" >
+               <string>Changed file</string>
+              </attribute>
+              <layout class="QVBoxLayout" >
+               <item>
+                <widget class="QWidget" native="1" name="widget_17" >
+                 <layout class="QVBoxLayout" >
+                  <property name="leftMargin" >
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin" >
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin" >
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin" >
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QRadioButton" name="m_pProcDontCreateRB" >
+                    <property name="text" >
+                     <string>Don't create</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QRadioButton" name="m_pProcCreateAlwaysChangeRB" >
+                    <property name="text" >
+                     <string>Create and change the name</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QRadioButton" name="m_pProcCreateChangeIfNeededRB" >
+                    <property name="text" >
+                     <string>Create but change the name only if a name collision would occur</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QGroupBox" name="groupBox_10" >
+                 <property name="title" >
+                  <string>Name change params</string>
+                 </property>
+                 <layout class="QVBoxLayout" >
+                  <property name="topMargin" >
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QGroupBox" name="groupBox_11" >
+                    <property name="title" >
+                     <string>Identifying label</string>
+                    </property>
+                    <layout class="QVBoxLayout" >
+                     <property name="spacing" >
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin" >
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin" >
+                      <number>0</number>
+                     </property>
+                     <item>
+                      <widget class="QRadioButton" name="m_pProcDontUseLabelRB" >
+                       <property name="text" >
+                        <string>Don't use an identifying label</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QRadioButton" name="m_pProcUseLabelRB" >
+                       <property name="text" >
+                        <string>Use "proc" as an identifying label</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QGroupBox" name="groupBox_12" >
+                    <property name="title" >
+                     <string>Counter</string>
+                    </property>
+                    <layout class="QVBoxLayout" >
+                     <property name="spacing" >
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin" >
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin" >
+                      <number>0</number>
+                     </property>
+                     <item>
+                      <widget class="QRadioButton" name="m_pProcAlwaysUseCounterRB" >
+                       <property name="text" >
+                        <string>Always use a counter</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QRadioButton" name="m_pProcUseCounterIfNeededRB" >
+                       <property name="text" >
+                        <string>Only use a counter when a name collision would occur</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QGroupBox" name="groupBox_13" >
+                 <property name="title" >
+                  <string>Destination</string>
+                 </property>
+                 <layout class="QGridLayout" >
+                  <property name="topMargin" >
+                   <number>0</number>
+                  </property>
+                  <property name="verticalSpacing" >
+                   <number>0</number>
+                  </property>
+                  <item row="0" column="0" >
+                   <widget class="QRadioButton" name="m_pProcUseSrcRB" >
+                    <property name="text" >
+                     <string>Use the source dir</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0" >
+                   <widget class="QRadioButton" name="m_pProcUseSeparateDirRB" >
+                    <property name="text" >
+                     <string>Use</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1" >
+                   <widget class="QWidget" native="1" name="widget_11" >
+                    <layout class="QHBoxLayout" >
+                     <property name="leftMargin" >
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin" >
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin" >
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin" >
+                      <number>0</number>
+                     </property>
+                     <item>
+                      <widget class="QLineEdit" name="m_pProcDestE" />
+                     </item>
+                     <item>
+                      <widget class="QToolButton" name="m_pSelectTransfDestDirB" >
+                       <property name="text" >
+                        <string>...</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <spacer>
+                 <property name="orientation" >
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" >
+                  <size>
+                   <width>591</width>
+                   <height>53</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="tab" >
+              <attribute name="title" >
+               <string>Temporary files</string>
+              </attribute>
+              <layout class="QVBoxLayout" >
+               <item>
+                <widget class="QFrame" name="m_pSourceDirF" >
+                 <property name="frameShape" >
+                  <enum>QFrame::NoFrame</enum>
+                 </property>
+                 <property name="frameShadow" >
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <layout class="QHBoxLayout" >
+                  <item>
+                   <widget class="QLabel" name="label" >
+                    <property name="text" >
+                     <string>Source directory</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QWidget" native="1" name="widget_9" >
+                    <layout class="QHBoxLayout" >
+                     <property name="leftMargin" >
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin" >
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin" >
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin" >
+                      <number>0</number>
+                     </property>
+                     <item>
+                      <widget class="QLineEdit" name="m_pSrcDirE" />
+                     </item>
+                     <item>
+                      <widget class="QToolButton" name="m_pSelectSrcDirB" >
+                       <property name="text" >
+                        <string>...</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QGroupBox" name="groupBox_16" >
+                 <property name="title" >
+                  <string>Temporary files</string>
+                 </property>
+                 <layout class="QGridLayout" >
+                  <property name="topMargin" >
+                   <number>0</number>
+                  </property>
+                  <property name="verticalSpacing" >
+                   <number>0</number>
+                  </property>
+                  <item row="0" column="0" >
+                   <widget class="QRadioButton" name="m_pTempDontCreateRB" >
+                    <property name="text" >
+                     <string>Don't create</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0" >
+                   <widget class="QRadioButton" name="m_pTempCreateRB" >
+                    <property name="text" >
+                     <string>Create in</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1" >
+                   <widget class="QWidget" native="1" name="widget_2" >
+                    <layout class="QHBoxLayout" >
+                     <property name="leftMargin" >
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin" >
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin" >
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin" >
+                      <number>0</number>
+                     </property>
+                     <item>
+                      <widget class="QLineEdit" name="m_pTempDestE" />
+                     </item>
+                     <item>
+                      <widget class="QToolButton" name="m_pSelectTempDirB" >
+                       <property name="text" >
+                        <string>...</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QGroupBox" name="groupBox_17" >
+                 <property name="title" >
+                  <string>Compare files</string>
+                 </property>
+                 <layout class="QGridLayout" >
+                  <property name="topMargin" >
+                   <number>0</number>
+                  </property>
+                  <property name="verticalSpacing" >
+                   <number>0</number>
+                  </property>
+                  <item row="0" column="0" >
+                   <widget class="QRadioButton" name="m_pCompDontCreateRB" >
+                    <property name="text" >
+                     <string>Don't create</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0" >
+                   <widget class="QRadioButton" name="m_pCompCreateRB" >
+                    <property name="text" >
+                     <string>Create in</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1" >
+                   <widget class="QWidget" native="1" name="widget_10" >
+                    <layout class="QHBoxLayout" >
+                     <property name="leftMargin" >
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin" >
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin" >
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin" >
+                      <number>0</number>
+                     </property>
+                     <item>
+                      <widget class="QLineEdit" name="m_pCompDestE" />
+                     </item>
+                     <item>
+                      <widget class="QToolButton" name="m_pSelectCompDirB" >
+                       <property name="text" >
+                        <string>...</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <spacer>
+                 <property name="orientation" >
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" >
+                  <size>
+                   <width>20</width>
+                   <height>81</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -2908,51 +3101,6 @@
  <tabstops>
   <tabstop>m_pOkB</tabstop>
   <tabstop>m_pCancelB</tabstop>
-  <tabstop>tabWidget</tabstop>
-  <tabstop>m_pSrcDirE</tabstop>
-  <tabstop>m_pSelectSrcDirB</tabstop>
-  <tabstop>m_pTempDontCreateRB</tabstop>
-  <tabstop>m_pTempCreateRB</tabstop>
-  <tabstop>m_pTempDestE</tabstop>
-  <tabstop>m_pSelectTempDirB</tabstop>
-  <tabstop>m_pCompDontCreateRB</tabstop>
-  <tabstop>m_pCompCreateRB</tabstop>
-  <tabstop>m_pCompDestE</tabstop>
-  <tabstop>m_pSelectCompDirB</tabstop>
-  <tabstop>m_pPODontChangeRB</tabstop>
-  <tabstop>m_pPOEraseRB</tabstop>
-  <tabstop>m_pPOMoveAlwaysChangeRB</tabstop>
-  <tabstop>m_pPOMoveChangeIfNeededRB</tabstop>
-  <tabstop>m_pPOChangeNameRB</tabstop>
-  <tabstop>m_pPOMoveOrEraseRB</tabstop>
-  <tabstop>m_pPODontUseLabelRB</tabstop>
-  <tabstop>m_pPOUseLabelRB</tabstop>
-  <tabstop>m_pPOAlwaysUseCounterRB</tabstop>
-  <tabstop>m_pPOUseCounterIfNeededRB</tabstop>
-  <tabstop>m_pPODestE</tabstop>
-  <tabstop>m_pSelectOrigTransfDestDirB</tabstop>
-  <tabstop>m_pUODontChangeRB</tabstop>
-  <tabstop>m_pUOEraseRB</tabstop>
-  <tabstop>m_pUOMoveAlwaysChangeRB</tabstop>
-  <tabstop>m_pUOMoveChangeIfNeededRB</tabstop>
-  <tabstop>m_pUOChangeNameRB</tabstop>
-  <tabstop>m_pUODontUseLabelRB</tabstop>
-  <tabstop>m_pUOUseLabelRB</tabstop>
-  <tabstop>m_pUOAlwaysUseCounterRB</tabstop>
-  <tabstop>m_pUOUseCounterIfNeededRB</tabstop>
-  <tabstop>m_pUODestE</tabstop>
-  <tabstop>m_pSelectOrigNotTransfDestDirB</tabstop>
-  <tabstop>m_pProcDontCreateRB</tabstop>
-  <tabstop>m_pProcCreateAlwaysChangeRB</tabstop>
-  <tabstop>m_pProcCreateChangeIfNeededRB</tabstop>
-  <tabstop>m_pProcDontUseLabelRB</tabstop>
-  <tabstop>m_pProcUseLabelRB</tabstop>
-  <tabstop>m_pProcAlwaysUseCounterRB</tabstop>
-  <tabstop>m_pProcUseCounterIfNeededRB</tabstop>
-  <tabstop>m_pProcUseSrcRB</tabstop>
-  <tabstop>m_pProcUseSeparateDirRB</tabstop>
-  <tabstop>m_pProcDestE</tabstop>
-  <tabstop>m_pSelectTransfDestDirB</tabstop>
   <tabstop>m_pCustomTransform1T</tabstop>
   <tabstop>m_pCustomTransform2T</tabstop>
   <tabstop>m_pCustomTransform3T</tabstop>

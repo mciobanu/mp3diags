@@ -136,7 +136,7 @@ SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strIn
 
     TransfConfig tc;
     st.loadTransfConfig(tc);
-    if (5 == tc.m_options.m_nProcOrigChange)
+    if (TransfConfig::Options::PO_MOVE_OR_ERASE == tc.m_options.m_eProcOrigChange)
     {
         m_pCreateBackupRB->setChecked(true);
     }
@@ -238,11 +238,11 @@ void SessionEditorDlgImpl::on_m_pOkB_clicked()
 
         if (m_pDontCreateBackupRB->isChecked())
         {
-            tc.m_options.m_nProcOrigChange = 1;
+            tc.m_options.m_eProcOrigChange = TransfConfig::Options::PO_ERASE; //ttt2 inconsistency with how config handles this; perhaps just hide the backup settings for existing sessions
         }
         else
         {
-            tc.m_options.m_nProcOrigChange = 5;
+            tc.m_options.m_eProcOrigChange = TransfConfig::Options::PO_MOVE_OR_ERASE;
             tc.setProcOrigDir(fromNativeSeparators(convStr(m_pBackupE->text())));
         }
 

@@ -1,3 +1,11 @@
+* Tue Oct 27 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.06.043
+
+- "Simple view" in file configuration
+- fixed crash on empty text frames in ID3V2
+- generic binaries for Linux
+- BuildMp3Diags.hta detects VS version
+- documentation updates
+
 * Tue Oct 20 2009 Marian Ciobanu <ciobi@inbox.com> 0.99.06.042
 
 - better support for binary frames in ID2V2.4.0

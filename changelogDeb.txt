@@ -1,3 +1,13 @@
+mp3diags (0.99.06.043) testing; urgency=low
+
+  * "Simple view" in file configuration
+  * fixed crash on empty text frames in ID3V2
+  * generic binaries for Linux
+  * BuildMp3Diags.hta detects VS version
+  * documentation updates
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Tue, 27 Oct 2009 22:00:00 +0200
+
 mp3diags (0.99.06.042) testing; urgency=low
 
   * better support for binary frames in ID2V2.4.0

@@ -1,5 +1,15 @@
 ---------------------------------------------------------------------------
 
+27.10.2009 - 0.99.06.043
+
+- "Simple view" in file configuration
+- fixed crash on empty text frames in ID3V2
+- generic binaries for Linux
+- BuildMp3Diags.hta detects VS version
+- documentation updates
+
+---------------------------------------------------------------------------
+
 20.10.2009 - 0.99.06.042
 
 - better support for binary frames in ID2V2.4.0

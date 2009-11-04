@@ -48,11 +48,39 @@ using namespace std;
 
 bool Id3V2Cleaner::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
 {
-    Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave(), 0, strm.getFileName());
+    Id3V230StreamWriter wrt (m_pCommonData->m_bKeepOneValidImg, m_pCommonData->useFastSave(), 0, strm.getFileName()); //ttt2 unify code with Id3V2Rescuer
     vector<const Id3V2Frame*> v (strm.getKnownFrames());
     for (int i = 0; i < cSize(v); ++i)
     {
-        wrt.addNonOwnedFrame(v[i]);
+        const Id3V2Frame* pFrm (v[i]);
+
+        if ('T' == pFrm->m_szName[0])
+        { // text frame
+            try
+            {
+                string s (pFrm->getRawUtf8String());
+                if (!s.empty())
+                {
+                    wrt.addTextFrame(pFrm->m_szName, s);
+                }
+            }
+            catch (const Id3V2Frame::UnsupportedId3V2Frame&)
+            { // add unchanged
+                wrt.addNonOwnedFrame(pFrm);
+            }
+        }
+        else if (0 == strcmp(KnownFrames::LBL_IMAGE(), pFrm->m_szName))
+        {
+            CB_ASSERT (Id3V2Frame::NO_APIC != pFrm->m_eApicStatus);
+            if (Id3V2Frame::COVER == pFrm->m_eApicStatus || Id3V2Frame::NON_COVER == pFrm->m_eApicStatus) // not sure about link; OTOH going to the tab editor will get rid of links, so we do it here as well
+            {
+                wrt.addNonOwnedFrame(pFrm);
+            }
+        }
+        else if (pFrm->m_nMemDataSize > 0)
+        {
+            wrt.addNonOwnedFrame(pFrm);
+        }
     }
 
     TagTimestamp time (strm.getTime());
@@ -144,25 +172,20 @@ bool Id3V2Rescuer::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8* pOut
     for (int i = 0, n = cSize(vpFrames); i < n; ++i)
     {
         const Id3V2Frame* pFrm (vpFrames[i]);
-        Id3V2FrameDataLoader wrp (*pFrm);
 
-        if ('T' == pFrm->m_szName[0] /*&& KnownFrames::getKnownFrames().count(pFrm->m_szName) > 0*/)
+        if ('T' == pFrm->m_szName[0])
         { // text frame
-            bool bDiscard (false);
-            string s;
             try
             {
-                s = pFrm->getUtf8String();
-                bDiscard = s.empty();
+                string s (pFrm->getRawUtf8String());
+                if (!s.empty())
+                {
+                    wrt.addTextFrame(pFrm->m_szName, s);
+                }
             }
             catch (const Id3V2Frame::UnsupportedId3V2Frame&)
-            { // !!! nothing to be done here; the frame will get added unchanged
-            }
-
-            if (!bDiscard)
-            {
-                //wrt.addNonOwnedFrame(pFrm);
-                wrt.addTextFrame(pFrm->m_szName, s);
+            { // add unchanged
+                wrt.addNonOwnedFrame(pFrm);
             }
         }
         else if (0 == strcmp(KnownFrames::LBL_IMAGE(), pFrm->m_szName))
@@ -301,7 +324,7 @@ e1:
 
 /*override*/ const char* Id3V2UnicodeTransformer::getVisibleActionName() const
 {
-    string strActionName (string("Convert non-ASCII ID3V2 text frames to Unicode assuming codepage ") + m_pCommonData->m_pCodec->name().data());
+    string strActionName (string("Convert non-ASCII ID3V2 text frames to Unicode assuming codepage ") + m_pCommonData->m_pCodec->name().constData());
     if (strActionName != m_strActionName)
     {
         m_strActionName = strActionName; // to make sure that pointer comparisons still work (though they should probably be replaced by string comparisons) //ttt2 replace ptr comparisons
@@ -413,7 +436,7 @@ struct PLPAS
         {
             QChar c (i);
             QString q; q += c;
-            cout << i << " " << q.toUtf8().data() << " " << (int)c.category() << endl;
+            cout << i << " " << q.toUtf8().constData() << " " << (int)c.category() << endl;
         }
     }
 };

@@ -266,7 +266,7 @@ void Id3V2Frame::print(ostream& out, bool bFullInfo) const
         //qs.replace('\n', " / "); qs.replace('\r', "");
         qs = "\n" + qs + "\n";
 
-        out << qs.toUtf8().data();
+        out << qs.toUtf8().constData();
     }
     else
     {
@@ -435,33 +435,21 @@ double Id3V2Frame::getRating() const // asserts it's POPM
     QString qs (QString::fromUtf16(pUs, nUSize));
     string s (convStr(qs));
 
-    rtrim(s);
     return s;
 }
 
 
 
-static const set<string>& getAllUsedFrames()
-{
-    static set<string> sAllUsedFrames (KnownFrames::getKnownFrames());
-    static bool bFirstTime (true);
-    if (bFirstTime)
-    {
-        sAllUsedFrames.insert(KnownFrames::LBL_WMP_VAR_ART());
-        sAllUsedFrames.insert(KnownFrames::LBL_ITUNES_VAR_ART());
-    }
-
-    return sAllUsedFrames;
-}
-
-
+// for display / export; for frames in KnownFrames::getKnownFrames only the data up to the first 0 is used (effectively removing comments in 2.3.0), while for the others, including TXXX, nulls and all other characters with codes below 32 are replaced with spaces (as a result, both description and value are shown for TXXX), so in either case the return value doesn't contain nulls;
+// whitespaces at the end of the string are removed;
 string Id3V2Frame::getUtf8String() const
 {
     try
     {
         string s (getUtf8StringImpl());
-        if (0 == getAllUsedFrames().count(m_szName))
+        if (0 == KnownFrames::getKnownFrames().count(m_szName) || isTxxx())
         { // text frames may contain null characters, and what's after a null char isn't supposed to be displayed; however, for frames that aren't used we may want to see what's after the null
+            // ttt2 null characters mean different things inside ID3V2.3.0 (comment follows) vs. ID3V2.4.0 (multiple values separated by 0); however, this doesn't matter in current implementation, because Id3V240Frame::getUtf8StringImpl() replaces nulls with commas
             for (int i = 0; i < cSize(s); ++i)
             {
                 unsigned char c (s[i]);
@@ -487,6 +475,48 @@ string Id3V2Frame::getUtf8String() const
     }
 }
 
+
+// for internal processing; similar to getUtf8String() but doesn't replace internal null characters with spaces;
+// removes trailing nulls and whitespaces, as well as 2.3.0 comments;
+string Id3V2Frame::getRawUtf8String() const
+{
+    try
+    {
+        string s (getUtf8StringImpl());
+
+        int i (cSize(s) - 1);
+        for (; i >= 0; --i)
+        {
+            unsigned char c (s[i]);
+            if (0 != c && (c >= ' ' || (c < ' ' && QChar(c).isSpace())))
+            {
+                break;
+            }
+        }
+
+        ++i;
+        if (i < cSize(s))
+        {
+            s.erase(i);
+        }
+
+        return s;
+    }
+    catch (const Id3V2FrameDataLoader::LoadFailure&)
+    {
+        return "<error loading frame>"; //ttt2 not sure if this is the best thing to do, but at least avoids crashes;
+    }
+    catch (const Id3V2Frame::NotId3V2Frame&)
+    {
+        return "<error decoding frame>"; //ttt2 not sure if this is the best thing to do, but at least avoids crashes;
+    }
+}
+
+
+bool Id3V2Frame::isTxxx() const
+{
+    return 0 == strcmp(KnownFrames::LBL_TXXX(), m_szName);
+}
 
 
 
@@ -566,6 +596,8 @@ Id3V2FrameDataLoader::~Id3V2FrameDataLoader()
 
 /*static*/ const char* KnownFrames::LBL_WMP_VAR_ART() { return "TPE2"; }
 /*static*/ const char* KnownFrames::LBL_ITUNES_VAR_ART() { return "TCMP"; }
+
+/*static*/ const char* KnownFrames::LBL_TXXX() { return "TXXX"; }
 
 
 //============================================================================================================
@@ -781,7 +813,7 @@ void Id3V2StreamBase::checkFrames(NoteColl& notes) // various checks to be calle
         }
         else */if (s.empty())
         {
-            MP3_NOTE (p->m_pos, id3v2EmptyTcon);
+            MP3_NOTE (p->m_pos, id3v2EmptyTcon); //ttt2 perhaps replace this with something more generic
         }
     }
 
@@ -1169,16 +1201,19 @@ void Id3V2StreamBase::preparePicture(NoteColl& notes) // initializes fields used
 }
 
 
+static const char* REPLAY_GAIN_ROOT ("replaygain");
+
+
 bool Id3V2StreamBase::hasReplayGain() const
 {
     for (int i = 0; i < cSize(m_vpFrames); ++i)
     {
         const Id3V2Frame* pFrame (m_vpFrames[i]);
-        if (0 == strcmp("TXXX", pFrame->m_szName))
+        if (pFrame->isTxxx())
         {
             QString qs (convStr(pFrame->getUtf8String()));
 
-            if (qs.compare("replaygain", Qt::CaseInsensitive))
+            if (qs.startsWith(REPLAY_GAIN_ROOT, Qt::CaseInsensitive))
             {
                 return true;
             }
@@ -1215,23 +1250,39 @@ const Id3V2Frame* Id3V2StreamBase::getFrame(const char* szName) const
 }
 
 
+/*static*/ const set<string>& KnownFrames::getExcludeFromInfoFrames() // frames that shouldn't be part of "other info"; doesn't include TXXX and "Various Artists" frames
+{
+    static bool bFirstTime (true);
+    static set<string> s;
+    if (bFirstTime)
+    {
+        s.insert(KnownFrames::LBL_TITLE());
+        s.insert(KnownFrames::LBL_ARTIST());
+        s.insert(KnownFrames::LBL_TRACK_NUMBER());
+        s.insert(KnownFrames::LBL_TIME_YEAR_230());
+        s.insert(KnownFrames::LBL_TIME_DATE_230());
+        s.insert(KnownFrames::LBL_TIME_240()); //ttt2 perhaps this shouldn't be used for 2.3.0, but it covers cases like reading 2.4.0 and writing 2.3.0 or bugs by some tools
+        s.insert(KnownFrames::LBL_GENRE());
+        s.insert(KnownFrames::LBL_IMAGE());
+        s.insert(KnownFrames::LBL_ALBUM());
+        s.insert(KnownFrames::LBL_RATING());
+        s.insert(KnownFrames::LBL_COMPOSER());
+
+        bFirstTime = false;
+    }
+
+    return s;
+}
+
+// includes "Various Artists" frames; doesn't include TXXX
 /*static*/ const set<string>& KnownFrames::getKnownFrames()
 {
     static bool bFirstTime (true);
-    static set<string> sKnownFrames;
+    static set<string> sKnownFrames (getExcludeFromInfoFrames());
     if (bFirstTime)
     {
-        sKnownFrames.insert(KnownFrames::LBL_TITLE());
-        sKnownFrames.insert(KnownFrames::LBL_ARTIST());
-        sKnownFrames.insert(KnownFrames::LBL_TRACK_NUMBER());
-        sKnownFrames.insert(KnownFrames::LBL_TIME_YEAR_230());
-        sKnownFrames.insert(KnownFrames::LBL_TIME_DATE_230());
-        sKnownFrames.insert(KnownFrames::LBL_TIME_240()); //ttt2 perhaps this shouldn't be used for 2.3.0, but it covers cases like reading 2.4.0 and writing 2.3.0 or bugs by some tools
-        sKnownFrames.insert(KnownFrames::LBL_GENRE());
-        sKnownFrames.insert(KnownFrames::LBL_IMAGE());
-        sKnownFrames.insert(KnownFrames::LBL_ALBUM());
-        sKnownFrames.insert(KnownFrames::LBL_RATING());
-        sKnownFrames.insert(KnownFrames::LBL_COMPOSER());
+        sKnownFrames.insert(KnownFrames::LBL_WMP_VAR_ART());
+        sKnownFrames.insert(KnownFrames::LBL_ITUNES_VAR_ART());
 
         bFirstTime = false;
     }
@@ -1243,8 +1294,6 @@ const Id3V2Frame* Id3V2StreamBase::getFrame(const char* szName) const
 
 /*override*/ std::string Id3V2StreamBase::getOtherInfo() const
 {
-    const set<string>& sKnownFrames (KnownFrames::getKnownFrames());
-
     set<string> sUsedFrames;
 
     //string strRes;
@@ -1254,7 +1303,7 @@ const Id3V2Frame* Id3V2StreamBase::getFrame(const char* szName) const
     for (int i = 0, n = cSize(m_vpFrames); i < n; ++i)
     {
         Id3V2Frame* p = m_vpFrames[i];
-        if (sKnownFrames.count(p->m_szName) > 0 && sUsedFrames.count(p->m_szName) == 0)
+        if (KnownFrames::getExcludeFromInfoFrames().count(p->m_szName) > 0 && sUsedFrames.count(p->m_szName) == 0)
         {
             sUsedFrames.insert(p->m_szName);
         }
@@ -1276,7 +1325,7 @@ const Id3V2Frame* Id3V2StreamBase::getFrame(const char* szName) const
 void Id3V2StreamBase::checkDuplicates(NoteColl& notes) const
 {
     // for some it's OK to be duplicated, e.g. for APIC and various "Picture type" pictures;
-    const set<string>& sKnownFrames (KnownFrames::getKnownFrames());
+
     set<pair<string, int> > sUsedFrames;
     int nImgCnt (0);
     streampos secondImgPos (-1);
@@ -1287,7 +1336,7 @@ void Id3V2StreamBase::checkDuplicates(NoteColl& notes) const
 //if (0 == strcmp("TDOR", p->m_szName)) { MP3_NOTE (p->m_pos, "TDOR found. See if it should be processed."); } //ttt remove
 //if (0 == strcmp("TDRC", p->m_szName)) { MP3_NOTE (p->m_pos, "TDRC found. See if it should be processed."); }
 //if (0 == strcmp("TDRL", p->m_szName)) { MP3_NOTE (p->m_pos, "TDRL found. See if it should be processed."); }
-        if (sKnownFrames.count(p->m_szName) > 0)
+        if (KnownFrames::getKnownFrames().count(p->m_szName) > 0)
         {
             if (0 == strcmp(KnownFrames::LBL_IMAGE(), p->m_szName))
             {
@@ -1297,6 +1346,7 @@ void Id3V2StreamBase::checkDuplicates(NoteColl& notes) const
                     secondImgPos = p->m_pos;
                 }
             }
+
             if (sUsedFrames.count(make_pair(p->m_szName, p->m_nPictureType)) == 0)
             {
                 sUsedFrames.insert(make_pair(p->m_szName, p->m_nPictureType));
@@ -1358,7 +1408,7 @@ vector<const Id3V2Frame*> Id3V2StreamBase::getKnownFrames() const // to be used 
     {
         const Id3V2Frame* p (m_vpFrames[i]);
 
-        if (KnownFrames::getKnownFrames().count(p->m_szName) > 0)
+        if (KnownFrames::getKnownFrames().count(p->m_szName) > 0 || p->isTxxx())
         {
             // add if known except if a picture with the same type was already added; don't add duplicates even if Id3V230StreamWriter could take care of them, because it keeps the last value and we want the first one
             bool bAdd (true);
@@ -1372,7 +1422,17 @@ vector<const Id3V2Frame*> Id3V2StreamBase::getKnownFrames() const // to be used 
                     bAdd = false;
                     break;
                 }
+            }
 
+            if (p->isTxxx())
+            {
+                string s (p->getUtf8String());
+                QString qs (convStr(s));
+
+                if (qs.startsWith(REPLAY_GAIN_ROOT, Qt::CaseInsensitive))
+                {
+                    bAdd = true; //ttt2 perhaps check it's no duplicate; not sure about case
+                }
             }
 
             if (bAdd && 0 == strcmp(KnownFrames::LBL_IMAGE(), p->m_szName) && Id3V2Frame::COVER != p->m_eApicStatus && Id3V2Frame::NON_COVER != p->m_eApicStatus)

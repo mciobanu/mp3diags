@@ -33,6 +33,9 @@ struct Id3V240Frame : public Id3V2Frame
 private:
     bool checkSize(std::istream& in, std::streampos posNext); // since broken applications may use all 8 bits for size, although only 7 should be used, this tries to figure out if the size is correct
     /*override*/ bool discardOnChange() const;
+
+    // may return multiple null characters; it's the job of getUtf8String() to deal with them;
+    // chars after the first null are considered comments (or after the second null, for TXXX), so the nulls are replaced with commas, except for those at the end of the string (which are removed) and the first null in TXXX;
     /*override*/ std::string getUtf8StringImpl() const;
     /*override*/ int getOffset() const;
 

@@ -101,7 +101,7 @@ void NormalizeDlgImpl::normalize(const QString& qstrProg1, const QStringList& lF
     for (; k < qstrProg1.size() && (qstrProg1[k - 1] != ' '  || (qstrProg1[k] != '-' && qstrProg1[k] != '/')); ++k) {} //ttt2 perhaps better: look for spaces from the end and stop when a dir exists from the beginning of the name till the current space
     QString qstrProg (qstrProg1.left(k).trimmed());
     QString qstrArg (qstrProg1.right(qstrProg1.size() - k).trimmed());
-    //qDebug("prg <%s>  arg <%s>", qstrProg.toUtf8().data(), qstrArg.toUtf8().data());
+    //qDebug("prg <%s>  arg <%s>", qstrProg.toUtf8().constData(), qstrArg.toUtf8().constData());
 
     QStringList l (qstrArg.split(" ", QString::SkipEmptyParts)); // ttt2 perhaps accomodate params that contain spaces, but mp3gain doesn't seem to need them;
     //QString qstrName (l.front());
@@ -139,8 +139,8 @@ void NormalizeDlgImpl::onErrorTxt()
     //addText("####" + m_pProc->readAllStandardError());
     QString s (m_pProc->readAllStandardError().trimmed());
     if (s.isEmpty()) { return; }
-//qDebug("err %s", s.toUtf8().data());
-    //inspect(s.toUtf8().data(), s.size());
+//qDebug("err %s", s.toUtf8().constData());
+    //inspect(s.toUtf8().constData(), s.size());
     int n (s.lastIndexOf("\r"));
     if (n > 0)
     {
@@ -152,7 +152,7 @@ void NormalizeDlgImpl::onErrorTxt()
     {
         s.remove(0, n + 1);
     }
-    //inspect(s.toUtf8().data(), s.size());
+    //inspect(s.toUtf8().constData(), s.size());
     while (!s.isEmpty() && s[0] == ' ') { s.remove(0, 1); }
 
     m_pDetailE->setText(s);

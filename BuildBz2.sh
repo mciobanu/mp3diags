@@ -8,14 +8,14 @@
 
 sh ./AdjustMt.sh
 
-cat src/src.pro | grep 'lboost_serialization' > /dev/null
-if [ $? -eq 0 ] ; then # we don't want to change a file that was already changed
-    cat src/src.pro | sed -e 's%lboost_serialization-mt$%l:libboost_serialization-mt.a%' -e 's%lboost_serialization$%l:libboost_serialization.a%' > src/src.pro1
-    mv -f src/src.pro1 src/src.pro
-    echo "switched to static linking"
-else
-    echo "static linking already set up"
-fi
+#cat src/src.pro | grep 'lboost_serialization' > /dev/null
+#if [ $? -eq 0 ] ; then # we don't want to change a file that was already changed
+#    cat src/src.pro | sed -e 's%lboost_serialization-mt$%l:libboost_serialization-mt.a%' -e 's%lboost_serialization$%l:libboost_serialization.a%' > src/src.pro1
+#    mv -f src/src.pro1 src/src.pro
+#    echo "switched to static linking"
+#else
+#    echo "static linking already set up"
+#fi
 
 
 #exit 1
@@ -40,4 +40,4 @@ bzip2 -k bin/MP3Diags
 
 Cpu=`uname -m`
 
-mv bin/MP3Diags.bz2 bin/MP3Diags-QQQVERQQQ-$Cpu.bz2
+mv bin/MP3Diags.bz2 bin/MP3Diags-Linux-$Cpu-QQQVERQQQ.bz2

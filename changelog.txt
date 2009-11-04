@@ -1,5 +1,20 @@
 ---------------------------------------------------------------------------
 
+04.11.2009 - 0.99.06.044
+
+- fixed a crash in folder filter
+- fixed bug causing non-normalized files having any TXXX frame to appear
+    normalized
+- case is ignored for file extension, so .Mp3 or .mP3 files are recognized
+- better support and more consistent handling for TXXX and text frames in
+    ID3V2
+- reduced number of locales by eliminating redundant ones
+- disabled CTRL+A selection in the main window
+- static link for serialization
+- added trace details for web downloads
+
+---------------------------------------------------------------------------
+
 27.10.2009 - 0.99.06.043
 
 - "Simple view" in file configuration

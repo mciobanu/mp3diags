@@ -243,15 +243,28 @@ Id3V240Frame::Id3V240Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
         try
         {
             getUtf8String();
+
             if ('T' == m_szName[0])
             {
-                if (0 == m_nMemDataSize)
+                if (!isTxxx() && 0 == m_nMemDataSize)
                 { // this is really invalid; text frames must have at least a byte; however, by doing these we make sure that an empty (i.e. having a single byte, for text encoding) frame gets copied if the tag is edited;
-                    m_nMemDataSize = 1;
                     m_vcData.clear();
                     m_vcData.push_back(0);
+                    m_nMemDataSize = cSize(m_vcData);
                     MP3_NOTE_D (pos, id3v2EmptyTextFrame, Notes::id3v2EmptyTextFrame().getDescription() + string(" (Frame:") + m_szName + ")");
                 }
+                else if (isTxxx() && m_nMemDataSize <= 1)
+                { // this is really invalid; text frames must have at least a byte; however, by doing these we make sure that an empty (i.e. having a single byte, for text encoding) frame gets copied if the tag is edited;
+                    m_vcData.clear();
+                    static const char* szInvalid ("INVALID");
+                    m_vcData.push_back(0); // latin1
+                    m_vcData.insert(m_vcData.end(), szInvalid, szInvalid + strlen(szInvalid)); // description
+                    m_vcData.push_back(0); // terminator
+                    m_vcData.insert(m_vcData.end(), szInvalid, szInvalid + strlen(szInvalid)); // value
+                    m_nMemDataSize = cSize(m_vcData);
+                    MP3_NOTE_D (pos, id3v2EmptyTextFrame, Notes::id3v2EmptyTextFrame().getDescription() + string(" (Frame:") + m_szName + ")"); // ttt2 actually TXXX is not text
+                }
+                //ttt2 add check for terminating 0 for TXXX, to split the value into descr and val
             }
         }
         catch (const NotId3V2Frame&)
@@ -276,8 +289,8 @@ Id3V240Frame::Id3V240Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
 }
 
 
-// assumes Latin1, converts to UTF8; returns "<non-text value>" for non-text strings; unlike 2.3.0, which replaces '\0' with ' ' inside tags, this just considers a 0 to be a terminator; string fields in 2.4.0 are 0-terminated, while the ones in 2.3.0 aren't
-// whitespaces at the end of the string are removed; not sure if this is how it should be, though
+// may return multiple null characters; it's the job of getUtf8String() to deal with them;
+// chars after the first null are considered comments (or after the second null, for TXXX), so the nulls are replaced with commas, except for those at the end of the string (which are removed) and the first null in TXXX;
 string Id3V240Frame::getUtf8StringImpl() const
 {
     if ('T' != m_szName[0])
@@ -292,16 +305,18 @@ string Id3V240Frame::getUtf8StringImpl() const
     // 2008.07.12 - on a second thought - throw but call this on the constructor, where it can be logged properly; if it worked on the constructor it should work later too
     CB_CHECK1 (m_nMemDataSize > 0, NotId3V2Frame());
     Id3V2FrameDataLoader wrp (*this);
-    const char* pData (wrp.getData());
+    const char* pData (wrp.getData()); //ttt2 from http://www.id3.org/id3v2.4.0-frames - All text information frames supports multiple strings, stored as a null separated list
+
+    string s;
+
     if (0 == pData[0])
     { // Latin-1
-        string s;
+
         for (int i = 1; i < m_nMemDataSize; ++i)
         {
             unsigned char c (pData[i]);
-            if (0 == c) { break; }
             if (c < 128)
-            {
+            { // !!! 0 is OK
                 s += char(c);
             }
             else
@@ -313,34 +328,51 @@ string Id3V240Frame::getUtf8StringImpl() const
                 s += char(c2);
             }
         }
-        return s;
     }
-
-    if (1 == pData[0])
+    else if (1 == pData[0])
     {
-        return utf8FromBomUtf16(pData + 1, m_nMemDataSize - 1);
+        s = utf8FromBomUtf16(pData + 1, m_nMemDataSize - 1);
     }
-
-    if (3 == pData[0])
+    else if (3 == pData[0])
     {
-        string s (pData + 1, m_nMemDataSize - 1);
-        if (!s.empty())
+        s = string(pData + 1, m_nMemDataSize - 1);
+    }
+    else
+    {
+        if (2 == pData[0])
         {
-            char c (s[s.size() - 1]);
-            if (0 == c) // this string is supposed to be 0-terminated; silently remove the ending null, if it's there; // ttt2 perhaps have warning, but only if somebody actually cares
+            CB_THROW1 (UnsupportedId3V2Frame()); //ttt2 add support for UTF-16BE (2 = "UTF-16BE [UTF-16] encoded Unicode [UNICODE] without BOM");
+        }
+
+        CB_THROW1 (NotId3V2Frame());
+    }
+
+    { // deal with nulls
+        int k (0);
+        if (isTxxx())
+        {
+            for (; k < cSize(s) && 0 != s[k]; ++k) {}
+            ++k;
+        }
+
+        int i (cSize(s) - 1);
+
+        for (; i >= k && 0 == s[i]; --i)
+        {
+            s.erase(i);
+        }
+
+        for (; i >= k; --i)
+        {
+            if (0 == s[i])
             {
-                s.erase(s.size() - 1);
+                //s.replace(i, 1, i > k ? ", " : "");
+                s.replace(i, 1, ", ");
             }
         }
-        return s;
     }
 
-    if (2 == pData[0])
-    {
-        CB_THROW1 (UnsupportedId3V2Frame()); //ttt2 add support for UTF-16BE (2 = "UTF-16BE [UTF-16] encoded Unicode [UNICODE] without BOM");
-    }
-
-    CB_THROW1 (NotId3V2Frame());
+    return s;
 }
 
 

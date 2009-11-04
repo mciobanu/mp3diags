@@ -667,6 +667,8 @@ string escapeHttp(const string& s)
 }
 
 
+
+
 vector<string> convStr(const vector<QString>& v)
 {
     vector<string> u;
@@ -765,7 +767,7 @@ QString getSystemInfo() //ttt2 perhaps store this at startup, so fewer things ma
     s += utsInfo.version; s += " ";
     for (int i = 0; i < lFiles.size(); ++i)
     {
-        //qDebug("%s", lFiles[i].toUtf8().data());
+        //qDebug("%s", lFiles[i].toUtf8().constData());
         if ("lsb-release" != lFiles[i])
         {
             QFile f ("/etc/" + lFiles[i]);
@@ -782,7 +784,7 @@ QString getSystemInfo() //ttt2 perhaps store this at startup, so fewer things ma
     if (f.open(QIODevice::ReadOnly))
     {
         QByteArray b (f.read(1000));
-        string s1 (b.data());
+        string s1 (b.constData());
 
         removeStr(s1, "Welcome to");
         removeStr(s1, "Kernel");
@@ -802,14 +804,14 @@ QString getSystemInfo() //ttt2 perhaps store this at startup, so fewer things ma
         }
 
         s += convStr(s1);
-//qDebug("a: %s", s.toUtf8().data());
+//qDebug("a: %s", s.toUtf8().constData());
         /*for (;;)
         {
             string::size_type n (s.find('\n'));
             if (string::npos == n) { break; }
             s1[n] = ' ';
         }*/
-//qDebug("b: %s", s.toUtf8().data());
+//qDebug("b: %s", s.toUtf8().constData());
     }
 //ttt2 search /proc for kwin, metacity, ...
 
@@ -936,12 +938,12 @@ vector<QString> getLocalHelpDirs()
 #else
         wchar_t wszModule [200];
         int nRes (GetModuleFileName(0, wszModule, 200));
-        //qDebug("%s", QString::fromWCharArray(wszModule).toUtf8().data());
+        //qDebug("%s", QString::fromWCharArray(wszModule).toUtf8().constData());
         if (0 < nRes && nRes < 200)
         {
             s_v.push_back(QFileInfo(
                     fromNativeSeparators(QString::fromWCharArray(wszModule))).dir().absolutePath() + "/doc/");
-            //qDebug("%s", s_v.back().toUtf8().data());
+            //qDebug("%s", s_v.back().toUtf8().constData());
         }
 #endif
     }
@@ -978,8 +980,8 @@ void openHelp(const string& strFileName)
     qs = qs + convStr(strFileName);
 
 
-//qDebug("open %s", qs.toUtf8().data());
-//logToGlobalFile(qs.toUtf8().data());
+//qDebug("open %s", qs.toUtf8().constData());
+//logToGlobalFile(qs.toUtf8().constData());
     CursorOverrider ovr;
     QDesktopServices::openUrl(QUrl(qs, QUrl::TolerantMode));
 }

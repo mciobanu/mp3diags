@@ -72,12 +72,17 @@ ExportDlgImpl::ExportDlgImpl(QWidget* pParent) : QDialog(pParent, getDialogWndFl
 
     { // locale
         QStringList lNames;
+        set<QString> s;
         QList<QByteArray> l (QTextCodec::availableCodecs());
         for (int i = 0, n = l.size(); i < n; ++i)
         {
-            lNames << QString::fromUtf8(l[i]);
+            s.insert(QTextCodec::codecForName(l[i])->name()); // a codec is known by several names; by doing this we eliminate redundant names and make the list a lot smaller
         }
-        lNames.sort();
+
+        for (set<QString>::const_iterator it = s.begin(); it != s.end(); ++it)
+        {
+            lNames << *it;
+        }
 
         m_pLocaleCbB->addItems(lNames);
         int n (m_pLocaleCbB->findText(strLocale.c_str()));
@@ -100,7 +105,7 @@ void ExportDlgImpl::run()
 {
     if (QDialog::Accepted != exec()) { return; }
 
-    getCommonData()->m_settings.saveExportSettings(width(), height(), m_pSortByShortNamesCkB->isChecked(), convStr(fromNativeSeparators(m_pFileNameE->text())), m_pVisibleRB->isChecked(), convStr(fromNativeSeparators(m_pM3uRootE->text())), m_pLocaleCbB->currentText().toUtf8().data());
+    getCommonData()->m_settings.saveExportSettings(width(), height(), m_pSortByShortNamesCkB->isChecked(), convStr(fromNativeSeparators(m_pFileNameE->text())), m_pVisibleRB->isChecked(), convStr(fromNativeSeparators(m_pM3uRootE->text())), m_pLocaleCbB->currentText().toUtf8().constData());
 }
 
 
@@ -415,7 +420,7 @@ bool ExportDlgImpl::exportAsM3u(const std::string& strFileName)
             return false;
         }
 
-        out << pCodec->fromUnicode(qs).data() << endl;
+        out << pCodec->fromUnicode(qs).constData() << endl;
     }
 
     return out;
@@ -603,7 +608,7 @@ bool ExportDlgImpl::exportAsXml(const std::string& strFileName)
                     {
                         out << "        <pictureFrame name=\"" << p->getReadableName() << "\" size=\"" << p->m_nDiskDataSize << "\" width=\"" << p->m_nWidth << "\" height=\"" << p->m_nHeight << "\" type=\"" << p->getImageType() << "\" status=\"" << p->getImageStatus() << "\" compr=\"" << ImageInfo::getComprStr(p->m_eCompr) << "\"/>\n";
                     }
-                    else if ('T' == p->m_szName[0])
+                    else if ('T' == p->m_szName[0]) // ttt2 not quite right for TXXX
                     {
                         out << "        <textFrame name=\"" << p->getReadableName() << "\" size=\"" << p->m_nDiskDataSize << "\">\n";
                         out << "          " << escapeXml(p->getUtf8String()) << "\n";

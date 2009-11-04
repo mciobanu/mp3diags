@@ -165,16 +165,16 @@ class Filter : public QObject
     bool m_bSavedNoteFilter;
     bool m_bSavedDirFilter;
 
-    std::vector<std::string> m_vDirs;
+    std::vector<std::string> m_vstrDirs;
     std::vector<const Note*> m_vpNotes; // doesn't own the pointers, because it is just a subset of CommonData::m_uniqueNotes.getAllVec(), which in turn uses pointers from Notes:: // !!! it's OK for this to be a vector (rather than a set), because the way it is used most of the time, namely to determine if the intersection of 2 sets (represented as sorted vectors) is empty or not
 public:
     Filter() : m_bNoteFilter(false), m_bDirFilter(false), m_bSavedNoteFilter(false), m_bSavedDirFilter(false) {}
 
-    const std::vector<std::string>& getDirs() const { return m_vDirs; }
+    const std::vector<std::string>& getDirs() const { return m_vstrDirs; }
     const std::vector<const Note*>& getNotes() const { return m_vpNotes; }
     void setDirs(const std::vector<std::string>&);
     void setNotes(const std::vector<const Note*>&);
-    void disableDir(); // !!! needed because we need m_vDirs next time we press the filter button, so we don't want to delete it with a "setDirs(vector<string>())", but just ignore it
+    void disableDir(); // !!! needed because we need m_vstrDirs next time we press the filter button, so we don't want to delete it with a "setDirs(vector<string>())", but just ignore it
     void disableNote();
 
     void disableAll(); // saves m_bNoteFilter to m_bSavedNoteFilter and m_bDirFilter to m_bSavedDirFilter, then disables the filters
@@ -198,7 +198,7 @@ private:
         ar & m_bSavedNoteFilter;
         ar & m_bSavedDirFilter;
 
-        ar & m_vDirs;
+        ar & m_vstrDirs;
         ar & m_vpNotes;
     }*/
 
@@ -212,8 +212,8 @@ private:
         ar << m_bSavedNoteFilter;
         ar << m_bSavedDirFilter;
 
-        ar << m_vDirs;
-        //qDebug("saved dirs sz %d", cSize(m_vDirs));
+        ar << m_vstrDirs;
+        //qDebug("saved dirs sz %d", cSize(m_vstrDirs));
         //ar << m_vpNotes; //ttt2 weird behaviour: this compiles and doesn't trigger runtime errros, and neither does the loading, but when loading a vector<Note*> it always ends up empty; it's probably some incorrect use of the ser library (share / global / const pointers), but the library is broken too, because it should have failed to compile or at least crashed when running instead of just failing to load anything (the files are different, so something is saved)
         //ar << (const std::vector<const Note*>&)m_vpNotes; qDebug("saved notes sz %d", cSize(m_vpNotes));
 
@@ -235,8 +235,12 @@ private:
         ar >> m_bSavedNoteFilter;
         ar >> m_bSavedDirFilter;
 
-        ar >> m_vDirs;
-        //qDebug("loaded dirs sz %d", cSize(m_vDirs));
+        ar >> m_vstrDirs;
+        /*qDebug("loaded flt dirs size %d", cSize(m_vstrDirs));
+        for (int i = 0; i < cSize(m_vstrDirs); ++i)
+        {
+            qDebug("flt dir %d: %s", i, m_vstrDirs[i].c_str());
+        }*/
 
         /*std::vector<Note*> v;
         ar >> v;

@@ -23,6 +23,8 @@
 
 #include  <algorithm>
 
+#include  <boost/static_assert.hpp>
+
 #include  "Id3V230Stream.h"
 
 #include  "Id3V240Stream.h"
@@ -111,12 +113,23 @@ Id3V230Frame::Id3V230Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
 
             if ('T' == m_szName[0])
             {
-                if (0 == m_nMemDataSize)
+                if (!isTxxx() && 0 == m_nMemDataSize)
                 { // this is really invalid; text frames must have at least a byte; however, by doing these we make sure that an empty (i.e. having a single byte, for text encoding) frame gets copied if the tag is edited;
-                    m_nMemDataSize = 1;
                     m_vcData.clear();
                     m_vcData.push_back(0);
+                    m_nMemDataSize = cSize(m_vcData);
                     MP3_NOTE_D (pos, id3v2EmptyTextFrame, Notes::id3v2EmptyTextFrame().getDescription() + string(" (Frame:") + m_szName + ")");
+                }
+                else if (isTxxx() && m_nMemDataSize <= 1)
+                { // this is really invalid; text frames must have at least a byte; however, by doing these we make sure that an empty (i.e. having a single byte, for text encoding) frame gets copied if the tag is edited;
+                    m_vcData.clear();
+                    static const char* szInvalid ("INVALID");
+                    m_vcData.push_back(0); // latin1
+                    m_vcData.insert(m_vcData.end(), szInvalid, szInvalid + strlen(szInvalid)); // description
+                    m_vcData.push_back(0); // terminator
+                    m_vcData.insert(m_vcData.end(), szInvalid, szInvalid + strlen(szInvalid)); // value
+                    m_nMemDataSize = cSize(m_vcData);
+                    MP3_NOTE_D (pos, id3v2EmptyTextFrame, Notes::id3v2EmptyTextFrame().getDescription() + string(" (Frame:") + m_szName + ")"); // ttt2 actually TXXX is not text
                 }
                 else
                 {
@@ -126,6 +139,7 @@ Id3V230Frame::Id3V230Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
                         MP3_NOTE_D (pos, id3v230UsesUtf8, Notes::id3v230UsesUtf8().getDescription() + string(" (Frame:") + m_szName + ")"); // perhaps drop the frame name if too many such notes get generated
                     }
                 }
+                //ttt2 add check for embedded 0 for TXXX, to split the value into descr and val
             }
         }
         catch (const NotId3V2Frame&)
@@ -179,8 +193,8 @@ Id3V230Frame::Id3V230Frame(const std::string& strName, vector<char>& vcData) : I
 
 
 
-// assumes Latin1, converts to UTF8; returns "<non-text value>" for non-text strings; replaces '\0' with ' ' inside tags; //ttt2 see about implications; "Momma Cried" has a tag called TXXX whose value contains a '\0': "RATING\01";
-// whitespaces at the end of the string are removed; not sure if this is how it should be, though
+// may return multiple null characters; it's the job of getUtf8String() to deal with them;
+// chars after the first null are considered comments (or after the second null, for TXXX);
 string Id3V230Frame::getUtf8StringImpl() const
 {
     if ('T' != m_szName[0])
@@ -196,18 +210,15 @@ string Id3V230Frame::getUtf8StringImpl() const
     CB_CHECK1 (m_nMemDataSize > 0, NotId3V2Frame()); //ttt2 perhaps other excp
     Id3V2FrameDataLoader wrp (*this);
     const char* pData (wrp.getData());
+    string s;
+
     if (0 == pData[0])
     { // Latin-1
-        string s;
         for (int i = 1; i < m_nMemDataSize; ++i)
         {
             unsigned char c (pData[i]);
-            if (0 == c)
-            {
-                s += ' ';
-            }
-            else if (c < 128)
-            {
+            if (c < 128)
+            { // !!! 0 is OK
                 s += char(c);
             }
             else
@@ -219,31 +230,22 @@ string Id3V230Frame::getUtf8StringImpl() const
                 s += char(c2);
             }
         }
-        return s;
     }
-
-    if (1 == pData[0])
+    else if (1 == pData[0])
     {
-        return utf8FromBomUtf16(pData + 1, m_nMemDataSize - 1);
+        s = utf8FromBomUtf16(pData + 1, m_nMemDataSize - 1);
     }
-
-    if (3 == pData[0]) // not valid, but used by some tools; a note will get generated in this case
+    else if (3 == pData[0]) // not valid, but used by some tools; a note will get generated in this case
     {
-        string s (pData + 1, m_nMemDataSize - 1);
-        if (!s.empty())
-        {
-            char c (s[s.size() - 1]);
-            if (0 == c) // this string is supposed to be 0-terminated; silently remove the ending null, if it's there; // ttt2 perhaps have warning, but only if somebody actually cares
-            {
-                s.erase(s.size() - 1);
-            }
-        }
-        return s;
+        s = string(pData + 1, m_nMemDataSize - 1);
+    }
+    else
+    {
+        // pData[0] has an invalid value
+        CB_THROW1 (NotId3V2Frame());
     }
 
-
-    // pData[0] has an invalid value
-    CB_THROW1 (NotId3V2Frame());
+    return s;
 }
 
 
@@ -414,7 +416,7 @@ Id3V230StreamWriter::Id3V230StreamWriter(bool bKeepOneValidImg, bool bFastSave, 
                         if (3 == pData[0])
                         { // UTF-8
                             bCopyFrame = false;
-                            addTextFrame(q->m_szName, q->getUtf8String());
+                            addTextFrame(q->m_szName, q->getRawUtf8String());
                         }
                     }
 
@@ -497,8 +499,51 @@ void Id3V230StreamWriter::setVariousArtists(bool b)
     }
 }
 
+#ifdef MASWDEFWDWDWDW
+namespace
+{
+    void view(QString q)
+    {
+        qDebug("str=%s, sz=%d", q.toUtf8().data(), q.size());
 
-// strVal is UTF8; the frame will use ASCII if possible and UTF16 otherwise (so if there's a char with a code above 127, UTF16 gets used, to avoid codepage issues for codes between 128 and 255); nothing is added if strVal is empty;
+        {
+            qDebug("utf16()");
+            const ushort* pUtf16 (q.utf16());
+            for (int i = 0; 0 != pUtf16[i]; ++i)
+            {
+                qDebug("    %d", int(pUtf16[i]));
+            }
+        }
+
+        {
+            qDebug("toUcs4()");
+            QVector<uint> v (q.toUcs4());
+            for (int i = 0; i < v.size(); ++i)
+            {
+                qDebug("    %d", int(v[i]));
+            }
+        }
+    }
+
+    void testUnicode() //ttt2 retest this; for now it looks like everything is truncated to 16 bits
+    {
+        QString q;
+        q += QChar(49);
+        view(q);
+        q += QChar(int(65536 + 65));
+        q += QChar(int(65536 + 650));
+        q += QChar(int(65536 + 6500));
+        q += QChar(int(65536 + 35000));
+        view(q);
+        //q += QChar(int(0xd801)); // surrogate
+        //view(q);
+    }
+}
+#endif
+
+BOOST_STATIC_ASSERT(2 == sizeof(ushort));
+
+// strVal is UTF8; the frame will use ASCII if possible and UTF16 otherwise (so if there's a char with a code above 127, UTF16 gets used, to avoid codepage issues for codes between 128 and 255); nothing is added if strVal is empty; all zeroes are saved and not considered terminators;
 void Id3V230StreamWriter::addTextFrame(const std::string& strName, const std::string& strVal)
 {
 //http://www.id3.org/id3v2.3.0#head-1a37d4a15deafc294208ccfde950f77e47000bca
@@ -527,10 +572,11 @@ void Id3V230StreamWriter::addTextFrame(const std::string& strName, const std::st
     else
     {
         QString s (convStr(strVal));
-        const ushort* pUtf16 (s.utf16()); //ttt3 assumes short is 16bit
-        int nUtf16Size (0);
-        while (0 != pUtf16[nUtf16Size++]) {} // there is probably some strlen equivalent, but wcslen isn't that, because it uses wchar_t instead of ushort, which on Unix is usually 4-byte
-        --nUtf16Size;
+        const ushort* pUtf16 (s.utf16());
+        //int nUtf16Size (0);
+        //while (0 != pUtf16[nUtf16Size++]) {} // there is probably some strlen equivalent, but wcslen isn't that, because it uses wchar_t instead of ushort, which on Unix is usually 4-byte
+        //--nUtf16Size;
+        int nUtf16Size (s.size()); //ttt2 not quite right, but it seems that QString truncates Unicode to 16 bits anyway, in which case it's fine; see testUnicode(), above
         nSize = 2*nUtf16Size + 3; // "text encoding" byte, BOM, no null terminator
         vcData.resize(nSize);
         vcData[0] = 1;
@@ -638,7 +684,7 @@ void Id3V230StreamWriter::addNonOwnedFrame(const Id3V2Frame* p)
         const char* pData (ldr.getData());
         if (3 == pData[0])
         { // UTF-8
-            addTextFrame(p->m_szName, p->getUtf8String());
+            addTextFrame(p->m_szName, p->getRawUtf8String());
             return;
         }
     }
@@ -798,7 +844,7 @@ struct SortFrm
 
 
 // returns true if all of these happen: pId3V2Stream is ID3V2.3.0, no unsynch is used, the frames are identical except for their order; padding is ignored;
-bool Id3V230StreamWriter::equalTo(Id3V2StreamBase* p) const
+/*bool Id3V230StreamWriter::equalTo(Id3V2StreamBase* p) const
 {
     if (0 == p)
     {
@@ -813,7 +859,7 @@ bool Id3V230StreamWriter::equalTo(Id3V2StreamBase* p) const
     }
 
     return contentEqualTo(p);
-}
+}*/
 
 
 bool Id3V230StreamWriter::contentEqualTo(Id3V2StreamBase* p) const
@@ -843,7 +889,7 @@ bool Id3V230StreamWriter::contentEqualTo(Id3V2StreamBase* p) const
     {
         if (s(v1[i], v2[i]) || s(v2[i], v1[i]))
         {
-            //qDebug("diff content %s %s", v1[i]->m_szName, v2[i]->m_szName);
+            //qDebug("diff content %s (%s) / %s (%s)", v1[i]->m_szName, v1[i]->getUtf8String1().c_str(), v2[i]->m_szName, v2[i]->getUtf8String1().c_str());
             return false;
         }
     }

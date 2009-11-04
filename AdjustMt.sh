@@ -13,9 +13,9 @@ rm -f -r tstMt
 #noMt=0 #ttt remove
 
 if [ $noMt -eq 1 ] ; then
-    cat src/src.pro | grep 'lboost_serialization-mt$' > /dev/null
+    cat src/src.pro | grep 'l:libboost_serialization-mt.a$' > /dev/null
     if [ $? -eq 0 ] ; then # we don't want to change a file that was already changed
-        cat src/src.pro | sed 's%lboost_serialization-mt%lboost_serialization%' > src/src.pro1
+        cat src/src.pro | sed 's%l:libboost_serialization-mt.a%l:libboost_serialization.a%' > src/src.pro1
         mv -f src/src.pro1 src/src.pro
         echo "removed -mt suffix"
     else

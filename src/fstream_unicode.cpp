@@ -102,7 +102,7 @@ int getOpenFlags(std::ios_base::openmode __mode)
 template<>
 int unicodeOpenHlp(const QString& s, std::ios_base::openmode __mode)
 {
-    int nFd (open(s.toUtf8().data(), getOpenFlags(__mode), S_IREAD | S_IWRITE));
+    int nFd (open(s.toUtf8().constData(), getOpenFlags(__mode), S_IREAD | S_IWRITE));
     return nFd;
 }
 */

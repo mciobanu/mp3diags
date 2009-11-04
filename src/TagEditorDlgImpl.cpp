@@ -1313,7 +1313,7 @@ void TagEditorDlgImpl::resizeIcons()
 //static int s_nCnt (0);
     /*if (0 != pKeyEvent && Qt::Key_Escape == nKey)
     {
-        qDebug("%d. %s %d", s_nCnt++, pObj->objectName().toUtf8().data(), (int)pEvent->type()); //return QDialog::eventFilter(pObj, pEvent);
+        qDebug("%d. %s %d", s_nCnt++, pObj->objectName().toUtf8().constData(), (int)pEvent->type()); //return QDialog::eventFilter(pObj, pEvent);
     }*/
 static bool bIgnoreNextEsc (false);
     if (0 != pKeyEvent && Qt::Key_Escape == nKey && this == pObj && QEvent::ShortcutOverride == pEvent->type())
@@ -1325,7 +1325,7 @@ static bool bIgnoreNextEsc (false);
         //qDebug("kill esc");
         //return true;
         qDebug(" >> save");
-        //qDebug("%d. %s %d", s_nCnt++, pObj->objectName().toUtf8().data(), (int)pEvent->type()); //return QDialog::eventFilter(pObj, pEvent);
+        //qDebug("%d. %s %d", s_nCnt++, pObj->objectName().toUtf8().constData(), (int)pEvent->type()); //return QDialog::eventFilter(pObj, pEvent);
         //if (this == pObj)
         {
             SaveOpt eSaveOpt (save(false));
@@ -1346,7 +1346,7 @@ static bool bIgnoreNextEsc (false);
 e1:
     if (0 != pKeyEvent && Qt::Key_Escape == nKey)
     {
-        //qDebug("passed through: %d. %s %d", s_nCnt++, pObj->objectName().toUtf8().data(), (int)pEvent->type());
+        //qDebug("passed through: %d. %s %d", s_nCnt++, pObj->objectName().toUtf8().constData(), (int)pEvent->type());
     }
 
     if (0 != pKeyEvent && Qt::Key_Escape == nKey && this == pObj && QEvent::KeyPress == pEvent->type())
@@ -1374,7 +1374,7 @@ e1:
         //&& Qt::Key_Escape == nKey
         )
     {
-        qDebug("%d. %s %d", s_nCnt++, pObj->objectName().toUtf8().data(), (int)pEvent->type()); //return QDialog::eventFilter(pObj, pEvent);
+        qDebug("%d. %s %d", s_nCnt++, pObj->objectName().toUtf8().constData(), (int)pEvent->type()); //return QDialog::eventFilter(pObj, pEvent);
     }//*/
 
     if (0 != pKeyEvent && Qt::Key_Escape == nKey && this == pObj && QEvent::KeyPress == pEvent->type())
@@ -1493,7 +1493,7 @@ void Id3V230Writer::setupWriter(Id3V230StreamWriter& wrt, const Mp3HandlerTagDat
                 QPixmap scaledPic;
                 ImageInfo::compress(imgInfo.getPixmap(), scaledPic, recomprImg);
                 nImgSize = recomprImg.size();
-                pImgData = recomprImg.data();
+                pImgData = recomprImg.constData();
                 szEncoding = "image/jpg";
                 break;
             }

@@ -148,9 +148,12 @@ ThreadRunner.ui \
  Export.ui
 
 
-LIBS += -lboost_serialization
+LIBS += -l:libboost_serialization-mt.a
 
 #CONFIG += console
+
+
+
 
 
 

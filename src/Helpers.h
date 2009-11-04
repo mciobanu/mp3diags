@@ -313,8 +313,8 @@ void listWidget(QWidget* p, int nIndent = 0); //ttt2 move this elsewhere
 
 std::string escapeHttp(const std::string& s); // replaces invalid HTTP characters like ' ' or '"' with their hex code (%20 or %22)
 
-inline QString convStr(const std::string& s) { return QString::fromUtf8(s.c_str()); } //ttt2 perhaps move
-inline std::string convStr(const QString& s) { return s.toUtf8().data(); } //ttt2 perhaps move
+inline QString convStr(const std::string& s) { return QString::fromUtf8(s.c_str(), cSize(s)); } //ttt2 perhaps move
+inline std::string convStr(const QString& qs) { const QByteArray& b (qs.toUtf8()); return std::string(b.constData(), b.size()); } //ttt2 perhaps move
 
 std::vector<std::string> convStr(const std::vector<QString>&);
 std::vector<QString> convStr(const std::vector<std::string>&);

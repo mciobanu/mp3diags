@@ -1850,7 +1850,7 @@ void TagWriter::paste()
         for (int i = 0; i < lst.size(); ++i)
         {
             QString qs1 (lst[i].toString());
-            //qDebug("#%s#", qs1.toUtf8().data());
+            //qDebug("#%s#", qs1.toUtf8().constData());
             if (!qs1.isEmpty())
             {
                 if (qs.isEmpty())
@@ -1899,7 +1899,7 @@ void TagWriter::paste()
             if (qs.startsWith(getPathSep())) // ttt2 see if it makes sense to open files without full name
 #else
             qs = fromNativeSeparators(qs);
-            //qDebug("qs=%s", qs.toUtf8().data());
+            //qDebug("qs=%s", qs.toUtf8().constData());
             if (qs.size() > 7 && qs[0].isLetter() && qs[1] == ':' && qs[2] == getPathSep())
 #endif
             {

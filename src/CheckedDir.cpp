@@ -119,7 +119,7 @@ using namespace std;
                     SetErrorMode(SEM_FAILCRITICALERRORS); // so the user isn't told to insert the floppy or CD just to stat it; apparently this happens if set up so
                 }
 
-                if (GetVolumeInformationA(qs.toUtf8().data(), szLabel, MAX_PATH + 1, 0, 0, 0, szFsType, MAX_PATH + 1))
+                if (GetVolumeInformationA(qs.toUtf8().constData(), szLabel, MAX_PATH + 1, 0, 0, 0, szFsType, MAX_PATH + 1))
                 {
                     //return qs + " " + szLabel + " " + szFsType;
                     return qs + " [" + szLabel + "]";
@@ -152,7 +152,7 @@ bool CheckedDirModel::setData(const QModelIndex& index, const QVariant& value, i
         for (int i = 0, n = cSize(m_vCheckedDirs); i < n; ++i)
         {
             QString s1 (m_vCheckedDirs[i]);
-    //qDebug("s1=%s, s=%s", s1.toUtf8().data(), s.toUtf8().data());
+    //qDebug("s1=%s, s=%s", s1.toUtf8().data(), s.toUtf8().constData());
             if (!isDescendant(s1, s) && s != s1)
             {
                 v.push_back(s1);
@@ -225,7 +225,7 @@ bool CheckedDirModel::setData(const QModelIndex& index, const QVariant& value, i
 {
     if (!index.isValid()) { return "root"; } // !!! using "root" rather than an empty dir to distinguish between an unassigned string and one that holds the root dir
     QString s (getDir(index.parent()) + "/" + data(index).toString());
-    //qDebug("%s", s.toUtf8().data());
+    //qDebug("%s", s.toUtf8().constData());
     return s;
 }
 */

@@ -1,3 +1,16 @@
+mp3diags (0.99.06.044) testing; urgency=low
+
+  * fixed a crash in folder filter
+  * fixed bug causing non-normalized files having any TXXX frame to appear normalized
+  * case is ignored for file extension, so .Mp3 or .mP3 files are recognized
+  * better support and more consistent handling for TXXX and text frames in ID3V2
+  * reduced number of locales by eliminating redundant ones
+  * disabled CTRL+A selection in the main window
+  * static link for serialization
+  * added trace details for web downloads
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Tue, 04 Nov 2009 22:00:00 +0200
+
 mp3diags (0.99.06.043) testing; urgency=low
 
   * "Simple view" in file configuration

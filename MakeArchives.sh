@@ -57,9 +57,9 @@ function createSrc
 
     cp -pr desktop $LongDestDir
     cp -pr src $LongDestDir
-    cat $LongDestDir/src/src.pro | sed 's%lboost_serialization%lboost_serialization-mt%' > $LongDestDir/src/src.pro1
+    #cat $LongDestDir/src/src.pro | sed 's%lboost_serialization%lboost_serialization-mt%' > $LongDestDir/src/src.pro1
+    #mv -f $LongDestDir/src/src.pro1 $LongDestDir/src/src.pro
     fixVersion $LongDestDir/src/Helpers.cpp
-    mv -f $LongDestDir/src/src.pro1 $LongDestDir/src/src.pro
 
     rm -f -r $LongDestDir/src/debug
     rm -f -r $LongDestDir/src/release
@@ -92,9 +92,9 @@ function createSrc
     cp -p package/out/deb/* $LongDestDir/package/deb
     rm -f -r $LongDestDir/desktop/.svn
 
-    cp -p BuildWithStaticSer.sh $LongDestDir
-    fixVersion $LongDestDir/BuildWithStaticSer.sh
-    chmod a+x $LongDestDir/BuildWithStaticSer.sh
+    cp -p BuildBz2.sh $LongDestDir
+    fixVersion $LongDestDir/BuildBz2.sh
+    chmod a+x $LongDestDir/BuildBz2.sh
 
 
     cd package/out
@@ -258,5 +258,9 @@ createDoc
 createClicknetDoc
 createSfDoc
 createPackagerSrc
+
+if [ -f CopyToSf.sh ] ; then
+    cp CopyToSf.sh package/out
+fi
 
 #FileName=`find . -maxdepth 1 -mindepth 1 -type d | sed s#./##`

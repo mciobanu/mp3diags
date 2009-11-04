@@ -242,7 +242,7 @@ class EventFilter : public QObject
     {
         if (QEvent::Paint != pEvent->type())
         {
-            qDebug("%s %d", pObj->objectName().toUtf8().data(), (int)pEvent->type());
+            qDebug("%s %d", pObj->objectName().toUtf8().constData(), (int)pEvent->type());
         }
 
         static bool b (true);
@@ -334,15 +334,11 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
                         const Id3V2Frame* pFrm (vpFrames[i]);
                         if ('T' == pFrm->m_szName[0] && pFrm->m_bHasLatin1NonAscii)
                         {
-                            Id3V2FrameDataLoader wrp (*pFrm);
-                            const char* pData (wrp.getData());
-                            CB_ASSERT (0 == pData[0]); // "Latin1" encoding
-                            QByteArray arr (pData + 1, pFrm->m_nMemDataSize - 1);
                             if (!qstr.isEmpty())
                             {
                                 qstr += '\n';
                             }
-                            qstr += QString::fromLatin1(arr);
+                            qstr += convStr(pFrm->getUtf8String());
                         }
                     }
                 }
@@ -480,12 +476,26 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
 
     { // locale
         QStringList lNames;
+        set<QString> s;
+//set<QString> s1;
         QList<QByteArray> l (QTextCodec::availableCodecs());
         for (int i = 0, n = l.size(); i < n; ++i)
         {
-            lNames << QString::fromLatin1(l[i]);
+            //lNames << QString::fromLatin1(l[i]);
+            //lNames << QTextCodec::codecForName(l[i])->name();
+            s.insert(QTextCodec::codecForName(l[i])->name()); // a codec is known by several names; by doing this we eliminate redundant names and make the list a lot smaller
+            //s.insert(QTextCodec::codecForName(l[i])->name() + QString::fromLatin1(l[i]));
+//qDebug("%s", (QString::fromLatin1(l[i]) + "  /  " + QTextCodec::codecForName(l[i])->name()).toUtf8().data());
+//s1.insert(QTextCodec::codecForName(l[i])->name() + "  /  " + QString::fromLatin1(l[i]));
         }
-        lNames.sort();
+
+        for (set<QString>::const_iterator it = s.begin(); it != s.end(); ++it)
+        {
+            lNames << *it;
+        }
+//for (set<QString>::const_iterator it = s1.begin(); it != s1.end(); ++it) { qDebug("%s", it->toUtf8().data()); }
+
+//lNames.sort();
 
         m_pLocaleCbB->addItems(lNames);
         int n (m_pLocaleCbB->findText(m_pCommonData->m_locale));
@@ -1059,7 +1069,7 @@ void ConfigDlgImpl::setFontLabels()
 
 void ConfigDlgImpl::logState(const char* /*szPlace*/) const
 {
-    /*cout << szPlace << ": m_filter.m_vSelDirs=" << m_pCommonData->m_filter.m_vSelDirs.size() << " m_availableDirs.m_vDirs=" << m_availableDirs.m_vDirs.size() << " m_selectedDirs.m_vSelDirs=" << m_selectedDirs.m_vDirs.size() << endl;*/
+    /*cout << szPlace << ": m_filter.m_vSelDirs=" << m_pCommonData->m_filter.m_vSelDirs.size() << " m_availableDirs.m_vstrDirs=" << m_availableDirs.m_vstrDirs.size() << " m_selectedDirs.m_vSelDirs=" << m_selectedDirs.m_vstrDirs.size() << endl;*/
 }
 
 

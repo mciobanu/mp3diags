@@ -50,7 +50,16 @@ struct Id3V2Frame
 
     enum { SHORT_INFO, FULL_INFO };
     void print(std::ostream& out, bool bFullInfo) const; // if bFullInfo is true some frames print more extensive details, e.g. lyrics
+
+    // for display / export; for frames in KnownFrames::getKnownFrames only the data up to the first 0 is used (effectively removing comments in 2.3.0), while for the others, including TXXX, nulls and all other characters with codes below 32 are replaced with spaces (as a result, both description and value are shown for TXXX), so in either case the return value doesn't contain nulls;
+    // whitespaces at the end of the string are removed;
     std::string getUtf8String() const;
+
+    // for internal processing; similar to getUtf8String() but doesn't replace internal null characters with spaces;
+    // removes trailing nulls and whitespaces, as well as 2.3.0 comments;
+    std::string getRawUtf8String() const;
+
+    bool isTxxx() const;
     std::string getReadableName() const; // normally returns m_szName, but if it has invalid characters (<=32 or >=127), returns a hex representation
 
     void writeUnsynch(std::ostream& out) const; // copies the frame to out, removing the unsynch bytes if they are present
@@ -87,9 +96,11 @@ protected:
     Id3V2Frame(std::streampos pos, bool bHasUnsynch, StringWrp* pFileName);
     Id3V2Frame() : m_nWidth(-1), m_nHeight(-1) {} // serialization-only constructor
 
-    static std::string utf8FromBomUtf16(const char* pData, int nSize); // returns a UTF8 string from a buffer containing a UTF16 sting starting with BOM
+    static std::string utf8FromBomUtf16(const char* pData, int nSize); // returns a UTF8 string from a buffer containing a UTF16 sting starting with BOM; doesn't stop when finding a 0 terminator, but includes it in the result
 
 private:
+    // may return multiple null characters; it's the job of getUtf8String() to deal with them;
+    // chars after the first null are considered comments (or after the second null, for TXXX);
     virtual std::string getUtf8StringImpl() const = 0;
 
     friend class boost::serialization::access;
@@ -301,10 +312,13 @@ struct KnownFrames
     static const char* LBL_WMP_VAR_ART();
     static const char* LBL_ITUNES_VAR_ART();
 
+    static const char* LBL_TXXX();
+
     struct InvalidIndex {};
 
     static const char* getFrameName (int n); // throws InvalidIndex if n is out of bounds
-    static const std::set<std::string>& getKnownFrames(); // doesn't include "Various Artists" frames //ttt2 maybe it should include them as well
+    static const std::set<std::string>& getExcludeFromInfoFrames(); // frames that shouldn't be part of "other info"; doesn't include TXXX and "Various Artists" frames
+    static const std::set<std::string>& getKnownFrames(); // includes "Various Artists" frames; doesn't include TXXX
 
     static bool canHaveDuplicates(const char* szName); // to be counted as duplicates, 2 frames must have the same name and picture type, so the value returned here is only part of the test
 };

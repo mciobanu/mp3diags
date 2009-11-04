@@ -51,7 +51,7 @@ struct ImageInfo
     int getWidth() const { return m_nWidth; }
     int getHeight() const { return m_nHeight; }
     int getSize() const { return m_compressedImg.size(); }
-    const char* getComprData() const { return m_compressedImg.data(); }
+    const char* getComprData() const { return m_compressedImg.constData(); }
     const char* getImageType() const;
 
     Status getStatus() const { return m_eStatus; }

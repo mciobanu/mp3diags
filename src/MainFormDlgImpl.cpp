@@ -446,6 +446,7 @@ void logAssert(const char* szFile, int nLine, const char* szCond)
     s_fileTracer.enable2(true);
     traceToFile(convStr(s_qstrErrorMsg), 0);
     qDebug("Assertion failure in file %s, line %d: %s", szFile, nLine, szCond);
+    s_fileTracer.enable1(false); // !!! to avoid logging irrelevant info about cells drawn after the message was shown (there is some risk of not detecting that messages aren't shown although they shoul be, but this has never been reported, while trace files full of FilesModel::headerData and the like are common)
 
     MainFormDlgImpl* p (getGlobalDlg());
 
@@ -1035,6 +1036,8 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) 
 
     s_pGlobalDlg = this;
 
+    { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("Ctrl+A")); connect(p, SIGNAL(triggered()), this, SLOT(emptySlot())); addAction(p); } // !!! needed because it takes a lot of time, during which the app seems frozen (caused by the cells being selected and unselected automatically) // ttt2 see if possible to disable selecting "note" cells with SHIFT pressed
+
     QTimer::singleShot(1, this, SLOT(onShow()));
 }
 
@@ -1536,7 +1539,13 @@ bool Mp3ProcThread::scan()
     {
         string strName (m_fileEnum.next());
         if (strName.empty()) { return true; }
-        if (endsWith(strName, ".mp3") || endsWith(strName, ".MP3") || endsWith(strName, ".id3") || endsWith(strName, ".ID3"))
+        QString qs;
+        if (strName.size() > 4)
+        {
+            qs = convStr(strName.substr(strName.size() - 4)).toLower();
+        }
+
+        if (qs == ".mp3" || qs == ".id3")
         {
             if (isAborted()) { return false; }
             checkPause();
@@ -2247,6 +2256,7 @@ void MainFormDlgImpl::on_m_pModeSongB_clicked()
 
 void MainFormDlgImpl::on_m_pPrevB_clicked()
 {
+//LAST_STEP("MainFormDlgImpl::on_m_pPrevB_clicked");
 //CB_ASSERT("345" == "ab");
 //traceLastStep("tsterr", 0); char* p (0); *p = 11;
 //throw 1;
@@ -2586,7 +2596,7 @@ void MainFormDlgImpl::checkForNewVersion() // returns immediately; when the requ
 
     QDateTime t1 (QDateTime::currentDateTime());
     t1 = t1.addSecs(-MIN_INTERVAL_BETWEEN_CHECKS*3600);
-    //qDebug("ini: %s, crt: %s", m_pCommonData->m_timeLastNewVerCheck.toString().toUtf8().data(), t1.toString().toUtf8().data());
+    //qDebug("ini: %s, crt: %s", m_pCommonData->m_timeLastNewVerCheck.toString().toUtf8().constData(), t1.toString().toUtf8().constData());
     if (t1 < m_pCommonData->m_timeLastNewVerCheck)
     {
         return;
@@ -2634,7 +2644,7 @@ void MainFormDlgImpl::onNewVersionQueryFinished(int /*nId*/, bool bError)
     QByteArray b (m_pQHttp->readAll());
     CB_ASSERT (b.size() == nAv);
 
-    qDebug("ver: %s", b.data());
+    qDebug("ver: %s", b.constData());
 
     m_qstrNewVer = b;
     m_qstrNewVer = m_qstrNewVer.trimmed();
@@ -2668,7 +2678,7 @@ void MainFormDlgImpl::onNewVersionQueryFinished(int /*nId*/, bool bError)
 void MainFormDlgImpl::onNewVersionQueryFinished2()
 {
     //QMessageBox::critical(this, "wait", "bb urv huervhuervhuerv erve rvhu ervervhuer vher vrhe rv evr ev erv erv");
-    //qDebug("ver: %s", b.data());
+    //qDebug("ver: %s", b.constData());
     //QMessageBox::critical(this, "resume", "bb urv huervhuervhuerv erve rvhu ervervhuer vher vrhe rv evr ev erv erv");
     if (m_pCommonData->m_strDontTellAboutVer == convStr(m_qstrNewVer)) { return; }
 

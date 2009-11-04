@@ -316,6 +316,7 @@ MusicBrainzDownloader::~MusicBrainzDownloader()
 
 void MusicBrainzDownloader::clear()
 {
+LAST_STEP("MusicBrainzDownloader::clear");
     clearPtrContainer(m_vpImages);
     m_vAlbums.clear();
 }
@@ -325,6 +326,7 @@ void MusicBrainzDownloader::clear()
 
 /*override*/ bool MusicBrainzDownloader::initSearch(const std::string& strArtist, const std::string& strAlbum)
 {
+LAST_STEP("MusicBrainzDownloader::initSearch");
     m_pSrchArtistE->setText(convStr((removeParentheses(strArtist))));
     m_pSrchAlbumE->setText(convStr((removeParentheses(strAlbum))));
     return !strArtist.empty() || !strAlbum.empty();
@@ -335,6 +337,7 @@ void MusicBrainzDownloader::clear()
 
 /*override*/ std::string MusicBrainzDownloader::createQuery()
 {
+LAST_STEP("MusicBrainzDownloader::createQuery");
     string s ("/ws/1/release/?type=xml&artist=" + replaceSymbols(convStr(m_pSrchArtistE->text())) + "&title=" + replaceSymbols(convStr(m_pSrchAlbumE->text())));
     //qDebug("qry: %s", s.c_str());
     if (m_pMatchCountCkB->isChecked())
@@ -411,6 +414,7 @@ qDebug("t2 %lld", tv.tv_sec*1000LL + tv.tv_usec/1000);
 
 void MusicBrainzDownloader::on_m_pSearchB_clicked()
 {
+LAST_STEP("MusicBrainzDownloader::on_m_pSearchB_clicked");
     clear();
     search();
 }
@@ -426,6 +430,7 @@ void MusicBrainzDownloader::on_m_pSearchB_clicked()
 
 void MusicBrainzDownloader::loadNextPage()
 {
+LAST_STEP("MusicBrainzDownloader::loadNextPage");
     CB_ASSERT (!m_pQHttp->hasPendingRequests());
     CB_ASSERT (!m_pImageQHttp->hasPendingRequests());
 
@@ -443,7 +448,7 @@ void MusicBrainzDownloader::loadNextPage()
     header.setValue("Host", "musicbrainz.org");
     //header.setValue("Accept-Encoding", "gzip");
     delay();
-    //qDebug("--------------\npath %s", header.path().toUtf8().data());
+    //qDebug("--------------\npath %s", header.path().toUtf8().constData());
     //qDebug("qry %s", m_strQuery.c_str());
     m_pQHttp->request(header);
     //cout << "sent search " << m_pQHttp->request(header) << " for page " << (m_nLastLoadedPage + 1) << endl;
@@ -454,6 +459,7 @@ void MusicBrainzDownloader::loadNextPage()
 
 QString MusicBrainzDownloader::getAmazonText() const
 {
+LAST_STEP("MusicBrainzDownloader::getAmazonText");
     if (m_nCrtAlbum < 0 || m_nCrtAlbum >= cSize(m_vAlbums))
     {
         return NOT_FOUND_AT_AMAZON;
@@ -472,6 +478,7 @@ QString MusicBrainzDownloader::getAmazonText() const
 
 void MusicBrainzDownloader::onAmazonLinkActivated(const QString& qstrLink) // !!! it's possible to set openExternalLinks on a QLabel to open links automatically, but this leaves an ugly frame around the text, with it right side missing; also, manual handling is needed to open a built-in browser;
 {
+LAST_STEP("MusicBrainzDownloader::onAmazonLinkActivated");
     m_pViewAtAmazonL->setText("qq"); // !!! the text needs to CHANGE to make the frame disappear
     m_pViewAtAmazonL->setText(getAmazonText());
 
@@ -482,6 +489,7 @@ void MusicBrainzDownloader::onAmazonLinkActivated(const QString& qstrLink) // !!
 
 void MusicBrainzDownloader::reloadGui()
 {
+LAST_STEP("MusicBrainzDownloader::reloadGui");
     AlbumInfoDownloaderDlgImpl::reloadGui();
     m_pViewAtAmazonL->setText(getAmazonText());
 }
@@ -489,7 +497,8 @@ void MusicBrainzDownloader::reloadGui()
 
 void MusicBrainzDownloader::requestAlbum(int nAlbum)
 {
-    //CB_ASSERT (!m_pQHttp->hasPendingRequests() && !m_pImageQHttp->hasPendingRequests());  // ttt0 triggered: https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=36 ?? perhaps might happen when MB returns errors
+LAST_STEP("MusicBrainzDownloader::requestAlbum");
+    //CB_ASSERT (!m_pQHttp->hasPendingRequests() && !m_pImageQHttp->hasPendingRequests());  // ttt0 triggered: https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=36 ?? perhaps might happen when MB returns errors ; see also DiscogsDownloader::requestAlbum
     CB_ASSERT (!m_pQHttp->hasPendingRequests());
     CB_ASSERT (!m_pImageQHttp->hasPendingRequests());
 
@@ -511,6 +520,7 @@ void MusicBrainzDownloader::requestAlbum(int nAlbum)
 
 void MusicBrainzDownloader::requestImage(int nAlbum, int nImage)
 {
+LAST_STEP("MusicBrainzDownloader::requestImage");
     CB_ASSERT (!m_pQHttp->hasPendingRequests());
     CB_ASSERT (!m_pImageQHttp->hasPendingRequests());
 
@@ -525,7 +535,7 @@ void MusicBrainzDownloader::requestImage(int nAlbum, int nImage)
 
     delay(); // probably not needed, because doesn't seem that MusicBrainz would want to store images
     //connect(m_pImageQHttp, SIGNAL(requestFinished(int, bool)), this, SLOT(onRequestFinished(int, bool)));
-    //qDebug("host: %s, path: %s", url.host().toLatin1().data(), url.path().toLatin1().data());
+    //qDebug("host: %s, path: %s", url.host().toLatin1().constData(), url.path().toLatin1().constData());
     //qDebug("%s", strUrl.c_str());
     m_pImageQHttp->get(url.path());
 
@@ -540,11 +550,13 @@ void MusicBrainzDownloader::requestImage(int nAlbum, int nImage)
 
 /*override*/ QHttp* MusicBrainzDownloader::getWaitingHttp()
 {
+LAST_STEP("MusicBrainzDownloader::getWaitingHttp");
     return IMAGE == m_eWaiting ? m_pImageQHttp : m_pQHttp;
 }
 
 /*override*/ void MusicBrainzDownloader::resetNavigation()
 {
+LAST_STEP("MusicBrainzDownloader::resetNavigation");
     m_pImageQHttp->clearPendingRequests();
     AlbumInfoDownloaderDlgImpl::resetNavigation();
 }

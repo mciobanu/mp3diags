@@ -54,7 +54,7 @@ QSize MultiLineTvDelegate::sizeHint(const QStyleOptionViewItem& option, const QM
     int nColWidth (m_pTableView->horizontalHeader()->sectionSize(j));
     /*if (4 == j)
     {
-        qDebug("%s %d %d", m_pTableView->objectName().toUtf8().data(), m_pTableView->verticalScrollBar()->maximum(), nColWidth);
+        qDebug("%s %d %d", m_pTableView->objectName().toUtf8().constData(), m_pTableView->verticalScrollBar()->maximum(), nColWidth);
     }
     QRect r (0, 0, nColWidth - 2*nMargin - 1, 10000); // !!! this "-1" is what's different from Qt's implementation (4.3); it is for the vertical line that delimitates the cells //ttt2 do a screen capture to be sure //ttt2 see if this is fixed in 4.4 2008.30.06 - apparently it's not fixed and the workaround no longer works
 */
@@ -74,9 +74,9 @@ QSize MultiLineTvDelegate::sizeHint(const QStyleOptionViewItem& option, const QM
 //QWidget* p (m_pTableView->viewport());
 //qDebug("%d %d / %d %d", p->width(), p->height(), m_pTableView->width(), m_pTableView->height());
 //QSize s (m_pTableView->maximumViewportSize());
-//qDebug("%s %d %d / %d %d", m_pTableView->objectName().toUtf8().data(), m_pTableView->verticalScrollBar()->maximum(), m_pTableView->verticalScrollBar()->minimum(), m_pTableView->width(), m_pTableView->height());
+//qDebug("%s %d %d / %d %d", m_pTableView->objectName().toUtf8().constData(), m_pTableView->verticalScrollBar()->maximum(), m_pTableView->verticalScrollBar()->minimum(), m_pTableView->width(), m_pTableView->height());
 //QString s (index.data(Qt::DisplayRole).toString());
-//const char* sz (index.data(Qt::DisplayRole).toString().toUtf8().data());
+//const char* sz (index.data(Qt::DisplayRole).toString().toUtf8().constData());
 //if (s.startsWith("No normal"))
 //qDebug("#%s", "");
     QSize res (option.fontMetrics.boundingRect(r, Qt::AlignTop | Qt::TextWordWrap, index.data(Qt::DisplayRole).toString()).size());
@@ -111,9 +111,9 @@ QSize MultiLineTvDelegate::sizeHint(const QStyleOptionViewItem& option, const QM
     return res;
 }//*/
 
+//ttt2 visible transf - empty lines sometimes, after resizing; seems related to scrollbar detection
 
-
-//s.toUtf8().data()
+//s.toUtf8().constData()
 /*void MultiLineTvDelegate::paint(QPainter* pPainter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
     //cout << "draw: " << option.rect.width() << "x" << option.rect.height() << endl;

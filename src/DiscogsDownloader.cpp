@@ -549,6 +549,7 @@ DiscogsDownloader::~DiscogsDownloader()
 
 void DiscogsDownloader::clear()
 {
+LAST_STEP("DiscogsDownloader::clear");
     clearPtrContainer(m_vpImages);
     m_vAlbums.clear();
 }
@@ -556,6 +557,7 @@ void DiscogsDownloader::clear()
 
 /*override*/ bool DiscogsDownloader::initSearch(const std::string& strArtist, const std::string& strAlbum)
 {
+LAST_STEP("DiscogsDownloader::initSearch");
     string s (!strArtist.empty() && !strAlbum.empty() ? strArtist + " " + strAlbum : strArtist + strAlbum);
     s = removeParentheses(s);
 
@@ -569,6 +571,7 @@ void DiscogsDownloader::clear()
 // "/search?type=all&q=Beatles+Abbey+Road&f=xml&api_key=f51e9c8f6c"
 /*override*/ std::string DiscogsDownloader::createQuery()
 {
+LAST_STEP("DiscogsDownloader::createQuery");
     //string s (strArtist + "+" + strAlbum);
     string s ("/search?type=all&q=" + replaceSymbols(convStr(m_pSrchArtistE->text())) + "&f=xml&api_key=f51e9c8f6c");
     for (string::size_type i = 0; i < s.size(); ++i)
@@ -588,6 +591,7 @@ void DiscogsDownloader::clear()
 
 void DiscogsDownloader::on_m_pSearchB_clicked()
 {
+LAST_STEP("DiscogsDownloader::on_m_pSearchB_clicked");
     clear();
     search();
 }
@@ -601,6 +605,7 @@ void DiscogsDownloader::on_m_pSearchB_clicked()
 
 void DiscogsDownloader::loadNextPage()
 {
+LAST_STEP("DiscogsDownloader::loadNextPage");
     CB_ASSERT (!m_pQHttp->hasPendingRequests());
     ++m_nLastLoadedPage;
     CB_ASSERT (m_nLastLoadedPage <= m_nTotalPages - 1);
@@ -622,6 +627,7 @@ void DiscogsDownloader::loadNextPage()
 
 void DiscogsDownloader::reloadGui()
 {
+LAST_STEP("DiscogsDownloader::reloadGui");
     AlbumInfoDownloaderDlgImpl::reloadGui();
 
     const DiscogsAlbumInfo& album (m_vAlbums[m_nCrtAlbum]);
@@ -633,7 +639,9 @@ void DiscogsDownloader::reloadGui()
 
 void DiscogsDownloader::requestAlbum(int nAlbum)
 {
-    CB_ASSERT (!m_pQHttp->hasPendingRequests());
+LAST_STEP("DiscogsDownloader::requestAlbum");
+    CB_ASSERT (!m_pQHttp->hasPendingRequests()); //ttt0 triggered according to mail (Nov 2, 2009, 2:31 PM - Qt 4.5.2; there is something in the 4.5.3 change log at http://qt.nokia.com/developer/changes/changes-4.5.3 about duplicate HTTP requests, but according to http://www.qtcentre.org/forum/f-qt-programming-2/t-qhttp-response-content-25255-post121265.html it only affected QNetworkAccessManager, which is a replacement for QHttp, so this is probably not related)
+
     m_nLoadingAlbum = nAlbum;
     setWaiting(ALBUM);
     string s ("/release/" + m_vAlbums[nAlbum].m_strId + "?f=xml&api_key=f51e9c8f6c");
@@ -649,6 +657,7 @@ void DiscogsDownloader::requestAlbum(int nAlbum)
 
 void DiscogsDownloader::requestImage(int nAlbum, int nImage)
 {
+LAST_STEP("DiscogsDownloader::requestImage");
     CB_ASSERT (!m_pQHttp->hasPendingRequests());
     m_nLoadingAlbum = nAlbum;
     m_nLoadingImage = nImage;
@@ -670,6 +679,7 @@ void DiscogsDownloader::requestImage(int nAlbum, int nImage)
 
 void DiscogsDownloader::on_m_pStyleCbB_currentIndexChanged(int k)
 {
+LAST_STEP("DiscogsDownloader::on_m_pStyleCbB_currentIndexChanged");
     if (m_nCrtAlbum < 0 || m_nCrtAlbum >= cSize(m_vAlbums)) { return; }
     DiscogsAlbumInfo& album (m_vAlbums[m_nCrtAlbum]);
     m_eStyleOption = Discogs::DiscogsAlbumInfo::StyleOption(k);
@@ -685,6 +695,7 @@ void DiscogsDownloader::on_m_pStyleCbB_currentIndexChanged(int k)
 
 /*override*/ QHttp* DiscogsDownloader::getWaitingHttp()
 {
+LAST_STEP("DiscogsDownloader::getWaitingHttp");
     return m_pQHttp;
 }
 

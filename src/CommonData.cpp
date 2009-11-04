@@ -297,7 +297,7 @@ void SessionSettings::loadMiscConfigSettings(CommonData* p) const
             /*QList<QByteArray> l (QTextCodec::availableCodecs());
             CB_ASSERT (l.size() > 0);
             p->m_locale = l.front();*/
-            p->m_locale = "System";
+            p->m_locale = "System"; // ttt2 2009.11.03 - actually this seems a bad idea; at least on 10.3 / 4.3.1 setting the locale to System shows no characters for codes > 128; //ttt0 see W7
             p->m_pCodec = (QTextCodec::codecForName(p->m_locale));
         }
         else
@@ -520,7 +520,7 @@ void CommonData::setFontInfo(const std::string& strGenName, int nGenSize, int nL
                     n = max(n, r.width());
                 }
             }
-            //qDebug("%s - %d %d %2d %2d", s.toUtf8().data(), r.x(), r.y(), r.width(), r.height());
+            //qDebug("%s - %d %d %2d %2d", s.toUtf8().constData(), r.x(), r.y(), r.width(), r.height());
         }
 
         CELL_WIDTH = n + 4; //ttt2 hard-coded "4"; see how to get the correct value
@@ -1396,7 +1396,7 @@ struct TestLabel
     {
         for (int i = 0; i < 104; ++i)
         {
-            qDebug("%d %s", i, getNoteLabel(i).toUtf8().data());
+            qDebug("%d %s", i, getNoteLabel(i).toUtf8().constData());
         }
     }
 };
@@ -1546,7 +1546,7 @@ const QFont& getFixedFont()
         s_font.setPixelSize(12); //ttt2 hard-coded "12";
         //s_font.setPointSize(9); //ttt2 hard-coded "9";
 
-//QFont f; qDebug("default font: pix %d, point: %d, fam: %s", f.pixelSize(), f.pointSize(), f.family().toLatin1().data());
+//QFont f; qDebug("default font: pix %d, point: %d, fam: %s", f.pixelSize(), f.pointSize(), f.family().toLatin1().constData());
 
         //myOption.font.setPointSize(12);
 //        printFontInfo("new font: ", s_font);
@@ -1643,15 +1643,15 @@ void Filter::setNotes(const std::vector<const Note*>& v)
 
 void Filter::setDirs(const std::vector<string>& v)
 {
-    //if (v == m_vDirs) { return; }
-    m_vDirs = v;
-    m_bDirFilter = !m_vDirs.empty();
+    //if (v == m_vstrDirs) { return; }
+    m_vstrDirs = v;
+    m_bDirFilter = !m_vstrDirs.empty();
 
     emit filterChanged();
 }
 
 
-// !!! needed because we need m_vDirs next time we press the filter button, so we don't want to delete it with a "setDirs(vector<string>())", but just ignore it
+// !!! needed because we need m_vstrDirs next time we press the filter button, so we don't want to delete it with a "setDirs(vector<string>())", but just ignore it
 void Filter::disableDir()
 {
     if (!m_bDirFilter) { return; }

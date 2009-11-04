@@ -78,6 +78,7 @@ AlbumInfoDownloaderDlgImpl::~AlbumInfoDownloaderDlgImpl()
 
 bool AlbumInfoDownloaderDlgImpl::getInfo(const std::string& strArtist, const std::string& strAlbum, int nTrackCount, AlbumInfo*& pAlbumInfo, ImageInfo*& pImageInfo)
 {
+LAST_STEP("AlbumInfoDownloaderDlgImpl::getInfo");
     m_nExpectedTracks = nTrackCount;
 
     pAlbumInfo = 0; pImageInfo = 0;
@@ -127,6 +128,7 @@ bool AlbumInfoDownloaderDlgImpl::getInfo(const std::string& strArtist, const std
 // clears pending HTTP requests, m_eNavigDir and m_eWaiting; restores the cursor if needed;
 /*virtual*/ void AlbumInfoDownloaderDlgImpl::resetNavigation()
 {
+LAST_STEP("AlbumInfoDownloaderDlgImpl::resetNavigation");
     m_pQHttp->clearPendingRequests();
     setWaiting(NOTHING);
     m_eNavigDir = NONE;
@@ -136,6 +138,7 @@ bool AlbumInfoDownloaderDlgImpl::getInfo(const std::string& strArtist, const std
 
 string AlbumInfoDownloaderDlgImpl::replaceSymbols(string s) // replaces everything besides letters and digits with getReplacementChar()
 {
+LAST_STEP("AlbumInfoDownloaderDlgImpl::replaceSymbols");
     char c (getReplacementChar());
     for (int i = 0; i < cSize(s); ++i)
     {
@@ -152,6 +155,7 @@ string AlbumInfoDownloaderDlgImpl::replaceSymbols(string s) // replaces everythi
 
 void AlbumInfoDownloaderDlgImpl::search()
 {
+LAST_STEP("AlbumInfoDownloaderDlgImpl::search");
     m_pResArtistE->setText("");
     m_pResAlbumE->setText("");
     m_pDownloadsM->setText("");
@@ -182,6 +186,7 @@ void AlbumInfoDownloaderDlgImpl::search()
 
 void AlbumInfoDownloaderDlgImpl::on_m_pPrevB_clicked()
 {
+LAST_STEP("AlbumInfoDownloaderDlgImpl::on_m_pPrevB_clicked");
     if (0 == getAlbumCount() || NOTHING != m_eWaiting) { return; }
 
     m_bNavigateByAlbum = false;
@@ -192,6 +197,7 @@ void AlbumInfoDownloaderDlgImpl::on_m_pPrevB_clicked()
 
 void AlbumInfoDownloaderDlgImpl::on_m_pNextB_clicked()
 {
+LAST_STEP("AlbumInfoDownloaderDlgImpl::on_m_pNextB_clicked");
     if (0 == getAlbumCount() || NOTHING != m_eWaiting) { return; }
 
     m_bNavigateByAlbum = false;
@@ -202,6 +208,7 @@ void AlbumInfoDownloaderDlgImpl::on_m_pNextB_clicked()
 
 void AlbumInfoDownloaderDlgImpl::on_m_pPrevAlbumB_clicked()
 {
+LAST_STEP("AlbumInfoDownloaderDlgImpl::on_m_pPrevAlbumB_clicked");
     if (0 == getAlbumCount() || NOTHING != m_eWaiting) { return; }
 
     m_bNavigateByAlbum = true;
@@ -212,6 +219,7 @@ void AlbumInfoDownloaderDlgImpl::on_m_pPrevAlbumB_clicked()
 
 void AlbumInfoDownloaderDlgImpl::on_m_pNextAlbumB_clicked()
 {
+LAST_STEP("AlbumInfoDownloaderDlgImpl::on_m_pNextAlbumB_clicked");
     if (0 == getAlbumCount() || NOTHING != m_eWaiting) { return; }
 
     m_bNavigateByAlbum = true;
@@ -222,6 +230,7 @@ void AlbumInfoDownloaderDlgImpl::on_m_pNextAlbumB_clicked()
 
 void AlbumInfoDownloaderDlgImpl::on_m_pSaveAllB_clicked()
 {
+LAST_STEP("AlbumInfoDownloaderDlgImpl::on_m_pSaveAllB_clicked");
     if (NOTHING != m_eWaiting)
     {
         QMessageBox::critical(this, "Error", "You cannot save the results now, because a request is still pending");
@@ -282,6 +291,7 @@ void AlbumInfoDownloaderDlgImpl::on_m_pSaveAllB_clicked()
 
 void AlbumInfoDownloaderDlgImpl::on_m_pSaveImageB_clicked()
 {
+LAST_STEP("AlbumInfoDownloaderDlgImpl::on_m_pSaveImageB_clicked");
     if (NOTHING != m_eWaiting)
     {
         QMessageBox::critical(this, "Error", "You cannot save the results now, because a request is still pending");
@@ -301,6 +311,7 @@ void AlbumInfoDownloaderDlgImpl::on_m_pSaveImageB_clicked()
 
 void AlbumInfoDownloaderDlgImpl::on_m_pCancelB_clicked()
 {
+LAST_STEP("AlbumInfoDownloaderDlgImpl::on_m_pCancelB_clicked");
     reject();
 }
 
@@ -321,6 +332,7 @@ void AlbumInfoDownloaderDlgImpl::on_m_pCancelB_clicked()
 //
 void AlbumInfoDownloaderDlgImpl::next()
 {
+LAST_STEP("AlbumInfoDownloaderDlgImpl::next");
     //if (NONE != m_eNavigDir) { return; }
     CB_ASSERT (NEXT == m_eNavigDir);
 
@@ -387,6 +399,7 @@ void AlbumInfoDownloaderDlgImpl::next()
 // like next(), but here there's no need to load result pages; another difference is that when m_bNavigateByAlbum is set and we are at the first album and some other picture than the first, it goes to the first picture; in the similar case, next doesn't do anything (going to the last picture doesn't feel right)
 void AlbumInfoDownloaderDlgImpl::previous()
 {
+LAST_STEP("AlbumInfoDownloaderDlgImpl::previous");
     CB_ASSERT (PREV == m_eNavigDir);
     //if (NONE != m_eNavigDir) { return; }
 
@@ -447,6 +460,7 @@ void AlbumInfoDownloaderDlgImpl::previous()
 
 void AlbumInfoDownloaderDlgImpl::setImageType(const string& strName)
 {
+LAST_STEP("AlbumInfoDownloaderDlgImpl::setImageType");
     m_eLoadingImageCompr = ImageInfo::INVALID;
     string::size_type m (strName.rfind('.'));
     if (string::npos != m)
@@ -473,6 +487,7 @@ void AlbumInfoDownloaderDlgImpl::setImageType(const string& strName)
 
 void AlbumInfoDownloaderDlgImpl::onRequestFinished(int /*nId*/, bool bError)
 {
+LAST_STEP("AlbumInfoDownloaderDlgImpl::onRequestFinished");
 //cout << "received ID = " << nId << endl;
 //if (1 == nId) { return; } // some automatically generated request, which should be ignored
     if (bError)
@@ -496,7 +511,7 @@ void AlbumInfoDownloaderDlgImpl::onRequestFinished(int /*nId*/, bool bError)
 
     CB_ASSERT (NOTHING != m_eWaiting);
 
-    { QString qstrMsg (QString("received %1 bytes").arg(nAv)); addNote(qstrMsg.toLatin1().data()); }
+    { QString qstrMsg (QString("received %1 bytes").arg(nAv)); addNote(qstrMsg.toLatin1().constData()); }
 
     QString qstrXml;
 
@@ -557,7 +572,7 @@ void AlbumInfoDownloaderDlgImpl::onRequestFinished(int /*nId*/, bool bError)
             onImageLoaded(comprImg, SIZE, SIZE, qstrInfo);
         }
 
-        if (m_bSaveResults) { saveDownloadedData(b.data(), b.size(), (ImageInfo::JPG == eOrigCompr ? "jpg" : (ImageInfo::PNG == eOrigCompr ? "png" : "unkn"))); }
+        if (m_bSaveResults) { saveDownloadedData(b.constData(), b.size(), (ImageInfo::JPG == eOrigCompr ? "jpg" : (ImageInfo::PNG == eOrigCompr ? "png" : "unkn"))); }
 
         return;
     }
@@ -568,7 +583,7 @@ void AlbumInfoDownloaderDlgImpl::onRequestFinished(int /*nId*/, bool bError)
         strm.zalloc = Z_NULL;
         strm.zfree  = Z_NULL;
         strm.opaque = 0;
-        strm.next_in = reinterpret_cast<unsigned char*>(b.data());
+        strm.next_in = const_cast<unsigned char*>(reinterpret_cast<const unsigned char*>(b.constData()));
         strm.avail_in = nAv;
 
         vector<char> v (nAv);
@@ -621,7 +636,7 @@ void AlbumInfoDownloaderDlgImpl::onRequestFinished(int /*nId*/, bool bError)
         if (m_bSaveResults)
         {
             QByteArray b1 (qstrXml.toUtf8());
-            saveDownloadedData(b1.data(), b1.size(), "xml");
+            saveDownloadedData(b1.constData(), b1.size(), "xml");
         }
     }
 
@@ -643,6 +658,7 @@ void AlbumInfoDownloaderDlgImpl::onRequestFinished(int /*nId*/, bool bError)
 
 string AlbumInfoDownloaderDlgImpl::getTempName() // time-based, with no extension; doesn't check for existing names, but uses a counter, so files shouldn't get removed (except during daylight saving time changes)
 {
+LAST_STEP("AlbumInfoDownloaderDlgImpl::getTempName");
     time_t t (time(0));
     if (t == m_nLastTime)
     {
@@ -676,6 +692,7 @@ string AlbumInfoDownloaderDlgImpl::getTempName() // time-based, with no extensio
 
 void AlbumInfoDownloaderDlgImpl::retryNavigation()
 {
+LAST_STEP("AlbumInfoDownloaderDlgImpl::retryNavigation");
     if (NEXT == m_eNavigDir)
     {
         next();
@@ -699,6 +716,7 @@ void AlbumInfoDownloaderDlgImpl::retryNavigation()
 
 void AlbumInfoDownloaderDlgImpl::onSearchLoaded(const QString& qstrXml)
 {
+LAST_STEP("AlbumInfoDownloaderDlgImpl::onSearchLoaded");
     addNote("search results received");
     QByteArray b (qstrXml.toLatin1());
     QBuffer bfr (&b);
@@ -733,6 +751,7 @@ void AlbumInfoDownloaderDlgImpl::onSearchLoaded(const QString& qstrXml)
 
 void AlbumInfoDownloaderDlgImpl::onAlbumLoaded(const QString& qstrXml)
 {
+LAST_STEP("AlbumInfoDownloaderDlgImpl::onAlbumLoaded");
     addNote("album info received");
     QByteArray b (qstrXml.toLatin1());
     QBuffer bfr (&b);
@@ -764,6 +783,7 @@ void AlbumInfoDownloaderDlgImpl::onAlbumLoaded(const QString& qstrXml)
 
 void AlbumInfoDownloaderDlgImpl::onImageLoaded(const QByteArray& comprImg, int nWidth, int nHeight, const QString& qstrInfo)
 {
+LAST_STEP("AlbumInfoDownloaderDlgImpl::onImageLoaded");
     addNote("image received");
     CB_ASSERT (0 == album(m_nLoadingAlbum).m_vpImages[m_nLoadingImage]);
     CB_ASSERT (ImageInfo::INVALID != m_eLoadingImageCompr);
@@ -779,6 +799,7 @@ void AlbumInfoDownloaderDlgImpl::onImageLoaded(const QByteArray& comprImg, int n
 
 void AlbumInfoDownloaderDlgImpl::addNote(const char* szNote)
 {
+LAST_STEP("AlbumInfoDownloaderDlgImpl::addNote");
     QString q (m_pDownloadsM->toPlainText());
     if (!q.isEmpty()) { q += "\n"; }
     {
@@ -801,6 +822,7 @@ void AlbumInfoDownloaderDlgImpl::addNote(const char* szNote)
 
 void AlbumInfoDownloaderDlgImpl::setWaiting(Waiting eWaiting)
 {
+LAST_STEP("AlbumInfoDownloaderDlgImpl::setWaiting");
     if (NOTHING == m_eWaiting && NOTHING != eWaiting)
     {
         QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
@@ -817,6 +839,7 @@ void AlbumInfoDownloaderDlgImpl::setWaiting(Waiting eWaiting)
 
 void AlbumInfoDownloaderDlgImpl::reloadGui()
 {
+LAST_STEP("AlbumInfoDownloaderDlgImpl::reloadGui");
     resetNavigation();
 
     if (0 == getAlbumCount()) { return; }
@@ -882,6 +905,7 @@ void AlbumInfoDownloaderDlgImpl::reloadGui()
 
 /*override*/ void AlbumInfoDownloaderDlgImpl::updateTrackList()
 {
+LAST_STEP("AlbumInfoDownloaderDlgImpl::updateTrackList");
     m_pModel->emitLayoutChanged();
 
     SimpleQTableViewWidthInterface intf (*m_pTrackListG);
@@ -941,6 +965,7 @@ void AlbumInfoDownloaderDlgImpl::reloadGui()
 
 void AlbumInfoDownloaderDlgImpl::saveDownloadedData(const char* p, int nSize, const char* szExt)
 {
+LAST_STEP("AlbumInfoDownloaderDlgImpl::saveDownloadedData");
     string s (getTempName() + "." + szExt);
     ofstream_utf8 out (s.c_str(), ios::binary);
     out.write(p, nSize);
@@ -1044,7 +1069,7 @@ WebDwnldModel::WebDwnldModel(AlbumInfoDownloaderDlgImpl& dwnld, QTableView& grid
 
 /*override*/ QVariant WebDwnldModel::data(const QModelIndex& index, int nRole) const
 {
-LAST_STEP("WebDwnldModel::data()");
+//LAST_STEP("WebDwnldModel::data()");
     if (!index.isValid()) { return QVariant(); }
     if (nRole != Qt::DisplayRole && nRole != Qt::ToolTipRole) { return QVariant(); }
     int i (index.row()), j (index.column());

@@ -41,7 +41,7 @@ using namespace pearl;
 {
     if (0 == nCol)
     {
-        //return m_pCommonData->getNoteLabel(m_pNote).toUtf8().data();
+        //return m_pCommonData->getNoteLabel(m_pNote).toUtf8().constData();
         return convStr(getNoteLabel(m_pNote));
     }
     return m_pNote->getDescription();
@@ -117,7 +117,7 @@ NoteFilterDlgImpl::~NoteFilterDlgImpl()
 
 void NoteFilterDlgImpl::logState(const char* /*szPlace*/) const
 {
-    /*cout << szPlace << ": m_filter.m_vSelDirs=" << m_pCommonData->m_filter.m_vSelDirs.size() << " m_availableDirs.m_vDirs=" << m_availableDirs.m_vDirs.size() << " m_selectedDirs.m_vSelDirs=" << m_selectedDirs.m_vDirs.size() << endl;*/
+    /*cout << szPlace << ": m_filter.m_vSelDirs=" << m_pCommonData->m_filter.m_vSelDirs.size() << " m_availableDirs.m_vstrDirs=" << m_availableDirs.m_vstrDirs.size() << " m_selectedDirs.m_vSelDirs=" << m_selectedDirs.m_vstrDirs.size() << endl;*/
 }
 
 

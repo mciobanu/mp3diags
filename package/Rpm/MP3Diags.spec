@@ -26,7 +26,7 @@ BuildRequires: update-desktop-files
 %if 0%{?fedora} || 0%{?fedora_version}
 Requires: qt-x11
 #BuildRequires: qt-devel qt-config
-BuildRequires: qt-devel zlib-devel boost-devel gcc-c++
+BuildRequires: qt-devel zlib-devel boost-devel-static gcc-c++
 %endif
 
 # this breaks the build for mandriva 2009.1: parseExpressionBoolean returns -1

@@ -167,8 +167,12 @@ void DirFilterDlgImpl::populateLists()
     {
         const string& s (m_pCommonData->m_filter.getDirs()[i]);
         int k (lower_bound(vAll.begin(), vAll.end(), s) - vAll.begin());
-        CB_ASSERT (k < cSize(sDirsAndParents) && vAll[k] == s);
-        m_vOrigSel.push_back(k);
+        // CB_ASSERT (k < cSize(sDirsAndParents) && vAll[k] == s); // !!! wrong assert - m_pCommonData->m_filter is serialized, so it can keep old values, which don't get actualized as the scanned directories change
+        if (k < cSize(sDirsAndParents) && vAll[k] == s)
+        {
+            m_vOrigSel.push_back(k);
+        }
+        // else - ignore; this old dir is no longer part of the scanned dirs
     }
 
     m_vSel = m_vOrigSel;
@@ -233,7 +237,7 @@ DirFilterDlgImpl::~DirFilterDlgImpl()
 #if 0
 void DirFilterDlgImpl::logState(const char* /*szPlace*/) const
 {
-    cout << szPlace << /*": m_filter.m_vSelDirs=" << m_pCommonData->m_filter.m_vSelDirs.size() << " m_availableDirs.m_vDirs=" << m_availableDirs.m_vDirs.size() << " m_selectedDirs.m_vSelDirs=" << m_selectedDirs.m_vDirs.size() <<*/ endl;
+    cout << szPlace << /*": m_filter.m_vSelDirs=" << m_pCommonData->m_filter.m_vSelDirs.size() << " m_availableDirs.m_vstrDirs=" << m_availableDirs.m_vstrDirs.size() << " m_selectedDirs.m_vSelDirs=" << m_selectedDirs.m_vstrDirs.size() <<*/ endl;
 }
 #endif
 

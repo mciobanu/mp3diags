@@ -27,7 +27,7 @@ build-stamp:
 #	cmake -D CMAKE_BUILD_TYPE="Release" -D NNFW_CONFIG="" -D CMAKE_INSTALL_PREFIX=/usr .
 #	make all
 
-	./AdjustMt.sh
+	./AdjustMt.sh STATIC_SER
 	qmake
 	make
 	strip bin/MP3Diags

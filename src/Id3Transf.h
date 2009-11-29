@@ -40,7 +40,7 @@ public:
     Id3V2Cleaner(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Removes all ID3V2 frames that aren't used by MP3 Diags. You normally don't want to do such a thing, but it may help if some other program misbehaves because of invalid or unknown frames in an ID3V2 tag. Note that this only keeps the first image in a file that has several images."; }
+    /*override*/ const char* getDescription() const { return "Removes all ID3V2 frames that aren't used by MP3 Diags. You normally don't want to do such a thing, but it may help if some other program misbehaves because of invalid or unknown frames in an ID3V2 tag."; }
 
     static const char* getClassName() { return "Remove non-basic ID3V2 frames"; }
 };

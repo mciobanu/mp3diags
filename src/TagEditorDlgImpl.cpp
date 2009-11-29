@@ -1747,7 +1747,7 @@ void TagEditorDlgImpl::onShowPatternNote()
 
         HtmlMsg::msg(this, 0, 0, &m_pCommonData->m_bToldAboutPatterns, HtmlMsg::DEFAULT, "Info", "<p style=\"margin-bottom:1px; margin-top:12px; \">Some fields are missing or may be incomplete. While this is usually solved by downloading correct information, there are a cases when this approach doesn't work, like custom compilations, rare albums, or missing tracks.</p>"
 
-        "<p style=\"margin-bottom:1px; margin-top:12px; \">If your current folder fits one of these cases or you simply have consistently named files that you would prefer to use as a source of track info, you may want to take a look at the tag editor's patterns, at <a href=\"http://mp3diags.sourceforge.net/220_tag_editor_patterns.html\">http://mp3diags.sourceforge.net/220_tag_editor_patterns.html</a>.</p>", 550, 300, "OK");
+        "<p style=\"margin-bottom:1px; margin-top:12px; \">If your current folder fits one of these cases or you simply have consistently named files that you would prefer to use as a source of track info, you may want to take a look at the tag editor's patterns, at <a href=\"http://mp3diags.sourceforge.net/220_tag_editor_patterns.html\">http://mp3diags.sourceforge.net/220_tag_editor_patterns.html</a>.</p>", 550, 300, "OK"); //ttt1 different for "unstable"
     }
 }
 

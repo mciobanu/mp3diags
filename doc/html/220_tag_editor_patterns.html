@@ -116,7 +116,7 @@ Note that the matching is done from the end of the file name, so the beginning o
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol1">
-If a pattern contains the character <span class="Reference">/</span>, it is "file name - based", otherwise it is "text line - based". Besides the source of the text (file name vs. clipboard), another difference is that latter must match perfectly the text, while the former may have errors in any of the strings between consecutive <span class="Reference">/</span> characters and still extract some fields from other parts of the file name. In the example above the pattern <span class="Reference">%g/%a/%b {%y}/%n %t</span> would return no album or year, because <span class="Reference">album1 (2008)</span> doesn't contain <img src="1pixel.png" class="ImgNoBorder" /><span class="Reference"> {</span> or <span class="Reference">}</span>, but would still find the genre, the artist, the track number and the title.
+If a pattern contains the path-separator character (<span class="Reference">\</span> on Windows and <span class="Reference">/</span> on UNIX), it is "file name - based", otherwise it is "text line - based". Besides the source of the text (file name vs. clipboard), another difference is that latter must match perfectly the text, while the former may have errors in any of the strings between consecutive <span class="Reference">/</span> characters and still extract some fields from other parts of the file name. In the example above the pattern <span class="Reference">%g/%a/%b {%y}/%n %t</span> would return no album or year, because <span class="Reference">album1 (2008)</span> doesn't contain <img src="1pixel.png" class="ImgNoBorder" /><span class="Reference"> {</span> or <span class="Reference">}</span>, but would still find the genre, the artist, the track number, and the title.
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol2">
@@ -141,7 +141,7 @@ Your may dislike the character case (upper / lower / ...) of what you find.
 
 
 <div class="NormalText RegFnt ChpCol1">
-Your may want to adopt my system of including a song's rating in the file: I use a lowercase letter ("a" for 5 stars, "b" for 4.5 stars, ...) before the track number, which has the advantage that it doesn't need any player support (as long as you play files from the disk, and not from its library.) If I ever move to a player that supports the POPM frame (which is where the rating is stored inside ID3V2), I can easily pull the rating from the file name by using a pattern.
+Your may want to adopt my system of including a song's rating in the file name: I use a lowercase letter ("a" for 5 stars, "b" for 4.5 stars, ...) before the track number, which has the advantage that it doesn't need any player support (as long as you play files from the disk, and not from its library.) If I ever move to a player that supports the POPM frame (which is where the rating is stored inside ID3V2), I can easily pull the rating from the file name by using a pattern.
 </div>
 
 

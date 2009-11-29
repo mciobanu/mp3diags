@@ -970,7 +970,7 @@ void openHelp(const string& strFileName)
     QString qs (strDir);
     if (qs.isEmpty())
     {
-        qs = "http://mp3diags.sourceforge.net/";
+        qs = "http://mp3diags.sourceforge.net/"; //ttt1 different for "unstable"
     }
     else
     {

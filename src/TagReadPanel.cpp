@@ -84,11 +84,12 @@ TagReadPanel::TagReadPanel(QWidget* pParent, TagReader* pTagReader) : QFrame(pPa
         pTable->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         pTable->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
         pTable->horizontalHeader()->setStretchLastSection(true);
-        const int ROW_CNT (8);
+        const int ROW_CNT (9);
         pTable->setRowCount(ROW_CNT);
         pTable->setColumnCount(1);
         QStringList lLabels;
-        lLabels << "Title" << "Artist" << "Track#" << "Time" << "Genre" << "Composer" << "Album" << "VA";
+        //lLabels << "Title" << "Artist" << "Track#" << "Time" << "Genre" << "Composer" << "Album" << "VA" << "Rating";
+        lLabels <<"Track#" << "Artist" << "Title" << "Album" << "VA" << "Time" << "Genre" << "Rating" << "Composer";
         pTable->setVerticalHeaderLabels(lLabels);
 
         pTable->horizontalHeader()->hide();
@@ -105,10 +106,10 @@ TagReadPanel::TagReadPanel(QWidget* pParent, TagReader* pTagReader) : QFrame(pPa
         QTableWidgetItem* pItem;
 
         pItem = new QTableWidgetItem(); // !!! from doc: The table takes ownership of the item.
-        switch (pTagReader->getSupport(TagReader::TITLE))
+        switch (pTagReader->getSupport(TagReader::TRACK_NUMBER))
         {
         case TagReader::NOT_SUPPORTED: pItem->setBackground(gray); break;
-        default: pItem->setText(convStr(pTagReader->getTitle()));
+        default: pItem->setText(convStr(pTagReader->getTrackNumber()));
         }
         pTable->setItem(0, 0, pItem);
 
@@ -121,12 +122,28 @@ TagReadPanel::TagReadPanel(QWidget* pParent, TagReader* pTagReader) : QFrame(pPa
         pTable->setItem(1, 0, pItem);
 
         pItem = new QTableWidgetItem();
-        switch (pTagReader->getSupport(TagReader::TRACK_NUMBER))
+        switch (pTagReader->getSupport(TagReader::TITLE))
         {
         case TagReader::NOT_SUPPORTED: pItem->setBackground(gray); break;
-        default: pItem->setText(convStr(pTagReader->getTrackNumber()));
+        default: pItem->setText(convStr(pTagReader->getTitle()));
         }
         pTable->setItem(2, 0, pItem);
+
+        pItem = new QTableWidgetItem();
+        switch (pTagReader->getSupport(TagReader::ALBUM))
+        {
+        case TagReader::NOT_SUPPORTED: pItem->setBackground(gray); break;
+        default: pItem->setText(convStr(pTagReader->getAlbumName()));
+        }
+        pTable->setItem(3, 0, pItem);
+
+        pItem = new QTableWidgetItem();
+        switch (pTagReader->getSupport(TagReader::VARIOUS_ARTISTS))
+        {
+        case TagReader::NOT_SUPPORTED: pItem->setBackground(gray); break;
+        default: pItem->setText(convStr(pTagReader->getValue(TagReader::VARIOUS_ARTISTS)));
+        }
+        pTable->setItem(4, 0, pItem);
 
         pItem = new QTableWidgetItem();
         switch (pTagReader->getSupport(TagReader::TIME))
@@ -135,7 +152,7 @@ TagReadPanel::TagReadPanel(QWidget* pParent, TagReader* pTagReader) : QFrame(pPa
         default:
             pItem->setText(pTagReader->getTime().asString());
         }
-        pTable->setItem(3, 0, pItem);
+        pTable->setItem(5, 0, pItem);
 
         pItem = new QTableWidgetItem();
         switch (pTagReader->getSupport(TagReader::GENRE))
@@ -143,7 +160,22 @@ TagReadPanel::TagReadPanel(QWidget* pParent, TagReader* pTagReader) : QFrame(pPa
         case TagReader::NOT_SUPPORTED: pItem->setBackground(gray); break;
         default: pItem->setText(convStr(pTagReader->getGenre()));
         }
-        pTable->setItem(4, 0, pItem);
+        pTable->setItem(6, 0, pItem);
+
+        pItem = new QTableWidgetItem();
+        switch (pTagReader->getSupport(TagReader::RATING))
+        {
+        case TagReader::NOT_SUPPORTED: pItem->setBackground(gray); break;
+        default:
+            {
+                double d (pTagReader->getRating());
+                if (d >= 0)
+                {
+                    pItem->setText(QString().sprintf("%1.1f", d));
+                }
+            }
+        }
+        pTable->setItem(7, 0, pItem);
 
         pItem = new QTableWidgetItem();
         switch (pTagReader->getSupport(TagReader::COMPOSER))
@@ -151,29 +183,12 @@ TagReadPanel::TagReadPanel(QWidget* pParent, TagReader* pTagReader) : QFrame(pPa
         case TagReader::NOT_SUPPORTED: pItem->setBackground(gray); break;
         default: pItem->setText(convStr(pTagReader->getComposer()));
         }
-        pTable->setItem(5, 0, pItem);
-
-        pItem = new QTableWidgetItem();
-        switch (pTagReader->getSupport(TagReader::ALBUM))
-        {
-        case TagReader::NOT_SUPPORTED: pItem->setBackground(gray); break;
-        default: pItem->setText(convStr(pTagReader->getAlbumName()));
-        }
-        pTable->setItem(6, 0, pItem);
-
-        pItem = new QTableWidgetItem();
-        switch (pTagReader->getSupport(TagReader::VARIOUS_ARTISTS))
-        {
-        case TagReader::NOT_SUPPORTED: pItem->setBackground(gray); break;
-        default: pItem->setText(convStr(pTagReader->getValue(TagReader::VARIOUS_ARTISTS)));
-        }
-        pTable->setItem(7, 0, pItem);
+        pTable->setItem(8, 0, pItem);
 
         pLayout->addWidget(pTable);
 
         //ttt2 Oxygen shows regular cells under mouse with diferent background color
     }
-
 
     {
         // ttt2 perhaps use QScrollArea
@@ -255,7 +270,7 @@ void TagReadPanel::onCheckSize()
 
 
 
-ImageInfoPanel::ImageInfoPanel(QWidget* pParent, const ImageInfo& imageInfo) : QFrame(pParent), m_imageInfo(imageInfo)
+ImageInfoPanel::ImageInfoPanel(QWidget* pParent, const ImageInfo& imageInfo) : QFrame(pParent), m_imageInfo(imageInfo) //ttt1 name conflict with ImageInfoPanelWdgImpl
 {
     QVBoxLayout* pLayout (new QVBoxLayout(this));
     pLayout->setContentsMargins(0, 0, 0, 0);

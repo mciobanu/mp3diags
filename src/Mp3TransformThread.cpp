@@ -551,5 +551,5 @@ bool transform(const deque<const Mp3Handler*>& vpHndlr, vector<Transformation*>&
 }
 
 
-//ttt0 This is a new crash from when the destination folder was full while saving modifications, in particular adding an album image.
+//ttt1 This is a new crash from when the destination folder was full while saving modifications, in particular adding an album image.
 

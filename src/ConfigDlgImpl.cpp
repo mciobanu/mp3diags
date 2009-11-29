@@ -281,6 +281,10 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
 {
     setupUi(this);
 
+#ifdef DISABLE_CHECK_FOR_UPDATES
+    m_pCheckForUpdatesCkB->hide();
+#endif
+
     if (!bFull)
     {
         m_pMainTabWidget->removeTab(6);

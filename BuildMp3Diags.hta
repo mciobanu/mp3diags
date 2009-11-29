@@ -333,7 +333,8 @@
         while (!fIn.AtEndOfStream)
         {
             line = fIn.ReadLine();
-            if ("LIBS += -l:libboost_serialization-mt.a" != line && "LIBS += -l:libboost_serialization.a" != line)
+            //if ("LIBS += -l:libboost_serialization-mt.a" != line && "LIBS += -l:libboost_serialization.a" != line)
+            if (-1 == line.indexOf("boost_serialization"))
             {
                 if ("TARGET = MP3Diags" != line)
                 {

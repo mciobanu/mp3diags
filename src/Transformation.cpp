@@ -862,5 +862,5 @@ ttt2 When removing frames and Xing/Lame is present, adjust header for count and 
 //ttt2 transform: convert to id3v2: assumes whatever reader order is currently in tag editor and writes to id3v2 if there are differences (including rating); maybe option to convert ID3V2.4.0 reagrdless; doing it manually isn't such a big pain, though;
 
 
-//ttt0 see why some files are read-only on W7
+//ttt1 see why some files are read-only on W7
 

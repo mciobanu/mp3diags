@@ -621,7 +621,7 @@ void Id3V230StreamWriter::addImg(std::vector<char>& vcData)
     int n (cSize(vcData));
     CB_ASSERT1 (n > 100, m_strDebugFileName);
     char* p (&vcData[0]);
-    CB_ASSERT1 (0 == *p || 3 == *p, m_strDebugFileName); // text encoding // this should be kept in synch with Id3V2StreamBase::decodeApic() //ttt0 triggered according to mail; might have been caused by SmallerImageRemover::apply() incorrectly assuming that an invalid APIC frame is a large picture; the test using the frame name was replaced after the assert with a test using m_eApicStatus; will have to wait until some MP3 is received that triggered this to be sure
+    CB_ASSERT1 (0 == *p || 3 == *p, m_strDebugFileName); // text encoding // this should be kept in synch with Id3V2StreamBase::decodeApic() //ttt1 triggered according to mail; might have been caused by SmallerImageRemover::apply() incorrectly assuming that an invalid APIC frame is a large picture; the test using the frame name was replaced after the assert with a test using m_eApicStatus; will have to wait until some MP3 is received that triggered this to be sure
 
     char* q (p + 1);
     for (; q < p + 90 && 0 != *q; ++q) {}

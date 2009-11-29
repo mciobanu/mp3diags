@@ -92,7 +92,7 @@ ImageColl::ImageColl() : m_nCurrent(-1)
 {
 }
 
-int ImageColl::addImage(const ImageInfo& img, const string& strFile /*= ""*/) // returns the index of the image; if it already exists it's not added again; if it's invalid returns -1
+int ImageColl::addImage(const ImageInfo& img, const string& strFile /*= ""*/) // returns the index of the image; if it already exists it's not added again; if it's invalid returns -1 //ttt1 recompress large images AND mark field as changed
 {
     if (img.isNull()) { return -1; }
     int n (find(img));

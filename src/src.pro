@@ -54,9 +54,10 @@ SOURCES +=  \
  DebugDlgImpl.cpp \
  DirFilterDlgImpl.cpp \
  Version.cpp \
- SerSupport.cpp \
  fstream_unicode.cpp \
-  ExportDlgImpl.cpp
+ ExportDlgImpl.cpp \
+ SerSupport.cpp \
+  FullSizeImgDlg.cpp
 TEMPLATE = app
 CONFIG += warn_on \
 	  thread \
@@ -126,7 +127,8 @@ Transformation.h \
 UniqueNotesModel.h \
 Widgets.h \
  fstream_unicode.h \
- ExportDlgImpl.h
+ ExportDlgImpl.h \
+ FullSizeImgDlg.h
 FORMS += About.ui \
 AlbumInfoDownloader.ui \
 Config.ui \
@@ -148,14 +150,10 @@ ThreadRunner.ui \
  Export.ui
 
 
-LIBS += -l:libboost_serialization-mt.a
+LIBS += -lboost_serialization-mt
 
 #CONFIG += console
 
 
-
-
-
-
-
+#DEFINES += DISABLE_CHECK_FOR_UPDATES
 

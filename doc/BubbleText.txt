@@ -22,6 +22,7 @@ Specify which folders contain your MP3 files
 
 2. Press this button to choose the name of the file where your settings will be stored
 A default name is chosen for a file that stores program settings. Press this button if you want to change that name.
+A default name is usually chosen for a file that stores program settings. Press this button if you want to change that name or if there is no default.
 
 Press OK
 

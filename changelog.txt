@@ -1,5 +1,14 @@
 ---------------------------------------------------------------------------
 
+29.11.2009 - 1.0.00.045
+- wording changes to reflect non-beta status
+- pressing CTRL+C when viewing full-size images in the tag editor or in
+    "Tag details" in the main window copies the image to the clipboard
+- added "Rating" and changed field order in "Tag details" to match the Tag
+    editor
+
+---------------------------------------------------------------------------
+
 04.11.2009 - 0.99.06.044
 
 - fixed a crash in folder filter

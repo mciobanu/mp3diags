@@ -522,7 +522,7 @@ void MainFormDlgImpl::showBackupWarn()
 {
     if (m_pCommonData->m_bWarnedAboutBackup) { return; }
 
-    HtmlMsg::msg(this, 0, 0, &m_pCommonData->m_bWarnedAboutBackup, HtmlMsg::CRITICAL, "Warning", "<p>Although MP3 Diags is very stable on the developer's computer, who hasn't experienced a crash in a long time and never needed to restore MP3 files from a backup, the program is currently in beta, meaning that it hasn't been thoroughly tested and there are open issues that may lead to data loss.</p><p>Therefore, it is highly advisable to back up your files first.</p>", 520, 300, "O&K");
+    HtmlMsg::msg(this, 0, 0, &m_pCommonData->m_bWarnedAboutBackup, HtmlMsg::CRITICAL, "Warning", "<p>Because MP3 Diags changes the content of your MP3 files if asked to, it has a significant destructive potential, especially in cases where the user doesn't read the documentation and simply expects the program to do other things than what it was designed to do.</p><p>Therefore, it is highly advisable to back up your files first.</p><p>Also, although MP3 Diags is very stable on the developer's computer, who hasn't experienced a crash in a long time and never needed to restore MP3 files from a backup, there are several crash reports that haven't been addressed, as the developer couldn't reproduce the crashes and those who reported the crashes didn't answer the developer's questions that might have helped isolate the problem.</p>", 520, 300, "O&K");
 
     if (!m_pCommonData->m_bWarnedAboutBackup) { return; }
 
@@ -530,11 +530,12 @@ void MainFormDlgImpl::showBackupWarn()
 }
 
 
+
 void MainFormDlgImpl::showSelWarn()
 {
     if (m_pCommonData->m_bWarnedAboutSel) { return; }
 
-    HtmlMsg::msg(this, 0, 0, &m_pCommonData->m_bWarnedAboutSel, HtmlMsg::DEFAULT, "Note", "If you simply left-click, all the visible files get processed. However, it is possible to process only the selected files. To do that, either keep SHIFT pressed down while clicking or use the right button, as described at <a href=\"http://mp3diags.sourceforge.net/140_main_window_tools.html\">http://mp3diags.sourceforge.net/140_main_window_tools.html</a>", 520, 300, "O&K");
+    HtmlMsg::msg(this, 0, 0, &m_pCommonData->m_bWarnedAboutSel, HtmlMsg::DEFAULT, "Note", "If you simply left-click, all the visible files get processed. However, it is possible to process only the selected files. To do that, either keep SHIFT pressed down while clicking or use the right button, as described at <a href=\"http://mp3diags.sourceforge.net/140_main_window_tools.html\">http://mp3diags.sourceforge.net/140_main_window_tools.html</a>", 520, 300, "O&K"); //ttt1 different for "unstable"
 
     if (!m_pCommonData->m_bWarnedAboutSel) { return; }
 
@@ -1286,7 +1287,9 @@ void MainFormDlgImpl::onShow()
     m_pFilesG->setCurrentIndex(m_pFilesG->model()->index(0, 0));
     m_pCommonData->updateWidgets(strCrt);
 
+#ifndef DISABLE_CHECK_FOR_UPDATES
     checkForNewVersion();
+#endif
 }
 
 
@@ -2562,7 +2565,7 @@ void MainFormDlgImpl::on_m_pSessionsB_clicked()
 
 
 
-
+//ttt1 different for unstable
 void MainFormDlgImpl::checkForNewVersion() // returns immediately; when the request completes it will send a signal
 {
     const int MIN_INTERVAL_BETWEEN_CHECKS (24); // hours
@@ -2576,7 +2579,7 @@ void MainFormDlgImpl::checkForNewVersion() // returns immediately; when the requ
                 "<li>A notification message is displayed only if there's a new version available</li>"
                 "<li>The update is manual. You are told that there is a new version and are offered links to see what's new, but nothing gets downloaded and / or installed automatically</li>"
                 "<li>There is no System Tray process checking periodically for updates</li>"
-                "<li>You can turn the notifications on and off from the configurations dialog</li>"
+                "<li>You can turn the notifications on and off from the configuration dialog</li>"
                 "<li>If you restart the program withing a day after a check, no new check is done</li>"
             "</ul>"
         "</p>"
@@ -2611,7 +2614,7 @@ void MainFormDlgImpl::checkForNewVersion() // returns immediately; when the requ
 
     m_pQHttp->setHost("mp3diags.sourceforge.net");
     //http://mp3diags.sourceforge.net/010_getting_the_program.html
-    QHttpRequestHeader header ("GET", "/version.txt"); header.setValue("Host", "mp3diags.sourceforge.net");
+    QHttpRequestHeader header ("GET", "/version.txt"); header.setValue("Host", "mp3diags.sourceforge.net"); //ttt1 use an "unstable" directory, have the app be aware that it's unstable for both "help" and new ver check
     //QHttpRequestHeader header ("GET", "/mciobanu/mp3diags/010_getting_the_program.html"); header.setValue("Host", "web.clicknet.ro");
     m_pQHttp->request(header);
 }
@@ -2683,13 +2686,13 @@ void MainFormDlgImpl::onNewVersionQueryFinished2()
     if (m_pCommonData->m_strDontTellAboutVer == convStr(m_qstrNewVer)) { return; }
 
     int nRes (HtmlMsg::msg(this, 0, 0, 0, HtmlMsg::VERT_BUTTONS, "Info",
-    "<p style=\"margin-bottom:1px; margin-top:12px; \">Version " + m_qstrNewVer + " has been published. You are running " + APP_VER + ". You can see what's new in the <a href=\"http://mp3diags.blogspot.com/\">MP3 Diags blog</a>. A more technical list with changes can be seen in the <a href=\"http://mp3diags.sourceforge.net/015_changelog.html\">change log</a>.</p>"
+    "<p style=\"margin-bottom:1px; margin-top:12px; \">Version " + m_qstrNewVer + " has been published. You are running " + APP_VER + ". You can see what's new in the <a href=\"http://mp3diags.blogspot.com/\">MP3 Diags blog</a>. A more technical list with changes can be seen in the <a href=\"http://mp3diags.sourceforge.net/015_changelog.html\">change log</a>.</p>" //ttt1 different for "unstable"
 #ifndef WIN32
-    "<p style=\"margin-bottom:1px; margin-top:12px; \">This notification is about the availability of the source code. Binaries may or may not be available at this time, depending on your particular platform</p>"
+    "<p style=\"margin-bottom:1px; margin-top:12px; \">This notification is about the availability of the source code. Binaries may or may not be available at this time, depending on your particular platform.</p>"
 #else
 #endif
     "<p style=\"margin-bottom:1px; margin-top:12px; \">You should review the changes and decide if you want to upgrade or not.</p>"
-    "<p style=\"margin-bottom:1px; margin-top:12px; \">Note: if you want to upgrade, you should <b>close MP3 Diags</b> first</p>"
+    "<p style=\"margin-bottom:1px; margin-top:12px; \">Note: if you want to upgrade, you should <b>close MP3 Diags</b> first.</p>"
     "<hr/><p style=\"margin-bottom:1px; margin-top:12px; \">Choose what do you want to do:</p>"
     /*"<p style=\"margin-bottom:1px; margin-top:12px; \">QQQ</p>"*/
     , 600, 400, "Just close this message", "Don't tell me about version " + m_qstrNewVer + " again", "Disable checking for new versions"));

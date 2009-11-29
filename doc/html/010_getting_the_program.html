@@ -69,17 +69,19 @@
 </div>
 
 <div class="NormalText RegFnt NoteCol">
-<span class="NoteCol">The development for the version 1.0 is basically frozen. There are several outstanding bugs that can't be fixed due to lack of user feedback: I can't reproduce the bug and I can't make a reasonable guess as to what's causing it, so I need more details from the reporter, but the reporter doesn't provide those details. After a while the bugs will be closed and 1.0 declared finished. In the meantime I'll fix any bugs that are found and reported, provided that I can reproduce them or at least have a good idea about what might be causing them. To some extent I'm also willing to add support for some of the various things that are currently unsupported, if such support is requested and the changes would be small and pretty isolated.</span>
+<span class="NoteCol">While the development for 1.0 is frozen, I'll fix any serious bugs that are found and reported, provided that I can reproduce them or at least have a good idea about what might be causing them. Then I'll release 1.0.01, 1.0.02, ... Minor bugs and feature changes will be addressed in 1.1.
+
+I am aware of several outstanding bugs, which I can't fix due to lack of user feedback: I can't reproduce the bug and I can't make a reasonable guess as to what's causing it, so I need more details from the reporter, but the reporter doesn't provide those details. After a while these bugs will be closed.</span>
 </div>
 
 <div class="NormalText RegFnt NoteCol">
-<span class="NoteCol">So nothing major is going to follow for a while. However, from time to time you may want to check the <a href="http://mp3diags.blogspot.com/" class="Note" onClick="javascript: pageTracker._trackPageview('/mp3diagsblog');">MP3 Diags blog</a>, where announcements about new releases are made. Then you can decide based on what changed in a given release if you want to upgrade or not. (If you use an RSS reader, you can add that page to it, so you see the notifications automatically.)</span>
+<span class="NoteCol">From time to time you may want to check the <a href="http://mp3diags.blogspot.com/" class="Note" onClick="javascript: pageTracker._trackPageview('/mp3diagsblog');">MP3 Diags blog</a>, where announcements about new versions are made, both about bug fixes for the current stable release and about the release under development (i.e. 1.1.) Then you can decide based on what changed in a given version if you want to upgrade or not. (If you use an RSS reader, you can add that page to it, so you see the notifications automatically.)</span>
 </div>
 
 
 
 <div class="FreeNormalText RegFnt ChpCol2">
-There are both source files and binaries, for several Linux platforms, as well as for 32bit Windows. On this page there are all the links to the current packages. If you need some older version, you can go to the <a href="http://sourceforge.net/projects/mp3diags/files/" onClick="javascript: pageTracker._trackPageview('/files');">main download page</a> at SourceForge (note, though, that it doesn't have any Linux binaries.) The Linux binaries that I provide are built and hosted by the <a href="https://build.opensuse.org/" onClick="javascript: pageTracker._trackPageview('/obs');">openSUSE Build Service</a>.
+There are both source files and binaries, for several Linux platforms, as well as for 32bit Windows. On this page there are all the links to the current packages. If you need some older version, you can go to the <a href="http://sourceforge.net/projects/mp3diags/files/" onClick="javascript: pageTracker._trackPageview('/files');">main download page</a> at SourceForge. The packaged Linux binaries that I provide are built and hosted by the <a href="https://build.opensuse.org/" onClick="javascript: pageTracker._trackPageview('/obs');">openSUSE Build Service</a>. There are also "generic Linux binaries", which I build on my own computer.
 </div>
 
 
@@ -192,11 +194,11 @@ Well, there is <a href="http://pdb.finkproject.org/pdb/package.php/mp3diags-mac"
 
 
 <div class="NormalText RegFnt ChpCol2">
-You can download MP3Diags-QQQVERQQQ.tar.gz from <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-src/MP3Diags-QQQVERQQQ.tar.gz" onClick="javascript: pageTracker._trackPageview('/files/src');">SourceForge</a> or from <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3Diags-QQQVERQQQ.tar.gz" onClick="javascript: pageTracker._trackPageview('/clicknet/src');">my ISP</a> (SourceForge seems to be in a perpetual restructuring process, so downloads from it don't always work.) At my ISP you can also find a <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3Diags_Src+Doc-QQQVERQQQ.tar.gz" onClick="javascript: pageTracker._trackPageview('/clicknet/src_doc');">source + documentation bundle</a>. The intended target for the bundle are the packagers. In particular, the documentation doesn't get installed anywhere, but is mereley available for packagers to copy it wherever is appropriate for their distribution.
+You can download MP3Diags.tar.gz from <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-src/MP3Diags.tar.gz" onClick="javascript: pageTracker._trackPageview('/files/src');">SourceForge</a> or from <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3Diags-QQQVERQQQ.tar.gz" onClick="javascript: pageTracker._trackPageview('/clicknet/src');">my ISP</a> (SourceForge seems to be in a perpetual restructuring process, so downloads from it don't always work.) At my ISP you can also find a <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3Diags_Src+Doc-QQQVERQQQ.tar.gz" onClick="javascript: pageTracker._trackPageview('/clicknet/src_doc');">source + documentation bundle</a>. The intended target for the bundle are the packagers. In particular, the documentation doesn't get installed anywhere, but is mereley available for packagers to copy it wherever is appropriate for their distribution.
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-The development system is openSUSE 10.3. I sometimes compile MP3 Diags on openSUSE 11.1 or Ubuntu 9.04, and it worked fine thus far.
+The development system was openSUSE 10.3, but that will change to 11.2. I sometimes compile MP3 Diags on openSUSE 11.1 or Ubuntu 9.04, and it worked fine thus far.
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
@@ -211,7 +213,7 @@ In order to compile and run the project, these packages should be installed:
         <td> C++ compiler, Qt4 development, zlib development, Boost development, Qt4 SVG, GIF and JPEG plugins (if they are separate packages) </td>
     </tr>
     <tr>
-        <td> <b>openSUSE 10.3, openSUSE 11.1</b> </td>
+        <td> <b>openSUSE 10.3, openSUSE 11.2</b> </td>
         <td> g++, libqt4-devel, zlib-devel, boost-devel </td>
     </tr>
     <tr>
@@ -341,7 +343,7 @@ In many cases it's possible to choose various options or do things differently, 
 
 
 <div class="NormalText RegFnt ChpCol1">
-After the libraries are downloaded / built, download and unpack MP3Diags-QQQVERQQQ.tar.gz from <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-src/MP3Diags-QQQVERQQQ.tar.gz" onClick="javascript: pageTracker._trackPageview('/files/src');">SourceForge</a> or from <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3Diags-QQQVERQQQ.tar.gz" onClick="javascript: pageTracker._trackPageview('/clicknet/src');">my ISP</a>, run <span class="Reference">BuildMp3Diags.hta</span>, fill in the fields, and create the project files or build the program. BuildMp3Diags.hta has more details about this process.
+After the libraries are downloaded / built, download and unpack MP3Diags.tar.gz from <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-src/MP3Diags.tar.gz" onClick="javascript: pageTracker._trackPageview('/files/src');">SourceForge</a> or from <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3Diags-QQQVERQQQ.tar.gz" onClick="javascript: pageTracker._trackPageview('/clicknet/src');">my ISP</a>, run <span class="Reference">BuildMp3Diags.hta</span>, fill in the fields, and create the project files or build the program. BuildMp3Diags.hta has more details about this process.
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
@@ -399,12 +401,12 @@ See the notes above about <a href="#code">requirements and how to build the code
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-Since this is my first attempt at creating distributable binaries, I'm not very confident that they are of good quality. One known issue is that they are not signed. Another issue is that the dependecies might not be best (e.g. the package requires some version of a library while most users have a different, incompatible version.) So this is an area where I could use some help, especially in creating binaries for non-openSUSE platforms.
+Since this is my first attempt at creating distributable binaries, I'm not very confident that they are of good quality. One known issue is that they are not signed, so this is an area where I could use some help, especially in creating binaries for non-openSUSE platforms.
 </div>
 
 
 <div class="NormalText RegFnt ChpCol1">
-My hope is that sometime in the future the program will get included in more well-known repositories, and perhaps official distributions, so I don't have to concern myself with building binaries for various platforms. This has already started to happen: MP3 Diags is included in Gentoo and Ubuntu 9.10 (Karmic Koala); repositories that have MP3 Diags and are not built by me exist for Debian 5, openSUSE, and Mac OS X.
+My hope is that sometime in the future the program will get included in more well-known repositories and official distributions, so I don't have to concern myself with building binaries for various platforms. This has already started to happen: MP3 Diags is included in Gentoo, Ubuntu 9.10 (Karmic Koala), and Debian 6.0 (Squeeze); repositories that have MP3 Diags and are not built by me exist for openSUSE and Mac OS X.
 </div>
 
 
@@ -414,7 +416,12 @@ For Linux binaries you'll probably want to install from a repository (or use 1-C
 
 
 <div class="NormalText RegFnt ChpCol1">
-If you can't find a pre-packaged binary for your Linux distribution, or if what you can find is out-of-date, you you may want to try the <a href="#binLinux">generic binaries</a>.
+There used to be specific packages for several versions of a distribution. Building them was a long, tedious process. Starting with 0.99.06.044 there are more generic packages, which are easier to build and should work on all recent versions of a distribution. Note that you might need to <b>uninstall the previous version</b> if installing from a new repository doesn't work.
+</div>
+
+
+<div class="NormalText RegFnt ChpCol1">
+If you can't find a pre-packaged binary for your Linux distribution, or if what you can find is out-of-date, you may want to try the <a href="#binLinux">generic Linux binaries</a>. Also, if your distribution is "based" on some other distribution that has packages that I build, you may want to try those packages or the repositories; they should work in many cases, because they are built in a way that minimizes dependency issues.
 </div>
 
 
@@ -427,8 +434,8 @@ If you can't find a pre-packaged binary for your Linux distribution, or if what 
 <div class="NormalText RegFnt ChpCol2">
 There is a pretty standard Windows installer, as well as a zip archive with the executable and the DLLs it needs. Either one of these should be OK:
 <ul>
-    <li> <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-windows-setup/MP3DiagsSetup-QQQVERQQQ.exe" onClick="javascript: pageTracker._trackPageview('/files/setup');">Windows 32bit installer</a> (if the link doesn't work, there's a copy at my ISP, <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3DiagsSetup-QQQVERQQQ.exe" onClick="javascript: pageTracker._trackPageview('/clicknet/setup');">here</a>) </li>
-    <li> <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-windows-exe/MP3DiagsExe-QQQVERQQQ.zip" onClick="javascript: pageTracker._trackPageview('/files/exe');">Zip archive with Windows 32bit executable and required DLLs</a></li>
+    <li> <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-windows-setup/MP3DiagsSetup.exe" onClick="javascript: pageTracker._trackPageview('/files/setup');">Windows 32bit installer</a> (if the link doesn't work, there's a copy at my ISP, <a href="http://web.clicknet.ro/mciobanu/mp3diags/MP3DiagsSetup-QQQVERQQQ.exe" onClick="javascript: pageTracker._trackPageview('/clicknet/setup');">here</a>) </li>
+    <li> <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-windows-exe/MP3DiagsExe.zip" onClick="javascript: pageTracker._trackPageview('/files/exe');">Zip archive with Windows 32bit executable and required DLLs</a></li>
 </ul>
 </div>
 
@@ -451,13 +458,13 @@ Starting with version 0.99.06.043, "generic" Linux executables are provided. The
 <div class="NormalText RegFnt ChpCol1">
 This is what's available:
 <ul>
-    <li><a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-linux-bin/i686/MP3Diags-Linux-i686-QQQVERQQQ.bz2/download" onClick="javascript: pageTracker._trackPageview('/files/linux/i686');">Linux i686 binary</a></li>
-    <li><a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-linux-bin/x86_64/MP3Diags-Linux-x86_64-QQQVERQQQ.bz2/download" onClick="javascript: pageTracker._trackPageview('/files/linux/x86_64');">Linux x86-64 binary</a></li>
+    <li><a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-linux-bin/i686/MP3Diags-Linux-i686.bz2/download" onClick="javascript: pageTracker._trackPageview('/files/linux/i686');">Linux i686 binary</a></li>
+    <li><a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-linux-bin/x86_64/MP3Diags-Linux-x86_64.bz2/download" onClick="javascript: pageTracker._trackPageview('/files/linux/x86_64');">Linux x86-64 binary</a></li>
 </ul>
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-If you use these, you'll have to make sure that you have the correct dependencies. All you'll need to add is probably Qt 4 (if on your distribution the SVG support in Qt 4 is packaged separately, as it is on Debian-based distributions, you'll need to add that as well. Note that the installation will proceed without SVG and the program will run; however, the buttons will have no icons in such a case.) If you have KDE 4.x you probably don't need to add anything.
+If you use these, you'll have to make sure that you have the correct dependencies. All you'll need to add is probably Qt 4. If on your distribution the SVG support in Qt 4 is packaged separately, as it is on Debian-based distributions, you'll need to add that as well. Note that the program will run without SVG, but the buttons will have no icons in such a case. If you have KDE 4.x you probably don't need to add anything.
 </div>
 
 
@@ -480,26 +487,13 @@ There are also binaries that I build at openSUSE Build Service:
 <div class="NormalText RegFnt ChpCol2">
 <table border="1" cellpadding="5" cellspacing="2" class="RegFnt ChpCol1">
     <tr>
-        <td> openSUSE 11.1 </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.1/" onClick="javascript: pageTracker._trackPageview('/obs/suse/11.1');"> Repository </a> </td>
-        <td> <a class="NoUnderline" href="http://software.opensuse.org/ymp/home:ciobi/openSUSE_11.1/MP3Diags.ymp" onClick="javascript: pageTracker._trackPageview('/obs/suse/11.1/ymp');"> 1-Click Install </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.1/i586/" onClick="javascript: pageTracker._trackPageview('/obs/suse/11.1/i586');"> i586 .rpm </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.1/x86_64/" onClick="javascript: pageTracker._trackPageview('/obs/suse/11.1/x86_64');"> x86_64 .rpm </a> </td>
-    </tr>
-    <tr>
-        <td> openSUSE 11.0 </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.0/" onClick="javascript: pageTracker._trackPageview('/obs/suse/11.0');"> Repository </a> </td>
-        <td> <a class="NoUnderline" href="http://software.opensuse.org/ymp/home:ciobi/openSUSE_11.0/MP3Diags.ymp" onClick="javascript: pageTracker._trackPageview('/obs/suse/11.0/ymp');"> 1-Click Install </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.0/i586/" onClick="javascript: pageTracker._trackPageview('/obs/suse/11.0/i586');"> i586 .rpm </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.0/x86_64/" onClick="javascript: pageTracker._trackPageview('/obs/suse/11.0/x86_64');"> x86_64 .rpm </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE/" onClick="javascript: pageTracker._trackPageview('/obs/suse');"> Repository </a> </td>
+        <td> <a class="NoUnderline" href="http://software.opensuse.org/ymp/home:ciobi/openSUSE/MP3Diags.ymp" onClick="javascript: pageTracker._trackPageview('/obs/suse/ymp');"> 1-Click Install </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE/i586/" onClick="javascript: pageTracker._trackPageview('/obs/suse/i586');"> i586 .rpm </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE/x86_64/" onClick="javascript: pageTracker._trackPageview('/obs/suse/x86_64');"> x86_64 .rpm </a> </td>
     </tr>
 </table>
 </div>
-
-<div class="NormalText RegFnt ChpCol2">
-I will stop building these if the PackMan repository seems to be kept pretty up-to-date.
-</div>
-
 
 
 
@@ -518,22 +512,9 @@ Binaries that I build at openSUSE Build Service:
 <div class="NormalText RegFnt ChpCol1">
 <table border="1" cellpadding="5" cellspacing="2" class="RegFnt ChpCol2">
     <tr>
-        <td> Fedora 11 </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_11/" onClick="javascript: pageTracker._trackPageview('/obs/fedora/11');"> Home directory </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_11/i386/" onClick="javascript: pageTracker._trackPageview('/obs/fedora/11/i386');"> i386 .rpm </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_11/x86_64/" onClick="javascript: pageTracker._trackPageview('/obs/fedora/11/x86_64');"> x86_64 .rpm </a> </td>
-    </tr>
-    <tr>
-        <td> Fedora 10 </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_10/" onClick="javascript: pageTracker._trackPageview('/obs/fedora/10');"> Home directory </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_10/i386/" onClick="javascript: pageTracker._trackPageview('/obs/fedora/10/i386');"> i386 .rpm </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_10/x86_64/" onClick="javascript: pageTracker._trackPageview('/obs/fedora/10/x86_64');"> x86_64 .rpm </a> </td>
-    </tr>
-    <tr>
-        <td> Fedora 9 </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_9/" onClick="javascript: pageTracker._trackPageview('/obs/fedora/9');"> Home directory </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_9/i386/" onClick="javascript: pageTracker._trackPageview('/obs/fedora/9/i386');"> i386 .rpm </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora_9/x86_64/" onClick="javascript: pageTracker._trackPageview('/obs/fedora/9/x86_64');"> x86_64 .rpm </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora/" onClick="javascript: pageTracker._trackPageview('/obs/fedora');"> Home directory </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora/i386/" onClick="javascript: pageTracker._trackPageview('/obs/fedora/i386');"> i386 .rpm </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Fedora/x86_64/" onClick="javascript: pageTracker._trackPageview('/obs/fedora/x86_64');"> x86_64 .rpm </a> </td>
     </tr>
 </table>
 </div>
@@ -557,27 +538,21 @@ Starting with 9.10 (Karmic Koala), MP3 Diags is included in Ubuntu, so you can s
 
 
 <div class="NormalText RegFnt ChpCol2">
-For the latest version, there are binaries that I build at openSUSE Build Service:
+For the latest version, there are binaries that I build at openSUSE Build Service, which should be installable on 8.10 (Intrepid) or later:
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
 <table border="1" cellpadding="5" cellspacing="2" class="RegFnt ChpCol1">
     <tr>
-        <td> Ubuntu 9.04 </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/" onClick="javascript: pageTracker._trackPageview('/obs/ubuntu/9.04');"> Repository </a> (<a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/xUbuntu_9.04/" onClick="javascript: pageTracker._trackPageview('/obs/mirror/ubuntu/9.04');">mirror</a>)</td>
-        <!-- <td> <a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/xUbuntu_9.04/"> Repository </a> </td> -->
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/i386/mp3diags_QQQVERQQQ_i386.deb" onClick="javascript: pageTracker._trackPageview('/obs/ubuntu/9.04/i386');"> i386 .deb </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/amd64/mp3diags_QQQVERQQQ_amd64.deb" onClick="javascript: pageTracker._trackPageview('/obs/ubuntu/9.04/amd64');"> amd64 .deb </a> </td>
-    </tr>
-    <tr>
-        <td> Ubuntu 8.10 </td>
-        <!-- <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_8.10/"> Repository </a> (<a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/xUbuntu_8.10/">mirror</a>)</td> -->
-        <td> <a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/xUbuntu_8.10/" onClick="javascript: pageTracker._trackPageview('/obs/mirror/ubuntu/8.10');"> Repository </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_8.10/i386/mp3diags_QQQVERQQQ_i386.deb" onClick="javascript: pageTracker._trackPageview('/obs/mirror/ubuntu/8.10/i386');"> i386 .deb </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_8.10/amd64/mp3diags_QQQVERQQQ_amd64.deb" onClick="javascript: pageTracker._trackPageview('/obs/mirror/ubuntu/8.10/amd64');"> amd64 .deb </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Ubuntu/" onClick="javascript: pageTracker._trackPageview('/obs/ubuntu');"> Repository </a> (<a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/Ubuntu/" onClick="javascript: pageTracker._trackPageview('/obs/mirror/ubuntu');">mirror 1</a>) (<a class="NoUnderline" href="http://widehat.opensuse.org/repositories/home:/ciobi/Ubuntu/" onClick="javascript: pageTracker._trackPageview('/obs/mirror2/ubuntu');">mirror 2</a>)</td>
+        <!-- <td> <a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/Ubuntu/"> Repository </a> </td> -->
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Ubuntu/i386/mp3diags_QQQVERQQQ_i386.deb" onClick="javascript: pageTracker._trackPageview('/obs/ubuntu/i386');"> i386 .deb </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Ubuntu/amd64/mp3diags_QQQVERQQQ_amd64.deb" onClick="javascript: pageTracker._trackPageview('/obs/ubuntu/amd64');"> amd64 .deb </a> </td>
     </tr>
 </table>
 </div>
+
+
 
 <div class="NormalText RegFnt ChpCol2">
 Normally you should use the repositories rather than the .deb file, so you are notified automatically about updates. Another issue with the .deb files is that the direct links are broken for a while after running a new build (the link is for the old version, which got replaced by the new version.) You can still get a .deb file from the repository, though.
@@ -589,16 +564,12 @@ In my tests, the Ubuntu 9.04 i386 .deb installation was OK except for a warning 
 </div>
 
 <div class="NormalText RegFnt ChpCol2 GenericSpace">
-<span class="Reference">deb http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_9.04/ ./</span>
+<span class="Reference">deb http://download.opensuse.org/repositories/home:/ciobi/Ubuntu/ ./</span>
 </div>
 
 
 <div class="NormalText RegFnt ChpCol2">
-Currently the Ubuntu 8.10 and Debian repositories are on a mirror server, so it takes some time for the latest packages to propagate. This is in the hope that new versions will be found automatically by Synaptic. If new versions don't show up as available, please let me know.
-</div>
-
-<div class="NormalText RegFnt ChpCol2">
-The repository on the main server uses redirection, which apparently isn't supported by Synaptic (or at least it wasn't until some time ago, because Ubuntu 9.04 works fine with the main server. Maybe the others work too, but I don't have them installed, so I'll just assume that they don't.) Perhaps somebody would like to test if installation and / or automatic updates work for the main repositories for <a href="http://download.opensuse.org/repositories/home:/ciobi/xUbuntu_8.10/" onClick="javascript: pageTracker._trackPageview('/obs/ubuntu/8.10');">Ubuntu_8.10</a> and <a href="http://download.opensuse.org/repositories/home:/ciobi/Debian_5.0/" onClick="javascript: pageTracker._trackPageview('/obs/debian/5.0');">Debian 5.0</a> and then share the results.
+The repository on the main server uses redirection, which apparently isn't supported by Synaptic (or at least it wasn't until some time ago, because Ubuntu 9.04 works fine with the main server; maybe the others work too, but I don't have them installed.) Perhaps somebody would like to test if installation and / or automatic updates work for the main repositories and then share the results.
 </div>
 
 
@@ -612,29 +583,33 @@ The repository on the main server uses redirection, which apparently isn't suppo
 
 
 <div class="NormalText RegFnt ChpCol1">
-Christian Marillat from <a href="http://www.debian-multimedia.org/" onClick="javascript: pageTracker._trackPageview('/debian_multimedia');">http://www.debian-multimedia.org/</a> notified me that he's building MP3 Diags for Debian 5.0. It can be found in the "unstable" branch. Besides the program being built by somebody who actually knows something about building and did it many times before, you can find there binaries for many other platforms in addition to x86 and AMD64. You can download the i386 package from <a href="http://www.debian-multimedia.org/dists/unstable/main/binary-i386/package/mp3diags.php" onClick="javascript: pageTracker._trackPageview('/debian_multimedia/mp3diags/i386');">this page</a>, but you probably want to add the repository, so you are notified automatically about new releases (see the debian-multimedia.org <a href="http://www.debian-multimedia.org/" onClick="javascript: pageTracker._trackPageview('/debian_multimedia');">home page</a> for instructions about how to add the repository.)
+MP3 Diags is now available from <a href="http://packages.debian.org/unstable/sound/mp3diags" onClick="javascript: pageTracker._trackPageview('/debian/sid');">sid / unstable</a>, but that isn't meant for regular users.
 </div>
 
+<!---
+<div class="NormalText RegFnt ChpCol1">
+Christian Marillat from <a href="http://www.debian-multimedia.org/" onClick="javascript: pageTracker._trackPageview('/debian_multimedia');">http://www.debian-multimedia.org/</a> is building MP3 Diags for Debian 5.0. It can be found in the "unstable" branch. Besides the program being built by somebody who actually knows something about building and did it many times before, you can find there binaries for many other platforms in addition to x86 and AMD64. You can download the i386 package from <a href="http://www.debian-multimedia.org/dists/unstable/main/binary-i386/package/mp3diags.php" onClick="javascript: pageTracker._trackPageview('/debian_multimedia/mp3diags/i386');">this page</a>, but you probably want to add the repository, so you are notified automatically about new releases (see the debian-multimedia.org <a href="http://www.debian-multimedia.org/" onClick="javascript: pageTracker._trackPageview('/debian_multimedia');">home page</a> for instructions about how to add the repository.)
+</div>
+-->
 
 <div class="NormalText RegFnt ChpCol1">
-There are also binaries that I build at openSUSE Build Service:
+For binaries that I build at openSUSE Build Service you should use the ones for Ubuntu. I tested the i386 .deb on a Live 5.0 and it worked fine:
 </div>
 
 
 <div class="NormalText RegFnt ChpCol1">
 <table border="1" cellpadding="5" cellspacing="2" class="RegFnt ChpCol2">
     <tr>
-        <td> Debian 5.0 </td>
-        <!-- <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Debian_5.0/"> Repository </a> (<a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/Debian_5.0/">mirror</a>)</td> -->
-        <td> <a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/Debian_5.0/" onClick="javascript: pageTracker._trackPageview('/obs/mirror/debian/5.0');"> Repository </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Debian_5.0/i386/mp3diags_QQQVERQQQ_i386.deb" onClick="javascript: pageTracker._trackPageview('/obs/mirror/debian/5.0/i386');"> i386 .deb </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Debian_5.0/amd64/mp3diags_QQQVERQQQ_amd64.deb" onClick="javascript: pageTracker._trackPageview('/obs/mirror/debian/5.0/amd64');"> amd64 .deb </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Ubuntu/" onClick="javascript: pageTracker._trackPageview('/obs/debian');"> Repository </a> (<a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/Ubuntu/" onClick="javascript: pageTracker._trackPageview('/obs/mirror/debian');">mirror 1</a>) (<a class="NoUnderline" href="http://widehat.opensuse.org/repositories/home:/ciobi/Ubuntu/" onClick="javascript: pageTracker._trackPageview('/obs/mirror2/debian');">mirror 2</a>)</td>
+        <!-- <td> <a class="NoUnderline" href="http://ftp5.gwdg.de/pub/opensuse/repositories/home:/ciobi/Ubuntu/"> Repository </a> </td> -->
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Ubuntu/i386/mp3diags_QQQVERQQQ_i386.deb" onClick="javascript: pageTracker._trackPageview('/obs/debian/i386');"> i386 .deb </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Ubuntu/amd64/mp3diags_QQQVERQQQ_amd64.deb" onClick="javascript: pageTracker._trackPageview('/obs/debian/amd64');"> amd64 .deb </a> </td>
     </tr>
 </table>
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-The repository is a mirror. I'm not sure if the main repository at <a href="http://download.opensuse.org/repositories/home:/ciobi/Debian_5.0/" onClick="javascript: pageTracker._trackPageview('/obs/debian/5.0');">download.opensuse.org</a> can be used, because of redirection issues. (See also the notes for Ubuntu, above.)
+I'm not sure if the main repository can be used, because of redirection issues (see also the notes for Ubuntu, above); if it can't, the mirrors should work.
 </div>
 
 
@@ -673,22 +648,15 @@ Binaries that I build at openSUSE Build Service:
 <div class="NormalText RegFnt ChpCol1">
 <table border="1" cellpadding="5" cellspacing="2" class="RegFnt ChpCol2">
     <tr>
-        <td> Mandriva 2009.0 </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Mandriva_2009/" onClick="javascript: pageTracker._trackPageview('/obs/mandriva/2009.0/');"> Home directory </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Mandriva_2009/i586/" onClick="javascript: pageTracker._trackPageview('/obs/mandriva/2009.0/i586');"> i586 .rpm </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Mandriva_2009/x86_64/" onClick="javascript: pageTracker._trackPageview('/obs/mandriva/2009.0/x86_64');"> x86_64 .rpm </a> </td>
-    </tr>
-    <tr>
-        <td> Mandriva 2009.1 </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Mandriva_2009.1/" onClick="javascript: pageTracker._trackPageview('/obs/mandriva/2009.1');"> Home directory </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Mandriva_2009.1/i586/" onClick="javascript: pageTracker._trackPageview('/obs/mandriva/2009.1/i586');"> i586 .rpm </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Mandriva_2009.1/x86_64/" onClick="javascript: pageTracker._trackPageview('/obs/mandriva/2009.1/x86_64');"> x86_64 .rpm </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Mandriva/" onClick="javascript: pageTracker._trackPageview('/obs/mandriva/');"> Home directory </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Mandriva/i586/" onClick="javascript: pageTracker._trackPageview('/obs/mandriva/i586');"> i586 .rpm </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/Mandriva/x86_64/" onClick="javascript: pageTracker._trackPageview('/obs/mandriva/x86_64');"> x86_64 .rpm </a> </td>
     </tr>
 </table>
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-I'm not familiar with Mandriva, so I have no idea if the "Home directories" can be used as repositories or not. Also, I didn't test these RPMs, but they should be OK. At least somebody said they were OK.
+I'm not familiar with Mandriva, so I have no idea if the "Home directory" can be used as a repository or not. Also, I didn't test these RPMs, but they should be OK. At least somebody said they were OK.
 </div>
 
 
@@ -703,8 +671,9 @@ I'm not familiar with Mandriva, so I have no idea if the "Home directories" can 
 
 
 <div class="NormalText RegFnt ChpCol2">
-If you can't find a pre-packaged binary for your Linux distribution / version, and you don't want to build from sources, you you may want to try the <a href="#binLinux">generic binaries</a>.
+If you can't find a pre-packaged binary for your Linux distribution / version, and you don't want to build from sources, have a look at the <a href="#binaries">notes about binaries</a> above for suggestions about getting binaries and packages.
 </div>
+
 
 
 <div class="NormalText RegFnt ChpCol2">
@@ -727,7 +696,7 @@ If you want to build binaries for other platforms, please let me know, so I can 
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-If for some reason you don't want to look at the documentation online, you can download it <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-doc/" onClick="javascript: pageTracker._trackPageview('/files/doc');">here</a>.
+If for some reason you don't want to look at the documentation online, you can download it <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-doc/MP3DiagsDoc.tar.gz" onClick="javascript: pageTracker._trackPageview('/files/doc');">here</a>.
 </div>
 
 

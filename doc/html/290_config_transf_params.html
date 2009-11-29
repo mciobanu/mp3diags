@@ -65,7 +65,7 @@ Here you have the global parameters that are used by transformations.
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol1">
-Names that are stored in ID3V2 are supposed to be either 8bit Latin-1 or 16bit Unicode UTF16 (well, ID3V2.4.0 has some other formats, which MP3 Diags doesn't support yet.) However, some tools use the 8bit option with other locales on frames that are declared Latin-1, when they should be using UTF16. Although those tools display the names correctly, others don't, especially if the file is moved to another computer. The reverse might happen as well: correct files using Latin-1 might appear to have incorrect frames, because they are interpreted according to some other locale. There is a transformation that does conversions from 8bit to UTF16, and it is here that you specify the locale to be used in the process.
+Names that are stored in ID3V2.3.0 are supposed to be either 8bit Latin-1 or 16bit Unicode UTF16 (ID3V2.4.0 has 2 more formats, of which only one is currently supported by MP3 Diags.) However, some tools use the 8bit option with other locales on frames that are declared Latin-1, when they should be using UTF16. Although those tools display the names correctly, others don't, especially if the file is moved to another computer. The reverse might happen as well: correct files using Latin-1 might appear to have incorrect frames, because they are interpreted according to some other locale. There is a transformation that does conversions from 8bit to UTF16, and it is here that you specify the locale to be used in the process.
 </div>
 
 

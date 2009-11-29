@@ -1,27 +1,40 @@
 #!/bin/bash
 #
 # corrects src/src.pro, so it uses the right serialization library
+# if $1 is STATIC_SER, it tries to do link Boost Ser statically; if it can't, it reverts to dynamic linking
 
-rm -f -r tstMt
-mkdir tstMt
-echo "int main() {}" > tstMt/a.cpp
-g++ tstMt/a.cpp -lboost_serialization-mt -o tstMt/a.out 2> /dev/null
-noMt=$?
-#echo $noMt
-rm -f -r tstMt
+#if lib $1 exists changes src/src.pro and terminates the script
+function tryLib
+{
+    rm -f -r tstMt
+    mkdir tstMt
+    echo "int main() {}" > tstMt/a.cpp
+    g++ tstMt/a.cpp -l$1 -o tstMt/a.out 2> /dev/null
+    libExists=$?
+    #echo $noMt
+    rm -f -r tstMt
 
-#noMt=0 #ttt remove
-
-if [ $noMt -eq 1 ] ; then
-    cat src/src.pro | grep 'l:libboost_serialization-mt.a$' > /dev/null
-    if [ $? -eq 0 ] ; then # we don't want to change a file that was already changed
-        cat src/src.pro | sed 's%l:libboost_serialization-mt.a%l:libboost_serialization.a%' > src/src.pro1
+    if [ $libExists -eq 0 ] ; then
+        cat src/src.pro | sed 's%.*boost_serialization.*%LIBS += -l'$1% > src/src.pro1
         mv -f src/src.pro1 src/src.pro
-        echo "removed -mt suffix"
-    else
-        echo "-mt library doesn't exist, but src.pro has been modified already"
+        echo Serialization Library set as $1
+        exit 0
     fi
+
+    echo Serialization Library $1 not found
+
+    #return $libExists
+}
+
+
+if [[ "STATIC_SER" == $1 ]] ; then
+    tryLib :libboost_serialization-mt.a
+    tryLib :libboost_serialization.a # ttt0 not sure if this should be considered
+    tryLib boost_serialization-mt
+    tryLib boost_serialization
 else
-    echo "-mt library exists; nothing to do"
+    tryLib boost_serialization-mt
+    tryLib boost_serialization
 fi
 
+echo Boost Serialization not found

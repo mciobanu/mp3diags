@@ -903,7 +903,7 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8
 
 
 
-/*override*/ Transformation::Result SmallerImageRemover::apply(const Mp3Handler& h, const TransfConfig& transfConfig, const std::string& strOrigSrcName, std::string& strTempName)
+/*override*/ Transformation::Result SmallerImageRemover::apply(const Mp3Handler& h, const TransfConfig& transfConfig, const std::string& strOrigSrcName, std::string& strTempName) //ttt1 recompress large images
 {
     LAST_STEP("SmallerImageRemover::apply() " + h.getName());
 

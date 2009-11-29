@@ -177,3 +177,6 @@ Based on the above two settings, 8dot3 name creation is enabled on c:.
 
 //ttt2 mutt rips: https://sourceforge.net/projects/mp3diags/forums/forum/947206/topic/3441516 ; also, check for missing tracks and other album-related issues;
 
+
+//ttt0 might have to remove the program before switching packages; - in the fake mp3diags
+

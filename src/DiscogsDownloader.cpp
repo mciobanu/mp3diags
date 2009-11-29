@@ -640,7 +640,7 @@ LAST_STEP("DiscogsDownloader::reloadGui");
 void DiscogsDownloader::requestAlbum(int nAlbum)
 {
 LAST_STEP("DiscogsDownloader::requestAlbum");
-    CB_ASSERT (!m_pQHttp->hasPendingRequests()); //ttt0 triggered according to mail (Nov 2, 2009, 2:31 PM - Qt 4.5.2; there is something in the 4.5.3 change log at http://qt.nokia.com/developer/changes/changes-4.5.3 about duplicate HTTP requests, but according to http://www.qtcentre.org/forum/f-qt-programming-2/t-qhttp-response-content-25255-post121265.html it only affected QNetworkAccessManager, which is a replacement for QHttp, so this is probably not related)
+    CB_ASSERT (!m_pQHttp->hasPendingRequests()); //ttt1 triggered according to mail (Nov 2, 2009, 2:31 PM - Qt 4.5.2; there is something in the 4.5.3 change log at http://qt.nokia.com/developer/changes/changes-4.5.3 about duplicate HTTP requests, but according to http://www.qtcentre.org/forum/f-qt-programming-2/t-qhttp-response-content-25255-post121265.html it only affected QNetworkAccessManager, which is a replacement for QHttp, so this is probably not related)
 
     m_nLoadingAlbum = nAlbum;
     setWaiting(ALBUM);

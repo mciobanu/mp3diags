@@ -56,7 +56,7 @@
 
 
 <div class="FreeNormalText RegFnt ChpCol1">
-These are the transformations that are currently part of MP3 Diags:
+These are the transformations that are currently part of MP3 Diags (note that some are hidden by default, and you should make them visible in the <a href="292_config_visible_transf.html">configuration dialog</a> if you think you might need them):
 </div>
 
 
@@ -64,7 +64,7 @@ These are the transformations that are currently part of MP3 Diags:
 <table border="1" cellpadding="3" cellspacing="1" class="TableText RegFnt ChpCol1">
     <tr>
         <td> Restore flipped bit in audio </td>
-        <td> Sometimes a bit gets flipped in a file. This tries to identify places having this issue in audio frame headers. If found, it fixes the problem. It is most likely to apply to old files that have 2 audio streams, but even then, the odds of it doing anything good are rather slim (but it shouldn't do anything bad either.) I implemented it first for a test, and I decided to include it after seeing that it was able to fix audio issues in several of my old files. </td>
+        <td> Sometimes a bit gets flipped in a file. This tries to identify places having this issue in audio frame headers. If found, it fixes the problem. It is most likely to apply to old files that have 2 audio streams, but even then, the odds of it doing anything good are rather slim (but it shouldn't do anything bad either.) I implemented it first for a test, and I decided to keep it after seeing that it was able to fix audio issues in several of my old files. </td>
     </tr>
     <tr>
         <td> Remove inner non-audio </td>
@@ -124,7 +124,7 @@ These are the transformations that are currently part of MP3 Diags:
     </tr>
     <tr>
         <td> Remove non-basic ID3V2 frames </td>
-        <td> Removes all ID3V2 frames that aren't used by MP3 Diags. You normally don't want to do such a thing, but it may help if some other program misbehaves because of invalid or unknown frames in an ID3V2 tag. Note that this only keeps the first image in a file that has several images. </td>
+        <td> Removes all ID3V2 frames that aren't used by MP3 Diags. You normally don't want to do such a thing, but it may help if some other program misbehaves because of invalid or unknown frames in an ID3V2 tag.</td>
     </tr>
     <tr>
         <td> Discard invalid ID3V2 data </td>

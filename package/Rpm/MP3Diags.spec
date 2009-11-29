@@ -7,7 +7,7 @@ Name: MP3Diags
 #Provides: MP3Diags
 Release: 1
 Source: MP3Diags-%{version}.tar.gz
-URL: http://mp3diags
+URL: http://mp3diags.sourceforge.net/
 Version: %{version}
 BuildRoot: %{_tmppath}/%{name}-%{version}-build
 
@@ -26,7 +26,8 @@ BuildRequires: update-desktop-files
 %if 0%{?fedora} || 0%{?fedora_version}
 Requires: qt-x11
 #BuildRequires: qt-devel qt-config
-BuildRequires: qt-devel zlib-devel boost-devel-static gcc-c++
+#BuildRequires: qt-devel zlib-devel boost-devel-static gcc-c++
+BuildRequires: qt-devel zlib-devel boost-devel boost-devel-static gcc-c++
 %endif
 
 # this breaks the build for mandriva 2009.1: parseExpressionBoolean returns -1
@@ -34,7 +35,8 @@ BuildRequires: qt-devel zlib-devel boost-devel-static gcc-c++
 #%if 0%{?mdkversion} >= 200900
 BuildRequires:  kdelibs4-devel
 #BuildRequires:  libboost1.37.0-devel
-BuildRequires:  libboost-devel
+#BuildRequires:  libboost-devel libboost-static-devel
+BuildRequires:  boost-devel boost-static-devel
 BuildRequires:  zlib-devel
 Requires:       qt4-common
 %endif
@@ -58,7 +60,7 @@ Another component is the file renamer, which can rename files based on the field
 
 %build
 
-./AdjustMt.sh
+./AdjustMt.sh STATIC_SER
 
 
 #%if 0%{?mandriva_version} > 2006

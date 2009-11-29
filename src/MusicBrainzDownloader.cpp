@@ -498,7 +498,7 @@ LAST_STEP("MusicBrainzDownloader::reloadGui");
 void MusicBrainzDownloader::requestAlbum(int nAlbum)
 {
 LAST_STEP("MusicBrainzDownloader::requestAlbum");
-    //CB_ASSERT (!m_pQHttp->hasPendingRequests() && !m_pImageQHttp->hasPendingRequests());  // ttt0 triggered: https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=36 ?? perhaps might happen when MB returns errors ; see also DiscogsDownloader::requestAlbum
+    //CB_ASSERT (!m_pQHttp->hasPendingRequests() && !m_pImageQHttp->hasPendingRequests());  // ttt1 triggered: https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=36 ?? perhaps might happen when MB returns errors ; see also DiscogsDownloader::requestAlbum
     CB_ASSERT (!m_pQHttp->hasPendingRequests());
     CB_ASSERT (!m_pImageQHttp->hasPendingRequests());
 

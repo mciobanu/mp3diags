@@ -1,3 +1,11 @@
+mp3diags (1.0.00.045) testing; urgency=low
+
+  * wording changes to reflect non-beta status
+  * pressing CTRL+C when viewing full-size images in the tag editor or in "Tag details" in the main window copies the image to the clipboard
+  * added "Rating" and changed field order in "Tag details" to match the Tag editor
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Sun, 29 Nov 2009 22:00:00 +0200
+
 mp3diags (0.99.06.044) testing; urgency=low
 
   * fixed a crash in folder filter

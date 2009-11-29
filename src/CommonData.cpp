@@ -297,7 +297,7 @@ void SessionSettings::loadMiscConfigSettings(CommonData* p) const
             /*QList<QByteArray> l (QTextCodec::availableCodecs());
             CB_ASSERT (l.size() > 0);
             p->m_locale = l.front();*/
-            p->m_locale = "System"; // ttt2 2009.11.03 - actually this seems a bad idea; at least on 10.3 / 4.3.1 setting the locale to System shows no characters for codes > 128; //ttt0 see W7
+            p->m_locale = "System"; // ttt2 2009.11.03 - actually this seems a bad idea; at least on 10.3 / 4.3.1 setting the locale to System shows no characters for codes > 128; doesn't happen in W7, though
             p->m_pCodec = (QTextCodec::codecForName(p->m_locale));
         }
         else

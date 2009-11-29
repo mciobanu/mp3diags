@@ -25,14 +25,12 @@
 #include  <set>
 
 #include  <QBuffer>
-#include  <QDialog>
-#include  <QLabel>
-#include  <QVBoxLayout>
 #include  <QPainter>
 
 #include  "CommonTypes.h"
 
 #include  "Helpers.h"
+#include  "FullSizeImgDlg.h"
 
 using namespace std;
 
@@ -192,17 +190,7 @@ QString ImageInfo::getTextDescr(const QString& qstrSep /*= "\n"*/) const
 
 void ImageInfo::showFull(QWidget* pParent) const
 {
-    QDialog dlg (pParent, getNoResizeWndFlags());
-
-    QVBoxLayout* pLayout (new QVBoxLayout(&dlg));
-    //dlg.setLayout(pGridLayout);
-    QLabel* p (new QLabel(&dlg));
-    p->setPixmap(getPixmap()); //ttt2 see if it should limit size (IIRC QLabel scaled down once a big image)
-    pLayout->addWidget(p, 0, Qt::AlignHCenter);
-
-    p = new QLabel(getTextDescr(), &dlg);
-    p->setAlignment(Qt::AlignHCenter);
-    pLayout->addWidget(p, 0, Qt::AlignHCenter);
+    FullSizeImgDlg dlg (pParent, *this);
 
     dlg.exec();
 }

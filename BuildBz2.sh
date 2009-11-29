@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Builds MP3 Diags linking Boost Serialization statically, for creation of "generic" binaries
 #
@@ -6,7 +6,7 @@
 # ttt1 Quite likely this needs changes to work with other distros and / or versions
 
 
-sh ./AdjustMt.sh
+bash ./AdjustMt.sh STATIC_SER
 
 #cat src/src.pro | grep 'lboost_serialization' > /dev/null
 #if [ $? -eq 0 ] ; then # we don't want to change a file that was already changed

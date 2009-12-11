@@ -1775,7 +1775,7 @@ bool TagWriter::addImgFromFile(const QString& qs, bool bConsiderAssigned)
 
         int nSize ((int)f.size());
         QByteArray comprImg (f.read(nSize));
-        QPixmap pic;
+        QImage pic;
 
         if (pic.loadFromData(comprImg))
         {
@@ -1791,7 +1791,7 @@ bool TagWriter::addImgFromFile(const QString& qs, bool bConsiderAssigned)
             }
             else
             {
-                QPixmap scaledImg;
+                QImage scaledImg;
                 ImageInfo::compress(pic, scaledImg, comprImg);
                 nWidth = scaledImg.width(); nHeight = scaledImg.height();
                 eCompr = ImageInfo::JPG;
@@ -1831,7 +1831,7 @@ void TagWriter::paste()
     QPixmap pic (pClp->pixmap()); //ttt2 this leads in many cases to recompression; see how to avoid it; (probably ask the clipboard for other formats)
     if (!pic.isNull())
     {
-        ImageInfo img (-1, ImageInfo::OK, pic);
+        ImageInfo img (-1, ImageInfo::OK, pic.toImage());
         //ttt2 only reason to change image widget is because images were loaded, so perhaps adjust signals; (keep in mind first time, though)
         //emit imagesChanged();
         addImage(img, CONSIDER_UNASSIGNED);

@@ -1490,8 +1490,8 @@ void Id3V230Writer::setupWriter(Id3V230StreamWriter& wrt, const Mp3HandlerTagDat
         case ImageInfo::PNG: szEncoding = "image/png"; break;
         case ImageInfo::INVALID:
             {
-                QPixmap scaledPic;
-                ImageInfo::compress(imgInfo.getPixmap(), scaledPic, recomprImg);
+                QImage scaledPic;
+                ImageInfo::compress(imgInfo.getImage(), scaledPic, recomprImg);
                 nImgSize = recomprImg.size();
                 pImgData = recomprImg.constData();
                 szEncoding = "image/jpg";

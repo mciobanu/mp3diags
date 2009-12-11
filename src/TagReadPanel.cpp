@@ -303,7 +303,7 @@ void ImageInfoPanel::createButton(int nSize)
     const int ICON_SIZE (BTN_SIZE - 2*QApplication::style()->pixelMetric(QStyle::PM_DefaultFrameWidth) - 2); //ttt2 not sure PM_DefaultFrameWidth is right
 
     m_pBtn = new QToolButton(this);
-    m_pBtn->setIcon(m_imageInfo.getPixmap(ICON_SIZE));
+    m_pBtn->setIcon(QPixmap::fromImage(m_imageInfo.getImage(ICON_SIZE)));
     m_pBtn->setMaximumSize(BTN_SIZE, BTN_SIZE);
     m_pBtn->setMinimumSize(BTN_SIZE, BTN_SIZE);
     m_pBtn->setAutoRaise(true);

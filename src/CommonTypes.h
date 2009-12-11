@@ -44,7 +44,7 @@ struct ImageInfo
     ImageInfo() : m_eCompr(INVALID), m_eStatus(NO_PICTURE_FOUND), m_nWidth(0), m_nHeight(0), m_nImageType(-1) {}
     //ImageInfo(Compr eCompr, QByteArray compressedImg) : m_eCompr(eCompr), m_eStatus(OK), m_compressedImg(compressedImg) {}
     ImageInfo(int nImageType, Status eStatus) : m_eCompr(INVALID), m_eStatus(eStatus), m_nWidth(0), m_nHeight(0), m_nImageType(nImageType) {}
-    ImageInfo(int nImageType, Status eStatus, const QPixmap& pic);
+    ImageInfo(int nImageType, Status eStatus, const QImage& pic);
     ImageInfo(int nImageType, Status eStatus, Compr eCompr, QByteArray compressedImg, int nWidth, int nHeight);
 
     bool isNull() const { return m_compressedImg.isEmpty(); }
@@ -59,7 +59,7 @@ struct ImageInfo
 
     // the picture is scaled down, keeping the aspect ratio, if the limits are exceeded; 0 and negative limits are ignored;
     // if nMaxWidth>0 and nMaxHeight<=0, nMaxHeight has the same value as nMaxWidth;
-    QPixmap getPixmap(int nMaxWidth = -1, int nMaxHeight = -1) const;
+    QImage getImage(int nMaxWidth = -1, int nMaxHeight = -1) const;
 
     QString getTextDescr(const QString& qstrSep = "\n") const;
     void showFull(QWidget* pParent) const;
@@ -68,7 +68,7 @@ struct ImageInfo
     bool operator==(const ImageInfo&) const;
 
     static int MAX_IMAGE_SIZE;
-    static void compress(const QPixmap& origPic, QPixmap& scaledPic, QByteArray& comprImg); // scales down origPic and stores the pixmap in scaledPic, as well as a compressed version in comprImg; the algorithm coninues until comprImg becomes smaller than MAX_IMAGE_SIZE or until the width and the height of scaledPic get 150 or smaller; no scaling is done if comprImg turns out to be small enough for the original image;
+    static void compress(const QImage& origPic, QImage& scaledPic, QByteArray& comprImg); // scales down origPic and stores the pixmap in scaledPic, as well as a compressed version in comprImg; the algorithm coninues until comprImg becomes smaller than MAX_IMAGE_SIZE or until the width and the height of scaledPic get 150 or smaller; no scaling is done if comprImg turns out to be small enough for the original image;
 
     static const char* getImageType(int nImageType);
     static const char* getComprStr(Compr);

@@ -438,7 +438,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::previous");
         // if it got here, we have a loaded album (pictures might be missing, though)
 
         if ((m_pImageFltCkB->isChecked() && album(nPrevAlbum).m_vpImages.empty()) ||
-            (m_pCdFltCkB->isChecked() && string::npos == album(nPrevAlbum).m_strFormat.find("CD")) || // Discogs has one format, but MusicBrainz may have several, so find() is used instead of "==" 
+            (m_pCdFltCkB->isChecked() && string::npos == album(nPrevAlbum).m_strFormat.find("CD")) || // Discogs has one format, but MusicBrainz may have several, so find() is used instead of "=="
             (m_pTrackCntFltCkB->isChecked() && m_nExpectedTracks != cSize(album(nPrevAlbum).m_vTracks)))
         {
             continue;
@@ -528,7 +528,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onRequestFinished");
     if (IMAGE == m_eWaiting)
     {
         QString qstrInfo;
-        QPixmap img;
+        QImage img;
         QByteArray comprImg (b);
         ImageInfo::Compr eOrigCompr (m_eLoadingImageCompr);
 
@@ -541,7 +541,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onRequestFinished");
 
             if (nAv > ImageInfo::MAX_IMAGE_SIZE || m_eLoadingImageCompr == ImageInfo::INVALID)
             {
-                QPixmap scaledImg;
+                QImage scaledImg;
                 ImageInfo::compress(img, scaledImg, comprImg);
                 nWidth = scaledImg.width(); nHeight = scaledImg.height();
                 m_eLoadingImageCompr = ImageInfo::JPG;
@@ -559,7 +559,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onRequestFinished");
         {
             QMessageBox::critical(this, "Error", "Failed to load the image");
             const int SIZE (150);
-            QPixmap errImg (SIZE, SIZE);
+            QImage errImg (SIZE, SIZE, QImage::Format_ARGB32);
             QPainter pntr (&errImg);
             pntr.fillRect(0, 0, SIZE, SIZE, QColor(255, 128, 128));
             pntr.drawRect(0, 0, SIZE - 1, SIZE - 1);
@@ -897,7 +897,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::reloadGui");
     }
     else
     {
-        m_pImageL->setPixmap(albumInfo.m_vpImages[m_nCrtImage]->getPixmap(m_pImageL->width(), m_pImageL->height()));
+        m_pImageL->setPixmap(QPixmap::fromImage(albumInfo.m_vpImages[m_nCrtImage]->getImage(m_pImageL->width(), m_pImageL->height())));
         m_pImgSizeL->setText(convStr(albumInfo.m_vstrImageInfo[m_nCrtImage]));
     }
 }

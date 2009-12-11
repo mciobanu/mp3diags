@@ -38,7 +38,7 @@ FullSizeImgDlg::FullSizeImgDlg(QWidget* pParent, const ImageInfo& imageInfo) : Q
     QVBoxLayout* pLayout (new QVBoxLayout(this));
     //dlg.setLayout(pGridLayout);
     QLabel* p (new QLabel(this));
-    p->setPixmap(imageInfo.getPixmap()); //ttt2 see if it should limit size (IIRC QLabel scaled down once a big image)
+    p->setPixmap(QPixmap::fromImage(imageInfo.getImage())); //ttt2 see if it should limit size (IIRC QLabel scaled down once a big image)
     pLayout->addWidget(p, 0, Qt::AlignHCenter);
 
 
@@ -62,7 +62,7 @@ void FullSizeImgDlg::onCopy()
     switch (m_imageInfo.getCompr())
     {
     case ImageInfo::JPG: szFmt = "image/jpeg"; break;
-    case ImageInfo::PNG: szFmt = "image/png"; break;
+    case ImageInfo::PNG: szFmt = "image/png"; break; //ttt2 doesn't work for BMP, GIF, ...
     default: break;
     }
 
@@ -76,7 +76,7 @@ void FullSizeImgDlg::onCopy()
         delete pMimeData;
     }
 #else
-    QApplication::clipboard()->setPixmap(m_imageInfo.getPixmap());
+    QApplication::clipboard()->setPixmap(QPixmap::fromImage(m_imageInfo.getImage()));
 #endif
 }
 

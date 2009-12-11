@@ -1,3 +1,10 @@
+mp3diags (1.0.01.046) testing; urgency=low
+
+  * fixed crash that occurred when running on Qt 4.6
+  * fixed crash that occurred when changing song info in the tag editor if songs had images stored as BMP or anything else besides JPG or PNG
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Fri, 11 Dec 2009 22:00:00 +0200
+
 mp3diags (1.0.00.045) testing; urgency=low
 
   * wording changes to reflect non-beta status

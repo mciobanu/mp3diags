@@ -285,7 +285,7 @@ ImageInfo LyricsStream::readImage(const QString& strRelName) const //ttt2 perhap
 
         int nSize ((int)f.size());
         QByteArray comprImg (f.read(nSize));
-        QPixmap pic;
+        QImage pic; //ttt1 rename QImage variables as "img"
 
         if (pic.loadFromData(comprImg))
         {
@@ -301,7 +301,7 @@ ImageInfo LyricsStream::readImage(const QString& strRelName) const //ttt2 perhap
             }
             else
             {
-                QPixmap scaledImg;
+                QImage scaledImg;
                 ImageInfo::compress(pic, scaledImg, comprImg);
                 nWidth = scaledImg.width(); nHeight = scaledImg.height();
                 eCompr = ImageInfo::JPG;

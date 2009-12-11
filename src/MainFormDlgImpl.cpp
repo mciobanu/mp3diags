@@ -380,14 +380,14 @@ namespace
 
     void FileTracer::enable1(bool b)
     {
-        if (b == m_bEnabled1) { return; }
+        if (b == m_bEnabled1 || m_vstrStepFile.empty()) { return; }
         m_bEnabled1 = b;
         setupFiles();
     }
 
     void FileTracer::enable2(bool b)
     {
-        if (b == m_bEnabled2) { return; }
+        if (b == m_bEnabled2 || m_vstrStepFile.empty()) { return; }
         m_bEnabled2 = b;
         setupFiles();
     }
@@ -426,8 +426,18 @@ static bool s_bMainAssertOut;
 
 static void showAssertMsg(QWidget* pParent)
 {
-    HtmlMsg::msg(pParent, 0, 0, 0, HtmlMsg::SHOW_SYS_INFO, "Assertion failure", Qt::escape(s_qstrErrorMsg) + "<p style=\"margin-bottom:1px; margin-top:12px; \">Please restart the application for instructions about how to report this issue</p>", 750, 300, "Exit");
+    HtmlMsg::msg(pParent, 0, 0, 0, HtmlMsg::SHOW_SYS_INFO, "Assertion failure",
+        Qt::escape(s_qstrErrorMsg) +
+            "<p style=\"margin-bottom:1px; margin-top:12px; \">" +
+            (
+                s_fileTracer.getStepFiles().empty() ?
+                    "Plese report this problem to the project's Issue Tracker at <a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a>" :
+                    "Please restart the application for instructions about how to report this issue"
+            ) +
+            "</p>",
+        750, 300, "Exit");
 }
+
 
 
 void MainFormDlgImpl::showRestartAfterCrashMsg(const QString& qstrText, const QString& qstrCloseBtn)

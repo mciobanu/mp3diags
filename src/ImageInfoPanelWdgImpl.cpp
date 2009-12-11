@@ -46,7 +46,7 @@ ImageInfoPanelWdgImpl::ImageInfoPanelWdgImpl(QWidget* pParent, const TagWrtImage
 
     m_pDimL->setText(QString("%1x%2").arg(tagWrtImageInfo.m_imageInfo.getWidth()).arg(tagWrtImageInfo.m_imageInfo.getHeight()));
 //PROFD(4);
-    m_pThumbL->setPixmap(tagWrtImageInfo.m_imageInfo.getPixmap(IMG_SIZE)); //ttt2p performance issue; doesn't look like much can be done, though
+    m_pThumbL->setPixmap(QPixmap::fromImage(tagWrtImageInfo.m_imageInfo.getImage(IMG_SIZE))); //ttt2p performance issue; doesn't look like much can be done, though
 //PROFD(5);
     if (tagWrtImageInfo.m_sstrFiles.empty())
     {

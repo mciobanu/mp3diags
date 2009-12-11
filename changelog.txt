@@ -1,5 +1,12 @@
 ---------------------------------------------------------------------------
 
+11.12.2009 - 1.0.01.046
+- fixed crash that occurred when running on Qt 4.6
+- fixed crash that occurred when changing song info in the tag editor if
+    songs had images stored as BMP or anything else besides JPG or PNG
+
+---------------------------------------------------------------------------
+
 29.11.2009 - 1.0.00.045
 - wording changes to reflect non-beta status
 - pressing CTRL+C when viewing full-size images in the tag editor or in

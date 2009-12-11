@@ -140,6 +140,12 @@ using namespace std;
 
 bool CheckedDirModel::setData(const QModelIndex& index, const QVariant& value, int nRole /*= Qt::EditRole*/)
 {
+    Qt::CheckState eCheck ((Qt::CheckState)value.toInt());
+    if (Qt::PartiallyChecked == eCheck)
+    {
+        eCheck = Qt::Checked == (Qt::CheckState)data(index, Qt::CheckStateRole).toInt() ? Qt::Unchecked : Qt::Checked;
+    }
+
     if (Qt::CheckStateRole == nRole)
     {
         bool hasClosestAncestorChecked (false);
@@ -184,7 +190,6 @@ bool CheckedDirModel::setData(const QModelIndex& index, const QVariant& value, i
         }
         v.swap(m_vUncheckedDirs);
 
-        Qt::CheckState eCheck ((Qt::CheckState)value.toInt());
         switch (eCheck)
         {
         case Qt::Checked:
@@ -218,7 +223,7 @@ bool CheckedDirModel::setData(const QModelIndex& index, const QVariant& value, i
         return true;
     }
 
-    return QDirModel::setData(index, value, nRole);
+    return QDirModel::setData(index, eCheck, nRole);
 }
 
 /*QString CheckedDirModel::getDir(const QModelIndex& index) const

@@ -43,14 +43,14 @@ ImageInfo::ImageInfo(int nImageType, Status eStatus, Compr eCompr, QByteArray co
 
 // the picture is scaled down, keeping the aspect ratio, if the limits are exceeded; 0 and negative limits are ignored;
 // if nMaxWidth>0 and nMaxHeight<=0, nMaxHeight has the same value as nMaxWidth;
-QPixmap ImageInfo::getPixmap(int nMaxWidth /*= -1*/, int nMaxHeight /*= -1*/) const
+QImage ImageInfo::getImage(int nMaxWidth /*= -1*/, int nMaxHeight /*= -1*/) const
 {
     CB_ASSERT (NO_PICTURE_FOUND != m_eStatus);
 
     if (nMaxHeight <= 0) { nMaxHeight = nMaxWidth; }
     if (nMaxWidth <= 0) { nMaxWidth = nMaxHeight; }
 
-    QPixmap pic;
+    QImage pic;
 
     if (USES_LINK == m_eStatus || ERROR_LOADING == m_eStatus || !pic.loadFromData(m_compressedImg)) //ttt2 not sure how loadFromData() handles huge images;
     {
@@ -60,7 +60,7 @@ QPixmap ImageInfo::getPixmap(int nMaxWidth /*= -1*/, int nMaxHeight /*= -1*/) co
         if (nMaxWidth <= 0) { nMaxWidth = 200; }
         if (nMaxHeight <= 0) { nMaxHeight = 200; }
 
-        QPixmap errImg (nMaxWidth, nMaxHeight);
+        QImage errImg (nMaxWidth, nMaxHeight, QImage::Format_ARGB32);
         QPainter pntr (&errImg);
         pntr.fillRect(0, 0, nMaxWidth, nMaxHeight, QColor(255, 128, 128));
         pntr.drawRect(0, 0, nMaxWidth - 1, nMaxHeight - 1);
@@ -86,9 +86,9 @@ bool ImageInfo::operator==(const ImageInfo& other) const
 
 /*static*/ int ImageInfo::MAX_IMAGE_SIZE (100000);
 
-ImageInfo::ImageInfo(int nImageType, Status eStatus, const QPixmap& pic) : m_eCompr(JPG), m_eStatus(eStatus), m_nImageType(nImageType)
+ImageInfo::ImageInfo(int nImageType, Status eStatus, const QImage& pic) : m_eCompr(JPG), m_eStatus(eStatus), m_nImageType(nImageType)
 {
-    QPixmap scaledPic;
+    QImage scaledPic;
     compress(pic, scaledPic, m_compressedImg);
 
     m_nWidth = scaledPic.width();
@@ -147,7 +147,7 @@ const char* ImageInfo::getImageType() const
 
 
 // scales down origPic and stores the pixmap in scaledPic, as well as a compressed version in comprImg; the algorithm coninues until comprImg becomes smaller than MAX_IMAGE_SIZE or until the width and the height of scaledPic get smaller than 150; no scaling is done if comprImg turns out to be small enough for the original image;
-/*static*/ void ImageInfo::compress(const QPixmap& origPic, QPixmap& scaledPic, QByteArray& comprImg)
+/*static*/ void ImageInfo::compress(const QImage& origPic, QImage& scaledPic, QByteArray& comprImg)
 {
     const int QUAL (-1); //ttt2 hard-coded
 

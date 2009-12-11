@@ -270,7 +270,7 @@ Since there are <a href="#binWindows">binaries</a> available (both setup.exe and
     <li>Create a .sln file that can be open from Visual C++</li>
 </ul>
 
-First you need to download and perhaps compile the required libraries: zlib, Qt, and Boost Serialization. In case it's not obvious, you cannot mix C++ libraries created by / for different compilers. The Qt DLLs that you get from Nokia when downloading Qt SDK are for MinGW, and they are of no use to a Visual C++ project; so you have to compile Qt yourself if you want to use Visual C++. (Or, well, get precompiled binaries from somewhere, but I couldn't find such a thing.) Also, care should be taken not to use incompatible flags for various pieces of code. So it may be better to compile from source, even if you find binaries that look like they should work. Well, here's what I do:
+First you need to download and perhaps compile the required libraries: zlib, Qt, and Boost Serialization. In case it's not obvious, you cannot mix C++ libraries created by / for different compilers. While downloadable binary Qt libraries existed for MinGW for some time, for Visual C++ 2008 they have been introduced in Qt 4.6. If you have a different version of Visual Studio or if you want to use an older Qt, you'll have to compile Qt for Visual C++ yourself. Well, here's what I do:
 </div>
 
 
@@ -307,7 +307,16 @@ First you need to download and perhaps compile the required libraries: zlib, Qt,
     </tr>
 
     <tr>
-        <td>Qt for Visual C++</td>
+        <td>Qt for Visual C++ 2008</td>
+        <td>
+            <ul>
+                <li>Go to <a href="http://qt.nokia.com/downloads/windows-cpp-vs2008" onClick="javascript: pageTracker._trackPageview('/nokia/windows-visualc');">http://qt.nokia.com/downloads/windows-cpp-vs2008</a>, let the automatic download proceed, then install</li>
+            </ul>
+        </td>
+    </tr>
+
+    <tr>
+        <td>Qt for Visual C++ other than 2008</td>
         <td>
             <ul>
                 <li>Go to <a href="http://qt.nokia.com/downloads/windows-cpp" onClick="javascript: pageTracker._trackPageview('/nokia/windows-cpp');">http://qt.nokia.com/downloads/windows-cpp</a>, cancel the download that starts automatically and choose qt-win-opensource-src-4.x.y.zip instead</li>

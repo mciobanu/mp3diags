@@ -180,3 +180,4 @@ Based on the above two settings, 8dot3 name creation is enabled on c:.
 
 //ttt0 might have to remove the program before switching packages; - in the fake mp3diags
 
+//ttt1 01 - The Privateer.mp3 - go to tag editor, change track, save; new image doesn't show, but there is the original "other" bmp and the new "cover" jpg

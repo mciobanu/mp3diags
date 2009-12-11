@@ -260,7 +260,7 @@ createSfDoc
 createPackagerSrc
 
 if [ -f CopyToSf.sh ] ; then
-    cp CopyToSf.sh package/out
+    cp -p CopyToSf.sh package/out
 fi
 
 #FileName=`find . -maxdepth 1 -mindepth 1 -type d | sed s#./##`

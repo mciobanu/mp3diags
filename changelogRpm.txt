@@ -1,3 +1,9 @@
+* Tue Jan 12 2010 Marian Ciobanu <ciobi@inbox.com> 1.0.02.047
+
+- fixed crash triggered by trying to repair broken ID3V2 tags that contain images
+- fixed crash that occurred when changing file names manually in the file renamer, without defining a pattern
+- fixed crash caused by unsynchronized ID3V2.4.0 frames that end with 0xff
+
 * Fri Dec 11 2009 Marian Ciobanu <ciobi@inbox.com> 1.0.01.046
 
 - fixed crash that occurred when running on Qt 4.6

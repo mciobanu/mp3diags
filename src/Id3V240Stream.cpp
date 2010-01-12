@@ -118,15 +118,14 @@ void Id3V240Frame::load(NoteColl& notes, istream& in, streampos posNext, bool bH
     rst.setOk();
     if (bHasUnsynch && !v.empty())
     {
-        for (int i = 0; i < cSize(v) - 1; ++i)
+        for (int i = 0; i < cSize(v); ++i)
         {
             m_vcData.push_back(v[i]);
-            if (char(0xff) == v[i] && 0 == v[i + 1]) // !!! it's OK to run this on the Data length indicator, because it doesn't contain any 0xff
+            if (char(0xff) == v[i] && i < cSize(v) - 1 && 0 == v[i + 1]) // !!! it's OK to run this on the Data length indicator, because it doesn't contain any 0xff
             {
                 ++i;
             }
         }
-        m_vcData.push_back(v[v.size() - 1]);
     }
     else
     {
@@ -144,7 +143,7 @@ void Id3V240Frame::load(NoteColl& notes, istream& in, streampos posNext, bool bH
 
         if (nDli != m_nMemDataSize - 4)
         {
-            MP3_NOTE (m_pos, id3v240IncorrectDli);
+            MP3_NOTE (m_pos, id3v240IncorrectDli); //ttt2 probably adjust m_nMemDataSize anyway; after all, the Data length indicator flag is still there
         }
         else
         {

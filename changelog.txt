@@ -1,5 +1,14 @@
 ---------------------------------------------------------------------------
 
+12.01.2010 - 1.0.02.047
+- fixed crash triggered by trying to repair broken ID3V2 tags that contain
+    images
+- fixed crash that occurred when changing file names manually in the file
+    renamer, without defining a pattern
+- fixed crash caused by unsynchronized ID3V2.4.0 frames that end with 0xff
+
+---------------------------------------------------------------------------
+
 11.12.2009 - 1.0.01.046
 - fixed crash that occurred when running on Qt 4.6
 - fixed crash that occurred when changing song info in the tag editor if

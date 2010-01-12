@@ -304,6 +304,7 @@ Id3V230Stream::Id3V230Stream(int nIndex, NoteColl& notes, istream& in, StringWrp
     {
         if (bAcceptBroken)
         {
+            preparePicture(notes);
             return;
         }
 

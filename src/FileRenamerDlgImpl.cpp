@@ -95,7 +95,7 @@ const deque<const Mp3Handler*> HndlrListModel::getHandlerList() const
 /*override*/ Qt::ItemFlags HndlrListModel::flags(const QModelIndex& index) const
 {
     Qt::ItemFlags flg (QAbstractTableModel::flags(index));
-    if (1 == index.column())
+    if (1 == index.column() && 0 != m_pRenamer)
     {
         flg = flg | Qt::ItemIsEditable;
     }
@@ -177,6 +177,8 @@ LAST_STEP("HndlrListModel::data()");
 /*override*/ bool HndlrListModel::setData(const QModelIndex& index, const QVariant& value, int nRole /*= Qt::EditRole*/)
 {
     if (Qt::EditRole != nRole) { return false; }
+
+    CB_ASSERT (0 != m_pRenamer);
 
     m_pRenamer->m_mValues[getHandlerList().at(index.row())] = convStr(fromNativeSeparators(value.toString()));
     return true;

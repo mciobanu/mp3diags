@@ -11,7 +11,7 @@ Doxyfile	f	2009-05-06T06:54:38Z
 Install.sh	f	2009-11-29T14:05:31Z
 MakeArchives.sh	f	2009-11-30T07:10:15Z
 README.TXT	f	2009-10-01T16:49:38Z
-Release.txt	f	2009-12-10T16:37:53Z
+Release.txt	f	2010-01-11T21:37:43Z
 Uninstall.sh	f	2009-05-22T05:36:21Z
 Windows/MP3Diags.nsi	f	2009-09-30T08:45:38Z
 Windows/Mp3DiagsWindows.pro	f	2009-09-17T06:35:57Z
@@ -22,9 +22,9 @@ Windows/SVGs_/go-next.svg	f	2009-05-28T09:41:16Z
 Windows/SVGs_/go-previous.svg	f	2009-05-28T09:53:37Z
 Windows/SVGs_/session.svg	f	2009-05-28T09:56:07Z
 Windows/build.bat	f	2009-08-24T10:34:31Z
-changelog.txt	f	2009-12-11T09:00:51Z
-changelogDeb.txt	f	2009-12-11T09:02:23Z
-changelogRpm.txt	f	2009-12-11T09:01:46Z
+changelog.txt	f	2010-01-11T21:55:08Z
+changelogDeb.txt	f	2010-01-12T06:58:05Z
+changelogRpm.txt	f	2010-01-12T07:37:55Z
 desktop/MP3Diags.desktop	f	2009-07-07T18:52:45Z
 desktop/MP3Diags16.png	f	2009-05-19T15:54:44Z
 desktop/MP3Diags16.xcf	f	2009-05-19T15:54:27Z
@@ -261,7 +261,7 @@ src/ExportDlgImpl.h	f	2009-10-01T07:49:02Z
 src/FileEnum.cpp	f	2009-10-13T10:05:02Z
 src/FileEnum.h	f	2009-10-13T10:05:02Z
 src/FileRenamer.ui	f	2009-10-14T09:48:54Z
-src/FileRenamerDlgImpl.cpp	f	2009-10-24T08:53:36Z
+src/FileRenamerDlgImpl.cpp	f	2009-12-12T11:41:38Z
 src/FileRenamerDlgImpl.h	f	2009-10-20T14:15:39Z
 src/FilesModel.cpp	f	2009-10-01T09:29:00Z
 src/FilesModel.h	f	2009-10-01T09:28:15Z
@@ -271,9 +271,9 @@ src/Helpers.cpp	f	2009-11-28T08:23:08Z
 src/Helpers.h	f	2009-11-03T12:14:26Z
 src/Id3Transf.cpp	f	2009-11-28T07:59:59Z
 src/Id3Transf.h	f	2009-11-29T07:54:21Z
-src/Id3V230Stream.cpp	f	2009-11-28T07:59:59Z
+src/Id3V230Stream.cpp	f	2009-12-29T15:15:29Z
 src/Id3V230Stream.h	f	2009-11-04T06:29:24Z
-src/Id3V240Stream.cpp	f	2009-11-04T07:13:54Z
+src/Id3V240Stream.cpp	f	2010-01-05T11:33:19Z
 src/Id3V240Stream.h	f	2009-11-03T09:01:16Z
 src/Id3V2Stream.cpp	f	2009-11-04T08:11:15Z
 src/Id3V2Stream.h	f	2009-11-04T07:16:25Z
@@ -290,7 +290,7 @@ src/MainFormDlgImpl.h	f	2009-09-27T12:37:21Z
 src/Mp3Diags.qrc	f	2009-10-14T15:54:34Z
 src/Mp3Manip.cpp	f	2009-11-28T07:59:59Z
 src/Mp3Manip.h	f	2009-10-13T11:22:57Z
-src/Mp3TransformThread.cpp	f	2009-11-28T07:59:59Z
+src/Mp3TransformThread.cpp	f	2010-01-11T21:52:45Z
 src/Mp3TransformThread.h	f	2009-05-06T07:30:48Z
 src/MpegFrame.cpp	f	2009-10-13T11:29:18Z
 src/MpegFrame.h	f	2009-10-01T10:10:51Z

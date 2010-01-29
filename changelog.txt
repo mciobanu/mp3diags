@@ -1,5 +1,10 @@
 ---------------------------------------------------------------------------
 
+29.01.2010 - 1.0.03.048
+- fixed crash triggered by GEOB frames containing UTF-16 text
+
+---------------------------------------------------------------------------
+
 12.01.2010 - 1.0.02.047
 - fixed crash triggered by trying to repair broken ID3V2 tags that contain
     images

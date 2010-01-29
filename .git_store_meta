@@ -11,7 +11,7 @@ Doxyfile	f	2009-05-06T06:54:38Z
 Install.sh	f	2009-11-29T14:05:31Z
 MakeArchives.sh	f	2009-11-30T07:10:15Z
 README.TXT	f	2009-10-01T16:49:38Z
-Release.txt	f	2010-01-11T21:37:43Z
+Release.txt	f	2010-01-29T07:47:24Z
 Uninstall.sh	f	2009-05-22T05:36:21Z
 Windows/MP3Diags.nsi	f	2009-09-30T08:45:38Z
 Windows/Mp3DiagsWindows.pro	f	2009-09-17T06:35:57Z
@@ -22,9 +22,9 @@ Windows/SVGs_/go-next.svg	f	2009-05-28T09:41:16Z
 Windows/SVGs_/go-previous.svg	f	2009-05-28T09:53:37Z
 Windows/SVGs_/session.svg	f	2009-05-28T09:56:07Z
 Windows/build.bat	f	2009-08-24T10:34:31Z
-changelog.txt	f	2010-01-11T21:55:08Z
-changelogDeb.txt	f	2010-01-12T06:58:05Z
-changelogRpm.txt	f	2010-01-12T07:37:55Z
+changelog.txt	f	2010-01-29T07:39:04Z
+changelogDeb.txt	f	2010-01-29T07:41:40Z
+changelogRpm.txt	f	2010-01-29T07:40:42Z
 desktop/MP3Diags.desktop	f	2009-07-07T18:52:45Z
 desktop/MP3Diags16.png	f	2009-05-19T15:54:44Z
 desktop/MP3Diags16.xcf	f	2009-05-19T15:54:27Z
@@ -275,7 +275,7 @@ src/Id3V230Stream.cpp	f	2009-12-29T15:15:29Z
 src/Id3V230Stream.h	f	2009-11-04T06:29:24Z
 src/Id3V240Stream.cpp	f	2010-01-05T11:33:19Z
 src/Id3V240Stream.h	f	2009-11-03T09:01:16Z
-src/Id3V2Stream.cpp	f	2009-11-04T08:11:15Z
+src/Id3V2Stream.cpp	f	2010-01-29T07:36:16Z
 src/Id3V2Stream.h	f	2009-11-04T07:16:25Z
 src/ImageInfoPanel.ui	f	2009-07-24T07:30:59Z
 src/ImageInfoPanelWdgImpl.cpp	f	2009-12-11T07:31:44Z
@@ -301,7 +301,7 @@ src/MultiLineTvDelegate.h	f	2009-10-13T11:33:20Z
 src/MusicBrainzDownloader.cpp	f	2009-11-28T07:59:59Z
 src/MusicBrainzDownloader.h	f	2009-09-11T14:47:51Z
 src/Normalize.ui	f	2009-07-15T20:48:06Z
-src/NormalizeDlgImpl.cpp	f	2009-11-03T12:20:00Z
+src/NormalizeDlgImpl.cpp	f	2010-01-27T20:09:00Z
 src/NormalizeDlgImpl.h	f	2009-07-17T15:02:37Z
 src/NoteFilter.ui	f	2009-07-15T20:48:15Z
 src/NoteFilterDlgImpl.cpp	f	2009-11-03T12:20:00Z

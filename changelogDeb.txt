@@ -1,3 +1,9 @@
+mp3diags (1.0.03.048) testing; urgency=low
+
+  * fixed crash triggered by GEOB frames containing UTF-16 text
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Fri, 29 Jan 2010 22:00:00 +0200
+
 mp3diags (1.0.02.047) testing; urgency=low
 
   * fixed crash triggered by trying to repair broken ID3V2 tags that contain images

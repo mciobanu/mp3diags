@@ -199,6 +199,39 @@ string Id3V2Frame::getReadableName() const
 }
 
 
+static const char* findAfter(const char* p, unsigned char cEnc, const char* pLast)
+{
+//inspect(p, pLast - p);
+    if (0 == p) { return 0; }
+    switch (cEnc)
+    {
+    case 0:
+    case 3:
+        {
+            while (p < pLast - 1 && 0 != *p) { ++p; }
+            if (p + 1 < pLast) { return p + 1; }
+            return 0;
+        }
+
+    case 1:
+    case 2:
+        {
+            while (p < pLast - 2 && (0 != *p || 0 != *(p + 1)))
+            {
+                p += 2;
+                //inspect(p, pLast - p);
+            }
+            if (p + 2 < pLast) { return p + 2; }
+            return 0;
+        }
+
+    default:
+        CB_ASSERT(false);
+    }
+}
+
+
+
 void Id3V2Frame::print(ostream& out, bool bFullInfo) const
 {
     out << m_szName;
@@ -298,24 +331,13 @@ void Id3V2Frame::print(ostream& out, bool bFullInfo) const
         else
         {
             const char* pLast (pData + m_nMemDataSize); // actually first after last
-            int nTermSize (1 == cEnc || 2 == cEnc ? 2 : 1);
 
-            pFile = pMime = pData + 1;
-            for (; pFile < pLast && 0 != *pFile; ++pFile) {}
-            if (pFile == pLast) { goto e1; }
-            pFile += 1; // !!! mime is always UTF-8
+            pMime = pData + 1;
 
-            pDescr = pFile;
-            for (; pDescr < pLast && 0 != *pDescr; ++pDescr) {}
-            if (pDescr == pLast) { goto e1; }
-            pDescr += nTermSize;
+            pFile = findAfter(pMime, 0, pLast); // !!! mime is always UTF-8
+            pDescr = findAfter(pFile, cEnc, pLast);
+            pBinData = findAfter(pDescr, cEnc, pLast);
 
-            pBinData = pDescr;
-            for (; pBinData < pLast && 0 != *pBinData; ++pBinData) {}
-            if (pBinData == pLast) { pBinData = 0; goto e1; }
-            pBinData += nTermSize;
-
-e1:
             if (0 != pBinData)
             {
                 qstrMime = QString::fromLatin1(pMime);
@@ -327,8 +349,23 @@ e1:
                     break;
 
                 case 1:
-                    qstrFile = QString::fromUtf8(utf8FromBomUtf16(pFile, pDescr - pFile).c_str());
-                    qstrDescr = QString::fromUtf8(utf8FromBomUtf16(pDescr, pBinData - pDescr).c_str());
+                    try
+                    {
+                        qstrFile = QString::fromUtf8(utf8FromBomUtf16(pFile, pDescr - pFile).c_str());
+                    }
+                    catch (const NotId3V2Frame&)
+                    { // invalid encoding
+                        qstrFile = "<encoding error>";
+                    }
+
+                    try
+                    {
+                        qstrDescr = QString::fromUtf8(utf8FromBomUtf16(pDescr, pBinData - pDescr).c_str());
+                    }
+                    catch (const NotId3V2Frame&)
+                    { // invalid encoding
+                        qstrDescr = "<encoding error>";
+                    }
                     break;
 
                 /*case 2:
@@ -407,6 +444,7 @@ double Id3V2Frame::getRating() const // asserts it's POPM
 /*static*/ string Id3V2Frame::utf8FromBomUtf16(const char* pData, int nSize)
 {
     CB_CHECK1 (nSize > 1, NotId3V2Frame()); // UNICODE string entries must have a size of 3 or more."
+    if (2 == nSize && 0 == *pData && 0 == *(pData + 1)) { return ""; } // not quite correct, but seems to happen; even if a string is null, it must begin with BOM //ttt1 add a note
     const unsigned char* p (reinterpret_cast<const unsigned char*> (pData));
     CB_CHECK1 ((0xff == p[0] && 0xfe == p[1]) || (0xff == p[1] && 0xfe == p[0]), NotId3V2Frame()); //ttt2 perhaps use other exception
 
@@ -1204,6 +1242,7 @@ void Id3V2StreamBase::preparePicture(NoteColl& notes) // initializes fields used
 static const char* REPLAY_GAIN_ROOT ("replaygain");
 
 
+//ttt1 mp3gain 1.5.1 can use ID3V2 instead of APE, so that should be tested as well; see TXXX="MP3GAIN_MINMAX[...]" in "Arctic Monkeys - 01 - My Propeller.mp3" (which also has TXXX="replaygain_track_gain[...]")
 bool Id3V2StreamBase::hasReplayGain() const
 {
     for (int i = 0; i < cSize(m_vpFrames); ++i)
@@ -1499,3 +1538,4 @@ vector<const Id3V2Frame*> Id3V2StreamBase::getKnownFrames() const // to be used 
     return true;
 }
 
+//ttt2 note for mismatch between file name and rating

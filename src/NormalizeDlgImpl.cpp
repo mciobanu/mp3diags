@@ -277,3 +277,5 @@ void NormalizeDlgImpl::onHelp()
 //ttt2 timer in normalizer
 //ttt2 look at normalized loudness in tracks, maybe warn
 
+//ttt1 non-ASCII characters are not shown correctly
+

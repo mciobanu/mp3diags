@@ -314,14 +314,14 @@ void CB_LIB_CALL createDir(const string& strDirName)
     }
 
     string::size_type n (strDirName.rfind(getPathSep()));
-    CB_CHECK1 (string::npos != n, CannotCreateDir());
+    CB_CHECK1 (string::npos != n, CannotCreateDir(strDirName));
     string strParent (strDirName.substr(0, n));
     createDir(strParent);
 
     QFileInfo fi (convStr(strDirName));
-    CB_CHECK1 (fi.dir().mkdir(fi.fileName()), CannotCreateDir());
+    CB_CHECK1 (fi.dir().mkdir(fi.fileName()), CannotCreateDir(strDirName));
 
-    CB_CHECK1 (dirExists(strDirName), CannotCreateDir());
+    CB_CHECK1 (dirExists(strDirName), CannotCreateDir(strDirName));
 }
 
 

@@ -38,7 +38,7 @@ using namespace std;
 using namespace pearl;
 
 
-/*static const string& getOsTempDir() 
+/*static const string& getOsTempDir()
 {
     static string s; // ttt3 these static variables are not really thread safe, but in this case it doesn't matter, because they all get called from a single thread (the UI thread)
     if (s.empty())

@@ -88,7 +88,11 @@ void CB_LIB_CALL getFileInfo(const std::string& strFileName, long long& nChangeT
 void CB_LIB_CALL setFileDate(const std::string& strFileName, long long nChangeTime);
 
 
-struct CannotCreateDir {};
+struct CannotCreateDir
+{
+    std::string m_strDir;
+    CannotCreateDir(const std::string& strDir) : m_strDir(strDir) {}
+};
 
 
 // creates all intermediate dirs; throws CannotCreateDir on failure (if the directory already exists it's a success)

@@ -110,6 +110,7 @@ ApeItem::ApeItem(NoteColl& notes, istream& in) : m_eType(BINARY)
     m_cFlags4 = pUnsgBfr[7];
 
     MP3_CHECK (0 == m_cFlags1 && 0 == m_cFlags2 && 0 == m_cFlags3 && 0 == m_cFlags4, pos, apeFlagsNotSupported, StreamIsUnsupported(ApeStream::getClassDisplayName(), "Ape stream whose items have unsupported flags."));
+    //MP3_CHECK (0 == (m_cFlags1 & 0xf8u) && 0 == m_cFlags2 && 0 == m_cFlags3 && 0 == m_cFlags4, pos, apeFlagsNotSupported, StreamIsUnsupported(ApeStream::getClassDisplayName(), "Ape stream whose items have unsupported flags.")); // ttt1 allow this; see 02_-_Brave_-_Driven.mp3, which has a "BINARY" value (hence the "2" flag, which is also larger than 256)
 //inspect(bfr, BFR_SIZE);
     int nDataSize (pUnsgBfr[0] + (pUnsgBfr[1] << 8) + (pUnsgBfr[2] << 16) + (pUnsgBfr[3] << 24));
     char* p (bfr + 8);
@@ -123,7 +124,7 @@ ApeItem::ApeItem(NoteColl& notes, istream& in) : m_eType(BINARY)
         ostringstream out;
         out << "Ape Item seems too big. Although the size may be any 32-bit integer, 256 bytes should be enough in practice. If this message is determined to be mistaken, it will be removed in the future. Item key: " << m_strName << "; item size: " << nDataSize;
         MP3_NOTE_D (pos, apeItemTooBig, out.str());
-        throw ApeStream::NotApeStream();
+        throw ApeStream::NotApeStream(); //ttt1 actually it's possible; see 02_-_Brave_-_Driven.mp3
     }
 
     m_vcValue.resize(nDataSize);

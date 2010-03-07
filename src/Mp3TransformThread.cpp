@@ -80,6 +80,7 @@ struct Mp3TransformThread : public PausableThread
     }
 
     string m_strErrorFile; // normally this is empty; if it's not, writing to the specified file failed
+    string m_strErrorDir; // normally this is empty; if it's not, creating the specified backup file failed
     bool m_bWriteError;
     bool m_bFileChanged;
 
@@ -429,6 +430,11 @@ bool Mp3TransformThread::transform()
                 {
                     bErrorInTransform = true;
                 }
+                catch (const CannotCreateDir& ex)
+                {
+                    bErrorInTransform = true;
+                    m_strErrorDir = ex.m_strDir;
+                }
                 catch (const CannotCopyFile&)
                 {
                     CB_ASSERT(false);
@@ -488,8 +494,8 @@ bool Mp3TransformThread::transform()
     }
     catch (...)
     {
-        qDebug("Caught unknown excption in Mp3TransformThread::transform()");
-        traceToFile("Caught unknown excption in Mp3TransformThread::transform()", 0);
+        qDebug("Caught unknown exception in Mp3TransformThread::transform()");
+        traceToFile("Caught unknown exception in Mp3TransformThread::transform()", 0);
         throw; // !!! needed to restore "erased" files when errors occur, because when an exception is thrown the destructors only get called if that exception is caught; so catching and rethrowing is not a "no-op"
     }
 
@@ -509,7 +515,7 @@ bool transform(const deque<const Mp3Handler*>& vpHndlr, vector<Transformation*>&
     vector<const Mp3Handler*> vpDel;
     vector<const Mp3Handler*> vpAdd;
 
-    string strErrorFile;
+    string strErrorFile, strErrorDir;
     bool bWriteError;
     bool bFileChanged;
     {
@@ -518,6 +524,7 @@ bool transform(const deque<const Mp3Handler*>& vpHndlr, vector<Transformation*>&
         dlg.setWindowTitle(convStr(strTitle));
         dlg.exec();
         strErrorFile = pThread->m_strErrorFile;
+        strErrorDir = pThread->m_strErrorDir;
         bWriteError = pThread->m_bWriteError;
         bFileChanged = pThread->m_bFileChanged;
     }
@@ -542,7 +549,14 @@ bool transform(const deque<const Mp3Handler*>& vpHndlr, vector<Transformation*>&
             }
             else
             {
-                QMessageBox::critical(pParent, "Error", "There was an error processing the following file:\n\n" + toNativeSeparators(convStr(strErrorFile)) + "\n\nProbably the file was deleted or modified since the last scan, in which case you should reload / rescan your collection. Or it may be used by another program; if that's the case, you should stop the other program first.\n\nThis may also be caused by access restrictions or a full disk.\n\nProcessing aborted.");
+                if (strErrorDir.empty())
+                {
+                    QMessageBox::critical(pParent, "Error", "There was an error processing the following file:\n\n" + toNativeSeparators(convStr(strErrorFile)) + "\n\nProbably the file was deleted or modified since the last scan, in which case you should reload / rescan your collection. Or it may be used by another program; if that's the case, you should stop the other program first.\n\nThis may also be caused by access restrictions or a full disk.\n\nProcessing aborted.");
+                }
+                else
+                {
+                    QMessageBox::critical(pParent, "Error", "There was an error processing the following file:\n" + toNativeSeparators(convStr(strErrorFile)) + "\n\nThe following folder couldn't be created:\n" + toNativeSeparators(convStr(strErrorDir)) + "\n\nProcessing aborted.");
+                }
             }
         }
     }

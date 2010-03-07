@@ -55,8 +55,8 @@
 # ln -s -f MP3DiagsSetup-*.exe MP3DiagsSetup.exe ; rsync -avP -e ssh MP3DiagsSetup*.exe ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-windows-setup
 
 
-cp MP3Diags-Linux-x86_64-*.bz2 MP3Diags-Linux-x86_64.bz2 ; rsync -avP -e ssh MP3Diags-Linux-x86_64*.bz2 ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-linux-bin/x86_64
-cp MP3Diags-Linux-i686-*.bz2 MP3Diags-Linux-i686.bz2 ; rsync -avP -e ssh MP3Diags-Linux-i686*.bz2 ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-linux-bin/i686
+cp MP3Diags-Linux-x86_64-*.tar.bz2 MP3Diags-Linux-x86_64.tar.bz2 ; rsync -avP -e ssh MP3Diags-Linux-x86_64*.tar.bz2 ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-linux-bin/x86_64
+cp MP3Diags-Linux-i686-*.tar.bz2 MP3Diags-Linux-i686.tar.bz2 ; rsync -avP -e ssh MP3Diags-Linux-i686*.tar.bz2 ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-linux-bin/i686
 cp MP3DiagsDoc-*.tar.gz MP3DiagsDoc.tar.gz ; rsync -avP -e ssh MP3DiagsDoc*.tar.gz ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-doc
 cp MP3Diags-*.tar.gz MP3Diags.tar.gz ; rsync -avP -e ssh MP3Diags-*.tar.gz MP3Diags.tar.gz ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-src
 

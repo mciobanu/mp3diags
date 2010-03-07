@@ -68,6 +68,8 @@ Id3V230Frame::Id3V230Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
     m_szName[4] = 0;
     m_nMemDataSize = (p[4] << 24) + (p[5] << 16) + (p[6] << 8) + (p[7] << 0);
 
+    MP3_CHECK (m_nMemDataSize >= 0 && m_nMemDataSize < 5000000, pos, id3v230CantReadFrame, StreamIsBroken(Id3V230Stream::getClassDisplayName(), "Broken ID3V2.3.0 tag."));
+
     {
         char c (m_szName[0]);
         MP3_CHECK (c >= 'A' && c <= 'Z', pos, id3v2InvalidName, StreamIsBroken(Id3V230Stream::getClassDisplayName(), "ID3V2.3.0 tag containing a frame with an invalid name: " + getReadableName() + "."));

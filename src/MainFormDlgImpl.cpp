@@ -3204,5 +3204,5 @@ Development machine:
 //ttt2 fix on right-click for notes table
 
 
-
+//ttt1 Settings/Configuration name: different tooltip and dlg name
 

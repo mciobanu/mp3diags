@@ -34,10 +34,12 @@ if [ $? -ne 0 ] ; then exit 1 ; fi
 
 strip bin/MP3Diags
 
-#sudo cp bin/MP3Diags /usr/local/bin
-
-bzip2 -k bin/MP3Diags
 
 Cpu=`uname -m`
 
-mv bin/MP3Diags.bz2 bin/MP3Diags-Linux-$Cpu-QQQVERQQQ.bz2
+cd bin
+NewName=MP3Diags-Linux-$Cpu-QQQVERQQQ
+mv MP3Diags $NewName
+tar -c $NewName | bzip2 > $NewName.tar.bz2
+mv $NewName MP3Diags
+cd ..

@@ -99,6 +99,7 @@ tryPadding:
 void Id3V240Frame::load(NoteColl& notes, istream& in, streampos posNext, bool bHasUnsynch)
 {
     StreamStateRestorer rst (in);
+    if (m_nDiskDataSize < 0) { return; }
     if (m_nDiskDataSize > 5000000) { return; } // there are probably no frames over 5MB
 
     vector<char> v (m_nDiskDataSize);

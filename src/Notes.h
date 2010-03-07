@@ -236,6 +236,7 @@ struct Notes
     DECL_NOTE_INFO(id3v230AfterAudio, ERR, ID3V230, "The ID3V2.3.0 tag should be the first tag in a file.", true); // d
     DECL_NOTE_INFO(id3v230UsesUtf8, WARNING, ID3V230, "ID3V2.3.0 tag contains a text frame encoded as UTF-8, which is valid in ID3V2.4.0 but not in ID3V2.3.0.", true); // e
     DECL_NOTE_INFO(id3v230UnsuppText, SUPPORT, ID3V230, "Unsupported value of text frame while reading an Id3V2 Stream.", true); // f
+    DECL_NOTE_INFO(id3v230CantReadFrame, ERR, ID3V230, "Invalid ID3V2.3.0 frame. Incorrect frame size or file too short.", true); // g
 
     // id3 v2.4.0 // g
     DECL_NOTE_INFO(twoId3V240, ERR, ID3V240, "Two ID3V2.4.0 tags found, but a file should have at most one of them.", true); // a

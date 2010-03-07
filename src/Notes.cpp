@@ -159,6 +159,7 @@ static const char* s_szPlaceholderDescr ("<Placeholder for a note that can no lo
     addNote(&Notes::id3v230AfterAudio()); // e
     addNote(&Notes::id3v230UsesUtf8()); // w
     addNote(&Notes::id3v230UnsuppText()); // s
+    addNote(&Notes::id3v230CantReadFrame()); // e
 
     // id3 v2.4.0
     addNote(&Notes::twoId3V240()); // e

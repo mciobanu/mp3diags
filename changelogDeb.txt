@@ -1,3 +1,10 @@
+mp3diags (1.0.04.049) testing; urgency=low
+
+  * fixed crash triggered by invalid frame lengths in ID3V2
+  * fixed crash that occured when the backup directory couldn't be created
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Sun, 07 Mar 2010 22:00:00 +0200
+
 mp3diags (1.0.03.048) testing; urgency=low
 
   * fixed crash triggered by GEOB frames containing UTF-16 text

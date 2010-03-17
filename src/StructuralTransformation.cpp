@@ -723,3 +723,5 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
 
 
 //ttt2 https://sourceforge.net/projects/mp3diags/forums/forum/947206/topic/3389395?message=8033754  - remove Ape, Lyrics, ...
+
+// email on Mon, 15 Mar 2010 - remove short audio streams

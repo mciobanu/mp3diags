@@ -161,7 +161,7 @@ template<typename T> void CB_LIB_CALL clearPtrContainer(std::set<T*>& c) // spec
 }
 
 
-// to make sure that an array is deallocated even when exceptions are thrown; similar to auto_ptr 
+// to make sure that an array is deallocated even when exceptions are thrown; similar to auto_ptr
 template<typename T>
 class ArrayPtrRelease
 {

@@ -529,7 +529,7 @@ Id3V1Stream::Id3V1Stream(int nIndex, NoteColl& notes, istream& in) : DataStream(
 
     const int BFR_SIZE (128);
     streamsize nRead (read(in, m_data, BFR_SIZE));
-    MP3_CHECK_T (nRead >= 3, m_pos, "Invalid ID3V1 tag. File too short.", NotId3V1Stream());
+    MP3_CHECK_T (BFR_SIZE == nRead, m_pos, "Invalid ID3V1 tag. File too short.", NotId3V1Stream());
     MP3_CHECK_T (0 == strncmp("TAG", m_data, 3), m_pos, "Invalid ID3V1 tag. Invalid header.", NotId3V1Stream());
 
     MP3_CHECK (BFR_SIZE == nRead, m_pos, id3v1TooShort, NotId3V1Stream());

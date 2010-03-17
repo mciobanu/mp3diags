@@ -539,7 +539,7 @@ e1:
     //cout << "=======================\n";
 
     //CB_ASSERT (!m_vpAllStreams.empty());
-    STRM_ASSERT (pos == m_posEnd); // ttt1 triggered according to https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=23 ; the code here seems OK, though; the most likely reason is that in some cases a stream uses the wrong size and then pos gets an invalid value in "pos += m_vpAllStreams.back()->getSize();"
+    STRM_ASSERT (pos == m_posEnd);
     pos = 0;
     for (int i = 0; i < cSize(m_vpAllStreams); ++i)
     {

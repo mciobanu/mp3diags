@@ -292,7 +292,7 @@ Id3V230Stream::Id3V230Stream(int nIndex, NoteColl& notes, istream& in, StringWrp
             Id3V230Frame* p (new Id3V230Frame(notes, in, pos, hasUnsynch(), posNext, m_pFileName));
             bHasLatin1NonAscii = p->m_bHasLatin1NonAscii || bHasLatin1NonAscii;
             if (-1 == p->m_nMemDataSize)
-            { // it encountered zeroes, which signals the beginning of padding
+            { // it encountered zeroes, which signals the beginning of padding //ttt2 should check that there's no garbage after the first zero
                 m_nPaddingSize = posNext - pos;
                 delete p;
                 break;
@@ -343,6 +343,15 @@ Id3V230Stream::Id3V230Stream(int nIndex, NoteColl& notes, istream& in, StringWrp
     }
 
     MP3_TRACE (m_pos, "Id3V230Stream built.");
+
+    {
+        pos = m_pos;
+        pos += m_nTotalSize - 1;
+        in.seekg(pos);
+        char c;
+
+        MP3_CHECK (1 == read(in, &c, 1), m_pos, id3v230CantReadFrame, NotId3V2());
+    }
 
     rst.setOk();
 }

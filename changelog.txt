@@ -1,5 +1,10 @@
 ---------------------------------------------------------------------------
 
+17.03.2010 - 1.0.05.050
+- fixed issue #23 (assertion failure)
+
+---------------------------------------------------------------------------
+
 07.03.2010 - 1.0.04.049
 - fixed crash triggered by invalid frame lengths in ID3V2
 - fixed crash that occured when the backup directory couldn't be created

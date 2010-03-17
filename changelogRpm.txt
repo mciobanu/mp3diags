@@ -1,3 +1,7 @@
+* Wed Mar 17 2010 Marian Ciobanu <ciobi@inbox.com> 1.0.05.050
+
+- fixed issue #23 (assertion failure)
+
 * Sun Mar 07 2010 Marian Ciobanu <ciobi@inbox.com> 1.0.04.049
 
 - fixed crash triggered by invalid frame lengths in ID3V2

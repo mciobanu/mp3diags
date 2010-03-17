@@ -62,8 +62,8 @@ UnknownDataStreamBase::UnknownDataStreamBase(int nIndex, NoteColl& notes, istrea
     pos += nSize - 1;
     in.seekg(pos);
     char c;
-    read(in, &c, 1);
-    MP3_CHECK (in, m_pos, unknTooShort, BadUnknownStream());
+
+    MP3_CHECK (1 == read(in, &c, 1), m_pos, unknTooShort, BadUnknownStream());
 
     rst.setOk();
 }

@@ -296,7 +296,7 @@ void ThreadRunnerDlgImpl::onUpdateTimer()
     time_t t (time(0));
     if (m_bShowPauseAbort)
     {
-        s += "\n\nTotal time: " + getTimeFmt(t - m_tRealBegin);
+        s += "\n\nTotal time: " + getTimeFmt(t - m_tRealBegin); // ttt1 show only if different from Running time
         s += "\nRunning time: " + getTimeFmt((m_pThread->m_bPaused ? m_tPauseBegin : t) - m_tRunningBegin);
     }
     else

@@ -47,6 +47,17 @@ function initialize
 }
 
 
+function createPad
+{
+    echo Creating source
+    LongDestDir=package/out
+    year=`date +%Y`
+    month=`date +%m`
+    day=`date +%d`
+    cat package/pad_file.xml | sed "s#<Program_Version>QQQ</Program_Version>#<Program_Version>$Ver</Program_Version>#" | sed "s#<Program_Release_Month>QQQ</Program_Release_Month>#<Program_Release_Month>$month</Program_Release_Month>#"  | sed "s#<Program_Release_Day>QQQ</Program_Release_Day>#<Program_Release_Day>$day</Program_Release_Day>#" | sed "s#<Program_Release_Year>QQQ</Program_Release_Year>#<Program_Release_Year>$year</Program_Release_Year>#" > $LongDestDir/pad_file.xml
+}
+
+
 function createSrc
 {
     echo Creating source
@@ -78,6 +89,7 @@ function createSrc
     cp -p CMake-VS2008-Win32.cmd $LongDestDir
     cp -p BuildMp3Diags.hta $LongDestDir
     cp -p README.TXT $LongDestDir
+    cp package/out/pad_file.xml $LongDestDir
 
     echo const char* APP_VER '("'$Ver'");'> $LongDestDir/src/Version.cpp
     echo >> $LongDestDir/src/Version.cpp
@@ -221,6 +233,7 @@ function createSfDoc
     cp -pr doc/html/*.ico $LongDestDir
     cp -pr doc/html/*.gif $LongDestDir
     cp -p COPYING $LongDestDir
+    cp package/out/pad_file.xml $LongDestDir
     rm $LongDestDir/010_getting_the_program_local.html
 
     echo $Ver > $LongDestDir/version.txt
@@ -253,6 +266,7 @@ function createPackagerSrc
 #pwd > /home/ciobi/cpp/Mp3Utils/MP3Diags/d
 
 initialize
+createPad
 createSrc
 createDoc
 createClicknetDoc

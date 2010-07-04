@@ -81,7 +81,7 @@ static string removeSepFromRoot(const string& s)
 #ifndef WIN32
     static char getDrive(const string&) { return '.'; }
 #else //ttt2
-    static char getDrive(const string& s) { CB_ASSERT(s.size() > 2); return s[0]; }
+    static char getDrive(const string& s) { CB_ASSERT(s.size() >= 2); return s[0]; }
 #endif
 
 

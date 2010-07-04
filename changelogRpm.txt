@@ -1,3 +1,8 @@
+* Sun Jul 04 2010 Marian Ciobanu <ciobi@inbox.com> 1.0.06.051
+
+- fixed crash caused by invalid Lyrics tag
+- fixed assertion failure when opening the folder filter in Windows
+
 * Wed Mar 17 2010 Marian Ciobanu <ciobi@inbox.com> 1.0.05.050
 
 - fixed issue #23 (assertion failure)

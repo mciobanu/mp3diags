@@ -369,7 +369,7 @@ struct Tracer
 
 #define TRACER(X) Tracer FiLeTrAcEr (X);
 #define TRACER1(X, N) Tracer FiLeTrAcEr##N (X);
-
+#define TRACER1A(X, N) Tracer FiLeTrAcEr##N (X#N);
 
 
 void traceLastStep(const std::string& s, int nLevelChange);

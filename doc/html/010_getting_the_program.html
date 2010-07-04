@@ -117,6 +117,7 @@ There are both source files and binaries, for several Linux platforms, as well a
             <tr> <td> <a href="#binOthers">Others</a> </td> </tr>
         </table>
     </td> </tr>
+    <tr> <td> <a href="#uninstall">Uninstallation</a> </td> </tr>
     <tr> <td> <a href="#documentation">Documentation</a> </td> </tr>
 </table>
 </div>
@@ -250,8 +251,11 @@ To install the program, unpack the surce to some directory and just run <span cl
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-Uninstallation can be done through <span class="Reference">Uninstall.sh</span>. You probably created some data files, and if you are sure you no longer need them you should remove them manually. Note that the data files come in pairs. Although you only specify an ".ini" file when you start the program for the first time (or when you <a href="310_advanced.html">create a new session</a>), two files get created. The ".ini" only stores settings, while the actual data is stored in a file in the same directory and with the same name but with the extension ".dat".
+To uninstall the program, see the corresponding section at the <a href="#uninstall">bottom of the page</a>.
 </div>
+
+
+
 
 
 <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
@@ -360,6 +364,10 @@ If you don't like the idea of some JScript doing things on your hard drive, you 
 </div>
 
 
+<div class="NormalText RegFnt ChpCol1">
+To uninstall the program, see the corresponding section at the <a href="#uninstall">bottom of the page</a>.
+</div>
+
 
 
 <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
@@ -371,7 +379,7 @@ If you don't like the idea of some JScript doing things on your hard drive, you 
 
 
 <div class="NormalText RegFnt ChpCol2">
-The source code may also be downloaded from the Subversion server provided by SourceForge, by going to the <a href="http://mp3diags.svn.sourceforge.net/viewvc/mp3diags/trunk/mp3diags/" onClick="javascript: pageTracker._trackPageview('/svn_trunk');">SVN Browser</a> and clicking on <a href="http://mp3diags.svn.sourceforge.net/viewvc/mp3diags/trunk/mp3diags.tar.gz?view=tar" onClick="javascript: pageTracker._trackPageview('/svn_trunk/tgz');">Download GNU tarball</a> at the bottom of the page. Or you can check out the trunk using this command:
+The source code may also be downloaded from the Subversion server provided by SourceForge, by going to the <a href="http://mp3diags.svn.sourceforge.net/viewvc/mp3diags/trunk/mp3diags/" onClick="javascript: pageTracker._trackPageview('/svn_trunk');">SVN Browser</a> and clicking on <a href="http://mp3diags.svn.sourceforge.net/viewvc/mp3diags/trunk/mp3diags/?view=tar" onClick="javascript: pageTracker._trackPageview('/svn_trunk/tgz');">Download GNU tarball</a> at the bottom of the page. Or you can check out the trunk using this command:
 </div>
 
 <div class="NormalText RegFnt ChpCol2 GenericSpace">
@@ -395,6 +403,10 @@ Note that you may need to set the executable bit for <span class="Reference">Adj
 See the notes above about <a href="#code">requirements and how to build the code</a>.
 </div>
 
+
+<div class="NormalText RegFnt ChpCol2">
+To uninstall the program, see the corresponding section at the <a href="#uninstall">bottom of the page</a>.
+</div>
 
 
 
@@ -692,8 +704,6 @@ If you want to build binaries for other platforms, please let me know, so I can 
 
 
 
-
-
 <!-- ========================================================================================================== -->
 <!-- ========================================================================================================== -->
 <!-- ========================================================================================================== -->
@@ -701,10 +711,36 @@ If you want to build binaries for other platforms, please let me know, so I can 
 
 
 <div class="SubChapterText RegFnt ChpCol1">
-<a name="documentation">Documentation</a>
+<a name="uninstall">Uninstallation</a>
+</div>
+
+
+<div class="NormalText RegFnt ChpCol1">
+How the uninstallation should proceed depends on how the program was installed. If you installed from sources with <span class="Reference">Install.sh</span>, there is an <span class="Reference">Uninstall.sh</span>. If you installed on Windows using the installer, you can use both the Control panel and the "Uninstall" entry created when MP3 Diags was installed. If you used a package manager on Linux, use the same thing. If you just copied binaries, remove the binaries.
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
+Keep in mind that besides the executable, there are data files and settings. You probably created some data files, and if you are sure you no longer need them you should remove them manually. Note that the data files come in pairs. Although you only specify an ".ini" file when you start the program for the first time (or when you <a href="310_advanced.html">create a new session</a>), two files get created. The ".ini" only stores settings, while the actual data is stored in a file in the same directory and with the same name but with the extension ".dat".
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+Besides the ".ini" and ".dat" files, there is a small configuration file which is named <span class="Reference">~/.config/Ciobi/Mp3Diags.conf</span> on Linux and similar systems. That file should be removed as well if you want no trace of MP3 Diags left on your computer. (Of course, you lose your settings, should you want to reinstall MP3 Diags.) The corresponding place on Windows is the registry entry <span class="Reference">HKEY_CURRENT_USER\Software\Ciobi\Mp3Diags</span>.
+</div>
+
+
+
+
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+
+
+<div class="SubChapterText RegFnt ChpCol2">
+<a name="documentation">Documentation</a>
+</div>
+
+<div class="NormalText RegFnt ChpCol2">
 If for some reason you don't want to look at the documentation online, you can download it <a href="http://sourceforge.net/projects/mp3diags/files/mp3diags-doc/MP3DiagsDoc.tar.gz" onClick="javascript: pageTracker._trackPageview('/files/doc');">here</a>.
 </div>
 
@@ -756,7 +792,7 @@ http://osdir.com/ml/linux.debian.devel.games.devel/2007-08/msg00211.html
 
 
 
-<div class="NavPadTable RegFnt ChpCol2">
+<div class="NavPadTable RegFnt ChpCol1">
 <div style="width:100%">
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="NavTable">
     <tr>

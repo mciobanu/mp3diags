@@ -20,6 +20,8 @@
  ***************************************************************************/
 
 
+#include  <cctype>
+
 #include  <QFile>
 #include  <QFileInfo>
 #include  <QDir>
@@ -91,10 +93,12 @@ LyricsStream::LyricsStream(int nIndex, NoteColl& notes, std::istream& in, const 
             break;
         }
 
+        MP3_CHECK (isalnum(vcBfr[0]) && isalnum(vcBfr[1]) && isalnum(vcBfr[2]), pos, invalidLyr, NotLyricsStream());
         string strField (&vcBfr[0], &vcBfr[0] + 3);
         vcBfr[8] = 0;
         nSize = int(strtol(&vcBfr[3], &pLast, 10));
         MP3_CHECK (pLast == &vcBfr[8], pos, invalidLyr, NotLyricsStream());
+        MP3_CHECK (nSize >= 0 && nSize < 15000000, pos, invalidLyr, NotLyricsStream());
         vcBfr.resize(nSize);
         nRead = read(in, &vcBfr[0], nSize);
         MP3_CHECK (nSize == nRead, pos, lyrTooShort, NotLyricsStream());

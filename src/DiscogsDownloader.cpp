@@ -606,7 +606,7 @@ LAST_STEP("DiscogsDownloader::on_m_pSearchB_clicked");
 void DiscogsDownloader::loadNextPage()
 {
 LAST_STEP("DiscogsDownloader::loadNextPage");
-    CB_ASSERT (!m_pQHttp->hasPendingRequests());
+    CB_ASSERT (!m_pQHttp->hasPendingRequests()); //ttt0 2010/05/08 - reported again in 0.99.05.033 for Ubuntu 9.10
     ++m_nLastLoadedPage;
     CB_ASSERT (m_nLastLoadedPage <= m_nTotalPages - 1);
 

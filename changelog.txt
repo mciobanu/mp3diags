@@ -1,5 +1,11 @@
 ---------------------------------------------------------------------------
 
+04.07.2010 - 1.0.06.051
+- fixed crash caused by invalid Lyrics tag
+- fixed assertion failure when opening the folder filter in Windows
+
+---------------------------------------------------------------------------
+
 17.03.2010 - 1.0.05.050
 - fixed issue #23 (assertion failure)
 

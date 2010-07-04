@@ -80,6 +80,8 @@ using namespace std;
 using namespace pearl;
 
 
+//#define LOG_ANYWAY
+
 //ttt2 try to switch from QDialog to QWidget, to see if min/max in gnome show up; or add Qt::Dialog flag (didn't seem to work, though)
 
 MainFormDlgImpl* getGlobalDlg();  //ttt2 review
@@ -855,7 +857,11 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) 
         m_settings.saveMiscConfigSettings(m_pCommonData);
     }
 
+#ifdef LOG_ANYWAY
+    s_fileTracer.enable2(true);
+#else
     s_fileTracer.enable2(m_pCommonData->isTraceToFileEnabled()); // this might get called a second time (the first time is from within m_pCommonData->setTraceToFile()), but that's OK
+#endif
     s_fileTracer.enable1(true); // !!! after loadMiscConfigSettings(), so the previous files aren't deleted too early
 
     m_settings.saveVersion(APP_VER);
@@ -3205,4 +3211,6 @@ Development machine:
 
 
 //ttt1 Settings/Configuration name: different tooltip and dlg name
+
+//ttt2 perhaps "open file manager" on right-click (QDesktopServices::openUrl seems to do it)
 

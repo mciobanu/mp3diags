@@ -95,6 +95,10 @@ public:
     const char* getHeader() const { return m_header; }
     int getSideInfoSize() const; // needed by Xing
 
+#ifdef GENERATE_TOC
+    MpegFrameBase getBigBps() const; // returns a "similar" frame to "this" but with a bigger bps, so it can hold a Xing TOC
+#endif
+
     struct NotMpegFrame {}; // exception
 
 private:

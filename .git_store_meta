@@ -284,9 +284,9 @@ src/Mp3Manip.cpp	f	2010-03-09T20:02:58Z
 src/Mp3Manip.h	f	2009-10-13T11:22:57Z
 src/Mp3TransformThread.cpp	f	2010-02-21T11:11:59Z
 src/Mp3TransformThread.h	f	2009-05-06T07:30:48Z
-src/MpegFrame.cpp	f	2009-10-13T11:29:18Z
-src/MpegFrame.h	f	2009-10-01T10:10:51Z
-src/MpegStream.cpp	f	2010-07-04T09:37:17Z
+src/MpegFrame.cpp	f	2010-12-05T10:26:11Z
+src/MpegFrame.h	f	2010-12-05T10:25:54Z
+src/MpegStream.cpp	f	2010-12-05T10:29:44Z
 src/MpegStream.h	f	2009-10-01T10:07:10Z
 src/MultiLineTvDelegate.cpp	f	2009-11-04T10:50:13Z
 src/MultiLineTvDelegate.h	f	2009-10-13T11:33:20Z

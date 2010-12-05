@@ -287,7 +287,31 @@ bool MpegStream::findNextCompatFrame(std::istream& in, std::streampos posMax)
 }
 
 
+#ifdef GENERATE_TOC
 // throws if it can't write to the disk
+void createXing(ostream& out, const MpegFrame& frame1, int nFrameCount, streamoff nStreamSize)
+{
+    const MpegFrameBase& frame (frame1.getBigBps());
+
+    int nSize (frame.getSize());
+    out.write(frame.getHeader(), MpegFrame::MPEG_FRAME_HDR_SIZE);
+    int nSideInfoSize (frame.getSideInfoSize());
+    writeZeros(out, nSideInfoSize);
+    out.write("Xing\0\0\0\7", 8);
+    char bfr [4];
+    put32BitBigEndian(nFrameCount, bfr);
+    out.write(bfr, 4);
+    put32BitBigEndian(nStreamSize, bfr);
+    out.write(bfr, 4);
+    for (int i = 0; i < 100; ++ i)
+    {
+        bfr[0] = i*255/(100 - 1);
+        out.write(bfr, 1);
+    }
+    writeZeros(out, nSize - MpegFrame::MPEG_FRAME_HDR_SIZE - nSideInfoSize - 8 - 4 - 4 - 100);
+    CB_CHECK1 (out, WriteError());
+}
+#else
 void createXing(ostream& out, const MpegFrame& frame, int nFrameCount, streamoff nStreamSize)
 {
     int nSize (frame.getSize());
@@ -303,6 +327,7 @@ void createXing(ostream& out, const MpegFrame& frame, int nFrameCount, streamoff
     writeZeros(out, nSize - MpegFrame::MPEG_FRAME_HDR_SIZE - nSideInfoSize - 8 - 4 - 4);
     CB_CHECK1 (out, WriteError());
 }
+#endif
 
 void MpegStream::createXing(ostream& out)
 {

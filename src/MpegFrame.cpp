@@ -55,6 +55,21 @@ MpegFrameBase::MpegFrameBase(NoteColl& notes, streampos pos, const char* bfr)
 }
 
 
+#ifdef GENERATE_TOC
+MpegFrameBase MpegFrameBase::getBigBps() const // returns a "similar" frame to "this" but with a bigger bps, so it can hold a Xing TOC
+{
+    //char bfr [1000];
+    string s (&m_header[0], 4);
+    //s[2] = (s[2] & 0x0f) | 0xe0; //ttt2 maybe use this; it provides maximum space;
+    s[2] = (s[2] & 0x0f) | 0x90;
+    s.resize(2000);
+    NoteColl notes;
+    istringstream in (s);
+    MpegFrameBase res (notes, in);
+    return res;
+}
+#endif
+
 void MpegFrameBase::init(NoteColl& notes, const char* bfr) //ttt2 should have some means to enforce bfr being large enough (perhaps switch to a vector)
 {
     memcpy(m_header, bfr, 4);

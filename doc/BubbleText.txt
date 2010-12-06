@@ -180,7 +180,7 @@ Images displayed here:
 
 -----------------------------------
 
-Extracting info from consistently (an correctly) named files is possible, and may be easier than searching for album data on the Internet. This is achieved by using patterns.
+Extracting info from consistently (and correctly) named files is possible, and may be easier than searching for album data on the Internet. This is achieved by using patterns.
 
 Track number, artist name, song title, album, and rating have been computed from the full file name
 

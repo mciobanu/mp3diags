@@ -57,8 +57,8 @@ doc/200_discogs_query.png	f	2009-10-20T08:35:07Z
 doc/200_discogs_query.xcf	f	2009-10-20T08:34:53Z
 doc/210_tag_editor_assign_image.png	f	2009-10-15T07:55:54Z
 doc/210_tag_editor_assign_image.xcf	f	2009-10-15T07:55:39Z
-doc/220_tag_editor_patterns.png	f	2009-10-15T07:22:58Z
-doc/220_tag_editor_patterns.xcf	f	2009-10-15T07:22:35Z
+doc/220_tag_editor_patterns.png	f	2010-12-06T22:16:01Z
+doc/220_tag_editor_patterns.xcf	f	2010-12-06T22:15:40Z
 doc/230_normalize.png	f	2009-10-06T20:42:45Z
 doc/230_normalize.xcf	f	2009-10-06T20:42:33Z
 doc/240_file_renamer.png	f	2009-10-24T10:24:46Z
@@ -88,7 +88,7 @@ doc/310_export_btn.png	f	2009-10-07T13:48:19Z
 doc/310_sessions.png	f	2009-10-06T20:38:04Z
 doc/310_sessions.xcf	f	2009-10-06T20:37:48Z
 doc/310_sessions_btn.png	f	2009-05-14T07:37:29Z
-doc/BubbleText.txt	f	2009-11-04T17:23:36Z
+doc/BubbleText.txt	f	2010-12-06T21:54:11Z
 doc/Doc.01.odt	f	2009-05-11T04:58:53Z
 doc/arrow_left.png	f	2009-05-11T05:54:12Z
 doc/arrow_left.svg	f	2009-05-11T06:56:23Z
@@ -141,8 +141,8 @@ doc/html/200_discogs_query.html	f	2009-10-20T06:55:13Z
 doc/html/200_discogs_query.png	f	2009-10-20T08:35:07Z
 doc/html/210_tag_editor_assign_image.html	f	2009-11-29T09:06:52Z
 doc/html/210_tag_editor_assign_image.png	f	2009-10-15T07:55:54Z
-doc/html/220_tag_editor_patterns.html	f	2009-11-29T13:14:05Z
-doc/html/220_tag_editor_patterns.png	f	2009-10-15T07:22:58Z
+doc/html/220_tag_editor_patterns.html	f	2010-12-05T14:36:31Z
+doc/html/220_tag_editor_patterns.png	f	2010-12-06T22:16:01Z
 doc/html/230_normalize.html	f	2009-11-29T09:33:20Z
 doc/html/230_normalize.png	f	2009-10-06T20:42:45Z
 doc/html/240_file_renamer.html	f	2009-11-29T09:37:53Z

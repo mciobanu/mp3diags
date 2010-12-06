@@ -239,6 +239,8 @@ TransfConfig::TransfConfig()
 // last '/' goes to dir; last '.' goes to ext (if extension present)
 void TransfConfig::splitOrigName(const string& strOrigSrcName, std::string& strRelDir, std::string& strBaseName, std::string& strExt) const
 {
+//TRACER1A("splitOrigName ", 1);
+//Tracer t1 (strOrigName);
     CB_CHECK1 (beginsWith(strOrigSrcName, m_strSrcDir), IncorrectPath());
 
     strRelDir = strOrigSrcName.substr(m_strSrcDir.size());
@@ -330,6 +332,7 @@ string TransfConfig::getRenamedName(const std::string& strOrigSrcName, const std
     string strRelDir;
     string strBaseName;
     string strExt;
+    //TRACER1A("getRenamedName ", 1);
     splitOrigName(strOrigSrcName, strRelDir, strBaseName, strExt);
 
     string strRes;
@@ -506,19 +509,30 @@ void TransfConfig::testRemoveSuffix() const
 
 TransfConfig::TransfFile TransfConfig::getProcessedName(string strOrigSrcName, std::string& strName) const
 {
+//TRACER1A("getProcessedName ", 1);
     removeSuffix(strOrigSrcName);
+    //TRACER1A("getProcessedName ", 2);
     switch (m_options.m_eProcessedCreate)
     {
     case Options::PR_DONT_CREATE: // don't create proc files
-        strName.clear(); return TRANSF_DONT_CREATE;
+        {
+            //TRACER1A("getProcessedName ", 3);
+            strName.clear(); return TRANSF_DONT_CREATE;
+        }
 
     case Options::PR_CREATE_ALWAYS_RENAME: // create proc files and always rename
-        strName = getRenamedName(strOrigSrcName, m_options.m_bProcessedUseSeparateDir ? m_strProcessedDir : m_strSrcDir, m_options.m_bProcessedUseLabel ? "proc" : "", m_options.m_bProcessedAlwayUseCounter, ALWAYS_RENAME);
-        return TRANSF_CREATE;
+        {
+            //TRACER1A("getProcessedName ", 4);
+            strName = getRenamedName(strOrigSrcName, m_options.m_bProcessedUseSeparateDir ? m_strProcessedDir : m_strSrcDir, m_options.m_bProcessedUseLabel ? "proc" : "", m_options.m_bProcessedAlwayUseCounter, ALWAYS_RENAME);
+            return TRANSF_CREATE;
+        }
 
     case Options::PR_CREATE_RENAME_IF_USED: // create proc files and rename if the name is in use
-        strName = getRenamedName(strOrigSrcName, m_options.m_bProcessedUseSeparateDir ? m_strProcessedDir : m_strSrcDir, m_options.m_bProcessedUseLabel ? "proc" : "", m_options.m_bProcessedAlwayUseCounter, RENAME_IF_NEEDED);
-        return TRANSF_CREATE;
+        {
+            //TRACER1A("getProcessedName ", 5);
+            strName = getRenamedName(strOrigSrcName, m_options.m_bProcessedUseSeparateDir ? m_strProcessedDir : m_strSrcDir, m_options.m_bProcessedUseLabel ? "proc" : "", m_options.m_bProcessedAlwayUseCounter, RENAME_IF_NEEDED);
+            return TRANSF_CREATE;
+        }
 
     default:
         CB_ASSERT(false);

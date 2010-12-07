@@ -380,4 +380,4 @@ WARNING: it is ignored, until you registered a Category at adrian@suse.de .
 
 */
 
-
+//ttt1 CLI-support: scan some files, create logs, apply some transforms, ...

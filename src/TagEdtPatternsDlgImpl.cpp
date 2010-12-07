@@ -52,7 +52,7 @@ TagEdtPatternsDlgImpl::TagEdtPatternsDlgImpl(QWidget* pParent, SessionSettings& 
     m_infoM->setText("%n\ttrack number\n%a\tartist\n%t\ttitle\n%b\talbum\n%y\tyear\n%g\tgenre\n%r\trating (a lowercase letter)\n%c\tcomposer\n%i\tignored"
             "\n\nTo include the special characters \"%\", \"[\", \"]\" and \"" + qsSep + "\", preced them by a \"%\": \"%%\", \"%[\", \"%]\" and \"%" + qsSep + "\""
             "\n\nFor a pattern to be considered a \"file pattern\" (as opposed to a \"table pattern\"), it must contain at least a \"" + qsSep + "\", even if you don't care about what's in the file's parent directory (see the fourth predefined pattern for an example.)"
-            "\n\nLeading and trailing spaces are removed automatically, so \"-[ ]%t\" is equivalent to \"-%t\"");
+            "\n\nLeading and trailing spaces are removed automatically, so \"-[ ]%t\" is equivalent to \"-%t\""); //ttt0 improve wording - see https://sourceforge.net/projects/mp3diags/forums/forum/947207/topic/3962666:
 
     int nWidth, nHeight;
     m_settings.loadTagEdtPatternsSettings(nWidth, nHeight);

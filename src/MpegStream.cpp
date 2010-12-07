@@ -386,7 +386,7 @@ XingStreamBase::XingStreamBase(int nIndex, NoteColl& notes, istream& in) : MpegS
 
     streampos posEnd (m_pos);
     posEnd += m_firstFrame.getSize();
-    in.seekg(posEnd);
+    in.seekg(posEnd); //ttt2 2010.12.07 - A header claiming to have TOC but lacking one isn't detected. 1) Should check that values in TOC are ascending. 2) Should check that it actually fits: a 104 bytes-long 32kbps frame cannot hold a 100 bytes TOC along with the header and other things.
 }
 
 

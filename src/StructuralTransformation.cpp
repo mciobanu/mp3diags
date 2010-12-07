@@ -667,8 +667,16 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
 
                     appendFilePart(in, out, p->getPos(), nOffs);
                     streampos pos (p->getPos());
-                    pos += 16 + nOffs;
-                    appendFilePart(in, out, pos, p->getSize() - nOffs - 16);
+
+/*#ifdef GENERATE_TOC //!!! Doesn't matter whether GENERATE_TOC is defined or not. Mp3Fixer broke the first audio frame by adding length info and no TOC (although it claims to add TOC as well). What we do here is create a new Xing header (by calling createXing()) and remove the 16 bytes Mp3Fixer added, to restore the first frame to an audio frame, the way it was before Mp3Fixer messed it up. It's up to createXing() to add TOC or not.
+                    //const int nXingSize (16 + 100);
+#else
+                    const int nXingSize (16);
+#endif*/
+
+                    const int nMp3FixXingSize (16); // Mp3Fix always adds 16 bytes, because it doesn't use a TOC
+                    pos += nMp3FixXingSize + nOffs;
+                    appendFilePart(in, out, pos, p->getSize() - nOffs - nMp3FixXingSize);
                 }
                 else if (!bRemoveXing)
                 {

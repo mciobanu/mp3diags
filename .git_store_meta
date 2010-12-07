@@ -329,7 +329,7 @@ src/StoredSettings.cpp	f	2009-10-20T07:09:00Z
 src/StoredSettings.h	f	2009-10-20T07:05:46Z
 src/StreamsModel.cpp	f	2009-10-13T12:02:58Z
 src/StreamsModel.h	f	2009-05-06T07:32:41Z
-src/StructuralTransformation.cpp	f	2010-03-16T19:18:02Z
+src/StructuralTransformation.cpp	f	2010-12-07T21:32:17Z
 src/StructuralTransformation.h	f	2009-07-20T16:53:51Z
 src/TagEditor.ui	f	2009-10-14T15:55:07Z
 src/TagEditorDlgImpl.cpp	f	2009-12-11T07:37:08Z

@@ -307,6 +307,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::on_m_pSaveImageB_clicked");
 
     m_bSaveImageOnly = true;
     accept();
+    //ttt2 perhaps allow multiple images to be saved, by adding a button to "add to save list"; see https://sourceforge.net/projects/mp3diags/forums/forum/947207/topic/4006484
 }
 
 void AlbumInfoDownloaderDlgImpl::on_m_pCancelB_clicked()

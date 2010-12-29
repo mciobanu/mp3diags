@@ -111,7 +111,7 @@ void DirFilterDlgImpl::populateLists()
                 if (strDir[j] != s[j]) { break; }
             }
 
-            for (; j >= 0 && getPathSep() != strDir[j]; --j) {}
+            for (; j >= 0 && (getPathSep() != strDir[j] || getPathSep() != s[j]); --j) {} // a bug in this line was fixed by Mario Schwalbe on December 16 2010
             s.erase(j + 1); // it's OK for j==-1
             mCommonDirs[d] = make_pair(s, 0); // "0" doesn't matter
             //if (cSize(strCommonDir) <= 1) { break; }

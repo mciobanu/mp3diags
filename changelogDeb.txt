@@ -1,3 +1,10 @@
+mp3diags (1.0.07.052) testing; urgency=low
+
+  * fixed crash caused by invalid Lyrics tag
+  * fixed assertion failure when opening the folder filter in Windows
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Wed, 29 Dec 2010 22:00:00 +0200
+
 mp3diags (1.0.06.051) testing; urgency=low
 
   * fixed crash caused by invalid Lyrics tag

@@ -1,5 +1,11 @@
 ---------------------------------------------------------------------------
 
+29.12.2010 - 1.0.07.052
+- fixed crash in folder filter dialog
+- made project compilable on Fedora 13 and 14
+
+---------------------------------------------------------------------------
+
 04.07.2010 - 1.0.06.051
 - fixed crash caused by invalid Lyrics tag
 - fixed assertion failure when opening the folder filter in Windows

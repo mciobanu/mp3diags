@@ -15,7 +15,7 @@ function tryLib
     rm -f -r tstMt
 
     if [ $libExists -eq 0 ] ; then
-        cat src/src.pro | sed 's%.*boost_serialization.*%LIBS += -l'$1% > src/src.pro1
+        cat src/src.pro | sed 's%.*boost_serialization.*%  -l'$1% > src/src.pro1
         mv -f src/src.pro1 src/src.pro
         echo Serialization Library set as $1
         exit 0

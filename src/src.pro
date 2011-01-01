@@ -150,10 +150,15 @@ ThreadRunner.ui \
  Export.ui
 
 
-LIBS += -lboost_serialization-mt
 
 #CONFIG += console
 
 
 #DEFINES += DISABLE_CHECK_FOR_UPDATES
+
+
+QMAKE_CXXFLAGS_DEBUG += -DGENERATE_TOC_zz
+
+LIBS += -lz \
+  -lboost_serialization-mt
 

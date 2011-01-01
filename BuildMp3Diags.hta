@@ -336,13 +336,16 @@
             //if ("LIBS += -l:libboost_serialization-mt.a" != line && "LIBS += -l:libboost_serialization.a" != line)
             if (-1 == line.indexOf("boost_serialization"))
             {
-                if ("TARGET = MP3Diags" != line)
+                if (-1 == line.indexOf("lz"))
                 {
-                    fOut.writeLine(line);
-                }
-                else
-                {
-                    fOut.writeLine("TARGET = MP3DiagsWindows"); // !!! to have consistent naming
+                    if ("TARGET = MP3Diags" != line)
+                    {
+                        fOut.writeLine(line);
+                    }
+                    else
+                    {
+                        fOut.writeLine("TARGET = MP3DiagsWindows"); // !!! to have consistent naming
+                    }
                 }
             }
         }

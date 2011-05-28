@@ -707,7 +707,8 @@ struct SerLoadThread : public PausableThread
     bool load()
     {
         m_strErr = m_pCommonData->load(SessionEditorDlgImpl::getDataFileName(m_strSession));
-        m_pCommonData->m_strTransfLog = SessionEditorDlgImpl::getLogFileName(m_strSession);
+        //m_pCommonData->m_strTransfLog = SessionEditorDlgImpl::getLogFileName(m_strSession);
+        //{ TRACER("001 m_strTransfLog=" + m_pCommonData->m_strTransfLog);  }
         return true;
     }
 };
@@ -801,7 +802,10 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bUniqueSession) 
     {
         bool bDirty;
         m_settings.loadDbDirty(bDirty);
-        if (bDirty)
+        bool bCrashedAtStartup;
+        m_settings.loadCrashedAtStartup(bCrashedAtStartup);
+
+        if (bDirty || bCrashedAtStartup)
         {
             if (m_pCommonData->isTraceToFileEnabled() || fileExists(s_fileTracer.getTraceFile())) // !!! fileExists(s_strTraceFile) allows new asserts to be reported (when m_pCommonData->isTraceToFileEnabled() would still return false)
             {
@@ -1240,6 +1244,7 @@ void MainFormDlgImpl::onShow()
     bool bLoadErr (false);
 
     bool bCrashedAtStartup;
+    m_pCommonData->m_strTransfLog = SessionEditorDlgImpl::getLogFileName(m_strSession);
     m_settings.loadCrashedAtStartup(bCrashedAtStartup);
     if (bCrashedAtStartup)
     {
@@ -3214,3 +3219,4 @@ Development machine:
 
 //ttt2 perhaps "open file manager" on right-click (QDesktopServices::openUrl seems to do it)
 
+//ttt0 look at /d/test_mp3/1/tmp4/tmp2/unsupported/bad-decoding

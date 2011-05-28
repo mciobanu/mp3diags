@@ -212,6 +212,7 @@ package/deb/MP3Diags.dsc	f	2009-05-31T06:50:28Z
 package/deb/debian.changelog	f	2009-05-31T06:47:02Z
 package/deb/debian.control	f	2009-06-06T07:28:46Z
 package/deb/debian.rules	f	2009-11-06T10:49:28Z
+package/pad_file.xml	f	2010-07-04T11:45:45Z
 package/rpm/MP3Diags-Mandriva_2009.1.spec	f	2009-11-13T17:14:56Z
 package/rpm/MP3Diags.spec	f	2009-11-13T17:14:49Z
 package/sourceforge/linux_downloads.html	f	2009-06-10T07:26:41Z

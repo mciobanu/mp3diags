@@ -55,10 +55,15 @@
 # ln -s -f MP3DiagsSetup-*.exe MP3DiagsSetup.exe ; rsync -avP -e ssh MP3DiagsSetup*.exe ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-windows-setup
 
 
-cp MP3Diags-Linux-x86_64-*.tar.bz2 MP3Diags-Linux-x86_64.tar.bz2 ; rsync -avP -e ssh MP3Diags-Linux-x86_64*.tar.bz2 ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-linux-bin/x86_64
-cp MP3Diags-Linux-i686-*.tar.bz2 MP3Diags-Linux-i686.tar.bz2 ; rsync -avP -e ssh MP3Diags-Linux-i686*.tar.bz2 ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-linux-bin/i686
-cp MP3DiagsDoc-*.tar.gz MP3DiagsDoc.tar.gz ; rsync -avP -e ssh MP3DiagsDoc*.tar.gz ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-doc
-cp MP3Diags-*.tar.gz MP3Diags.tar.gz ; rsync -avP -e ssh MP3Diags-*.tar.gz MP3Diags.tar.gz ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-src
+#touch -d 20101228 MP3Diags.tar.gz
+#ln -s MP3Diags-*.tar.gz MP3Diags.tar.gz ; rsync -avP -e ssh MP3Diags-*.tar.gz MP3Diags.tar.gz ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-src
 
-cp MP3DiagsExe-*.zip MP3DiagsExe.zip ; rsync -avP -e ssh MP3DiagsExe*.zip ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-windows-exe
-cp MP3DiagsSetup-*.exe MP3DiagsSetup.exe ; rsync -avP -e ssh MP3DiagsSetup*.exe ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-windows-setup
+branch=`cat branch.txt`
+
+cp MP3Diags-Linux-x86_64-*.tar.bz2 MP3Diags-Linux-x86_64.tar.bz2 ; rsync -avP -e ssh MP3Diags-Linux-x86_64*.tar.bz2 ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags"$branch"/mp3diags-linux-bin/x86_64
+cp MP3Diags-Linux-i686-*.tar.bz2 MP3Diags-Linux-i686.tar.bz2 ; rsync -avP -e ssh MP3Diags-Linux-i686*.tar.bz2 ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags"$branch"/mp3diags-linux-bin/i686
+cp MP3DiagsDoc-*.tar.gz MP3DiagsDoc.tar.gz ; rsync -avP -e ssh MP3DiagsDoc*.tar.gz ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags"$branch"/mp3diags-doc
+cp MP3Diags-*.tar.gz MP3Diags.tar.gz ; rsync -avP -e ssh MP3Diags-*.tar.gz MP3Diags.tar.gz ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags"$branch"/mp3diags-src
+
+cp MP3DiagsExe-*.zip MP3DiagsExe.zip ; rsync -avP -e ssh MP3DiagsExe*.zip ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags"$branch"/mp3diags-windows-exe
+cp MP3DiagsSetup-*.exe MP3DiagsSetup.exe ; rsync -avP -e ssh MP3DiagsSetup*.exe ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags"$branch"/mp3diags-windows-setup

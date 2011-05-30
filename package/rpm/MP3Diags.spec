@@ -1,12 +1,13 @@
 Summary: Tool for finding and fixing problems in MP3 files; includes a tagger
 %define version 0.99.0.1
+%define branch test
 License: http://www.gnu.org/licenses/gpl-2.0.html
 Group: Applications/Multimedia
-Name: MP3Diags
+Name: MP3Diags%{branch}
 #Prefix: /usr
 #Provides: MP3Diags
 Release: 1
-Source: MP3Diags-%{version}.tar.gz
+Source: MP3Diags%{branch}-%{version}.tar.gz
 URL: http://mp3diags.sourceforge.net/
 Version: %{version}
 BuildRoot: %{_tmppath}/%{name}-%{version}-build
@@ -85,29 +86,29 @@ qmake-qt4
 %endif
 
 make
-strip $RPM_BUILD_DIR/MP3Diags-%{version}/bin/MP3Diags
+strip $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/bin/MP3Diags%{branch}
 
 %install
 # ttt1 perhaps look at http://doc.trolltech.com/4.3/qmake-variable-reference.html#installs and use INSTALLS += ...
 echo mkdir $RPM_BUILD_ROOT%{_bindir}
 mkdir -p $RPM_BUILD_ROOT%{_bindir}
-cp $RPM_BUILD_DIR/MP3Diags-%{version}/bin/MP3Diags $RPM_BUILD_ROOT%{_bindir}
+cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/bin/MP3Diags%{branch} $RPM_BUILD_ROOT%{_bindir}
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
-cp $RPM_BUILD_DIR/MP3Diags-%{version}/desktop/MP3Diags.desktop $RPM_BUILD_ROOT%{_datadir}/applications
+cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags%{branch}.desktop $RPM_BUILD_ROOT%{_datadir}/applications
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/16x16/apps
-cp $RPM_BUILD_DIR/MP3Diags-%{version}/desktop/MP3Diags16.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/16x16/apps/MP3Diags.png
+cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags16%{branch}.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/16x16/apps/MP3Diags%{branch}.png
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/22x22/apps
-cp $RPM_BUILD_DIR/MP3Diags-%{version}/desktop/MP3Diags22.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/22x22/apps/MP3Diags.png
+cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags22%{branch}.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/22x22/apps/MP3Diags%{branch}.png
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/24x24/apps
-cp $RPM_BUILD_DIR/MP3Diags-%{version}/desktop/MP3Diags24.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/24x24/apps/MP3Diags.png
+cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags24%{branch}.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/24x24/apps/MP3Diags%{branch}.png
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/32x32/apps
-cp $RPM_BUILD_DIR/MP3Diags-%{version}/desktop/MP3Diags32.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/32x32/apps/MP3Diags.png
+cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags32%{branch}.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/32x32/apps/MP3Diags%{branch}.png
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/36x36/apps
-cp $RPM_BUILD_DIR/MP3Diags-%{version}/desktop/MP3Diags36.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/36x36/apps/MP3Diags.png
+cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags36%{branch}.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/36x36/apps/MP3Diags%{branch}.png
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/40x40/apps
-cp $RPM_BUILD_DIR/MP3Diags-%{version}/desktop/MP3Diags40.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/40x40/apps/MP3Diags.png
+cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags40%{branch}.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/40x40/apps/MP3Diags%{branch}.png
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps
-cp $RPM_BUILD_DIR/MP3Diags-%{version}/desktop/MP3Diags48.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps/MP3Diags.png
+cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags48%{branch}.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps/MP3Diags%{branch}.png
 
 
 #mkdir -p $RPM_BUILD_ROOT%{_bindir}
@@ -134,7 +135,7 @@ cp $RPM_BUILD_DIR/MP3Diags-%{version}/desktop/MP3Diags48.png $RPM_BUILD_ROOT%{_d
 
 
 %if 0%{?suse_version} > 0000
-%suse_update_desktop_file -n MP3Diags
+%suse_update_desktop_file -n MP3Diags%{branch}
 #echo ================ SUSE ================ SUSE ================
 %endif
 #error with suse_update_desktop_file -in MP3Diags , perhaps try suse_update_desktop_file -n -i MP3Diags
@@ -161,15 +162,15 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/icons/hicolor/40x40/apps
 %dir %{_datadir}/icons/hicolor/48x48
 %dir %{_datadir}/icons/hicolor/48x48/apps
-%{_bindir}/MP3Diags
-%{_datadir}/applications/MP3Diags.desktop
-%{_datadir}/icons/hicolor/16x16/apps/MP3Diags.png
-%{_datadir}/icons/hicolor/22x22/apps/MP3Diags.png
-%{_datadir}/icons/hicolor/24x24/apps/MP3Diags.png
-%{_datadir}/icons/hicolor/32x32/apps/MP3Diags.png
-%{_datadir}/icons/hicolor/36x36/apps/MP3Diags.png
-%{_datadir}/icons/hicolor/40x40/apps/MP3Diags.png
-%{_datadir}/icons/hicolor/48x48/apps/MP3Diags.png
+%{_bindir}/MP3Diags%{branch}
+%{_datadir}/applications/MP3Diags%{branch}.desktop
+%{_datadir}/icons/hicolor/16x16/apps/MP3Diags%{branch}.png
+%{_datadir}/icons/hicolor/22x22/apps/MP3Diags%{branch}.png
+%{_datadir}/icons/hicolor/24x24/apps/MP3Diags%{branch}.png
+%{_datadir}/icons/hicolor/32x32/apps/MP3Diags%{branch}.png
+%{_datadir}/icons/hicolor/36x36/apps/MP3Diags%{branch}.png
+%{_datadir}/icons/hicolor/40x40/apps/MP3Diags%{branch}.png
+%{_datadir}/icons/hicolor/48x48/apps/MP3Diags%{branch}.png
 
 #?datadir (=/usr/share)
 #/usr/share/applications

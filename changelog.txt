@@ -1,5 +1,11 @@
 ---------------------------------------------------------------------------
 
+28.05.2011 - 1.0.08.053
+- fixed crash when trying to save after error at startup
+- added branch support to build process
+
+---------------------------------------------------------------------------
+
 29.12.2010 - 1.0.07.052
 - fixed crash in folder filter dialog
 - made project compilable on Fedora 13 and 14

@@ -18,7 +18,11 @@ if [ $? -ne 0 ] ; then exit 1 ; fi
 make
 if [ $? -ne 0 ] ; then exit 1 ; fi
 
-strip bin/MP3Diags
+BranchSlash=`cat branch.txt`
+BranchDash=`echo "$BranchSlash" | sed 's#/#-#'`
+exe=MP3Diags$BranchDash
 
-sudo cp bin/MP3Diags /usr/local/bin
+strip bin/$exe
+
+sudo cp bin/$exe /usr/local/bin
 

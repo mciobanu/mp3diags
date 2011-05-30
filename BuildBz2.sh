@@ -32,14 +32,17 @@ if [ $? -ne 0 ] ; then exit 1 ; fi
 make
 if [ $? -ne 0 ] ; then exit 1 ; fi
 
-strip bin/MP3Diags
+BranchSlash=`cat branch.txt`
+BranchDash=`echo "$BranchSlash" | sed 's#/#-#'`
+exe=MP3Diags$BranchDash
 
+strip bin/$exe
 
 Cpu=`uname -m`
 
 cd bin
-NewName=MP3Diags-Linux-$Cpu-QQQVERQQQ
-mv MP3Diags $NewName
+NewName=$exe-Linux-$Cpu-QQQVERQQQ
+mv $exe $NewName
 tar -c $NewName | bzip2 > $NewName.tar.bz2
-mv $NewName MP3Diags
+mv $NewName $exe
 cd ..

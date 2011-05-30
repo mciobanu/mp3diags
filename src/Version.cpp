@@ -21,3 +21,4 @@
 
 
 const char* APP_VER ("- custom build");
+const char* APP_BRANCH ("/unstable");

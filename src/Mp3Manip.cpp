@@ -88,6 +88,7 @@ Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const Q
 {
     s_strPrevMp3Handler = s_strCrtMp3Handler;
     s_strCrtMp3Handler = strFileName;
+    //TRACER1A("Mp3Handler constr ", 1);
 
     TRACER("Mp3Handler constr: " + strFileName);
     ifstream_utf8 in (m_pFileName->s.c_str(), ios::binary);
@@ -99,6 +100,7 @@ Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const Q
         trace("Couldn't open file: " + strFileName);
         CB_THROW1(FileNotFound());
     }
+    //TRACER1A("Mp3Handler constr ", 2);
 
     ostringstream out;
     time_t t (time(0));
@@ -109,18 +111,23 @@ Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const Q
     trace(s);
 
     cout << s << endl;
-
+//TRACER1A("Mp3Handler constr ", 3);
 
     parse(in);
+    //TRACER1A("Mp3Handler constr ", 4);
     m_notes.resetCounter();
+    //TRACER1A("Mp3Handler constr ", 5);
     analyze(qualThresholds);
+    //TRACER1A("Mp3Handler constr ", 6);
 
     if (!bStoreTraceNotes)
     {
+    //TRACER1A("Mp3Handler constr ", 7);
         m_notes.removeTraceNotes();
     }
-
+//TRACER1A("Mp3Handler constr ", 8);
     getFileInfo(strFileName, m_nTime, m_nSize);
+    //TRACER1A("Mp3Handler constr ", 9);
 }
 
 
@@ -139,6 +146,7 @@ Mp3Handler::~Mp3Handler()
     clearPtrContainer(m_vpUnknownStreams);*/
 
     clearPtrContainer(m_vpAllStreams);
+    //TRACER1A("Mp3Handler destr ", 1);
     delete m_pFileName;
 
 //qDebug("done destroying Mp3Handler at %p", this);

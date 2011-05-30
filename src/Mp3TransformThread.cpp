@@ -238,11 +238,13 @@ bool Mp3TransformThread::transform()
     {
         for (int i = 0, n = cSize(m_vpHndlr); i < n; ++i)
         {
+            //TRACER1A("transf ", 1);
             if (isAborted())
             {
                 return false;
             }
             checkPause();
+            //TRACER1A("transf ", 2);
 
             const Mp3Handler* pOrigHndl (m_vpHndlr[i]);
             string strOrigName (pOrigHndl->getName());
@@ -263,6 +265,8 @@ bool Mp3TransformThread::transform()
             //emit stepChanged(l);
             auto_ptr<const Mp3Handler> pNewHndl (pOrigHndl);
 
+            //TRACER1A("transf ", 3);
+
 
             try
             {
@@ -271,6 +275,7 @@ bool Mp3TransformThread::transform()
 
                 for (int j = 0, m = cSize(m_vpTransf); j < m; ++j)
                 {
+                    //TRACER1A("transf ", 4);
                     Transformation& t (*m_vpTransf[j]);
                     TRACER("Mp3TransformThread::transform()" + strOrigName + "/" + t.getActionName());
                     l[1] = t.getActionName();
@@ -278,47 +283,61 @@ bool Mp3TransformThread::transform()
                     Transformation::Result eTransf;
                     try
                     {
+                    //TRACER1A("transf ", 5);
                         eTransf = t.apply(*pNewHndl, m_transfConfig, strOrigName, strTempName);
+                        //TRACER1A("transf ", 6);
                     }
                     catch (const WriteError&)
                     {
         //qDebug("disk err");
+        //TRACER1A("transf ", 7);
                         m_strErrorFile = strTempName;
                         m_bWriteError = true;
                         if (pNewHndl.get() == pOrigHndl)
                         {
+                        //TRACER1A("transf ", 8);
                             pNewHndl.release();
                         }
+                        //TRACER1A("transf ", 9);
                         TempFileEraser er (strTempName);
+                        //TRACER1A("transf ", 10);
                         return false; //ttt2 review what happens to pNewHndl
                     }
                     catch (const EndOfFile&) //ttt2 catch other exceptions, perhaps in the outer loop
                     {
+                    //TRACER1A("transf ", 11);
                         m_strErrorFile = strOrigName;
                         m_bWriteError = false;
                         if (pNewHndl.get() == pOrigHndl)
                         {
+                        //TRACER1A("transf ", 12);
                             pNewHndl.release();
                         }
                         TempFileEraser er (strTempName);
+                        //TRACER1A("transf ", 13);
                         return false;
                     }
-
+//TRACER1A("transf ", 14);
                     if (eTransf != Transformation::NOT_CHANGED)
                     {
+                    //TRACER1A("transf ", 15);
                         CB_ASSERT (!m_pCommonData->m_strTransfLog.empty()); //ttt0 triggered according to http://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=45 ; however, the code is quite simple and it doesn't seem to be a valid reason for m_strTransfLog to be empty (aside from corrupted memory)
                         if (m_pCommonData->m_bLogTransf)
                         {
                             logTransformation(m_pCommonData->m_strTransfLog, t.getActionName(), pNewHndl.get());
                         }
+                        //TRACER1A("transf ", 16);
 
                         if (pNewHndl.get() == pOrigHndl)
                         {
+                        //TRACER1A("transf ", 17);
                             pNewHndl.release();
                             CB_ASSERT (strPrevTempName.empty());
+                            //TRACER1A("transf ", 18);
                         }
                         else
                         {
+                        //TRACER1A("transf ", 19);
                             CB_ASSERT (!strPrevTempName.empty());
                             switch (m_transfConfig.getTempAction())
                             {
@@ -326,26 +345,34 @@ bool Mp3TransformThread::transform()
                             case TransfConfig::TRANSF_CREATE: break;
                             default: CB_ASSERT (false);
                             }
+                            //TRACER1A("transf ", 20);
                         }
-
+//TRACER1A("transf ", 21);
                         strPrevTempName = strTempName;
                         pNewHndl.reset(new Mp3Handler(strTempName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds())); //ttt2 try..catch
                         checkPause();
+                        //TRACER1A("transf ", 22);
                         if (isAborted())
                         {
+                        //TRACER1A("transf ", 23);
                             bAborted = true;
                             break; // needed because it is possible that a bug in a transformation to make it create "transformations" that are equal to the original, so the loop never exits;
                             // not 100% right, but seems better anyway than just returning; // ttt3 fix: we should delete all the temp and comp files and return false, but for now it can stay as is;
                         }
+                        //TRACER1A("transf ", 24);
 
                         if (Transformation::CHANGED_NO_RECALL != eTransf)
                         {
+                        //TRACER1A("transf ", 25);
                             CB_ASSERT (Transformation::CHANGED == eTransf);
                             j = -1; // !!! start again with the first transformation
                             //ttt2 consider: 5 transforms, 1 and 2 are CHANGE_NO_RECALL, 3 is CHANGE, causing 1 and 2 to be called again; probably OK, but review
                         }
+                        //TRACER1A("transf ", 26);
                     }
+                    //TRACER1A("transf ", 27);
                 }
+                //TRACER1A("transf ", 28);
 
                 string strNewOrigName;  // new name for the orig file; if this is empty, the original file wasn't changed; if it's "*", it was erased; if it's something else, it was renamed;
                 string strProcName;     // name for the proc file; if this is empty, a proc file doesn't exist; if it's something else, it's the file name;
@@ -353,13 +380,16 @@ bool Mp3TransformThread::transform()
                 bool bErrorInTransform (false);
 
                 FileEraser fileEraser;
+                //TRACER1A("transf ", 29);
 
                 try
                 {
                     //bool bChanged (true);
                     if (pNewHndl.get() == pOrigHndl)
                     { // nothing changed
+                    //TRACER1A("transf ", 30);
                         pNewHndl.release();
+                        //TRACER1A("transf ", 31);
                         switch (m_transfConfig.getUnprocOrigAction())
                         {
                         case TransfConfig::ORIG_DONT_CHANGE: break;
@@ -367,15 +397,17 @@ bool Mp3TransformThread::transform()
                         case TransfConfig::ORIG_MOVE: { m_transfConfig.getUnprocOrigName(strOrigName, strNewOrigName); renameFile(strOrigName, strNewOrigName); } break;
                         default: CB_ASSERT (false);
                         }
+                        //TRACER1A("transf ", 32);
                     }
                     else
                     { // at least a processed file exists
+                    //TRACER1A("transf ", 33);
                         CB_ASSERT (!strTempName.empty());
-
+//TRACER1A("transf ", 34);
                         TempFileEraser tmpEraser (strTempName);
 
                         // first we have to handle the original file;
-
+//TRACER1A("transf ", 35);
                         switch (m_transfConfig.getProcOrigAction())
                         {
                         case TransfConfig::ORIG_DONT_CHANGE: break;
@@ -397,57 +429,72 @@ bool Mp3TransformThread::transform()
                             break;
                         default: CB_ASSERT (false);
                         }
-
+//TRACER1A("transf ", 36);
                         // the last processed file exists (usualy in the same folder as the source), its name is in strTempName, and we have to see what to do with it (erase, rename, or copy);
                         switch (m_transfConfig.getProcessedAction())
                         {
                         case TransfConfig::TRANSF_DONT_CREATE: deleteFile(strTempName); break;
                         case TransfConfig::TRANSF_CREATE:
-                            {
+                            {//TRACER1A("transf ", 37);
+                            //Tracer t1 (strOrigName);
                                 m_transfConfig.getProcessedName(strOrigName, strProcName);
+                                //Tracer t2 (strProcName);
+                                //TRACER1A("transf ", 371);
                                 switch (m_transfConfig.getTempAction())
                                 {
-                                case TransfConfig::TRANSF_DONT_CREATE: renameFile(strTempName, strProcName); break;
-                                case TransfConfig::TRANSF_CREATE: copyFile(strTempName, strProcName); break;
-                                default: CB_ASSERT (false);
+                                case TransfConfig::TRANSF_DONT_CREATE: { /*TRACER1A("transf ", 372);*/ renameFile(strTempName, strProcName); /*TRACER1A("transf ", 373);*/ break; }
+                                case TransfConfig::TRANSF_CREATE: { /*TRACER1A("transf ", 374);*/ copyFile(strTempName, strProcName); /*TRACER1A("transf ", 375);*/ break; }
+                                default: { /*TRACER1A("transf ", 376);*/ CB_ASSERT (false); }
                                 }
+                                //TRACER1A("transf ", 377);
                             }
                             break;
 
                         default: CB_ASSERT (false);
                         }
+                        //TRACER1A("transf ", 38);
 
                         tmpEraser.release();
+                        //TRACER1A("transf ", 39);
                     }
-
+//TRACER1A("transf ", 40);
                     fileEraser.finalize();
+                    //TRACER1A("transf ", 41);
                 }
                 catch (const CannotDeleteFile&)
                 {
+                //TRACER1A("transf ", 42);
                     bErrorInTransform = true;
                 }
                 catch (const CannotRenameFile&) //ttt2 perhaps also NameNotFound, AlreadyExists, ...
                 {
+                //TRACER1A("transf ", 43);
                     bErrorInTransform = true;
                 }
                 catch (const CannotCreateDir& ex)
                 {
+                //TRACER1A("transf ", 44);
                     bErrorInTransform = true;
                     m_strErrorDir = ex.m_strDir;
                 }
                 catch (const CannotCopyFile&)
                 {
+                //TRACER1A("transf ", 45);
                     CB_ASSERT(false);
                     //bErrorInTransform = true;
                 }
-
+//TRACER1A("transf ", 46);
                 if (bErrorInTransform)
                 {
+                //TRACER1A("transf ", 47);
                     if (!strProcName.empty())
                     {
+                    //TRACER1A("transf ", 48);
                         try
                         {
+                        //TRACER1A("transf ", 49);
                             deleteFile(strProcName);
+                            //TRACER1A("transf ", 50);
                         }
                         catch (...)
                         { //ttt2 not sure what to do
@@ -455,38 +502,53 @@ bool Mp3TransformThread::transform()
                     }
                     m_strErrorFile = strOrigName;
                     m_bWriteError = false;
+                    //TRACER1A("transf ", 51);
                     return false;
                 }
                 //ttt2 perhaps do something similar to strNewOrigName
                 //ttt2 review the whole thing
+                //TRACER1A("transf ", 52);
 
                 if (!strNewOrigName.empty())
                 {
+                //TRACER1A("transf ", 53);
                     m_vpDel.push_back(pOrigHndl);
                     if ("*" != strNewOrigName && m_pCommonData->m_dirTreeEnum.isIncluded(strNewOrigName))
                     {
+                    //TRACER1A("transf ", 54);
                         m_vpAdd.push_back(new Mp3Handler(strNewOrigName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds()));
+                        //TRACER1A("transf ", 55);
                     }
                 }
 
                 if (!strProcName.empty())
                 {
+                //TRACER1A("transf ", 56);
                     if (m_transfConfig.m_options.m_bKeepOrigTime)
                     {
+                    //TRACER1A("transf ", 57);
                         setFileDate(strProcName, nOrigTime);
                     }
+                    //TRACER1A("transf ", 58);
 
                     if (m_pCommonData->m_dirTreeEnum.isIncluded(strProcName))
                     {
+                    //TRACER1A("transf ", 59);
                         m_vpAdd.push_back(new Mp3Handler(strProcName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds())); // !!! a new Mp3Handler is needed, because pNewHndl has an incorrect file name (but otherwise they should be identical)
+                        //TRACER1A("transf ", 60);
                     }
+                    //TRACER1A("transf ", 61);
                 }
+                //TRACER1A("transf ", 62);
             }
             catch (...)
             {
+            //TRACER1A("transf ", 63);
                 if (pNewHndl.get() == pOrigHndl)
                 {
+                //TRACER1A("transf ", 64);
                     pNewHndl.release();
+                    //TRACER1A("transf ", 65);
                 }
                 throw;
             }
@@ -494,6 +556,7 @@ bool Mp3TransformThread::transform()
     }
     catch (...)
     {
+    //TRACER1A("transf ", 66);
         qDebug("Caught unknown exception in Mp3TransformThread::transform()");
         traceToFile("Caught unknown exception in Mp3TransformThread::transform()", 0);
         throw; // !!! needed to restore "erased" files when errors occur, because when an exception is thrown the destructors only get called if that exception is caught; so catching and rethrowing is not a "no-op"
@@ -566,4 +629,74 @@ bool transform(const deque<const Mp3Handler*>& vpHndlr, vector<Transformation*>&
 
 
 //ttt1 This is a new crash from when the destination folder was full while saving modifications, in particular adding an album image.
+
+/*
+17:47:09.836 > TagEditorDlgImpl::run()
+17:47:58.031  > Mp3TransformThread::transform()F:/TMP/MP3/MP3DiagsTest/Testfile.mp3/Save ID3V2.3.0 tags
+17:47:58.183   > Mp3Handler constr: F:/TMP/MP3/MP3DiagsTest/Testfile.mp3.EQgf73
+17:47:58.420   < Mp3Handler constr: F:/TMP/MP3/MP3DiagsTest/Testfile.mp3.EQgf73
+17:47:58.422  < Mp3TransformThread::transform()F:/TMP/MP3/MP3DiagsTest/Testfile.mp3/Save ID3V2.3.0 tags
+17:47:58.433  > Mp3Handler destr: F:/TMP/MP3/MP3DiagsTest/Testfile.mp3.EQgf73
+17:47:58.435  < Mp3Handler destr: F:/TMP/MP3/MP3DiagsTest/Testfile.mp3.EQgf73
+17:47:58.435 Caught unknown exception in Mp3TransformThread::transform()
+17:47:58.443 Assertion failure in file Mp3TransformThread.cpp, line 98: false. The program will exit.
+*/
+
+
+
+
+
+
+
+
+/*
+
+Elbert Pol
+
+10:38:55.129 < Mp3TransformThread::transform()P:/Mp3/Caro Emerald -
+Deleted Scenes From The Cutting Room Floor (2010)/01 - Caro Emerald -
+That Man.mp3/Save ID3V2.3.0 tags
+10:38:55.129 < transf 4
+10:38:55.131 > transf 28
+10:38:55.131 > transf 29
+10:38:55.131 > transf 33
+10:38:55.131 > transf 34
+10:38:55.133 > transf 35
+10:38:55.147 > transf 36
+10:38:55.147 > transf 37
+10:38:55.149 > P:/Mp3/Caro Emerald - Deleted Scenes From The Cutting
+Room Floor (2010)/01 - Caro Emerald - That Man.mp3
+10:38:55.149 < P:/Mp3/Caro Emerald - Deleted Scenes From The Cutting
+Room Floor (2010)/01 - Caro Emerald - That Man.mp3
+10:38:55.149 < transf 37
+10:38:55.151 < transf 36
+10:38:55.151 < transf 35
+10:38:55.153 < transf 34
+10:38:55.155 < transf 33
+10:38:55.155 < transf 29
+10:38:55.157 < transf 28
+10:38:55.159 > transf 63
+10:38:55.159 < transf 63
+10:38:55.159 < transf 3
+10:38:55.160 > Mp3Handler destr: P:/Mp3/Caro Emerald - Deleted Scenes
+ From The Cutting Room Floor (2010)/01 - Caro Emerald - That Man.mp3.HU3356
+10:38:55.160 < Mp3Handler destr: P:/Mp3/Caro Emerald - Deleted Scenes
+ From The Cutting Room Floor (2010)/01 - Caro Emerald - That Man.mp3.HU3356
+10:38:55.160 < transf 2
+10:38:55.162 < transf 1
+10:38:55.162 > transf 66
+10:38:55.162  Caught unknown exception in Mp3TransformThread::transform()
+10:38:55.164 < transf 66
+10:38:55.164 Assertion failure in file
+..\..\..\QT\MP3Diags-1.0.06.051\src\Mp3TransformThread.cpp, line 98:
+false. The program will exit.
+
+
+*/
+
+
+
+
+
+
 

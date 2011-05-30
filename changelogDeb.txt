@@ -1,3 +1,9 @@
+mp3diags (1.1.01.054) testing; urgency=low
+
+  * created unstable branch
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Mon, 30 May 2011 22:00:00 +0200
+
 mp3diags (1.0.08.053) testing; urgency=low
 
   * fixed crash when trying to save after error at startup

@@ -36,12 +36,13 @@
 #include  "Helpers.h"
 #include  "StoredSettings.h"
 #include  "OsFile.h"
+#include  "Version.h"
 
 //#include  "Profiler.h"
 
 using namespace std;
 
-static const char* APP_NAME ("Mp3Diags");
+static const char* APP_NAME ("Mp3Diags-unstable");
 static const char* ORGANIZATION ("Ciobi");
 
 GlobalSettings::GlobalSettings()
@@ -294,13 +295,13 @@ int main(int argc, char *argv[])
 
             if (1 == nSessCnt)
             {
-                mainDlg.setWindowTitle("MP3 Diags");
+                mainDlg.setWindowTitle("MP3 Diags" + QString(APP_BRANCH));
             }
             else
             {
                 string::size_type n (strStartSession.rfind(getPathSep()));
                 string s (strStartSession.substr(n + 1, strStartSession.size() - n - 3 - 2));
-                mainDlg.setWindowTitle("MP3 Diags - " + convStr(s));
+                mainDlg.setWindowTitle("MP3 Diags"  + QString(APP_BRANCH) + " - " + convStr(s));
             }
 
             if (MainFormDlgImpl::OPEN_SESS_DLG != mainDlg.run()) { return 0; }
@@ -381,3 +382,7 @@ WARNING: it is ignored, until you registered a Category at adrian@suse.de .
 */
 
 //ttt1 CLI-support: scan some files, create logs, apply some transforms, ...
+
+//ttt1 explorer right-click; create a new session vs. add to existing one
+//ttt1 ID3V1 remover
+//ttt0 make AdjustMt.sh work

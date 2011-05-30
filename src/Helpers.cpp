@@ -45,6 +45,7 @@
 
 #include  "Helpers.h"
 #include  "Widgets.h"
+#include  "Version.h"
 
 
 using namespace std;
@@ -746,8 +747,6 @@ static void removeStr(string& main, const string& sub)
 }
 #endif
 
-extern const char* APP_VER;
-
 
 QString getSystemInfo() //ttt2 perhaps store this at startup, so fewer things may go wrong fhen the assertion handler needs it
 {
@@ -931,7 +930,7 @@ vector<QString> getLocalHelpDirs()
     if (s_v.empty())
     {
 #ifndef WIN32
-        s_v.push_back("/home/ciobi/cpp/Mp3Utils/mp3diags/doc/html/");
+        //s_v.push_back("/home/ciobi/cpp/Mp3Utils/mp3diags/trunk/mp3diags/doc/html/");
         s_v.push_back("/usr/share/mp3diags-doc/html/");
         s_v.push_back("/usr/share/doc/mp3diags/html/");
         s_v.push_back("/usr/share/doc/mp3diags-QQQVERQQQ/html/");
@@ -970,7 +969,7 @@ void openHelp(const string& strFileName)
     QString qs (strDir);
     if (qs.isEmpty())
     {
-        qs = "http://mp3diags.sourceforge.net/"; //ttt1 different for "unstable"
+        qs = "http://mp3diags.sourceforge.net" + QString(APP_BRANCH) + "/";
     }
     else
     {

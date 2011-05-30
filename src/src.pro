@@ -63,7 +63,7 @@ CONFIG += warn_on \
 	  thread \
           qt \
  debug_and_release
-TARGET = MP3Diags
+TARGET = MP3Diags-unstable
 DESTDIR = ../bin
 
 QT += xml \
@@ -128,7 +128,8 @@ UniqueNotesModel.h \
 Widgets.h \
  fstream_unicode.h \
  ExportDlgImpl.h \
- FullSizeImgDlg.h
+ FullSizeImgDlg.h \
+ Version.h
 FORMS += About.ui \
 AlbumInfoDownloader.ui \
 Config.ui \
@@ -161,4 +162,7 @@ QMAKE_CXXFLAGS_DEBUG += -DGENERATE_TOC_zz
 
 LIBS += -lz \
   -lboost_serialization-mt
+
+
+
 

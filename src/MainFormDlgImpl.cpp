@@ -74,6 +74,7 @@
 #include  "SessionEditorDlgImpl.h"
 #include  "Id3Transf.h"
 #include  "ExportDlgImpl.h"
+#include  "Version.h"
 
 
 using namespace std;
@@ -547,7 +548,7 @@ void MainFormDlgImpl::showSelWarn()
 {
     if (m_pCommonData->m_bWarnedAboutSel) { return; }
 
-    HtmlMsg::msg(this, 0, 0, &m_pCommonData->m_bWarnedAboutSel, HtmlMsg::DEFAULT, "Note", "If you simply left-click, all the visible files get processed. However, it is possible to process only the selected files. To do that, either keep SHIFT pressed down while clicking or use the right button, as described at <a href=\"http://mp3diags.sourceforge.net/140_main_window_tools.html\">http://mp3diags.sourceforge.net/140_main_window_tools.html</a>", 520, 300, "O&K"); //ttt1 different for "unstable"
+    HtmlMsg::msg(this, 0, 0, &m_pCommonData->m_bWarnedAboutSel, HtmlMsg::DEFAULT, "Note", "If you simply left-click, all the visible files get processed. However, it is possible to process only the selected files. To do that, either keep SHIFT pressed down while clicking or use the right button, as described at <a href=\"http://mp3diags.sourceforge.net" + QString(APP_BRANCH) + "/140_main_window_tools.html\">http://mp3diags.sourceforge.net" + QString(APP_BRANCH) + "/140_main_window_tools.html</a>", 520, 300, "O&K"); //ttt1 different for "unstable"
 
     if (!m_pCommonData->m_bWarnedAboutSel) { return; }
 
@@ -763,9 +764,6 @@ void listKnownFormats()
 
 
 } // namespace
-
-
-extern const char* APP_VER;
 
 
 
@@ -2635,7 +2633,7 @@ void MainFormDlgImpl::checkForNewVersion() // returns immediately; when the requ
 
     m_pQHttp->setHost("mp3diags.sourceforge.net");
     //http://mp3diags.sourceforge.net/010_getting_the_program.html
-    QHttpRequestHeader header ("GET", "/version.txt"); header.setValue("Host", "mp3diags.sourceforge.net"); //ttt1 use an "unstable" directory, have the app be aware that it's unstable for both "help" and new ver check
+    QHttpRequestHeader header ("GET", QString(APP_BRANCH) + "/version.txt"); header.setValue("Host", "mp3diags.sourceforge.net"); //ttt1 use an "unstable" directory, have the app be aware that it's unstable for both "help" and new ver check
     //QHttpRequestHeader header ("GET", "/mciobanu/mp3diags/010_getting_the_program.html"); header.setValue("Host", "web.clicknet.ro");
     m_pQHttp->request(header);
 }
@@ -2707,7 +2705,7 @@ void MainFormDlgImpl::onNewVersionQueryFinished2()
     if (m_pCommonData->m_strDontTellAboutVer == convStr(m_qstrNewVer)) { return; }
 
     int nRes (HtmlMsg::msg(this, 0, 0, 0, HtmlMsg::VERT_BUTTONS, "Info",
-    "<p style=\"margin-bottom:1px; margin-top:12px; \">Version " + m_qstrNewVer + " has been published. You are running " + APP_VER + ". You can see what's new in the <a href=\"http://mp3diags.blogspot.com/\">MP3 Diags blog</a>. A more technical list with changes can be seen in the <a href=\"http://mp3diags.sourceforge.net/015_changelog.html\">change log</a>.</p>" //ttt1 different for "unstable"
+    "<p style=\"margin-bottom:1px; margin-top:12px; \">Version " + m_qstrNewVer + " has been published. You are running " + APP_VER + ". You can see what's new in the <a href=\"http://mp3diags.blogspot.com/\">MP3 Diags blog</a>. A more technical list with changes can be seen in the <a href=\"http://mp3diags.sourceforge.net" + QString(APP_BRANCH) + "/015_changelog.html\">change log</a>.</p>" //ttt1 different for "unstable"
 #ifndef WIN32
     "<p style=\"margin-bottom:1px; margin-top:12px; \">This notification is about the availability of the source code. Binaries may or may not be available at this time, depending on your particular platform.</p>"
 #else
@@ -3220,3 +3218,5 @@ Development machine:
 //ttt2 perhaps "open file manager" on right-click (QDesktopServices::openUrl seems to do it)
 
 //ttt0 look at /d/test_mp3/1/tmp4/tmp2/unsupported/bad-decoding
+
+// favicon.ico : not sure how to create it; currently it's done with GIMP, with 8bpp/1 bit alpha, not compressed; however, konqueror doesn't show it when using a local page

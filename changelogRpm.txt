@@ -1,3 +1,8 @@
+* Sat May 28 2011 Marian Ciobanu <ciobi@inbox.com> 1.0.08.053
+
+- fixed crash when trying to save after error at startup
+- added branch support to build process
+
 * Wed Dec 29 2010 Marian Ciobanu <ciobi@inbox.com> 1.0.07.052
 
 - fixed crash in folder filter dialog

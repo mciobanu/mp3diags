@@ -175,12 +175,12 @@
     {
         if (TOOLCHAIN_MINGW_QMAKE == crtFolderSettings[1])
         {
-            crtFolderSettings[2] = "? C:\\Qt\\2009.03\\mingw\\bin";
-            crtFolderSettings[3] = "? C:\\Qt\\2009.03\\qt";
-            crtFolderSettings[4] = "? C:\\boost_1_39_0";
-            crtFolderSettings[5] = "? C:\\boost_1_39_0\\bin.v2\\libs\\serialization\\build\\gcc-mingw-3.4.5\\release\\threading-multi\\boost_serialization-mgw34-mt-1_39.lib";
-            crtFolderSettings[6] = "? C:\\zlib123-dll\\include";
-            crtFolderSettings[7] = "? C:\\zlib123-dll\\lib\\zdll.lib";
+            crtFolderSettings[2] = "? C:\\QtSDK\\mingw\\bin";
+            crtFolderSettings[3] = "? C:\\QtSDK\\Desktop\\Qt\\4.7.3\\mingw";
+            crtFolderSettings[4] = "? C:\\boost_1_46_1";
+            crtFolderSettings[5] = "? C:\\boost_1_46_1\\bin.v2\\libs\\serialization\\build\\gcc-mingw-4.4.0\\release\\threading-multi\\libboost_serialization-mgw44-mt-1_46_1.dll.a";
+            crtFolderSettings[6] = "? C:\\zlib125-dll\\include";
+            crtFolderSettings[7] = "? C:\\zlib125-dll\\lib\\zdll.lib";
         }
         else if (TOOLCHAIN_MSVC == crtFolderSettings[1])
         {
@@ -188,8 +188,8 @@
             crtFolderSettings[3] = "? C:\\Qt-4.5.2-VS";
             crtFolderSettings[4] = "? C:\\boost_1_39_0";
             crtFolderSettings[5] = "? C:\\boost_1_39_0\\bin.v2\\libs\\serialization\\build\\msvc-9.0express\\release\\threading-multi\\boost_serialization-vc90-mt-1_39.lib";
-            crtFolderSettings[6] = "? C:\\zlib123-dll\\include";
-            crtFolderSettings[7] = "? C:\\zlib123-dll\\lib\\zdll.lib";
+            crtFolderSettings[6] = "? C:\\zlib125-dll\\include";
+            crtFolderSettings[7] = "? C:\\zlib125-dll\\lib\\zdll.lib";
         }
         else
         {
@@ -338,13 +338,13 @@
             {
                 if (-1 == line.indexOf("lz"))
                 {
-                    if ("TARGET = MP3Diags" != line)
+                    if (0 == line.indexOf("TARGET = MP3Diags") && 0 != line.indexOf("TARGET = MP3DiagsWindows"))
                     {
-                        fOut.writeLine(line);
+                        fOut.writeLine("TARGET = MP3DiagsWindows"); // !!! to have consistent naming
                     }
                     else
                     {
-                        fOut.writeLine("TARGET = MP3DiagsWindows"); // !!! to have consistent naming
+                        fOut.writeLine(line);
                     }
                 }
             }
@@ -668,7 +668,7 @@
             <li>The purpose of this utility is to allow builds to be made easily for various combinations of compiler and libraries, as well as generate project files that can be used from IDEs.</li>
             <li class="vertSpc3">First you need to choose your compiler / IDE and configure the folders and libraries. For a given folder there is a toolchain and a set of libraries that can be configured. Others should be set up in another folder.</li>
             <li class="vertSpc3">Folders are populated with invalid values by default. Usually it should be easy to correct them, provided that you have installed the required libraries (Qt, Boost Serialization, and zlib.) If you already configured a folder for the same toolchain, you can copy the settings to the current folder.</li>
-            <li class="vertSpc3">Note that the Qt root folder is for the Qt library, not for Qt Creator. If you installed Qt SDK, the Qt root folder is probably going to be called "qt", and it is inside 2009.03 or something similar.</li>
+            <li class="vertSpc3">Note that the Qt root folder is for the Qt library, not for Qt Creator..</li>
             <li class="vertSpc3">After configuring the folders you need to "set up" the project. Then you can either build it, by clicking on the corresponding button, or open it in an IDE.</li>
             <li class="vertSpc3">To open MP3 Diags with Qt Creator: set up the project, start Qt Creator and open <b>mp3diags.pro</b>. If it offers to import existing build settings, you should decline; otherwise you'll only be able to build the debug version.</li>
             <li class="vertSpc3">To open MP3 Diags with Visual C++ (Express): first set up the project. Then, if you have a 2008 version, you can double-click on <b>mp3diags.sln</b> in Windows Explorer. If you have something else, double-clicking on <b>src\MP3DiagsWindows.vcproj</b> will probably work, as well as opening either <b>src\MP3DiagsWindows.vcproj</b> or <b>mp3diags.sln</b> from the IDE; however, these haven't been tested.</li>

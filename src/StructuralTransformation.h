@@ -41,7 +41,7 @@ public:
     /*override*/ const char* getActionName() const { return getClassName(); }
     /*override*/ const char* getDescription() const { return "Sometimes a bit gets flipped in a file. This tries to identify places having this issue in audio frame headers. If found, it fixes the problem. It is most likely to apply to files that have 2 audio streams."; }
 
-    static const char* getClassName() { return "Restore flipped bit in audio"; }
+    static const char* getClassName() { return "Restore flipped bit in audio"; } // ttt1 "getClassName" is misleading and should be renamed
 };
 
 

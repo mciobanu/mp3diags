@@ -4,7 +4,7 @@
 
 function fixVersion
 {
-    cat $1 | sed "s%QQQVERQQQ%$Ver%g" > QQTmpQQ
+    cat $1 | sed -e "s%QQQVERQQQ%$Ver%g" -e "s%QQQBRANCH_SLQQQ%$BranchSlash%g" -e "s%QQQBRANCH_DQQQ%$BranchDash%g" > QQTmpQQ
     rm $1
     mv QQTmpQQ $1
 }
@@ -13,9 +13,9 @@ function fixVersion
 function initialize
 {
     echo Initializing ...
-    #Ver=`pwd | sed -e 's%/.*/%%' -e 's% .*%%'`
-    #Ver=`cat Release.txt`.$Ver
     Ver=`cat Release.txt`
+    BranchSlash=`cat branch.txt`
+    BranchDash=`echo "$BranchSlash" | sed 's#/#-#'`
 
     echo Version: $Ver
 
@@ -33,23 +33,22 @@ function initialize
     mkdir -p package/out/deb
     mkdir -p package/out/rpm
 
-    cat package/rpm/MP3Diags.spec | sed "s+%define version .*$+%define version $Ver+" > package/out/rpm/MP3Diags.spec
-    cat package/rpm/MP3Diags-Mandriva_2009.1.spec | sed "s+%define version .*$+%define version $Ver+" > package/out/rpm/MP3Diags-Mandriva_2009.1.spec
-    cat changelogRpm.txt >> package/out/rpm/MP3Diags.spec
-    cat changelogRpm.txt >> package/out/rpm/MP3Diags-Mandriva_2009.1.spec
+    cat package/rpm/MP3Diags.spec | sed -e "s+%define version .*$+%define version $Ver+" -e "s+%define branch .*+%define branch $BranchDash+" -e 's+%define branch $+%define branch %{nil}+' > package/out/rpm/MP3Diags$BranchDash.spec
+    cat changelogRpm.txt >> package/out/rpm/MP3Diags$BranchDash.spec
+    cat package/rpm/MP3Diags-Mandriva_2009.1.spec | sed -e "s+%define version .*$+%define version $Ver+" -e "s+%define branch .*+%define branch $BranchDash+" -e 's+%define branch $+%define branch %{nil}+' > package/out/rpm/MP3Diags-Mandriva_2009.1$BranchDash.spec
+    cat changelogRpm.txt >> package/out/rpm/MP3Diags-Mandriva_2009.1$BranchDash.spec
 
-    #cat package/deb/debian.changelog | sed "s%QQQVERQQQ%$Ver%g" > package/out/deb/debian.changelog
-    #cat changelogDeb.txt >> package/out/deb/debian.changelog
-    cp -p changelogDeb.txt package/out/deb/debian.changelog
-    cp -p package/deb/debian.control package/out/deb
-    cp -p package/deb/debian.rules package/out/deb
-    cat package/deb/MP3Diags.dsc | sed "s%QQQVERQQQ%$Ver%g" > package/out/deb/MP3Diags.dsc
+    cat changelogDeb.txt | sed "s#^mp3diags#mp3diags$BranchDash#" > package/out/deb/debian.changelog
+    cat package/deb/debian.control | sed "s#mp3diags#mp3diags$BranchDash#" > package/out/deb/debian.control
+    cat package/deb/debian.rules | sed -e "s#bin/MP3Diags#bin/MP3Diags$BranchDash#" -e "s#MP3Diags.desktop#MP3Diags$BranchDash.desktop#" -e "s#debian/mp3diags#debian/mp3diags$BranchDash#" -e "s%MP3Diags.png$%MP3Diags$BranchDash.png%" -e "s%MP3Diags\([0-9][0-9]\)%MP3Diags\1$BranchDash%" > package/out/deb/debian.rules
+    cat package/deb/MP3Diags.dsc | sed -e "s%mp3diags%mp3diags$BranchDash%" -e "s%MP3Diags%MP3Diags$BranchDash%" > package/out/deb/MP3Diags$BranchDash.dsc
+    fixVersion package/out/deb/MP3Diags$BranchDash.dsc
 }
 
 
 function createPad
 {
-    echo Creating source
+    echo Creating pad
     LongDestDir=package/out
     year=`date +%Y`
     month=`date +%m`
@@ -61,16 +60,20 @@ function createPad
 function createSrc
 {
     echo Creating source
-    DestDir=MP3Diags-$Ver
+    DestDir=MP3Diags$BranchDash-$Ver
     LongDestDir=package/out/$DestDir
     rm -f -r $LongDestDir
     mkdir -p $LongDestDir
 
-    cp -pr desktop $LongDestDir
+    mkdir $LongDestDir/desktop
+    for i in `ls desktop/*.png` ; do
+        newName=`echo $i | sed "s%\.png$%$BranchDash\.png%"`
+        cp $i $LongDestDir/$newName
+    done
+    cat desktop/MP3Diags.desktop | sed -e "s#MP3Diags#MP3Diags$BranchDash#" -e "s#MP3 Diags#MP3 Diags$BranchSlash#" > $LongDestDir/desktop/MP3Diags$BranchDash.desktop
     cp -pr src $LongDestDir
-    #cat $LongDestDir/src/src.pro | sed 's%lboost_serialization%lboost_serialization-mt%' > $LongDestDir/src/src.pro1
-    #mv -f $LongDestDir/src/src.pro1 $LongDestDir/src/src.pro
     fixVersion $LongDestDir/src/Helpers.cpp
+    cp -p branch.txt $LongDestDir
 
     rm -f -r $LongDestDir/src/debug
     rm -f -r $LongDestDir/src/release
@@ -87,11 +90,12 @@ function createSrc
     cp -p AdjustMt.sh $LongDestDir
     cp -p CMakeLists.txt $LongDestDir
     cp -p CMake-VS2008-Win32.cmd $LongDestDir
-    cp -p BuildMp3Diags.hta $LongDestDir
+    cat BuildMp3Diags.hta | sed -e "s#MP3DiagsWindows#MP3DiagsWindows$BranchDash#" > $LongDestDir/BuildMp3Diags.hta
     cp -p README.TXT $LongDestDir
     cp package/out/pad_file.xml $LongDestDir
 
-    echo const char* APP_VER '("'$Ver'");'> $LongDestDir/src/Version.cpp
+    echo 'const char* APP_VER ("'$Ver'");' > $LongDestDir/src/Version.cpp
+    echo 'const char* APP_BRANCH ("'$BranchSlash'");' >> $LongDestDir/src/Version.cpp
     echo >> $LongDestDir/src/Version.cpp
 
     for i in $( ls src/licences | sed 's%.*/%%' ); do
@@ -127,7 +131,7 @@ function createSrc
 function createDoc
 {
     echo Creating non-counted documentation
-    DestDir=MP3DiagsDoc-$Ver
+    DestDir=MP3DiagsDoc$BranchDash-$Ver
     LongDestDir=package/out/$DestDir
     rm -f -r $LongDestDir
     mkdir -p $LongDestDir
@@ -159,7 +163,7 @@ function createDoc
 function createClicknetDoc
 {
     echo Creating Clicknet documentation
-    DestDir=MP3DiagsClicknetDoc-$Ver
+    DestDir=MP3DiagsClicknetDoc$BranchDash-$Ver
     LongDestDir=package/out/$DestDir
     rm -f -r $LongDestDir
     mkdir -p $LongDestDir
@@ -182,7 +186,7 @@ function createClicknetDoc
 
     cd package/out
     #tar czf $DestDir.tar.gz $DestDir
-    cp MP3Diags-$Ver.tar.gz $DestDir
+    cp MP3Diags$BranchDash-$Ver.tar.gz $DestDir
     cd ../..
 
     #rm -f -r $LongDestDir
@@ -212,7 +216,7 @@ function createClicknetDoc
 function createSfDoc
 {
     echo Creating SF documentation
-    DestDir=MP3DiagsSfDoc-$Ver
+    DestDir=MP3DiagsSfDoc$BranchDash-$Ver
     LongDestDir=package/out/$DestDir
     rm -f -r $LongDestDir
     mkdir -p $LongDestDir
@@ -251,10 +255,10 @@ function createPackagerSrc
 {
     echo Creating Source+Doc bundle
     cd package/out
-    mkdir MP3Diags-$Ver/doc
-    cp MP3DiagsDoc-$Ver/* MP3Diags-$Ver/doc
-    tar czf MP3Diags_Src+Doc-$Ver.tar.gz MP3Diags-$Ver
-    mv MP3Diags_Src+Doc-$Ver.tar.gz MP3DiagsClicknetDoc-$Ver
+    mkdir MP3Diags$BranchDash-$Ver/doc
+    cp -p MP3DiagsDoc$BranchDash-$Ver/* MP3Diags$BranchDash-$Ver/doc
+    tar czf MP3Diags"$BranchDash"_Src+Doc-$Ver.tar.gz MP3Diags$BranchDash-$Ver
+    mv MP3Diags"$BranchDash"_Src+Doc-$Ver.tar.gz MP3DiagsClicknetDoc$BranchDash-$Ver
     cd ../..
 }
 
@@ -276,5 +280,7 @@ createPackagerSrc
 if [ -f CopyToSf.sh ] ; then
     cp -p CopyToSf.sh package/out
 fi
+
+cp -p branch.txt package/out
 
 #FileName=`find . -maxdepth 1 -mindepth 1 -type d | sed s#./##`

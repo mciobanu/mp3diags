@@ -90,7 +90,7 @@ function createSrc
     cp -p AdjustMt.sh $LongDestDir
     cp -p CMakeLists.txt $LongDestDir
     cp -p CMake-VS2008-Win32.cmd $LongDestDir
-    cat BuildMp3Diags.hta | sed -e "s#MP3DiagsWindows#MP3DiagsWindows$BranchDash#" > $LongDestDir/BuildMp3Diags.hta
+    cat BuildMp3Diags.hta | sed -e "s#MP3DiagsWindows#MP3DiagsWindows$BranchDash#g" > $LongDestDir/BuildMp3Diags.hta
     cp -p README.TXT $LongDestDir
     cp package/out/pad_file.xml $LongDestDir
 
@@ -186,7 +186,7 @@ function createClicknetDoc
 
     cd package/out
     #tar czf $DestDir.tar.gz $DestDir
-    cp MP3Diags$BranchDash-$Ver.tar.gz $DestDir
+    cp -p MP3Diags$BranchDash-$Ver.tar.gz $DestDir
     cd ../..
 
     #rm -f -r $LongDestDir

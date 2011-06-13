@@ -61,7 +61,7 @@ struct Reader
     const char* m_pcLeft; // set during the call to init() if it returns true
     const char* m_pcRight; // set during the call to init() if it returns true
 
-    Reader(Optional eOptional, Bound eLeftBound, Bound eRightBound) : m_eOptional(eOptional), m_eState(UNASSIGNED), m_eLeftBound(eLeftBound), m_eRightBound(eRightBound)
+    Reader(Optional eOptional, Bound eLeftBound, Bound eRightBound) : m_eOptional(eOptional), m_eState(UNASSIGNED), m_pcLeft(0), m_pcRight(0), m_eLeftBound(eLeftBound), m_eRightBound(eRightBound)
     {
     }
 
@@ -952,7 +952,7 @@ struct TestTrackTextParser
             SongInfoParser::TrackTextParser fr ("/[ [ ]][-[ [ ]]]%t");
             //SongInfoParser::TrackTextParser fr ("/%t");
             const char* s ("-------------------------------\n");
-            vector<string> v; 
+            vector<string> v;
             vector<string> (TagReader::LIST_END + 1).swap(v);
             fr.init(".../ tst01.mp3", v);
             cout << "2 " << s; for (int i = 0; i < cSize(v); ++i) { cout << i << " " << v[i] << endl; }
@@ -964,7 +964,7 @@ struct TestTrackTextParser
             SongInfoParser::TrackTextParser fr ("/[[%r]%n][[ ] ][-[[ ] ]]%t");
             //SongInfoParser::TrackTextParser fr ("/%t");
             const char* s ("-------------------------------\n");
-            vector<string> v; 
+            vector<string> v;
             vector<string> (TagReader::LIST_END + 1).swap(v); fr.init(".../b06 -tst01.mp3", v); cout << "2 " << s; for (int i = 0; i < cSize(v); ++i) { cout << i << " " << v[i] << endl; }
         }*/
 
@@ -972,7 +972,7 @@ struct TestTrackTextParser
         /*{
             SongInfoParser::TrackTextParser fr ("/[[%r]%n][ [ ]][-[ [ ]]]%t");
             const char* s ("-------------------------------\n");
-            vector<string> v; 
+            vector<string> v;
             vector<string> (TagReader::LIST_END + 1).swap(v); fr.assign(".../b06tst01.mp3", v); cout << "1 " << s; for (int i = 0; i < cSize(v); ++i) { cout << i << f(v[i]); }
             vector<string> (TagReader::LIST_END + 1).swap(v); fr.assign(".../b06 tst01.mp3", v); cout << "2 " << s; for (int i = 0; i < cSize(v); ++i) { cout << i << f(v[i]); }
             vector<string> (TagReader::LIST_END + 1).swap(v); fr.assign(".../b06  tst01.mp3", v); cout << "3 " << s; for (int i = 0; i < cSize(v); ++i) { cout << i << f(v[i]); }
@@ -989,7 +989,7 @@ struct TestTrackTextParser
         /*{
             SongInfoParser::TrackTextParser fr ("[[%r]%n][ [ ]][-[ [ ]]]%t");
             const char* s ("-------------------------------\n");
-            vector<string> v; 
+            vector<string> v;
             vector<string> (TagReader::LIST_END + 1).swap(v); fr.assign("b06tst01.mp3", v); cout << "1 " << s; for (int i = 0; i < cSize(v); ++i) { cout << i << f(v[i]); }
             vector<string> (TagReader::LIST_END + 1).swap(v); fr.assign("b06 tst01.mp3", v); cout << "2 " << s; for (int i = 0; i < cSize(v); ++i) { cout << i << f(v[i]); }
             vector<string> (TagReader::LIST_END + 1).swap(v); fr.assign("b06  tst01.mp3", v); cout << "3 " << s; for (int i = 0; i < cSize(v); ++i) { cout << i << f(v[i]); }
@@ -1006,7 +1006,7 @@ struct TestTrackTextParser
         {
             SongInfoParser::TrackTextParser fr ("%t-%an");
             const char* s ("-------------------------------\n");
-            vector<string> v; 
+            vector<string> v;
             vector<string> (TagReader::LIST_END + 1).swap(v); fr.assign("HHHHHHHHHHHHHH - QQQQQQQ  Listen", v); cout << "1 " << s; for (int i = 0; i < cSize(v); ++i) { cout << i << f(v[i]); }
             vector<string> (TagReader::LIST_END + 1).swap(v); fr.assign("H-Listen", v); cout << "2 " << s; for (int i = 0; i < cSize(v); ++i) { cout << i << f(v[i]); }
         }//*/
@@ -1014,7 +1014,7 @@ struct TestTrackTextParser
         {
             SongInfoParser::TrackTextParser fr ("%t-%aen");
             const char* s ("-------------------------------\n");
-            vector<string> v; 
+            vector<string> v;
             vector<string> (TagReader::LIST_END + 1).swap(v); fr.assign("HHHHHHHHHHHHHH - QQQQQQQ  Listen", v); cout << "3 " << s; for (int i = 0; i < cSize(v); ++i) { cout << i << f(v[i]); }
             vector<string> (TagReader::LIST_END + 1).swap(v); fr.assign("H-Len", v); cout << "4 " << s; for (int i = 0; i < cSize(v); ++i) { cout << i << f(v[i]); }
         }//*/

@@ -72,7 +72,7 @@ namespace Discogs
 */
 struct SearchXmlHandler : public SimpleSaxHandler<SearchXmlHandler>
 {
-    SearchXmlHandler(DiscogsDownloader& dlg) : SimpleSaxHandler<SearchXmlHandler>("resp"), m_dlg(dlg)
+    SearchXmlHandler(DiscogsDownloader& dlg) : SimpleSaxHandler<SearchXmlHandler>("resp"), m_dlg(dlg), m_bIsRelease(false)
     {
         Node& resp (getRoot());
             Node& exactResults (makeNode(resp, "exactresults"));

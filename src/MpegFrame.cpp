@@ -198,7 +198,7 @@ void MpegFrameBase::init(NoteColl& notes, const char* bfr) //ttt2 should have so
 }
 
 
-MpegFrameBase::MpegFrameBase() : m_eVersion(MPEG1), m_eLayer(LAYER1), m_nBitrate(-1), m_nFrequency(-1), m_nPadding(-1), m_eChannelMode(SINGLE_CHANNEL), m_nSize(-1) {}
+MpegFrameBase::MpegFrameBase() : m_eVersion(MPEG1), m_eLayer(LAYER1), m_nBitrate(-1), m_nFrequency(-1), m_nPadding(-1), m_eChannelMode(SINGLE_CHANNEL), m_nSize(-1), m_bCrc(false) {}
 
 
 const char* MpegFrameBase::getSzVersion() const

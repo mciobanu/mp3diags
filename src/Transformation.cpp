@@ -223,7 +223,7 @@ TransfConfig::TransfConfig(
 }
 
 
-TransfConfig::TransfConfig()
+TransfConfig::TransfConfig() : m_bInitError(false)
 {
     m_strSrcDir = getDefaultSrc();
     m_strProcOrigDir = getDefaultProcOrig();

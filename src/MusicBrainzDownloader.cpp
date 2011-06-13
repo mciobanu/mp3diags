@@ -104,7 +104,7 @@ private:
 */
 struct AlbumXmlHandler : public SimpleSaxHandler<AlbumXmlHandler>
 {
-    AlbumXmlHandler(MusicBrainzAlbumInfo& albumInfo) : SimpleSaxHandler<AlbumXmlHandler>("metadata"), m_albumInfo(albumInfo)
+    AlbumXmlHandler(MusicBrainzAlbumInfo& albumInfo) : SimpleSaxHandler<AlbumXmlHandler>("metadata"), m_albumInfo(albumInfo), m_bTargetIsUrl(false)
     {
         Node& meta (getRoot()); meta.onEnd = &AlbumXmlHandler::onMetaEnd;
             Node& rel (makeNode(meta, "release")); rel.onStart = &AlbumXmlHandler::onRelStart;

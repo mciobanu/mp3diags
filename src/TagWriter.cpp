@@ -817,7 +817,7 @@ const TagReader* Mp3HandlerTagData::getMatchingReader(int i) const
 
 
 
-TagWriter::TagWriter(CommonData* pCommonData, QWidget* pParentWnd, const bool& bIsFastSaving, const TextCaseOptions& eArtistCase, const TextCaseOptions& eTitleCase) : m_pCommonData(pCommonData), m_pParentWnd(pParentWnd), m_nCurrentFile(-1), m_bShowedNonSeqWarn(true), m_bIsFastSaving(bIsFastSaving), m_nFileToErase(-1), m_bVariousArtists(false), m_bAutoVarArtists(false), m_bDelayedAdjVarArtists(false), m_bWaitingChangeNotif(false), m_eArtistCase(eArtistCase),  m_eTitleCase(eTitleCase)
+TagWriter::TagWriter(CommonData* pCommonData, QWidget* pParentWnd, const bool& bIsFastSaving, const TextCaseOptions& eArtistCase, const TextCaseOptions& eTitleCase) : m_bSomeSel(false), m_bNonStandardTrackNo(false), m_pCommonData(pCommonData), m_pParentWnd(pParentWnd), m_nCurrentFile(-1), m_bShowedNonSeqWarn(true), m_bIsFastSaving(bIsFastSaving), m_bShouldShowPatternsNote(false), m_nFileToErase(-1), m_bVariousArtists(false), m_bAutoVarArtists(false), m_bDelayedAdjVarArtists(false), m_bWaitingChangeNotif(false), m_eArtistCase(eArtistCase),  m_eTitleCase(eTitleCase)
 {
 }
 

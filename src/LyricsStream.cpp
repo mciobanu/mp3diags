@@ -281,7 +281,6 @@ ImageInfo LyricsStream::readImage(const QString& strRelName) const //ttt2 perhap
     //qs = convStr(m_strFileName) + getPathSep() + qs;
 
     QFile f (qs);
-    bool bRes (false);
 
     if (f.open(QIODevice::ReadOnly))
     {
@@ -293,8 +292,6 @@ ImageInfo LyricsStream::readImage(const QString& strRelName) const //ttt2 perhap
 
         if (pic.loadFromData(comprImg))
         {
-            bRes = true;
-
             ImageInfo::Compr eCompr;
             int nWidth, nHeight;
 

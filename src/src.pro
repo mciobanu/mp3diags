@@ -57,7 +57,8 @@ SOURCES +=  \
  fstream_unicode.cpp \
  ExportDlgImpl.cpp \
  SerSupport.cpp \
-  FullSizeImgDlg.cpp
+  FullSizeImgDlg.cpp \
+  PortableMode.cpp
 TEMPLATE = app
 CONFIG += warn_on \
 	  thread \
@@ -129,7 +130,8 @@ Widgets.h \
  fstream_unicode.h \
  ExportDlgImpl.h \
  FullSizeImgDlg.h \
- Version.h
+ Version.h \
+ PortableMode.h
 FORMS += About.ui \
 AlbumInfoDownloader.ui \
 Config.ui \
@@ -162,6 +164,8 @@ QMAKE_CXXFLAGS_DEBUG += -DGENERATE_TOC_zz
 
 LIBS += -lz \
   -lboost_serialization-mt
+
+
 
 
 

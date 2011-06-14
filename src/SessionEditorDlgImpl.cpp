@@ -32,6 +32,7 @@
 #include  "Helpers.h"
 #include  "Transformation.h"
 #include  "StoredSettings.h"
+#include  "PortableMode.h"
 
 
 using namespace std;
@@ -69,13 +70,22 @@ SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strDi
 
     bool bAutoFileName (false);
     {
+        QString qs;
+        if (PortableMode::enabled())
+        {
+            qs = PortableMode::relativePath("sessions", true).absolutePath();
+        }
+        else
+        {
 #ifndef WIN32
-        QString qs (QDir::homePath() + "/Documents"); // OK on openSUSE, not sure how standardized it is
+            qs = QDir::homePath() + "/Documents"; // OK on openSUSE, not sure how standardized it is
 #else
-        QSettings settings (QSettings::UserScope, "Microsoft", "Windows");
-        settings.beginGroup("CurrentVersion/Explorer/Shell Folders");
-        QString qs (fromNativeSeparators(settings.value("Personal").toString()));
+            QSettings settings (QSettings::UserScope, "Microsoft", "Windows");
+            settings.beginGroup("CurrentVersion/Explorer/Shell Folders");
+            qs = fromNativeSeparators(settings.value("Personal").toString());
 #endif
+        }
+
         if (QFileInfo(qs).isDir())
         {
             qs += "/MP3Diags.ini";
@@ -308,7 +318,11 @@ void SessionEditorDlgImpl::on_m_pFileNameB_clicked()
     {
         if (m_strDir.empty())
         {
-            s = QDir::homePath();
+            if (PortableMode::enabled()) {
+                s = PortableMode::relativePath("sessions", true).absolutePath();
+            } else {
+                s = QDir::homePath();
+            }
         }
         else
         {

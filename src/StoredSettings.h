@@ -107,6 +107,9 @@ public:
     //ttt2 ??? see about ThreadRunner size; perhaps set width to its parent
 
     bool sync();
+private:
+    static std::string makePathRelative(const std::string path);
+    static std::string makePathAbsolute(const std::string path);
 };
 
 

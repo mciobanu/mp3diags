@@ -35,6 +35,7 @@
 #include  "SessionEditorDlgImpl.h"
 #include  "OsFile.h"
 #include  "Widgets.h"
+#include  "PortableMode.h"
 
 using namespace std;
 
@@ -380,6 +381,10 @@ void SessionsDlgImpl::on_m_pSaveAsB_clicked()
     QFileDialog dlg (this, "Save session as ...", convStr(getCrtSessionDir()), "INI files (*.ini)");
     dlg.setAcceptMode(QFileDialog::AcceptSave);
 
+    if (PortableMode::enabled()) {
+        dlg.setDirectory(PortableMode::relativePath("sessions", true).absolutePath());
+    }
+
     if (QDialog::Accepted != dlg.exec()) { return; }
 
     QStringList fileNames (dlg.selectedFiles());
@@ -420,6 +425,10 @@ void SessionsDlgImpl::on_m_pLoadB_clicked()
 {
     QFileDialog dlg (this, "Choose a session file", convStr(getCrtSessionDir()), "INI files (*.ini)");
     dlg.setAcceptMode(QFileDialog::AcceptOpen);
+
+    if (PortableMode::enabled()) {
+        dlg.setDirectory(PortableMode::relativePath("sessions", true).absolutePath());
+    }
 
     if (QDialog::Accepted != dlg.exec()) { return; }
 

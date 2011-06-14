@@ -26,6 +26,7 @@
 #include  <locale>
 
 #include  <QApplication>
+#include  <QDir>
 #include  <QSettings>
 #include  <QFileInfo>
 #include  <QMessageBox>
@@ -37,6 +38,7 @@
 #include  "StoredSettings.h"
 #include  "OsFile.h"
 #include  "Version.h"
+#include  "PortableMode.h"
 
 //#include  "Profiler.h"
 
@@ -47,7 +49,11 @@ static const char* ORGANIZATION ("Ciobi");
 
 GlobalSettings::GlobalSettings()
 {
-    m_pSettings = new QSettings (ORGANIZATION, APP_NAME);
+    if (PortableMode::enabled()) {
+        m_pSettings = new QSettings (PortableMode::relativePath("settings.ini").absolutePath(), QSettings::IniFormat);
+    } else {
+        m_pSettings = new QSettings (ORGANIZATION, APP_NAME);
+    }
 }
 
 
@@ -76,7 +82,7 @@ void GlobalSettings::saveSessions(const vector<string>& vstrSess1, const string&
     }
 
     int n (cSize(vstrSess));
-    m_pSettings->setValue("main/lastSession", convStr(strLast));
+    m_pSettings->setValue("main/lastSession", PortableMode::getRelativeSessionPath(convStr(strLast)));
     m_pSettings->setValue("main/openLast", bOpenLast);
     m_pSettings->remove("main/sessions");
     m_pSettings->setValue("main/sessions/count", n);
@@ -84,7 +90,7 @@ void GlobalSettings::saveSessions(const vector<string>& vstrSess1, const string&
     for (int i = 0; i < n; ++i)
     {
         sprintf(a, "main/sessions/val%04d", i);
-        m_pSettings->setValue(a, convStr(vstrSess[i]));
+        m_pSettings->setValue(a, PortableMode::getRelativeSessionPath(convStr(vstrSess[i])));
     }
 }
 
@@ -93,13 +99,13 @@ void GlobalSettings::loadSessions(vector<string>& vstrSess, string& strLast, boo
 {
     vstrSess.clear();
     int n (m_pSettings->value("main/sessions/count", 0).toInt());
-    strLast = convStr(m_pSettings->value("main/lastSession").toString());
+    strLast = convStr(PortableMode::getAbsoluteSessionPath(m_pSettings->value("main/lastSession").toString()));
     bOpenLast = m_pSettings->value("main/openLast", true).toBool();
     char a [50];
     for (int i = 0; i < n; ++i)
     {
         sprintf(a, "main/sessions/val%04d", i);
-        QString qs (m_pSettings->value(a, "").toString());
+        QString qs (PortableMode::getAbsoluteSessionPath(m_pSettings->value(a, "").toString()));
         if (QFileInfo(qs).isFile())
         {
             string s (convStr(qs));

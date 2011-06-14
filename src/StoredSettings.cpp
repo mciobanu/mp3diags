@@ -20,12 +20,16 @@
  ***************************************************************************/
 
 
+#include  <algorithm>
+
 #include  <QSettings>
+#include  <QDir>
 #include  <QFileInfo>
 
 #include  "StoredSettings.h"
 
 #include  "Helpers.h"
+#include  "PortableMode.h"
 
 using namespace std;
 
@@ -49,13 +53,35 @@ SessionSettings::~SessionSettings()
 }
 
 
+string SessionSettings::makePathRelative(const string path) {
+    if (PortableMode::enabled()) {
+        return convStr(PortableMode::configDir().relativeFilePath(convStr(path)));
+    } else {
+        return path;
+    }
+}
+
 void SessionSettings::saveDirs(const vector<string>& vstrIncludedDirs, const vector<string>& vstrExcludedDirs)
 {
-    saveVector("folders/included", vstrIncludedDirs);
-    saveVector("folders/excluded", vstrExcludedDirs);
+    vector<string> vect;
+
+    vect.resize(vstrIncludedDirs.size());
+    transform(vstrIncludedDirs.begin(), vstrIncludedDirs.end(), vect.begin(), makePathRelative);
+    saveVector("folders/included", vect);
+    vect.resize(vstrExcludedDirs.size());
+    transform(vstrExcludedDirs.begin(), vstrExcludedDirs.end(), vect.begin(), makePathRelative);
+    saveVector("folders/excluded", vect);
 }
 
 // returns false if there were inconsistencies in the settings
+string SessionSettings::makePathAbsolute(const string path) {
+    if (PortableMode::enabled()) {
+        return convStr(QDir::cleanPath(PortableMode::configDir().absoluteFilePath(convStr(path))));
+    } else {
+        return path;
+    }
+}
+
 bool SessionSettings::loadDirs(vector<string>& vstrIncludedDirs, vector<string>& vstrExcludedDirs) const
 {
     bool bRes1 (true), bRes2 (true);
@@ -66,7 +92,7 @@ bool SessionSettings::loadDirs(vector<string>& vstrIncludedDirs, vector<string>&
 
         for (int i = 0, n = cSize(vstrIncludedDirs); i < n; ++i)
         {
-            string s (vstrIncludedDirs[i]);
+            string s (makePathAbsolute(vstrIncludedDirs[i]));
             if (QFileInfo(convStr(s)).isDir())
             {
                 v.push_back(s);
@@ -86,7 +112,7 @@ bool SessionSettings::loadDirs(vector<string>& vstrIncludedDirs, vector<string>&
 
         for (int i = 0, n = cSize(vstrExcludedDirs); i < n; ++i)
         {
-            string s (vstrExcludedDirs[i]);
+            string s (makePathAbsolute(vstrExcludedDirs[i]));
             if (QFileInfo(convStr(s)).isDir())
             {
                 v.push_back(s);

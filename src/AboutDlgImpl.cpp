@@ -41,6 +41,7 @@ AboutDlgImpl::AboutDlgImpl(QWidget* pParent /*= 0*/) : QDialog(pParent, getDialo
 */
     m_pMainTextM->setHtml(
         "<p style=\"margin-bottom:8px; margin-top:1px; \">Written by <a href=\"mailto:ciobi@inbox.com?subject=000 MP3 Diags\">Marian Ciobanu (Ciobi)</a>, 2008 - 2011</p>"
+        "<p style=\"margin-bottom:8px; margin-top:1px; \">Command-line mode by Michael Elsd&#xf6;rfer, 2011</p>"
         "<p style=\"margin-bottom:8px; margin-top:1px; \">Distributed under <a href=\"http://www.gnu.org/licenses/gpl-2.0.html#TOC1\">GPL V2</a></p>"
         //"Using <a href=\"http://doc.trolltech.com/4/opensourceedition.html\">Qt 4 Open Source Edition</a><p/>"
         "<p style=\"margin-bottom:8px; margin-top:1px; \">Using <a href=\"http://www.qtsoftware.com/\">Qt Free Edition</a>, released under <a href=\"http://www.gnu.org/licenses/lgpl-2.1.html\">LGPL 2.1</a></p>"

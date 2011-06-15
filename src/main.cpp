@@ -19,6 +19,13 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+/***************************************************************************
+ *                                                                         *
+ * Command-line mode Copyright (C) 2011 by Michael Elsdörfer               *
+ *                                                                         *
+ ***************************************************************************/
+
+
 
 #include  <algorithm>
 #include  <cstdio>
@@ -29,6 +36,7 @@
 #include  <QSettings>
 #include  <QFileInfo>
 #include  <QMessageBox>
+#include  <boost/program_options.hpp>
 
 #include  "MainFormDlgImpl.h"
 #include  "SessionEditorDlgImpl.h"
@@ -36,11 +44,15 @@
 #include  "Helpers.h"
 #include  "StoredSettings.h"
 #include  "OsFile.h"
+#include  "Mp3Manip.h"
+#include  "Notes.h"
 #include  "Version.h"
 
 //#include  "Profiler.h"
 
 using namespace std;
+
+namespace po = boost::program_options;
 
 static const char* APP_NAME ("Mp3Diags-unstable");
 static const char* ORGANIZATION ("Ciobi");
@@ -171,49 +183,15 @@ void visStudioMessageOutput(QtMsgType, const char* szMsg)
 
 // http://stackoverflow.com/questions/760323/why-does-my-qt4-5-app-open-a-console-window-under-windows - The option under Visual Studio for setting the subsystem is under Project Settings->Linker->System->SubSystem
 
-int main(int argc, char *argv[])
-{
-    //DEFINE_PROF_ROOT("mp3diags");
-    //PROF("root");
-/*
-    //locale::global(locale(""));
-    ostringstream o;
-    o << 12345.78;
-    cout << o.str() << endl;
-    printf("%f\n", 12345.78);//*/
-
-    void (*nh)() = set_new_handler(newHandler);
-    if (0 != nh) { cerr << "previous new handler: " << (void*)nh << endl; }
-    //for (int i = 0; i < 200; ++i) { new char[1000000]; }
-
+int guiMain(int argc, char *argv[]) {
     Q_INIT_RESOURCE(Mp3Diags); // base name of the ".qrc" file
     QMp3DiagsApplication app(argc, argv);
-
-#ifdef MSVC_QMAKE
-    qInstallMsgHandler(visStudioMessageOutput);
-    // see http://lists.trolltech.com/qt-interest/2006-10/msg00829.html
-    //OutputDebugStringA("\n\ntest output\n\n\n"); // !!! this only works if actually debugging (started with F5);
-#endif
-
 
     { // by default on Windows the selection is hard to see in the main window, because it's some gray;
         QPalette pal (QApplication::palette());
         pal.setColor(QPalette::Highlight, pal.color(QPalette::Active, QPalette::Highlight));
         pal.setColor(QPalette::HighlightedText, pal.color(QPalette::Active, QPalette::HighlightedText));
         QApplication::setPalette(pal);
-    }
-
-    if (argc > 1)
-    {
-        if (2 == argc && (0 == strcmp("/u", argv[1]) || 0 == strcmp("-u", argv[1])))
-        {
-            QSettings s (ORGANIZATION, APP_NAME);
-            s.clear(); //ttt2 see if this can actually remove everything, including the ORGANIZATION dir if it's empty;
-            return 0;
-        }
-
-        printf("\nUsage:\n%s [-u]\n\n", argv[0]);
-        return 1;
     }
 
     getDefaultFont(); // !!! to initialize the static var
@@ -319,6 +297,139 @@ int main(int argc, char *argv[])
     /*mainDlg.show();
     return app.exec();*/
 }
+
+
+void noMessageOutput(QtMsgType, const char*) { }
+
+
+int cmdlineMain(const po::variables_map& options) {
+    const vector<string> inputFiles = options["input-file"].as< vector<string> >();
+    Note::Severity min_level = options["severity"].as<Note::Severity>();
+
+
+    // In cmdline mode, we want to make sure the user only sees our
+    // carefully crafted messages, and no debug stuff from arbitrary
+    // places in the program.
+    qInstallMsgHandler(noMessageOutput);
+
+    // ttt2 For now, we always use the default quality thresholds; however,
+    // it certainly would make sense to load those from the last session,
+    // or make it possible to specify them on the command line.
+    const QualThresholds& qualThresholds (QualThresholds::getDefaultQualThresholds());
+
+    bool anyFileHasProblems = false;
+    for (int i = 0, n = cSize(inputFiles); i < n; ++i) {
+        const string file = inputFiles[i];
+
+        Mp3Handler* mp3;
+        try {
+            mp3 = new Mp3Handler(file, false, qualThresholds);
+        }
+        catch (Mp3Handler::FileNotFound) {
+            anyFileHasProblems = true;
+            cout << "File not found: " + file << endl << endl;
+            continue;
+        }
+
+        bool thisFileHasProblems = false;
+        const NoteColl& notes (mp3->getNotes());
+        for (int i = 0, n = cSize(notes.getList()); i < n; ++i) // ttt2 poor performance
+        {
+            const Note* pNote (notes.getList()[i]);
+
+            // category --include/--exclude options would be nice, too.
+            bool showThisNote = (pNote->getSeverity() <= min_level);
+            if (!showThisNote)
+                continue;
+
+            if (!thisFileHasProblems) {
+                thisFileHasProblems = true;
+                anyFileHasProblems = true;
+                cout << file << endl;
+            }
+
+            cout << "- " << (Note::severityToString(pNote->getSeverity())) << ": " << pNote->getDescription() << endl;
+        }
+
+        if (thisFileHasProblems)
+            cout << endl;
+    }
+
+    return anyFileHasProblems ? 1 : 0;
+}
+
+
+// To parse a Note::Severity value from the command line using boost::program_options.
+static void validate(boost::any &v, vector<string> const &values, Note::Severity*, int) {
+    po::validators::check_first_occurrence(v);
+    const string& s = po::validators::get_single_string(values);
+    if (s.compare("error") == 0) v = Note::ERR;
+    else if (s.compare("warning") == 0) v = Note::WARNING;
+    else if (s.compare("support") == 0) v = Note::SUPPORT;
+    //else throw po::validation_error(po::validation_error::invalid_option_value);
+    //else throw po::validation_error("invalid option value");
+    else throw runtime_error("invalid option value");
+}
+
+
+int main(int argc, char *argv[])
+{
+    //DEFINE_PROF_ROOT("mp3diags");
+    //PROF("root");
+/*
+    //locale::global(locale(""));
+    ostringstream o;
+    o << 12345.78;
+    cout << o.str() << endl;
+    printf("%f\n", 12345.78);//*/
+
+    void (*nh)() = set_new_handler(newHandler);
+    if (0 != nh) { cerr << "previous new handler: " << (void*)nh << endl; }
+    //for (int i = 0; i < 200; ++i) { new char[1000000]; }
+
+#ifdef MSVC_QMAKE
+    qInstallMsgHandler(visStudioMessageOutput);
+    // see http://lists.trolltech.com/qt-interest/2006-10/msg00829.html
+    //OutputDebugStringA("\n\ntest output\n\n\n"); // !!! this only works if actually debugging (started with F5);
+#endif
+
+    po::options_description generic_desc("General options");
+    generic_desc.add_options()
+        ("help", "produce help message")
+        ("u", "simulate a new install")
+    ;
+    po::options_description cmdline_desc("Commandline mode");
+    cmdline_desc.add_options()
+        ("input-file", po::value< vector<string> >(), "input file")
+        ("severity,s", po::value<Note::Severity>()->default_value(Note::WARNING), "minimum severity to show (one of error, warning, support")
+    ;
+    po::positional_options_description p_desc;
+    p_desc.add("input-file", -1);
+
+    po::options_description full_desc;
+    full_desc.add(generic_desc).add(cmdline_desc);
+    po::variables_map vm;
+    po::store(po::command_line_parser(argc, argv).options(full_desc).positional(p_desc).run(), vm);
+    po::notify(vm);
+
+    if (vm.count("help")) {
+        cout << "Usage: " << argv[0] << " [OPTION]... [FILE]...\n";
+        cout << full_desc << endl;
+        return 1;
+    }
+    if (vm.count("u")) {
+        QSettings s (ORGANIZATION, APP_NAME);
+        s.clear(); //ttt2 see if this can actually remove everything, including the ORGANIZATION dir if it's empty;
+        return 0;
+    }
+    if (vm.count("input-file")) {
+        return cmdlineMain(vm);
+    }
+    else {
+        return guiMain(argc, argv);
+    }
+}
+
 
 
 //"undefined reference to `qInitResources_application()'"

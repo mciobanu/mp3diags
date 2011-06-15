@@ -276,14 +276,14 @@ static bool isWhite(const QColor& c)
 void SessionSettings::loadMiscConfigSettings(CommonData* p) const
 {
     { // quality
-        QualThresholds q;
-        q.m_nStereoCbr = m_pSettings->value("quality/stereoCbrMinBitrate", 192000).toInt();
-        q.m_nJointStereoCbr = m_pSettings->value("quality/jntStereoCbrMinBitrate", 192000).toInt();
-        q.m_nDoubleChannelCbr = m_pSettings->value("quality/dualChnlCbrMinBitrate", 192000).toInt();
+        QualThresholds q (QualThresholds::getDefaultQualThresholds());
+        q.m_nStereoCbr = m_pSettings->value("quality/stereoCbrMinBitrate", q.m_nStereoCbr).toInt();
+        q.m_nJointStereoCbr = m_pSettings->value("quality/jntStereoCbrMinBitrate", q.m_nJointStereoCbr).toInt();
+        q.m_nDoubleChannelCbr = m_pSettings->value("quality/dualChnlCbrMinBitrate", q.m_nDoubleChannelCbr).toInt();
 
-        q.m_nStereoVbr = m_pSettings->value("quality/stereoVbrMinBitrate", 170000).toInt();
-        q.m_nJointStereoVbr = m_pSettings->value("quality/jntStereoVbrMinBitrate", 160000).toInt();
-        q.m_nDoubleChannelVbr = m_pSettings->value("quality/dualChnlVbrMinBitrate", 180000).toInt();
+        q.m_nStereoVbr = m_pSettings->value("quality/stereoVbrMinBitrate", q.m_nStereoVbr).toInt();
+        q.m_nJointStereoVbr = m_pSettings->value("quality/jntStereoVbrMinBitrate", q.m_nJointStereoVbr).toInt();
+        q.m_nDoubleChannelVbr = m_pSettings->value("quality/dualChnlVbrMinBitrate", q.m_nDoubleChannelVbr).toInt();
 
         p->setQualThresholds(q);
     }

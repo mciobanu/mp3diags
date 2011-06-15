@@ -31,6 +31,7 @@
 
 #include  "SerSupport.h"
 #include  <boost/serialization/split_member.hpp>
+#include  <boost/lexical_cast.hpp>
 
 /*
 Stores a message that is added while parsing a file. Multiple messages may be added, depending on the issues found.
@@ -66,6 +67,13 @@ struct Note
 {
     enum Severity { ERR, WARNING, SUPPORT, TRACE }; // !!! the reason "ERR" is used (and not "ERROR") is that "ERROR" is a macro in MSVC
     enum Category { AUDIO, XING, VBRI, ID3V2, APIC, ID3V230, ID3V240, ID3V1, BROKEN, TRUNCATED, UNKNOWN, LYRICS, APE, MISC, CUSTOM, CATEG_CNT }; // !!! CUSTOM must be just before CATEG_CNT (which is just a counter)
+
+    static const std::string severityToString(Severity s) {
+        if (s == ERR) return "ERROR";
+        if (s == WARNING) return "WARNING";
+        if (s == SUPPORT) return "SUPPORT";
+        throw std::invalid_argument(boost::lexical_cast<std::string>((int)s));
+    }
 
     struct SharedData // the purpose of this is to make the Note class as small as possible, by storing shared info only once
     {

@@ -52,6 +52,20 @@ using namespace pearl;
 //============================================================================================================
 //============================================================================================================
 
+/*static */ const QualThresholds& QualThresholds::getDefaultQualThresholds()
+{
+    static QualThresholds defaultQualThresholds = {
+
+        192000, // m_nStereoCbr
+        192000, // m_nJointStereoCbr
+        192000, // m_nDoubleChannelCbr
+        170000, // m_nStereoVbr
+        160000, // m_nJointStereoVbr
+        180000  // m_nDoubleChannelVbr
+    };
+
+    return defaultQualThresholds;
+};
 
 //============================================================================================================
 //============================================================================================================
@@ -110,7 +124,7 @@ Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const Q
     trace("");
     trace(s);
 
-    cout << s << endl;
+    // cout << s << endl;
 //TRACER1A("Mp3Handler constr ", 3);
 
     parse(in);

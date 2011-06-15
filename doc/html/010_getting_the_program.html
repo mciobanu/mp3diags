@@ -305,7 +305,7 @@ First you need to download and perhaps compile the required libraries: zlib, Qt,
                 <li>Go to <a href="http://www.boost.org/users/download/" onClick="javascript: pageTracker._trackPageview('/boost/mingw');">http://www.boost.org/users/download/</a> and click on "Download". Unpack the archive in the folder where you want Boost to be located</li>
                 <li>Go to <a href="https://sourceforge.net/projects/boost/files/boost-jam/" onClick="javascript: pageTracker._trackPageview('/bjam/mingw');">https://sourceforge.net/projects/boost/files/boost-jam/</a> and download the latest ntx86.zip. Unpack the archive and copy bjam.exe to the Boost root folder</li>
                 <li>Open a <b>Qt Command Prompt</b> and go to the Boost root folder</li>
-                <li>run <span class="Reference">bjam toolset=gcc serialization threading=multi release</span> . This will only build the Serialization library, and put it inside a "bin.v2" folder</li>
+                <li>run <span class="Reference">bjam toolset=gcc serialization program_options threading=multi release</span> . This will only build the <i>Serialization</i> and <i>Program Options</i> libraries, and put them inside a "bin.v2" folder</li>
             </ul>
         </td>
     </tr>
@@ -341,7 +341,7 @@ First you need to download and perhaps compile the required libraries: zlib, Qt,
                 <li>Go to <a href="http://www.boost.org/users/download/" onClick="javascript: pageTracker._trackPageview('/boost/msvc');">http://www.boost.org/users/download/</a> and click on "Download". Unpack the archive in the folder where you want Boost to be located</li>
                 <li>Go to <a href="https://sourceforge.net/projects/boost/files/boost-jam/" onClick="javascript: pageTracker._trackPageview('/bjam/msvc');">https://sourceforge.net/projects/boost/files/boost-jam/</a> and download the latest ntx86.zip. Unpack the archive and copy bjam.exe to the Boost root folder</li>
                 <li>Open a <b>Visual C++ Command Prompt</b> and go to the Boost root folder</li>
-                <li>run <span class="Reference">bjam toolset=msvc serialization threading=multi release debug</span> . This will only build the Serialization library, and put it inside a "bin.v2" folder</li>
+                <li>run <span class="Reference">bjam toolset=msvc serialization program_options threading=multi release debug</span> . This will only build the <i>Serialization</i> and <i>Program Options</i> libraries, and put them inside a "bin.v2" folder</li>
             </ul>
         </td>
     </tr>

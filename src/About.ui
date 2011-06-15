@@ -1,52 +1,53 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>AboutDlg</class>
- <widget class="QDialog" name="AboutDlg" >
-  <property name="geometry" >
+ <widget class="QDialog" name="AboutDlg">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>944</width>
-    <height>563</height>
+    <width>1080</width>
+    <height>703</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>About MP3 Diags</string>
   </property>
-  <property name="sizeGripEnabled" >
+  <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout">
    <item>
-    <widget class="QWidget" native="1" name="widget" >
-     <layout class="QHBoxLayout" >
+    <widget class="QWidget" name="widget" native="true">
+     <layout class="QHBoxLayout">
       <item>
-       <widget class="QLabel" name="label" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+       <widget class="QLabel" name="label">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>48</width>
           <height>48</height>
          </size>
         </property>
-        <property name="text" >
+        <property name="text">
          <string/>
         </property>
-        <property name="pixmap" >
-         <pixmap resource="Mp3Diags.qrc" >:/images/about.svg</pixmap>
+        <property name="pixmap">
+         <pixmap resource="Mp3Diags.qrc">:/images/about.svg</pixmap>
         </property>
-        <property name="scaledContents" >
+        <property name="scaledContents">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="m_pVersionL" >
-        <property name="font" >
+       <widget class="QLabel" name="m_pVersionL">
+        <property name="font">
          <font>
           <pointsize>19</pointsize>
           <weight>75</weight>
@@ -54,10 +55,10 @@
           <bold>true</bold>
          </font>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>MP3 Diags x.y.z</string>
         </property>
-        <property name="alignment" >
+        <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
@@ -66,36 +67,36 @@
     </widget>
    </item>
    <item>
-    <widget class="QTabWidget" name="tabWidget" >
-     <property name="currentIndex" >
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="tab" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
        <string>About</string>
       </attribute>
-      <layout class="QHBoxLayout" >
+      <layout class="QHBoxLayout">
        <item>
-        <widget class="QWidget" native="1" name="widget_2" >
-         <layout class="QVBoxLayout" >
-          <property name="leftMargin" >
+        <widget class="QWidget" name="widget_2" native="true">
+         <layout class="QVBoxLayout">
+          <property name="leftMargin">
            <number>10</number>
           </property>
-          <property name="topMargin" >
+          <property name="topMargin">
            <number>20</number>
           </property>
-          <property name="rightMargin" >
+          <property name="rightMargin">
            <number>10</number>
           </property>
-          <property name="bottomMargin" >
+          <property name="bottomMargin">
            <number>10</number>
           </property>
           <item>
-           <widget class="QTextBrowser" name="m_pMainTextM" >
-            <property name="frameShape" >
+           <widget class="QTextBrowser" name="m_pMainTextM">
+            <property name="frameShape">
              <enum>QFrame::NoFrame</enum>
             </property>
-            <property name="openExternalLinks" >
+            <property name="openExternalLinks">
              <bool>true</bool>
             </property>
            </widget>
@@ -105,99 +106,90 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_8" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab_8">
+      <attribute name="title">
        <string>System info</string>
       </attribute>
-      <layout class="QHBoxLayout" >
+      <layout class="QHBoxLayout">
        <item>
-        <widget class="QTextBrowser" name="m_pSysInfoM" />
+        <widget class="QTextBrowser" name="m_pSysInfoM"/>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_2" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
        <string>GPL V2 (for the program)</string>
       </attribute>
-      <layout class="QHBoxLayout" >
+      <layout class="QHBoxLayout">
        <item>
-        <widget class="QTextBrowser" name="m_pGplV2M" />
+        <widget class="QTextBrowser" name="m_pGplV2M"/>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_4" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab_4">
+      <attribute name="title">
        <string>LGPL V3 (for the icons)</string>
       </attribute>
-      <layout class="QHBoxLayout" >
+      <layout class="QHBoxLayout">
        <item>
-        <widget class="QTextBrowser" name="m_pLgplV3M" />
+        <widget class="QTextBrowser" name="m_pLgplV3M"/>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_3" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab_3">
+      <attribute name="title">
        <string>GPL V3 (for the icons)</string>
       </attribute>
-      <layout class="QHBoxLayout" >
+      <layout class="QHBoxLayout">
        <item>
-        <widget class="QTextBrowser" name="m_pGplV3M" />
+        <widget class="QTextBrowser" name="m_pGplV3M"/>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_5" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab_5">
+      <attribute name="title">
        <string>LGPL V2.1 (for Qt)</string>
       </attribute>
-      <layout class="QHBoxLayout" >
+      <layout class="QHBoxLayout">
        <item>
-        <widget class="QTextBrowser" name="m_pLgplV21M" />
+        <widget class="QTextBrowser" name="m_pLgplV21M"/>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_6" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab_6">
+      <attribute name="title">
        <string>Boost license</string>
       </attribute>
-      <layout class="QHBoxLayout" >
+      <layout class="QHBoxLayout">
        <item>
-        <widget class="QTextBrowser" name="m_pBoostM" />
+        <widget class="QTextBrowser" name="m_pBoostM"/>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_7" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab_7">
+      <attribute name="title">
        <string>zlib license</string>
       </attribute>
-      <layout class="QHBoxLayout" >
+      <layout class="QHBoxLayout">
        <item>
-        <widget class="QTextBrowser" name="m_pZlibM" />
+        <widget class="QTextBrowser" name="m_pZlibM"/>
        </item>
       </layout>
      </widget>
     </widget>
    </item>
    <item>
-    <widget class="QWidget" native="1" name="widget_3" >
-     <layout class="QHBoxLayout" >
-      <property name="leftMargin" >
-       <number>0</number>
-      </property>
-      <property name="topMargin" >
-       <number>0</number>
-      </property>
-      <property name="rightMargin" >
-       <number>0</number>
-      </property>
-      <property name="bottomMargin" >
+    <widget class="QWidget" name="widget_3" native="true">
+     <layout class="QHBoxLayout">
+      <property name="margin">
        <number>0</number>
       </property>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>40</width>
           <height>20</height>
@@ -206,18 +198,18 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="m_pOkB" >
-        <property name="text" >
+       <widget class="QPushButton" name="m_pOkB">
+        <property name="text">
          <string>OK</string>
         </property>
        </widget>
       </item>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>40</width>
           <height>20</height>
@@ -234,7 +226,7 @@
   <tabstop>m_pOkB</tabstop>
  </tabstops>
  <resources>
-  <include location="Mp3Diags.qrc" />
+  <include location="Mp3Diags.qrc"/>
  </resources>
  <connections/>
 </ui>

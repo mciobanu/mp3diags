@@ -161,7 +161,8 @@ ThreadRunner.ui \
 QMAKE_CXXFLAGS_DEBUG += -DGENERATE_TOC_zz
 
 LIBS += -lz \
-  -lboost_serialization-mt
+  -lboost_serialization-mt \
+  -lboost_program_options-mt
 
 
 

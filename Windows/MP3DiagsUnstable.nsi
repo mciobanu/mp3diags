@@ -83,6 +83,7 @@ Section "Main Application" !Required ;No components page, name is not important
 
   File boost.txt
   File libboost_serialization-mgw44-mt-1_46_1.dll
+  File libboost_program_options-mgw44-mt-1_46_1.dll
   File changelog.txt
   File gplv2.txt
   File gplv3.txt
@@ -134,6 +135,7 @@ Section "un.Uninstall"
 
   Delete $INSTDIR\boost.txt
   Delete $INSTDIR\libboost_serialization-mgw44-mt-1_46_1.dll
+  Delete $INSTDIR\libboost_program_options-mgw44-mt-1_46_1.dll
   Delete $INSTDIR\changelog.txt
   Delete $INSTDIR\gplv2.txt
   Delete $INSTDIR\gplv3.txt

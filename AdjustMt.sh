@@ -15,7 +15,7 @@ function tryLib
     rm -f -r tstMt
 
     if [ $libExists -eq 0 ] ; then
-        cat src/src.pro | sed 's%.*boost_serialization.*%  -l'$1% > src/src.pro1
+        cat src/src.pro | sed -e 's%.*boost_serialization[^\]*%  -l'$1% -e 's%.*boost_program_options.*%  -l'$2% > src/src.pro1
         mv -f src/src.pro1 src/src.pro
         echo Serialization Library set as $1
         exit 0
@@ -28,13 +28,13 @@ function tryLib
 
 
 if [[ "STATIC_SER" == $1 ]] ; then
-    tryLib :libboost_serialization-mt.a
-    tryLib :libboost_serialization.a # ttt0 not sure if this should be considered
-    tryLib boost_serialization-mt
-    tryLib boost_serialization
+    tryLib :libboost_serialization-mt.a :libboost_program_options-mt.a
+    tryLib :libboost_serialization.a :libboost_program_options.a # ttt0 not sure if this should be considered
+    tryLib boost_serialization-mt boost_program_options-mt
+    tryLib boost_serialization boost_program_options
 else
-    tryLib boost_serialization-mt
-    tryLib boost_serialization
+    tryLib boost_serialization-mt boost_program_options-mt
+    tryLib boost_serialization boost_program_options
 fi
 
 echo Boost Serialization not found

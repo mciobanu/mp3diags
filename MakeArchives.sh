@@ -93,7 +93,7 @@ function createSrc
     cat BuildMp3Diags.hta | sed -e "s#MP3DiagsWindows#MP3DiagsWindows$BranchDash#g" > $LongDestDir/BuildMp3Diags.hta
     cp -p README.TXT $LongDestDir
     cp package/out/pad_file.xml $LongDestDir
-    cp -p MP3DiagsCLI.cmd $LongDestDir
+    cat MP3DiagsCLI.cmd | sed -e "s#MP3DiagsWindows#MP3DiagsWindows$BranchDash#g" > $LongDestDir/MP3DiagsCLI$BranchDash.cmd
 
     echo 'const char* APP_VER ("'$Ver'");' > $LongDestDir/src/Version.cpp
     echo 'const char* APP_BRANCH ("'$BranchSlash'");' >> $LongDestDir/src/Version.cpp

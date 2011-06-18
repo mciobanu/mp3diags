@@ -347,12 +347,12 @@
         }
 
         fOut.writeLine(); fOut.writeLine();
-        fOut.writeLine("INCLUDEPATH += " + crtFolderSettings[4]);
-        fOut.writeLine("INCLUDEPATH += " + crtFolderSettings[6]);
+        fOut.writeLine("INCLUDEPATH += " + crtFolderSettings[4].replace(/\\/g, "\\\\"));
+        fOut.writeLine("INCLUDEPATH += " + crtFolderSettings[6].replace(/\\/g, "\\\\"));
         fOut.writeLine(); fOut.writeLine();
-        fOut.writeLine("LIBS += " + crtFolderSettings[5]);
-        fOut.writeLine("LIBS += " + crtFolderSettings[5].replace(/serialization/g, "program_options"));
-        fOut.writeLine("LIBS += " + crtFolderSettings[7]);
+        fOut.writeLine("LIBS += " + crtFolderSettings[5].replace(/\\/g, "\\\\"));
+        fOut.writeLine("LIBS += " + crtFolderSettings[5].replace(/serialization/g, "program_options").replace(/\\/g, "\\\\"));
+        fOut.writeLine("LIBS += " + crtFolderSettings[7].replace(/\\/g, "\\\\"));
         fOut.writeLine("LIBS += -lpsapi");
 
         fOut.close();

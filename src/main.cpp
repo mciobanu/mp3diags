@@ -302,10 +302,31 @@ int guiMain(int argc, char *argv[]) {
 void noMessageOutput(QtMsgType, const char*) { }
 
 
-int cmdlineMain(const po::variables_map& options) {
-    const vector<string> inputFiles = options["input-file"].as< vector<string> >();
-    Note::Severity min_level = options["severity"].as<Note::Severity>();
+int cmdlineMain(const po::variables_map& options)
+{
+    /*
+    Notes about Windows, where it doesn't seem possible to output something to the console from a GUI app.
+    - the chosen option is to use redirection, either to a file or through "more" or something similar; this is made more transparent by using MP3DiagsCLI.cmd to redirect to a temp file and then print it
+    - other option would be to open Notepad and populate it using COM/OLE. Not sure how to do it.
+    - other option would be to redirect output to a file and open that file in Notepad.
+    - other option would be to open a Qt window that only has the output from the run and a close button.
+    - other option would be to open a new console and output the results there
 
+    see also:
+        http://blogs.msdn.com/b/junfeng/archive/2004/02/06/68531.aspx
+        http://www.codeproject.com/KB/cpp/EditBin.aspx
+        http://www.halcyon.com/~ast/dload/guicon.htm
+    */
+    const vector<string> inputFiles = options["input-file"].as< vector<string> >();
+
+    Note::Severity min_level (Note::WARNING);
+    try
+    {
+        min_level = options["severity"].as<Note::Severity>(); //ttt1 see how to use default params in cmdlineDesc.add_options()
+    }
+    catch (...)
+    { // nothing
+    }
 
     // In cmdline mode, we want to make sure the user only sees our
     // carefully crafted messages, and no debug stuff from arbitrary
@@ -340,7 +361,9 @@ int cmdlineMain(const po::variables_map& options) {
             // category --include/--exclude options would be nice, too.
             bool showThisNote = (pNote->getSeverity() <= min_level);
             if (!showThisNote)
+            {
                 continue;
+            }
 
             if (!thisFileHasProblems) {
                 thisFileHasProblems = true;
@@ -360,7 +383,7 @@ int cmdlineMain(const po::variables_map& options) {
 
 
 // To parse a Note::Severity value from the command line using boost::program_options.
-static void validate(boost::any &v, vector<string> const &values, Note::Severity*, int) {
+static void validate(boost::any& v, vector<string> const& values, Note::Severity*, int) {
     po::validators::check_first_occurrence(v);
     const string& s = po::validators::get_single_string(values);
     if (s.compare("error") == 0) v = Note::ERR;
@@ -374,6 +397,9 @@ static void validate(boost::any &v, vector<string> const &values, Note::Severity
 
 int main(int argc, char *argv[])
 {
+//char *argv[] = {"aa", "-s", "support", "pppqqq"}; argc = 4;
+//char *argv[] = {"aa", "pppqqq"}; argc = 2;
+//char *argv[] = {"aa", "/d/test_mp3/1/tmp2/c pic/vbri assertion.mp3"}; argc = 2;
     //DEFINE_PROF_ROOT("mp3diags");
     //PROF("root");
 /*
@@ -393,39 +419,78 @@ int main(int argc, char *argv[])
     //OutputDebugStringA("\n\ntest output\n\n\n"); // !!! this only works if actually debugging (started with F5);
 #endif
 
-    po::options_description generic_desc("General options");
-    generic_desc.add_options()
-        ("help", "produce help message")
-        ("u", "simulate a new install")
+    po::options_description genericDesc ("General options");
+    genericDesc.add_options()
+        ("help,h", "produce help message")
+        ("uninstall,u", "uninstall (remove settings)")
     ;
-    po::options_description cmdline_desc("Commandline mode");
-    cmdline_desc.add_options()
-        ("input-file", po::value< vector<string> >(), "input file")
-        ("severity,s", po::value<Note::Severity>()->default_value(Note::WARNING), "minimum severity to show (one of error, warning, support")
-    ;
-    po::positional_options_description p_desc;
-    p_desc.add("input-file", -1);
 
-    po::options_description full_desc;
-    full_desc.add(generic_desc).add(cmdline_desc);
+    po::options_description cmdlineDesc ("Commandline mode");
+    cmdlineDesc.add_options()
+        //("input-file", po::value<vector<string> >(), "input file")
+        //("severity,s", po::value<Note::Severity>()->default_value(Note::WARNING), "minimum severity to show (one of error, warning, support); default: warning") //ttt1 see if this can be made to work; it sort of does, but when invoked with "--help" it prints "arg (=1)" rather than "arg (=warning)"
+        ("severity,s", po::value<Note::Severity>(), "minimum severity to show (one of error, warning, support); default: warning")
+        //("severity,s", "minimum severity to show (one of error, warning, support")
+    ;
+
+    po::options_description hiddenDesc("Hidden options");
+    hiddenDesc.add_options()
+        ("input-file", po::value<vector<string> >(), "input file")
+    ;
+
+
+    po::positional_options_description positionalDesc;
+    positionalDesc.add("input-file", -1);
+
+    po::options_description fullDesc;
+    fullDesc.add(genericDesc).add(cmdlineDesc).add(hiddenDesc);
+
+    po::options_description visibleDesc;
+    visibleDesc.add(genericDesc).add(cmdlineDesc);
+
     po::variables_map vm;
-    po::store(po::command_line_parser(argc, argv).options(full_desc).positional(p_desc).run(), vm);
-    po::notify(vm);
+    bool err (false);
+    try
+    {
 
-    if (vm.count("help")) {
+        po::command_line_style::style_t style (po::command_line_style::style_t(
+            po::command_line_style::unix_style
+            // | po::command_line_style::case_insensitive
+            // | po::command_line_style::allow_long_disguise
+#ifdef WIN32
+            | po::command_line_style::allow_slash_for_short
+#endif
+        ));
+
+        //po::store(po::command_line_parser(argc, argv).options(fullDesc).positional(positionalDesc).run(), vm);
+        po::store(po::command_line_parser(argc, argv).style(style).options(fullDesc).positional(positionalDesc).run(), vm);
+        po::notify(vm);
+    }
+    catch (...)//const po::unknown_option&)
+    {
+        err = true;
+    }
+
+    if (err || vm.count("help") > 0) //ttt1 options "u" and "s" are incompatible; "s" without a file is wrong as well; these should trigger the "usage" message, then exit as well;
+    {
         cout << "Usage: " << argv[0] << " [OPTION]... [FILE]...\n";
-        cout << full_desc << endl;
+        cout << visibleDesc << endl;
         return 1;
     }
-    if (vm.count("u")) {
+
+    if (vm.count("u") > 0)
+    {
         QSettings s (ORGANIZATION, APP_NAME);
         s.clear(); //ttt2 see if this can actually remove everything, including the ORGANIZATION dir if it's empty;
         return 0;
     }
-    if (vm.count("input-file")) {
+
+    if (vm.count("input-file") > 0)
+    {
         return cmdlineMain(vm);
     }
-    else {
+    else
+    {
         return guiMain(argc, argv);
     }
 }

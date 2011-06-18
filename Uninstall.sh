@@ -7,7 +7,7 @@ BranchSlash=`cat branch.txt`
 BranchDash=`echo "$BranchSlash" | sed 's#/#-#'`
 exe=MP3Diags$BranchDash
 
-/usr/local/bin/$exe /u
+/usr/local/bin/$exe -u
 sudo rm /usr/local/bin/$exe
 rm ~/.config/Ciobi/$exe.conf
 

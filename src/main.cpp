@@ -32,11 +32,14 @@
 #include  <iostream>
 #include  <locale>
 
+#include  <boost/program_options.hpp>
+
 #include  <QApplication>
 #include  <QSettings>
 #include  <QFileInfo>
 #include  <QMessageBox>
-#include  <boost/program_options.hpp>
+#include  <QFileInfo>
+#include  <QDir>
 
 #include  "MainFormDlgImpl.h"
 #include  "SessionEditorDlgImpl.h"
@@ -179,7 +182,8 @@ void visStudioMessageOutput(QtMsgType, const char* szMsg)
 #endif
 
 
-#include <sstream>
+
+
 
 // http://stackoverflow.com/questions/760323/why-does-my-qt4-5-app-open-a-console-window-under-windows - The option under Visual Studio for setting the subsystem is under Project Settings->Linker->System->SubSystem
 
@@ -298,8 +302,121 @@ int guiMain(int argc, char *argv[]) {
     return app.exec();*/
 }
 
+namespace {
+
+
+class CmdLineAnalyzer
+{
+    Note::Severity m_minLevel;
+
+    const QualThresholds& m_qualThresholds;
+
+    // returns "true" if there are no problems
+    bool processFile(const string& strFullName)
+    {
+        Mp3Handler* mp3;
+        try
+        {
+            mp3 = new Mp3Handler(strFullName, false, m_qualThresholds);
+        }
+        catch (Mp3Handler::FileNotFound)
+        {
+            cout << "File not found: " + strFullName << endl << endl;
+            return false;
+        }
+
+        bool thisFileHasProblems = false;
+        const NoteColl& notes (mp3->getNotes());
+        for (int i = 0, n = cSize(notes.getList()); i < n; ++i) // ttt2 poor performance
+        {
+            const Note* pNote (notes.getList()[i]);
+
+            // category --include/--exclude options would be nice, too.
+            bool showThisNote = (pNote->getSeverity() <= m_minLevel);
+            if (!showThisNote)
+            {
+                continue;
+            }
+
+            if (!thisFileHasProblems)
+            {
+                thisFileHasProblems = true;
+                cout << strFullName << endl; // ttt1 see if using short names is preferable
+            }
+
+            cout << "- " << (Note::severityToString(pNote->getSeverity())) << ": " << pNote->getDescription() << endl;
+        }
+
+        if (thisFileHasProblems)
+        {
+            cout << endl;
+        }
+
+        return !thisFileHasProblems;
+    }
+
+    // returns "true" if there are no problems
+    bool processDir(const string& strFullName)
+    {
+        bool bRes (true);
+        FileSearcher fs (strFullName);
+
+        while (fs)
+        {
+            if (fs.isFile())
+            {
+                bRes = processFile(fs.getName()) && bRes;
+            }
+            else if (fs.isDir()) {
+                bRes = processDir(fs.getName()) && bRes;
+            }
+
+            fs.findNext();
+        }
+        return bRes;
+    }
+
+public:
+
+    CmdLineAnalyzer(Note::Severity minLevel, const QualThresholds& qualThresholds) : m_minLevel(minLevel), m_qualThresholds(qualThresholds) {}
+
+    // returns "true" if there are no problems
+    bool processName(const string& strName)
+    {
+        string strFullName (convStr(QDir(convStr(strName)).absolutePath()));
+        //cout << strName << "    #    " << strAbsName << "    #    " << getNonSepTerminatedDir(strAbsName) << endl;
+        if (fileExists(strFullName))
+        {
+            return processFile(strFullName);
+        }
+        else if (dirExists(strFullName))
+        {
+            return processDir(strFullName);
+        }
+
+        return false;
+    }
+
+    // returns "true" if there are no problems
+    bool processNames(const vector<string>& vstrNames)
+    {
+        bool anyFileHasProblems (false);
+        for (int i = 0, n = cSize(vstrNames); i < n; ++i)
+        {
+            const string& file (vstrNames[i]);
+
+            anyFileHasProblems = processName(file) || anyFileHasProblems; //ttt2 make wildcards recognized on Windows (perhaps Linux too but Bash takes care of this; not sure about other shells)
+        }
+
+        return !anyFileHasProblems;
+    }
+};
+
+
+
 
 void noMessageOutput(QtMsgType, const char*) { }
+
 
 
 int cmdlineMain(const po::variables_map& options)
@@ -319,10 +436,10 @@ int cmdlineMain(const po::variables_map& options)
     */
     const vector<string> inputFiles = options["input-file"].as< vector<string> >();
 
-    Note::Severity min_level (Note::WARNING);
+    Note::Severity minLevel (Note::WARNING);
     try
     {
-        min_level = options["severity"].as<Note::Severity>(); //ttt1 see how to use default params in cmdlineDesc.add_options()
+        minLevel = options["severity"].as<Note::Severity>(); //ttt1 see how to use default params in cmdlineDesc.add_options()
     }
     catch (...)
     { // nothing
@@ -333,53 +450,16 @@ int cmdlineMain(const po::variables_map& options)
     // places in the program.
     qInstallMsgHandler(noMessageOutput);
 
+
     // ttt2 For now, we always use the default quality thresholds; however,
     // it certainly would make sense to load those from the last session,
     // or make it possible to specify them on the command line.
-    const QualThresholds& qualThresholds (QualThresholds::getDefaultQualThresholds());
+    CmdLineAnalyzer cmdLineAnalyzer (minLevel, QualThresholds::getDefaultQualThresholds());
 
-    bool anyFileHasProblems = false;
-    for (int i = 0, n = cSize(inputFiles); i < n; ++i) {
-        const string file = inputFiles[i];
-
-        Mp3Handler* mp3;
-        try {
-            mp3 = new Mp3Handler(file, false, qualThresholds);
-        }
-        catch (Mp3Handler::FileNotFound) {
-            anyFileHasProblems = true;
-            cout << "File not found: " + file << endl << endl;
-            continue;
-        }
-
-        bool thisFileHasProblems = false;
-        const NoteColl& notes (mp3->getNotes());
-        for (int i = 0, n = cSize(notes.getList()); i < n; ++i) // ttt2 poor performance
-        {
-            const Note* pNote (notes.getList()[i]);
-
-            // category --include/--exclude options would be nice, too.
-            bool showThisNote = (pNote->getSeverity() <= min_level);
-            if (!showThisNote)
-            {
-                continue;
-            }
-
-            if (!thisFileHasProblems) {
-                thisFileHasProblems = true;
-                anyFileHasProblems = true;
-                cout << file << endl;
-            }
-
-            cout << "- " << (Note::severityToString(pNote->getSeverity())) << ": " << pNote->getDescription() << endl;
-        }
-
-        if (thisFileHasProblems)
-            cout << endl;
-    }
-
-    return anyFileHasProblems ? 1 : 0;
+    return cmdLineAnalyzer.processNames(inputFiles) ? 0 : 1;
 }
+
+} // namespace
 
 
 // To parse a Note::Severity value from the command line using boost::program_options.
@@ -393,6 +473,7 @@ static void validate(boost::any& v, vector<string> const& values, Note::Severity
     //else throw po::validation_error("invalid option value");
     else throw runtime_error("invalid option value");
 }
+
 
 
 int main(int argc, char *argv[])

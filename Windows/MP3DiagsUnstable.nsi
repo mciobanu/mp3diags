@@ -98,7 +98,7 @@ Section "Main Application" !Required ;No components page, name is not important
   File QtXml4.dll
   File zlib.txt
   File zlib1.dll
-  File MP3DiagsCLI.cmd
+;  File MP3DiagsCLI.cmd
 
   SetOutPath $INSTDIR\iconengines
   File iconengines\qsvgicon4.dll
@@ -116,6 +116,12 @@ Section "Main Application" !Required ;No components page, name is not important
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
   !insertmacro MUI_STARTMENU_WRITE_END
 
+  FileOpen $4 "$INSTDIR\MP3DiagsCLI-unstable.cmd" w
+  FileWrite $4 "@echo off$\r$\n"
+  FileWrite $4 "$\"$INSTDIR\MP3DiagsWindows-unstable.exe$\" %* > %TEMP%\Mp3DiagsOut.txt$\r$\n"
+  FileWrite $4 "type %TEMP%\Mp3DiagsOut.txt$\r$\n"
+  FileWrite $4 "del %TEMP%\Mp3DiagsOut.txt$\r$\n"
+  FileClose $4
 
   ; Tell the compiler to write an uninstaller and to look for a "Uninstall" section
   WriteUninstaller $INSTDIR\Uninstall.exe
@@ -151,7 +157,7 @@ Section "un.Uninstall"
   Delete $INSTDIR\QtXml4.dll
   Delete $INSTDIR\zlib.txt
   Delete $INSTDIR\zlib1.dll
-  Delete $INSTDIR\MP3DiagsCLI.cmd
+  Delete $INSTDIR\MP3DiagsCLI-unstable.cmd
 
   Delete $INSTDIR\iconengines\qsvgicon4.dll
   Delete $INSTDIR\imageformats\qsvg4.dll

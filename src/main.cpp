@@ -310,6 +310,7 @@ class CmdLineAnalyzer
     Note::Severity m_minLevel;
 
     const QualThresholds& m_qualThresholds;
+    int m_nCut; // for relative dirs
 
     // returns "true" if there are no problems
     bool processFile(const string& strFullName)
@@ -321,7 +322,7 @@ class CmdLineAnalyzer
         }
         catch (Mp3Handler::FileNotFound)
         {
-            cout << "File not found: " + strFullName << endl << endl;
+            cout << "File not found: " + toNativeSeparators(strFullName) << endl << endl;
             return false;
         }
 
@@ -341,7 +342,7 @@ class CmdLineAnalyzer
             if (!thisFileHasProblems)
             {
                 thisFileHasProblems = true;
-                cout << strFullName << endl; // ttt1 see if using short names is preferable
+                cout << toNativeSeparators(strFullName.substr(m_nCut)) << endl; // ttt1 see if using short names is preferable
             }
 
             cout << "- " << (Note::severityToString(pNote->getSeverity())) << ": " << pNote->getDescription() << endl;
@@ -367,8 +368,13 @@ class CmdLineAnalyzer
             {
                 bRes = processFile(fs.getName()) && bRes;
             }
-            else if (fs.isDir()) {
+            else if (fs.isDir())
+            {
                 bRes = processDir(fs.getName()) && bRes;
+            }
+            else
+            {
+                cout << "Skipping unknown name : \"" << toNativeSeparators(fs.getName()) << "\"" << endl << endl;
             }
 
             fs.findNext();
@@ -383,8 +389,10 @@ public:
     // returns "true" if there are no problems
     bool processName(const string& strName)
     {
-        string strFullName (convStr(QDir(convStr(strName)).absolutePath()));
-        //cout << strName << "    #    " << strAbsName << "    #    " << getNonSepTerminatedDir(strAbsName) << endl;
+        string strFullName (convStr(QDir(fromNativeSeparators(convStr(strName))).absolutePath())); //ttt2 test on root
+        m_nCut = endsWith(strFullName, strName) ? cSize(strFullName) - cSize(strName) : 0;
+
+        //cout << strName << "    #    " << strFullName << "    #    " << getNonSepTerminatedDir(strFullName) << endl;
         if (fileExists(strFullName))
         {
             return processFile(strFullName);
@@ -392,6 +400,10 @@ public:
         else if (dirExists(strFullName))
         {
             return processDir(strFullName);
+        }
+        else
+        {
+            cout << "Name not found: \"" << toNativeSeparators(strFullName) << "\"" << endl << endl;
         }
 
         return false;
@@ -568,6 +580,8 @@ int main(int argc, char *argv[])
 
     if (vm.count("input-file") > 0)
     {
+        Q_INIT_RESOURCE(Mp3Diags); // base name of the ".qrc" file
+        QCoreApplication app(argc, argv); // !!! without this Qt file functions don't work correctly, e.g. QFileInfo has problems with file names that contain accents
         return cmdlineMain(vm);
     }
     else
@@ -579,10 +593,6 @@ int main(int argc, char *argv[])
 
 
 //"undefined reference to `qInitResources_application()'"
-
-
-
-
 
 
 
@@ -643,3 +653,4 @@ WARNING: it is ignored, until you registered a Category at adrian@suse.de .
 //ttt1 explorer right-click; create a new session vs. add to existing one
 //ttt1 ID3V1 remover
 //ttt0 make AdjustMt.sh work
+

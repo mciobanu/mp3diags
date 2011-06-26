@@ -65,7 +65,11 @@ public:
 
     static std::string getDataFileName(const std::string& strIniName);
     static std::string getLogFileName(const std::string& strIniName);
+    static std::string getBaseName(const std::string& strIniName); // removes extension
+    static std::string getTitleName(const std::string& strIniName); // removes path and extension
     static void removeSession(const std::string& strIniName); // removes INI, DAT, and LOG
+    static const char* const SESS_EXT;
+    static int SESS_EXT_LEN;
 
 public slots:
     /*$PUBLIC_SLOTS$*/

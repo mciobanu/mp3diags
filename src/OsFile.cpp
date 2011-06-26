@@ -553,6 +553,29 @@ string getExistingDir(const std::string& strName) // if strName exists and is a 
 }
 
 
+// erases files matching strRoot followed by anything; returns the name of the first file that couldn't be erased
+string eraseFiles(const string& strRoot)
+{
+    string::size_type n (strRoot.rfind("/"));
+    string strDir (strRoot.substr(0, n));
+    string strFile (strRoot.substr(n + 1));
+    QStringList filter;
+    filter << convStr(strFile + "*");
+    QDir dir (convStr(strDir));
+    QFileInfoList vFileInfos (dir.entryInfoList(filter, QDir::Files));
+    for (int i = 0; i < vFileInfos.size(); ++i)
+    {
+        cout << convStr(vFileInfos[i].absoluteFilePath()) << "   " << convStr(vFileInfos[i].fileName()) << endl;
+        if (!dir.remove(vFileInfos[i].fileName()))
+        {
+            return convStr(vFileInfos[i].absoluteFilePath());
+        }
+    }
+
+    return "";
+}
+
+
 //ttt2 perhaps use strerror_r() to print file errors
 
 

@@ -296,7 +296,7 @@ public:
             QToolButton* pModeAllB,
             QToolButton* pModeAlbumB,
             QToolButton* pModeSongB,
-            bool bUniqueSession);
+            bool bDefaultForVisibleSessBtn);
 
     ~CommonData();
 
@@ -406,7 +406,7 @@ public:
     // color is normally the category color, but for support notes it's a "support" color; if the note isn't found in vpNoteSet, dGradStart and dGradEnd are set to -1, but normally they get a segment obtained by dividing [0, 1] in equal parts;
     void getNoteColor(const Note& note, const std::vector<const Note*>& vpNoteSet, QColor& color, double& dGradStart, double& dGradEnd) const;
 
-    bool isUniqueSession() const { return m_bUniqueSession; }
+    bool getDefaultForVisibleSessBtn() const { return m_bDefaultForVisibleSessBtn; }
 
     enum { DONT_UPDATE_TRANSFORMS, UPDATE_TRANSFORMS };
     void setFastSave(bool bFastSave, bool bUpdateTransforms);
@@ -536,7 +536,7 @@ private:
 
     //bool m_bDirty; // seemed like a good idea, but since we also save filters and what's current, pretty much all the time the data will need to be saved
 
-    bool m_bUniqueSession; // if there is a single or several known sessions; if this is false (so there are several sessions) the Sessions button is shown by default
+    bool m_bDefaultForVisibleSessBtn; // the Sessions button is shown by default if there are several sessions
 
     bool m_bFastSave;
     bool m_bTraceToFile;

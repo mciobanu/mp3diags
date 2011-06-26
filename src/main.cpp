@@ -233,32 +233,29 @@ void setFolder(const string& strSessionFile, const string& strFolder)
 }
 
 
+static const char* const TEMP_SESS ("MP3DiagsTempSession");
+
 struct TempEraser
 {
     static void eraseTempSess()
     {
-        QStringList filter;
-        filter << "MP3DiagsTempSession*";
-        QDir tempDir (QDir::tempPath());
-        QFileInfoList vFileInfos (tempDir.entryInfoList(filter, QDir::Files));
-        for (int i = 0; i < vFileInfos.size(); ++i)
+        string strErr (eraseFiles(getSepTerminatedDir(convStr(QDir::tempPath())) + TEMP_SESS));
+        if (!strErr.empty())
         {
-            cout << convStr(vFileInfos[i].absoluteFilePath()) << "   " << convStr(vFileInfos[i].fileName()) << endl;
-            if (!tempDir.remove(vFileInfos[i].fileName()))
-            {
-                cerr << "Cannot remove file " << convStr(vFileInfos[i].absoluteFilePath()) << endl;
-                exit(1);
-            }
+            cerr << "Cannot remove file " << strErr << endl;
+            exit(1);
         }
     }
 
     ~TempEraser()
     {
         eraseTempSess();
+        //ttt0 erase temp sess
     }
 };
 
 } // namespace
+
 
 
 
@@ -282,7 +279,8 @@ int guiMain(const po::variables_map& options) {
     bool bOpenLast;
     string strTempSessTempl;
     string strDirSessTempl;
-    bool bIsTempSess (false);
+    //bool bIsTempSess (false);
+    string strTempSession (getSepTerminatedDir(convStr(QDir::tempPath())) + TEMP_SESS + SessionEditorDlgImpl::SESS_EXT);
     TempEraser tempEraser;
 
     {
@@ -297,10 +295,9 @@ int guiMain(const po::variables_map& options) {
 
     if (options.count(s_tempSessOpt.m_szLongOpt))
     {
-        bIsTempSess = true;
         TempEraser::eraseTempSess();
 
-        strStartSession = getSepTerminatedDir(convStr(QDir::tempPath())) + "MP3DiagsTempSession.ini";
+        strStartSession = strTempSession;
 
         if (strTempSessTempl.empty())
         {
@@ -317,6 +314,7 @@ int guiMain(const po::variables_map& options) {
             { // nothing //ttt2 do more
             }
         }
+        //ttt0 add temp sess
 
         string strProcDir (options[s_tempSessOpt.m_szLongOpt].as<string>());
         setFolder(strStartSession, strProcDir);
@@ -380,9 +378,8 @@ int guiMain(const po::variables_map& options) {
 
             CB_ASSERT (!strStartSession.empty());
 
-
-            bool bIsUniqueSess (!bIsTempSess);
-            if (bIsUniqueSess)
+            bool bDefaultForVisibleSessBtn (true);
+            if (strStartSession != strTempSession)
             {
                 vector<string> vstrSess;
                 bool bOpenLast;
@@ -390,20 +387,18 @@ int guiMain(const po::variables_map& options) {
                 GlobalSettings st;
                 st.loadSessions(vstrSess, s, bOpenLast, s1, s2);
                 st.saveSessions(vstrSess, strStartSession, bOpenLast, s1, s2);
-                bIsUniqueSess = cSize(vstrSess) == 1;
+                bDefaultForVisibleSessBtn = cSize(vstrSess) != 1;
             }
-            MainFormDlgImpl mainDlg (strStartSession, bIsUniqueSess);
+            MainFormDlgImpl mainDlg (strStartSession, bDefaultForVisibleSessBtn);
             mainDlg.setWindowIcon(QIcon(":/images/logo.svg"));
 
-            if (bIsUniqueSess)
+            if (bDefaultForVisibleSessBtn)
             {
-                mainDlg.setWindowTitle("MP3 Diags" + QString(APP_BRANCH));
+                mainDlg.setWindowTitle("MP3 Diags"  + QString(APP_BRANCH) + " - " + convStr(SessionEditorDlgImpl::getTitleName(strStartSession)));
             }
             else
             {
-                string::size_type n (strStartSession.rfind(getPathSep()));
-                string s (strStartSession.substr(n + 1, strStartSession.size() - n - 3 - 2));
-                mainDlg.setWindowTitle("MP3 Diags"  + QString(APP_BRANCH) + " - " + convStr(s));
+                mainDlg.setWindowTitle("MP3 Diags" + QString(APP_BRANCH)); //ttt0 have a var AppName = "MP3 Diags" / "MP3 Diags APP_BRANCH"
             }
 
             if (MainFormDlgImpl::OPEN_SESS_DLG != mainDlg.run()) { return 0; }

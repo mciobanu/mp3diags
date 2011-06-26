@@ -154,4 +154,6 @@ bool isInsideDir(const std::string& strName, const std::string& strDirName); // 
 
 std::string getExistingDir(const std::string& strName); // if strName exists and is a dir, it is returned; otherwise it returns the closest ancestor that exists; accepts names ending with file separator
 
+std::string eraseFiles(const std::string& strRoot); // erases files matching strRoot followed by anything; returns the name of the first file that couldn't be erased
+
 #endif // #ifndef OsFileH

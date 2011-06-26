@@ -321,7 +321,7 @@ void SessionSettings::loadMiscConfigSettings(CommonData* p) const
     { // misc
         p->m_bShowExport = m_pSettings->value("main/showExport", false).toBool();
         p->m_bShowDebug = m_pSettings->value("main/showDebug", false).toBool();
-        p->m_bShowSessions = m_pSettings->value("main/showSessions", !p->isUniqueSession()).toBool();
+        p->m_bShowSessions = m_pSettings->value("main/showSessions", p->getDefaultForVisibleSessBtn()).toBool();
         p->m_strNormalizeCmd = convStr(m_pSettings->value("normalizer/command", "mp3gain -a -k -p -t").toString());
         p->m_bKeepNormWndOpen = m_pSettings->value("main/keepNormWndOpen", false).toBool();
 
@@ -587,7 +587,7 @@ CommonData::CommonData(
         QToolButton* pModeAlbumB,
         QToolButton* pModeSongB,
 
-        bool bUniqueSession) :
+        bool bDefaultForVisibleSessBtn) :
 
         m_pFilesModel(0),
         m_pNotesModel(0),
@@ -617,7 +617,7 @@ CommonData::CommonData(
         //m_bDirty(false),
 
         m_nLabelFontSizeDecr(0),
-        m_bUniqueSession(bUniqueSession),
+        m_bDefaultForVisibleSessBtn(bDefaultForVisibleSessBtn),
         m_bFastSave(false),
 
         m_eViewMode(ALL),

@@ -32,6 +32,7 @@
 #include  "Helpers.h"
 #include  "Transformation.h"
 #include  "StoredSettings.h"
+#include  "OsFile.h"
 
 
 using namespace std;
@@ -78,7 +79,8 @@ SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strDi
 #endif
         if (QFileInfo(qs).isDir())
         {
-            qs += "/MP3Diags.ini";
+            qs += "/MP3Diags";
+            qs += SESS_EXT;
             if (!QDir().exists(qs))
             {
                 m_pFileNameE->setText(toNativeSeparators(qs));
@@ -191,7 +193,7 @@ void SessionEditorDlgImpl::on_m_pOkB_clicked()
     if (m_bNew)
     {
         QString qstrFile (fromNativeSeparators(m_pFileNameE->text()));
-        if (!qstrFile.isEmpty() && !qstrFile.endsWith(".ini")) { qstrFile += ".ini"; m_pFileNameE->setText(toNativeSeparators(qstrFile)); }
+        if (!qstrFile.isEmpty() && !qstrFile.endsWith(SESS_EXT)) { qstrFile += SESS_EXT; m_pFileNameE->setText(toNativeSeparators(qstrFile)); }
         //m_strIniFile = convStr(QFileInfo(qstrFile).canonicalFilePath());
         m_strIniFile = convStr(qstrFile);
         if (m_strIniFile.empty())
@@ -315,7 +317,7 @@ void SessionEditorDlgImpl::on_m_pFileNameB_clicked()
             s = convStr(m_strDir);
         }
     }
-    QFileDialog dlg (this, "Enter configuration file", s, "INI files (*.ini)");
+    QFileDialog dlg (this, "Enter configuration file", s, QString("MP3 Diags session files (*") + SESS_EXT + ")");
     dlg.setAcceptMode(QFileDialog::AcceptSave);
 
     //dlg.setFileMode(QFileDialog::Directory);
@@ -326,7 +328,7 @@ void SessionEditorDlgImpl::on_m_pFileNameB_clicked()
 
     s = fileNames.first();
 
-    if (!s.endsWith(".ini")) { s += ".ini"; }
+    if (!s.endsWith(SESS_EXT)) { s += SESS_EXT; }
 
     m_pFileNameE->setText(toNativeSeparators(s));
 }
@@ -334,23 +336,39 @@ void SessionEditorDlgImpl::on_m_pFileNameB_clicked()
 
 /*static*/ string SessionEditorDlgImpl::getDataFileName(const string& strIniName)
 {
-    CB_ASSERT (endsWith(strIniName, ".ini"));
-    return strIniName.substr(0, strIniName.size() - 4) + ".dat";
+    CB_ASSERT (endsWith(strIniName, SESS_EXT));
+    return strIniName.substr(0, strIniName.size() - SESS_EXT_LEN) + ".dat";
 }
 
 /*static*/ string SessionEditorDlgImpl::getLogFileName(const string& strIniName)
 {
-    CB_ASSERT (endsWith(strIniName, ".ini"));
-    return strIniName.substr(0, strIniName.size() - 4) + ".transf_log.txt";
+    CB_ASSERT (endsWith(strIniName, SESS_EXT));
+    return strIniName.substr(0, strIniName.size() - SESS_EXT_LEN) + ".transf_log.txt";
 }
 
-
-/*static*/ void SessionEditorDlgImpl::removeSession(const string& strIniName) // removes INI, DAT, and LOG
+/*static*/ string SessionEditorDlgImpl::getBaseName(const string& strIniName)
 {
-    QFile::remove(convStr(strIniName)); // ttt2 perhaps check ...
-    QFile::remove(convStr(getDataFileName(strIniName)));
-    QFile::remove(convStr(getLogFileName(strIniName)));
+    CB_ASSERT (endsWith(strIniName, SESS_EXT));
+    return strIniName.substr(0, strIniName.size() - SESS_EXT_LEN);
 }
+
+/*static*/ string SessionEditorDlgImpl::getTitleName(const string& strIniName)
+{
+    CB_ASSERT (endsWith(strIniName, SESS_EXT));
+
+    string::size_type n (strIniName.rfind(getPathSep()));
+    return strIniName.substr(n + 1, strIniName.size() - n - SESS_EXT_LEN - 1);
+}
+
+
+/*static*/ void SessionEditorDlgImpl::removeSession(const string& strIniName)
+{
+    eraseFiles(strIniName.substr(0, strIniName.size() - SESS_EXT_LEN));
+}
+
+
+/*static*/ const char* const SessionEditorDlgImpl::SESS_EXT (".ini");
+/*static*/ int SessionEditorDlgImpl::SESS_EXT_LEN (strlen(SessionEditorDlgImpl::SESS_EXT));
 
 
 void SessionEditorDlgImpl::on_m_pOpenSessionsB_clicked()

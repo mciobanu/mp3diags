@@ -384,7 +384,7 @@ void SessionsDlgImpl::on_m_pSaveAsB_clicked()
     if (m_vstrSessions.empty()) { return; }
     //string s (getCrtSession());
 
-    QFileDialog dlg (this, "Save session as ...", convStr(getCrtSessionDir()), "INI files (*.ini)");
+    QFileDialog dlg (this, "Save session as ...", convStr(getCrtSessionDir()), QString("MP3 Diags session files (*") + SessionEditorDlgImpl::SESS_EXT + ")");
     dlg.setAcceptMode(QFileDialog::AcceptSave);
 
     if (QDialog::Accepted != dlg.exec()) { return; }
@@ -393,7 +393,7 @@ void SessionsDlgImpl::on_m_pSaveAsB_clicked()
     if (1 != fileNames.size()) { return; }
 
     string s (convStr(fileNames.first()));
-    if (!endsWith(s, ".ini")) { s += ".ini"; }
+    if (!endsWith(s, SessionEditorDlgImpl::SESS_EXT)) { s += SessionEditorDlgImpl::SESS_EXT; }
 
     string strCrt (getCrtSession());
     if (s == strCrt) { return; }
@@ -425,7 +425,7 @@ void SessionsDlgImpl::on_m_pHideB_clicked()
 
 void SessionsDlgImpl::on_m_pLoadB_clicked()
 {
-    QFileDialog dlg (this, "Choose a session file", convStr(getCrtSessionDir()), "INI files (*.ini)");
+    QFileDialog dlg (this, "Choose a session file", convStr(getCrtSessionDir()), QString("MP3 Diags session files (*") + SessionEditorDlgImpl::SESS_EXT + ")"); //ttt0 add ".ini", for import from older versions
     dlg.setAcceptMode(QFileDialog::AcceptOpen);
 
     if (QDialog::Accepted != dlg.exec()) { return; }
@@ -434,7 +434,7 @@ void SessionsDlgImpl::on_m_pLoadB_clicked()
     if (1 != fileNames.size()) { return; }
 
     string s (convStr(fileNames.first()));
-    CB_ASSERT (endsWith(s, ".ini"));
+    CB_ASSERT (endsWith(s, SessionEditorDlgImpl::SESS_EXT));
 
     for (int i = 0, n = cSize(m_vstrSessions); i < n; ++i)
     {

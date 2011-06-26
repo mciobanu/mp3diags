@@ -49,7 +49,7 @@ class MainFormDlgImpl : public QDialog, private Ui::MainFormDlg
 {
 Q_OBJECT
 public:
-    MainFormDlgImpl(const std::string& strSession, bool bUniqueSession);
+    MainFormDlgImpl(const std::string& strSession, bool bDefaultForVisibleSessBtn);
 
     ~MainFormDlgImpl();
 

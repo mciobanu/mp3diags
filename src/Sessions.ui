@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>SessionsDlg</class>
- <widget class="QDialog" name="SessionsDlg" >
-  <property name="geometry" >
+ <widget class="QDialog" name="SessionsDlg">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,54 +10,36 @@
     <height>517</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>MP3 Diags - Sessions</string>
   </property>
-  <property name="sizeGripEnabled" >
+  <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout">
    <item>
-    <layout class="QHBoxLayout" >
+    <layout class="QHBoxLayout">
      <item>
-      <widget class="QWidget" native="1" name="widget_2" >
-       <layout class="QHBoxLayout" >
-        <property name="leftMargin" >
-         <number>0</number>
-        </property>
-        <property name="topMargin" >
-         <number>0</number>
-        </property>
-        <property name="rightMargin" >
-         <number>0</number>
-        </property>
-        <property name="bottomMargin" >
+      <widget class="QWidget" name="widget_2" native="true">
+       <layout class="QHBoxLayout">
+        <property name="margin">
          <number>0</number>
         </property>
         <item>
-         <widget class="QTableView" name="m_pSessionsG" >
-          <property name="tabKeyNavigation" >
+         <widget class="QTableView" name="m_pSessionsG">
+          <property name="tabKeyNavigation">
            <bool>false</bool>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QWidget" native="1" name="widget" >
-          <layout class="QVBoxLayout" >
-           <property name="leftMargin" >
-            <number>0</number>
-           </property>
-           <property name="topMargin" >
-            <number>0</number>
-           </property>
-           <property name="rightMargin" >
-            <number>0</number>
-           </property>
-           <property name="bottomMargin" >
+         <widget class="QWidget" name="widget" native="true">
+          <layout class="QVBoxLayout">
+           <property name="margin">
             <number>0</number>
            </property>
            <item>
-            <widget class="QTreeView" name="m_pDirectoriesT" />
+            <widget class="QTreeView" name="m_pDirectoriesT"/>
            </item>
           </layout>
          </widget>
@@ -65,85 +48,76 @@
       </widget>
      </item>
      <item>
-      <widget class="QWidget" native="1" name="widget_3" >
-       <layout class="QVBoxLayout" >
-        <property name="leftMargin" >
-         <number>0</number>
-        </property>
-        <property name="topMargin" >
-         <number>0</number>
-        </property>
-        <property name="rightMargin" >
-         <number>0</number>
-        </property>
-        <property name="bottomMargin" >
+      <widget class="QWidget" name="widget_3" native="true">
+       <layout class="QVBoxLayout">
+        <property name="margin">
          <number>0</number>
         </property>
         <item>
-         <widget class="QPushButton" name="m_pOpenB" >
-          <property name="text" >
+         <widget class="QPushButton" name="m_pOpenB">
+          <property name="text">
            <string>&amp;Open</string>
           </property>
-          <property name="default" >
+          <property name="default">
            <bool>true</bool>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="m_pNewB" >
-          <property name="text" >
+         <widget class="QPushButton" name="m_pNewB">
+          <property name="text">
            <string>&amp;New ...</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="m_pEditB" >
-          <property name="text" >
+         <widget class="QPushButton" name="m_pEditB">
+          <property name="text">
            <string>&amp;Edit ...</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="m_pSaveAsB" >
-          <property name="text" >
+         <widget class="QPushButton" name="m_pSaveAsB">
+          <property name="text">
            <string>Save &amp;as ...</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="m_pEraseB" >
-          <property name="text" >
+         <widget class="QPushButton" name="m_pEraseB">
+          <property name="text">
            <string>E&amp;rase</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="m_pLoadB" >
-          <property name="text" >
+         <widget class="QPushButton" name="m_pLoadB">
+          <property name="text">
            <string>&amp;Load ...</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="m_pHideB" >
-          <property name="text" >
+         <widget class="QPushButton" name="m_pHideB">
+          <property name="text">
            <string>&amp;Hide</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="m_pCancelB" >
-          <property name="text" >
+         <widget class="QPushButton" name="m_pCancelB">
+          <property name="text">
            <string>Cancel</string>
           </property>
          </widget>
         </item>
         <item>
          <spacer>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
             <height>40</height>
@@ -157,8 +131,78 @@
     </layout>
    </item>
    <item>
-    <widget class="QCheckBox" name="m_pOpenLastCkB" >
-     <property name="text" >
+    <widget class="QWidget" name="widget_4" native="true">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>81</height>
+      </size>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Temporary session template</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="comboBox"/>
+      </item>
+      <item row="0" column="2">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>474</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Folder session template</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="comboBox_2"/>
+      </item>
+      <item row="1" column="2">
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>474</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="m_pOpenLastCkB">
+     <property name="text">
       <string>At s&amp;tartup open the last session automatically</string>
      </property>
     </widget>

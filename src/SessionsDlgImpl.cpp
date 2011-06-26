@@ -100,7 +100,11 @@ SessionsDlgImpl::SessionsDlgImpl(QWidget* pParent) : QDialog(pParent, getMainWnd
     //m_pSettings = SessionSettings::getGlobalSettings();
     GlobalSettings st;
     bool bOpenLast;
-    st.loadSessions(m_vstrSessions, strLast, bOpenLast);
+
+    string strTempSessTempl;
+    string strDirSessTempl;
+
+    st.loadSessions(m_vstrSessions, strLast, bOpenLast, strTempSessTempl, strDirSessTempl);
     m_pOpenLastCkB->setChecked(bOpenLast);
 
     m_pSessionsG->verticalHeader()->setResizeMode(QHeaderView::Interactive);
@@ -161,8 +165,11 @@ SessionsDlgImpl::~SessionsDlgImpl()
         //GlobalSettings st;
         vector<string> v;
         bool bOpenLast;
-        st.loadSessions(v, strLast, bOpenLast);
-        st.saveSessions(m_vstrSessions, getCrtSession(), m_pOpenLastCkB->isChecked());
+
+        string strTempSessTempl;
+        string strDirSessTempl;
+        st.loadSessions(v, strLast, bOpenLast, strTempSessTempl, strDirSessTempl);
+        st.saveSessions(m_vstrSessions, getCrtSession(), m_pOpenLastCkB->isChecked(), strTempSessTempl, strDirSessTempl); //ttt0
     }
 }
 
@@ -279,7 +286,7 @@ void SessionsDlgImpl::addSession(const std::string& strSession)
     selectSession(strSession);
 
     GlobalSettings st;
-    st.saveSessions(m_vstrSessions, strSession, m_pOpenLastCkB->isChecked());
+    st.saveSessions(m_vstrSessions, strSession, m_pOpenLastCkB->isChecked(), "", "");
 }
 
 
@@ -342,7 +349,7 @@ void SessionsDlgImpl::removeCrtSession()
     }
 
     GlobalSettings st;
-    st.saveSessions(m_vstrSessions, strCrtSess, m_pOpenLastCkB->isChecked());
+    st.saveSessions(m_vstrSessions, strCrtSess, m_pOpenLastCkB->isChecked(), "", "");
 }
 
 

@@ -72,15 +72,15 @@ GlobalSettings::~GlobalSettings()
 }
 
 
-void GlobalSettings::saveSessions(const vector<string>& vstrSess1, const string& strLast, bool bOpenLast)
+void GlobalSettings::saveSessions(const vector<string>& vstrSess1, const string& strLast, bool bOpenLast, const string& strTempSessTempl, const string& strDirSessTempl)
 {
     vector<string> vstrSess (vstrSess1);
 
     { // add sessions that might have been added by another instance of the program
         vector<string> vstrSess2;
-        string strLast2;
+        string strLast2, strTempSessTempl2, strDirSessTempl2;
         bool bOpenLast2;
-        loadSessions(vstrSess2, strLast2, bOpenLast2);
+        loadSessions(vstrSess2, strLast2, bOpenLast2, strTempSessTempl2, strDirSessTempl2);
         for (int i = 0, n = cSize(vstrSess2); i < n; ++i)
         {
             if (vstrSess.end() == find(vstrSess.begin(), vstrSess.end(), vstrSess2[i]))
@@ -101,15 +101,19 @@ void GlobalSettings::saveSessions(const vector<string>& vstrSess1, const string&
         sprintf(a, "main/sessions/val%04d", i);
         m_pSettings->setValue(a, convStr(vstrSess[i]));
     }
+    m_pSettings->setValue("main/tempSessionTemplate", convStr(strTempSessTempl));
+    m_pSettings->setValue("main/dirSessionTemplate", convStr(strDirSessTempl));
 }
 
 
-void GlobalSettings::loadSessions(vector<string>& vstrSess, string& strLast, bool& bOpenLast) const
+void GlobalSettings::loadSessions(vector<string>& vstrSess, string& strLast, bool& bOpenLast, string& strTempSessTempl, string& strDirSessTempl) const
 {
     vstrSess.clear();
     int n (m_pSettings->value("main/sessions/count", 0).toInt());
     strLast = convStr(m_pSettings->value("main/lastSession").toString());
     bOpenLast = m_pSettings->value("main/openLast", true).toBool();
+    strTempSessTempl = convStr(m_pSettings->value("main/tempSessionTemplate").toString());
+    strDirSessTempl = convStr(m_pSettings->value("main/dirSessionTemplate").toString());
     char a [50];
     for (int i = 0; i < n; ++i)
     {
@@ -182,14 +186,86 @@ void visStudioMessageOutput(QtMsgType, const char* szMsg)
 #endif
 
 
+namespace {
+
+class OptionInfo
+{
+    const string m_strLongOpt;
+    const string m_strShortOpt;
+    const string m_strFullOpt;
+    const string m_strDescr;
+
+public:
+    OptionInfo(const string& strLongOpt, const string& strShortOpt, const string& strDescr) :
+            m_strLongOpt(strLongOpt),
+            m_strShortOpt(strShortOpt),
+            m_strFullOpt(strLongOpt + (strShortOpt.empty() ? "" : "," + strShortOpt)),
+            m_strDescr(strDescr),
+            m_szLongOpt(m_strLongOpt.c_str()),
+            m_szShortOpt(m_strShortOpt.c_str()),
+            m_szFullOpt(m_strFullOpt.c_str()),
+            m_szDescr(m_strDescr.c_str())
+            {}
+
+    const char* const m_szLongOpt;
+    const char* const m_szShortOpt;
+    const char* const m_szFullOpt;
+    const char* const m_szDescr;
+};
+
+
+OptionInfo s_helpOpt ("help", "h", "Show this help message");
+OptionInfo s_uninstOpt ("uninstall", "u", "Uninstall (remove settings)");
+OptionInfo s_severityOpt ("severity", "s", "Minimum severity to show (one of error, warning, support); default: warning");
+OptionInfo s_inputFileOpt ("input-file", "", "Input file");
+OptionInfo s_folderSessOpt ("folder-session", "fs", "Creates a new session for the specified folder and it stores it inside that folder");
+OptionInfo s_tempSessOpt ("temp-session", "ts", "Creates a temporary session for the specified folder, which will be deleted when the program exits"); //ttt0 make "ts" work
+OptionInfo s_overrideSess ("", "", ""); // ttt0 implement - for s_folderSessOpt and s_tempSessOpt (and s_inputFileOpt) - session with settings to use instead of the template
+
+
+
+void setFolder(const string& strSessionFile, const string& strFolder)
+{
+    SessionSettings stg (strSessionFile);
+    vector<string> vstrIncl, vstrExcl;
+    vstrIncl.push_back(strFolder);
+    stg.saveDirs(vstrIncl, vstrExcl);
+}
+
+
+struct TempEraser
+{
+    static void eraseTempSess()
+    {
+        QStringList filter;
+        filter << "MP3DiagsTempSession*";
+        QDir tempDir (QDir::tempPath());
+        QFileInfoList vFileInfos (tempDir.entryInfoList(filter, QDir::Files));
+        for (int i = 0; i < vFileInfos.size(); ++i)
+        {
+            cout << convStr(vFileInfos[i].absoluteFilePath()) << "   " << convStr(vFileInfos[i].fileName()) << endl;
+            if (!tempDir.remove(vFileInfos[i].fileName()))
+            {
+                cerr << "Cannot remove file " << convStr(vFileInfos[i].absoluteFilePath()) << endl;
+                exit(1);
+            }
+        }
+    }
+
+    ~TempEraser()
+    {
+        eraseTempSess();
+    }
+};
+
+} // namespace
+
 
 
 
 // http://stackoverflow.com/questions/760323/why-does-my-qt4-5-app-open-a-console-window-under-windows - The option under Visual Studio for setting the subsystem is under Project Settings->Linker->System->SubSystem
 
-int guiMain(int argc, char *argv[]) {
-    Q_INIT_RESOURCE(Mp3Diags); // base name of the ".qrc" file
-    QMp3DiagsApplication app(argc, argv);
+int guiMain(const po::variables_map& options) {
 
     { // by default on Windows the selection is hard to see in the main window, because it's some gray;
         QPalette pal (QApplication::palette());
@@ -201,18 +277,55 @@ int guiMain(int argc, char *argv[]) {
     getDefaultFont(); // !!! to initialize the static var
 
     string strStartSession;
+    string strLastSession;
     int nSessCnt;
     bool bOpenLast;
+    string strTempSessTempl;
+    string strDirSessTempl;
+    bool bIsTempSess (false);
+    TempEraser tempEraser;
 
     {
         vector<string> vstrSess;
         //string strLast;
         GlobalSettings st;
-        st.loadSessions(vstrSess, strStartSession, bOpenLast);
+        st.loadSessions(vstrSess, strLastSession, bOpenLast, strTempSessTempl, strDirSessTempl);
         nSessCnt = cSize(vstrSess);
     }
 
-    if (0 == nSessCnt)
+    bool bOpenSelDlg (false);
+
+    if (options.count(s_tempSessOpt.m_szLongOpt))
+    {
+        bIsTempSess = true;
+        TempEraser::eraseTempSess();
+
+        strStartSession = getSepTerminatedDir(convStr(QDir::tempPath())) + "MP3DiagsTempSession.ini";
+
+        if (strTempSessTempl.empty())
+        {
+            strTempSessTempl = strLastSession;
+        }
+
+        if (!strTempSessTempl.empty())
+        {
+            try
+            {
+                copyFile2(strTempSessTempl, strStartSession);
+            }
+            catch (...)
+            { // nothing //ttt2 do more
+            }
+        }
+
+        string strProcDir (options[s_tempSessOpt.m_szLongOpt].as<string>());
+        setFolder(strStartSession, strProcDir);
+    }
+    else if (0) // dir ttt0
+    {
+        strStartSession = ""; // dir file
+    }
+    else if (0 == nSessCnt)
     { // first run; create a new session and run it
         SessionEditorDlgImpl dlg (0, "", SessionEditorDlgImpl::FIRST_TIME);
         dlg.setWindowIcon(QIcon(":/images/logo.svg"));
@@ -231,11 +344,15 @@ int guiMain(int argc, char *argv[]) {
             vector<string> vstrSess;
             vstrSess.push_back(strStartSession);
             GlobalSettings st;
-            st.saveSessions(vstrSess, strStartSession, dlg.shouldOpenLastSession());
+            st.saveSessions(vstrSess, strStartSession, dlg.shouldOpenLastSession(), "", "");
         }
-    }
 
-    bool bOpenSelDlg (strStartSession.empty() || !bOpenLast);
+        bOpenSelDlg = strStartSession.empty() || !bOpenLast;
+    }
+    else
+    {
+        strStartSession = strLastSession;
+    }
 
     try
     {
@@ -263,19 +380,22 @@ int guiMain(int argc, char *argv[]) {
 
             CB_ASSERT (!strStartSession.empty());
 
+
+            bool bIsUniqueSess (!bIsTempSess);
+            if (bIsUniqueSess)
             {
                 vector<string> vstrSess;
                 bool bOpenLast;
-                string s;
+                string s, s1, s2;
                 GlobalSettings st;
-                st.loadSessions(vstrSess, s, bOpenLast);
-                st.saveSessions(vstrSess, strStartSession, bOpenLast);
-                nSessCnt = cSize(vstrSess);
+                st.loadSessions(vstrSess, s, bOpenLast, s1, s2);
+                st.saveSessions(vstrSess, strStartSession, bOpenLast, s1, s2);
+                bIsUniqueSess = cSize(vstrSess) == 1;
             }
-            MainFormDlgImpl mainDlg (strStartSession, 1 == nSessCnt);
+            MainFormDlgImpl mainDlg (strStartSession, bIsUniqueSess);
             mainDlg.setWindowIcon(QIcon(":/images/logo.svg"));
 
-            if (1 == nSessCnt)
+            if (bIsUniqueSess)
             {
                 mainDlg.setWindowTitle("MP3 Diags" + QString(APP_BRANCH));
             }
@@ -301,6 +421,9 @@ int guiMain(int argc, char *argv[]) {
     /*mainDlg.show();
     return app.exec();*/
 }
+
+
+
 
 namespace {
 
@@ -342,7 +465,7 @@ class CmdLineAnalyzer
             if (!thisFileHasProblems)
             {
                 thisFileHasProblems = true;
-                cout << toNativeSeparators(strFullName.substr(m_nCut)) << endl; // ttt1 see if using short names is preferable
+                cout << toNativeSeparators(strFullName.substr(m_nCut)) << endl;
             }
 
             cout << "- " << (Note::severityToString(pNote->getSeverity())) << ": " << pNote->getDescription() << endl;
@@ -446,12 +569,12 @@ int cmdlineMain(const po::variables_map& options)
         http://www.codeproject.com/KB/cpp/EditBin.aspx
         http://www.halcyon.com/~ast/dload/guicon.htm
     */
-    const vector<string> inputFiles = options["input-file"].as< vector<string> >();
+    const vector<string> inputFiles = options[s_inputFileOpt.m_szLongOpt].as< vector<string> >();
 
     Note::Severity minLevel (Note::WARNING);
     try
     {
-        minLevel = options["severity"].as<Note::Severity>(); //ttt1 see how to use default params in cmdlineDesc.add_options()
+        minLevel = options[s_severityOpt.m_szLongOpt].as<Note::Severity>(); //ttt2 see how to use default params in cmdlineDesc.add_options()
     }
     catch (...)
     { // nothing
@@ -471,6 +594,14 @@ int cmdlineMain(const po::variables_map& options)
     return cmdLineAnalyzer.processNames(inputFiles) ? 0 : 1;
 }
 
+
+//static const char* CMD_HELP = "help"; static const char* CMD_HELP_SHORT = "h"; static const char* CMD_HELP_FULL = "help,h";
+
+//#define GEN_CMD(NAME, LNG, SHRT) static const char* CMD_##NAME = #LNG; static const char* CMD_##NAME##_SHORT = #SHRT; static const char* CMD_##NAME##_FULL = "LNG##SHRT";
+
+//GEN_CMD(HELP, help, h);
+
+
 } // namespace
 
 
@@ -487,12 +618,15 @@ static void validate(boost::any& v, vector<string> const& values, Note::Severity
 }
 
 
-
 int main(int argc, char *argv[])
 {
 //char *argv[] = {"aa", "-s", "support", "pppqqq"}; argc = 4;
 //char *argv[] = {"aa", "pppqqq"}; argc = 2;
 //char *argv[] = {"aa", "/d/test_mp3/1/tmp2/c pic/vbri assertion.mp3"}; argc = 2;
+//char *argv1[] = {"aa", "--directory", "/test_mp3/1/tmp2/c pic" }; argc = 3; argv = argv1;
+//char *argv1[] = {"aa", "--temp-session", "/d/test_mp3/1/tmp2/c pic" }; argc = 3; argv = argv1;
+//char *argv1[] = {"aa", "--input-file", "/test_mp3/1/tmp2/c pic" }; argc = 3; argv = argv1;
+
     //DEFINE_PROF_ROOT("mp3diags");
     //PROF("root");
 /*
@@ -514,34 +648,40 @@ int main(int argc, char *argv[])
 
     po::options_description genericDesc ("General options");
     genericDesc.add_options()
-        ("help,h", "produce help message")
-        ("uninstall,u", "uninstall (remove settings)")
+        (s_helpOpt.m_szFullOpt, s_helpOpt.m_szDescr)
+        (s_uninstOpt.m_szFullOpt, s_uninstOpt.m_szDescr)
     ;
 
     po::options_description cmdlineDesc ("Commandline mode");
     cmdlineDesc.add_options()
         //("input-file", po::value<vector<string> >(), "input file")
         //("severity,s", po::value<Note::Severity>()->default_value(Note::WARNING), "minimum severity to show (one of error, warning, support); default: warning") //ttt1 see if this can be made to work; it sort of does, but when invoked with "--help" it prints "arg (=1)" rather than "arg (=warning)"
-        ("severity,s", po::value<Note::Severity>(), "minimum severity to show (one of error, warning, support); default: warning")
+        (s_severityOpt.m_szFullOpt, po::value<Note::Severity>(), s_severityOpt.m_szDescr)
         //("severity,s", "minimum severity to show (one of error, warning, support")
+    ;
+
+    po::options_description folderSessDesc ("New, per-folder, session mode");
+    folderSessDesc.add_options()
+        (s_folderSessOpt.m_szFullOpt, po::value<string>(), s_folderSessOpt.m_szDescr)
+        (s_tempSessOpt.m_szFullOpt, po::value<string>(), s_tempSessOpt.m_szDescr)
     ;
 
     po::options_description hiddenDesc("Hidden options");
     hiddenDesc.add_options()
-        ("input-file", po::value<vector<string> >(), "input file")
+        (s_inputFileOpt.m_szFullOpt, po::value<vector<string> >(), s_inputFileOpt.m_szDescr)
     ;
 
 
     po::positional_options_description positionalDesc;
-    positionalDesc.add("input-file", -1);
+    positionalDesc.add(s_inputFileOpt.m_szLongOpt, -1);
 
     po::options_description fullDesc;
-    fullDesc.add(genericDesc).add(cmdlineDesc).add(hiddenDesc);
+    fullDesc.add(genericDesc).add(cmdlineDesc).add(hiddenDesc).add(folderSessDesc);
 
     po::options_description visibleDesc;
-    visibleDesc.add(genericDesc).add(cmdlineDesc);
+    visibleDesc.add(genericDesc).add(cmdlineDesc).add(folderSessDesc);
 
-    po::variables_map vm;
+    po::variables_map options;
     bool err (false);
     try
     {
@@ -555,38 +695,40 @@ int main(int argc, char *argv[])
 #endif
         ));
 
-        //po::store(po::command_line_parser(argc, argv).options(fullDesc).positional(positionalDesc).run(), vm);
-        po::store(po::command_line_parser(argc, argv).style(style).options(fullDesc).positional(positionalDesc).run(), vm);
-        po::notify(vm);
+        //po::store(po::command_line_parser(argc, argv).options(fullDesc).positional(positionalDesc).run(), options);
+        po::store(po::command_line_parser(argc, argv).style(style).options(fullDesc).positional(positionalDesc).run(), options);
+        po::notify(options);
     }
     catch (...)//const po::unknown_option&)
     {
         err = true;
     }
 
-    if (err || vm.count("help") > 0) //ttt1 options "u" and "s" are incompatible; "s" without a file is wrong as well; these should trigger the "usage" message, then exit as well;
+    if (err || options.count(s_helpOpt.m_szLongOpt) > 0) //ttt1 options "u" and "s" are incompatible; "s" without a file is wrong as well; these should trigger the "usage" message, then exit as well;
     {
         cout << "Usage: " << argv[0] << " [OPTION]... [FILE]...\n";
         cout << visibleDesc << endl;
         return 1;
     }
 
-    if (vm.count("u") > 0)
+    if (options.count(s_uninstOpt.m_szLongOpt) > 0)
     {
         QSettings s (ORGANIZATION, APP_NAME);
         s.clear(); //ttt2 see if this can actually remove everything, including the ORGANIZATION dir if it's empty;
         return 0;
     }
 
-    if (vm.count("input-file") > 0)
+    if (options.count(s_inputFileOpt.m_szLongOpt) > 0)
     {
         Q_INIT_RESOURCE(Mp3Diags); // base name of the ".qrc" file
         QCoreApplication app(argc, argv); // !!! without this Qt file functions don't work correctly, e.g. QFileInfo has problems with file names that contain accents
-        return cmdlineMain(vm);
+        return cmdlineMain(options);
     }
     else
     {
-        return guiMain(argc, argv);
+        Q_INIT_RESOURCE(Mp3Diags); // base name of the ".qrc" file
+        QMp3DiagsApplication app(argc, argv);
+        return guiMain(options);
     }
 }
 
@@ -651,6 +793,5 @@ WARNING: it is ignored, until you registered a Category at adrian@suse.de .
 //ttt1 CLI-support: scan some files, create logs, apply some transforms, ...
 
 //ttt1 explorer right-click; create a new session vs. add to existing one
-//ttt1 ID3V1 remover
 //ttt0 make AdjustMt.sh work
 

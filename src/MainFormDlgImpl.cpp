@@ -2584,7 +2584,7 @@ void MainFormDlgImpl::on_m_pSessionsB_clicked()
 
 
 
-//ttt1 different for unstable
+
 void MainFormDlgImpl::checkForNewVersion() // returns immediately; when the request completes it will send a signal
 {
     const int MIN_INTERVAL_BETWEEN_CHECKS (24); // hours
@@ -3213,7 +3213,7 @@ Development machine:
 //ttt2 fix on right-click for notes table
 
 
-//ttt1 Settings/Configuration name: different tooltip and dlg name
+
 
 //ttt2 perhaps "open file manager" on right-click (QDesktopServices::openUrl seems to do it)
 

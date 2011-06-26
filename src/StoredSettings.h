@@ -38,7 +38,7 @@ class SessionSettings
 {
     QSettings* m_pSettings;
 public:
-    SessionSettings(const std::string& strIniFile);
+    SessionSettings(const std::string& strSessFile);
     ~SessionSettings();
 
     void saveTransfConfig(const TransfConfig& transfConfig);

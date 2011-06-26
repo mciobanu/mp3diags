@@ -41,7 +41,7 @@ class SessionEditorDlgImpl : public QDialog, private Ui::SessionEditorDlg
 
     const std::string m_strDir;
 
-    std::string m_strIniFile;
+    std::string m_strSessFile;
     bool m_bNew;
 
     bool m_bOpenLastSession; // meaningful only if bFirstTime was true on the constructor;
@@ -52,7 +52,7 @@ public:
     // strDir is used as a start directory by on_m_pFileNameB_clicked;
     enum { NOT_FIRST_TIME, FIRST_TIME };
     SessionEditorDlgImpl(QWidget* pParent, const std::string& strDir, bool bFirstTime); // used for creating a new session;
-    SessionEditorDlgImpl(QWidget* pParent, const std::string& strIniFile); // used for editing an existing session;
+    SessionEditorDlgImpl(QWidget* pParent, const std::string& strSessFile); // used for editing an existing session;
     ~SessionEditorDlgImpl();
     /*$PUBLIC_FUNCTIONS$*/
 
@@ -63,11 +63,11 @@ public:
     // returns the name of an INI file for OK and an empty string for Cancel; returns "*" to just go to the sessions dialog;
     std::string run();
 
-    static std::string getDataFileName(const std::string& strIniName);
-    static std::string getLogFileName(const std::string& strIniName);
-    static std::string getBaseName(const std::string& strIniName); // removes extension
-    static std::string getTitleName(const std::string& strIniName); // removes path and extension
-    static void removeSession(const std::string& strIniName); // removes INI, DAT, and LOG
+    static std::string getDataFileName(const std::string& strSessFile);
+    static std::string getLogFileName(const std::string& strSessFile);
+    static std::string getBaseName(const std::string& strSessFile); // removes extension
+    static std::string getTitleName(const std::string& strSessFile); // removes path and extension
+    static void removeSession(const std::string& strSessFile); // removes all files associated with a session: .ini, .mp3ds, .log, .dat, _trace.txt, _step1.txt, _step2.txt
     static const char* const SESS_EXT;
     static int SESS_EXT_LEN;
 

@@ -37,9 +37,9 @@ using namespace std;
 
 
 
-SessionSettings::SessionSettings(const string& strIniFile)
+SessionSettings::SessionSettings(const string& strSessFile)
 {
-    m_pSettings = new QSettings(convStr(strIniFile), QSettings::IniFormat);
+    m_pSettings = new QSettings(convStr(strSessFile), QSettings::IniFormat);
 }
 
 

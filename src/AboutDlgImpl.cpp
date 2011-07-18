@@ -57,7 +57,7 @@ AboutDlgImpl::AboutDlgImpl(QWidget* pParent /*= 0*/) : QDialog(pParent, getDialo
         "<p style=\"margin-bottom:8px; margin-top:1px; \">Change log for the latest version: <a href=\"http://mp3diags.sourceforge.net" + QString(APP_BRANCH) + "/015_changelog.html\">http://mp3diags.sourceforge.net" + QString(APP_BRANCH) + "/015_changelog.html</a></p>"
         );
 
-    m_pVersionL->setText(QString("MP3 Diags ") + APP_VER + APP_BRANCH); //ttt1 write "unstable" in red
+    m_pVersionL->setText(QString(APP_NAME) + " " + APP_VER); //ttt1 write "unstable" in red
 
     initText(m_pGplV2M, ":/licences/gplv2.txt");
     initText(m_pGplV3M, ":/licences/gplv3.txt");

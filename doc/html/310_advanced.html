@@ -99,7 +99,73 @@ In the <a href="300_config_others.html">Config - Others</a> tab you can see in t
 
 
 
+<div class="SubChapterText RegFnt ChpCol1">
+Command-line options
+</div>
+
 <div class="NavPadTable RegFnt ChpCol1">
+It is possible to analyze several files or folders without opening the program's main window or to create sessions for a given folder. This is achieved by using command-line parameters. Currently these parameters can be used:
+</div>
+
+<div class="FreeNormalText RegFnt ChpCol1">
+<table border="1" cellpadding="3" cellspacing="1" class="TableText RegFnt ChpCol1">
+    <tr>
+        <th> Parameter </td>
+        <th> Functionality </th>
+    </tr>
+    <tr>
+        <td> <b>--help</b> </td>
+        <td> shows the list of valid parameters and exits; see below the Windows-specific notes about seeing the console output </td>
+    </tr>
+    <tr>
+        <td> file and/or folder names </td>
+        <td> the program doesn't enter a GUI mode but just prints to the console the result of the analysis; see below the Windows-specific notes about seeing the console output </td>
+    </tr>
+    <tr>
+        <td> <b>--severity</b> &lt;folder_name&gt; </td>
+        <td> minimum severity to show when passing file or folder names; one of error, warning, support; default: warning </td>
+    </tr>
+    <tr>
+        <td> <b>--hidden-session</b> &lt;folder_name&gt; </td>
+        <td> a session gets created inside the specified folder (if it doesn't already exist) and then the program starts up and uses that session; the session isn't stored in the session list but it is saved on disk, so running the same command again will just reuse the existing session </td>
+    </tr>
+    <tr>
+        <td> <b>--loaded-session</b> &lt;folder_name&gt; </td>
+        <td> similar to <b>--hidden-session</b> but the session remains in the session list after the program exits</td>
+    </tr>
+    <tr>
+        <td> <b>--temp-session</b> &lt;folder_name&gt; </td>
+        <td> similar to <b>--hidden-session</b> but this is a temporary session, which gets created inside the temporary directory and is always removed from the session list and from the disk when the program exits</td>
+    </tr>
+    <tr>
+        <td> <b>--uninstall</b> </td>
+        <td> clears the session list and the global settings </td>
+    </tr>
+</table>
+</div>
+
+
+<div class="SubChapterText RegFnt ChpCol1">
+Template notes:
+</div>
+
+<div class="NavPadTable RegFnt ChpCol1">
+The settings for the newly created sessions are copied from "templates". A template is just another session. Templates are set up in the "Sessions" dialog.
+</div>
+
+
+<div class="SubChapterText RegFnt ChpCol1">
+Running on Windows:
+</div>
+
+<div class="NavPadTable RegFnt ChpCol1">
+It seems that it's not possible in Windows to write some text output to the command prompt that was used to launch a GUI program. One solution for getting around this limitation is to use redirection, either to a file or through a filter like <b>more</b>. MP3 Diags comes with a script called <b>MP3DiagsCLIQQQBRANCH_DQQQ.cmd</b> which can be used instead of <b>MP3DiagsWindowsQQQBRANCH_DQQQ.exe</b> to create the illusion of outputting to the command prompt. (Well, this is not perfect, as it waits for the program to finish before displaying anything.)
+</div>
+
+
+
+
+<div class="FreeNormalText RegFnt ChpCol2">
 <div style="width:100%">
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="NavTable">
     <tr>

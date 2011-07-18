@@ -19,10 +19,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+extern const char* APP_VER;
+extern const char* APP_BRANCH;
+extern const char* APP_NAME;
 
-const char* APP_VER ("- custom build");
-const char* APP_BRANCH ("/unstable");
-const char* APP_NAME ("MP3 Diags Unstable");
-
-const char* SETTINGS_APP_NAME ("Mp3Diags-unstable");
-const char* ORGANIZATION ("Ciobi");
+extern const char* SETTINGS_APP_NAME;
+extern const char* ORGANIZATION;

@@ -826,7 +826,7 @@ QString getSystemInfo() //ttt2 perhaps store this at startup, so fewer things ma
 
 #endif
     s.replace('\n', ' ');
-    s = QString("Version: MP3 Diags %1.\nWord size: %2 bit.\nQt version: %3.\nBoost version: %4\n").arg(APP_VER).arg(QSysInfo::WordSize).arg(qVersion()).arg(BOOST_LIB_VERSION) + s;
+    s = QString("Version: %1 %2.\nWord size: %3 bit.\nQt version: %4.\nBoost version: %5\n").arg(APP_NAME).arg(APP_VER).arg(QSysInfo::WordSize).arg(qVersion()).arg(BOOST_LIB_VERSION) + s;
     return s;
 }
 

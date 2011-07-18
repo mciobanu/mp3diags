@@ -101,10 +101,7 @@ SessionsDlgImpl::SessionsDlgImpl(QWidget* pParent) : QDialog(pParent, getMainWnd
     GlobalSettings st;
     bool bOpenLast;
 
-    string strTempSessTempl;
-    string strDirSessTempl;
-
-    st.loadSessions(m_vstrSessions, strLast, bOpenLast, strTempSessTempl, strDirSessTempl);
+    st.loadSessions(m_vstrSessions, strLast, bOpenLast, m_strTempSessTempl, m_strDirSessTempl);
     m_pOpenLastCkB->setChecked(bOpenLast);
 
     m_pSessionsG->verticalHeader()->setResizeMode(QHeaderView::Interactive);
@@ -125,6 +122,8 @@ SessionsDlgImpl::SessionsDlgImpl(QWidget* pParent) : QDialog(pParent, getMainWnd
     QPalette grayPalette (m_pDirectoriesT->palette());
     grayPalette.setColor(QPalette::Base, grayPalette.color(QPalette::Disabled, QPalette::Window));
     m_pDirectoriesT->setPalette(grayPalette);
+
+    loadTemplates();
 
     //m_sessionsModel.emitLayoutChanged();
 
@@ -169,11 +168,52 @@ SessionsDlgImpl::~SessionsDlgImpl()
         string strTempSessTempl;
         string strDirSessTempl;
         st.loadSessions(v, strLast, bOpenLast, strTempSessTempl, strDirSessTempl);
-        st.saveSessions(m_vstrSessions, getCrtSession(), m_pOpenLastCkB->isChecked(), strTempSessTempl, strDirSessTempl); //ttt0
+        saveTemplates();
+        st.saveSessions(m_vstrSessions, getCrtSession(), m_pOpenLastCkB->isChecked(), m_strTempSessTempl, m_strDirSessTempl, GlobalSettings::LOAD_EXTERNAL_CHANGES);
     }
 }
 
 // ttt2 generic inconsistency in what is saved depending on the user clicking the "x" button, pressing ESC, clicking other button ...
+
+
+// sets up the combo boxes with temp/folder session templates based on m_vstrSessions, m_strTempSessTempl, and m_strDirSessTempl
+void SessionsDlgImpl::loadTemplates()
+{
+    m_pTempSessionCbB->clear(); m_pTempSessionCbB->addItem("<last session>");
+    m_pDirSessionCbB->clear(); m_pDirSessionCbB->addItem("<last session>");
+
+    for (int i = 0; i < cSize(m_vstrSessions); ++i)
+    {
+        m_pTempSessionCbB->addItem(toNativeSeparators(convStr(m_vstrSessions[i])));
+        if (m_strTempSessTempl == m_vstrSessions[i])
+        {
+            m_pTempSessionCbB->setCurrentIndex(m_pTempSessionCbB->count() - 1);
+        }
+
+        m_pDirSessionCbB->addItem(toNativeSeparators(convStr(m_vstrSessions[i])));
+        if (m_strDirSessTempl == m_vstrSessions[i])
+        {
+            m_pDirSessionCbB->setCurrentIndex(m_pDirSessionCbB->count() - 1);
+        }
+    }
+}
+
+
+// sets c and m_strDirSessTempl based on the current items in the combo boxes
+void SessionsDlgImpl::saveTemplates()
+{
+    m_strTempSessTempl.clear();
+    if (m_pTempSessionCbB->currentIndex() > 0)
+    {
+        m_strTempSessTempl = fromNativeSeparators(convStr(m_pTempSessionCbB->currentText()));
+    }
+
+    m_strDirSessTempl.clear();
+    if (m_pDirSessionCbB->currentIndex() > 0)
+    {
+        m_strDirSessTempl = fromNativeSeparators(convStr(m_pDirSessionCbB->currentText()));
+    }
+}
 
 
 void SessionsDlgImpl::onShow()
@@ -286,7 +326,9 @@ void SessionsDlgImpl::addSession(const std::string& strSession)
     selectSession(strSession);
 
     GlobalSettings st;
-    st.saveSessions(m_vstrSessions, strSession, m_pOpenLastCkB->isChecked(), "", "");
+    loadTemplates();
+    saveTemplates();
+    st.saveSessions(m_vstrSessions, strSession, m_pOpenLastCkB->isChecked(), m_strTempSessTempl, m_strDirSessTempl, GlobalSettings::LOAD_EXTERNAL_CHANGES);
 }
 
 
@@ -349,7 +391,9 @@ void SessionsDlgImpl::removeCrtSession()
     }
 
     GlobalSettings st;
-    st.saveSessions(m_vstrSessions, strCrtSess, m_pOpenLastCkB->isChecked(), "", "");
+    loadTemplates();
+    saveTemplates();
+    st.saveSessions(m_vstrSessions, strCrtSess, m_pOpenLastCkB->isChecked(), m_strTempSessTempl, m_strDirSessTempl, GlobalSettings::IGNORE_EXTERNAL_CHANGES);
 }
 
 
@@ -362,6 +406,7 @@ void SessionsDlgImpl::on_m_pEraseB_clicked()
 
     try
     {
+        //ttt0 use eraseFiles()
         deleteFile(s);
         deleteFile(SessionEditorDlgImpl::getDataFileName(s));
         if (fileExists(SessionEditorDlgImpl::getLogFileName(s)))

@@ -1,4 +1,10 @@
-mp3diags (1.1.01.056) testing; urgency=low
+mp3diags (1.1.04.057) testing; urgency=low
+
+  * folder-based sessions based on command-line parameters
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Sun, 17 Jul 2011 22:00:00 +0200
+
+mp3diags (1.1.03.056) testing; urgency=low
 
   * integrated command-line mode by Michael Elsdörfer
 

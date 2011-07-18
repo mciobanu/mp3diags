@@ -50,6 +50,8 @@
 #include  "Mp3Manip.h"
 #include  "Notes.h"
 #include  "Version.h"
+#include  "Widgets.h"
+
 
 //#include  "Profiler.h"
 
@@ -57,12 +59,10 @@ using namespace std;
 
 namespace po = boost::program_options;
 
-static const char* APP_NAME ("Mp3Diags-unstable");
-static const char* ORGANIZATION ("Ciobi");
 
 GlobalSettings::GlobalSettings()
 {
-    m_pSettings = new QSettings (ORGANIZATION, APP_NAME);
+    m_pSettings = new QSettings (ORGANIZATION, SETTINGS_APP_NAME);
 }
 
 
@@ -72,10 +72,11 @@ GlobalSettings::~GlobalSettings()
 }
 
 
-void GlobalSettings::saveSessions(const vector<string>& vstrSess1, const string& strLast, bool bOpenLast, const string& strTempSessTempl, const string& strDirSessTempl)
+void GlobalSettings::saveSessions(const vector<string>& vstrSess1, const string& strLast, bool bOpenLast, const string& strTempSessTempl, const string& strDirSessTempl, bool bLoadExternalChanges)
 {
     vector<string> vstrSess (vstrSess1);
 
+    if (bLoadExternalChanges)
     { // add sessions that might have been added by another instance of the program
         vector<string> vstrSess2;
         string strLast2, strTempSessTempl2, strDirSessTempl2;
@@ -88,6 +89,11 @@ void GlobalSettings::saveSessions(const vector<string>& vstrSess1, const string&
                 vstrSess.push_back(vstrSess2[i]); // ttt2 perhaps add a return value to the function, so the caller would know to update the UI; however, what is done here is more important, because it prevents data loss
             }
         }
+    }
+
+    if (!strLast.empty() && vstrSess.end() == find(vstrSess.begin(), vstrSess.end(), strLast)) // e.g. for a new session created using "folder-session" option
+    {
+        vstrSess.push_back(strLast);
     }
 
     int n (cSize(vstrSess));
@@ -128,7 +134,9 @@ void GlobalSettings::loadSessions(vector<string>& vstrSess, string& strLast, boo
 
     if (!QFileInfo(convStr(strLast)).isFile() || vstrSess.end() == find(vstrSess.begin(), vstrSess.end(), strLast))
     {
-        strLast.clear();
+        // pick something else if the session got deleted; otherwise there's an assertion failure;
+        strLast = vstrSess.empty() ? "" : vstrSess.back();
+        // ttt1 generally improve handling of missing sessions (simply erasing them is probably not the best option);
     }
 }
 
@@ -218,12 +226,13 @@ OptionInfo s_helpOpt ("help", "h", "Show this help message");
 OptionInfo s_uninstOpt ("uninstall", "u", "Uninstall (remove settings)");
 OptionInfo s_severityOpt ("severity", "s", "Minimum severity to show (one of error, warning, support); default: warning");
 OptionInfo s_inputFileOpt ("input-file", "", "Input file");
-OptionInfo s_folderSessOpt ("folder-session", "fs", "Creates a new session for the specified folder and it stores it inside that folder");
-OptionInfo s_tempSessOpt ("temp-session", "ts", "Creates a temporary session for the specified folder, which will be deleted when the program exits"); //ttt0 make "ts" work
-OptionInfo s_overrideSess ("", "", ""); // ttt0 implement - for s_folderSessOpt and s_tempSessOpt (and s_inputFileOpt) - session with settings to use instead of the template
+OptionInfo s_hiddenFolderSessOpt ("hidden-session", "f", "Creates a new session for the specified folder and stores it inside that folder. The session will be hidden when the program exits.");
+OptionInfo s_loadedFolderSessOpt ("visible-session", "v", "Creates a new session for the specified folder and stores it inside that folder. The session will be visible in the session list after the program is restarted.");
+OptionInfo s_tempSessOpt ("temp-session", "t", "Creates a temporary session for the specified folder, which will be deleted when the program exits");
+OptionInfo s_overrideSess ("", "", ""); // ttt1 maybe implement - for s_folderSessOpt and s_tempSessOpt (and s_inputFileOpt) - session with settings to use instead of the template
 
 
-
+// replaces the folders of a session file with the given new folder
 void setFolder(const string& strSessionFile, const string& strFolder)
 {
     SessionSettings stg (strSessionFile);
@@ -235,7 +244,7 @@ void setFolder(const string& strSessionFile, const string& strFolder)
 
 static const char* const TEMP_SESS ("MP3DiagsTempSession");
 
-struct TempEraser
+struct SessEraser
 {
     static void eraseTempSess()
     {
@@ -247,17 +256,44 @@ struct TempEraser
         }
     }
 
-    ~TempEraser()
+    void hideFolderSession()
+    {
+        if (m_strSessionToHide.empty()) { return; }
+
+        GlobalSettings st;
+        vector<string> vstrSess;
+        string strLastSession;
+        bool bOpenLast;
+        string strTempSessTempl;
+        string strDirSessTempl;
+        st.loadSessions(vstrSess, strLastSession, bOpenLast, strTempSessTempl, strDirSessTempl);
+
+        vector<string>::iterator it (find(vstrSess.begin(), vstrSess.end(), m_strSessionToHide));
+        if (vstrSess.end() != it)
+        {
+            vstrSess.erase(it);
+            if (strLastSession == m_strSessionToHide)
+            {
+                strLastSession = vstrSess.empty() ? "" : vstrSess.back();
+            }
+        }
+
+        st.saveSessions(vstrSess, strLastSession, bOpenLast, strTempSessTempl, strDirSessTempl, GlobalSettings::IGNORE_EXTERNAL_CHANGES);
+    }
+
+    string m_strSessionToHide;
+
+    ~SessEraser()
     {
         eraseTempSess();
-        //ttt0 erase temp sess
+        hideFolderSession();
     }
 };
 
 } // namespace
 
 
-
+//ttt0 in 10.3 loading a session seemed to erase the templates, but couldn't reproduce later
 
 
 // http://stackoverflow.com/questions/760323/why-does-my-qt4-5-app-open-a-console-window-under-windows - The option under Visual Studio for setting the subsystem is under Project Settings->Linker->System->SubSystem
@@ -275,13 +311,27 @@ int guiMain(const po::variables_map& options) {
 
     string strStartSession;
     string strLastSession;
+
     int nSessCnt;
     bool bOpenLast;
     string strTempSessTempl;
     string strDirSessTempl;
     //bool bIsTempSess (false);
     string strTempSession (getSepTerminatedDir(convStr(QDir::tempPath())) + TEMP_SESS + SessionEditorDlgImpl::SESS_EXT);
-    TempEraser tempEraser;
+    string strFolderSess;
+    bool bHideFolderSess (true);
+
+    if (options.count(s_hiddenFolderSessOpt.m_szLongOpt) > 0)
+    {
+        strFolderSess = options[s_hiddenFolderSessOpt.m_szLongOpt].as<string>();
+    }
+    else if (options.count(s_loadedFolderSessOpt.m_szLongOpt) > 0)
+    {
+        strFolderSess = options[s_loadedFolderSessOpt.m_szLongOpt].as<string>();
+        bHideFolderSess = false;
+    }
+
+    SessEraser sessEraser;
 
     {
         vector<string> vstrSess;
@@ -293,9 +343,9 @@ int guiMain(const po::variables_map& options) {
 
     bool bOpenSelDlg (false);
 
-    if (options.count(s_tempSessOpt.m_szLongOpt))
+    if (options.count(s_tempSessOpt.m_szLongOpt) > 0)
     {
-        TempEraser::eraseTempSess();
+        SessEraser::eraseTempSess();
 
         strStartSession = strTempSession;
 
@@ -314,14 +364,54 @@ int guiMain(const po::variables_map& options) {
             { // nothing //ttt2 do more
             }
         }
-        //ttt0 add temp sess
 
         string strProcDir (options[s_tempSessOpt.m_szLongOpt].as<string>());
+        strProcDir = getNonSepTerminatedDir(convStr(QDir(fromNativeSeparators(convStr(strProcDir))).absolutePath()));
         setFolder(strStartSession, strProcDir);
     }
-    else if (0) // dir ttt0
+    else if (!strFolderSess.empty())
     {
-        strStartSession = ""; // dir file
+        string strProcDir = convStr(QDir(fromNativeSeparators(convStr(strFolderSess))).absolutePath()); //ttt2 test on root
+
+        if (!dirExists(strProcDir))
+        {
+            showMessage(0, QMessageBox::Critical, 0, 0, "Error", "Folder \"" + convStr(strProcDir) + "\" doesn't exist. The program will exit ...", "O&K");
+            return 1;
+        }
+
+        string strDirName (convStr(QFileInfo(convStr(strProcDir)).fileName()));
+        strStartSession = getSepTerminatedDir(strProcDir) + strDirName + SessionEditorDlgImpl::SESS_EXT;
+        if (bHideFolderSess)
+        {
+            sessEraser.m_strSessionToHide = strStartSession;
+        }
+
+        if (!fileExists(strStartSession))
+        {
+            if (strDirSessTempl.empty())
+            {
+                strDirSessTempl = strLastSession;
+            }
+
+            if (!strDirSessTempl.empty())
+            {
+                try
+                {
+                    copyFile2(strDirSessTempl, strStartSession);
+                    setFolder(strStartSession, strProcDir);
+                }
+                catch (...)
+                { // nothing //ttt2 do more
+                }
+            }
+        }
+
+        ofstream out (strStartSession.c_str(), ios_base::app);
+        if (!out)
+        {
+            showMessage(0, QMessageBox::Critical, 0, 0, "Error", "Cannot write to file \"" + convStr(strStartSession) + "\". The program will exit ...", "O&K");
+            return 1;
+        }
     }
     else if (0 == nSessCnt)
     { // first run; create a new session and run it
@@ -340,9 +430,9 @@ int guiMain(const po::variables_map& options) {
         else
         {
             vector<string> vstrSess;
-            vstrSess.push_back(strStartSession);
+            //vstrSess.push_back(strStartSession);
             GlobalSettings st;
-            st.saveSessions(vstrSess, strStartSession, dlg.shouldOpenLastSession(), "", "");
+            st.saveSessions(vstrSess, strStartSession, dlg.shouldOpenLastSession(), "", "", GlobalSettings::LOAD_EXTERNAL_CHANGES);
         }
 
         bOpenSelDlg = strStartSession.empty() || !bOpenLast;
@@ -379,29 +469,32 @@ int guiMain(const po::variables_map& options) {
             CB_ASSERT (!strStartSession.empty());
 
             bool bDefaultForVisibleSessBtn (true);
-            if (strStartSession != strTempSession)
+            //if (strStartSession != strTempSession)
             {
                 vector<string> vstrSess;
                 bool bOpenLast;
                 string s, s1, s2;
                 GlobalSettings st;
                 st.loadSessions(vstrSess, s, bOpenLast, s1, s2);
-                st.saveSessions(vstrSess, strStartSession, bOpenLast, s1, s2);
-                bDefaultForVisibleSessBtn = cSize(vstrSess) != 1;
+                st.saveSessions(vstrSess, strStartSession, bOpenLast, s1, s2, GlobalSettings::LOAD_EXTERNAL_CHANGES);
+                bDefaultForVisibleSessBtn = (cSize(vstrSess) != 1 || !strFolderSess.empty() || vstrSess.end() != find(vstrSess.begin(), vstrSess.end(), strTempSession));
             }
             MainFormDlgImpl mainDlg (strStartSession, bDefaultForVisibleSessBtn);
             mainDlg.setWindowIcon(QIcon(":/images/logo.svg"));
 
             if (bDefaultForVisibleSessBtn)
             {
-                mainDlg.setWindowTitle("MP3 Diags"  + QString(APP_BRANCH) + " - " + convStr(SessionEditorDlgImpl::getTitleName(strStartSession)));
+                mainDlg.setWindowTitle(QString(APP_NAME) + " - " + convStr(SessionEditorDlgImpl::getTitleName(strStartSession)));
             }
             else
             {
-                mainDlg.setWindowTitle("MP3 Diags" + QString(APP_BRANCH)); //ttt0 have a var AppName = "MP3 Diags" / "MP3 Diags APP_BRANCH"
+                mainDlg.setWindowTitle(QString(APP_NAME));
             }
 
-            if (MainFormDlgImpl::OPEN_SESS_DLG != mainDlg.run()) { return 0; }
+            if (MainFormDlgImpl::OPEN_SESS_DLG != mainDlg.run())
+            {
+                return 0;
+            }
         }
     }
     catch (...) // ttt2 for now it doesn't catch many exceptions; it seems that nothing can be done if an exception leaves a slot / event handler, but maybe there are ways around
@@ -621,6 +714,11 @@ int main(int argc, char *argv[])
 //char *argv1[] = {"aa", "--directory", "/test_mp3/1/tmp2/c pic" }; argc = 3; argv = argv1;
 //char *argv1[] = {"aa", "--temp-session", "/d/test_mp3/1/tmp2/c pic" }; argc = 3; argv = argv1;
 //char *argv1[] = {"aa", "--input-file", "/test_mp3/1/tmp2/c pic" }; argc = 3; argv = argv1;
+//char *argv1[] = {"aa", "--hidden-folder-session", "/d/test_mp3/1/tmp2/c pic" }; argc = 3; argv = argv1;
+//char *argv1[] = {"aa", "--hidden-folder-session", "/d/test_mp3/1/tmp2/text frames" }; argc = 3; argv = argv1;
+//char *argv1[] = {"aa", "--loaded-folder-session", "/d/test_mp3/1/tmp2/c pic" }; argc = 3; argv = argv1;
+//char *argv1[] = {"aa", "--loaded-folder-session", "/d/test_mp3/1/tmp2/text frames" }; argc = 3; argv = argv1;
+//char *argv1[] = {"aa", "--folder-session", "/usr" }; argc = 3; argv = argv1;
 
     //DEFINE_PROF_ROOT("mp3diags");
     //PROF("root");
@@ -657,7 +755,8 @@ int main(int argc, char *argv[])
 
     po::options_description folderSessDesc ("New, per-folder, session mode");
     folderSessDesc.add_options()
-        (s_folderSessOpt.m_szFullOpt, po::value<string>(), s_folderSessOpt.m_szDescr)
+        (s_hiddenFolderSessOpt.m_szFullOpt, po::value<string>(), s_hiddenFolderSessOpt.m_szDescr)
+        (s_loadedFolderSessOpt.m_szFullOpt, po::value<string>(), s_loadedFolderSessOpt.m_szDescr)
         (s_tempSessOpt.m_szFullOpt, po::value<string>(), s_tempSessOpt.m_szDescr)
     ;
 
@@ -708,7 +807,7 @@ int main(int argc, char *argv[])
 
     if (options.count(s_uninstOpt.m_szLongOpt) > 0)
     {
-        QSettings s (ORGANIZATION, APP_NAME);
+        QSettings s (ORGANIZATION, SETTINGS_APP_NAME);
         s.clear(); //ttt2 see if this can actually remove everything, including the ORGANIZATION dir if it's empty;
         return 0;
     }
@@ -716,13 +815,13 @@ int main(int argc, char *argv[])
     if (options.count(s_inputFileOpt.m_szLongOpt) > 0)
     {
         Q_INIT_RESOURCE(Mp3Diags); // base name of the ".qrc" file
-        QCoreApplication app(argc, argv); // !!! without this Qt file functions don't work correctly, e.g. QFileInfo has problems with file names that contain accents
+        QCoreApplication app (argc, argv); // !!! without this Qt file functions don't work correctly, e.g. QFileInfo has problems with file names that contain accents
         return cmdlineMain(options);
     }
     else
     {
         Q_INIT_RESOURCE(Mp3Diags); // base name of the ".qrc" file
-        QMp3DiagsApplication app(argc, argv);
+        QMp3DiagsApplication app (argc, argv);
         return guiMain(options);
     }
 }

@@ -1,4 +1,8 @@
-* Wed Jun 15 2011 Marian Ciobanu <ciobi@inbox.com> 1.1.01.056
+* Sun Jul 17 2011 Marian Ciobanu <ciobi@inbox.com> 1.1.04.057
+
+- folder-based sessions based on command-line parameters
+
+* Wed Jun 15 2011 Marian Ciobanu <ciobi@inbox.com> 1.1.03.056
 
 - integrated command-line mode by Michael Elsdörfer
 

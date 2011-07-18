@@ -74,9 +74,13 @@ class SessionsDlgImpl : public QDialog, private Ui::SessionsDlg
     void selectSession(const std::string& strLast);
     void addSession(const std::string&);
 
+    std::string m_strTempSessTempl, m_strDirSessTempl;
+    void loadTemplates(); // sets up the combo boxes with temp/folder session templates based on m_vstrSessions, m_strTempSessTempl, and m_strDirSessTempl
+    void saveTemplates(); // sets m_strTempSessTempl and m_strDirSessTempl based on the current items in the combo boxes
+
 public:
     SessionsDlgImpl(QWidget* pParent /*, QSettings& settings*/);
-    ~SessionsDlgImpl();
+     ~SessionsDlgImpl();
     /*$PUBLIC_FUNCTIONS$*/
 
     std::string run();

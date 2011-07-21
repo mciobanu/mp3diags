@@ -1,3 +1,7 @@
+* Thu Jul 21 2011 Marian Ciobanu <ciobi@inbox.com> 1.1.05.058
+
+- shell integration (Windows only)
+
 * Sun Jul 17 2011 Marian Ciobanu <ciobi@inbox.com> 1.1.04.057
 
 - folder-based sessions based on command-line parameters

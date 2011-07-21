@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="keywords" content="MP3, diags, diagnosis, tag editor, tagger, normalizer" />
+<meta name="description" content="End-user documentation for MP3 Diags, an MP3 analysis tool that also includes correction and tag editing functionality" />
+<title>MP3 Diags - Config - Colors</title>
+<link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+<!--[if lte IE 6]>  <link rel="stylesheet" type="text/css" href="style_ie6.css" />  <![endif]-->
+<!--[if IE 7]>  <link rel="stylesheet" type="text/css" href="style_ie7.css" />  <![endif]-->
+</head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+<body>
+
+<!-- add_this_conf -->
+
+<div class="HeaderTableText RegFnt ChpCol1">
+<table width="100%" class="HeaderTable">
+    <tr>
+        <td border="0" class="HeaderText">
+            <span class="HeaderPadLeft">
+                <a href="index.html" class="RightMargin"><img src="logo.png" border="0" alt="MP3 Diags" align="middle" /></a>
+                <!-- add_this_link -->
+            </span>
+        </td>
+
+        <!-- sf_hosting -->
+    </tr>
+</table>
+</div>
+
+
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+
+
+
+
+<div class="NavPadTable RegFnt ChpCol2">
+<div style="width:100%">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="NavTable">
+    <tr>
+        <td width="30%" align="left"> <a href="297_config_colors.html"><img src="arrow_left_small.png" class="ImgNoBorder NavPadLeft" align="absmiddle" /></a> <a href="297_config_colors.html"> Config - Colors </a> </td>
+        <td width="40%" align="center" valign="middle" class="NavBarText"> <a href="030_users_guide.html">User's guide</a> - Config - Shell integration </td>
+        <td width="30%" align="right"> <a href="300_config_others.html"> Config - Others</a> <a href="300_config_others.html"> <img src="arrow_right_small.png" class="ImgNoBorder NavPadRight" align="absmiddle" /> </a> </td>
+    </tr>
+</table>
+</div>
+</div>
+
+
+<div class="Screenshot RegFnt ChpCol1">
+<img src="298_config_shell.png" />
+</div>
+
+
+<div class="FreeNormalText RegFnt ChpCol2">
+Here you can configure "Shell Integration". What this is supposed to do is to create <a href="310_advanced.html#sessions">sessions</a> by right-clicking on a folder in your file explorer and choosing an MP3 Diags command. In order for a command to be available, the corresponding box should be checked here and the file explorer should be supported. Currently only Windows Explorer (on Windows, obviously) is supported, and even this with a limitation: while Windows XP works fine, these settings can be changed on Windows 7 only if the program runs in Administrator Mode. If there are issues, a note is displayed below the checkboxes with the details.
+</div>
+
+<div class="FreeNormalText RegFnt ChpCol2">
+Unlike most other settings, the shell integration settings are global, and not session-specific.
+</div>
+
+<div class="FreeNormalText RegFnt ChpCol2">
+These settings simply allow the program to be called with a particular <a href="310_advanced.html#cmdLine">command line parameter</a>. The same mechanism can be used on Linux to achieve something similar and it will quite likely be done in the future, at least to some extent.
+</div>
+
+<div class="SubChapterText RegFnt ChpCol1">
+How the shell-based sessions work
+</div>
+
+<div class="FreeNormalText RegFnt ChpCol1">
+There are two main types of sessions: temporary and persistent. Then the persistent ones can be created in two ways: visible and hidden. The only difference between visible and hidden sessions concerns what happens after the program is restarted when the user opens the Sessions dialog. Visible sessions appear there, while hidden ones don't. The hidden sessions can be loaded manually, though. Which session type is preferable depends on the use case.
+</div>
+
+<div class="FreeNormalText RegFnt ChpCol1">
+<table border="1" cellpadding="3" cellspacing="1" class="TableText RegFnt ChpCol1">
+    <tr>
+        <th> </td>
+        <th> Temporary </td>
+        <th> Persistent visible </td>
+        <th> Persistent hidden </td>
+    </tr>
+    <tr>
+        <td> Storage place </td>
+        <td> Inside the operating system's "temporary" folder </td>
+        <td> Inside the folder that is analyzed </td>
+        <td> Inside the folder that is analyzed </td>
+    </tr>
+    <tr>
+        <td> Naming </td>
+        <td> MP3DiagsTempSession </td>
+        <td> Based on the folder's name </td>
+        <td> Based on the folder's name </td>
+    </tr>
+    <tr>
+        <td> Life span </td>
+        <td> Session data is removed when the program exits </td>
+        <td> Session data is kept until removed manually </td>
+        <td> Session data is kept until removed manually </td>
+    </tr>
+    <tr>
+        <td> Listed in session list after restart </td>
+        <td> No </td>
+        <td> Yes </td>
+        <td> No </td>
+    </tr>
+</table>
+</div>
+
+<div class="SubChapterText RegFnt ChpCol2">
+Settings
+</div>
+
+<div class="FreeNormalText RegFnt ChpCol2">
+You probably customized the program to ignore some notes, or changed the colors or other settings. With the shell-created sessions you can decide what settings to use. By default it's whatever you had in the last session, but you can also indicate "template" sessions in the <a href="310_advanced.html#sessions">Session dialog</a>. These settings are just copied, so further changes in the template or the newly created session have no impact on one another.
+</div>
+
+
+
+<div class="NavPadTable RegFnt ChpCol1">
+<div style="width:100%">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="NavTable">
+    <tr>
+        <td width="30%" align="left"> <a href="297_config_colors.html"><img src="arrow_left_small.png" class="ImgNoBorder NavPadLeft" align="absmiddle" /></a> <a href="297_config_colors.html"> Config - Colors </a> </td>
+        <td width="40%" align="center" valign="middle" class="NavBarText"> <a href="030_users_guide.html">User's guide</a> - Config - Shell integration </td>
+        <td width="30%" align="right"> <a href="300_config_others.html"> Config - Others</a> <a href="300_config_others.html"> <img src="arrow_right_small.png" class="ImgNoBorder NavPadRight" align="absmiddle" /> </a> </td>
+    </tr>
+</table>
+</div>
+</div>
+
+
+
+<!--QQQStatCounterQQQ-->
+
+</body>
+
+</html>
+

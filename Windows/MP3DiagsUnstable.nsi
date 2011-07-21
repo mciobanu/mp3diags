@@ -167,6 +167,13 @@ Section "un.Uninstall"
   RMDir $INSTDIR\iconengines
   RMDir $INSTDIR\imageformats
   RMDir $INSTDIR
+  
+  DeleteRegKey HKEY_CLASSES_ROOT "Directory\shell\mp3diags_temp_dir"
+  DeleteRegKey HKEY_CLASSES_ROOT "Drive\shell\mp3diags_temp_dir"
+  DeleteRegKey HKEY_CLASSES_ROOT "Directory\shell\mp3diags_visible_dir"
+  DeleteRegKey HKEY_CLASSES_ROOT "Drive\shell\mp3diags_visible_dir"
+  DeleteRegKey HKEY_CLASSES_ROOT "Directory\shell\mp3diags_hidden_dir"
+  DeleteRegKey HKEY_CLASSES_ROOT "Drive\shell\mp3diags_hidden_dir"
 
   !insertmacro MUI_STARTMENU_GETFOLDER Application $StartMenuFolder
 

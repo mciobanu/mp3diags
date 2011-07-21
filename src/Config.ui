@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>ConfigDlg</class>
- <widget class="QDialog" name="ConfigDlg" >
-  <property name="geometry" >
+ <widget class="QDialog" name="ConfigDlg">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,85 +10,76 @@
     <height>673</height>
    </rect>
   </property>
-  <property name="minimumSize" >
+  <property name="minimumSize">
    <size>
     <width>630</width>
     <height>440</height>
    </size>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Configuration</string>
   </property>
-  <property name="sizeGripEnabled" >
+  <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" >
-   <property name="spacing" >
+  <layout class="QVBoxLayout">
+   <property name="spacing">
     <number>-1</number>
    </property>
    <item>
-    <widget class="QTabWidget" name="m_pMainTabWidget" >
-     <property name="focusPolicy" >
+    <widget class="QTabWidget" name="m_pMainTabWidget">
+     <property name="focusPolicy">
       <enum>Qt::NoFocus</enum>
      </property>
-     <property name="currentIndex" >
+     <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="m_pFilesW" >
-      <attribute name="title" >
+     <widget class="QWidget" name="m_pFilesW">
+      <attribute name="title">
        <string>Files</string>
       </attribute>
-      <layout class="QVBoxLayout" >
+      <layout class="QVBoxLayout">
        <item>
-        <widget class="QWidget" native="1" name="widget_28" >
-         <layout class="QHBoxLayout" >
-          <property name="leftMargin" >
-           <number>0</number>
-          </property>
-          <property name="topMargin" >
-           <number>0</number>
-          </property>
-          <property name="rightMargin" >
-           <number>0</number>
-          </property>
-          <property name="bottomMargin" >
+        <widget class="QWidget" name="widget_28" native="true">
+         <layout class="QHBoxLayout">
+          <property name="margin">
            <number>0</number>
           </property>
           <item>
-           <widget class="QToolButton" name="m_pSimpleViewB" >
-            <property name="focusPolicy" >
+           <widget class="QToolButton" name="m_pSimpleViewB">
+            <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
             </property>
-            <property name="text" >
+            <property name="text">
              <string>Simple view</string>
             </property>
-            <property name="checkable" >
+            <property name="checkable">
              <bool>true</bool>
             </property>
-            <property name="checked" >
+            <property name="checked">
              <bool>true</bool>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="m_pFullViewB" >
-            <property name="focusPolicy" >
+           <widget class="QToolButton" name="m_pFullViewB">
+            <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
             </property>
-            <property name="text" >
+            <property name="text">
              <string>Full view</string>
             </property>
-            <property name="checkable" >
+            <property name="checkable">
              <bool>true</bool>
             </property>
            </widget>
           </item>
           <item>
            <spacer>
-            <property name="orientation" >
+            <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeHint" >
+            <property name="sizeHint" stdset="0">
              <size>
               <width>40</width>
               <height>20</height>
@@ -99,29 +91,20 @@
         </widget>
        </item>
        <item>
-        <widget class="QWidget" native="1" name="m_pFileSettingsW" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
+        <widget class="QWidget" name="m_pFileSettingsW" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
            <horstretch>0</horstretch>
            <verstretch>10</verstretch>
           </sizepolicy>
          </property>
-         <layout class="QHBoxLayout" >
-          <property name="leftMargin" >
-           <number>0</number>
-          </property>
-          <property name="topMargin" >
-           <number>0</number>
-          </property>
-          <property name="rightMargin" >
-           <number>0</number>
-          </property>
-          <property name="bottomMargin" >
+         <layout class="QHBoxLayout">
+          <property name="margin">
            <number>0</number>
           </property>
           <item>
-           <widget class="QLabel" name="m_pRemovableL" >
-            <property name="text" >
+           <widget class="QLabel" name="m_pRemovableL">
+            <property name="text">
              <string>Removable TextLabel</string>
             </property>
            </widget>
@@ -130,55 +113,55 @@
         </widget>
        </item>
        <item>
-        <widget class="QTabWidget" name="m_pDetailsTabWidget" >
-         <property name="currentIndex" >
+        <widget class="QTabWidget" name="m_pDetailsTabWidget">
+         <property name="currentIndex">
           <number>0</number>
          </property>
-         <widget class="QWidget" name="m_pSimpleViewTab" >
-          <attribute name="title" >
+         <widget class="QWidget" name="m_pSimpleViewTab">
+          <attribute name="title">
            <string>Tab 1</string>
           </attribute>
-          <layout class="QVBoxLayout" >
-           <property name="spacing" >
+          <layout class="QVBoxLayout">
+           <property name="spacing">
             <number>1</number>
            </property>
-           <property name="leftMargin" >
+           <property name="leftMargin">
             <number>0</number>
            </property>
-           <property name="topMargin" >
+           <property name="topMargin">
             <number>14</number>
            </property>
-           <property name="rightMargin" >
+           <property name="rightMargin">
             <number>0</number>
            </property>
-           <property name="bottomMargin" >
+           <property name="bottomMargin">
             <number>0</number>
            </property>
            <item>
-            <widget class="QRadioButton" name="m_pDontCreateBackupRB" >
-             <property name="text" >
+            <widget class="QRadioButton" name="m_pDontCreateBackupRB">
+             <property name="text">
               <string>Don't create backup for modified files</string>
              </property>
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" >
-             <property name="spacing" >
+            <layout class="QHBoxLayout">
+             <property name="spacing">
               <number>9</number>
              </property>
              <item>
-              <widget class="QRadioButton" name="m_pCreateBackupRB" >
-               <property name="text" >
+              <widget class="QRadioButton" name="m_pCreateBackupRB">
+               <property name="text">
                 <string>Create backup for modified files in</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="m_pPODest2E" />
+              <widget class="QLineEdit" name="m_pPODest2E"/>
              </item>
              <item>
-              <widget class="QToolButton" name="m_pSelectOrigTransfDestDir2B" >
-               <property name="text" >
+              <widget class="QToolButton" name="m_pSelectOrigTransfDestDir2B">
+               <property name="text">
                 <string>...</string>
                </property>
               </widget>
@@ -186,21 +169,21 @@
             </layout>
            </item>
            <item>
-            <widget class="QRadioButton" name="m_pBackupCustomRB" >
-             <property name="enabled" >
+            <widget class="QRadioButton" name="m_pBackupCustomRB">
+             <property name="enabled">
               <bool>false</bool>
              </property>
-             <property name="text" >
+             <property name="text">
               <string>Custom settings (go to full view to make changes)</string>
              </property>
             </widget>
            </item>
            <item>
             <spacer>
-             <property name="orientation" >
+             <property name="orientation">
               <enum>Qt::Vertical</enum>
              </property>
-             <property name="sizeHint" >
+             <property name="sizeHint" stdset="0">
               <size>
                <width>20</width>
                <height>241</height>
@@ -210,92 +193,74 @@
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="m_pFullViewTab" >
-          <attribute name="title" >
+         <widget class="QWidget" name="m_pFullViewTab">
+          <attribute name="title">
            <string>Tab 2</string>
           </attribute>
-          <layout class="QHBoxLayout" >
-           <property name="leftMargin" >
-            <number>0</number>
-           </property>
-           <property name="topMargin" >
-            <number>0</number>
-           </property>
-           <property name="rightMargin" >
-            <number>0</number>
-           </property>
-           <property name="bottomMargin" >
+          <layout class="QHBoxLayout">
+           <property name="margin">
             <number>0</number>
            </property>
            <item>
-            <widget class="QTabWidget" name="tabWidget" >
-             <property name="tabPosition" >
+            <widget class="QTabWidget" name="tabWidget">
+             <property name="tabPosition">
               <enum>QTabWidget::North</enum>
              </property>
-             <property name="tabShape" >
+             <property name="tabShape">
               <enum>QTabWidget::Rounded</enum>
              </property>
-             <property name="currentIndex" >
+             <property name="currentIndex">
               <number>0</number>
              </property>
-             <widget class="QWidget" name="tab_3" >
-              <attribute name="title" >
+             <widget class="QWidget" name="tab_3">
+              <attribute name="title">
                <string>Original file that would be changed</string>
               </attribute>
-              <layout class="QVBoxLayout" >
+              <layout class="QVBoxLayout">
                <item>
-                <widget class="QWidget" native="1" name="widget_15" >
-                 <layout class="QVBoxLayout" >
-                  <property name="leftMargin" >
-                   <number>0</number>
-                  </property>
-                  <property name="topMargin" >
-                   <number>0</number>
-                  </property>
-                  <property name="rightMargin" >
-                   <number>0</number>
-                  </property>
-                  <property name="bottomMargin" >
+                <widget class="QWidget" name="widget_15" native="true">
+                 <layout class="QVBoxLayout">
+                  <property name="margin">
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QRadioButton" name="m_pPODontChangeRB" >
-                    <property name="text" >
+                   <widget class="QRadioButton" name="m_pPODontChangeRB">
+                    <property name="text">
                      <string>Don't touch</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QRadioButton" name="m_pPOEraseRB" >
-                    <property name="text" >
+                   <widget class="QRadioButton" name="m_pPOEraseRB">
+                    <property name="text">
                      <string>Erase</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QRadioButton" name="m_pPOMoveAlwaysChangeRB" >
-                    <property name="text" >
+                   <widget class="QRadioButton" name="m_pPOMoveAlwaysChangeRB">
+                    <property name="text">
                      <string>Move and change the name</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QRadioButton" name="m_pPOMoveChangeIfNeededRB" >
-                    <property name="text" >
+                   <widget class="QRadioButton" name="m_pPOMoveChangeIfNeededRB">
+                    <property name="text">
                      <string>Move but change the name only if a name collision would occur</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QRadioButton" name="m_pPOChangeNameRB" >
-                    <property name="text" >
+                   <widget class="QRadioButton" name="m_pPOChangeNameRB">
+                    <property name="text">
                      <string>Change name</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QRadioButton" name="m_pPOMoveOrEraseRB" >
-                    <property name="text" >
+                   <widget class="QRadioButton" name="m_pPOMoveOrEraseRB">
+                    <property name="text">
                      <string>Move if the destination doesn't already exist; erase if it does</string>
                     </property>
                    </widget>
@@ -304,40 +269,40 @@
                 </widget>
                </item>
                <item>
-                <widget class="QGroupBox" name="groupBox_3" >
-                 <property name="title" >
+                <widget class="QGroupBox" name="groupBox_3">
+                 <property name="title">
                   <string>Name change params</string>
                  </property>
-                 <layout class="QVBoxLayout" >
-                  <property name="topMargin" >
+                 <layout class="QVBoxLayout">
+                  <property name="topMargin">
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QGroupBox" name="groupBox_2" >
-                    <property name="title" >
+                   <widget class="QGroupBox" name="groupBox_2">
+                    <property name="title">
                      <string>Identifying label</string>
                     </property>
-                    <layout class="QVBoxLayout" >
-                     <property name="spacing" >
+                    <layout class="QVBoxLayout">
+                     <property name="spacing">
                       <number>0</number>
                      </property>
-                     <property name="topMargin" >
+                     <property name="topMargin">
                       <number>0</number>
                      </property>
-                     <property name="bottomMargin" >
+                     <property name="bottomMargin">
                       <number>0</number>
                      </property>
                      <item>
-                      <widget class="QRadioButton" name="m_pPODontUseLabelRB" >
-                       <property name="text" >
+                      <widget class="QRadioButton" name="m_pPODontUseLabelRB">
+                       <property name="text">
                         <string>Don't use an identifying label</string>
                        </property>
                       </widget>
                      </item>
                      <item>
-                      <widget class="QRadioButton" name="m_pPOUseLabelRB" >
-                       <property name="text" >
-                        <string>Use "orig" as an identifying label</string>
+                      <widget class="QRadioButton" name="m_pPOUseLabelRB">
+                       <property name="text">
+                        <string>Use &quot;orig&quot; as an identifying label</string>
                        </property>
                       </widget>
                      </item>
@@ -345,30 +310,30 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QGroupBox" name="groupBox_4" >
-                    <property name="title" >
+                   <widget class="QGroupBox" name="groupBox_4">
+                    <property name="title">
                      <string>Counter</string>
                     </property>
-                    <layout class="QVBoxLayout" >
-                     <property name="spacing" >
+                    <layout class="QVBoxLayout">
+                     <property name="spacing">
                       <number>0</number>
                      </property>
-                     <property name="topMargin" >
+                     <property name="topMargin">
                       <number>0</number>
                      </property>
-                     <property name="bottomMargin" >
+                     <property name="bottomMargin">
                       <number>0</number>
                      </property>
                      <item>
-                      <widget class="QRadioButton" name="m_pPOAlwaysUseCounterRB" >
-                       <property name="text" >
+                      <widget class="QRadioButton" name="m_pPOAlwaysUseCounterRB">
+                       <property name="text">
                         <string>Always use a counter</string>
                        </property>
                       </widget>
                      </item>
                      <item>
-                      <widget class="QRadioButton" name="m_pPOUseCounterIfNeededRB" >
-                       <property name="text" >
+                      <widget class="QRadioButton" name="m_pPOUseCounterIfNeededRB">
+                       <property name="text">
                         <string>Only use a counter when a name collision would occur</string>
                        </property>
                       </widget>
@@ -380,20 +345,20 @@
                 </widget>
                </item>
                <item>
-                <widget class="QGroupBox" name="groupBox_15" >
-                 <property name="title" >
+                <widget class="QGroupBox" name="groupBox_15">
+                 <property name="title">
                   <string>Destination</string>
                  </property>
-                 <layout class="QHBoxLayout" >
-                  <property name="topMargin" >
+                 <layout class="QHBoxLayout">
+                  <property name="topMargin">
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QLineEdit" name="m_pPODestE" />
+                   <widget class="QLineEdit" name="m_pPODestE"/>
                   </item>
                   <item>
-                   <widget class="QToolButton" name="m_pSelectOrigTransfDestDirB" >
-                    <property name="text" >
+                   <widget class="QToolButton" name="m_pSelectOrigTransfDestDirB">
+                    <property name="text">
                      <string>...</string>
                     </property>
                    </widget>
@@ -403,10 +368,10 @@
                </item>
                <item>
                 <spacer>
-                 <property name="orientation" >
+                 <property name="orientation">
                   <enum>Qt::Vertical</enum>
                  </property>
-                 <property name="sizeHint" >
+                 <property name="sizeHint" stdset="0">
                   <size>
                    <width>421</width>
                    <height>37</height>
@@ -416,57 +381,48 @@
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="tab_2" >
-              <attribute name="title" >
+             <widget class="QWidget" name="tab_2">
+              <attribute name="title">
                <string>Original file that would not be changed</string>
               </attribute>
-              <layout class="QVBoxLayout" >
+              <layout class="QVBoxLayout">
                <item>
-                <widget class="QWidget" native="1" name="widget_16" >
-                 <layout class="QVBoxLayout" >
-                  <property name="leftMargin" >
-                   <number>0</number>
-                  </property>
-                  <property name="topMargin" >
-                   <number>0</number>
-                  </property>
-                  <property name="rightMargin" >
-                   <number>0</number>
-                  </property>
-                  <property name="bottomMargin" >
+                <widget class="QWidget" name="widget_16" native="true">
+                 <layout class="QVBoxLayout">
+                  <property name="margin">
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QRadioButton" name="m_pUODontChangeRB" >
-                    <property name="text" >
+                   <widget class="QRadioButton" name="m_pUODontChangeRB">
+                    <property name="text">
                      <string>Don't touch</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QRadioButton" name="m_pUOEraseRB" >
-                    <property name="text" >
+                   <widget class="QRadioButton" name="m_pUOEraseRB">
+                    <property name="text">
                      <string>Erase</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QRadioButton" name="m_pUOMoveAlwaysChangeRB" >
-                    <property name="text" >
+                   <widget class="QRadioButton" name="m_pUOMoveAlwaysChangeRB">
+                    <property name="text">
                      <string>Move and change the name</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QRadioButton" name="m_pUOMoveChangeIfNeededRB" >
-                    <property name="text" >
+                   <widget class="QRadioButton" name="m_pUOMoveChangeIfNeededRB">
+                    <property name="text">
                      <string>Move but change the name only if a name collision would occur</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QRadioButton" name="m_pUOChangeNameRB" >
-                    <property name="text" >
+                   <widget class="QRadioButton" name="m_pUOChangeNameRB">
+                    <property name="text">
                      <string>Change name</string>
                     </property>
                    </widget>
@@ -475,40 +431,40 @@
                 </widget>
                </item>
                <item>
-                <widget class="QGroupBox" name="groupBox_6" >
-                 <property name="title" >
+                <widget class="QGroupBox" name="groupBox_6">
+                 <property name="title">
                   <string>Name change params</string>
                  </property>
-                 <layout class="QVBoxLayout" >
-                  <property name="topMargin" >
+                 <layout class="QVBoxLayout">
+                  <property name="topMargin">
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QGroupBox" name="groupBox_7" >
-                    <property name="title" >
+                   <widget class="QGroupBox" name="groupBox_7">
+                    <property name="title">
                      <string>Identifying label</string>
                     </property>
-                    <layout class="QVBoxLayout" >
-                     <property name="spacing" >
+                    <layout class="QVBoxLayout">
+                     <property name="spacing">
                       <number>0</number>
                      </property>
-                     <property name="topMargin" >
+                     <property name="topMargin">
                       <number>0</number>
                      </property>
-                     <property name="bottomMargin" >
+                     <property name="bottomMargin">
                       <number>0</number>
                      </property>
                      <item>
-                      <widget class="QRadioButton" name="m_pUODontUseLabelRB" >
-                       <property name="text" >
+                      <widget class="QRadioButton" name="m_pUODontUseLabelRB">
+                       <property name="text">
                         <string>Don't use an identifying label</string>
                        </property>
                       </widget>
                      </item>
                      <item>
-                      <widget class="QRadioButton" name="m_pUOUseLabelRB" >
-                       <property name="text" >
-                        <string>Use "orig" as an identifying label</string>
+                      <widget class="QRadioButton" name="m_pUOUseLabelRB">
+                       <property name="text">
+                        <string>Use &quot;orig&quot; as an identifying label</string>
                        </property>
                       </widget>
                      </item>
@@ -516,30 +472,30 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QGroupBox" name="groupBox_8" >
-                    <property name="title" >
+                   <widget class="QGroupBox" name="groupBox_8">
+                    <property name="title">
                      <string>Counter</string>
                     </property>
-                    <layout class="QVBoxLayout" >
-                     <property name="spacing" >
+                    <layout class="QVBoxLayout">
+                     <property name="spacing">
                       <number>0</number>
                      </property>
-                     <property name="topMargin" >
+                     <property name="topMargin">
                       <number>0</number>
                      </property>
-                     <property name="bottomMargin" >
+                     <property name="bottomMargin">
                       <number>0</number>
                      </property>
                      <item>
-                      <widget class="QRadioButton" name="m_pUOAlwaysUseCounterRB" >
-                       <property name="text" >
+                      <widget class="QRadioButton" name="m_pUOAlwaysUseCounterRB">
+                       <property name="text">
                         <string>Always use a counter</string>
                        </property>
                       </widget>
                      </item>
                      <item>
-                      <widget class="QRadioButton" name="m_pUOUseCounterIfNeededRB" >
-                       <property name="text" >
+                      <widget class="QRadioButton" name="m_pUOUseCounterIfNeededRB">
+                       <property name="text">
                         <string>Only use a counter when a name collision would occur</string>
                        </property>
                       </widget>
@@ -551,20 +507,20 @@
                 </widget>
                </item>
                <item>
-                <widget class="QGroupBox" name="groupBox_14" >
-                 <property name="title" >
+                <widget class="QGroupBox" name="groupBox_14">
+                 <property name="title">
                   <string>Destination</string>
                  </property>
-                 <layout class="QHBoxLayout" >
-                  <property name="topMargin" >
+                 <layout class="QHBoxLayout">
+                  <property name="topMargin">
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QLineEdit" name="m_pUODestE" />
+                   <widget class="QLineEdit" name="m_pUODestE"/>
                   </item>
                   <item>
-                   <widget class="QToolButton" name="m_pSelectOrigNotTransfDestDirB" >
-                    <property name="text" >
+                   <widget class="QToolButton" name="m_pSelectOrigNotTransfDestDirB">
+                    <property name="text">
                      <string>...</string>
                     </property>
                    </widget>
@@ -574,10 +530,10 @@
                </item>
                <item>
                 <spacer>
-                 <property name="orientation" >
+                 <property name="orientation">
                   <enum>Qt::Vertical</enum>
                  </property>
-                 <property name="sizeHint" >
+                 <property name="sizeHint" stdset="0">
                   <size>
                    <width>421</width>
                    <height>37</height>
@@ -587,43 +543,34 @@
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="tab_4" >
-              <attribute name="title" >
+             <widget class="QWidget" name="tab_4">
+              <attribute name="title">
                <string>Changed file</string>
               </attribute>
-              <layout class="QVBoxLayout" >
+              <layout class="QVBoxLayout">
                <item>
-                <widget class="QWidget" native="1" name="widget_17" >
-                 <layout class="QVBoxLayout" >
-                  <property name="leftMargin" >
-                   <number>0</number>
-                  </property>
-                  <property name="topMargin" >
-                   <number>0</number>
-                  </property>
-                  <property name="rightMargin" >
-                   <number>0</number>
-                  </property>
-                  <property name="bottomMargin" >
+                <widget class="QWidget" name="widget_17" native="true">
+                 <layout class="QVBoxLayout">
+                  <property name="margin">
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QRadioButton" name="m_pProcDontCreateRB" >
-                    <property name="text" >
+                   <widget class="QRadioButton" name="m_pProcDontCreateRB">
+                    <property name="text">
                      <string>Don't create</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QRadioButton" name="m_pProcCreateAlwaysChangeRB" >
-                    <property name="text" >
+                   <widget class="QRadioButton" name="m_pProcCreateAlwaysChangeRB">
+                    <property name="text">
                      <string>Create and change the name</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QRadioButton" name="m_pProcCreateChangeIfNeededRB" >
-                    <property name="text" >
+                   <widget class="QRadioButton" name="m_pProcCreateChangeIfNeededRB">
+                    <property name="text">
                      <string>Create but change the name only if a name collision would occur</string>
                     </property>
                    </widget>
@@ -632,40 +579,40 @@
                 </widget>
                </item>
                <item>
-                <widget class="QGroupBox" name="groupBox_10" >
-                 <property name="title" >
+                <widget class="QGroupBox" name="groupBox_10">
+                 <property name="title">
                   <string>Name change params</string>
                  </property>
-                 <layout class="QVBoxLayout" >
-                  <property name="topMargin" >
+                 <layout class="QVBoxLayout">
+                  <property name="topMargin">
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QGroupBox" name="groupBox_11" >
-                    <property name="title" >
+                   <widget class="QGroupBox" name="groupBox_11">
+                    <property name="title">
                      <string>Identifying label</string>
                     </property>
-                    <layout class="QVBoxLayout" >
-                     <property name="spacing" >
+                    <layout class="QVBoxLayout">
+                     <property name="spacing">
                       <number>0</number>
                      </property>
-                     <property name="topMargin" >
+                     <property name="topMargin">
                       <number>0</number>
                      </property>
-                     <property name="bottomMargin" >
+                     <property name="bottomMargin">
                       <number>0</number>
                      </property>
                      <item>
-                      <widget class="QRadioButton" name="m_pProcDontUseLabelRB" >
-                       <property name="text" >
+                      <widget class="QRadioButton" name="m_pProcDontUseLabelRB">
+                       <property name="text">
                         <string>Don't use an identifying label</string>
                        </property>
                       </widget>
                      </item>
                      <item>
-                      <widget class="QRadioButton" name="m_pProcUseLabelRB" >
-                       <property name="text" >
-                        <string>Use "proc" as an identifying label</string>
+                      <widget class="QRadioButton" name="m_pProcUseLabelRB">
+                       <property name="text">
+                        <string>Use &quot;proc&quot; as an identifying label</string>
                        </property>
                       </widget>
                      </item>
@@ -673,30 +620,30 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QGroupBox" name="groupBox_12" >
-                    <property name="title" >
+                   <widget class="QGroupBox" name="groupBox_12">
+                    <property name="title">
                      <string>Counter</string>
                     </property>
-                    <layout class="QVBoxLayout" >
-                     <property name="spacing" >
+                    <layout class="QVBoxLayout">
+                     <property name="spacing">
                       <number>0</number>
                      </property>
-                     <property name="topMargin" >
+                     <property name="topMargin">
                       <number>0</number>
                      </property>
-                     <property name="bottomMargin" >
+                     <property name="bottomMargin">
                       <number>0</number>
                      </property>
                      <item>
-                      <widget class="QRadioButton" name="m_pProcAlwaysUseCounterRB" >
-                       <property name="text" >
+                      <widget class="QRadioButton" name="m_pProcAlwaysUseCounterRB">
+                       <property name="text">
                         <string>Always use a counter</string>
                        </property>
                       </widget>
                      </item>
                      <item>
-                      <widget class="QRadioButton" name="m_pProcUseCounterIfNeededRB" >
-                       <property name="text" >
+                      <widget class="QRadioButton" name="m_pProcUseCounterIfNeededRB">
+                       <property name="text">
                         <string>Only use a counter when a name collision would occur</string>
                        </property>
                       </widget>
@@ -708,52 +655,43 @@
                 </widget>
                </item>
                <item>
-                <widget class="QGroupBox" name="groupBox_13" >
-                 <property name="title" >
+                <widget class="QGroupBox" name="groupBox_13">
+                 <property name="title">
                   <string>Destination</string>
                  </property>
-                 <layout class="QGridLayout" >
-                  <property name="topMargin" >
+                 <layout class="QGridLayout">
+                  <property name="topMargin">
                    <number>0</number>
                   </property>
-                  <property name="verticalSpacing" >
+                  <property name="verticalSpacing">
                    <number>0</number>
                   </property>
-                  <item row="0" column="0" >
-                   <widget class="QRadioButton" name="m_pProcUseSrcRB" >
-                    <property name="text" >
+                  <item row="0" column="0">
+                   <widget class="QRadioButton" name="m_pProcUseSrcRB">
+                    <property name="text">
                      <string>Use the source dir</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="1" column="0" >
-                   <widget class="QRadioButton" name="m_pProcUseSeparateDirRB" >
-                    <property name="text" >
+                  <item row="1" column="0">
+                   <widget class="QRadioButton" name="m_pProcUseSeparateDirRB">
+                    <property name="text">
                      <string>Use</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="1" column="1" >
-                   <widget class="QWidget" native="1" name="widget_11" >
-                    <layout class="QHBoxLayout" >
-                     <property name="leftMargin" >
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin" >
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin" >
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin" >
+                  <item row="1" column="1">
+                   <widget class="QWidget" name="widget_11" native="true">
+                    <layout class="QHBoxLayout">
+                     <property name="margin">
                       <number>0</number>
                      </property>
                      <item>
-                      <widget class="QLineEdit" name="m_pProcDestE" />
+                      <widget class="QLineEdit" name="m_pProcDestE"/>
                      </item>
                      <item>
-                      <widget class="QToolButton" name="m_pSelectTransfDestDirB" >
-                       <property name="text" >
+                      <widget class="QToolButton" name="m_pSelectTransfDestDirB">
+                       <property name="text">
                         <string>...</string>
                        </property>
                       </widget>
@@ -766,10 +704,10 @@
                </item>
                <item>
                 <spacer>
-                 <property name="orientation" >
+                 <property name="orientation">
                   <enum>Qt::Vertical</enum>
                  </property>
-                 <property name="sizeHint" >
+                 <property name="sizeHint" stdset="0">
                   <size>
                    <width>591</width>
                    <height>53</height>
@@ -779,48 +717,39 @@
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="tab" >
-              <attribute name="title" >
+             <widget class="QWidget" name="tab">
+              <attribute name="title">
                <string>Temporary files</string>
               </attribute>
-              <layout class="QVBoxLayout" >
+              <layout class="QVBoxLayout">
                <item>
-                <widget class="QFrame" name="m_pSourceDirF" >
-                 <property name="frameShape" >
+                <widget class="QFrame" name="m_pSourceDirF">
+                 <property name="frameShape">
                   <enum>QFrame::NoFrame</enum>
                  </property>
-                 <property name="frameShadow" >
+                 <property name="frameShadow">
                   <enum>QFrame::Raised</enum>
                  </property>
-                 <layout class="QHBoxLayout" >
+                 <layout class="QHBoxLayout">
                   <item>
-                   <widget class="QLabel" name="label" >
-                    <property name="text" >
+                   <widget class="QLabel" name="label">
+                    <property name="text">
                      <string>Source directory</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QWidget" native="1" name="widget_9" >
-                    <layout class="QHBoxLayout" >
-                     <property name="leftMargin" >
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin" >
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin" >
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin" >
+                   <widget class="QWidget" name="widget_9" native="true">
+                    <layout class="QHBoxLayout">
+                     <property name="margin">
                       <number>0</number>
                      </property>
                      <item>
-                      <widget class="QLineEdit" name="m_pSrcDirE" />
+                      <widget class="QLineEdit" name="m_pSrcDirE"/>
                      </item>
                      <item>
-                      <widget class="QToolButton" name="m_pSelectSrcDirB" >
-                       <property name="text" >
+                      <widget class="QToolButton" name="m_pSelectSrcDirB">
+                       <property name="text">
                         <string>...</string>
                        </property>
                       </widget>
@@ -832,52 +761,43 @@
                 </widget>
                </item>
                <item>
-                <widget class="QGroupBox" name="groupBox_16" >
-                 <property name="title" >
+                <widget class="QGroupBox" name="groupBox_16">
+                 <property name="title">
                   <string>Temporary files</string>
                  </property>
-                 <layout class="QGridLayout" >
-                  <property name="topMargin" >
+                 <layout class="QGridLayout">
+                  <property name="topMargin">
                    <number>0</number>
                   </property>
-                  <property name="verticalSpacing" >
+                  <property name="verticalSpacing">
                    <number>0</number>
                   </property>
-                  <item row="0" column="0" >
-                   <widget class="QRadioButton" name="m_pTempDontCreateRB" >
-                    <property name="text" >
+                  <item row="0" column="0">
+                   <widget class="QRadioButton" name="m_pTempDontCreateRB">
+                    <property name="text">
                      <string>Don't create</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="1" column="0" >
-                   <widget class="QRadioButton" name="m_pTempCreateRB" >
-                    <property name="text" >
+                  <item row="1" column="0">
+                   <widget class="QRadioButton" name="m_pTempCreateRB">
+                    <property name="text">
                      <string>Create in</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="1" column="1" >
-                   <widget class="QWidget" native="1" name="widget_2" >
-                    <layout class="QHBoxLayout" >
-                     <property name="leftMargin" >
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin" >
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin" >
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin" >
+                  <item row="1" column="1">
+                   <widget class="QWidget" name="widget_2" native="true">
+                    <layout class="QHBoxLayout">
+                     <property name="margin">
                       <number>0</number>
                      </property>
                      <item>
-                      <widget class="QLineEdit" name="m_pTempDestE" />
+                      <widget class="QLineEdit" name="m_pTempDestE"/>
                      </item>
                      <item>
-                      <widget class="QToolButton" name="m_pSelectTempDirB" >
-                       <property name="text" >
+                      <widget class="QToolButton" name="m_pSelectTempDirB">
+                       <property name="text">
                         <string>...</string>
                        </property>
                       </widget>
@@ -889,52 +809,43 @@
                 </widget>
                </item>
                <item>
-                <widget class="QGroupBox" name="groupBox_17" >
-                 <property name="title" >
+                <widget class="QGroupBox" name="groupBox_17">
+                 <property name="title">
                   <string>Compare files</string>
                  </property>
-                 <layout class="QGridLayout" >
-                  <property name="topMargin" >
+                 <layout class="QGridLayout">
+                  <property name="topMargin">
                    <number>0</number>
                   </property>
-                  <property name="verticalSpacing" >
+                  <property name="verticalSpacing">
                    <number>0</number>
                   </property>
-                  <item row="0" column="0" >
-                   <widget class="QRadioButton" name="m_pCompDontCreateRB" >
-                    <property name="text" >
+                  <item row="0" column="0">
+                   <widget class="QRadioButton" name="m_pCompDontCreateRB">
+                    <property name="text">
                      <string>Don't create</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="1" column="0" >
-                   <widget class="QRadioButton" name="m_pCompCreateRB" >
-                    <property name="text" >
+                  <item row="1" column="0">
+                   <widget class="QRadioButton" name="m_pCompCreateRB">
+                    <property name="text">
                      <string>Create in</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="1" column="1" >
-                   <widget class="QWidget" native="1" name="widget_10" >
-                    <layout class="QHBoxLayout" >
-                     <property name="leftMargin" >
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin" >
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin" >
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin" >
+                  <item row="1" column="1">
+                   <widget class="QWidget" name="widget_10" native="true">
+                    <layout class="QHBoxLayout">
+                     <property name="margin">
                       <number>0</number>
                      </property>
                      <item>
-                      <widget class="QLineEdit" name="m_pCompDestE" />
+                      <widget class="QLineEdit" name="m_pCompDestE"/>
                      </item>
                      <item>
-                      <widget class="QToolButton" name="m_pSelectCompDirB" >
-                       <property name="text" >
+                      <widget class="QToolButton" name="m_pSelectCompDirB">
+                       <property name="text">
                         <string>...</string>
                        </property>
                       </widget>
@@ -947,10 +858,10 @@
                </item>
                <item>
                 <spacer>
-                 <property name="orientation" >
+                 <property name="orientation">
                   <enum>Qt::Vertical</enum>
                  </property>
-                 <property name="sizeHint" >
+                 <property name="sizeHint" stdset="0">
                   <size>
                    <width>20</width>
                    <height>81</height>
@@ -968,133 +879,107 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="m_pIgnoredNotesW" >
-      <attribute name="title" >
+     <widget class="QWidget" name="m_pIgnoredNotesW">
+      <attribute name="title">
        <string>Ignored notes</string>
       </attribute>
-      <layout class="QHBoxLayout" >
+      <layout class="QHBoxLayout">
        <item>
-        <widget class="QWidget" native="1" name="m_pIgnoredNotesListHldr" />
+        <widget class="QWidget" name="m_pIgnoredNotesListHldr" native="true"/>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="m_pCustomTransfW" >
-      <attribute name="title" >
+     <widget class="QWidget" name="m_pCustomTransfW">
+      <attribute name="title">
        <string>Custom transformation lists</string>
       </attribute>
-      <layout class="QVBoxLayout" >
+      <layout class="QVBoxLayout">
        <item>
-        <widget class="QWidget" native="1" name="widget" >
-         <property name="maximumSize" >
+        <widget class="QWidget" name="widget" native="true">
+         <property name="maximumSize">
           <size>
            <width>16777215</width>
            <height>150</height>
           </size>
          </property>
-         <layout class="QHBoxLayout" >
-          <property name="spacing" >
+         <layout class="QHBoxLayout">
+          <property name="spacing">
            <number>20</number>
           </property>
-          <property name="leftMargin" >
-           <number>0</number>
-          </property>
-          <property name="topMargin" >
-           <number>0</number>
-          </property>
-          <property name="rightMargin" >
-           <number>0</number>
-          </property>
-          <property name="bottomMargin" >
+          <property name="margin">
            <number>0</number>
           </property>
           <item>
-           <widget class="QWidget" native="1" name="widget_4" >
-            <layout class="QHBoxLayout" >
-             <property name="leftMargin" >
-              <number>0</number>
-             </property>
-             <property name="topMargin" >
-              <number>0</number>
-             </property>
-             <property name="rightMargin" >
-              <number>0</number>
-             </property>
-             <property name="bottomMargin" >
+           <widget class="QWidget" name="widget_4" native="true">
+            <layout class="QHBoxLayout">
+             <property name="margin">
               <number>0</number>
              </property>
              <item>
-              <widget class="QWidget" native="1" name="widget_3" >
-               <property name="minimumSize" >
+              <widget class="QWidget" name="widget_3" native="true">
+               <property name="minimumSize">
                 <size>
                  <width>40</width>
                  <height>0</height>
                 </size>
                </property>
-               <property name="maximumSize" >
+               <property name="maximumSize">
                 <size>
                  <width>40</width>
                  <height>16777215</height>
                 </size>
                </property>
-               <layout class="QVBoxLayout" >
-                <property name="spacing" >
+               <layout class="QVBoxLayout">
+                <property name="spacing">
                  <number>0</number>
                 </property>
-                <property name="leftMargin" >
-                 <number>0</number>
-                </property>
-                <property name="topMargin" >
-                 <number>0</number>
-                </property>
-                <property name="rightMargin" >
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin" >
+                <property name="margin">
                  <number>0</number>
                 </property>
                 <item>
-                 <widget class="QToolButton" name="m_pCustomTransform1B" >
-                  <property name="minimumSize" >
+                 <widget class="QToolButton" name="m_pCustomTransform1B">
+                  <property name="minimumSize">
                    <size>
                     <width>40</width>
                     <height>40</height>
                    </size>
                   </property>
-                  <property name="maximumSize" >
+                  <property name="maximumSize">
                    <size>
                     <width>40</width>
                     <height>40</height>
                    </size>
                   </property>
-                  <property name="focusPolicy" >
+                  <property name="focusPolicy">
                    <enum>Qt::NoFocus</enum>
                   </property>
-                  <property name="text" >
+                  <property name="text">
                    <string>...</string>
                   </property>
-                  <property name="icon" >
-                   <iconset resource="Mp3Diags.qrc" >:/images/transform1.svg</iconset>
+                  <property name="icon">
+                   <iconset resource="Mp3Diags.qrc">
+                    <normaloff>:/images/transform1.svg</normaloff>:/images/transform1.svg</iconset>
                   </property>
-                  <property name="iconSize" >
+                  <property name="iconSize">
                    <size>
                     <width>36</width>
                     <height>36</height>
                    </size>
                   </property>
-                  <property name="checkable" >
+                  <property name="checkable">
                    <bool>true</bool>
                   </property>
-                  <property name="autoRaise" >
+                  <property name="autoRaise">
                    <bool>true</bool>
                   </property>
                  </widget>
                 </item>
                 <item>
                  <spacer>
-                  <property name="orientation" >
+                  <property name="orientation">
                    <enum>Qt::Vertical</enum>
                   </property>
-                  <property name="sizeHint" >
+                  <property name="sizeHint" stdset="0">
                    <size>
                     <width>20</width>
                     <height>40</height>
@@ -1106,11 +991,11 @@
               </widget>
              </item>
              <item>
-              <widget class="QTextEdit" name="m_pCustomTransform1T" >
-               <property name="tabChangesFocus" >
+              <widget class="QTextEdit" name="m_pCustomTransform1T">
+               <property name="tabChangesFocus">
                 <bool>true</bool>
                </property>
-               <property name="readOnly" >
+               <property name="readOnly">
                 <bool>true</bool>
                </property>
               </widget>
@@ -1119,93 +1004,76 @@
            </widget>
           </item>
           <item>
-           <widget class="QWidget" native="1" name="widget_5" >
-            <layout class="QHBoxLayout" >
-             <property name="leftMargin" >
-              <number>0</number>
-             </property>
-             <property name="topMargin" >
-              <number>0</number>
-             </property>
-             <property name="rightMargin" >
-              <number>0</number>
-             </property>
-             <property name="bottomMargin" >
+           <widget class="QWidget" name="widget_5" native="true">
+            <layout class="QHBoxLayout">
+             <property name="margin">
               <number>0</number>
              </property>
              <item>
-              <widget class="QWidget" native="1" name="widget_6" >
-               <property name="minimumSize" >
+              <widget class="QWidget" name="widget_6" native="true">
+               <property name="minimumSize">
                 <size>
                  <width>40</width>
                  <height>0</height>
                 </size>
                </property>
-               <property name="maximumSize" >
+               <property name="maximumSize">
                 <size>
                  <width>40</width>
                  <height>16777215</height>
                 </size>
                </property>
-               <layout class="QVBoxLayout" >
-                <property name="spacing" >
+               <layout class="QVBoxLayout">
+                <property name="spacing">
                  <number>0</number>
                 </property>
-                <property name="leftMargin" >
-                 <number>0</number>
-                </property>
-                <property name="topMargin" >
-                 <number>0</number>
-                </property>
-                <property name="rightMargin" >
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin" >
+                <property name="margin">
                  <number>0</number>
                 </property>
                 <item>
-                 <widget class="QToolButton" name="m_pCustomTransform2B" >
-                  <property name="minimumSize" >
+                 <widget class="QToolButton" name="m_pCustomTransform2B">
+                  <property name="minimumSize">
                    <size>
                     <width>40</width>
                     <height>40</height>
                    </size>
                   </property>
-                  <property name="maximumSize" >
+                  <property name="maximumSize">
                    <size>
                     <width>40</width>
                     <height>40</height>
                    </size>
                   </property>
-                  <property name="focusPolicy" >
+                  <property name="focusPolicy">
                    <enum>Qt::NoFocus</enum>
                   </property>
-                  <property name="text" >
+                  <property name="text">
                    <string>...</string>
                   </property>
-                  <property name="icon" >
-                   <iconset resource="Mp3Diags.qrc" >:/images/transform2.svg</iconset>
+                  <property name="icon">
+                   <iconset resource="Mp3Diags.qrc">
+                    <normaloff>:/images/transform2.svg</normaloff>:/images/transform2.svg</iconset>
                   </property>
-                  <property name="iconSize" >
+                  <property name="iconSize">
                    <size>
                     <width>36</width>
                     <height>36</height>
                    </size>
                   </property>
-                  <property name="checkable" >
+                  <property name="checkable">
                    <bool>true</bool>
                   </property>
-                  <property name="autoRaise" >
+                  <property name="autoRaise">
                    <bool>true</bool>
                   </property>
                  </widget>
                 </item>
                 <item>
                  <spacer>
-                  <property name="orientation" >
+                  <property name="orientation">
                    <enum>Qt::Vertical</enum>
                   </property>
-                  <property name="sizeHint" >
+                  <property name="sizeHint" stdset="0">
                    <size>
                     <width>20</width>
                     <height>40</height>
@@ -1217,11 +1085,11 @@
               </widget>
              </item>
              <item>
-              <widget class="QTextEdit" name="m_pCustomTransform2T" >
-               <property name="tabChangesFocus" >
+              <widget class="QTextEdit" name="m_pCustomTransform2T">
+               <property name="tabChangesFocus">
                 <bool>true</bool>
                </property>
-               <property name="readOnly" >
+               <property name="readOnly">
                 <bool>true</bool>
                </property>
               </widget>
@@ -1230,93 +1098,76 @@
            </widget>
           </item>
           <item>
-           <widget class="QWidget" native="1" name="widget_7" >
-            <layout class="QHBoxLayout" >
-             <property name="leftMargin" >
-              <number>0</number>
-             </property>
-             <property name="topMargin" >
-              <number>0</number>
-             </property>
-             <property name="rightMargin" >
-              <number>0</number>
-             </property>
-             <property name="bottomMargin" >
+           <widget class="QWidget" name="widget_7" native="true">
+            <layout class="QHBoxLayout">
+             <property name="margin">
               <number>0</number>
              </property>
              <item>
-              <widget class="QWidget" native="1" name="widget_8" >
-               <property name="minimumSize" >
+              <widget class="QWidget" name="widget_8" native="true">
+               <property name="minimumSize">
                 <size>
                  <width>40</width>
                  <height>0</height>
                 </size>
                </property>
-               <property name="maximumSize" >
+               <property name="maximumSize">
                 <size>
                  <width>40</width>
                  <height>16777215</height>
                 </size>
                </property>
-               <layout class="QVBoxLayout" >
-                <property name="spacing" >
+               <layout class="QVBoxLayout">
+                <property name="spacing">
                  <number>0</number>
                 </property>
-                <property name="leftMargin" >
-                 <number>0</number>
-                </property>
-                <property name="topMargin" >
-                 <number>0</number>
-                </property>
-                <property name="rightMargin" >
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin" >
+                <property name="margin">
                  <number>0</number>
                 </property>
                 <item>
-                 <widget class="QToolButton" name="m_pCustomTransform3B" >
-                  <property name="minimumSize" >
+                 <widget class="QToolButton" name="m_pCustomTransform3B">
+                  <property name="minimumSize">
                    <size>
                     <width>40</width>
                     <height>40</height>
                    </size>
                   </property>
-                  <property name="maximumSize" >
+                  <property name="maximumSize">
                    <size>
                     <width>40</width>
                     <height>40</height>
                    </size>
                   </property>
-                  <property name="focusPolicy" >
+                  <property name="focusPolicy">
                    <enum>Qt::NoFocus</enum>
                   </property>
-                  <property name="text" >
+                  <property name="text">
                    <string>...</string>
                   </property>
-                  <property name="icon" >
-                   <iconset resource="Mp3Diags.qrc" >:/images/transform3.svg</iconset>
+                  <property name="icon">
+                   <iconset resource="Mp3Diags.qrc">
+                    <normaloff>:/images/transform3.svg</normaloff>:/images/transform3.svg</iconset>
                   </property>
-                  <property name="iconSize" >
+                  <property name="iconSize">
                    <size>
                     <width>36</width>
                     <height>36</height>
                    </size>
                   </property>
-                  <property name="checkable" >
+                  <property name="checkable">
                    <bool>true</bool>
                   </property>
-                  <property name="autoRaise" >
+                  <property name="autoRaise">
                    <bool>true</bool>
                   </property>
                  </widget>
                 </item>
                 <item>
                  <spacer>
-                  <property name="orientation" >
+                  <property name="orientation">
                    <enum>Qt::Vertical</enum>
                   </property>
-                  <property name="sizeHint" >
+                  <property name="sizeHint" stdset="0">
                    <size>
                     <width>20</width>
                     <height>40</height>
@@ -1328,11 +1179,11 @@
               </widget>
              </item>
              <item>
-              <widget class="QTextEdit" name="m_pCustomTransform3T" >
-               <property name="tabChangesFocus" >
+              <widget class="QTextEdit" name="m_pCustomTransform3T">
+               <property name="tabChangesFocus">
                 <bool>true</bool>
                </property>
-               <property name="readOnly" >
+               <property name="readOnly">
                 <bool>true</bool>
                </property>
               </widget>
@@ -1341,93 +1192,76 @@
            </widget>
           </item>
           <item>
-           <widget class="QWidget" native="1" name="widget_19" >
-            <layout class="QHBoxLayout" >
-             <property name="leftMargin" >
-              <number>0</number>
-             </property>
-             <property name="topMargin" >
-              <number>0</number>
-             </property>
-             <property name="rightMargin" >
-              <number>0</number>
-             </property>
-             <property name="bottomMargin" >
+           <widget class="QWidget" name="widget_19" native="true">
+            <layout class="QHBoxLayout">
+             <property name="margin">
               <number>0</number>
              </property>
              <item>
-              <widget class="QWidget" native="1" name="widget_21" >
-               <property name="minimumSize" >
+              <widget class="QWidget" name="widget_21" native="true">
+               <property name="minimumSize">
                 <size>
                  <width>40</width>
                  <height>0</height>
                 </size>
                </property>
-               <property name="maximumSize" >
+               <property name="maximumSize">
                 <size>
                  <width>40</width>
                  <height>16777215</height>
                 </size>
                </property>
-               <layout class="QVBoxLayout" >
-                <property name="spacing" >
+               <layout class="QVBoxLayout">
+                <property name="spacing">
                  <number>0</number>
                 </property>
-                <property name="leftMargin" >
-                 <number>0</number>
-                </property>
-                <property name="topMargin" >
-                 <number>0</number>
-                </property>
-                <property name="rightMargin" >
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin" >
+                <property name="margin">
                  <number>0</number>
                 </property>
                 <item>
-                 <widget class="QToolButton" name="m_pCustomTransform4B" >
-                  <property name="minimumSize" >
+                 <widget class="QToolButton" name="m_pCustomTransform4B">
+                  <property name="minimumSize">
                    <size>
                     <width>40</width>
                     <height>40</height>
                    </size>
                   </property>
-                  <property name="maximumSize" >
+                  <property name="maximumSize">
                    <size>
                     <width>40</width>
                     <height>40</height>
                    </size>
                   </property>
-                  <property name="focusPolicy" >
+                  <property name="focusPolicy">
                    <enum>Qt::NoFocus</enum>
                   </property>
-                  <property name="text" >
+                  <property name="text">
                    <string>...</string>
                   </property>
-                  <property name="icon" >
-                   <iconset resource="Mp3Diags.qrc" >:/images/transform4.svg</iconset>
+                  <property name="icon">
+                   <iconset resource="Mp3Diags.qrc">
+                    <normaloff>:/images/transform4.svg</normaloff>:/images/transform4.svg</iconset>
                   </property>
-                  <property name="iconSize" >
+                  <property name="iconSize">
                    <size>
                     <width>36</width>
                     <height>36</height>
                    </size>
                   </property>
-                  <property name="checkable" >
+                  <property name="checkable">
                    <bool>true</bool>
                   </property>
-                  <property name="autoRaise" >
+                  <property name="autoRaise">
                    <bool>true</bool>
                   </property>
                  </widget>
                 </item>
                 <item>
                  <spacer>
-                  <property name="orientation" >
+                  <property name="orientation">
                    <enum>Qt::Vertical</enum>
                   </property>
-                  <property name="sizeHint" >
+                  <property name="sizeHint" stdset="0">
                    <size>
                     <width>20</width>
                     <height>40</height>
@@ -1439,11 +1273,11 @@
               </widget>
              </item>
              <item>
-              <widget class="QTextEdit" name="m_pCustomTransform4T" >
-               <property name="tabChangesFocus" >
+              <widget class="QTextEdit" name="m_pCustomTransform4T">
+               <property name="tabChangesFocus">
                 <bool>true</bool>
                </property>
-               <property name="readOnly" >
+               <property name="readOnly">
                 <bool>true</bool>
                </property>
               </widget>
@@ -1455,14 +1289,14 @@
         </widget>
        </item>
        <item>
-        <widget class="QWidget" native="1" name="m_pTransfListHldr" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
+        <widget class="QWidget" name="m_pTransfListHldr" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="minimumSize" >
+         <property name="minimumSize">
           <size>
            <width>0</width>
            <height>100</height>
@@ -1472,39 +1306,39 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="m_pTransfParamW" >
-      <attribute name="title" >
+     <widget class="QWidget" name="m_pTransfParamW">
+      <attribute name="title">
        <string>Transformation params</string>
       </attribute>
-      <layout class="QVBoxLayout" >
+      <layout class="QVBoxLayout">
        <item>
-        <widget class="QGroupBox" name="m_pLocaleGrp" >
-         <property name="title" >
+        <widget class="QGroupBox" name="m_pLocaleGrp">
+         <property name="title">
           <string>Locale for ID3V2 conversion</string>
          </property>
-         <layout class="QGridLayout" >
-          <property name="topMargin" >
+         <layout class="QGridLayout">
+          <property name="topMargin">
            <number>0</number>
           </property>
-          <item row="0" column="0" >
-           <widget class="QComboBox" name="m_pLocaleCbB" >
-            <property name="minimumSize" >
+          <item row="0" column="0">
+           <widget class="QComboBox" name="m_pLocaleCbB">
+            <property name="minimumSize">
              <size>
               <width>200</width>
               <height>0</height>
              </size>
             </property>
-            <property name="maxVisibleItems" >
+            <property name="maxVisibleItems">
              <number>30</number>
             </property>
            </widget>
           </item>
-          <item row="0" column="1" >
+          <item row="0" column="1">
            <spacer>
-            <property name="orientation" >
+            <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeHint" >
+            <property name="sizeHint" stdset="0">
              <size>
               <width>181</width>
               <height>23</height>
@@ -1512,31 +1346,31 @@
             </property>
            </spacer>
           </item>
-          <item row="1" column="0" colspan="2" >
-           <widget class="QTextBrowser" name="m_pCodepageTestM" />
+          <item row="1" column="0" colspan="2">
+           <widget class="QTextBrowser" name="m_pCodepageTestM"/>
           </item>
          </layout>
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="m_pCaseGrp" >
-         <property name="title" >
+        <widget class="QGroupBox" name="m_pCaseGrp">
+         <property name="title">
           <string>Case transformation</string>
          </property>
-         <layout class="QHBoxLayout" >
-          <property name="topMargin" >
+         <layout class="QHBoxLayout">
+          <property name="topMargin">
            <number>0</number>
           </property>
           <item>
-           <widget class="QLabel" name="label_12" >
-            <property name="text" >
+           <widget class="QLabel" name="label_12">
+            <property name="text">
              <string>Artists</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="m_pArtistsCaseCbB" >
-            <property name="minimumSize" >
+           <widget class="QComboBox" name="m_pArtistsCaseCbB">
+            <property name="minimumSize">
              <size>
               <width>150</width>
               <height>0</height>
@@ -1546,13 +1380,13 @@
           </item>
           <item>
            <spacer>
-            <property name="orientation" >
+            <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeType" >
+            <property name="sizeType">
              <enum>QSizePolicy::Fixed</enum>
             </property>
-            <property name="sizeHint" >
+            <property name="sizeHint" stdset="0">
              <size>
               <width>31</width>
               <height>20</height>
@@ -1561,15 +1395,15 @@
            </spacer>
           </item>
           <item>
-           <widget class="QLabel" name="label_13" >
-            <property name="text" >
+           <widget class="QLabel" name="label_13">
+            <property name="text">
              <string>Others</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="m_pOthersCaseCbB" >
-            <property name="minimumSize" >
+           <widget class="QComboBox" name="m_pOthersCaseCbB">
+            <property name="minimumSize">
              <size>
               <width>150</width>
               <height>0</height>
@@ -1579,10 +1413,10 @@
           </item>
           <item>
            <spacer>
-            <property name="orientation" >
+            <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeHint" >
+            <property name="sizeHint" stdset="0">
              <size>
               <width>40</width>
               <height>20</height>
@@ -1594,25 +1428,25 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="m_pKeepOrigTimeCkB" >
-         <property name="text" >
+        <widget class="QCheckBox" name="m_pKeepOrigTimeCkB">
+         <property name="text">
           <string>Keep original modification time when changing a file</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="m_pKeepOneValidImgCkB" >
-         <property name="text" >
+        <widget class="QCheckBox" name="m_pKeepOneValidImgCkB">
+         <property name="text">
           <string>Keep a single image for a file</string>
          </property>
         </widget>
        </item>
        <item>
         <spacer>
-         <property name="orientation" >
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeHint" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>787</width>
            <height>31</height>
@@ -1622,220 +1456,211 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_6" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab_6">
+      <attribute name="title">
        <string>Visible Transformations</string>
       </attribute>
-      <layout class="QVBoxLayout" >
+      <layout class="QVBoxLayout">
        <item>
-        <widget class="QWidget" native="1" name="m_pVisibleTransformsHndlr" />
+        <widget class="QWidget" name="m_pVisibleTransformsHndlr" native="true"/>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="m_pQualThreshW" >
-      <attribute name="title" >
+     <widget class="QWidget" name="m_pQualThreshW">
+      <attribute name="title">
        <string>Quality thresholds</string>
       </attribute>
-      <layout class="QGridLayout" >
-       <item row="0" column="0" colspan="2" >
-        <widget class="QLabel" name="label_8" >
-         <property name="text" >
+      <layout class="QGridLayout">
+       <item row="0" column="0" colspan="2">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
           <string>If the audio bitrate falls below these limits, warnings are generated. For VBR a low bitrate is less of an indicatior of poor quality, because if the signal is simple there's no need for higher bitrates. </string>
          </property>
-         <property name="alignment" >
+         <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
-         <property name="wordWrap" >
+         <property name="wordWrap">
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="1" column="0" colspan="2" >
-        <widget class="QLabel" name="label_9" >
-         <property name="text" >
-          <string>The bitrate is not the best quality indicator. Values from a "Lame header" (if present) are generally better, but these headers are not processed in the current version.</string>
+       <item row="1" column="0" colspan="2">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>The bitrate is not the best quality indicator. Values from a &quot;Lame header&quot; (if present) are generally better, but these headers are not processed in the current version.</string>
          </property>
-         <property name="alignment" >
+         <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
-         <property name="wordWrap" >
+         <property name="wordWrap">
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="2" column="0" colspan="2" >
-        <widget class="QLabel" name="label_10" >
-         <property name="text" >
-          <string>Note that for mono streams, half of the value for "Dual Channel" is used.</string>
+       <item row="2" column="0" colspan="2">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>Note that for mono streams, half of the value for &quot;Dual Channel&quot; is used.</string>
          </property>
-         <property name="alignment" >
+         <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
-         <property name="wordWrap" >
+         <property name="wordWrap">
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="3" column="0" colspan="2" >
-        <widget class="QLabel" name="label_11" >
-         <property name="text" >
+       <item row="3" column="0" colspan="2">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
           <string/>
          </property>
-         <property name="alignment" >
+         <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
-         <property name="wordWrap" >
+         <property name="wordWrap">
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="4" column="0" >
-        <widget class="QWidget" native="1" name="widget_12" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Preferred" hsizetype="Minimum" >
+       <item row="4" column="0">
+        <widget class="QWidget" name="widget_12" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <layout class="QGridLayout" >
-          <property name="leftMargin" >
+         <layout class="QGridLayout">
+          <property name="margin">
            <number>0</number>
           </property>
-          <property name="topMargin" >
-           <number>0</number>
-          </property>
-          <property name="rightMargin" >
-           <number>0</number>
-          </property>
-          <property name="bottomMargin" >
-           <number>0</number>
-          </property>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="label_2" >
-            <property name="text" >
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_2">
+            <property name="text">
              <string>Stereo CBR</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="1" >
-           <widget class="QComboBox" name="m_pQualStCbrCbB" >
-            <property name="maxVisibleItems" >
+          <item row="0" column="1">
+           <widget class="QComboBox" name="m_pQualStCbrCbB">
+            <property name="maxVisibleItems">
              <number>15</number>
             </property>
            </widget>
           </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="label_3" >
-            <property name="text" >
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
              <string>Joint Stereo CBR</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="1" >
-           <widget class="QComboBox" name="m_pQualJtStCbrCbB" >
-            <property name="maxVisibleItems" >
+          <item row="1" column="1">
+           <widget class="QComboBox" name="m_pQualJtStCbrCbB">
+            <property name="maxVisibleItems">
              <number>15</number>
             </property>
            </widget>
           </item>
-          <item row="2" column="0" >
-           <widget class="QLabel" name="label_4" >
-            <property name="text" >
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
              <string>Dual Channel CBR</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="1" >
-           <widget class="QComboBox" name="m_pQualDlChCbrCbB" >
-            <property name="maxVisibleItems" >
+          <item row="2" column="1">
+           <widget class="QComboBox" name="m_pQualDlChCbrCbB">
+            <property name="maxVisibleItems">
              <number>15</number>
             </property>
            </widget>
           </item>
-          <item row="3" column="0" >
-           <widget class="QLabel" name="label_5" >
-            <property name="text" >
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_5">
+            <property name="text">
              <string>Stereo VBR</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="1" >
-           <widget class="QSpinBox" name="m_pQualStVbrSB" >
-            <property name="minimumSize" >
+          <item row="3" column="1">
+           <widget class="QSpinBox" name="m_pQualStVbrSB">
+            <property name="minimumSize">
              <size>
               <width>70</width>
               <height>0</height>
              </size>
             </property>
-            <property name="alignment" >
+            <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
-            <property name="minimum" >
+            <property name="minimum">
              <number>8</number>
             </property>
-            <property name="maximum" >
+            <property name="maximum">
              <number>448</number>
             </property>
            </widget>
           </item>
-          <item row="4" column="0" >
-           <widget class="QLabel" name="label_6" >
-            <property name="text" >
+          <item row="4" column="0">
+           <widget class="QLabel" name="label_6">
+            <property name="text">
              <string>Joint Stereo VBR</string>
             </property>
            </widget>
           </item>
-          <item row="4" column="1" >
-           <widget class="QSpinBox" name="m_pQualJtStVbrSB" >
-            <property name="minimumSize" >
+          <item row="4" column="1">
+           <widget class="QSpinBox" name="m_pQualJtStVbrSB">
+            <property name="minimumSize">
              <size>
               <width>70</width>
               <height>0</height>
              </size>
             </property>
-            <property name="alignment" >
+            <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
-            <property name="minimum" >
+            <property name="minimum">
              <number>8</number>
             </property>
-            <property name="maximum" >
+            <property name="maximum">
              <number>448</number>
             </property>
            </widget>
           </item>
-          <item row="5" column="0" >
-           <widget class="QLabel" name="label_7" >
-            <property name="text" >
+          <item row="5" column="0">
+           <widget class="QLabel" name="label_7">
+            <property name="text">
              <string>Dual Channel VBR</string>
             </property>
            </widget>
           </item>
-          <item row="5" column="1" >
-           <widget class="QSpinBox" name="m_pQualDlChVbrSB" >
-            <property name="minimumSize" >
+          <item row="5" column="1">
+           <widget class="QSpinBox" name="m_pQualDlChVbrSB">
+            <property name="minimumSize">
              <size>
               <width>70</width>
               <height>0</height>
              </size>
             </property>
-            <property name="alignment" >
+            <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
-            <property name="minimum" >
+            <property name="minimum">
              <number>8</number>
             </property>
-            <property name="maximum" >
+            <property name="maximum">
              <number>448</number>
             </property>
            </widget>
           </item>
-          <item row="6" column="0" >
+          <item row="6" column="0">
            <spacer>
-            <property name="orientation" >
+            <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
-            <property name="sizeHint" >
+            <property name="sizeHint" stdset="0">
              <size>
               <width>108</width>
               <height>41</height>
@@ -1846,12 +1671,12 @@
          </layout>
         </widget>
        </item>
-       <item row="4" column="1" >
+       <item row="4" column="1">
         <spacer>
-         <property name="orientation" >
+         <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeHint" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>381</width>
            <height>20</height>
@@ -1861,227 +1686,218 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_5" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab_5">
+      <attribute name="title">
        <string>Colors</string>
       </attribute>
-      <layout class="QVBoxLayout" >
+      <layout class="QVBoxLayout">
        <item>
-        <layout class="QHBoxLayout" >
+        <layout class="QHBoxLayout">
          <item>
-          <widget class="QWidget" native="1" name="widget_18" >
-           <layout class="QGridLayout" >
-            <property name="leftMargin" >
+          <widget class="QWidget" name="widget_18" native="true">
+           <layout class="QGridLayout">
+            <property name="margin">
              <number>0</number>
             </property>
-            <property name="topMargin" >
-             <number>0</number>
-            </property>
-            <property name="rightMargin" >
-             <number>0</number>
-            </property>
-            <property name="bottomMargin" >
-             <number>0</number>
-            </property>
-            <item row="0" column="0" >
-             <widget class="QToolButton" name="m_pCol0B" >
-              <property name="minimumSize" >
+            <item row="0" column="0">
+             <widget class="QToolButton" name="m_pCol0B">
+              <property name="minimumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="maximumSize" >
+              <property name="maximumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="focusPolicy" >
+              <property name="focusPolicy">
                <enum>Qt::NoFocus</enum>
               </property>
-              <property name="text" >
+              <property name="text">
                <string/>
               </property>
              </widget>
             </item>
-            <item row="0" column="1" >
-             <widget class="QLabel" name="label_26" >
-              <property name="text" >
+            <item row="0" column="1">
+             <widget class="QLabel" name="label_26">
+              <property name="text">
                <string>Audio</string>
               </property>
              </widget>
             </item>
-            <item row="1" column="0" >
-             <widget class="QToolButton" name="m_pCol1B" >
-              <property name="minimumSize" >
+            <item row="1" column="0">
+             <widget class="QToolButton" name="m_pCol1B">
+              <property name="minimumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="maximumSize" >
+              <property name="maximumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="focusPolicy" >
+              <property name="focusPolicy">
                <enum>Qt::NoFocus</enum>
               </property>
-              <property name="text" >
+              <property name="text">
                <string/>
               </property>
              </widget>
             </item>
-            <item row="1" column="1" >
-             <widget class="QLabel" name="label_27" >
-              <property name="text" >
+            <item row="1" column="1">
+             <widget class="QLabel" name="label_27">
+              <property name="text">
                <string>Xing and LAME</string>
               </property>
              </widget>
             </item>
-            <item row="2" column="0" >
-             <widget class="QToolButton" name="m_pCol2B" >
-              <property name="minimumSize" >
+            <item row="2" column="0">
+             <widget class="QToolButton" name="m_pCol2B">
+              <property name="minimumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="maximumSize" >
+              <property name="maximumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="focusPolicy" >
+              <property name="focusPolicy">
                <enum>Qt::NoFocus</enum>
               </property>
-              <property name="text" >
+              <property name="text">
                <string/>
               </property>
              </widget>
             </item>
-            <item row="2" column="1" >
-             <widget class="QLabel" name="label_28" >
-              <property name="text" >
+            <item row="2" column="1">
+             <widget class="QLabel" name="label_28">
+              <property name="text">
                <string>VBRI</string>
               </property>
              </widget>
             </item>
-            <item row="3" column="0" >
-             <widget class="QToolButton" name="m_pCol3B" >
-              <property name="minimumSize" >
+            <item row="3" column="0">
+             <widget class="QToolButton" name="m_pCol3B">
+              <property name="minimumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="maximumSize" >
+              <property name="maximumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="focusPolicy" >
+              <property name="focusPolicy">
                <enum>Qt::NoFocus</enum>
               </property>
-              <property name="text" >
+              <property name="text">
                <string/>
               </property>
              </widget>
             </item>
-            <item row="3" column="1" >
-             <widget class="QLabel" name="label_29" >
-              <property name="text" >
+            <item row="3" column="1">
+             <widget class="QLabel" name="label_29">
+              <property name="text">
                <string>ID3V2</string>
               </property>
              </widget>
             </item>
-            <item row="4" column="0" >
-             <widget class="QToolButton" name="m_pCol4B" >
-              <property name="minimumSize" >
+            <item row="4" column="0">
+             <widget class="QToolButton" name="m_pCol4B">
+              <property name="minimumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="maximumSize" >
+              <property name="maximumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="focusPolicy" >
+              <property name="focusPolicy">
                <enum>Qt::NoFocus</enum>
               </property>
-              <property name="text" >
+              <property name="text">
                <string/>
               </property>
              </widget>
             </item>
-            <item row="4" column="1" >
-             <widget class="QLabel" name="label_30" >
-              <property name="text" >
+            <item row="4" column="1">
+             <widget class="QLabel" name="label_30">
+              <property name="text">
                <string>APIC</string>
               </property>
              </widget>
             </item>
-            <item row="5" column="0" >
-             <widget class="QToolButton" name="m_pCol5B" >
-              <property name="minimumSize" >
+            <item row="5" column="0">
+             <widget class="QToolButton" name="m_pCol5B">
+              <property name="minimumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="maximumSize" >
+              <property name="maximumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="focusPolicy" >
+              <property name="focusPolicy">
                <enum>Qt::NoFocus</enum>
               </property>
-              <property name="text" >
+              <property name="text">
                <string/>
               </property>
              </widget>
             </item>
-            <item row="5" column="1" >
-             <widget class="QLabel" name="label_31" >
-              <property name="text" >
+            <item row="5" column="1">
+             <widget class="QLabel" name="label_31">
+              <property name="text">
                <string>ID3V2.3.0</string>
               </property>
              </widget>
             </item>
-            <item row="6" column="0" >
-             <widget class="QToolButton" name="m_pCol6B" >
-              <property name="minimumSize" >
+            <item row="6" column="0">
+             <widget class="QToolButton" name="m_pCol6B">
+              <property name="minimumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="maximumSize" >
+              <property name="maximumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="focusPolicy" >
+              <property name="focusPolicy">
                <enum>Qt::NoFocus</enum>
               </property>
-              <property name="text" >
+              <property name="text">
                <string/>
               </property>
              </widget>
             </item>
-            <item row="6" column="1" >
-             <widget class="QLabel" name="label_32" >
-              <property name="text" >
+            <item row="6" column="1">
+             <widget class="QLabel" name="label_32">
+              <property name="text">
                <string>ID3V2.4.0</string>
               </property>
              </widget>
@@ -2091,13 +1907,13 @@
          </item>
          <item>
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeType" >
+           <property name="sizeType">
             <enum>QSizePolicy::Fixed</enum>
            </property>
-           <property name="sizeHint" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>100</width>
              <height>20</height>
@@ -2106,219 +1922,210 @@
           </spacer>
          </item>
          <item>
-          <widget class="QWidget" native="1" name="widget_24" >
-           <layout class="QGridLayout" >
-            <property name="leftMargin" >
+          <widget class="QWidget" name="widget_24" native="true">
+           <layout class="QGridLayout">
+            <property name="margin">
              <number>0</number>
             </property>
-            <property name="topMargin" >
-             <number>0</number>
-            </property>
-            <property name="rightMargin" >
-             <number>0</number>
-            </property>
-            <property name="bottomMargin" >
-             <number>0</number>
-            </property>
-            <item row="0" column="0" >
-             <widget class="QToolButton" name="m_pCol7B" >
-              <property name="minimumSize" >
+            <item row="0" column="0">
+             <widget class="QToolButton" name="m_pCol7B">
+              <property name="minimumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="maximumSize" >
+              <property name="maximumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="focusPolicy" >
+              <property name="focusPolicy">
                <enum>Qt::NoFocus</enum>
               </property>
-              <property name="text" >
+              <property name="text">
                <string/>
               </property>
              </widget>
             </item>
-            <item row="0" column="1" >
-             <widget class="QLabel" name="label_20" >
-              <property name="text" >
+            <item row="0" column="1">
+             <widget class="QLabel" name="label_20">
+              <property name="text">
                <string>ID3V1</string>
               </property>
              </widget>
             </item>
-            <item row="1" column="0" >
-             <widget class="QToolButton" name="m_pCol8B" >
-              <property name="minimumSize" >
+            <item row="1" column="0">
+             <widget class="QToolButton" name="m_pCol8B">
+              <property name="minimumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="maximumSize" >
+              <property name="maximumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="focusPolicy" >
+              <property name="focusPolicy">
                <enum>Qt::NoFocus</enum>
               </property>
-              <property name="text" >
+              <property name="text">
                <string/>
               </property>
              </widget>
             </item>
-            <item row="1" column="1" >
-             <widget class="QLabel" name="label_21" >
-              <property name="text" >
+            <item row="1" column="1">
+             <widget class="QLabel" name="label_21">
+              <property name="text">
                <string>Broken streams</string>
               </property>
              </widget>
             </item>
-            <item row="2" column="0" >
-             <widget class="QToolButton" name="m_pCol9B" >
-              <property name="minimumSize" >
+            <item row="2" column="0">
+             <widget class="QToolButton" name="m_pCol9B">
+              <property name="minimumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="maximumSize" >
+              <property name="maximumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="focusPolicy" >
+              <property name="focusPolicy">
                <enum>Qt::NoFocus</enum>
               </property>
-              <property name="text" >
+              <property name="text">
                <string/>
               </property>
              </widget>
             </item>
-            <item row="2" column="1" >
-             <widget class="QLabel" name="label_22" >
-              <property name="text" >
+            <item row="2" column="1">
+             <widget class="QLabel" name="label_22">
+              <property name="text">
                <string>Truncated streams</string>
               </property>
              </widget>
             </item>
-            <item row="3" column="0" >
-             <widget class="QToolButton" name="m_pCol10B" >
-              <property name="minimumSize" >
+            <item row="3" column="0">
+             <widget class="QToolButton" name="m_pCol10B">
+              <property name="minimumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="maximumSize" >
+              <property name="maximumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="focusPolicy" >
+              <property name="focusPolicy">
                <enum>Qt::NoFocus</enum>
               </property>
-              <property name="text" >
+              <property name="text">
                <string/>
               </property>
              </widget>
             </item>
-            <item row="3" column="1" >
-             <widget class="QLabel" name="label_23" >
-              <property name="text" >
+            <item row="3" column="1">
+             <widget class="QLabel" name="label_23">
+              <property name="text">
                <string>Unknown streams</string>
               </property>
              </widget>
             </item>
-            <item row="4" column="0" >
-             <widget class="QToolButton" name="m_pCol11B" >
-              <property name="minimumSize" >
+            <item row="4" column="0">
+             <widget class="QToolButton" name="m_pCol11B">
+              <property name="minimumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="maximumSize" >
+              <property name="maximumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="focusPolicy" >
+              <property name="focusPolicy">
                <enum>Qt::NoFocus</enum>
               </property>
-              <property name="text" >
+              <property name="text">
                <string/>
               </property>
              </widget>
             </item>
-            <item row="4" column="1" >
-             <widget class="QLabel" name="label_24" >
-              <property name="text" >
+            <item row="4" column="1">
+             <widget class="QLabel" name="label_24">
+              <property name="text">
                <string>Lyrics</string>
               </property>
              </widget>
             </item>
-            <item row="5" column="0" >
-             <widget class="QToolButton" name="m_pCol12B" >
-              <property name="minimumSize" >
+            <item row="5" column="0">
+             <widget class="QToolButton" name="m_pCol12B">
+              <property name="minimumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="maximumSize" >
+              <property name="maximumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="focusPolicy" >
+              <property name="focusPolicy">
                <enum>Qt::NoFocus</enum>
               </property>
-              <property name="text" >
+              <property name="text">
                <string/>
               </property>
              </widget>
             </item>
-            <item row="5" column="1" >
-             <widget class="QLabel" name="label_25" >
-              <property name="text" >
+            <item row="5" column="1">
+             <widget class="QLabel" name="label_25">
+              <property name="text">
                <string>Ape</string>
               </property>
              </widget>
             </item>
-            <item row="6" column="0" >
-             <widget class="QToolButton" name="m_pCol13B" >
-              <property name="minimumSize" >
+            <item row="6" column="0">
+             <widget class="QToolButton" name="m_pCol13B">
+              <property name="minimumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="maximumSize" >
+              <property name="maximumSize">
                <size>
                 <width>60</width>
                 <height>40</height>
                </size>
               </property>
-              <property name="focusPolicy" >
+              <property name="focusPolicy">
                <enum>Qt::NoFocus</enum>
               </property>
-              <property name="text" >
+              <property name="text">
                <string/>
               </property>
              </widget>
             </item>
-            <item row="6" column="1" >
-             <widget class="QLabel" name="label_19" >
-              <property name="text" >
+            <item row="6" column="1">
+             <widget class="QLabel" name="label_19">
+              <property name="text">
                <string>Others</string>
               </property>
              </widget>
@@ -2328,10 +2135,10 @@
          </item>
          <item>
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>171</width>
              <height>20</height>
@@ -2342,33 +2149,24 @@
         </layout>
        </item>
        <item>
-        <widget class="QWidget" native="1" name="widget_25" >
-         <layout class="QHBoxLayout" >
-          <property name="leftMargin" >
-           <number>0</number>
-          </property>
-          <property name="topMargin" >
-           <number>0</number>
-          </property>
-          <property name="rightMargin" >
-           <number>0</number>
-          </property>
-          <property name="bottomMargin" >
+        <widget class="QWidget" name="widget_25" native="true">
+         <layout class="QHBoxLayout">
+          <property name="margin">
            <number>0</number>
           </property>
           <item>
-           <widget class="QPushButton" name="m_pResetColorsB" >
-            <property name="text" >
+           <widget class="QPushButton" name="m_pResetColorsB">
+            <property name="text">
              <string>Reset to default colors</string>
             </property>
            </widget>
           </item>
           <item>
            <spacer>
-            <property name="orientation" >
+            <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeHint" >
+            <property name="sizeHint" stdset="0">
              <size>
               <width>40</width>
               <height>20</height>
@@ -2381,10 +2179,10 @@
        </item>
        <item>
         <spacer>
-         <property name="orientation" >
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeHint" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
            <height>131</height>
@@ -2394,115 +2192,201 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="m_pOthersW" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab_7">
+      <attribute name="title">
+       <string>Shell</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QCheckBox" name="m_pShellTempSessCkB">
+           <property name="text">
+            <string>Enable temporary session per folder</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="m_pShellHiddenSessCkB">
+           <property name="text">
+            <string>Enable hidden session per folder</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="m_pShellVisibleSessCkB">
+           <property name="text">
+            <string>Enable visible session per folder</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Preferred</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>41</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="m_pShellErrorL">
+         <property name="palette">
+          <palette>
+           <active>
+            <colorrole role="WindowText">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>191</red>
+               <green>0</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </active>
+           <inactive>
+            <colorrole role="WindowText">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>191</red>
+               <green>0</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </inactive>
+           <disabled>
+            <colorrole role="WindowText">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>116</red>
+               <green>115</green>
+               <blue>111</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </disabled>
+          </palette>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>ErrorShell</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>486</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="m_pOthersW">
+      <attribute name="title">
        <string>Others</string>
       </attribute>
-      <layout class="QVBoxLayout" >
+      <layout class="QVBoxLayout">
        <item>
-        <widget class="QGroupBox" name="groupBox_9" >
-         <property name="title" >
+        <widget class="QGroupBox" name="groupBox_9">
+         <property name="title">
           <string>Tag editor</string>
          </property>
-         <layout class="QVBoxLayout" >
-          <property name="topMargin" >
+         <layout class="QVBoxLayout">
+          <property name="topMargin">
            <number>0</number>
           </property>
           <item>
-           <widget class="QWidget" native="1" name="widget_27" >
-            <layout class="QHBoxLayout" >
-             <property name="leftMargin" >
-              <number>0</number>
-             </property>
-             <property name="topMargin" >
-              <number>0</number>
-             </property>
-             <property name="rightMargin" >
-              <number>0</number>
-             </property>
-             <property name="bottomMargin" >
+           <widget class="QWidget" name="widget_27" native="true">
+            <layout class="QHBoxLayout">
+             <property name="margin">
               <number>0</number>
              </property>
              <item>
-              <widget class="QWidget" native="1" name="widget_26" >
-               <layout class="QVBoxLayout" >
-                <property name="leftMargin" >
-                 <number>0</number>
-                </property>
-                <property name="topMargin" >
-                 <number>0</number>
-                </property>
-                <property name="rightMargin" >
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin" >
+              <widget class="QWidget" name="widget_26" native="true">
+               <layout class="QVBoxLayout">
+                <property name="margin">
                  <number>0</number>
                 </property>
                 <item>
-                 <widget class="QCheckBox" name="m_pWarnOnNonSeqTracksCkB" >
-                  <property name="text" >
+                 <widget class="QCheckBox" name="m_pWarnOnNonSeqTracksCkB">
+                  <property name="text">
                    <string>Warn when the tag editor enters albums with non-sequential track numbers</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QCheckBox" name="m_pWarnOnPasteToNonSeqTracksCkB" >
-                  <property name="text" >
+                 <widget class="QCheckBox" name="m_pWarnOnPasteToNonSeqTracksCkB">
+                  <property name="text">
                    <string>Warn when pasting track information in the tag editor for albums with non-sequential track numbers</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QCheckBox" name="m_pFastSaveCkB" >
-                  <property name="text" >
-                   <string>Use "fast save" in the tag editor</string>
+                 <widget class="QCheckBox" name="m_pFastSaveCkB">
+                  <property name="text">
+                   <string>Use &quot;fast save&quot; in the tag editor</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QWidget" native="1" name="widget_14" >
-                  <layout class="QHBoxLayout" >
-                   <property name="leftMargin" >
-                    <number>0</number>
-                   </property>
-                   <property name="topMargin" >
-                    <number>0</number>
-                   </property>
-                   <property name="rightMargin" >
-                    <number>0</number>
-                   </property>
-                   <property name="bottomMargin" >
+                 <widget class="QWidget" name="widget_14" native="true">
+                  <layout class="QHBoxLayout">
+                   <property name="margin">
                     <number>0</number>
                    </property>
                    <item>
-                    <widget class="QLabel" name="label_77" >
-                     <property name="text" >
+                    <widget class="QLabel" name="label_77">
+                     <property name="text">
                       <string>Maximum image size, in kB</string>
                      </property>
                     </widget>
                    </item>
                    <item>
-                    <widget class="QSpinBox" name="m_pMaxImgSizeSB" >
-                     <property name="toolTip" >
+                    <widget class="QSpinBox" name="m_pMaxImgSizeSB">
+                     <property name="toolTip">
                       <string>If an image size is above this value, it will be recompressed before storing it inside MP3 files</string>
                      </property>
-                     <property name="minimum" >
+                     <property name="minimum">
                       <number>5</number>
                      </property>
-                     <property name="maximum" >
+                     <property name="maximum">
                       <number>1000</number>
                      </property>
-                     <property name="value" >
+                     <property name="value">
                       <number>100</number>
                      </property>
                     </widget>
                    </item>
                    <item>
                     <spacer>
-                     <property name="orientation" >
+                     <property name="orientation">
                       <enum>Qt::Horizontal</enum>
                      </property>
-                     <property name="sizeHint" >
+                     <property name="sizeHint" stdset="0">
                       <size>
                        <width>40</width>
                        <height>20</height>
@@ -2517,40 +2401,40 @@
               </widget>
              </item>
              <item>
-              <layout class="QVBoxLayout" >
-               <property name="spacing" >
+              <layout class="QVBoxLayout">
+               <property name="spacing">
                 <number>0</number>
                </property>
                <item>
-                <widget class="QGroupBox" name="m_pVarArtistsGrp" >
-                 <property name="minimumSize" >
+                <widget class="QGroupBox" name="m_pVarArtistsGrp">
+                 <property name="minimumSize">
                   <size>
                    <width>200</width>
                    <height>70</height>
                   </size>
                  </property>
-                 <property name="title" >
-                  <string>Handle "various artists" for</string>
+                 <property name="title">
+                  <string>Handle &quot;various artists&quot; for</string>
                  </property>
-                 <layout class="QHBoxLayout" >
-                  <property name="topMargin" >
+                 <layout class="QHBoxLayout">
+                  <property name="topMargin">
                    <number>0</number>
                   </property>
-                  <property name="rightMargin" >
+                  <property name="rightMargin">
                    <number>0</number>
                   </property>
                   <item>
-                   <layout class="QVBoxLayout" >
+                   <layout class="QVBoxLayout">
                     <item>
-                     <widget class="QCheckBox" name="m_pItunesCkB" >
-                      <property name="text" >
+                     <widget class="QCheckBox" name="m_pItunesCkB">
+                      <property name="text">
                        <string>iTunes</string>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QCheckBox" name="m_pWmpCkB" >
-                      <property name="text" >
+                     <widget class="QCheckBox" name="m_pWmpCkB">
+                      <property name="text">
                        <string>Windows Media Player</string>
                       </property>
                      </widget>
@@ -2559,13 +2443,13 @@
                   </item>
                   <item>
                    <spacer>
-                    <property name="orientation" >
+                    <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
-                    <property name="sizeType" >
+                    <property name="sizeType">
                      <enum>QSizePolicy::Minimum</enum>
                     </property>
-                    <property name="sizeHint" >
+                    <property name="sizeHint" stdset="0">
                      <size>
                       <width>30</width>
                       <height>20</height>
@@ -2578,10 +2462,10 @@
                </item>
                <item>
                 <spacer>
-                 <property name="orientation" >
+                 <property name="orientation">
                   <enum>Qt::Vertical</enum>
                  </property>
-                 <property name="sizeHint" >
+                 <property name="sizeHint" stdset="0">
                   <size>
                    <width>20</width>
                    <height>2</height>
@@ -2595,49 +2479,40 @@
            </widget>
           </item>
           <item>
-           <widget class="QWidget" native="1" name="widget_22" >
-            <layout class="QHBoxLayout" >
-             <property name="leftMargin" >
-              <number>0</number>
-             </property>
-             <property name="topMargin" >
-              <number>0</number>
-             </property>
-             <property name="rightMargin" >
-              <number>0</number>
-             </property>
-             <property name="bottomMargin" >
+           <widget class="QWidget" name="widget_22" native="true">
+            <layout class="QHBoxLayout">
+             <property name="margin">
               <number>0</number>
              </property>
              <item>
-              <widget class="QGroupBox" name="groupBox_21" >
-               <property name="title" >
-                <string>If a field is marked as "assigned" when exiting an album</string>
+              <widget class="QGroupBox" name="groupBox_21">
+               <property name="title">
+                <string>If a field is marked as &quot;assigned&quot; when exiting an album</string>
                </property>
-               <layout class="QVBoxLayout" >
-                <property name="spacing" >
+               <layout class="QVBoxLayout">
+                <property name="spacing">
                  <number>0</number>
                 </property>
-                <property name="topMargin" >
+                <property name="topMargin">
                  <number>0</number>
                 </property>
                 <item>
-                 <widget class="QRadioButton" name="m_pAssgnSaveRB" >
-                  <property name="text" >
+                 <widget class="QRadioButton" name="m_pAssgnSaveRB">
+                  <property name="text">
                    <string>Save automatically</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QRadioButton" name="m_pAssgnDiscardRB" >
-                  <property name="text" >
+                 <widget class="QRadioButton" name="m_pAssgnDiscardRB">
+                  <property name="text">
                    <string>Discard</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QRadioButton" name="m_pAssgnAskRB" >
-                  <property name="text" >
+                 <widget class="QRadioButton" name="m_pAssgnAskRB">
+                  <property name="text">
                    <string>Ask</string>
                   </property>
                  </widget>
@@ -2646,34 +2521,34 @@
               </widget>
              </item>
              <item>
-              <widget class="QGroupBox" name="groupBox_22" >
-               <property name="title" >
+              <widget class="QGroupBox" name="groupBox_22">
+               <property name="title">
                 <string>If a field's value is different from that in the ID3V2 tag when exiting an album</string>
                </property>
-               <layout class="QVBoxLayout" >
-                <property name="spacing" >
+               <layout class="QVBoxLayout">
+                <property name="spacing">
                  <number>0</number>
                 </property>
-                <property name="topMargin" >
+                <property name="topMargin">
                  <number>0</number>
                 </property>
                 <item>
-                 <widget class="QRadioButton" name="m_pNonId3v2SaveRB" >
-                  <property name="text" >
+                 <widget class="QRadioButton" name="m_pNonId3v2SaveRB">
+                  <property name="text">
                    <string>Save automatically</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QRadioButton" name="m_pNonId3v2DiscardRB" >
-                  <property name="text" >
+                 <widget class="QRadioButton" name="m_pNonId3v2DiscardRB">
+                  <property name="text">
                    <string>Discard</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QRadioButton" name="m_pNonId3v2AskRB" >
-                  <property name="text" >
+                 <widget class="QRadioButton" name="m_pNonId3v2AskRB">
+                  <property name="text">
                    <string>Ask</string>
                   </property>
                  </widget>
@@ -2688,75 +2563,75 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="m_pOthersMiscGrp" >
-         <property name="title" >
+        <widget class="QGroupBox" name="m_pOthersMiscGrp">
+         <property name="title">
           <string>Misc</string>
          </property>
-         <layout class="QVBoxLayout" >
-          <property name="topMargin" >
+         <layout class="QVBoxLayout">
+          <property name="topMargin">
            <number>0</number>
           </property>
           <item>
-           <layout class="QHBoxLayout" >
+           <layout class="QHBoxLayout">
             <item>
-             <widget class="QWidget" native="1" name="widget_13" >
-              <property name="sizePolicy" >
-               <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+             <widget class="QWidget" name="widget_13" native="true">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <layout class="QVBoxLayout" >
-               <property name="leftMargin" >
+              <layout class="QVBoxLayout">
+               <property name="leftMargin">
                 <number>0</number>
                </property>
-               <property name="topMargin" >
+               <property name="topMargin">
                 <number>0</number>
                </property>
-               <property name="rightMargin" >
+               <property name="rightMargin">
                 <number>10</number>
                </property>
-               <property name="bottomMargin" >
+               <property name="bottomMargin">
                 <number>0</number>
                </property>
                <item>
-                <widget class="QCheckBox" name="m_pScanAtStartupCkB" >
-                 <property name="text" >
+                <widget class="QCheckBox" name="m_pScanAtStartupCkB">
+                 <property name="text">
                   <string>Scan for new, modified, and deleted files at startup</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QCheckBox" name="m_pShowExportCkB" >
-                 <property name="text" >
-                  <string>Show "Export" button</string>
+                <widget class="QCheckBox" name="m_pShowExportCkB">
+                 <property name="text">
+                  <string>Show &quot;Export&quot; button</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QCheckBox" name="m_pShowDebugCkB" >
-                 <property name="text" >
-                  <string>Show "Debug" button</string>
+                <widget class="QCheckBox" name="m_pShowDebugCkB">
+                 <property name="text">
+                  <string>Show &quot;Debug&quot; button</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QCheckBox" name="m_pShowSessCkB" >
-                 <property name="text" >
-                  <string>Show "Sessions" button</string>
+                <widget class="QCheckBox" name="m_pShowSessCkB">
+                 <property name="text">
+                  <string>Show &quot;Sessions&quot; button</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QCheckBox" name="m_pTraceToFileCkB" >
-                 <property name="text" >
-                  <string>Log program state to "_trace" and "_step" files</string>
+                <widget class="QCheckBox" name="m_pTraceToFileCkB">
+                 <property name="text">
+                  <string>Log program state to &quot;_trace&quot; and &quot;_step&quot; files</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QCheckBox" name="m_pCheckForUpdatesCkB" >
-                 <property name="text" >
+                <widget class="QCheckBox" name="m_pCheckForUpdatesCkB">
+                 <property name="text">
                   <string>Check for new version at startup</string>
                  </property>
                 </widget>
@@ -2765,84 +2640,75 @@
              </widget>
             </item>
             <item>
-             <widget class="QWidget" native="1" name="m_pFontsW" >
-              <layout class="QGridLayout" >
-               <property name="leftMargin" >
+             <widget class="QWidget" name="m_pFontsW" native="true">
+              <layout class="QGridLayout">
+               <property name="margin">
                 <number>0</number>
                </property>
-               <property name="topMargin" >
-                <number>0</number>
-               </property>
-               <property name="rightMargin" >
-                <number>0</number>
-               </property>
-               <property name="bottomMargin" >
-                <number>0</number>
-               </property>
-               <item row="0" column="0" >
-                <widget class="QLabel" name="label_14" >
-                 <property name="text" >
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_14">
+                 <property name="text">
                   <string>General font:</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1" >
-                <widget class="QLabel" name="m_pGeneralFontL" >
-                 <property name="sizePolicy" >
-                  <sizepolicy vsizetype="Preferred" hsizetype="Minimum" >
+               <item row="0" column="1">
+                <widget class="QLabel" name="m_pGeneralFontL">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="text" >
+                 <property name="text">
                   <string>TextLabel</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="2" >
-                <widget class="QPushButton" name="m_pChangeGenFontB" >
-                 <property name="text" >
+               <item row="0" column="2">
+                <widget class="QPushButton" name="m_pChangeGenFontB">
+                 <property name="text">
                   <string>Change ...</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="3" >
-                <widget class="QLabel" name="label_18" >
-                 <property name="text" >
+               <item row="0" column="3">
+                <widget class="QLabel" name="label_18">
+                 <property name="text">
                   <string>Label font smaller by:</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="4" >
-                <widget class="QSpinBox" name="m_pDecrLabelFontSB" >
-                 <property name="maximum" >
+               <item row="0" column="4">
+                <widget class="QSpinBox" name="m_pDecrLabelFontSB">
+                 <property name="maximum">
                   <number>5</number>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0" >
-                <widget class="QLabel" name="label_15" >
-                 <property name="text" >
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_15">
+                 <property name="text">
                   <string>Fixed font:</string>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="1" >
-                <widget class="QLabel" name="m_pFixedFontL" >
-                 <property name="sizePolicy" >
-                  <sizepolicy vsizetype="Preferred" hsizetype="Minimum" >
+               <item row="1" column="1">
+                <widget class="QLabel" name="m_pFixedFontL">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="text" >
+                 <property name="text">
                   <string>TextLabel</string>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="2" >
-                <widget class="QPushButton" name="m_pChangeFixedFontB" >
-                 <property name="text" >
+               <item row="1" column="2">
+                <widget class="QPushButton" name="m_pChangeFixedFontB">
+                 <property name="text">
                   <string>Change ...</string>
                  </property>
                 </widget>
@@ -2853,53 +2719,44 @@
            </layout>
           </item>
           <item>
-           <widget class="QWidget" native="1" name="m_pIconConfW" >
-            <layout class="QHBoxLayout" >
-             <property name="leftMargin" >
-              <number>0</number>
-             </property>
-             <property name="topMargin" >
-              <number>0</number>
-             </property>
-             <property name="rightMargin" >
-              <number>0</number>
-             </property>
-             <property name="bottomMargin" >
+           <widget class="QWidget" name="m_pIconConfW" native="true">
+            <layout class="QHBoxLayout">
+             <property name="margin">
               <number>0</number>
              </property>
              <item>
-              <widget class="QLabel" name="label_17" >
-               <property name="text" >
+              <widget class="QLabel" name="label_17">
+               <property name="text">
                 <string>Icon size</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QSpinBox" name="m_pIconSizeSB" >
-               <property name="minimum" >
+              <widget class="QSpinBox" name="m_pIconSizeSB">
+               <property name="minimum">
                 <number>20</number>
                </property>
-               <property name="maximum" >
+               <property name="maximum">
                 <number>64</number>
                </property>
-               <property name="value" >
+               <property name="value">
                 <number>40</number>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QCheckBox" name="m_pAutoSizeIconsCkB" >
-               <property name="text" >
+              <widget class="QCheckBox" name="m_pAutoSizeIconsCkB">
+               <property name="text">
                 <string>Auto-size icons based on the width of the main window</string>
                </property>
               </widget>
              </item>
              <item>
               <spacer>
-               <property name="orientation" >
+               <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>
-               <property name="sizeHint" >
+               <property name="sizeHint" stdset="0">
                 <size>
                  <width>40</width>
                  <height>20</height>
@@ -2914,66 +2771,48 @@
         </widget>
        </item>
        <item>
-        <widget class="QWidget" native="1" name="widget_23" >
-         <layout class="QHBoxLayout" >
-          <property name="leftMargin" >
-           <number>0</number>
-          </property>
-          <property name="topMargin" >
-           <number>0</number>
-          </property>
-          <property name="rightMargin" >
-           <number>0</number>
-          </property>
-          <property name="bottomMargin" >
+        <widget class="QWidget" name="widget_23" native="true">
+         <layout class="QHBoxLayout">
+          <property name="margin">
            <number>0</number>
           </property>
           <item>
-           <widget class="QGroupBox" name="m_pNormalizeGrp" >
-            <property name="sizePolicy" >
-             <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+           <widget class="QGroupBox" name="m_pNormalizeGrp">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>7</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="title" >
+            <property name="title">
              <string>Normalizer</string>
             </property>
-            <layout class="QVBoxLayout" >
-             <property name="topMargin" >
+            <layout class="QVBoxLayout">
+             <property name="topMargin">
               <number>0</number>
              </property>
              <item>
-              <widget class="QWidget" native="1" name="widget_20" >
-               <layout class="QHBoxLayout" >
-                <property name="leftMargin" >
-                 <number>0</number>
-                </property>
-                <property name="topMargin" >
-                 <number>0</number>
-                </property>
-                <property name="rightMargin" >
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin" >
+              <widget class="QWidget" name="widget_20" native="true">
+               <layout class="QHBoxLayout">
+                <property name="margin">
                  <number>0</number>
                 </property>
                 <item>
-                 <widget class="QLabel" name="label_16" >
-                  <property name="text" >
+                 <widget class="QLabel" name="label_16">
+                  <property name="text">
                    <string>Command (file names will get added at the end)</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="m_pNormalizerE" />
+                 <widget class="QLineEdit" name="m_pNormalizerE"/>
                 </item>
                </layout>
               </widget>
              </item>
              <item>
-              <widget class="QCheckBox" name="m_pKeepNormOpenCkB" >
-               <property name="text" >
+              <widget class="QCheckBox" name="m_pKeepNormOpenCkB">
+               <property name="text">
                 <string>Keep the window open after completion</string>
                </property>
               </widget>
@@ -2982,39 +2821,39 @@
            </widget>
           </item>
           <item>
-           <widget class="QGroupBox" name="m_pRenamerGrp" >
-            <property name="sizePolicy" >
-             <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+           <widget class="QGroupBox" name="m_pRenamerGrp">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>4</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="title" >
+            <property name="title">
              <string>File renamer</string>
             </property>
-            <layout class="QGridLayout" >
-             <property name="topMargin" >
+            <layout class="QGridLayout">
+             <property name="topMargin">
               <number>0</number>
              </property>
-             <item row="0" column="0" >
-              <widget class="QLabel" name="label_33" >
-               <property name="text" >
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_33">
+               <property name="text">
                 <string>Invalid characters</string>
                </property>
               </widget>
              </item>
-             <item row="0" column="1" >
-              <widget class="QLineEdit" name="m_pInvalidCharsE" />
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="m_pInvalidCharsE"/>
              </item>
-             <item row="1" column="0" >
-              <widget class="QLabel" name="label_34" >
-               <property name="text" >
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_34">
+               <property name="text">
                 <string>Replace with</string>
                </property>
               </widget>
              </item>
-             <item row="1" column="1" >
-              <widget class="QLineEdit" name="m_pInvalidReplacementE" />
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="m_pInvalidReplacementE"/>
              </item>
             </layout>
            </widget>
@@ -3024,10 +2863,10 @@
        </item>
        <item>
         <spacer>
-         <property name="orientation" >
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeHint" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>161</width>
            <height>66</height>
@@ -3040,38 +2879,29 @@
     </widget>
    </item>
    <item>
-    <widget class="QFrame" name="frame" >
-     <property name="minimumSize" >
+    <widget class="QFrame" name="frame">
+     <property name="minimumSize">
       <size>
        <width>0</width>
        <height>0</height>
       </size>
      </property>
-     <property name="frameShape" >
+     <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
      </property>
-     <property name="frameShadow" >
+     <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QHBoxLayout" >
-      <property name="leftMargin" >
-       <number>0</number>
-      </property>
-      <property name="topMargin" >
-       <number>0</number>
-      </property>
-      <property name="rightMargin" >
-       <number>0</number>
-      </property>
-      <property name="bottomMargin" >
+     <layout class="QHBoxLayout">
+      <property name="margin">
        <number>0</number>
       </property>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>40</width>
           <height>20</height>
@@ -3080,15 +2910,15 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="m_pOkB" >
-        <property name="text" >
+       <widget class="QPushButton" name="m_pOkB">
+        <property name="text">
          <string>O&amp;K</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="m_pCancelB" >
-        <property name="text" >
+       <widget class="QPushButton" name="m_pCancelB">
+        <property name="text">
          <string>Cancel</string>
         </property>
        </widget>
@@ -3125,7 +2955,7 @@
   <tabstop>m_pIconSizeSB</tabstop>
  </tabstops>
  <resources>
-  <include location="Mp3Diags.qrc" />
+  <include location="Mp3Diags.qrc"/>
  </resources>
  <connections/>
 </ui>

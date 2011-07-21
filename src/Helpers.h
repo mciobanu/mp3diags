@@ -351,6 +351,18 @@ inline std::string fromNativeSeparators(const std::string& s) { return convStr(f
 QString getTempDir();
 
 
+struct ShellIntegration
+{
+    static bool isShellIntegrationEditable();
+    static std::string getShellIntegrationError();
+
+    static void enableTempSession(bool);
+    static bool isTempSessionEnabled();
+    static void enableVisibleSession(bool);
+    static bool isVisibleSessionEnabled();
+    static void enableHiddenSession(bool);
+    static bool isHiddenSessionEnabled();
+};
 
 //======================================================================================================
 //======================================================================================================

@@ -623,6 +623,21 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
         "An underlined font is used to allow spaces to be seen");
     m_pInvalidReplacementE->setToolTip("This string replaces invalid characters in the file renamer\"\n\n"
         "An underlined font is used to allow spaces to be seen");
+
+    {
+        m_pShellTempSessCkB->setChecked(ShellIntegration::isTempSessionEnabled());
+        m_pShellVisibleSessCkB->setChecked(ShellIntegration::isVisibleSessionEnabled());
+        m_pShellHiddenSessCkB->setChecked(ShellIntegration::isHiddenSessionEnabled());
+
+        bool b (ShellIntegration::isShellIntegrationEditable());
+        m_pShellTempSessCkB->setEnabled(b);
+        m_pShellVisibleSessCkB->setEnabled(b);
+        m_pShellHiddenSessCkB->setEnabled(b);
+
+        string strShellErr (ShellIntegration::getShellIntegrationError());
+
+        m_pShellErrorL->setText(convStr(strShellErr));
+    }
 }
 
 
@@ -1018,6 +1033,12 @@ void ConfigDlgImpl::on_m_pOkB_clicked()
             m_pCommonData->m_strCheckForNewVersions = m_pCheckForUpdatesCkB->isChecked() ? "yes" : "no";
         }
 
+        { // shell integration
+            ShellIntegration::enableHiddenSession(m_pShellHiddenSessCkB->isChecked());
+            ShellIntegration::enableVisibleSession(m_pShellVisibleSessCkB->isChecked());
+            ShellIntegration::enableTempSession(m_pShellTempSessCkB->isChecked());
+        }
+
         accept();
     }
     catch (const IncorrectDirName&)
@@ -1156,7 +1177,8 @@ void ConfigDlgImpl::onHelp()
     case 4: openHelp("292_config_visible_transf.html"); break;
     case 5: openHelp("295_config_quality.html"); break;
     case 6: openHelp("297_config_colors.html"); break;
-    case 7: openHelp("300_config_others.html"); break;
+    case 7: openHelp("298_config_shell.html"); break;
+    case 8: openHelp("300_config_others.html"); break;
     //tttr revise as needed
 
     default: /*openHelp("index.html");*/ break;

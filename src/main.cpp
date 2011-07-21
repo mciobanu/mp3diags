@@ -371,7 +371,7 @@ int guiMain(const po::variables_map& options) {
     }
     else if (!strFolderSess.empty())
     {
-        string strProcDir = convStr(QDir(fromNativeSeparators(convStr(strFolderSess))).absolutePath()); //ttt2 test on root
+        string strProcDir = getNonSepTerminatedDir(convStr(QDir(fromNativeSeparators(convStr(strFolderSess))).absolutePath())); //ttt2 test on root
 
         if (!dirExists(strProcDir))
         {
@@ -380,6 +380,11 @@ int guiMain(const po::variables_map& options) {
         }
 
         string strDirName (convStr(QFileInfo(convStr(strProcDir)).fileName()));
+        if (strDirName.empty()) // it's a whole disk drive on Windows, e.g. D:\\  ;
+        {
+            strDirName += strProcDir[0];
+            strDirName += "-MP3Diags";
+        }
         strStartSession = getSepTerminatedDir(strProcDir) + strDirName + SessionEditorDlgImpl::SESS_EXT;
         if (bHideFolderSess)
         {
@@ -719,6 +724,7 @@ int main(int argc, char *argv[])
 //char *argv1[] = {"aa", "--loaded-folder-session", "/d/test_mp3/1/tmp2/c pic" }; argc = 3; argv = argv1;
 //char *argv1[] = {"aa", "--loaded-folder-session", "/d/test_mp3/1/tmp2/text frames" }; argc = 3; argv = argv1;
 //char *argv1[] = {"aa", "--folder-session", "/usr" }; argc = 3; argv = argv1;
+    //char *argv1[] = {"aa", "--hidden-session", "Q:\\" }; argc = 3; argv = argv1;
 
     //DEFINE_PROF_ROOT("mp3diags");
     //PROF("root");
@@ -809,6 +815,9 @@ int main(int argc, char *argv[])
     {
         QSettings s (ORGANIZATION, SETTINGS_APP_NAME);
         s.clear(); //ttt2 see if this can actually remove everything, including the ORGANIZATION dir if it's empty;
+        ShellIntegration::enableHiddenSession(false);
+        ShellIntegration::enableVisibleSession(false);
+        ShellIntegration::enableTempSession(false);
         return 0;
     }
 
@@ -889,3 +898,5 @@ WARNING: it is ignored, until you registered a Category at adrian@suse.de .
 //ttt1 explorer right-click; create a new session vs. add to existing one
 //ttt0 make AdjustMt.sh work
 
+//ttt0 config screenshots need "shell" tab
+//ttt0 "shell" tab has smaller font

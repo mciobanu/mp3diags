@@ -85,6 +85,7 @@ In the <a href="300_config_others.html">Config - Others</a> tab you can see in t
 
 
 <div class="FreeNormalText RegFnt ChpCol2">
+<a name="sessions"></a>
 <table border="0" cellpadding="0" cellspacing="0" class="NoBrdTableText RegFnt">
     <tr>
         <td> <img src="310_sessions_btn.png" /> </td>
@@ -100,10 +101,10 @@ In the <a href="300_config_others.html">Config - Others</a> tab you can see in t
 
 
 <div class="SubChapterText RegFnt ChpCol1">
-Command-line options
+<a name="cmdLine">Command-line options</a>
 </div>
 
-<div class="NavPadTable RegFnt ChpCol1">
+<div class="FreeNormalText RegFnt ChpCol1">
 It is possible to analyze several files or folders without opening the program's main window or to create sessions for a given folder. This is achieved by using command-line parameters. Currently these parameters can be used:
 </div>
 
@@ -130,7 +131,7 @@ It is possible to analyze several files or folders without opening the program's
         <td> a session gets created inside the specified folder (if it doesn't already exist) and then the program starts up and uses that session; the session isn't stored in the session list but it is saved on disk, so running the same command again will just reuse the existing session </td>
     </tr>
     <tr>
-        <td> <b>--loaded-session</b> &lt;folder_name&gt; </td>
+        <td> <b>--visible-session</b> &lt;folder_name&gt; </td>
         <td> similar to <b>--hidden-session</b> but the session remains in the session list after the program exits</td>
     </tr>
     <tr>
@@ -139,7 +140,7 @@ It is possible to analyze several files or folders without opening the program's
     </tr>
     <tr>
         <td> <b>--uninstall</b> </td>
-        <td> clears the session list and the global settings </td>
+        <td> clears the session list and the global settings and removes the shell integration </td>
     </tr>
 </table>
 </div>
@@ -149,8 +150,8 @@ It is possible to analyze several files or folders without opening the program's
 Template notes:
 </div>
 
-<div class="NavPadTable RegFnt ChpCol1">
-The settings for the newly created sessions are copied from "templates". A template is just another session. Templates are set up in the "Sessions" dialog.
+<div class="FreeNormalText RegFnt ChpCol1">
+The settings for the newly created sessions are copied from "templates". A template is just another session. Templates are set up in the <a href="#sessions">Session dialog</a>.
 </div>
 
 
@@ -158,14 +159,14 @@ The settings for the newly created sessions are copied from "templates". A templ
 Running on Windows:
 </div>
 
-<div class="NavPadTable RegFnt ChpCol1">
+<div class="FreeNormalText RegFnt ChpCol1">
 It seems that it's not possible in Windows to write some text output to the command prompt that was used to launch a GUI program. One solution for getting around this limitation is to use redirection, either to a file or through a filter like <b>more</b>. MP3 Diags comes with a script called <b>MP3DiagsCLIQQQBRANCH_DQQQ.cmd</b> which can be used instead of <b>MP3DiagsWindowsQQQBRANCH_DQQQ.exe</b> to create the illusion of outputting to the command prompt. (Well, this is not perfect, as it waits for the program to finish before displaying anything.)
 </div>
 
 
 
 
-<div class="FreeNormalText RegFnt ChpCol2">
+<div class="NavPadTable RegFnt ChpCol2">
 <div style="width:100%">
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="NavTable">
     <tr>

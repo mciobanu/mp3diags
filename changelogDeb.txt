@@ -1,3 +1,9 @@
+mp3diags (1.1.05.058) testing; urgency=low
+
+  * shell integration (Windows only)
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Thu, 21 Jul 2011 22:00:00 +0200
+
 mp3diags (1.1.04.057) testing; urgency=low
 
   * folder-based sessions based on command-line parameters

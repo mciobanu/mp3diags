@@ -42,6 +42,7 @@
 #include  <QUrl>
 #include  <QFileInfo>
 #include  <QDir>
+#include  <QSettings>
 
 #include  "Helpers.h"
 #include  "Widgets.h"
@@ -1035,6 +1036,249 @@ QString getTempDir()
     }
     return s;
 }
+
+
+
+//=============================================================================================
+//=============================================================================================
+//=============================================================================================
+
+
+#ifndef WIN32
+//ttt1 implement
+
+/*static*/ bool ShellIntegration::isShellIntegrationEditable()
+{
+    return false;
+}
+
+
+/*static*/ string ShellIntegration::getShellIntegrationError()
+{
+    return "Platform not supported";
+}
+
+
+/*static*/ void ShellIntegration::enableTempSession(bool)
+{
+}
+
+/*static*/ bool ShellIntegration::isTempSessionEnabled()
+{
+    return false;
+}
+
+/*static*/ void ShellIntegration::enableVisibleSession(bool)
+{
+}
+
+/*static*/ bool ShellIntegration::isVisibleSessionEnabled()
+{
+    return false;
+}
+
+/*static*/ void ShellIntegration::enableHiddenSession(bool)
+{
+}
+
+/*static*/ bool ShellIntegration::isHiddenSessionEnabled()
+{
+    return false;
+}
+
+#else
+
+namespace {
+
+//ttt2 use a class instead of functions, to handle errors better
+
+/*
+class RegKey
+{
+    HKEY m_hKey;
+    RegKey(const RegKey&);
+    RegKey& operator=(const RegKey&);
+public:
+
+    ~RegKey()
+    {
+        RegCloseKey(m_hKey);
+    }
+};
+*/
+
+/*
+{
+    HKEY hkey;
+    if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_CLASSES_ROOT, L"Directory\\shell", 0, KEY_READ, &hkey))
+    {
+        RegCloseKey(hkey);
+    }
+
+    if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_CLASSES_ROOT, L"Directory\\shell", 0, KEY_WRITE, &hkey))
+    {
+        HKEY hSubkey;
+        if (ERROR_SUCCESS == RegCreateKeyEx(hkey, L"MySubkey", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &hSubkey, NULL))
+        {
+            if (ERROR_SUCCESS == RegSetValueExA(hSubkey, NULL, 0, REG_SZ, (const BYTE*)("my string"), 10))
+            {
+                cout << "OK\n";
+            }
+            RegCloseKey(hSubkey);
+        }
+        RegCloseKey(hkey);
+    }
+}
+
+*/
+
+
+//bool doesKeyExist(const wchar_t* wszPath)
+bool doesKeyExist(const char* szPath)
+{
+    HKEY hKey;
+    if (ERROR_SUCCESS == RegOpenKeyExA(HKEY_CLASSES_ROOT, szPath, 0, KEY_READ, &hKey))
+    {
+        RegCloseKey(hKey);
+        return true;
+    }
+    return false;
+}
+
+//bool createEntries(const wchar_t* wszPath, const wchar_t* wszSubkey, const wchar_t* wszDescr, const wchar_t* wszCommand)
+bool createEntries(const char* szPath, const char* szSubkey, const char* szDescr, const char* szParam)
+{
+    string s (string("\"") + _pgmptr + "\" " + szParam);
+    const char* szCommand (s.c_str());
+
+    HKEY hKey;
+
+    if (ERROR_SUCCESS != RegOpenKeyExA(HKEY_CLASSES_ROOT, szPath, 0, KEY_WRITE, &hKey)) { return false; }
+
+    HKEY hSubkey;
+    if (ERROR_SUCCESS != RegCreateKeyExA(hKey, szSubkey, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &hSubkey, NULL)) { return false; }
+    if (ERROR_SUCCESS != RegSetValueExA(hSubkey, NULL, 0, REG_SZ, (const BYTE*)szDescr, strlen(szDescr) + 1)) { return false; }
+
+    HKEY hCommandKey;
+    if (ERROR_SUCCESS != RegCreateKeyExA(hSubkey, "command", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &hCommandKey, NULL)) { return false; }
+    if (ERROR_SUCCESS != RegSetValueExA(hCommandKey, NULL, 0, REG_SZ, (const BYTE*)szCommand, strlen(szCommand) + 1)) { return false; }
+
+    RegCloseKey(hCommandKey);
+    RegCloseKey(hSubkey);
+    RegCloseKey(hKey);
+
+    return true;
+}
+
+bool deleteKey(const char* szPath, const char* szSubkey)
+{
+    HKEY hKey;
+
+    if (ERROR_SUCCESS != RegOpenKeyExA(HKEY_CLASSES_ROOT, szPath, 0, KEY_WRITE, &hKey)) { return false; }
+    //if (ERROR_SUCCESS != RegDeleteTreeA(hKey, szSubkey)) { return false; }
+
+    HKEY hSubkey;
+    if (ERROR_SUCCESS != RegCreateKeyExA(hKey, szSubkey, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &hSubkey, NULL)) { return false; }
+
+    if (ERROR_SUCCESS != RegDeleteKeyA(hSubkey, "command")) { return false; }
+    RegCloseKey(hSubkey);
+
+    if (ERROR_SUCCESS != RegDeleteKeyA(hKey, szSubkey)) { return false; }
+
+    RegCloseKey(hKey);
+
+    return true;
+}
+
+} // namespace
+
+//--------------------------------------------------------------
+
+
+
+/*static*/ bool ShellIntegration::isShellIntegrationEditable()
+{
+    HKEY hKey;
+    if (ERROR_SUCCESS == RegOpenKeyExA(HKEY_CLASSES_ROOT, "Directory\\shell", 0, KEY_WRITE, &hKey))
+    {
+        return true;
+    }
+    return false;
+}
+
+
+/*static*/ string ShellIntegration::getShellIntegrationError()
+{
+    if (isShellIntegrationEditable()) { return ""; }
+    return "These settings cannot currently be changed. In order to make changes you should probably run the program as an administrator.";
+}
+
+
+
+/*static*/ void ShellIntegration::enableTempSession(bool b)
+{
+    if (!(isTempSessionEnabled() ^ b)) { return; } // no change needed
+    if (b)
+    {
+        createEntries("Directory\\shell", "mp3diags_temp_dir", "Open as temporary folder in MP3 Diags", "-t \"%1\"");
+        createEntries("Drive\\shell", "mp3diags_temp_dir", "Open as temporary folder in MP3 Diags", "-t %1");
+    }
+    else
+    {
+        deleteKey("Directory\\shell", "mp3diags_temp_dir");
+        deleteKey("Drive\\shell", "mp3diags_temp_dir");
+    }
+}
+
+/*static*/ bool ShellIntegration::isTempSessionEnabled()
+{
+    return doesKeyExist("Directory\\shell\\mp3diags_temp_dir");
+}
+
+
+/*static*/ void ShellIntegration::enableVisibleSession(bool b)
+{
+    if (!(isVisibleSessionEnabled() ^ b)) { return; } // no change needed
+    if (b)
+    {
+        createEntries("Directory\\shell", "mp3diags_visible_dir", "Open as visible folder in MP3 Diags", "-v \"%1\"");
+        createEntries("Drive\\shell", "mp3diags_visible_dir", "Open as visible folder in MP3 Diags", "-v %1");
+    }
+    else
+    {
+        deleteKey("Directory\\shell", "mp3diags_visible_dir");
+        deleteKey("Drive\\shell", "mp3diags_visible_dir");
+    }
+}
+
+/*static*/ bool ShellIntegration::isVisibleSessionEnabled()
+{
+    return doesKeyExist("Directory\\shell\\mp3diags_visible_dir");
+}
+
+
+/*static*/ void ShellIntegration::enableHiddenSession(bool b)
+{
+    if (!(isHiddenSessionEnabled() ^ b)) { return; } // no change needed
+    if (b)
+    {
+        createEntries("Directory\\shell", "mp3diags_hidden_dir", "Open as hidden folder in MP3 Diags", "-f \"%1\"");
+        createEntries("Drive\\shell", "mp3diags_hidden_dir", "Open as hidden folder in MP3 Diags", "-f %1");
+    }
+    else
+    {
+        deleteKey("Directory\\shell", "mp3diags_hidden_dir");
+        deleteKey("Drive\\shell", "mp3diags_hidden_dir");
+    }
+}
+
+/*static*/ bool ShellIntegration::isHiddenSessionEnabled()
+{
+    return doesKeyExist("Directory\\shell\\mp3diags_hidden_dir");
+}
+
+#endif
+
 
 
 //=============================================================================================

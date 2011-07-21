@@ -464,7 +464,7 @@
             var fOut = fsObj.CreateTextFile("src\\MP3DiagsWindows." + ext, true);
             var fIn = fsObj.OpenTextFile("src\\MP3DiagsWindows." + ext + "1", 1);
             var regExp1 = new RegExp("release\\\\threading-multi");
-            var regExp2 = new RegExp("-mt-");
+            var regExp2 = new RegExp("-mt-1");
             var regExp3 = new RegExp("QtGuid4");
             var line;
 
@@ -473,8 +473,8 @@
                 line = fIn.ReadLine();
                 if (-1 != line.search(regExp1) && -1 != line.search(regExp2) && -1 != line.search(regExp3))
                 {
-                    line = line.replace(regExp1, "debug\\threading-multi");
-                    line = line.replace(regExp2, "-mt-gd-");
+                    line = line.replace(regExp1, "debug\\threading-multi").replace(regExp1, "debug\\threading-multi");
+                    line = line.replace(regExp2, "-mt-gd-1").replace(regExp2, "-mt-gd-1");
                 }
                 fOut.writeLine(line);
             }

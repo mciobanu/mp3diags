@@ -2,7 +2,7 @@ Source: mp3diags
 Section: sound
 Priority: optional
 Maintainer: Marian Ciobanu <ciobi@inbox.com>
-Build-Depends: debhelper (>= 4.1.16), libqt4-dev, zlib1g-dev, libboost1.35-dev
+Build-Depends: debhelper (>= 4.1.16), libqt4-dev, zlib1g-dev, libboost1.35-dev, libboost-program-options1.35-dev
 
 Package: mp3diags
 Architecture: any

@@ -69,15 +69,13 @@
 </div>
 
 <div class="NormalText RegFnt NoteCol">
-<span class="NoteCol">The development for the version 1.0 is basically frozen. There are several outstanding bugs that can't be fixed due to lack of user feedback: I can't reproduce the bug and I can't make a reasonable guess as to what's causing it, so I need more details from the reporter, but the reporter doesn't provide those details. After a while the bugs will be closed and 1.0 declared finished. In the meantime I'll fix any bugs that are found and reported, provided that I can reproduce them or at least have a good idea about what might be causing them. To some extent I'm also willing to add support for some of the various things that are currently unsupported, if such support is requested and the changes would be small and pretty isolated.</span>
+<span class="NoteCol">While the development for 1.0 is frozen, I'll fix any serious bugs that are found and reported, provided that I can reproduce them or at least have a good idea about what might be causing them. Less serious bugs and feature changes are addressed in 1.1.
+
+I am aware of several outstanding bugs, which I can't fix due to lack of user feedback: I can't reproduce the bug and I can't make a reasonable guess as to what's causing it, so I need more details from the reporter, but the reporter doesn't provide those details. After a while these bugs will be closed. My plan is to fix bugs in 1.1 in a timely manner, so potential bugs shouldn't be a big issue (at least if you keep backup copies of your MP3s). Note, though that usually bug fixing requires user cooperation, so it's not only up to me to make a fix.</span>
 </div>
 
 <div class="NormalText RegFnt NoteCol">
-<span class="NoteCol">So nothing major is going to follow for a while. However, from time to time you may want to check the <a href="http://mp3diags.blogspot.com/" class="Note">MP3 Diags blog</a>, where announcements about new releases are made. Then you can decide based on what changed in a given release if you want to upgrade or not. (If you use an RSS reader, you can add that page to it, so you see the notifications automatically.)</span>
-</div>
-
-<div class="NormalText RegFnt NoteCol">
-<span class="NoteCol">You can also look at change log at the <a href="http://mp3diags.sourceforge.net/015_changelog.html" class="Note">project's site</a>, to see what changed since you installed your version</span>
+<span class="NoteCol">From time to time you may want to check the <a href="http://mp3diags.blogspot.com/" class="Note" onClick="javascript: pageTracker._trackPageview('/mp3diagsblog');">MP3 Diags blog</a>, where announcements about new versions are made, both about bug fixes for the current stable release and about the release under development (i.e. 1.1.) Then you can decide based on what changed in a given version if you want to upgrade or not. (If you use an RSS reader, you can add that page to it, so you see the notifications automatically.) </span>
 </div>
 
 
@@ -90,8 +88,29 @@ There are both source files and binaries, for several Linux platforms, as well a
 
 
 
+<div class="SubChapterText RegFnt ChpCol1">
+<a name="uninstall">Uninstallation</a>
+</div>
 
-<div class="NavPadTable RegFnt ChpCol1">
+
+<div class="NormalText RegFnt ChpCol1">
+How the uninstallation should proceed depends on how the program was installed. If you installed from sources with <span class="Reference">Install.sh</span>, there is an <span class="Reference">Uninstall.sh</span>. If you installed on Windows using the installer, you can use both the Control panel and the "Uninstall" entry created when MP3 Diags was installed. If you used a package manager on Linux, use the same thing. If you just copied binaries, remove the binaries.
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+Keep in mind that besides the executable, there are data files and settings. You probably created some data files, and if you are sure you no longer need them you should remove them manually. Note that the data files come in pairs. Although you only specify an ".ini" file when you start the program for the first time (or when you <a href="310_advanced.html">create a new session</a>), two files get created. The ".ini" only stores settings, while the actual data is stored in a file in the same directory and with the same name but with the extension ".dat".
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+Besides the ".ini" and ".dat" files, there is a small configuration file which is named <span class="Reference">~/.config/Ciobi/Mp3DiagsQQQBRANCH_DQQQ.conf</span> on Linux and similar systems. That file should be removed as well if you want no trace of MP3 Diags left on your computer. (Of course, you lose your settings, should you want to reinstall MP3 Diags.) The corresponding place on Windows is the registry entry <span class="Reference">HKEY_CURRENT_USER\Software\Ciobi\Mp3DiagsQQQBRANCH_DQQQ</span>.
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+If you used shell integration, you should disable it before simply removing the program, so it won't leave garbage in your system. This is done automatically by the Windows uninstaller. You can do this manually by running the program with the "-u" parameter or by going to the <a href="298_config_shell.html"> Shell integration </a> configuration page and unchecking all the options there.
+</div>
+
+
+<div class="NavPadTable RegFnt ChpCol2">
 <div style="width:100%">
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="NavTable">
     <tr>

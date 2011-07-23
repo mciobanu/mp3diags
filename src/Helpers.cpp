@@ -1092,20 +1092,16 @@ namespace {
 
 //ttt2 use a class instead of functions, to handle errors better
 
-/*
-class RegKey
+struct RegKey
 {
     HKEY m_hKey;
-    RegKey(const RegKey&);
-    RegKey& operator=(const RegKey&);
-public:
+    RegKey() : m_hKey(0) {}
 
     ~RegKey()
     {
         RegCloseKey(m_hKey);
     }
 };
-*/
 
 /*
 {
@@ -1136,13 +1132,8 @@ public:
 //bool doesKeyExist(const wchar_t* wszPath)
 bool doesKeyExist(const char* szPath)
 {
-    HKEY hKey;
-    if (ERROR_SUCCESS == RegOpenKeyExA(HKEY_CLASSES_ROOT, szPath, 0, KEY_READ, &hKey))
-    {
-        RegCloseKey(hKey);
-        return true;
-    }
-    return false;
+    RegKey key;
+    return ERROR_SUCCESS == RegOpenKeyExA(HKEY_CLASSES_ROOT, szPath, 0, KEY_READ, &key.m_hKey);
 }
 
 //bool createEntries(const wchar_t* wszPath, const wchar_t* wszSubkey, const wchar_t* wszDescr, const wchar_t* wszCommand)
@@ -1151,41 +1142,33 @@ bool createEntries(const char* szPath, const char* szSubkey, const char* szDescr
     string s (string("\"") + _pgmptr + "\" " + szParam);
     const char* szCommand (s.c_str());
 
-    HKEY hKey;
+    RegKey key;
 
-    if (ERROR_SUCCESS != RegOpenKeyExA(HKEY_CLASSES_ROOT, szPath, 0, KEY_WRITE, &hKey)) { return false; }
+    if (ERROR_SUCCESS != RegOpenKeyExA(HKEY_CLASSES_ROOT, szPath, 0, KEY_WRITE, &key.m_hKey)) { return false; }
 
-    HKEY hSubkey;
-    if (ERROR_SUCCESS != RegCreateKeyExA(hKey, szSubkey, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &hSubkey, NULL)) { return false; }
-    if (ERROR_SUCCESS != RegSetValueExA(hSubkey, NULL, 0, REG_SZ, (const BYTE*)szDescr, strlen(szDescr) + 1)) { return false; }
+    RegKey subkey;
+    if (ERROR_SUCCESS != RegCreateKeyExA(key.m_hKey, szSubkey, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &subkey.m_hKey, NULL)) { return false; }
+    if (ERROR_SUCCESS != RegSetValueExA(subkey.m_hKey, NULL, 0, REG_SZ, (const BYTE*)szDescr, strlen(szDescr) + 1)) { return false; }
 
-    HKEY hCommandKey;
-    if (ERROR_SUCCESS != RegCreateKeyExA(hSubkey, "command", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &hCommandKey, NULL)) { return false; }
-    if (ERROR_SUCCESS != RegSetValueExA(hCommandKey, NULL, 0, REG_SZ, (const BYTE*)szCommand, strlen(szCommand) + 1)) { return false; }
-
-    RegCloseKey(hCommandKey);
-    RegCloseKey(hSubkey);
-    RegCloseKey(hKey);
+    RegKey commandKey;
+    if (ERROR_SUCCESS != RegCreateKeyExA(subkey.m_hKey, "command", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &commandKey.m_hKey, NULL)) { return false; }
+    if (ERROR_SUCCESS != RegSetValueExA(commandKey.m_hKey, NULL, 0, REG_SZ, (const BYTE*)szCommand, strlen(szCommand) + 1)) { return false; }
 
     return true;
 }
 
 bool deleteKey(const char* szPath, const char* szSubkey)
 {
-    HKEY hKey;
+    RegKey key;
 
-    if (ERROR_SUCCESS != RegOpenKeyExA(HKEY_CLASSES_ROOT, szPath, 0, KEY_WRITE, &hKey)) { return false; }
-    //if (ERROR_SUCCESS != RegDeleteTreeA(hKey, szSubkey)) { return false; }
+    if (ERROR_SUCCESS != RegOpenKeyExA(HKEY_CLASSES_ROOT, szPath, 0, KEY_WRITE, &key.m_hKey)) { return false; }
 
-    HKEY hSubkey;
-    if (ERROR_SUCCESS != RegCreateKeyExA(hKey, szSubkey, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &hSubkey, NULL)) { return false; }
+    RegKey subkey;
+    if (ERROR_SUCCESS != RegCreateKeyExA(key.m_hKey, szSubkey, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &subkey.m_hKey, NULL)) { return false; }
 
-    if (ERROR_SUCCESS != RegDeleteKeyA(hSubkey, "command")) { return false; }
-    RegCloseKey(hSubkey);
+    if (ERROR_SUCCESS != RegDeleteKeyA(subkey.m_hKey, "command")) { return false; }
 
-    if (ERROR_SUCCESS != RegDeleteKeyA(hKey, szSubkey)) { return false; }
-
-    RegCloseKey(hKey);
+    if (ERROR_SUCCESS != RegDeleteKeyA(key.m_hKey, szSubkey)) { return false; }
 
     return true;
 }
@@ -1198,12 +1181,15 @@ bool deleteKey(const char* szPath, const char* szSubkey)
 
 /*static*/ bool ShellIntegration::isShellIntegrationEditable()
 {
-    HKEY hKey;
-    if (ERROR_SUCCESS == RegOpenKeyExA(HKEY_CLASSES_ROOT, "Directory\\shell", 0, KEY_WRITE, &hKey))
-    {
-        return true;
-    }
-    return false;
+    //RegKey key;
+    // return ERROR_SUCCESS == RegOpenKeyExA(HKEY_CLASSES_ROOT, "Directory\\shell", 0, KEY_WRITE, &key.m_hKey); //!!! if compiled with MinGW on XP there's this issue on W7: it seems to work but it looks like it uses a temporary path, which gets soon deleted
+
+    createEntries("Directory\\shell", "test_000_mp3diags", "test", "-t \"%1\"");
+    if (!doesKeyExist("Directory\\shell\\test_000_mp3diags")) { return false; }
+
+    deleteKey("Directory\\shell", "test_000_mp3diags");
+
+    return true;
 }
 
 

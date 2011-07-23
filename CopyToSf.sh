@@ -29,6 +29,11 @@ cp -p MP3DiagsSetup"$BranchDash"-*.exe mp3diags"$BranchSlash"/mp3diags-windows-s
 rsync -avP -e ssh mp3diags/* ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags
 
 
+#cd MP3DiagsSfDoc"$BranchDash"* ; rsync -avP -e ssh * ciobi07,mp3diags@web.sourceforge.net:htdocs"$BranchSlash"/
+rsync -avP -e ssh MP3DiagsSfDoc"$BranchDash"*/* ciobi07,mp3diags@web.sourceforge.net:htdocs"$BranchSlash"/
+
+
+
 
 # echo Kso9di8Yuw3 > zSfPasswd.txt
 #

@@ -1,3 +1,7 @@
+* Fri Jul 22 2011 Marian Ciobanu <ciobi@inbox.com> 1.1.06.059
+
+- shell integration fixes
+
 * Thu Jul 21 2011 Marian Ciobanu <ciobi@inbox.com> 1.1.05.058
 
 - shell integration (Windows only)

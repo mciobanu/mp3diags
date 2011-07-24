@@ -47,6 +47,7 @@
 #include  "Helpers.h"
 #include  "Widgets.h"
 #include  "Version.h"
+#include  "OsFile.h"
 
 
 using namespace std;
@@ -691,6 +692,69 @@ vector<QString> convStr(const vector<string>& v)
     return u;
 }
 
+namespace {
+
+struct Gnome3Detector {
+    Gnome3Detector();
+    bool m_bIsGnome3;
+};
+
+
+#ifndef WIN32
+
+//look for gnome-settings-daemon or gnome-settings-daemon-3.0 to determine if running in Gnome (3) and if so add close button
+//or run lsof and get the list
+
+Gnome3Detector::Gnome3Detector() : m_bIsGnome3(false)
+{
+    FileSearcher fs ("/proc");
+    string strBfr;
+
+    while (fs)
+    {
+        if (fs.isDir())
+        {
+            string strCmdLineName (fs.getName());
+
+            if (isdigit(strCmdLineName[6]))
+            {
+                strCmdLineName += "/cmdline";
+                //cout << strCmdLineName << endl;
+                ifstream in (strCmdLineName.c_str());
+                if (in)
+                {
+                    getline(in, strBfr);
+                    //cout << "**" << strBfr.c_str() << "**" << endl;
+                    if (string::npos != strBfr.find("gnome-settings-daemon-3.0"))
+                    //if (string::npos != strBfr.find("kdeinit"))
+                    {
+                        m_bIsGnome3 = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        fs.findNext();
+    }
+
+}
+
+#else
+
+Gnome3Detector::Gnome3Detector() : m_bIsGnome3(false) {}
+
+#endif
+
+}
+
+bool isRunningOnGnome3()
+{
+    static Gnome3Detector gd;
+    return gd.m_bIsGnome3;
+}
+
+
 /*
 Gnome:
 
@@ -715,6 +779,7 @@ Ideally a modal dialog should minimize its parent. If that's not possible, it sh
     Qt::WindowFlags getDialogWndFlags() { return Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint; } // minimize, no "what's this"
     Qt::WindowFlags getNoResizeWndFlags() { return Qt::WindowTitleHint; } // no "what's this"
 #endif
+
 
 
 #if 0

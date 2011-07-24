@@ -1057,6 +1057,12 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
 
     { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("Ctrl+A")); connect(p, SIGNAL(triggered()), this, SLOT(emptySlot())); addAction(p); } // !!! needed because it takes a lot of time, during which the app seems frozen (caused by the cells being selected and unselected automatically) // ttt2 see if possible to disable selecting "note" cells with SHIFT pressed
 
+
+    if (!isRunningOnGnome3())
+    {
+        m_pExitB->hide();
+    }
+
     QTimer::singleShot(1, this, SLOT(onShow()));
 }
 
@@ -2443,6 +2449,12 @@ void MainFormDlgImpl::on_m_pAboutB_clicked()
 }
 
 
+void MainFormDlgImpl::on_m_pExitB_clicked()
+{
+    reject();
+}
+
+
 class AddrRemover : public GenericRemover
 {
     /*override*/ bool matches(DataStream* p) const { return m_spToRemove.count(p) > 0; }
@@ -2563,6 +2575,7 @@ void MainFormDlgImpl::resizeIcons()
     v.push_back(m_pDebugB);
     v.push_back(m_pAboutB);
     v.push_back(m_pExportB);
+    v.push_back(m_pExitB);
 
     int k (m_pCommonData->m_nMainWndIconSize);
     for (int i = 0, n = cSize(v); i < n; ++i)

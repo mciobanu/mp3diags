@@ -91,6 +91,7 @@ public slots:
     void on_m_pViewTagDetailsB_clicked();
 
     void on_m_pAboutB_clicked();
+    void on_m_pExitB_clicked();
 
     void on_m_pTagEdtB_clicked();
     void on_m_pRenameFilesB_clicked();

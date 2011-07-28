@@ -702,8 +702,8 @@ struct Gnome3Detector {
 
 #ifndef WIN32
 
-//look for gnome-settings-daemon or gnome-settings-daemon-3.0 to determine if running in Gnome (3) and if so add close button
-//or run lsof and get the list
+// look for gnome-settings-daemon or gnome-settings-daemon-3.0 to determine if running in Gnome (3) and if so add close button
+// or run lsof and get the list
 
 Gnome3Detector::Gnome3Detector() : m_bIsGnome3(false)
 {
@@ -725,7 +725,8 @@ Gnome3Detector::Gnome3Detector() : m_bIsGnome3(false)
                 {
                     getline(in, strBfr);
                     //cout << "**" << strBfr.c_str() << "**" << endl;
-                    if (string::npos != strBfr.find("gnome-settings-daemon-3.0"))
+                    //if (string::npos != strBfr.find("gnome-settings-daemon-3.0"))
+                    if (string::npos != strBfr.find("gnome-settings-daemon-3."))
                     //if (string::npos != strBfr.find("kdeinit"))
                     {
                         m_bIsGnome3 = true;
@@ -737,7 +738,6 @@ Gnome3Detector::Gnome3Detector() : m_bIsGnome3(false)
 
         fs.findNext();
     }
-
 }
 
 #else
@@ -997,9 +997,9 @@ vector<QString> getLocalHelpDirs()
     {
 #ifndef WIN32
         //s_v.push_back("/home/ciobi/cpp/Mp3Utils/mp3diags/trunk/mp3diags/doc/html/");
-        s_v.push_back("/usr/share/mp3diags-doc/html/");
-        s_v.push_back("/usr/share/doc/mp3diags/html/");
-        s_v.push_back("/usr/share/doc/mp3diags-QQQVERQQQ/html/");
+        s_v.push_back(QString("/usr/share/") + PACKAGE_NAME + "-doc/html/");
+        s_v.push_back(QString("/usr/share/doc/") + PACKAGE_NAME + "/html/");
+        s_v.push_back(QString("/usr/share/doc/") + PACKAGE_NAME + "-QQQVERQQQ/html/");
 #else
         wchar_t wszModule [200];
         int nRes (GetModuleFileName(0, wszModule, 200));
@@ -1035,7 +1035,7 @@ void openHelp(const string& strFileName)
     QString qs (strDir);
     if (qs.isEmpty())
     {
-        qs = "http://mp3diags.sourceforge.net" + QString(APP_BRANCH) + "/";
+        qs = "http://mp3diags.sourceforge.net" + QString(WEB_BRANCH) + "/";
     }
     else
     {
@@ -1109,49 +1109,141 @@ QString getTempDir()
 //=============================================================================================
 
 
-#ifndef WIN32
-//ttt1 implement
+#if defined(__linux__)
+
+namespace {
+
+//const char* DSK_FOLDER ("~/.local/share/applications/");
+const string& getDesktopIntegrationDir()
+{
+    static string s_s;
+    if (s_s.empty())
+    {
+        s_s = convStr(QDir::homePath() + "/.local/share/applications/");
+    }
+    return s_s;
+}
+
+const char* DSK_EXT (".desktop");
+
+class ShellIntegrator
+{
+    string m_strFileName;
+    string m_strAppName;
+    string m_strArg;
+
+public:
+    ShellIntegrator(const string& strFileNameBase, const string& strSessType, const string& strArg) : m_strFileName(getDesktopIntegrationDir() + strFileNameBase + DSK_EXT), m_strAppName(APP_NAME + (" - " + strSessType)), m_strArg(strArg) {}
+
+    bool isEnabled()
+    {
+        return fileExists(m_strFileName);
+    }
+
+    void enable(bool b)
+    {
+        if (b)
+        {
+            char buf[5000] = "mP3DiAgS";
+            buf[0] = 0;
+            int k (readlink("/proc/self/exe", buf, sizeof(buf)));
+            if (k >= 0)
+            {
+                buf[k] = 0;
+            }
+            buf[5000 - 1] = 0;
+
+            ofstream_utf8 out (m_strFileName.c_str());
+            if (!out)
+            {
+                qDebug("couldn't open file %s", m_strFileName.c_str());
+            }
+
+            out << "[Desktop Entry]" << endl;
+            out << "Comment=" << m_strAppName << endl;
+            out << "Encoding=UTF-8" << endl;
+            out << "Exec=\"" << buf << "\" " << m_strArg << " %f" << endl; //out << "Exec=" << buf << " -t %f" << endl; // ttt0 or
+            out << "GenericName=" << m_strAppName << endl;
+            out << "Icon=" << PACKAGE_NAME << endl;
+            out << "Name=" << m_strAppName << endl;
+            out << "Path=" << endl;
+            out << "StartupNotify=false" << endl;
+            out << "Terminal=0" << endl;
+            out << "TerminalOptions=" << endl;
+            out << "Type=Application" << endl;
+            out << "X-KDE-SubstituteUID=false" << endl;
+            out << "X-KDE-Username=" << endl;
+            out << "MimeType=inode/directory" << endl;
+        }
+        else
+        {
+            try
+            {
+                deleteFile(m_strFileName);
+            }
+            catch (...)
+            { //ttt2 do something
+            }
+        }
+    }
+};
+
+ShellIntegrator g_tempShellIntegrator ("mp3DiagsTempSess", "temporary folder", "-t");
+ShellIntegrator g_hiddenShellIntegrator ("mp3DiagsHiddenSess", "hidden folder", "-f");
+ShellIntegrator g_visibleShellIntegrator ("mp3DiagsVisibleSess", "visible folder", "-v");
+
+ShellIntegrator g_testShellIntegrator ("mp3DiagsTestSess_000", "test", "");
+
+} // namespace
+
 
 /*static*/ bool ShellIntegration::isShellIntegrationEditable()
 {
-    return false;
+    g_testShellIntegrator.enable(true);
+    bool b (g_testShellIntegrator.isEnabled());
+    g_testShellIntegrator.enable(false);
+    return b;
 }
 
 
 /*static*/ string ShellIntegration::getShellIntegrationError()
 {
-    return "Platform not supported";
+    return "";
 }
 
 
-/*static*/ void ShellIntegration::enableTempSession(bool)
+/*static*/ void ShellIntegration::enableTempSession(bool b)
 {
+    g_tempShellIntegrator.enable(b);
 }
 
 /*static*/ bool ShellIntegration::isTempSessionEnabled()
 {
-    return false;
+    return g_tempShellIntegrator.isEnabled();
 }
 
-/*static*/ void ShellIntegration::enableVisibleSession(bool)
+/*static*/ void ShellIntegration::enableVisibleSession(bool b)
 {
+    g_visibleShellIntegrator.enable(b);
 }
 
 /*static*/ bool ShellIntegration::isVisibleSessionEnabled()
 {
-    return false;
+    return g_visibleShellIntegrator.isEnabled();
 }
 
-/*static*/ void ShellIntegration::enableHiddenSession(bool)
+/*static*/ void ShellIntegration::enableHiddenSession(bool b)
 {
+    g_hiddenShellIntegrator.enable(b);
 }
 
 /*static*/ bool ShellIntegration::isHiddenSessionEnabled()
 {
-    return false;
+    return g_hiddenShellIntegrator.isEnabled();
 }
 
-#else
+
+#elif defined (WIN32)
 
 namespace {
 
@@ -1242,7 +1334,7 @@ bool deleteKey(const char* szPath, const char* szSubkey)
 
 //--------------------------------------------------------------
 
-
+//ttt1 use something like ShellIntegrator in the Linux code
 
 /*static*/ bool ShellIntegration::isShellIntegrationEditable()
 {
@@ -1328,6 +1420,47 @@ bool deleteKey(const char* szPath, const char* szSubkey)
     return doesKeyExist("Directory\\shell\\mp3diags_hidden_dir");
 }
 
+#else
+
+/*static*/ bool ShellIntegration::isShellIntegrationEditable()
+{
+    return false;
+}
+
+
+/*static*/ string ShellIntegration::getShellIntegrationError()
+{
+    return "Platform not supported";
+}
+
+
+/*static*/ void ShellIntegration::enableTempSession(bool)
+{
+}
+
+/*static*/ bool ShellIntegration::isTempSessionEnabled()
+{
+    return false;
+}
+
+/*static*/ void ShellIntegration::enableVisibleSession(bool)
+{
+}
+
+/*static*/ bool ShellIntegration::isVisibleSessionEnabled()
+{
+    return false;
+}
+
+/*static*/ void ShellIntegration::enableHiddenSession(bool)
+{
+}
+
+/*static*/ bool ShellIntegration::isHiddenSessionEnabled()
+{
+    return false;
+}
+
 #endif
 
 
@@ -1365,4 +1498,13 @@ LastStepTracer::~LastStepTracer()
 
 
 //ttt2 F1 help was very slow on XP once, not sure why; later it was OK
+
+
+
+
+
+//ttt0 +switch to new spec, lower-case for exe name, package, and icons
+
+//ttt0 check file list to make sure all files have "unstable"
+
 

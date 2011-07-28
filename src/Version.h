@@ -19,9 +19,20 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+
 extern const char* APP_VER;
-extern const char* APP_BRANCH;
+
+// used, e.g. for location at SourceForge
+extern const char* WEB_BRANCH;
+
+// to be shown to the user in various forms (app title, About box, shell integration, ...)
 extern const char* APP_NAME;
 
+// used for file names, e.g executable on Linux or icons
+extern const char* PACKAGE_NAME;
+
+//ttt0 replace this with PACKAGE_NAME, but have some code to import older settings and then clear them
 extern const char* SETTINGS_APP_NAME;
+
+// for config only
 extern const char* ORGANIZATION;

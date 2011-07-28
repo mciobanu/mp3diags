@@ -21,8 +21,19 @@
 
 
 const char* APP_VER ("- custom build");
-const char* APP_BRANCH ("/unstable");
+
+// used, e.g. for location at SourceForge
+const char* WEB_BRANCH ("/unstable");
+
+// to be shown to the user in various forms (app title, About box, shell integration, ...)
 const char* APP_NAME ("MP3 Diags Unstable");
 
+// used for file names, e.g executable on Linux or icons
+//const char* PACKAGE_NAME ("mp3diags-unstable");
+const char* PACKAGE_NAME ("MP3Diags"); //ttt0 use above version after testing
+
+//ttt0 replace this with PACKAGE_NAME, but have some code to import older settings and then clear them
 const char* SETTINGS_APP_NAME ("Mp3Diags-unstable");
+
+// for config only
 const char* ORGANIZATION ("Ciobi");

@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
-Icon=MP3Diags
-Exec=MP3Diags
+Icon=mp3diags
+Exec=mp3diags
 #DocPath=
 Comment=MP3 Diags - diagnosis and repair tool
 Name=MP3 Diags

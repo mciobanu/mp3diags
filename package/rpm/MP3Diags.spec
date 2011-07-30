@@ -1,17 +1,12 @@
 Summary: Tool for finding and fixing problems in MP3 files; includes a tagger
 %define version 0.99.0.1
 %define branch test
-License: http://www.gnu.org/licenses/gpl-2.0.html
 
-%define lowercasePackage 0
-#%define lowercasePackage 1
-
-
-%if %{lowercasePackage}
-%define pkgName mp3diags
-%else
 %define pkgName MP3Diags
-%endif
+# pkgName should be mp3diags, MP3Diags, or whatever else
+# !!! note that you can't simply comment a "define", as macros get expanded inside comments
+
+
 
 Name: %{pkgName}%{branch}
 Version: %{version}
@@ -21,8 +16,10 @@ Release: 1
 Group: Applications/Multimedia
 Source: MP3Diags%{branch}-%{version}.tar.gz
 URL: http://mp3diags.sourceforge.net/
-BuildRoot: %{_tmppath}/%{name}-%{version}-build
+License: http://www.gnu.org/licenses/gpl-2.0.html
 
+
+BuildRoot: %{_tmppath}/%{name}-%{version}-build
 Packager: Ciobi
 
 
@@ -61,7 +58,7 @@ Another component is the file renamer, which can rename files based on the field
 
 
 %prep
-%setup -q -n %{pkgName}%{branch}-%{version}
+%setup -q -n MP3Diags%{branch}-%{version}
 
 
 
@@ -92,19 +89,19 @@ cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/bin/MP3Diags%{branch} $RPM_BUILD_
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
 cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags%{branch}.desktop $RPM_BUILD_ROOT%{_datadir}/applications
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/16x16/apps
-cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags16%{branch}.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/16x16/apps/MP3Diags%{branch}.png
+cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags%{branch}16.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/16x16/apps/MP3Diags%{branch}.png
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/22x22/apps
-cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags22%{branch}.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/22x22/apps/MP3Diags%{branch}.png
+cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags%{branch}22.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/22x22/apps/MP3Diags%{branch}.png
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/24x24/apps
-cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags24%{branch}.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/24x24/apps/MP3Diags%{branch}.png
+cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags%{branch}24.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/24x24/apps/MP3Diags%{branch}.png
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/32x32/apps
-cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags32%{branch}.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/32x32/apps/MP3Diags%{branch}.png
+cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags%{branch}32.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/32x32/apps/MP3Diags%{branch}.png
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/36x36/apps
-cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags36%{branch}.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/36x36/apps/MP3Diags%{branch}.png
+cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags%{branch}36.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/36x36/apps/MP3Diags%{branch}.png
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/40x40/apps
-cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags40%{branch}.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/40x40/apps/MP3Diags%{branch}.png
+cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags%{branch}40.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/40x40/apps/MP3Diags%{branch}.png
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps
-cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags48%{branch}.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps/MP3Diags%{branch}.png
+cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags%{branch}48.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps/MP3Diags%{branch}.png
 
 
 

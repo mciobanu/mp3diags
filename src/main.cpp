@@ -56,13 +56,14 @@
 //#include  "Profiler.h"
 
 using namespace std;
+using namespace Version;
 
 namespace po = boost::program_options;
 
 
 GlobalSettings::GlobalSettings()
 {
-    m_pSettings = new QSettings (ORGANIZATION, SETTINGS_APP_NAME);
+    m_pSettings = new QSettings (getOrganization(), getSettingsAppName());
 }
 
 
@@ -489,11 +490,11 @@ int guiMain(const po::variables_map& options) {
 
             if (bDefaultForVisibleSessBtn)
             {
-                mainDlg.setWindowTitle(QString(APP_NAME) + " - " + convStr(SessionEditorDlgImpl::getTitleName(strStartSession)));
+                mainDlg.setWindowTitle(QString(getAppName()) + " - " + convStr(SessionEditorDlgImpl::getTitleName(strStartSession)));
             }
             else
             {
-                mainDlg.setWindowTitle(QString(APP_NAME));
+                mainDlg.setWindowTitle(QString(getAppName()));
             }
 
             if (MainFormDlgImpl::OPEN_SESS_DLG != mainDlg.run())
@@ -813,8 +814,8 @@ int main(int argc, char *argv[])
 
     if (options.count(s_uninstOpt.m_szLongOpt) > 0)
     {
-        QSettings s (ORGANIZATION, SETTINGS_APP_NAME);
-        s.clear(); //ttt2 see if this can actually remove everything, including the ORGANIZATION dir if it's empty;
+        QSettings s (getOrganization(), getSettingsAppName());
+        s.clear(); //ttt2 see if this can actually remove everything, including the getOrganization() dir if it's empty;
         ShellIntegration::enableHiddenSession(false);
         ShellIntegration::enableVisibleSession(false);
         ShellIntegration::enableTempSession(false);

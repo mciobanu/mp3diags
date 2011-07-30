@@ -51,6 +51,7 @@
 
 
 using namespace std;
+using namespace Version;
 
 
 void assertBreakpoint()
@@ -697,6 +698,7 @@ namespace {
 struct Gnome3Detector {
     Gnome3Detector();
     bool m_bIsGnome3;
+    bool m_bIsGnome;
 };
 
 
@@ -705,7 +707,7 @@ struct Gnome3Detector {
 // look for gnome-settings-daemon or gnome-settings-daemon-3.0 to determine if running in Gnome (3) and if so add close button
 // or run lsof and get the list
 
-Gnome3Detector::Gnome3Detector() : m_bIsGnome3(false)
+Gnome3Detector::Gnome3Detector() : m_bIsGnome3(false), m_bIsGnome(false)
 {
     FileSearcher fs ("/proc");
     string strBfr;
@@ -726,11 +728,15 @@ Gnome3Detector::Gnome3Detector() : m_bIsGnome3(false)
                     getline(in, strBfr);
                     //cout << "**" << strBfr.c_str() << "**" << endl;
                     //if (string::npos != strBfr.find("gnome-settings-daemon-3.0"))
-                    if (string::npos != strBfr.find("gnome-settings-daemon-3."))
-                    //if (string::npos != strBfr.find("kdeinit"))
+                    if (string::npos != strBfr.find("gnome-settings-daemon"))
                     {
-                        m_bIsGnome3 = true;
-                        break;
+                        m_bIsGnome = true;
+                        if (string::npos != strBfr.find("gnome-settings-daemon-3."))
+                        //if (string::npos != strBfr.find("kdeinit"))
+                        {
+                            m_bIsGnome3 = true;
+                            break;
+                        }
                     }
                 }
             }
@@ -746,7 +752,15 @@ Gnome3Detector::Gnome3Detector() : m_bIsGnome3(false) {}
 
 #endif
 
+
+bool isRunningOnGnome()
+{
+    static Gnome3Detector gd;
+    return gd.m_bIsGnome;
 }
+
+
+} // namespace
 
 bool isRunningOnGnome3()
 {
@@ -770,8 +784,10 @@ Qt::WindowMaximizeButtonHint | Qt::WindowMinimizeButtonHint - nothing
 Ideally a modal dialog should minimize its parent. If that's not possible, it shouldn't be minimizable.
 */
 
+
 #ifndef WIN32
-    Qt::WindowFlags getMainWndFlags() { return Qt::WindowTitleHint; } // !!! these are incorrect, but seem the best option; the values used for Windows are supposed to be OK; they work as expected with KDE but not with Gnome (asking for maximize button not only fails to sho it, but causes the "Close" button to disappear as well); Since in KDE min/max buttons are shown when needed anyway, it's sort of OK // ttt2 see if there is workaround/fix
+    //Qt::WindowFlags getMainWndFlags() { return isRunningOnGnome() ? Qt::Window : Qt::WindowTitleHint; } // !!! these are incorrect, but seem the best option; the values used for Windows are supposed to be OK; they work as expected with KDE but not with Gnome (asking for maximize button not only fails to show it, but causes the "Close" button to disappear as well); Since in KDE min/max buttons are shown when needed anyway, it's sort of OK // ttt2 see if there is workaround/fix
+    Qt::WindowFlags getMainWndFlags() { return Qt::Window; }
     Qt::WindowFlags getDialogWndFlags() { return Qt::WindowTitleHint; }
     Qt::WindowFlags getNoResizeWndFlags() { return Qt::WindowTitleHint; }
 #else
@@ -892,7 +908,7 @@ QString getSystemInfo() //ttt2 perhaps store this at startup, so fewer things ma
 
 #endif
     s.replace('\n', ' ');
-    s = QString("Version: %1 %2.\nWord size: %3 bit.\nQt version: %4.\nBoost version: %5\n").arg(APP_NAME).arg(APP_VER).arg(QSysInfo::WordSize).arg(qVersion()).arg(BOOST_LIB_VERSION) + s;
+    s = QString("Version: %1 %2.\nWord size: %3 bit.\nQt version: %4.\nBoost version: %5\n").arg(getAppName()).arg(getAppVer()).arg(QSysInfo::WordSize).arg(qVersion()).arg(BOOST_LIB_VERSION) + s;
     return s;
 }
 
@@ -997,9 +1013,9 @@ vector<QString> getLocalHelpDirs()
     {
 #ifndef WIN32
         //s_v.push_back("/home/ciobi/cpp/Mp3Utils/mp3diags/trunk/mp3diags/doc/html/");
-        s_v.push_back(QString("/usr/share/") + PACKAGE_NAME + "-doc/html/");
-        s_v.push_back(QString("/usr/share/doc/") + PACKAGE_NAME + "/html/");
-        s_v.push_back(QString("/usr/share/doc/") + PACKAGE_NAME + "-QQQVERQQQ/html/");
+        s_v.push_back(QString("/usr/share/") + getHelpPackageName() + "-doc/html/"); //ttt0 lowercase variations
+        s_v.push_back(QString("/usr/share/doc/") + getHelpPackageName() + "/html/");
+        s_v.push_back(QString("/usr/share/doc/") + getHelpPackageName() + "-QQQVERQQQ/html/");
 #else
         wchar_t wszModule [200];
         int nRes (GetModuleFileName(0, wszModule, 200));
@@ -1035,7 +1051,7 @@ void openHelp(const string& strFileName)
     QString qs (strDir);
     if (qs.isEmpty())
     {
-        qs = "http://mp3diags.sourceforge.net" + QString(WEB_BRANCH) + "/";
+        qs = "http://mp3diags.sourceforge.net" + QString(getWebBranch()) + "/";
     }
     else
     {
@@ -1133,7 +1149,7 @@ class ShellIntegrator
     string m_strArg;
 
 public:
-    ShellIntegrator(const string& strFileNameBase, const string& strSessType, const string& strArg) : m_strFileName(getDesktopIntegrationDir() + strFileNameBase + DSK_EXT), m_strAppName(APP_NAME + (" - " + strSessType)), m_strArg(strArg) {}
+    ShellIntegrator(const string& strFileNameBase, const string& strSessType, const string& strArg) : m_strFileName(getDesktopIntegrationDir() + strFileNameBase + DSK_EXT), m_strAppName(getAppName() + (" - " + strSessType)), m_strArg(strArg) {}
 
     bool isEnabled()
     {
@@ -1164,7 +1180,7 @@ public:
             out << "Encoding=UTF-8" << endl;
             out << "Exec=\"" << buf << "\" " << m_strArg << " %f" << endl; //out << "Exec=" << buf << " -t %f" << endl; // ttt0 or
             out << "GenericName=" << m_strAppName << endl;
-            out << "Icon=" << PACKAGE_NAME << endl;
+            out << "Icon=" << getIconName() << endl;
             out << "Name=" << m_strAppName << endl;
             out << "Path=" << endl;
             out << "StartupNotify=false" << endl;

@@ -20,20 +20,69 @@
  ***************************************************************************/
 
 
-const char* APP_VER ("- custom build");
+#include  <string>
+
+using namespace std;
+
+namespace Version {
+
+
+const char* getAppVer()
+{
+    return "- custom build";
+}
+
+const char* getSimpleAppVer()
+{
+    static string s (getAppVer());
+    static const char* szRes (0);
+    if (0 == szRes)
+    {
+        string::size_type k (s.rfind("."));
+        if (k != string::npos)
+        {
+            s.erase(k);
+        }
+        szRes = s.c_str();
+    }
+    return szRes;
+}
 
 // used, e.g. for location at SourceForge
-const char* WEB_BRANCH ("/unstable");
+const char* getWebBranch()
+{
+    return "/unstable";
+}
 
 // to be shown to the user in various forms (app title, About box, shell integration, ...)
-const char* APP_NAME ("MP3 Diags Unstable");
+const char* getAppName()
+{
+    return "MP3 Diags Unstable";
+}
 
-// used for file names, e.g executable on Linux or icons
-//const char* PACKAGE_NAME ("mp3diags-unstable");
-const char* PACKAGE_NAME ("MP3Diags"); //ttt0 use above version after testing
+// icon name, needed for shell integration in Linux
+const char* getIconName()
+{
+    return "MP3Diags-unstable";
+}
 
-//ttt0 replace this with PACKAGE_NAME, but have some code to import older settings and then clear them
-const char* SETTINGS_APP_NAME ("Mp3Diags-unstable");
+// used for location of the documentation
+const char* getHelpPackageName()
+{
+    return "mp3diags-unstable";
+}
+
+
+const char* getSettingsAppName()
+{
+    return "Mp3Diags-unstable"; //ttt1 maybe replace this with "mp3diags-unstable", but have some code to import older settings and then clear them
+}
 
 // for config only
-const char* ORGANIZATION ("Ciobi");
+const char* getOrganization()
+{
+    return "Ciobi";
+}
+
+} // namespace Version
+

@@ -98,7 +98,7 @@ function createSrc
     cp package/out/pad_file.xml $LongDestDir
     cat MP3DiagsCLI.cmd | sed -e "s#MP3DiagsWindows#MP3DiagsWindows$BranchDash#g" > $LongDestDir/MP3DiagsCLI$BranchDash.cmd
 
-    cat src/Version.cpp | sed -e "s#APP_VER.*#APP_VER (\""$Ver"\");#" > $LongDestDir/src/Version.cpp
+    cat src/Version.cpp | sed -e "s#- custom build#$Ver#" > $LongDestDir/src/Version.cpp
 
     for i in $( ls src/licences | sed 's%.*/%%' ); do
         cp -p src/licences/$i $LongDestDir/license.$i

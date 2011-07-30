@@ -28,6 +28,9 @@
 #include  "Version.h"
 
 
+using namespace Version;
+
+
 AboutDlgImpl::AboutDlgImpl(QWidget* pParent /*= 0*/) : QDialog(pParent, getDialogWndFlags()), Ui::AboutDlg()
 {
     setupUi(this);
@@ -51,13 +54,13 @@ AboutDlgImpl::AboutDlgImpl(QWidget* pParent /*= 0*/) : QDialog(pParent, getDialo
         "<p style=\"margin-bottom:8px; margin-top:1px; \">Using original and modified icons from the <a href=\"http://www.oxygen-icons.org/\">Oxygen Project</a> for <a href=\"http://www.kde.org/\">KDE 4</a>, distributed under <a href=\"http://www.gnu.org/licenses/lgpl.html\">LGPL V3</a></p>"
         "<p style=\"margin-bottom:8px; margin-top:1px; \">Using web services provided by <a href=\"http://www.discogs.com/\">Discogs</a> to retrieve album data</p>"
         "<p style=\"margin-bottom:8px; margin-top:1px; \">Using web services provided by <a href=\"http://musicbrainz.org/\">MusicBrainz</a> to retrieve album data</p>"
-        "<p style=\"margin-bottom:8px; margin-top:1px; \">Home page and documentation: <a href=\"http://mp3diags.sourceforge.net" + QString(WEB_BRANCH) + "/\">http://mp3diags.sourceforge.net" + QString(WEB_BRANCH) + "/</a></p>"
+        "<p style=\"margin-bottom:8px; margin-top:1px; \">Home page and documentation: <a href=\"http://mp3diags.sourceforge.net" + QString(getWebBranch()) + "/\">http://mp3diags.sourceforge.net" + QString(getWebBranch()) + "/</a></p>"
         "<p style=\"margin-bottom:8px; margin-top:1px; \">Feedback and support: <a href=\"http://sourceforge.net/forum/forum.php?forum_id=947206\">Open Discussion Forum</a> or <a href=\"http://sourceforge.net/forum/forum.php?forum_id=947207\">Help Forum</a> at SourceForge</p>"
         "<p style=\"margin-bottom:8px; margin-top:1px; \">Bug reports and feature requests: <a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">MantisBT Issue Tracker</a> at SourceForge</p>"
-        "<p style=\"margin-bottom:8px; margin-top:1px; \">Change log for the latest version: <a href=\"http://mp3diags.sourceforge.net" + QString(WEB_BRANCH) + "/015_changelog.html\">http://mp3diags.sourceforge.net" + QString(WEB_BRANCH) + "/015_changelog.html</a></p>"
+        "<p style=\"margin-bottom:8px; margin-top:1px; \">Change log for the latest version: <a href=\"http://mp3diags.sourceforge.net" + QString(getWebBranch()) + "/015_changelog.html\">http://mp3diags.sourceforge.net" + QString(getWebBranch()) + "/015_changelog.html</a></p>"
         );
 
-    m_pVersionL->setText(QString(APP_NAME) + " " + APP_VER); //ttt1 write "unstable" in red
+    m_pVersionL->setText(QString(getAppName()) + " " + getSimpleAppVer()); //ttt1 write "unstable" in red
 
     initText(m_pGplV2M, ":/licences/gplv2.txt");
     initText(m_pGplV3M, ":/licences/gplv3.txt");

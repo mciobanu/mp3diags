@@ -11,7 +11,7 @@ Doxyfile	f	2011-05-21T07:43:21Z
 Install.sh	f	2011-05-29T13:38:27Z
 MP3DiagsCLI-unstable.cmd	f	2011-06-19T21:36:34Z
 MP3DiagsCLI.cmd	f	2011-06-18T17:15:25Z
-MakeArchives.sh	f	2011-07-30T10:08:38Z
+MakeArchives.sh	f	2011-07-30T11:18:26Z
 README.TXT	f	2009-10-01T16:49:38Z
 Release.txt	f	2011-07-22T18:45:12Z
 Uninstall.sh	f	2011-06-17T19:41:38Z
@@ -225,7 +225,7 @@ package/rpm/MP3Diags-Mandriva_2009.1.spec	f	2011-05-30T20:15:40Z
 package/rpm/MP3Diags.spec	f	2011-07-30T09:15:07Z
 package/sourceforge/linux_downloads.html	f	2009-06-10T07:26:41Z
 src/About.ui	f	2011-06-15T19:56:47Z
-src/AboutDlgImpl.cpp	f	2011-07-26T21:59:23Z
+src/AboutDlgImpl.cpp	f	2011-07-30T11:20:56Z
 src/AboutDlgImpl.h	f	2009-07-17T15:02:37Z
 src/AlbumInfoDownloader.ui	f	2009-10-20T08:09:13Z
 src/AlbumInfoDownloaderDlgImpl.cpp	f	2010-12-09T21:28:13Z
@@ -268,7 +268,7 @@ src/FilesModel.cpp	f	2009-10-01T09:29:00Z
 src/FilesModel.h	f	2009-10-01T09:28:15Z
 src/FullSizeImgDlg.cpp	f	2009-12-11T09:38:51Z
 src/FullSizeImgDlg.h	f	2009-11-28T07:25:00Z
-src/Helpers.cpp	f	2011-07-28T20:00:13Z
+src/Helpers.cpp	f	2011-07-30T12:17:48Z
 src/Helpers.h	f	2011-07-24T20:30:05Z
 src/Id3Transf.cpp	f	2009-11-28T07:59:59Z
 src/Id3Transf.h	f	2009-11-29T07:54:21Z
@@ -286,7 +286,7 @@ src/LogModel.h	f	2009-05-06T07:30:16Z
 src/LyricsStream.cpp	f	2011-06-11T15:10:58Z
 src/LyricsStream.h	f	2009-10-10T09:56:52Z
 src/MainForm.ui	f	2011-07-24T21:24:25Z
-src/MainFormDlgImpl.cpp	f	2011-07-26T21:58:56Z
+src/MainFormDlgImpl.cpp	f	2011-07-30T11:20:56Z
 src/MainFormDlgImpl.h	f	2011-07-24T21:27:23Z
 src/Mp3Diags.qrc	f	2011-07-24T22:10:31Z
 src/Mp3Manip.cpp	f	2011-06-15T19:22:59Z
@@ -356,8 +356,8 @@ src/Transformation.cpp	f	2011-06-11T15:24:39Z
 src/Transformation.h	f	2009-10-26T18:08:52Z
 src/UniqueNotesModel.cpp	f	2009-08-23T12:49:21Z
 src/UniqueNotesModel.h	f	2009-05-06T07:33:22Z
-src/Version.cpp	f	2011-07-26T21:39:40Z
-src/Version.h	f	2011-07-26T21:38:35Z
+src/Version.cpp	f	2011-07-30T12:16:37Z
+src/Version.h	f	2011-07-30T11:42:57Z
 src/Widgets.cpp	f	2009-10-13T12:13:43Z
 src/Widgets.h	f	2009-09-30T12:15:30Z
 src/fstream_unicode.cpp	f	2009-11-03T12:20:00Z
@@ -423,7 +423,7 @@ src/licences/gplv3.txt	f	2008-11-14T09:24:29Z
 src/licences/lgpl-2.1.txt	f	2009-05-14T11:38:15Z
 src/licences/lgplv3.txt	f	2008-11-14T09:24:41Z
 src/licences/zlib.txt	f	2009-05-14T11:42:40Z
-src/main.cpp	f	2011-07-21T19:26:59Z
+src/main.cpp	f	2011-07-30T11:20:56Z
 src/src.pro	f	2011-06-14T21:48:04Z
 templates/cpp	f	2009-05-06T07:21:29Z
 templates/h	f	2009-05-06T07:21:39Z

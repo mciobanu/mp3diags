@@ -79,6 +79,7 @@
 
 using namespace std;
 using namespace pearl;
+using namespace Version;
 
 
 //#define LOG_ANYWAY
@@ -548,7 +549,7 @@ void MainFormDlgImpl::showSelWarn()
 {
     if (m_pCommonData->m_bWarnedAboutSel) { return; }
 
-    HtmlMsg::msg(this, 0, 0, &m_pCommonData->m_bWarnedAboutSel, HtmlMsg::DEFAULT, "Note", "If you simply left-click, all the visible files get processed. However, it is possible to process only the selected files. To do that, either keep SHIFT pressed down while clicking or use the right button, as described at <a href=\"http://mp3diags.sourceforge.net" + QString(WEB_BRANCH) + "/140_main_window_tools.html\">http://mp3diags.sourceforge.net" + QString(WEB_BRANCH) + "/140_main_window_tools.html</a>", 520, 300, "O&K"); //ttt1 different for "unstable"
+    HtmlMsg::msg(this, 0, 0, &m_pCommonData->m_bWarnedAboutSel, HtmlMsg::DEFAULT, "Note", "If you simply left-click, all the visible files get processed. However, it is possible to process only the selected files. To do that, either keep SHIFT pressed down while clicking or use the right button, as described at <a href=\"http://mp3diags.sourceforge.net" + QString(getWebBranch()) + "/140_main_window_tools.html\">http://mp3diags.sourceforge.net" + QString(getWebBranch()) + "/140_main_window_tools.html</a>", 520, 300, "O&K"); //ttt1 different for "unstable"
 
     if (!m_pCommonData->m_bWarnedAboutSel) { return; }
 
@@ -796,7 +797,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
 
     string strVersion;
     m_settings.loadVersion(strVersion);
-    if (strVersion == APP_VER)
+    if (strVersion == getAppVer())
     {
         bool bDirty;
         m_settings.loadDbDirty(bDirty);
@@ -866,7 +867,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
 #endif
     s_fileTracer.enable1(true); // !!! after loadMiscConfigSettings(), so the previous files aren't deleted too early
 
-    m_settings.saveVersion(APP_VER);
+    m_settings.saveVersion(getAppVer());
 
     TRACER("MainFormDlgImpl constr");
 
@@ -2646,7 +2647,7 @@ void MainFormDlgImpl::checkForNewVersion() // returns immediately; when the requ
 
     m_pQHttp->setHost("mp3diags.sourceforge.net");
     //http://mp3diags.sourceforge.net/010_getting_the_program.html
-    QHttpRequestHeader header ("GET", QString(WEB_BRANCH) + "/version.txt"); header.setValue("Host", "mp3diags.sourceforge.net");
+    QHttpRequestHeader header ("GET", QString(getWebBranch()) + "/version.txt"); header.setValue("Host", "mp3diags.sourceforge.net");
     //QHttpRequestHeader header ("GET", "/mciobanu/mp3diags/010_getting_the_program.html"); header.setValue("Host", "web.clicknet.ro");
     m_pQHttp->request(header);
 }
@@ -2689,7 +2690,7 @@ void MainFormDlgImpl::onNewVersionQueryFinished(int /*nId*/, bool bError)
         return; // most likely some error message
     }
 
-    if (APP_VER == m_qstrNewVer)
+    if (getAppVer() == m_qstrNewVer)
     {
         return;
     }
@@ -2718,7 +2719,7 @@ void MainFormDlgImpl::onNewVersionQueryFinished2()
     if (m_pCommonData->m_strDontTellAboutVer == convStr(m_qstrNewVer)) { return; }
 
     int nRes (HtmlMsg::msg(this, 0, 0, 0, HtmlMsg::VERT_BUTTONS, "Info",
-    "<p style=\"margin-bottom:1px; margin-top:12px; \">Version " + m_qstrNewVer + " has been published. You are running " + APP_VER + ". You can see what's new in the <a href=\"http://mp3diags.blogspot.com/\">MP3 Diags blog</a>. A more technical list with changes can be seen in the <a href=\"http://mp3diags.sourceforge.net" + QString(WEB_BRANCH) + "/015_changelog.html\">change log</a>.</p>"
+    "<p style=\"margin-bottom:1px; margin-top:12px; \">Version " + m_qstrNewVer + " has been published. You are running " + getSimpleAppVer() + ". You can see what's new in the <a href=\"http://mp3diags.blogspot.com/\">MP3 Diags blog</a>. A more technical list with changes can be seen in the <a href=\"http://mp3diags.sourceforge.net" + QString(getWebBranch()) + "/015_changelog.html\">change log</a>.</p>"
 #ifndef WIN32
     "<p style=\"margin-bottom:1px; margin-top:12px; \">This notification is about the availability of the source code. Binaries may or may not be available at this time, depending on your particular platform.</p>"
 #else

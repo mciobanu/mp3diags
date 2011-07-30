@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1054</width>
+    <width>1000</width>
     <height>685</height>
    </rect>
   </property>
@@ -986,44 +986,6 @@
         <property name="icon">
          <iconset resource="Mp3Diags.qrc">
           <normaloff>:/images/about.svg</normaloff>:/images/about.svg</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>36</width>
-          <height>36</height>
-         </size>
-        </property>
-        <property name="autoRaise">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="m_pExitB">
-        <property name="minimumSize">
-         <size>
-          <width>40</width>
-          <height>40</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>40</width>
-          <height>40</height>
-         </size>
-        </property>
-        <property name="focusPolicy">
-         <enum>Qt::NoFocus</enum>
-        </property>
-        <property name="toolTip">
-         <string>Exit</string>
-        </property>
-        <property name="text">
-         <string>...</string>
-        </property>
-        <property name="icon">
-         <iconset resource="Mp3Diags.qrc">
-          <normaloff>:/images/application-exit.svg</normaloff>:/images/application-exit.svg</iconset>
         </property>
         <property name="iconSize">
          <size>

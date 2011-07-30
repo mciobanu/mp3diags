@@ -269,7 +269,7 @@ src/FilesModel.h	f	2009-10-01T09:28:15Z
 src/FullSizeImgDlg.cpp	f	2009-12-11T09:38:51Z
 src/FullSizeImgDlg.h	f	2009-11-28T07:25:00Z
 src/Helpers.cpp	f	2011-07-30T19:21:24Z
-src/Helpers.h	f	2011-07-24T20:30:05Z
+src/Helpers.h	f	2011-07-30T12:38:08Z
 src/Id3Transf.cpp	f	2009-11-28T07:59:59Z
 src/Id3Transf.h	f	2009-11-29T07:54:21Z
 src/Id3V230Stream.cpp	f	2010-03-09T18:50:35Z
@@ -285,10 +285,10 @@ src/LogModel.cpp	f	2009-10-13T10:24:22Z
 src/LogModel.h	f	2009-05-06T07:30:16Z
 src/LyricsStream.cpp	f	2011-06-11T15:10:58Z
 src/LyricsStream.h	f	2009-10-10T09:56:52Z
-src/MainForm.ui	f	2011-07-24T21:24:25Z
-src/MainFormDlgImpl.cpp	f	2011-07-30T11:20:56Z
-src/MainFormDlgImpl.h	f	2011-07-24T21:27:23Z
-src/Mp3Diags.qrc	f	2011-07-24T22:10:31Z
+src/MainForm.ui	f	2011-07-30T12:34:43Z
+src/MainFormDlgImpl.cpp	f	2011-07-30T19:15:59Z
+src/MainFormDlgImpl.h	f	2011-07-30T14:58:00Z
+src/Mp3Diags.qrc	f	2011-07-30T12:35:48Z
 src/Mp3Manip.cpp	f	2011-06-15T19:22:59Z
 src/Mp3Manip.h	f	2011-06-15T18:19:28Z
 src/Mp3TransformThread.cpp	f	2011-01-04T21:36:16Z
@@ -365,7 +365,6 @@ src/fstream_unicode.h	f	2009-09-15T04:49:36Z
 src/images/COPYING - GPL V3.txt	f	2008-11-14T09:41:43Z
 src/images/COPYING - LGPL V3.txt	f	2008-11-14T09:41:50Z
 src/images/about.svg	f	2008-01-04T23:54:32Z
-src/images/application-exit.svg	f	2011-07-24T21:14:17Z
 src/images/arrow-left-double.svg	f	2008-01-04T23:54:32Z
 src/images/arrow-left.svg	f	2008-01-04T23:54:32Z
 src/images/arrow-right-double.svg	f	2008-01-04T23:54:31Z

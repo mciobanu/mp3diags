@@ -6,15 +6,15 @@ Summary: Tool for finding and fixing problems in MP3 files; includes a tagger
 # pkgName should be mp3diags, MP3Diags, or whatever else
 # !!! note that you can't simply comment a "define", as macros get expanded inside comments
 
-
+%define appName MP3Diags%{branch}
 
 Name: %{pkgName}%{branch}
 Version: %{version}
 Release: 1
-#Conflicts: MP3Diags%{branch} >= 0.8.0.0
+#Conflicts: %{appName} >= 0.8.0.0
 #Provides: MP3Diags
 Group: Applications/Multimedia
-Source: MP3Diags%{branch}-%{version}.tar.gz
+Source: %{appName}-%{version}.tar.gz
 URL: http://mp3diags.sourceforge.net/
 License: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,7 +58,7 @@ Another component is the file renamer, which can rename files based on the field
 
 
 %prep
-%setup -q -n MP3Diags%{branch}-%{version}
+%setup -q -n %{appName}-%{version}
 
 
 
@@ -79,70 +79,44 @@ qmake-qt4
 %endif
 
 make
-strip $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/bin/MP3Diags%{branch}
+strip $RPM_BUILD_DIR/%{appName}-%{version}/bin/%{appName}
 
 %install
 # ttt1 perhaps look at http://doc.trolltech.com/4.3/qmake-variable-reference.html#installs and use INSTALLS += ...
-echo RPM_BUILD_ROOT $RPM_BUILD_ROOT%{_bindir}
-mkdir -p $RPM_BUILD_ROOT%{_bindir}
-cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/bin/MP3Diags%{branch} $RPM_BUILD_ROOT%{_bindir}
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
-cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags%{branch}.desktop $RPM_BUILD_ROOT%{_datadir}/applications
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/16x16/apps
-cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags%{branch}16.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/16x16/apps/MP3Diags%{branch}.png
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/22x22/apps
-cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags%{branch}22.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/22x22/apps/MP3Diags%{branch}.png
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/24x24/apps
-cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags%{branch}24.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/24x24/apps/MP3Diags%{branch}.png
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/32x32/apps
-cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags%{branch}32.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/32x32/apps/MP3Diags%{branch}.png
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/36x36/apps
-cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags%{branch}36.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/36x36/apps/MP3Diags%{branch}.png
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/40x40/apps
-cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags%{branch}40.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/40x40/apps/MP3Diags%{branch}.png
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps
-cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags%{branch}48.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps/MP3Diags%{branch}.png
+echo BUILD ROOT - %{buildroot}%{_bindir}
 
+mkdir -p %{buildroot}%{_bindir} ; install -p -m755 bin/%{appName} %{buildroot}%{_bindir}
+
+mkdir -p %{buildroot}%{_datadir}/applications ; desktop-file-install --dir %{buildroot}%{_datadir}/applications desktop/%{appName}.desktop
+
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/16x16/apps ; install -p -m644 desktop/%{appName}16.png %{buildroot}%{_iconsdir}/hicolor/16x16/apps/%{appName}.png
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/22x22/apps ; install -p -m644 desktop/%{appName}22.png %{buildroot}%{_iconsdir}/hicolor/22x22/apps/%{appName}.png
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/24x24/apps ; install -p -m644 desktop/%{appName}24.png %{buildroot}%{_iconsdir}/hicolor/24x24/apps/%{appName}.png
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/32x32/apps ; install -p -m644 desktop/%{appName}32.png %{buildroot}%{_iconsdir}/hicolor/32x32/apps/%{appName}.png
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/36x36/apps ; install -p -m644 desktop/%{appName}36.png %{buildroot}%{_iconsdir}/hicolor/36x36/apps/%{appName}.png
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/40x40/apps ; install -p -m644 desktop/%{appName}40.png %{buildroot}%{_iconsdir}/hicolor/40x40/apps/%{appName}.png
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/48x48/apps ; install -p -m644 desktop/%{appName}48.png %{buildroot}%{_iconsdir}/hicolor/48x48/apps/%{appName}.png
 
 
 
 %if 0%{?suse_version} > 0000
-%suse_update_desktop_file -n MP3Diags%{branch}
+%suse_update_desktop_file -n %{appName}
 #echo ================ SUSE ================ SUSE ================
 %endif
 #error with suse_update_desktop_file -in MP3Diags , perhaps try suse_update_desktop_file -n -i MP3Diags
 
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 
 %files
 %defattr(-,root,root)
-%dir %{_datadir}/icons/hicolor
-%dir %{_datadir}/icons/hicolor/16x16
-%dir %{_datadir}/icons/hicolor/16x16/apps
-%dir %{_datadir}/icons/hicolor/22x22
-%dir %{_datadir}/icons/hicolor/22x22/apps
-%dir %{_datadir}/icons/hicolor/24x24
-%dir %{_datadir}/icons/hicolor/24x24/apps
-%dir %{_datadir}/icons/hicolor/32x32
-%dir %{_datadir}/icons/hicolor/32x32/apps
-%dir %{_datadir}/icons/hicolor/36x36
-%dir %{_datadir}/icons/hicolor/36x36/apps
-%dir %{_datadir}/icons/hicolor/40x40
-%dir %{_datadir}/icons/hicolor/40x40/apps
-%dir %{_datadir}/icons/hicolor/48x48
-%dir %{_datadir}/icons/hicolor/48x48/apps
-%{_bindir}/MP3Diags%{branch}
-%{_datadir}/applications/MP3Diags%{branch}.desktop
-%{_datadir}/icons/hicolor/16x16/apps/MP3Diags%{branch}.png
-%{_datadir}/icons/hicolor/22x22/apps/MP3Diags%{branch}.png
-%{_datadir}/icons/hicolor/24x24/apps/MP3Diags%{branch}.png
-%{_datadir}/icons/hicolor/32x32/apps/MP3Diags%{branch}.png
-%{_datadir}/icons/hicolor/36x36/apps/MP3Diags%{branch}.png
-%{_datadir}/icons/hicolor/40x40/apps/MP3Diags%{branch}.png
-%{_datadir}/icons/hicolor/48x48/apps/MP3Diags%{branch}.png
+%dir %{_datadir}/icons/hicolor/*
+%dir %{_datadir}/icons/hicolor/*/*
+%{_bindir}/%{appName}
+%{_datadir}/applications/%{appName}.desktop
+%{_datadir}/icons/hicolor/*/apps/%{appName}.png
 
 #?datadir (=/usr/share)
 #/usr/share/applications

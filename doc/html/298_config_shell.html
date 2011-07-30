@@ -61,15 +61,21 @@
 
 
 <div class="FreeNormalText RegFnt ChpCol2">
-Here you can configure "Shell Integration". What this is supposed to do is to create <a href="310_advanced.html#sessions">sessions</a> by right-clicking on a folder in your file explorer and choosing an MP3 Diags command. In order for a command to be available, the corresponding box should be checked here and the file explorer should be supported. Currently only Windows Explorer (on Windows, obviously) is supported, and even this with a limitation: while Windows XP works fine, these settings can be changed on Windows 7 only if the program runs in Administrator Mode. If there are issues, a note is displayed below the checkboxes with the details.
+Here you can configure "Shell Integration". What this is supposed to do is to create <a href="310_advanced.html#sessions">sessions</a> by right-clicking on a folder in your file explorer and choosing an MP3 Diags command. In order for a command to be available, the corresponding box should be checked here and the file explorer should be supported. Currently this is supposed to work on Windows and Linux. If there are issues, a note is displayed below the checkboxes with the details.
+</div>
+
+
+<div class="FreeNormalText RegFnt ChpCol2">
+The one thing to know on Windows is that while Windows XP works fine, these settings can be changed on Windows 7 only if the program runs in Administrator Mode.
+</div>
+
+
+<div class="FreeNormalText RegFnt ChpCol2">
+On Linux, due to the variety of desktop environments and file browsers, chances of something going wrong or being just unintuitive are greater than I'd like. The good news is that even if the shell integration can't be configured through this window, it quite likely can be done manually (this includes operating systems other than Linux or Windows), using the <a href="310_advanced.html#cmdLine">command line parameters</a>, although exactly how to do it depends on the particular circumstances of the user. For Linux, what is supposed to work is Dolphin, Konqueror, and Nautilus, on Gnome or KDE. Chances are other environments and browsers work as well. To get this working on Gnome/Nautilus, there is one more step after enabling shell integration: you have to right-click on a folder and choose <i>"Open with other application"</i>, then select the correct entry from a list (you might need to press a <i>"Show other applications"</i> button).
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol2">
 Unlike most other settings, the shell integration settings are global, and not session-specific.
-</div>
-
-<div class="FreeNormalText RegFnt ChpCol2">
-These settings simply allow the program to be called with a particular <a href="310_advanced.html#cmdLine">command line parameter</a>. The same mechanism can be used on Linux to achieve something similar and it will quite likely be done in the future, at least to some extent.
 </div>
 
 <div class="SubChapterText RegFnt ChpCol1">

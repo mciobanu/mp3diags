@@ -1,3 +1,10 @@
+* Sat Jul 30 2011 Marian Ciobanu <ciobi@inbox.com> 1.1.07.061
+
+- shell integration for Linux
+- replaced MP3Diags with MP3Diags-unstable in places where this wasn't done
+- restructured the .spec file
+- added close button on Gnome 3
+
 * Fri Jul 22 2011 Marian Ciobanu <ciobi@inbox.com> 1.1.06.059
 
 - shell integration fixes

@@ -1,3 +1,12 @@
+mp3diags (1.1.07.061) testing; urgency=low
+
+  * shell integration for Linux
+  * replaced MP3Diags with MP3Diags-unstable in places where this wasn't done
+  * restructured the .spec file
+  * added close button on Gnome 3
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Sat, 30 Jul 2011 22:00:00 +0200
+
 mp3diags (1.1.06.059) testing; urgency=low
 
   * shell integration fixes

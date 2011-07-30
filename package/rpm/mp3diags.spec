@@ -2,21 +2,29 @@ Summary: Tool for finding and fixing problems in MP3 files; includes a tagger
 %define version 0.99.0.1
 %define branch test
 License: http://www.gnu.org/licenses/gpl-2.0.html
-Group: Applications/Multimedia
-Name: MP3Diags%{branch}
-#Prefix: /usr
-#Provides: MP3Diags
+
+%define lowercasePackage 0
+#%define lowercasePackage 1
+
+
+%if %{lowercasePackage}
+%define pkgName mp3diags
+%else
+%define pkgName MP3Diags
+%endif
+
+Name: %{pkgName}%{branch}
+Version: %{version}
 Release: 1
+#Conflicts: MP3Diags%{branch} >= 0.8.0.0
+#Provides: MP3Diags
+Group: Applications/Multimedia
 Source: MP3Diags%{branch}-%{version}.tar.gz
 URL: http://mp3diags.sourceforge.net/
-Version: %{version}
 BuildRoot: %{_tmppath}/%{name}-%{version}-build
 
 Packager: Ciobi
 
-#BuildRequires: libqt4-devel
-#BuildRequires: boost-devel
-# ??? ttt0
 
 %if 0%{?suse_version} > 0000
 Requires: libqt4-x11
@@ -26,8 +34,6 @@ BuildRequires: update-desktop-files
 
 %if 0%{?fedora} || 0%{?fedora_version}
 Requires: qt-x11
-#BuildRequires: qt-devel qt-config
-#BuildRequires: qt-devel zlib-devel boost-devel-static gcc-c++
 BuildRequires: qt-devel zlib-devel boost-devel boost-devel-static gcc-c++
 %endif
 
@@ -35,13 +41,13 @@ BuildRequires: qt-devel zlib-devel boost-devel boost-devel-static gcc-c++
 %if 0%{?mandriva_version} >= 2009
 #%if 0%{?mdkversion} >= 200900
 BuildRequires:  kdelibs4-devel
-#BuildRequires:  libboost1.37.0-devel
-#BuildRequires:  libboost-devel libboost-static-devel
 BuildRequires:  boost-devel boost-static-devel
 BuildRequires:  zlib-devel
 Requires:       qt4-common
 %endif
 # related but probably something else: https://bugzilla.novell.com/show_bug.cgi?id=459337  or  https://bugzilla.redhat.com/show_bug.cgi?id=456103
+
+
 
 
 
@@ -55,7 +61,7 @@ Another component is the file renamer, which can rename files based on the field
 
 
 %prep
-%setup -q
+%setup -q -n %{pkgName}%{branch}-%{version}
 
 
 
@@ -63,21 +69,11 @@ Another component is the file renamer, which can rename files based on the field
 
 ./AdjustMt.sh STATIC_SER
 
-
-#%if 0%{?mandriva_version} > 2006
-#export PATH=/usr/lib/qt4/bin:$PATH
-#export QTDIR=%{_prefix}/lib/qt4/
-#%endif
-
 %if 0%{?suse_version}
 qmake
 %endif
 
 %if 0%{?mandriva_version} >= 2009
-#export PATH=/usr/lib/qt4/bin:$PATH
-#export QTDIR=%{_prefix}/lib/qt4/
-#ls /usr/lib/qt4/bin
-#/usr/lib/qt4/bin/qmake
 qmake
 %endif
 
@@ -90,7 +86,7 @@ strip $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/bin/MP3Diags%{branch}
 
 %install
 # ttt1 perhaps look at http://doc.trolltech.com/4.3/qmake-variable-reference.html#installs and use INSTALLS += ...
-echo mkdir $RPM_BUILD_ROOT%{_bindir}
+echo RPM_BUILD_ROOT $RPM_BUILD_ROOT%{_bindir}
 mkdir -p $RPM_BUILD_ROOT%{_bindir}
 cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/bin/MP3Diags%{branch} $RPM_BUILD_ROOT%{_bindir}
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
@@ -110,27 +106,6 @@ cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags40%{branch}.png $
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps
 cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags48%{branch}.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps/MP3Diags%{branch}.png
 
-
-#mkdir -p $RPM_BUILD_ROOT%{_bindir}
-#cp $RPM_BUILD_DIR/MP3Diags-%{version}/bin/MP3Diags $RPM_BUILD_ROOT%{_bindir}
-
-#mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
-#cp $RPM_BUILD_DIR/MP3Diags-%{version}/desktop/MP3Diags.desktop $RPM_BUILD_ROOT%{_datadir}/applications
-
-#%dir $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/16x16/apps
-#cp $RPM_BUILD_DIR/MP3Diags-%{version}/desktop/MP3Diags16.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/16x16/apps/MP3Diags.png
-#%dir $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/22x22/apps
-#cp $RPM_BUILD_DIR/MP3Diags-%{version}/desktop/MP3Diags22.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/22x22/apps/MP3Diags.png
-#%dir $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/24x24/apps
-#cp $RPM_BUILD_DIR/MP3Diags-%{version}/desktop/MP3Diags24.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/24x24/apps/MP3Diags.png
-#%dir $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/32x32/apps
-#cp $RPM_BUILD_DIR/MP3Diags-%{version}/desktop/MP3Diags32.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/32x32/apps/MP3Diags.png
-#%dir $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/36x36/apps
-#cp $RPM_BUILD_DIR/MP3Diags-%{version}/desktop/MP3Diags36.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/36x36/apps/MP3Diags.png
-#%dir $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/40x40/apps
-#cp $RPM_BUILD_DIR/MP3Diags-%{version}/desktop/MP3Diags40.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/40x40/apps/MP3Diags.png
-#%dir $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps
-#cp $RPM_BUILD_DIR/MP3Diags-%{version}/desktop/MP3Diags48.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps/MP3Diags.png
 
 
 

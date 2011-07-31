@@ -727,5 +727,4 @@ LAST_STEP("DiscogsDownloader::getWaitingHttp");
 }
 
 
-//ttt0 downloading multi-volume info saves track numbers as A1, A2, ... B1, B2, ... These are not valid and cannot be entered manually; should probably be converted to 1,2, ... (which apparently happens when saving a single volume from a multi-volume album); see https://sourceforge.net/projects/mp3diags/forums/forum/947206/topic/4503061/index/page/1
 

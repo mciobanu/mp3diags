@@ -99,20 +99,32 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::getInfo");
             album(m_nCrtAlbum).copyTo(*pAlbumInfo);
             //pAlbumInfo->m_strReleased = convStr(m_pRealeasedE->text()); //ttt2 maybe allow users to overwrite fields in edit boxes, esp. genre; however, most of the cases it's almost as easy to make any changes in the tag editor (well, there's an F2 and then "copy form first"); there are several issues in implementing this: 1) going to prev/next album; 2) artist name gets copied to each track; 3) consistency: if the edit boxes are editable why not the table? so, better without
 
-            if (m_pVolumeCbB->isEnabled() && m_pVolumeCbB->currentIndex() != m_pVolumeCbB->count() - 1)
+            if (m_pVolumeCbB->isEnabled())
             {
-                vector<TrackInfo> vTracks;
-                string s (convStr(m_pVolumeCbB->itemText(m_pVolumeCbB->currentIndex())));
-                int k (cSize(s));
-                for (int i = 0, n = cSize(pAlbumInfo->m_vTracks); i < n; ++i)
-                {
-                    if (beginsWith(pAlbumInfo->m_vTracks[i].m_strPos, s))
+                if (m_pVolumeCbB->currentIndex() == m_pVolumeCbB->count() - 1)
+                { // just give sequential numbers when "<All>" in a multivolume is used - see https://sourceforge.net/projects/mp3diags/forums/forum/947206/topic/4503061/index/page/1 - perhaps can be improved
+                    char a [10];
+                    for (int i = 0; i < cSize(pAlbumInfo->m_vTracks); ++i)
                     {
-                        vTracks.push_back(pAlbumInfo->m_vTracks[i]);
-                        vTracks.back().m_strPos.erase(0, k);
+                        sprintf(a, "%02d", i + 1);
+                        pAlbumInfo->m_vTracks[i].m_strPos = a;
                     }
                 }
-                vTracks.swap(pAlbumInfo->m_vTracks);
+                else
+                {
+                    vector<TrackInfo> vTracks;
+                    string s (convStr(m_pVolumeCbB->itemText(m_pVolumeCbB->currentIndex())));
+                    int k (cSize(s));
+                    for (int i = 0, n = cSize(pAlbumInfo->m_vTracks); i < n; ++i)
+                    {
+                        if (beginsWith(pAlbumInfo->m_vTracks[i].m_strPos, s))
+                        {
+                            vTracks.push_back(pAlbumInfo->m_vTracks[i]);
+                            vTracks.back().m_strPos.erase(0, k);
+                        }
+                    }
+                    vTracks.swap(pAlbumInfo->m_vTracks);
+                }
             }
         }
 

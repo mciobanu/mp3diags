@@ -392,11 +392,15 @@ Builds created from code from this server are supposed to be of the same quality
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-The Subversion repository stores all the tools that are needed to build the project, not just the source code. So you can find there the documentation, installer and build scripts, and desktop integration files. The build scripts can be used as a starting point for creating binary packages for other .rpm- or Debian- based distributions. Before trying to compile on openSUSE 10.3 (and perhaps other distributions), you should run <span class="Reference">AdjustMt.sh</span> or <span class="Reference">Install.sh</span>
+The Subversion repository stores all the tools that are needed to build the project, not just the source code. So you can find there the documentation, installer and build scripts, and desktop integration files. The build scripts can be used as a starting point for creating binary packages for other .rpm- or Debian- based distributions. Before trying to compile on openSUSE 10.3 (and perhaps other distributions), you should run <span class="Reference">AdjustMt.sh</span> or <span class="Reference">Install.sh</span>.
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-Note that you may need to set the executable bit for <span class="Reference">AdjustMt.sh</span>, <span class="Reference">Install.sh</span>, and <span class="Reference">Uninstall.sh</span>, at least when downloading the tarball.
+There are some differences between the sources that you download via Subversion and the ones that you get from SourceForge as <a href="http://sourceforge.net/projects/mp3diags/filesQQQBRANCH_SLQQQ/mp3diags-src" onClick="javascript: pageTracker._trackPageview('/files/src');">source packages</a>, as the latter ones are "generated", using <span class="Reference">MakeArchives.sh</span>. This script is Linux-specific; there is no Windows equivalent or plan for it (it might work with Cygwin, though, perhaps after some adjustments). <span class="Reference">MakeArchives.sh</span> is used to set the correct branch and version number in a number of places, mainly the build tools and the documentation, but also several C++ files. It also renames some of the files, so they have the branch as part of their name and moves the documentation files up one folder. Or, well, it doesn't do any of these, but it creates a directory called <span class="Reference">package/out</span> where it makes a copy of the project that includes these changes.
+</div>
+
+<div class="NormalText RegFnt ChpCol2">
+Note that you may need to set the executable bit for <span class="Reference">AdjustMt.sh</span>, <span class="Reference">Install.sh</span>, <span class="Reference">Uninstall.sh</span>, and <span class="Reference">MakeArchives.sh</span>, at least when downloading the tarball.
 </div>
 
 
@@ -509,10 +513,18 @@ There are also binaries that I build at openSUSE Build Service:
 <div class="NormalText RegFnt ChpCol2">
 <table border="1" cellpadding="5" cellspacing="2" class="RegFnt ChpCol1">
     <tr>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE/" onClick="javascript: pageTracker._trackPageview('/obs/suse');"> Repository </a> </td>
-        <td> <a class="NoUnderline" href="http://software.opensuse.org/ymp/home:ciobi/openSUSE/MP3Diags.ymp" onClick="javascript: pageTracker._trackPageview('/obs/suse/ymp');"> 1-Click Install </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE/i586/" onClick="javascript: pageTracker._trackPageview('/obs/suse/i586');"> i586 .rpm </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE/x86_64/" onClick="javascript: pageTracker._trackPageview('/obs/suse/x86_64');"> x86_64 .rpm </a> </td>
+        <td><b> openSUSE 11.3 </b></td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.3/" onClick="javascript: pageTracker._trackPageview('/obs/suse');"> Repository </a> </td>
+        <td> <a class="NoUnderline" href="http://software.opensuse.org/ymp/home:ciobi/openSUSE_11.3/MP3DiagsQQQBRANCH_DQQQ.ymp" onClick="javascript: pageTracker._trackPageview('/obs/suse/ymp');"> 1-Click Install </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.3/i586/" onClick="javascript: pageTracker._trackPageview('/obs/suse/i586');"> i586 .rpm </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.3/x86_64/" onClick="javascript: pageTracker._trackPageview('/obs/suse/x86_64');"> x86_64 .rpm </a> </td>
+    </tr>
+    <tr>
+        <td><b> openSUSE 11.4 </b></td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.4/" onClick="javascript: pageTracker._trackPageview('/obs/suse');"> Repository </a> </td>
+        <td> <a class="NoUnderline" href="http://software.opensuse.org/ymp/home:ciobi/openSUSE_11.4/MP3DiagsQQQBRANCH_DQQQ.ymp" onClick="javascript: pageTracker._trackPageview('/obs/suse/ymp');"> 1-Click Install </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.4/i586/" onClick="javascript: pageTracker._trackPageview('/obs/suse/i586');"> i586 .rpm </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.4/x86_64/" onClick="javascript: pageTracker._trackPageview('/obs/suse/x86_64');"> x86_64 .rpm </a> </td>
     </tr>
 </table>
 </div>
@@ -592,6 +604,11 @@ In my tests, the Ubuntu 9.04 i386 .deb installation was OK except for a warning 
 
 <div class="NormalText RegFnt ChpCol2">
 The repository on the main server uses redirection, which apparently isn't supported by Synaptic (or at least it wasn't until some time ago, because Ubuntu 9.04 works fine with the main server; maybe the others work too, but I don't have them installed.) Perhaps somebody would like to test if installation and / or automatic updates work for the main repositories and then share the results.
+</div>
+
+
+<div class="NormalText RegFnt ChpCol2">
+One thing I noticed on 10.10 (and I guess it's the same on others) was that I couldn't update the package using the Update Manager, because the package is unsigned. The update went OK through Synaptic, though.
 </div>
 
 

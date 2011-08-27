@@ -616,9 +616,12 @@ LAST_STEP("DiscogsDownloader::loadNextPage");
     sprintf(a, "&page=%d", m_nLastLoadedPage + 1);
     string s (m_strQuery + a);
 
-    QHttpRequestHeader header ("GET", convStr(s));
-    header.setValue("Host", "www.discogs.com");
+    QHttpRequestHeader header ("GET", convStr(s)); // ttt1 QHttpRequestHeader and QHttp are deprecated, to be replaced by QNetworkAccessManager
+    header.setValue("Host", "www.discogs.com"); // ttt1 Discogs API v1 is deprecated; switch to v2
+    //header.setValue("Host", "api.discogs.com");
     header.setValue("Accept-Encoding", "gzip");
+    //header.setValue("User-Agent" , "Mozilla Firefox");
+    header.setValue("User-Agent" , "Mp3Diags");
 
     m_pQHttp->request(header);
     //cout << "sent search " << m_pQHttp->request(header) << " for page " << (m_nLastLoadedPage + 1) << endl;
@@ -649,6 +652,7 @@ LAST_STEP("DiscogsDownloader::requestAlbum");
     QHttpRequestHeader header ("GET", convStr(s));
     header.setValue("Host", "www.discogs.com");
     header.setValue("Accept-Encoding", "gzip");
+    header.setValue("User-Agent" , "Mp3Diags");
     m_pQHttp->request(header);
     //cout << "sent album " << m_vAlbums[nAlbum].m_strId << " - " << m_pQHttp->request(header) << endl;
     addNote("getting album info ...");
@@ -671,6 +675,7 @@ LAST_STEP("DiscogsDownloader::requestImage");
     QHttpRequestHeader header ("GET", convStr(s));
     header.setValue("Host", "www.discogs.com");
     //header.setValue("Accept-Encoding", "gzip");
+    header.setValue("User-Agent" , "Mp3Diags");
     m_pQHttp->request(header);
     //cout << "sent img " <<  m_vAlbums[nAlbum].m_vstrImageNames[nImage] << " - " << m_pQHttp->request(header) << endl;
     addNote("getting image ...");

@@ -901,3 +901,9 @@ WARNING: it is ignored, until you registered a Category at adrian@suse.de .
 
 //ttt0 config screenshots need "shell" tab
 //ttt0 "shell" tab has smaller font
+
+//ttt0 look at running multiple instances concurrently / exit when second starts
+
+//ttt1 Windows changelog should use \n\r (probably by replacing "copy /y changelog.txt bin\\changelog.txt" in BuildMp3Diags.hta with something that reads the file line by line
+
+//ttt0 does TIFF cover art work? On Windows?

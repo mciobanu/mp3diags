@@ -321,7 +321,7 @@ bool Mp3TransformThread::transform()
                     if (eTransf != Transformation::NOT_CHANGED)
                     {
                     //TRACER1A("transf ", 15);
-                        CB_ASSERT (!m_pCommonData->m_strTransfLog.empty()); //ttt0 triggered according to http://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=45 ; however, the code is quite simple and it doesn't seem to be a valid reason for m_strTransfLog to be empty (aside from corrupted memory)
+                        CB_ASSERT (!m_pCommonData->m_strTransfLog.empty()); //ttt0 triggered according to http://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=45 ; however, the code is quite simple and it doesn't seem to be a valid reason for m_strTransfLog to be empty (aside from corrupted memory) ; according to https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=49 removing the .dat file solved the issue
                         if (m_pCommonData->m_bLogTransf)
                         {
                             logTransformation(m_pCommonData->m_strTransfLog, t.getActionName(), pNewHndl.get());

@@ -287,7 +287,7 @@ bool MpegStream::findNextCompatFrame(std::istream& in, std::streampos posMax)
 }
 
 
-#ifdef GENERATE_TOC
+#ifdef GENERATE_TOC //ttt2 maybe improve and use
 // throws if it can't write to the disk
 void createXing(ostream& out, const MpegFrame& frame1, int nFrameCount, streamoff nStreamSize)
 {

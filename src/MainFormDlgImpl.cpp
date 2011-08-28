@@ -1544,7 +1544,7 @@ struct Mp3ProcThread : public PausableThread
         catch (...)
         {
             LAST_STEP("Mp3ProcThread::run()");
-            CB_ASSERT (false);
+            CB_ASSERT (false); //ttt0 triggered according to https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=50 and https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=54
         }
     }
 
@@ -3224,3 +3224,16 @@ Development machine:
 // favicon.ico : not sure how to create it; currently it's done with GIMP, with 8bpp/1 bit alpha, not compressed; however, konqueror doesn't show it when using a local page
 
 //ttt0 run CppCheck
+
+//ttt0 delete files from main wnd
+
+//ttt0 play in external player
+//ttt0 open explorer here ...
+
+//ttt1 tooltips on menus no longer work in 11.4
+
+//ttt1 warn when folders are missing (perhaps as network drives are not mounted, usb sticks not inserted, ...), to avoid erasing the database
+
+//ttt1 transf "remove non-audio" to get rid of everything non-audio, including Xing; could be used for appending files, in combination with 0-padding
+
+//ttt1 remove APE

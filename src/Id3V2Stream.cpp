@@ -1242,7 +1242,7 @@ void Id3V2StreamBase::preparePicture(NoteColl& notes) // initializes fields used
 static const char* REPLAY_GAIN_ROOT ("replaygain");
 
 
-//ttt1 mp3gain 1.5.1 can use ID3V2 instead of APE, so that should be tested as well; see TXXX="MP3GAIN_MINMAX[...]" in "Arctic Monkeys - 01 - My Propeller.mp3" (which also has TXXX="replaygain_track_gain[...]")
+//ttt1 mp3gain 1.5.1 can use ID3V2 instead of APE, so that should be tested as well; see TXXX="MP3GAIN_MINMAX[...]" in "Arctic Monkeys - 01 - My Propeller.mp3" (which also has TXXX="replaygain_track_gain[...]") - also review Id3V2Cleaner::processId3V2Stream
 bool Id3V2StreamBase::hasReplayGain() const
 {
     for (int i = 0; i < cSize(m_vpFrames); ++i)

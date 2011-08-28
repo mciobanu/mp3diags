@@ -61,7 +61,7 @@ bool Id3V2Cleaner::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out)
                 string s (pFrm->getRawUtf8String());
                 if (!s.empty())
                 {
-                    wrt.addTextFrame(pFrm->m_szName, s);
+                    wrt.addTextFrame(pFrm->m_szName, s); // ttt0 see about TXXX, which isn't text, and how it's used for normalization: Id3V2StreamBase::hasReplayGain() MP3GAIN_MINMAX
                 }
             }
             catch (const Id3V2Frame::UnsupportedId3V2Frame&)

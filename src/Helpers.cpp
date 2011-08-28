@@ -697,9 +697,10 @@ vector<QString> convStr(const vector<string>& v)
 namespace {
 
 struct DesktopDetector {
-    enum Desktop { Unknown, Gnome2 = 1, Gnome3 = 2, Kde3 = 4, Kde4 = 8, Gnome = Gnome2 | Gnome3, Kde = Kde3 | Kde4};
+    enum Desktop { Unknown, Gnome2 = 1, Gnome3 = 2, Kde3 = 4, Kde4 = 8, Gnome = Gnome2 | Gnome3, Kde = Kde3 | Kde4 };
     DesktopDetector();
     Desktop m_eDesktop;
+    const char* m_szDesktop;
     bool onDesktop(Desktop desktop) const
     {
         return (desktop & m_eDesktop) != 0;
@@ -812,6 +813,14 @@ DesktopDetector::DesktopDetector() : m_eDesktop(Unknown)
         }
     }
 
+    switch (m_eDesktop)
+    {
+    case Gnome2: m_szDesktop = "Gnome 2"; break;
+    case Gnome3: m_szDesktop = "Gnome 3"; break;
+    case Kde3: m_szDesktop = "KDE 3"; break;
+    case Kde4: m_szDesktop = "KDE 4"; break;
+    default: m_szDesktop = "Unknown";
+    }
     //cout << "desktop: " << m_eDesktop << endl;
 }
 
@@ -854,7 +863,7 @@ Ideally a modal dialog should minimize its parent. If that's not possible, it sh
 #if QT_VERSION >= 0x040500
     Qt::WindowFlags getDialogWndFlags() { const DesktopDetector& dd = getDesktopDetector(); return dd.onDesktop(DesktopDetector::Kde) ? Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint : (dd.onDesktop(DesktopDetector::Gnome3) ? Qt::Window : Qt::WindowTitleHint); }
 #else
-    Qt::WindowFlags getDialogWndFlags() { return Qt::WindowTitleHint; }
+    Qt::WindowFlags getDialogWndFlags() { const DesktopDetector& dd = getDesktopDetector(); return dd.onDesktop(DesktopDetector::Gnome3) ? Qt::Window : Qt::WindowTitleHint; }
 #endif
     Qt::WindowFlags getNoResizeWndFlags() { return Qt::WindowTitleHint; }
 #else
@@ -900,6 +909,7 @@ static void removeStr(string& main, const string& sub)
 QString getSystemInfo() //ttt2 perhaps store this at startup, so fewer things may go wrong fhen the assertion handler needs it
 {
     QString s ("OS: ");
+    QString qstrDesktop;
 
 #ifndef WIN32
     QDir dir ("/etc");
@@ -963,6 +973,8 @@ QString getSystemInfo() //ttt2 perhaps store this at startup, so fewer things ma
     }
 //ttt2 search /proc for kwin, metacity, ...
 
+    const DesktopDetector& dd = getDesktopDetector();
+    qstrDesktop = "Desktop: " + QString(dd.m_szDesktop) + "\n";
 
 #else
     //qstrVer += QString(" Windows version ID: %1").arg(QSysInfo::WinVersion);
@@ -975,7 +987,7 @@ QString getSystemInfo() //ttt2 perhaps store this at startup, so fewer things ma
 
 #endif
     s.replace('\n', ' ');
-    s = QString("Version: %1 %2.\nWord size: %3 bit.\nQt version: %4.\nBoost version: %5\n").arg(getAppName()).arg(getAppVer()).arg(QSysInfo::WordSize).arg(qVersion()).arg(BOOST_LIB_VERSION) + s;
+    s = QString("Version: %1 %2\nWord size: %3 bit\nQt version: %4\nBoost version: %5\n").arg(getAppName()).arg(getAppVer()).arg(QSysInfo::WordSize).arg(qVersion()).arg(BOOST_LIB_VERSION) + qstrDesktop + s;
     return s;
 }
 

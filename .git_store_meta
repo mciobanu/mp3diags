@@ -240,8 +240,8 @@ src/CommonData.h	f	2011-06-26T19:38:27Z
 src/CommonTypes.cpp	f	2009-12-11T07:49:08Z
 src/CommonTypes.h	f	2009-12-11T07:16:02Z
 src/Config.ui	f	2011-07-21T17:32:58Z
-src/ConfigDlgImpl.cpp	f	2011-08-28T05:30:23Z
-src/ConfigDlgImpl.h	f	2009-10-25T18:05:41Z
+src/ConfigDlgImpl.cpp	f	2011-08-28T06:41:15Z
+src/ConfigDlgImpl.h	f	2011-08-28T06:41:16Z
 src/DataStream.cpp	f	2010-03-09T18:45:06Z
 src/DataStream.h	f	2009-10-13T09:56:15Z
 src/Debug.ui	f	2009-09-27T11:55:47Z

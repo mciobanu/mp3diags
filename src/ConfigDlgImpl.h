@@ -59,6 +59,7 @@ class ConfigDlgImpl : public QDialog, private Ui::ConfigDlg, public NoteListPain
     TransfConfig& m_transfCfg;
 
     CommonData* m_pCommonData;
+    bool m_bFull;
 
     void logState(const char* szPlace) const;
 

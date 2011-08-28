@@ -271,6 +271,7 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
         m_transfCfg(transfCfg),
 
         m_pCommonData(pCommonData),
+        m_bFull(bFull),
         m_pCustomTransfListPainter(0),
         m_pCustomTransfDoubleList(0),
         m_vvnCustomTransf(pCommonData->getCustomTransf()),
@@ -625,6 +626,7 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
     m_pInvalidReplacementE->setToolTip("This string replaces invalid characters in the file renamer\"\n\n"
         "An underlined font is used to allow spaces to be seen");
 
+    if (m_bFull)
     {
         m_pShellTempSessCkB->setChecked(ShellIntegration::isTempSessionEnabled());
         m_pShellVisibleSessCkB->setChecked(ShellIntegration::isVisibleSessionEnabled());
@@ -1034,6 +1036,7 @@ void ConfigDlgImpl::on_m_pOkB_clicked()
             m_pCommonData->m_strCheckForNewVersions = m_pCheckForUpdatesCkB->isChecked() ? "yes" : "no";
         }
 
+        if (m_bFull)
         { // shell integration
             ShellIntegration::enableHiddenSession(m_pShellHiddenSessCkB->isChecked());
             ShellIntegration::enableVisibleSession(m_pShellVisibleSessCkB->isChecked());

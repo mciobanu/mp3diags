@@ -88,15 +88,16 @@ echo BUILD ROOT - %{buildroot}%{_bindir}
 
 mkdir -p %{buildroot}%{_bindir} ; install -p -m755 bin/%{srcBaseName} %{buildroot}%{_bindir}
 
-mkdir -p %{buildroot}%{_datadir}/applications ; desktop-file-install --dir %{buildroot}%{_datadir}/applications desktop/%{srcBaseName}.desktop
+#mkdir -p %{buildroot}%{_datadir}/applications ; desktop-file-install --dir %{buildroot}%{_datadir}/applications desktop/%{srcBaseName}.desktop
+mkdir -p %{buildroot}%{_datadir}/applications ; install -p -m644 desktop/%{srcBaseName}.desktop %{buildroot}%{_datadir}/applications/%{srcBaseName}.desktop
 
-mkdir -p %{buildroot}%{_datadir}/icons/hicolor/16x16/apps ; install -p -m644 desktop/%{srcBaseName}16.png %{buildroot}%{_iconsdir}/hicolor/16x16/apps/%{srcBaseName}.png
-mkdir -p %{buildroot}%{_datadir}/icons/hicolor/22x22/apps ; install -p -m644 desktop/%{srcBaseName}22.png %{buildroot}%{_iconsdir}/hicolor/22x22/apps/%{srcBaseName}.png
-mkdir -p %{buildroot}%{_datadir}/icons/hicolor/24x24/apps ; install -p -m644 desktop/%{srcBaseName}24.png %{buildroot}%{_iconsdir}/hicolor/24x24/apps/%{srcBaseName}.png
-mkdir -p %{buildroot}%{_datadir}/icons/hicolor/32x32/apps ; install -p -m644 desktop/%{srcBaseName}32.png %{buildroot}%{_iconsdir}/hicolor/32x32/apps/%{srcBaseName}.png
-mkdir -p %{buildroot}%{_datadir}/icons/hicolor/36x36/apps ; install -p -m644 desktop/%{srcBaseName}36.png %{buildroot}%{_iconsdir}/hicolor/36x36/apps/%{srcBaseName}.png
-mkdir -p %{buildroot}%{_datadir}/icons/hicolor/40x40/apps ; install -p -m644 desktop/%{srcBaseName}40.png %{buildroot}%{_iconsdir}/hicolor/40x40/apps/%{srcBaseName}.png
-mkdir -p %{buildroot}%{_datadir}/icons/hicolor/48x48/apps ; install -p -m644 desktop/%{srcBaseName}48.png %{buildroot}%{_iconsdir}/hicolor/48x48/apps/%{srcBaseName}.png
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/16x16/apps ; install -p -m644 desktop/%{srcBaseName}16.png %{buildroot}%{_datadir}/icons/hicolor/16x16/apps/%{srcBaseName}.png
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/22x22/apps ; install -p -m644 desktop/%{srcBaseName}22.png %{buildroot}%{_datadir}/icons/hicolor/22x22/apps/%{srcBaseName}.png
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/24x24/apps ; install -p -m644 desktop/%{srcBaseName}24.png %{buildroot}%{_datadir}/icons/hicolor/24x24/apps/%{srcBaseName}.png
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/32x32/apps ; install -p -m644 desktop/%{srcBaseName}32.png %{buildroot}%{_datadir}/icons/hicolor/32x32/apps/%{srcBaseName}.png
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/36x36/apps ; install -p -m644 desktop/%{srcBaseName}36.png %{buildroot}%{_datadir}/icons/hicolor/36x36/apps/%{srcBaseName}.png
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/40x40/apps ; install -p -m644 desktop/%{srcBaseName}40.png %{buildroot}%{_datadir}/icons/hicolor/40x40/apps/%{srcBaseName}.png
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/48x48/apps ; install -p -m644 desktop/%{srcBaseName}48.png %{buildroot}%{_datadir}/icons/hicolor/48x48/apps/%{srcBaseName}.png
 
 
 
@@ -113,6 +114,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
+%dir %{_datadir}/icons/hicolor
 %dir %{_datadir}/icons/hicolor/*
 %dir %{_datadir}/icons/hicolor/*/*
 %{_bindir}/%{srcBaseName}

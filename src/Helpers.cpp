@@ -852,7 +852,7 @@ Ideally a modal dialog should minimize its parent. If that's not possible, it sh
     //Qt::WindowFlags getMainWndFlags() { return isRunningOnGnome() ? Qt::Window : Qt::WindowTitleHint; } // !!! these are incorrect, but seem the best option; the values used for Windows are supposed to be OK; they work as expected with KDE but not with Gnome (asking for maximize button not only fails to show it, but causes the "Close" button to disappear as well); Since in KDE min/max buttons are shown when needed anyway, it's sort of OK // ttt2 see if there is workaround/fix
     Qt::WindowFlags getMainWndFlags() { const DesktopDetector& dd = getDesktopDetector(); return dd.onDesktop(DesktopDetector::Kde) ? Qt::WindowTitleHint : Qt::Window; }
 #if QT_VERSION >= 0x040500
-    Qt::WindowFlags getDialogWndFlags() { const DesktopDetector& dd = getDesktopDetector(); return dd.onDesktop(DesktopDetector::Kde) ? Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint : Qt::WindowTitleHint; }
+    Qt::WindowFlags getDialogWndFlags() { const DesktopDetector& dd = getDesktopDetector(); return dd.onDesktop(DesktopDetector::Kde) ? Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint : (dd.onDesktop(DesktopDetector::Gnome3) ? Qt::Window : Qt::WindowTitleHint); }
 #else
     Qt::WindowFlags getDialogWndFlags() { return Qt::WindowTitleHint; }
 #endif
@@ -1225,6 +1225,22 @@ class ShellIntegrator
     string m_strArg;
     bool m_bRebuildAssoc;
 
+    static string escape(const string& s)
+    {
+        string s1;
+        static string s_strReserved (" '\\><~|&;$*?#()`"); // see http://standards.freedesktop.org/desktop-entry-spec/latest/ar01s06.html
+        for (int i = 0; i < cSize(s); ++i)
+        {
+            char c (s[i]);
+            if (s_strReserved.find(c) != string::npos)
+            {
+                s1 += '\\';
+            }
+            s1 += c;
+        }
+        return s1;
+    }
+
 public:
     ShellIntegrator(const string& strFileNameBase, const string& strSessType, const string& strArg, bool bRebuildAssoc) : m_strFileName(getDesktopIntegrationDir() + strFileNameBase + DSK_EXT), m_strAppName(getAppName() + (" - " + strSessType)), m_strArg(strArg), m_bRebuildAssoc(bRebuildAssoc) {}
 
@@ -1259,7 +1275,7 @@ public:
             out << "[Desktop Entry]" << endl;
             out << "Comment=" << m_strAppName << endl;
             out << "Encoding=UTF-8" << endl;
-            out << "Exec=\"" << szBfr << "\" " << m_strArg << " %f" << endl;
+            out << "Exec=" << escape(szBfr) << " " << m_strArg << " %f" << endl;
             out << "GenericName=" << m_strAppName << endl;
             out << "Icon=" << getIconName() << endl;
             out << "Name=" << m_strAppName << endl;

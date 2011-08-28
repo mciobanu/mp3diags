@@ -617,7 +617,7 @@ LAST_STEP("DiscogsDownloader::loadNextPage");
     string s (m_strQuery + a);
 
     QHttpRequestHeader header ("GET", convStr(s)); // ttt1 QHttpRequestHeader and QHttp are deprecated, to be replaced by QNetworkAccessManager
-    header.setValue("Host", "www.discogs.com"); // ttt1 Discogs API v1 is deprecated; switch to v2
+    header.setValue("Host", "www.discogs.com"); // ttt1 Discogs API v1 is deprecated; switch to v2: http://api.discogs.com/search?q=abba&f=xml vs http://www.discogs.com/search?type=all&q=abba&f=xml&api_key=f51e9c8f6c
     //header.setValue("Host", "api.discogs.com");
     header.setValue("Accept-Encoding", "gzip");
     //header.setValue("User-Agent" , "Mozilla Firefox");

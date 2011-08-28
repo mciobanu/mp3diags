@@ -287,6 +287,7 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
 
     if (!bFull)
     {
+        m_pMainTabWidget->removeTab(7);
         m_pMainTabWidget->removeTab(6);
         m_pMainTabWidget->removeTab(5);
         m_pMainTabWidget->removeTab(4);
@@ -1379,5 +1380,4 @@ void ConfigDlgImpl::on_m_pFullViewB_clicked()
 //ttt2 Font style is ignored (see DejaVu Sans / Light on machines with antialiased fonts)
 
 //ttt2 proxy: QNetworkProxyFactory::systemProxyForQuery; QNetworkProxy; http://www.dbits.be/index.php/pc-problems/65-vistaproxycfg  https://sourceforge.net/projects/mp3diags/forums/forum/947207/topic/3415940
-
 

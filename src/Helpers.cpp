@@ -45,6 +45,7 @@
 
 #include  "Helpers.h"
 #include  "Widgets.h"
+#include  "OsFile.h"
 
 
 using namespace std;
@@ -689,6 +690,153 @@ vector<QString> convStr(const vector<string>& v)
     return u;
 }
 
+namespace {
+
+struct DesktopDetector {
+    enum Desktop { Unknown, Gnome2 = 1, Gnome3 = 2, Kde3 = 4, Kde4 = 8, Gnome = Gnome2 | Gnome3, Kde = Kde3 | Kde4 };
+    DesktopDetector();
+    Desktop m_eDesktop;
+    const char* m_szDesktop;
+    bool onDesktop(Desktop desktop) const
+    {
+        return (desktop & m_eDesktop) != 0;
+    }
+};
+
+
+#if defined(__linux__)
+
+// look for gnome-settings-daemon or gnome-settings-daemon-3.0 to determine if running in Gnome (3) and if so add close button
+// or run lsof and get the list
+
+DesktopDetector::DesktopDetector() : m_eDesktop(Unknown)
+{
+    FileSearcher fs ("/proc");
+    string strBfr;
+
+    bool bIsKde (false);
+    bool bIsKde4 (false);
+
+    while (fs)
+    {
+        if (fs.isDir())
+        {
+            string strCmdLineName (fs.getName());
+
+            if (isdigit(strCmdLineName[6]))
+            {
+
+#if 0
+                char szBfr[5000] = "mP3DiAgS";
+                szBfr[0] = 0;
+
+                int k (readlink((strCmdLineName + "/exe").c_str(), szBfr, sizeof(szBfr)));
+                if (k >= 0)
+                {
+                    szBfr[k] = 0;
+                }
+                cout << strCmdLineName << "          ";
+                szBfr[5000 - 1] = 0;
+                //if (0 != szBfr[0])
+                    cout << szBfr << "        |";
+                    //cout << szBfr << endl;//*/
+
+
+                strCmdLineName += "/cmdline";
+                //cout << strCmdLineName << endl;
+                ifstream in (strCmdLineName.c_str());
+                if (in)
+                {
+                    getline(in, strBfr);
+                    //if (!strBfr.empty()) { cout << "<<<   " << strBfr.c_str() << "   >>>" << endl; }
+                    //if (!strBfr.empty()) { cout << strBfr.c_str() << endl; }
+                    cout << "          " << strBfr.c_str();
+                    if (string::npos != strBfr.find("gnome-settings-daemon"))
+                    {
+                        m_eDesktop = string::npos != strBfr.find("gnome-settings-daemon-3.") ? Gnome3 : Gnome2;
+                        break;
+                    }
+                }//*/
+                cout << endl;
+
+#endif
+                char szBfr[5000] = "mP3DiAgS";
+                szBfr[0] = 0;
+
+
+                strCmdLineName += "/cmdline";
+                //cout << strCmdLineName << endl;
+                ifstream in (strCmdLineName.c_str());
+                if (in)
+                {
+                    getline(in, strBfr);
+                    //if (!strBfr.empty()) { cout << "<<<   " << strBfr.c_str() << "   >>>" << endl; }
+                    //if (!strBfr.empty()) { cout << strBfr.c_str() << endl; }
+                    //cout << strBfr.c_str() << endl;
+                    if (string::npos != strBfr.find("gnome-settings-daemon"))
+                    {
+                        m_eDesktop = string::npos != strBfr.find("gnome-settings-daemon-3.") ? Gnome3 : Gnome2;
+                        break;
+                    }
+
+                    if (string::npos != strBfr.find("kdeinit"))
+                    {
+                        bIsKde = true;
+                    }
+
+                    if (string::npos != strBfr.find("kde4/libexec"))
+                    {
+                        bIsKde4 = true;
+                    }
+                }//*/
+
+            }
+        }
+        //if (string::npos != strBfr.find("kdeinit"))
+
+        fs.findNext();
+    }
+
+    if (m_eDesktop == Unknown)
+    {
+        if (bIsKde4)
+        {
+            m_eDesktop = Kde4;
+        }
+        else if (bIsKde)
+        {
+            m_eDesktop = Kde3;
+        }
+    }
+
+    switch (m_eDesktop)
+    {
+    case Gnome2: m_szDesktop = "Gnome 2"; break;
+    case Gnome3: m_szDesktop = "Gnome 3"; break;
+    case Kde3: m_szDesktop = "KDE 3"; break;
+    case Kde4: m_szDesktop = "KDE 4"; break;
+    default: m_szDesktop = "Unknown";
+    }
+    //cout << "desktop: " << m_eDesktop << endl;
+}
+
+#else
+
+DesktopDetector::DesktopDetector() : m_eDesktop(Unknown) {}
+
+#endif
+
+const DesktopDetector& getDesktopDetector()
+{
+    static DesktopDetector desktopDetector;
+    return desktopDetector;
+}
+
+
+} // namespace
+
+
+
 /*
 Gnome:
 
@@ -705,14 +853,20 @@ Ideally a modal dialog should minimize its parent. If that's not possible, it sh
 */
 
 #ifndef WIN32
-    Qt::WindowFlags getMainWndFlags() { return Qt::WindowTitleHint; } // !!! these are incorrect, but seem the best option; the values used for Windows are supposed to be OK; they work as expected with KDE but not with Gnome (asking for maximize button not only fails to sho it, but causes the "Close" button to disappear as well); Since in KDE min/max buttons are shown when needed anyway, it's sort of OK // ttt2 see if there is workaround/fix
-    Qt::WindowFlags getDialogWndFlags() { return Qt::WindowTitleHint; }
+    //Qt::WindowFlags getMainWndFlags() { return isRunningOnGnome() ? Qt::Window : Qt::WindowTitleHint; } // !!! these are incorrect, but seem the best option; the values used for Windows are supposed to be OK; they work as expected with KDE but not with Gnome (asking for maximize button not only fails to show it, but causes the "Close" button to disappear as well); Since in KDE min/max buttons are shown when needed anyway, it's sort of OK // ttt2 see if there is workaround/fix
+    Qt::WindowFlags getMainWndFlags() { const DesktopDetector& dd = getDesktopDetector(); return dd.onDesktop(DesktopDetector::Kde) ? Qt::WindowTitleHint : Qt::Window; }
+#if QT_VERSION >= 0x040500
+    Qt::WindowFlags getDialogWndFlags() { const DesktopDetector& dd = getDesktopDetector(); return dd.onDesktop(DesktopDetector::Kde) ? Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint : (dd.onDesktop(DesktopDetector::Gnome3) ? Qt::Window : Qt::WindowTitleHint); }
+#else
+    Qt::WindowFlags getDialogWndFlags() { const DesktopDetector& dd = getDesktopDetector(); return dd.onDesktop(DesktopDetector::Gnome3) ? Qt::Window : Qt::WindowTitleHint; } // ttt0 perhaps better to make sure all dialogs have their ok/cancel buttons, so there's no need for a dedicated close button and let the app look more "native"
+#endif
     Qt::WindowFlags getNoResizeWndFlags() { return Qt::WindowTitleHint; }
 #else
     Qt::WindowFlags getMainWndFlags() { return Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowMinimizeButtonHint; } // minimize, maximize, no "what's this"
     Qt::WindowFlags getDialogWndFlags() { return Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint; } // minimize, no "what's this"
     Qt::WindowFlags getNoResizeWndFlags() { return Qt::WindowTitleHint; } // no "what's this"
 #endif
+
 
 
 #if 0

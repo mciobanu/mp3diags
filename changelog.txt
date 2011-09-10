@@ -1,5 +1,11 @@
 ---------------------------------------------------------------------------
 
+10.09.2011 - 1.0.09.063
+- made Discogs queries work again, after a Discogs API change
+- added close button for windows on Gnome 3
+
+---------------------------------------------------------------------------
+
 28.05.2011 - 1.0.08.053
 - fixed crash when trying to save after error at startup
 - added branch support to build process

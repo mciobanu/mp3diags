@@ -32,6 +32,7 @@
 #ifndef WIN32
     #include  <QDir>
     #include  <sys/utsname.h>
+    #include  <unistd.h>
 #else
     #include  <windows.h>
     #include  <psapi.h>
@@ -637,6 +638,7 @@ streampos getSize(istream& in)
 
 void writeZeros(ostream& out, int nCnt)
 {
+    CB_ASSERT (nCnt >= 0);
     char c (0);
     for (int i = 0; i < nCnt; ++i) //ttt2 perhaps make this faster
     {
@@ -863,7 +865,7 @@ Ideally a modal dialog should minimize its parent. If that's not possible, it sh
 #if QT_VERSION >= 0x040500
     Qt::WindowFlags getDialogWndFlags() { const DesktopDetector& dd = getDesktopDetector(); return dd.onDesktop(DesktopDetector::Kde) ? Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint : (dd.onDesktop(DesktopDetector::Gnome3) ? Qt::Window : Qt::WindowTitleHint); }
 #else
-    Qt::WindowFlags getDialogWndFlags() { const DesktopDetector& dd = getDesktopDetector(); return dd.onDesktop(DesktopDetector::Gnome3) ? Qt::Window : Qt::WindowTitleHint; }
+    Qt::WindowFlags getDialogWndFlags() { const DesktopDetector& dd = getDesktopDetector(); return dd.onDesktop(DesktopDetector::Gnome3) ? Qt::Window : Qt::WindowTitleHint; } // ttt0 perhaps better to make sure all dialogs have their ok/cancel buttons, so there's no need for a dedicated close button and let the app look more "native"
 #endif
     Qt::WindowFlags getNoResizeWndFlags() { return Qt::WindowTitleHint; }
 #else

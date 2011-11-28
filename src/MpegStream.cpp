@@ -331,7 +331,33 @@ void createXing(ostream& out, const MpegFrame& frame, int nFrameCount, streamoff
 
 void MpegStream::createXing(ostream& out)
 {
-    ::createXing(out, m_firstFrame, m_nFrameCount, getSize());
+    static const int MIN_FRAME_SIZE (200); // ttt2 this 200 is arbitrary, but there's probably enough room for TOC
+    if (m_firstFrame.getSize() >= MIN_FRAME_SIZE)
+    {
+        ::createXing(out, m_firstFrame, m_nFrameCount, getSize());
+    }
+    else
+    {
+        static const int BFR_SIZE (2000);
+        static char aNewHeader [BFR_SIZE];
+        ::fill(aNewHeader, aNewHeader + BFR_SIZE, 0);
+        ::copy(m_firstFrame.getHeader(), m_firstFrame.getHeader() + MpegFrame::MPEG_FRAME_HDR_SIZE, aNewHeader);
+        NoteColl notes;
+        for (int i = 1; i <= 14; ++i)
+        {
+            aNewHeader[2] = (aNewHeader[2] & 0x0f) + (i << 4);
+            istringstream in (string(aNewHeader, BFR_SIZE));
+
+            MpegFrame frame (notes, in);
+            if (frame.getSize() >= MIN_FRAME_SIZE)
+            {
+                ::createXing(out, frame, m_nFrameCount, getSize());
+                return;
+            }
+        }
+    }
+
+    CB_ASSERT(false);
 }
 
 
@@ -358,6 +384,7 @@ XingStreamBase::XingStreamBase(int nIndex, NoteColl& notes, istream& in) : MpegS
     char* pLabel (bfr + MpegFrame::MPEG_FRAME_HDR_SIZE + nSideInfoSize);
     MP3_CHECK_T (0 == strncmp("Xing", pLabel, XING_LABEL_SIZE) || 0 == strncmp("Info", pLabel, XING_LABEL_SIZE), m_pos, "Not a Xing stream. Header not found.", NotXingStream());
 
+    // ttt0 perhaps if it gets this far it should generate some "broken xing": with the incorrect "vbr fix" which created a xing header longer than the mpeg frame that was supposed to contain it, followed by the removal of those extra bytes by the "unknown stream removal" causes the truncated xing header to be considered audio; that wouldn't happen if a "broken xing" stream would be tried before the "audio" stream in Mp3Handler::parse()
     MP3_CHECK_T (4 == read(in, bfr, 4) && 0 == bfr[0] && 0 == bfr[1] && 0 == bfr[2], m_pos, "Not a Xing stream. Header not found.", NotXingStream());
     m_cFlags = bfr[3];
     MP3_CHECK_T ((m_cFlags & 0x0f) == m_cFlags, m_pos, "Not a Xing stream. Invalid flags.", NotXingStream());

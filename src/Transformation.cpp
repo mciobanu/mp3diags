@@ -249,7 +249,7 @@ void TransfConfig::splitOrigName(const string& strOrigSrcName, std::string& strR
     strRelDir = strOrigSrcName.substr(m_strSrcDir.size());
 #if defined(WIN32)
     //CB_CHECK1 (beginsWith(strRelDir, getPathSepAsStr()), IncorrectPath()); //ttt2 see if it's OK to skip this test on Windows; it probably is, because it's more of an assert and the fact that it's not triggered on Linux should be enough
-#elif defined(OS2) || defined(__OS2__)
+#elif defined(__OS2__)
     //nothing
 #else
     CB_CHECK1 (beginsWith(strRelDir, getPathSepAsStr()), IncorrectPath());

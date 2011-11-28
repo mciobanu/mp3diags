@@ -335,25 +335,24 @@ void MpegStream::createXing(ostream& out)
     if (m_firstFrame.getSize() >= MIN_FRAME_SIZE)
     {
         ::createXing(out, m_firstFrame, m_nFrameCount, getSize());
+        return;
     }
-    else
-    {
-        static const int BFR_SIZE (2000);
-        static char aNewHeader [BFR_SIZE];
-        ::fill(aNewHeader, aNewHeader + BFR_SIZE, 0);
-        ::copy(m_firstFrame.getHeader(), m_firstFrame.getHeader() + MpegFrame::MPEG_FRAME_HDR_SIZE, aNewHeader);
-        NoteColl notes;
-        for (int i = 1; i <= 14; ++i)
-        {
-            aNewHeader[2] = (aNewHeader[2] & 0x0f) + (i << 4);
-            istringstream in (string(aNewHeader, BFR_SIZE));
 
-            MpegFrame frame (notes, in);
-            if (frame.getSize() >= MIN_FRAME_SIZE)
-            {
-                ::createXing(out, frame, m_nFrameCount, getSize());
-                return;
-            }
+    static const int BFR_SIZE (2000);
+    static char aNewHeader [BFR_SIZE];
+    ::fill(aNewHeader, aNewHeader + BFR_SIZE, 0);
+    ::copy(m_firstFrame.getHeader(), m_firstFrame.getHeader() + MpegFrame::MPEG_FRAME_HDR_SIZE, aNewHeader);
+    NoteColl notes;
+    for (int i = 1; i <= 14; ++i)
+    {
+        aNewHeader[2] = (aNewHeader[2] & 0x0f) + (i << 4);
+        istringstream in (string(aNewHeader, BFR_SIZE));
+
+        MpegFrame frame (notes, in);
+        if (frame.getSize() >= MIN_FRAME_SIZE)
+        {
+            ::createXing(out, frame, m_nFrameCount, getSize());
+            return;
         }
     }
 

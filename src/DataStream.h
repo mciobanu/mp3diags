@@ -233,6 +233,7 @@ public:
     /*override*/ const char* getDisplayName() const { return m_strName.c_str(); } // DECL_NAME doesn't work in this case
     /*override*/ std::string getInfo() const { return m_strInfo; }
     const std::string& getBaseName() const { return m_strBaseName; }
+    using UnknownDataStreamBase::append;
 
 private:
     friend class boost::serialization::access;

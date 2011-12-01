@@ -515,6 +515,7 @@ e1:
 
                     TruncatedMpegDataStream* pPrevTrunc (dynamic_cast<TruncatedMpegDataStream*>(pPrev));
                     UnknownDataStream* pPrevUnkn (dynamic_cast<UnknownDataStream*>(pPrev));
+                    UnsupportedDataStream* pPrevUnsupp (dynamic_cast<UnsupportedDataStream*>(pPrev));
 
                     if (MpegStream::getClassDisplayName() == szBrokenName && 1 == nBrokenMpegFrameCount)
                     { // a "broken audio" with a single sense doesn't make much sense at this point (but it mattered above, to add a truncated audio stream)
@@ -537,6 +538,12 @@ e1:
                     { // append to unknown
                         UnknownDataStream* p (new UnknownDataStream(nIndex, m_notes, in, nSize));
                         pPrevUnkn->append(*p);
+                        delete p;
+                    }
+                    else if (0 != pPrevUnsupp)
+                    { // append to unknown
+                        UnknownDataStream* p (new UnknownDataStream(nIndex, m_notes, in, nSize));
+                        pPrevUnsupp->append(*p);
                         delete p;
                     }
                     else

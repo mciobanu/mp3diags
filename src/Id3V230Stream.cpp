@@ -416,7 +416,7 @@ Id3V230StreamWriter::Id3V230StreamWriter(bool bKeepOneValidImg, bool bFastSave, 
             for (int i = 0; i < cSize(p->getFrames()); ++i)
             {
                 const Id3V2Frame* q (p->getFrames()[i]);
-                CB_ASSERT1 ((0 == strcmp(q->m_szName, KnownFrames::LBL_IMAGE())) ^ (Id3V2Frame::NO_APIC == q->m_eApicStatus), m_strDebugFileName);
+                CB_ASSERT1 ((0 == strcmp(q->m_szName, KnownFrames::LBL_IMAGE())) ^ (Id3V2Frame::NO_APIC == q->m_eApicStatus), m_strDebugFileName); // if the frame name is APIC, it should have some status that is not "NO_APIC", i.e. one of ERR, USES_LINK, NON_COVER, COVER
                 if (Id3V2Frame::NO_APIC == q->m_eApicStatus)
                 {
                     bool bCopyFrame (true);

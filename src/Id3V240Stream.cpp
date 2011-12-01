@@ -433,11 +433,18 @@ Id3V240Stream::Id3V240Stream(int nIndex, NoteColl& notes, istream& in, StringWrp
     {
         if (bAcceptBroken)
         {
+            preparePicture(notes);
             return;
         }
 
         clearPtrContainer(m_vpFrames);
         throw;
+
+        /*if (!bAcceptBroken) //ttt2 2011.12.01 - see if this would make more sense - rather than exit immediately, continue all the processing; probably not: if bAcceptBroken is true, we don't care about notes, just want to recover whatever is available
+        {
+            clearPtrContainer(m_vpFrames);
+            throw;
+        }*/
     }
 
     checkDuplicates(notes);

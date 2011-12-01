@@ -68,6 +68,10 @@ Here you have the global parameters that are used by transformations.
 Names that are stored in ID3V2.3.0 are supposed to be either 8bit Latin-1 or 16bit Unicode UTF16 (ID3V2.4.0 has 2 more formats, of which only one is currently supported by MP3 Diags.) However, some tools use the 8bit option with other locales on frames that are declared Latin-1, when they should be using UTF16. Although those tools display the names correctly, others don't, especially if the file is moved to another computer. The reverse might happen as well: correct files using Latin-1 might appear to have incorrect frames, because they are interpreted according to some other locale. There is a transformation that does conversions from 8bit to UTF16, and it is here that you specify the locale to be used in the process.
 </div>
 
+<div class="FreeNormalText RegFnt ChpCol1">
+The locale setting is also used by another transformation, which copies song information from ID3V1 tags to ID3V2.
+</div>
+
 
 <div class="FreeNormalText RegFnt ChpCol2">
 By not allowing more than 1 image per file you make sure that all the players see the same image. OTOH, if you have files containing more than 1 image, you'll probably want to keep them all, in which case the "Keep a single image" option should be unchecked.

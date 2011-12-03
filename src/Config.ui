@@ -1314,7 +1314,7 @@
        <item>
         <widget class="QGroupBox" name="m_pLocaleGrp">
          <property name="title">
-          <string>Locale for ID3V2 conversion</string>
+          <string>Locale for text conversion</string>
          </property>
          <layout class="QGridLayout">
           <property name="topMargin">

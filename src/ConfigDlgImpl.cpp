@@ -37,6 +37,7 @@
 #include  "Helpers.h"
 #include  "Id3Transf.h"
 #include  "Id3V230Stream.h"
+#include  "MpegStream.h"
 #include  "CommonData.h"
 #include  "StoredSettings.h"
 
@@ -334,18 +335,47 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
 
                 if (0 != pId3V2)
                 {
+                    QString q;
                     const vector<Id3V2Frame*>& vpFrames (pId3V2->getFrames());
                     for (int i = 0, n = cSize(vpFrames); i < n; ++i)
                     {
                         const Id3V2Frame* pFrm (vpFrames[i]);
                         if ('T' == pFrm->m_szName[0] && pFrm->m_bHasLatin1NonAscii)
                         {
-                            if (!qstr.isEmpty())
-                            {
-                                qstr += '\n';
-                            }
-                            qstr += convStr(pFrm->getUtf8String());
+                            q += convStr(pFrm->getUtf8String()) + "\n";
                         }
+                    }
+                    if (!q.isEmpty())
+                    {
+                        qstr += "*************************************************************************\nID3V2\n" + q + "\n\n";
+                    }
+                }
+
+                Id3V1Stream* pId3V1 (dynamic_cast<Id3V1Stream*>(p));
+
+                if (0 != pId3V1)
+                {
+                    vector<string> v;
+                    QString q;
+                    v.push_back(pId3V1->getTitle());
+                    v.push_back(pId3V1->getArtist());
+                    v.push_back(pId3V1->getAlbumName());
+                    v.push_back(pId3V1->getOtherInfo());
+                    for (int i = 0; i < cSize(v); ++i)
+                    {
+                        for (int j = 0; j < cSize(v[i]); ++j)
+                        {
+                            unsigned char c (v[i][j]);
+                            if (c >= 128)
+                            {
+                                q += convStr(v[i]) + "\n";
+                                break;
+                            }
+                        }
+                    }
+                    if (!q.isEmpty())
+                    {
+                        qstr += "*************************************************************************\nID3V1\n" + q + "\n\n";
                     }
                 }
             }
@@ -353,7 +383,7 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
 
         if (qstr.isEmpty())
         {
-            qstr = "If you don't know exactly what codepage you want, it's better to make current a file having an ID3V2 tag that contains text frames using the Latin-1 encoding and having non-ASCII characters. Then the content of those frames will replace this text, allowing you to decide which codepage is a match for your file.";
+            qstr = "If you don't know exactly what codepage you want, it's better to make current a file having an ID3V2 tag that contains text frames using the Latin-1 encoding and having non-ASCII characters. Then the content of those frames will replace this text, allowing you to decide which codepage is a match for your file. ID3V1 tags are supported as well, if you want to copy data from them to ID3V2.";
         }
 
         m_codepageTestText = qstr.toLatin1();

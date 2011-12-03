@@ -577,6 +577,13 @@ bool Id3V2CaseTransformer::processId3V2Stream(Id3V2StreamBase& strm, ofstream_ut
 //========================================================================================================================
 
 
+string Id3V1ToId3V2Copier::convert(const string& s)
+{
+    QString q (convStr(s));
+    QByteArray arr (q.toLatin1());
+    QString qstrTxt (m_pCommonData->m_pCodec->toUnicode(arr));
+    return convStr(qstrTxt);
+}
 
 
 bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8& out, Id3V1Stream* pId3V1Stream)
@@ -586,13 +593,13 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8
     if (strm.getTitle().empty())
     {
         string s (pId3V1Stream->getTitle());
-        if (!s.empty()) { wrt.addTextFrame(KnownFrames::LBL_TITLE(), s); }
+        if (!s.empty()) { wrt.addTextFrame(KnownFrames::LBL_TITLE(), convert(s)); }
     }
 
     if (strm.getArtist().empty())
     {
         string s (pId3V1Stream->getArtist());
-        if (!s.empty()) { wrt.addTextFrame(KnownFrames::LBL_ARTIST(), s); }
+        if (!s.empty()) { wrt.addTextFrame(KnownFrames::LBL_ARTIST(), convert(s)); }
     }
 
     if (strm.getTrackNumber().empty())
@@ -616,7 +623,7 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8
     if (strm.getAlbumName().empty())
     {
         string s (pId3V1Stream->getAlbumName());
-        if (!s.empty()) { wrt.addTextFrame(KnownFrames::LBL_ALBUM(), s); }
+        if (!s.empty()) { wrt.addTextFrame(KnownFrames::LBL_ALBUM(), convert(s)); }
     }
 
     wrt.write(out);
@@ -657,12 +664,12 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8
 
         {
             string s (pId3V1Stream->getTitle());
-            if (!s.empty()) { wrt.addTextFrame(KnownFrames::LBL_TITLE(), s); }
+            if (!s.empty()) { wrt.addTextFrame(KnownFrames::LBL_TITLE(), convert(s)); }
         }
 
         {
             string s (pId3V1Stream->getArtist());
-            if (!s.empty()) { wrt.addTextFrame(KnownFrames::LBL_ARTIST(), s); }
+            if (!s.empty()) { wrt.addTextFrame(KnownFrames::LBL_ARTIST(), convert(s)); }
         }
 
         {
@@ -682,7 +689,7 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8
 
         {
             string s (pId3V1Stream->getAlbumName());
-            if (!s.empty()) { wrt.addTextFrame(KnownFrames::LBL_ALBUM(), s); }
+            if (!s.empty()) { wrt.addTextFrame(KnownFrames::LBL_ALBUM(), convert(s)); }
         }
 
         if (wrt.isEmpty())
@@ -738,6 +745,17 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8
 
     deleteFile(strTempName);
     return NOT_CHANGED;
+}
+
+
+/*override*/ const char* Id3V1ToId3V2Copier::getVisibleActionName() const
+{
+    string strActionName (string("Copy missing ID3V2 frames from ID3V1 assuming codepage ") + m_pCommonData->m_pCodec->name().constData());
+    if (strActionName != m_strActionName)
+    {
+        m_strActionName = strActionName; // to make sure that pointer comparisons still work (though they should probably be replaced by string comparisons) //ttt2 replace ptr comparisons
+    }
+    return m_strActionName.c_str();
 }
 
 

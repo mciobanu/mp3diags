@@ -99,12 +99,15 @@ class Id3V1Stream;
 class Id3V1ToId3V2Copier : public Transformation
 {
     bool processId3V2Stream(Id3V2StreamBase& frm, ofstream_utf8& out, Id3V1Stream* pId3V1Stream);
+    std::string convert(const std::string& s);
     CommonData* m_pCommonData;
+    mutable std::string m_strActionName;
 public:
     Id3V1ToId3V2Copier(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Copies frames from ID3V1 to ID3V2 if those tags don't exist in the destination or if the destination doesn't exist at all."; }
+    /*override*/ const char* getVisibleActionName() const;
+    /*override*/ const char* getDescription() const { return "Copies frames from ID3V1 to ID3V2 if those frames don't exist in the destination or if the destination doesn't exist at all."; }
 
     static const char* getClassName() { return "Copy missing ID3V2 frames from ID3V1"; }
 };

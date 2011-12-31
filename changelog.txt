@@ -1,5 +1,10 @@
 ---------------------------------------------------------------------------
 
+31.12.2011 - 1.0.10.065
+- updated Discogs API calls to current version
+
+---------------------------------------------------------------------------
+
 10.09.2011 - 1.0.09.063
 - made Discogs queries work again, after a Discogs API change
 - added close button for windows on Gnome 3

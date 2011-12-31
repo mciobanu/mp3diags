@@ -645,6 +645,8 @@ http://api.discogs.com/database/search?artist=coldplay
 
 http://qtwiki.org/Parsing_JSON_with_QT_using_standard_QT_library
 http://nilier.blogspot.com/2010/08/json-parser-class-for-qt.html?spref=tw   http://ereilin.tumblr.com/post/6857765046/lightweight-json-parser-serializer-class-for-qt   https://github.com/ereilin/qt-json
+
+http://www.discogs.com/help/forums/topic/326725  - future of XML, JSON-only features
 */
 
 

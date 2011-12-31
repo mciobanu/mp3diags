@@ -250,7 +250,7 @@ src/DebugDlgImpl.h	f	2009-09-27T12:45:07Z
 src/DirFilter.ui	f	2009-07-15T20:47:35Z
 src/DirFilterDlgImpl.cpp	f	2010-12-29T09:36:19Z
 src/DirFilterDlgImpl.h	f	2009-07-17T15:02:37Z
-src/DiscogsDownloader.cpp	f	2011-12-03T07:40:00Z
+src/DiscogsDownloader.cpp	f	2011-12-31T14:41:28Z
 src/DiscogsDownloader.h	f	2009-10-20T08:11:06Z
 src/DoubleList.cpp	f	2009-09-11T14:47:51Z
 src/DoubleList.h	f	2009-09-11T14:47:51Z

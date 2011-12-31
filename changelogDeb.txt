@@ -1,3 +1,13 @@
+mp3diags (1.1.09.064) testing; urgency=low
+
+  * moved to Discogs API V2
+  * added codepage support when copying ID3V1 to ID3V2
+  * fixed crash caused by ID3V2.4 tag with invalid flags
+  * fixed splitting of unsupported ID3V2 tags
+  * fixed Xing generation for small bitrates
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Sat, 03 Dec 2011 22:00:00 +0200
+
 mp3diags (1.1.08.062) testing; urgency=low
 
   * made Discogs queries after a Discogs API change

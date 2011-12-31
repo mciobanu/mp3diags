@@ -1,7 +1,16 @@
 ---------------------------------------------------------------------------
 
+03.12.2011 - 1.1.09.064
+- moved to Discogs API V2
+- added codepage support when copying ID3V1 to ID3V2
+- fixed crash caused by ID3V2.4 tag with invalid flags
+- fixed splitting of unsupported ID3V2 tags
+- fixed Xing generation for small bitrates
+
+---------------------------------------------------------------------------
+
 28.08.2011 - 1.1.08.062
-- made Discogs queries after a Discogs API change
+- made Discogs queries work again, after a Discogs API change
 - fixed track numbering when querying multi-volume albums from Discogs
 - made Linux shell integration accept file names containing spaces
 - added close button for dialogs on Gnome 3

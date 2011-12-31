@@ -72,7 +72,7 @@ namespace Discogs
 */
 struct SearchXmlHandler : public SimpleSaxHandler<SearchXmlHandler>
 {
-    SearchXmlHandler(DiscogsDownloader& dlg) : SimpleSaxHandler<SearchXmlHandler>("resp"), m_dlg(dlg)
+    SearchXmlHandler(DiscogsDownloader& dlg) : SimpleSaxHandler<SearchXmlHandler>("resp"), m_dlg(dlg), m_bIsRelease(false)
     {
         Node& resp (getRoot());
             Node& exactResults (makeNode(resp, "exactresults"));
@@ -531,7 +531,7 @@ DiscogsDownloader::DiscogsDownloader(QWidget* pParent, SessionSettings& settings
         m_pStyleCbB->setCurrentIndex(nStyleOption);
     }
 
-    m_pQHttp->setHost("www.discogs.com");
+    m_pQHttp->setHost("api.discogs.com");
 
     m_pModel = new WebDwnldModel(*this, *m_pTrackListG); // !!! in a way these would make sense to be in the base constructor, but that would cause calls to pure virtual methods
     m_pTrackListG->setModel(m_pModel);
@@ -573,7 +573,7 @@ LAST_STEP("DiscogsDownloader::initSearch");
 {
 LAST_STEP("DiscogsDownloader::createQuery");
     //string s (strArtist + "+" + strAlbum);
-    string s ("/search?type=all&q=" + replaceSymbols(convStr(m_pSrchArtistE->text())) + "&f=xml&api_key=f51e9c8f6c");
+    string s ("/search?q=" + replaceSymbols(convStr(m_pSrchArtistE->text())) + "&f=xml");
     for (string::size_type i = 0; i < s.size(); ++i)
     {
         if (' ' == s[i])
@@ -616,14 +616,36 @@ LAST_STEP("DiscogsDownloader::loadNextPage");
     sprintf(a, "&page=%d", m_nLastLoadedPage + 1);
     string s (m_strQuery + a);
 
-    QHttpRequestHeader header ("GET", convStr(s));
-    header.setValue("Host", "www.discogs.com");
+    QHttpRequestHeader header ("GET", convStr(s)); // ttt1 QHttpRequestHeader and QHttp are deprecated, to be replaced by QNetworkAccessManager
+    header.setValue("Host", "api.discogs.com"); // ttt1 Discogs API v1 is deprecated; switch to v2: http://api.discogs.com/search?q=abba&f=xml vs http://www.discogs.com/search?type=all&q=abba&f=xml&api_key=f51e9c8f6c // see http://www.discogs.com/help/forums/topic/234138
+    //header.setValue("Host", "api.discogs.com");
     header.setValue("Accept-Encoding", "gzip");
+    //header.setValue("User-Agent" , "Mozilla Firefox");
     header.setValue("User-Agent" , "Mp3Diags");
 
     m_pQHttp->request(header);
     //cout << "sent search " << m_pQHttp->request(header) << " for page " << (m_nLastLoadedPage + 1) << endl;
 }
+
+/*
+http://www.discogs.com/help/api
+
+http://www.discogs.com/developers/
+http://www.discogs.com/developers/accessing.html
+http://www.discogs.com/developers/resources/database/index.html
+http://www.discogs.com/developers/resources/database/artist.html
+
+http://api.discogs.com/release/1
+
+http://www.discogs.com/developers/resources/database/image.html
+
+http://www.discogs.com/developers/resources/database/search-endpoint.html
+http://api.discogs.com/database/search?artist=coldplay
+
+
+http://qtwiki.org/Parsing_JSON_with_QT_using_standard_QT_library
+http://nilier.blogspot.com/2010/08/json-parser-class-for-qt.html?spref=tw   http://ereilin.tumblr.com/post/6857765046/lightweight-json-parser-serializer-class-for-qt   https://github.com/ereilin/qt-json
+*/
 
 
 void DiscogsDownloader::reloadGui()
@@ -638,6 +660,7 @@ LAST_STEP("DiscogsDownloader::reloadGui");
 
 
 
+//http://api.discogs.com/release/1565272?f=xml vs http://www.discogs.com/release/1565272?f=xml&api_key=f51e9c8f6c
 void DiscogsDownloader::requestAlbum(int nAlbum)
 {
 LAST_STEP("DiscogsDownloader::requestAlbum");
@@ -645,10 +668,10 @@ LAST_STEP("DiscogsDownloader::requestAlbum");
 
     m_nLoadingAlbum = nAlbum;
     setWaiting(ALBUM);
-    string s ("/release/" + m_vAlbums[nAlbum].m_strId + "?f=xml&api_key=f51e9c8f6c");
+    string s ("/release/" + m_vAlbums[nAlbum].m_strId + "?f=xml");
 
     QHttpRequestHeader header ("GET", convStr(s));
-    header.setValue("Host", "www.discogs.com");
+    header.setValue("Host", "api.discogs.com");
     header.setValue("Accept-Encoding", "gzip");
     header.setValue("User-Agent" , "Mp3Diags");
     m_pQHttp->request(header);
@@ -656,7 +679,7 @@ LAST_STEP("DiscogsDownloader::requestAlbum");
     addNote("getting album info ...");
 }
 
-
+//http://api.discogs.com/image/R-1565272-1228883740.jpeg vs http://www.discogs.com/image/R-1565272-1228883740.jpeg?api_key=f51e9c8f6c
 void DiscogsDownloader::requestImage(int nAlbum, int nImage)
 {
 LAST_STEP("DiscogsDownloader::requestImage");
@@ -667,11 +690,11 @@ LAST_STEP("DiscogsDownloader::requestImage");
     const string& strName (m_vAlbums[nAlbum].m_vstrImageNames[nImage]);
     setImageType(strName);
 
-    string s ("/image/" + strName + "?api_key=f51e9c8f6c");
+    string s ("/image/" + strName);
 //cout << "  get img " << s << endl;
 
     QHttpRequestHeader header ("GET", convStr(s));
-    header.setValue("Host", "www.discogs.com");
+    header.setValue("Host", "api.discogs.com");
     //header.setValue("Accept-Encoding", "gzip");
     header.setValue("User-Agent" , "Mp3Diags");
     m_pQHttp->request(header);
@@ -728,7 +751,6 @@ LAST_STEP("DiscogsDownloader::getWaitingHttp");
     if (m_nCrtAlbum < 0 || m_nCrtAlbum >= cSize(m_vAlbums)) { return 0; }
     return &m_vAlbums[m_nCrtAlbum];
 }
-
 
 
 

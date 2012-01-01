@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>TagEditorDlg</class>
- <widget class="QDialog" name="TagEditorDlg" >
-  <property name="geometry" >
+ <widget class="QDialog" name="TagEditorDlg">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,114 +10,107 @@
     <height>679</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>MP3 Diags - Tag editor</string>
   </property>
-  <property name="sizeGripEnabled" >
+  <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout">
    <item>
-    <widget class="QWidget" native="1" name="widget_6" >
-     <layout class="QHBoxLayout" >
-      <property name="spacing" >
+    <widget class="QWidget" name="widget_6" native="true">
+     <layout class="QHBoxLayout">
+      <property name="spacing">
        <number>0</number>
       </property>
-      <property name="leftMargin" >
-       <number>0</number>
-      </property>
-      <property name="topMargin" >
-       <number>0</number>
-      </property>
-      <property name="rightMargin" >
-       <number>0</number>
-      </property>
-      <property name="bottomMargin" >
+      <property name="margin">
        <number>0</number>
       </property>
       <item>
-       <widget class="QToolButton" name="m_pSaveB" >
-        <property name="minimumSize" >
+       <widget class="QToolButton" name="m_pSaveB">
+        <property name="minimumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="toolTip" >
+        <property name="toolTip">
          <string>Save</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>S</string>
         </property>
-        <property name="icon" >
-         <iconset resource="Mp3Diags.qrc" >:/images/document-save.svg</iconset>
+        <property name="icon">
+         <iconset resource="Mp3Diags.qrc">
+          <normaloff>:/images/document-save.svg</normaloff>:/images/document-save.svg</iconset>
         </property>
-        <property name="iconSize" >
+        <property name="iconSize">
          <size>
           <width>36</width>
           <height>36</height>
          </size>
         </property>
-        <property name="autoRaise" >
+        <property name="autoRaise">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="m_pReloadB" >
-        <property name="minimumSize" >
+       <widget class="QToolButton" name="m_pReloadB">
+        <property name="minimumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="toolTip" >
+        <property name="toolTip">
          <string>Reset</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>R</string>
         </property>
-        <property name="icon" >
-         <iconset resource="Mp3Diags.qrc" >:/images/edit-undo.svg</iconset>
+        <property name="icon">
+         <iconset resource="Mp3Diags.qrc">
+          <normaloff>:/images/edit-undo.svg</normaloff>:/images/edit-undo.svg</iconset>
         </property>
-        <property name="iconSize" >
+        <property name="iconSize">
          <size>
           <width>36</width>
           <height>36</height>
          </size>
         </property>
-        <property name="autoRaise" >
+        <property name="autoRaise">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeType" >
+        <property name="sizeType">
          <enum>QSizePolicy::Fixed</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>15</width>
           <height>15</height>
@@ -125,57 +119,58 @@
        </spacer>
       </item>
       <item>
-       <widget class="QToolButton" name="m_pPrevB" >
-        <property name="minimumSize" >
+       <widget class="QToolButton" name="m_pPrevB">
+        <property name="minimumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="toolTip" >
+        <property name="toolTip">
          <string>Previous [Ctrl+P]</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>&lt;</string>
         </property>
-        <property name="icon" >
-         <iconset resource="Mp3Diags.qrc" >:/images/go-previous.svg</iconset>
+        <property name="icon">
+         <iconset resource="Mp3Diags.qrc">
+          <normaloff>:/images/go-previous.svg</normaloff>:/images/go-previous.svg</iconset>
         </property>
-        <property name="iconSize" >
+        <property name="iconSize">
          <size>
           <width>36</width>
           <height>36</height>
          </size>
         </property>
-        <property name="shortcut" >
+        <property name="shortcut">
          <string>Ctrl+P</string>
         </property>
-        <property name="autoRaise" >
+        <property name="autoRaise">
          <bool>true</bool>
         </property>
-        <property name="arrowType" >
+        <property name="arrowType">
          <enum>Qt::NoArrow</enum>
         </property>
        </widget>
       </item>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeType" >
+        <property name="sizeType">
          <enum>QSizePolicy::Fixed</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>4</width>
           <height>15</height>
@@ -184,24 +179,24 @@
        </spacer>
       </item>
       <item>
-       <widget class="QLineEdit" name="m_pCrtDirTagEdtE" >
-        <property name="toolTip" >
+       <widget class="QLineEdit" name="m_pCrtDirTagEdtE">
+        <property name="toolTip">
          <string>Folder</string>
         </property>
-        <property name="readOnly" >
+        <property name="readOnly">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeType" >
+        <property name="sizeType">
          <enum>QSizePolicy::Fixed</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>4</width>
           <height>15</height>
@@ -210,57 +205,58 @@
        </spacer>
       </item>
       <item>
-       <widget class="QToolButton" name="m_pNextB" >
-        <property name="minimumSize" >
+       <widget class="QToolButton" name="m_pNextB">
+        <property name="minimumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="toolTip" >
+        <property name="toolTip">
          <string>Next [Ctrl+N]</string>
         </property>
-        <property name="text" >
-         <string>></string>
+        <property name="text">
+         <string>&gt;</string>
         </property>
-        <property name="icon" >
-         <iconset resource="Mp3Diags.qrc" >:/images/go-next.svg</iconset>
+        <property name="icon">
+         <iconset resource="Mp3Diags.qrc">
+          <normaloff>:/images/go-next.svg</normaloff>:/images/go-next.svg</iconset>
         </property>
-        <property name="iconSize" >
+        <property name="iconSize">
          <size>
           <width>36</width>
           <height>36</height>
          </size>
         </property>
-        <property name="shortcut" >
+        <property name="shortcut">
          <string>Ctrl+N</string>
         </property>
-        <property name="autoRaise" >
+        <property name="autoRaise">
          <bool>true</bool>
         </property>
-        <property name="arrowType" >
+        <property name="arrowType">
          <enum>Qt::NoArrow</enum>
         </property>
        </widget>
       </item>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeType" >
+        <property name="sizeType">
          <enum>QSizePolicy::Fixed</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>15</width>
           <height>15</height>
@@ -269,88 +265,90 @@
        </spacer>
       </item>
       <item>
-       <widget class="QToolButton" name="m_pQueryDiscogsB" >
-        <property name="minimumSize" >
+       <widget class="QToolButton" name="m_pQueryDiscogsB">
+        <property name="minimumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="toolTip" >
+        <property name="toolTip">
          <string>Query Discogs</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>Q</string>
         </property>
-        <property name="icon" >
-         <iconset resource="Mp3Diags.qrc" >:/images/discogs.png</iconset>
+        <property name="icon">
+         <iconset resource="Mp3Diags.qrc">
+          <normaloff>:/images/discogs.png</normaloff>:/images/discogs.png</iconset>
         </property>
-        <property name="iconSize" >
+        <property name="iconSize">
          <size>
           <width>36</width>
           <height>36</height>
          </size>
         </property>
-        <property name="autoRaise" >
+        <property name="autoRaise">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="m_pQueryMusicBrainzB" >
-        <property name="minimumSize" >
+       <widget class="QToolButton" name="m_pQueryMusicBrainzB">
+        <property name="minimumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="toolTip" >
+        <property name="toolTip">
          <string>Query MusicBrainz</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>...</string>
         </property>
-        <property name="icon" >
-         <iconset resource="Mp3Diags.qrc" >:/images/musicbrainz_logo1.svg</iconset>
+        <property name="icon">
+         <iconset resource="Mp3Diags.qrc">
+          <normaloff>:/images/musicbrainz_logo1.svg</normaloff>:/images/musicbrainz_logo1.svg</iconset>
         </property>
-        <property name="iconSize" >
+        <property name="iconSize">
          <size>
           <width>36</width>
           <height>36</height>
          </size>
         </property>
-        <property name="autoRaise" >
+        <property name="autoRaise">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeType" >
+        <property name="sizeType">
          <enum>QSizePolicy::Fixed</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>15</width>
           <height>15</height>
@@ -359,276 +357,283 @@
        </spacer>
       </item>
       <item>
-       <widget class="QToolButton" name="m_pVarArtistsB" >
-        <property name="minimumSize" >
+       <widget class="QToolButton" name="m_pVarArtistsB">
+        <property name="minimumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="toolTip" >
-         <string>Toggle "Various Artists"</string>
+        <property name="toolTip">
+         <string>Toggle &quot;Various Artists&quot;</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>V</string>
         </property>
-        <property name="icon" >
-         <iconset resource="Mp3Diags.qrc" >:/images/va_va.svg</iconset>
+        <property name="icon">
+         <iconset resource="Mp3Diags.qrc">
+          <normaloff>:/images/va_va.svg</normaloff>:/images/va_va.svg</iconset>
         </property>
-        <property name="iconSize" >
+        <property name="iconSize">
          <size>
           <width>36</width>
           <height>36</height>
          </size>
         </property>
-        <property name="autoRaise" >
+        <property name="autoRaise">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="m_pCaseB" >
-        <property name="minimumSize" >
+       <widget class="QToolButton" name="m_pCaseB">
+        <property name="minimumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="toolTip" >
+        <property name="toolTip">
          <string>Change case automatically</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>...</string>
         </property>
-        <property name="icon" >
-         <iconset resource="Mp3Diags.qrc" >:/images/change-case.svg</iconset>
+        <property name="icon">
+         <iconset resource="Mp3Diags.qrc">
+          <normaloff>:/images/change-case.svg</normaloff>:/images/change-case.svg</iconset>
         </property>
-        <property name="iconSize" >
+        <property name="iconSize">
          <size>
           <width>36</width>
           <height>36</height>
          </size>
         </property>
-        <property name="autoRaise" >
+        <property name="autoRaise">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="m_pCopyFirstB" >
-        <property name="minimumSize" >
+       <widget class="QToolButton" name="m_pCopyFirstB">
+        <property name="minimumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="toolTip" >
+        <property name="toolTip">
          <string>Copy field(s) from first line</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>C</string>
         </property>
-        <property name="icon" >
-         <iconset resource="Mp3Diags.qrc" >:/images/duplicate_first.svg</iconset>
+        <property name="icon">
+         <iconset resource="Mp3Diags.qrc">
+          <normaloff>:/images/duplicate_first.svg</normaloff>:/images/duplicate_first.svg</iconset>
         </property>
-        <property name="iconSize" >
+        <property name="iconSize">
          <size>
           <width>36</width>
           <height>36</height>
          </size>
         </property>
-        <property name="autoRaise" >
+        <property name="autoRaise">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="m_pSortB" >
-        <property name="minimumSize" >
+       <widget class="QToolButton" name="m_pSortB">
+        <property name="minimumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="toolTip" >
+        <property name="toolTip">
          <string>Sort by track number</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>...</string>
         </property>
-        <property name="icon" >
-         <iconset resource="Mp3Diags.qrc" >:/images/sort_asc.svg</iconset>
+        <property name="icon">
+         <iconset resource="Mp3Diags.qrc">
+          <normaloff>:/images/sort_asc.svg</normaloff>:/images/sort_asc.svg</iconset>
         </property>
-        <property name="iconSize" >
+        <property name="iconSize">
          <size>
           <width>36</width>
           <height>36</height>
          </size>
         </property>
-        <property name="autoRaise" >
+        <property name="autoRaise">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="m_pToggleAssignedB" >
-        <property name="minimumSize" >
+       <widget class="QToolButton" name="m_pToggleAssignedB">
+        <property name="minimumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="toolTip" >
-         <string>Toggle "assigned" state</string>
+        <property name="toolTip">
+         <string>Toggle &quot;assigned&quot; state</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>A</string>
         </property>
-        <property name="icon" >
-         <iconset resource="Mp3Diags.qrc" >:/images/assgn-some.svg</iconset>
+        <property name="icon">
+         <iconset resource="Mp3Diags.qrc">
+          <normaloff>:/images/assgn-some.svg</normaloff>:/images/assgn-some.svg</iconset>
         </property>
-        <property name="iconSize" >
+        <property name="iconSize">
          <size>
           <width>36</width>
           <height>36</height>
          </size>
         </property>
-        <property name="autoRaise" >
+        <property name="autoRaise">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="m_pPasteB" >
-        <property name="minimumSize" >
+       <widget class="QToolButton" name="m_pPasteB">
+        <property name="minimumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="toolTip" >
+        <property name="toolTip">
          <string>Paste</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>...</string>
         </property>
-        <property name="icon" >
-         <iconset resource="Mp3Diags.qrc" >:/images/edit-paste.svg</iconset>
+        <property name="icon">
+         <iconset resource="Mp3Diags.qrc">
+          <normaloff>:/images/edit-paste.svg</normaloff>:/images/edit-paste.svg</iconset>
         </property>
-        <property name="iconSize" >
+        <property name="iconSize">
          <size>
           <width>36</width>
           <height>36</height>
          </size>
         </property>
-        <property name="shortcut" >
+        <property name="shortcut">
          <string>Ctrl+V</string>
         </property>
-        <property name="autoRaise" >
+        <property name="autoRaise">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="m_pEditPatternsB" >
-        <property name="minimumSize" >
+       <widget class="QToolButton" name="m_pEditPatternsB">
+        <property name="minimumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="toolTip" >
+        <property name="toolTip">
          <string>Edit file patterns</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>F</string>
         </property>
-        <property name="icon" >
-         <iconset resource="Mp3Diags.qrc" >:/images/patterns.svg</iconset>
+        <property name="icon">
+         <iconset resource="Mp3Diags.qrc">
+          <normaloff>:/images/patterns.svg</normaloff>:/images/patterns.svg</iconset>
         </property>
-        <property name="iconSize" >
+        <property name="iconSize">
          <size>
           <width>36</width>
           <height>36</height>
          </size>
         </property>
-        <property name="autoRaise" >
+        <property name="autoRaise">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeType" >
+        <property name="sizeType">
          <enum>QSizePolicy::Fixed</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>15</width>
           <height>15</height>
@@ -637,69 +642,74 @@
        </spacer>
       </item>
       <item>
-       <widget class="QToolButton" name="m_pPaletteB" >
-        <property name="minimumSize" >
+       <widget class="QToolButton" name="m_pPaletteB">
+        <property name="minimumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="toolTip" >
+        <property name="toolTip">
          <string>Background colors</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>...</string>
         </property>
-        <property name="icon" >
-         <iconset resource="Mp3Diags.qrc" >:/images/palette.svg</iconset>
+        <property name="icon">
+         <iconset resource="Mp3Diags.qrc">
+          <normaloff>:/images/palette.svg</normaloff>:/images/palette.svg</iconset>
         </property>
-        <property name="iconSize" >
+        <property name="iconSize">
          <size>
           <width>36</width>
           <height>36</height>
          </size>
         </property>
-        <property name="autoRaise" >
+        <property name="autoRaise">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="m_pConfigB" >
-        <property name="minimumSize" >
+       <widget class="QToolButton" name="m_pConfigB">
+        <property name="minimumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="text" >
+        <property name="toolTip">
+         <string>Configuration</string>
+        </property>
+        <property name="text">
          <string>...</string>
         </property>
-        <property name="icon" >
-         <iconset resource="Mp3Diags.qrc" >:/images/configure.svg</iconset>
+        <property name="icon">
+         <iconset resource="Mp3Diags.qrc">
+          <normaloff>:/images/configure.svg</normaloff>:/images/configure.svg</iconset>
         </property>
-        <property name="iconSize" >
+        <property name="iconSize">
          <size>
           <width>36</width>
           <height>36</height>
          </size>
         </property>
-        <property name="autoRaise" >
+        <property name="autoRaise">
          <bool>true</bool>
         </property>
        </widget>
@@ -708,47 +718,29 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" native="1" name="widget_4" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
+    <widget class="QWidget" name="widget_4" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>4</verstretch>
       </sizepolicy>
      </property>
-     <layout class="QVBoxLayout" >
-      <property name="leftMargin" >
-       <number>0</number>
-      </property>
-      <property name="topMargin" >
-       <number>0</number>
-      </property>
-      <property name="rightMargin" >
-       <number>0</number>
-      </property>
-      <property name="bottomMargin" >
+     <layout class="QVBoxLayout">
+      <property name="margin">
        <number>0</number>
       </property>
       <item>
-       <widget class="QTableView" name="m_pCurrentAlbumG" />
+       <widget class="QTableView" name="m_pCurrentAlbumG"/>
       </item>
       <item>
-       <widget class="QWidget" native="1" name="m_pImagesW" >
-        <layout class="QHBoxLayout" >
-         <property name="leftMargin" >
-          <number>0</number>
-         </property>
-         <property name="topMargin" >
-          <number>0</number>
-         </property>
-         <property name="rightMargin" >
-          <number>0</number>
-         </property>
-         <property name="bottomMargin" >
+       <widget class="QWidget" name="m_pImagesW" native="true">
+        <layout class="QHBoxLayout">
+         <property name="margin">
           <number>0</number>
          </property>
          <item>
-          <widget class="QLabel" name="m_pRemovable1L" >
-           <property name="text" >
+          <widget class="QLabel" name="m_pRemovable1L">
+           <property name="text">
             <string>TextLabel</string>
            </property>
           </widget>
@@ -760,51 +752,33 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" native="1" name="widget_5" >
-     <layout class="QVBoxLayout" >
-      <property name="leftMargin" >
-       <number>0</number>
-      </property>
-      <property name="topMargin" >
-       <number>0</number>
-      </property>
-      <property name="rightMargin" >
-       <number>0</number>
-      </property>
-      <property name="bottomMargin" >
+    <widget class="QWidget" name="widget_5" native="true">
+     <layout class="QVBoxLayout">
+      <property name="margin">
        <number>0</number>
       </property>
       <item>
-       <widget class="QTableView" name="m_pCurrentFileG" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+       <widget class="QTableView" name="m_pCurrentFileG">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="selectionMode" >
+        <property name="selectionMode">
          <enum>QAbstractItemView::NoSelection</enum>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QWidget" native="1" name="m_pPatternsW" >
-        <layout class="QHBoxLayout" >
-         <property name="leftMargin" >
-          <number>0</number>
-         </property>
-         <property name="topMargin" >
-          <number>0</number>
-         </property>
-         <property name="rightMargin" >
-          <number>0</number>
-         </property>
-         <property name="bottomMargin" >
+       <widget class="QWidget" name="m_pPatternsW" native="true">
+        <layout class="QHBoxLayout">
+         <property name="margin">
           <number>0</number>
          </property>
          <item>
-          <widget class="QLabel" name="m_pRemovable2L" >
-           <property name="text" >
+          <widget class="QLabel" name="m_pRemovable2L">
+           <property name="text">
             <string>TextLabel</string>
            </property>
           </widget>
@@ -818,7 +792,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="Mp3Diags.qrc" />
+  <include location="Mp3Diags.qrc"/>
  </resources>
  <connections/>
 </ui>

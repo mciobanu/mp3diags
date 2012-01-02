@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>991</width>
-    <height>673</height>
+    <height>685</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -2619,6 +2619,13 @@
                 <widget class="QCheckBox" name="m_pShowSessCkB">
                  <property name="text">
                   <string>Show &quot;Sessions&quot; button</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="m_pShowCustomCloseButtonsCkB">
+                 <property name="text">
+                  <string>Show Gnome 3 close buttons</string>
                  </property>
                 </widget>
                </item>

@@ -418,6 +418,7 @@ public:
 
     bool m_bWarnOnNonSeqTracks, m_bWarnPastingToNonSeqTracks;
     bool m_bShowExport, m_bShowDebug, m_bShowSessions;
+    bool m_bShowCustomCloseButtons;
     bool m_bScanAtStartup;
     std::string m_strNormalizeCmd;
     bool m_bKeepNormWndOpen;

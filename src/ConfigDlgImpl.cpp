@@ -591,6 +591,7 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
         m_pShowExportCkB->setChecked(m_pCommonData->m_bShowExport);
         m_pShowDebugCkB->setChecked(m_pCommonData->m_bShowDebug);
         m_pShowSessCkB->setChecked(m_pCommonData->m_bShowSessions);
+        m_pShowCustomCloseButtonsCkB->setChecked(m_pCommonData->m_bShowCustomCloseButtons);
         m_pNormalizerE->setText(convStr(m_pCommonData->m_strNormalizeCmd));
         m_pKeepNormOpenCkB->setChecked(m_pCommonData->m_bKeepNormWndOpen);
 
@@ -1044,6 +1045,7 @@ void ConfigDlgImpl::on_m_pOkB_clicked()
             m_pCommonData->m_bShowExport = m_pShowExportCkB->isChecked();
             m_pCommonData->m_bShowDebug = m_pShowDebugCkB->isChecked();
             m_pCommonData->m_bShowSessions = m_pShowSessCkB->isChecked();
+            m_pCommonData->m_bShowCustomCloseButtons = m_pShowCustomCloseButtonsCkB->isChecked();
             m_pCommonData->m_strNormalizeCmd = convStr(m_pNormalizerE->text());
             m_pCommonData->m_bKeepNormWndOpen = m_pKeepNormOpenCkB->isChecked();
 

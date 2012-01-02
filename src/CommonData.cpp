@@ -205,6 +205,7 @@ void SessionSettings::saveMiscConfigSettings(const CommonData* p)
         m_pSettings->setValue("main/showExport", p->m_bShowExport);
         m_pSettings->setValue("main/showDebug", p->m_bShowDebug);
         m_pSettings->setValue("main/showSessions", p->m_bShowSessions);
+        m_pSettings->setValue("main/showCustomCloseButtons", p->m_bShowCustomCloseButtons);
         m_pSettings->setValue("normalizer/command", convStr(p->m_strNormalizeCmd));
         m_pSettings->setValue("main/keepNormWndOpen", p->m_bKeepNormWndOpen);
 
@@ -322,6 +323,7 @@ void SessionSettings::loadMiscConfigSettings(CommonData* p) const
         p->m_bShowExport = m_pSettings->value("main/showExport", false).toBool();
         p->m_bShowDebug = m_pSettings->value("main/showDebug", false).toBool();
         p->m_bShowSessions = m_pSettings->value("main/showSessions", p->getDefaultForVisibleSessBtn()).toBool();
+        p->m_bShowCustomCloseButtons = m_pSettings->value("main/showCustomCloseButtons", ::getDefaultForShowCustomCloseButtons()).toBool();
         p->m_strNormalizeCmd = convStr(m_pSettings->value("normalizer/command", "mp3gain -a -k -p -t").toString());
         p->m_bKeepNormWndOpen = m_pSettings->value("main/keepNormWndOpen", false).toBool();
 

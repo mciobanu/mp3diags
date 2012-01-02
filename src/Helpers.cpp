@@ -712,9 +712,6 @@ struct DesktopDetector {
 
 #if defined(__linux__)
 
-// look for gnome-settings-daemon or gnome-settings-daemon-3.0 to determine if running in Gnome (3) and if so add close button
-// or run lsof and get the list
-
 DesktopDetector::DesktopDetector() : m_eDesktop(Unknown)
 {
     FileSearcher fs ("/proc");
@@ -790,7 +787,9 @@ DesktopDetector::DesktopDetector() : m_eDesktop(Unknown)
                         bIsKde = true;
                     }
 
-                    if (string::npos != strBfr.find("kde4/libexec"))
+                    //if (string::npos != strBfr.find("kde4/libexec")) // this gives false positives on openSUSE 11.4 from KDE 3:
+                    // for i in `ls /proc | grep '^[0-9]'` ; do a=`cat /proc/$i/cmdline 2>/dev/null` ; echo $a | grep kde4/libexec ; done
+                    if (string::npos != strBfr.find("kde4/libexec/start")) // ttt2 probably works only on Suse and only in some cases
                     {
                         bIsKde4 = true;
                     }
@@ -815,6 +814,15 @@ DesktopDetector::DesktopDetector() : m_eDesktop(Unknown)
         }
     }
 
+    if (Gnome2 == m_eDesktop)
+    { // while on openSUSE there's gnome-settings-daemon-3, on Fedora it's always gnome-settings-daemon, regardless of the Gnome version; so if Gnome 3 seems to be installed, we'll override a "Gnome2" value
+        QDir dir ("/usr/share/gnome-shell");
+        if (dir.exists())
+        {
+            m_eDesktop = Gnome3;
+        }
+    }
+
     switch (m_eDesktop)
     {
     case Gnome2: m_szDesktop = "Gnome 2"; break;
@@ -826,7 +834,7 @@ DesktopDetector::DesktopDetector() : m_eDesktop(Unknown)
     //cout << "desktop: " << m_eDesktop << endl;
 }
 
-#else
+#else // #if defined(__linux__)
 
 DesktopDetector::DesktopDetector() : m_eDesktop(Unknown) {}
 
@@ -841,6 +849,11 @@ const DesktopDetector& getDesktopDetector()
 
 } // namespace
 
+
+bool getDefaultForShowCustomCloseButtons()
+{
+    return DesktopDetector::Gnome3 == getDesktopDetector().m_eDesktop;
+}
 
 
 /*
@@ -863,9 +876,12 @@ Ideally a modal dialog should minimize its parent. If that's not possible, it sh
     //Qt::WindowFlags getMainWndFlags() { return isRunningOnGnome() ? Qt::Window : Qt::WindowTitleHint; } // !!! these are incorrect, but seem the best option; the values used for Windows are supposed to be OK; they work as expected with KDE but not with Gnome (asking for maximize button not only fails to show it, but causes the "Close" button to disappear as well); Since in KDE min/max buttons are shown when needed anyway, it's sort of OK // ttt2 see if there is workaround/fix
     Qt::WindowFlags getMainWndFlags() { const DesktopDetector& dd = getDesktopDetector(); return dd.onDesktop(DesktopDetector::Kde) ? Qt::WindowTitleHint : Qt::Window; }
 #if QT_VERSION >= 0x040500
-    Qt::WindowFlags getDialogWndFlags() { const DesktopDetector& dd = getDesktopDetector(); return dd.onDesktop(DesktopDetector::Kde) ? Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint : (dd.onDesktop(DesktopDetector::Gnome3) ? Qt::Window : Qt::WindowTitleHint); }
+    //Qt::WindowFlags getDialogWndFlags() { const DesktopDetector& dd = getDesktopDetector(); return dd.onDesktop(DesktopDetector::Kde) ? Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint : (dd.onDesktop(DesktopDetector::Gnome3) ? Qt::Window : Qt::WindowTitleHint); }
+    Qt::WindowFlags getDialogWndFlags() { const DesktopDetector& dd = getDesktopDetector(); return dd.onDesktop(DesktopDetector::Kde) ? Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint : (/*dd.onDesktop(DesktopDetector::Gnome3) ? Qt::Window :*/ Qt::WindowTitleHint); }
 #else
-    Qt::WindowFlags getDialogWndFlags() { const DesktopDetector& dd = getDesktopDetector(); return dd.onDesktop(DesktopDetector::Gnome3) ? Qt::Window : Qt::WindowTitleHint; } // ttt0 perhaps better to make sure all dialogs have their ok/cancel buttons, so there's no need for a dedicated close button and let the app look more "native"
+    //Qt::WindowFlags getDialogWndFlags() { const DesktopDetector& dd = getDesktopDetector(); return dd.onDesktop(DesktopDetector::Gnome3) ? Qt::Window : Qt::WindowTitleHint; }
+    Qt::WindowFlags getDialogWndFlags() { const DesktopDetector& dd = getDesktopDetector(); return /*dd.onDesktop(DesktopDetector::Gnome3) ? Qt::Window :*/ Qt::WindowTitleHint; }
+    // ttt0 perhaps better to make sure all dialogs have their ok/cancel buttons, so there's no need for a dedicated close button and let the app look more "native"
 #endif
     Qt::WindowFlags getNoResizeWndFlags() { return Qt::WindowTitleHint; }
 #else

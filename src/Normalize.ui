@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>NormalizeDlg</class>
- <widget class="QDialog" name="NormalizeDlg" >
-  <property name="geometry" >
+ <widget class="QDialog" name="NormalizeDlg">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,51 +10,42 @@
     <height>447</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Normalize</string>
   </property>
-  <property name="sizeGripEnabled" >
+  <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout">
    <item>
-    <widget class="QTextBrowser" name="m_pOutM" >
-     <property name="tabChangesFocus" >
+    <widget class="QTextBrowser" name="m_pOutM">
+     <property name="tabChangesFocus">
       <bool>true</bool>
      </property>
-     <property name="lineWrapMode" >
+     <property name="lineWrapMode">
       <enum>QTextEdit::NoWrap</enum>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QLineEdit" name="m_pDetailE" >
-     <property name="readOnly" >
+    <widget class="QLineEdit" name="m_pDetailE">
+     <property name="readOnly">
       <bool>true</bool>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QWidget" native="1" name="widget" >
-     <layout class="QHBoxLayout" >
-      <property name="leftMargin" >
-       <number>0</number>
-      </property>
-      <property name="topMargin" >
-       <number>0</number>
-      </property>
-      <property name="rightMargin" >
-       <number>0</number>
-      </property>
-      <property name="bottomMargin" >
+    <widget class="QWidget" name="widget" native="true">
+     <layout class="QHBoxLayout">
+      <property name="margin">
        <number>0</number>
       </property>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>40</width>
           <height>20</height>
@@ -62,25 +54,25 @@
        </spacer>
       </item>
       <item>
-       <widget class="QCheckBox" name="m_pKeepOpenCkM" >
-        <property name="text" >
+       <widget class="QCheckBox" name="m_pKeepOpenCkM">
+        <property name="text">
          <string>Keep window open after completion</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="m_pAbortB" >
-        <property name="text" >
+       <widget class="QPushButton" name="m_pAbortB">
+        <property name="text">
          <string>Abort</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="m_pCloseB" >
-        <property name="text" >
+       <widget class="QPushButton" name="m_pCloseB">
+        <property name="text">
          <string>Close</string>
         </property>
-        <property name="default" >
+        <property name="default">
          <bool>true</bool>
         </property>
        </widget>

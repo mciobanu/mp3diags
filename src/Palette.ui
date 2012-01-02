@@ -1,114 +1,115 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>PaletteDlg</class>
- <widget class="QDialog" name="PaletteDlg" >
-  <property name="geometry" >
+ <widget class="QDialog" name="PaletteDlg">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>603</width>
+    <width>606</width>
     <height>472</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Background colors</string>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout">
    <item>
-    <widget class="QGroupBox" name="groupBox" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
+    <widget class="QGroupBox" name="groupBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="title" >
+     <property name="title">
       <string>Album</string>
      </property>
-     <layout class="QGridLayout" >
-      <item row="0" column="0" >
-       <widget class="QToolButton" name="m_pCol0B" >
-        <property name="minimumSize" >
+     <layout class="QGridLayout">
+      <item row="0" column="0">
+       <widget class="QToolButton" name="m_pCol0B">
+        <property name="minimumSize">
          <size>
           <width>60</width>
           <height>40</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>60</width>
           <height>40</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="text" >
+        <property name="text">
          <string/>
         </property>
        </widget>
       </item>
-      <item row="0" column="1" >
-       <widget class="QLabel" name="label" >
-        <property name="text" >
+      <item row="0" column="1">
+       <widget class="QLabel" name="label">
+        <property name="text">
          <string>Field equal to the ID3V2 field or missing</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="0" >
-       <widget class="QToolButton" name="m_pCol1B" >
-        <property name="minimumSize" >
+      <item row="1" column="0">
+       <widget class="QToolButton" name="m_pCol1B">
+        <property name="minimumSize">
          <size>
           <width>60</width>
           <height>40</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>60</width>
           <height>40</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="text" >
+        <property name="text">
          <string/>
         </property>
        </widget>
       </item>
-      <item row="1" column="1" >
-       <widget class="QLabel" name="label_2" >
-        <property name="text" >
+      <item row="1" column="1">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
          <string>Field is different from the corresponding ID3V2 value (or no ID3V2 field exists)</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="0" >
-       <widget class="QToolButton" name="m_pCol2B" >
-        <property name="minimumSize" >
+      <item row="2" column="0">
+       <widget class="QToolButton" name="m_pCol2B">
+        <property name="minimumSize">
          <size>
           <width>60</width>
           <height>40</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>60</width>
           <height>40</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="text" >
+        <property name="text">
          <string/>
         </property>
        </widget>
       </item>
-      <item row="2" column="1" >
-       <widget class="QLabel" name="label_3" >
-        <property name="text" >
-         <string>Value marked as "assigned"</string>
+      <item row="2" column="1">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Value marked as &quot;assigned&quot;</string>
         </property>
        </widget>
       </item>
@@ -116,129 +117,129 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_2" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="title" >
+     <property name="title">
       <string>Song</string>
      </property>
-     <layout class="QGridLayout" >
-      <item row="0" column="0" >
-       <widget class="QToolButton" name="m_pCol3B" >
-        <property name="minimumSize" >
+     <layout class="QGridLayout">
+      <item row="0" column="0">
+       <widget class="QToolButton" name="m_pCol3B">
+        <property name="minimumSize">
          <size>
           <width>60</width>
           <height>40</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>60</width>
           <height>40</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="text" >
+        <property name="text">
          <string/>
         </property>
        </widget>
       </item>
-      <item row="0" column="1" >
-       <widget class="QLabel" name="label_5" >
-        <property name="text" >
+      <item row="0" column="1">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
          <string>Tag and field present</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="0" >
-       <widget class="QToolButton" name="m_pCol4B" >
-        <property name="minimumSize" >
+      <item row="1" column="0">
+       <widget class="QToolButton" name="m_pCol4B">
+        <property name="minimumSize">
          <size>
           <width>60</width>
           <height>40</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>60</width>
           <height>40</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="text" >
+        <property name="text">
          <string/>
         </property>
        </widget>
       </item>
-      <item row="1" column="1" >
-       <widget class="QLabel" name="label_6" >
-        <property name="text" >
+      <item row="1" column="1">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
          <string>Tag not present</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="0" >
-       <widget class="QToolButton" name="m_pCol5B" >
-        <property name="minimumSize" >
+      <item row="2" column="0">
+       <widget class="QToolButton" name="m_pCol5B">
+        <property name="minimumSize">
          <size>
           <width>60</width>
           <height>40</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>60</width>
           <height>40</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="text" >
+        <property name="text">
          <string/>
         </property>
        </widget>
       </item>
-      <item row="2" column="1" >
-       <widget class="QLabel" name="label_7" >
-        <property name="text" >
+      <item row="2" column="1">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
          <string>Tag present but field is not supported</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="0" >
-       <widget class="QToolButton" name="m_pCol6B" >
-        <property name="minimumSize" >
+      <item row="3" column="0">
+       <widget class="QToolButton" name="m_pCol6B">
+        <property name="minimumSize">
          <size>
           <width>60</width>
           <height>40</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>60</width>
           <height>40</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="text" >
+        <property name="text">
          <string/>
         </property>
        </widget>
       </item>
-      <item row="3" column="1" >
-       <widget class="QLabel" name="label_8" >
-        <property name="text" >
+      <item row="3" column="1">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
          <string>Tag present, field is supported but missing</string>
         </property>
        </widget>
@@ -248,10 +249,10 @@
    </item>
    <item>
     <spacer>
-     <property name="orientation" >
+     <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeHint" >
+     <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
        <height>40</height>
@@ -260,26 +261,17 @@
     </spacer>
    </item>
    <item>
-    <widget class="QWidget" native="1" name="widget" >
-     <layout class="QHBoxLayout" >
-      <property name="leftMargin" >
-       <number>0</number>
-      </property>
-      <property name="topMargin" >
-       <number>0</number>
-      </property>
-      <property name="rightMargin" >
-       <number>0</number>
-      </property>
-      <property name="bottomMargin" >
+    <widget class="QWidget" name="widget" native="true">
+     <layout class="QHBoxLayout">
+      <property name="margin">
        <number>0</number>
       </property>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>391</width>
           <height>20</height>
@@ -288,8 +280,8 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="m_pOkB" >
-        <property name="text" >
+       <widget class="QPushButton" name="m_pOkB">
+        <property name="text">
          <string>OK</string>
         </property>
        </widget>

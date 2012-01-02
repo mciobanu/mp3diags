@@ -1,97 +1,89 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>ImageInfoPanelWdg</class>
- <widget class="QFrame" name="ImageInfoPanelWdg" >
-  <property name="geometry" >
+ <widget class="QFrame" name="ImageInfoPanelWdg">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>116</width>
-    <height>121</height>
+    <width>118</width>
+    <height>124</height>
    </rect>
   </property>
-  <property name="sizePolicy" >
-   <sizepolicy vsizetype="MinimumExpanding" hsizetype="Preferred" >
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Form</string>
   </property>
-  <property name="autoFillBackground" >
+  <property name="autoFillBackground">
    <bool>true</bool>
   </property>
-  <property name="frameShape" >
+  <property name="frameShape">
    <enum>QFrame::Panel</enum>
   </property>
-  <property name="frameShadow" >
+  <property name="frameShadow">
    <enum>QFrame::Raised</enum>
   </property>
-  <layout class="QHBoxLayout" >
-   <property name="leftMargin" >
+  <layout class="QHBoxLayout">
+   <property name="leftMargin">
     <number>4</number>
    </property>
-   <property name="topMargin" >
+   <property name="topMargin">
     <number>3</number>
    </property>
-   <property name="rightMargin" >
+   <property name="rightMargin">
     <number>4</number>
    </property>
-   <property name="bottomMargin" >
+   <property name="bottomMargin">
     <number>4</number>
    </property>
    <item>
-    <widget class="QLabel" name="m_pThumbL" >
-     <property name="text" >
+    <widget class="QLabel" name="m_pThumbL">
+     <property name="text">
       <string>Thumb</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QWidget" native="1" name="m_pRightSideW" >
-     <layout class="QVBoxLayout" >
-      <property name="spacing" >
+    <widget class="QWidget" name="m_pRightSideW" native="true">
+     <layout class="QVBoxLayout">
+      <property name="spacing">
        <number>0</number>
       </property>
-      <property name="leftMargin" >
-       <number>0</number>
-      </property>
-      <property name="topMargin" >
-       <number>0</number>
-      </property>
-      <property name="rightMargin" >
-       <number>0</number>
-      </property>
-      <property name="bottomMargin" >
+      <property name="margin">
        <number>0</number>
       </property>
       <item>
-       <widget class="QLabel" name="m_pPosL" >
-        <property name="text" >
+       <widget class="QLabel" name="m_pPosL">
+        <property name="text">
          <string>Pos</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="m_pDimL" >
-        <property name="text" >
+       <widget class="QLabel" name="m_pDimL">
+        <property name="text">
          <string>Dim</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="m_pSizeL" >
-        <property name="text" >
+       <widget class="QLabel" name="m_pSizeL">
+        <property name="text">
          <string>Size</string>
         </property>
        </widget>
       </item>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>49</width>
           <height>3</height>
@@ -100,140 +92,134 @@
        </spacer>
       </item>
       <item>
-       <widget class="QToolButton" name="m_pFullB" >
-        <property name="minimumSize" >
+       <widget class="QToolButton" name="m_pFullB">
+        <property name="minimumSize">
          <size>
           <width>28</width>
           <height>28</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>28</width>
           <height>28</height>
          </size>
         </property>
-        <property name="toolTip" >
+        <property name="toolTip">
          <string>View full-size image</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>...</string>
         </property>
-        <property name="icon" >
-         <iconset resource="Mp3Diags.qrc" >:/images/zoom-in.png</iconset>
+        <property name="icon">
+         <iconset resource="Mp3Diags.qrc">
+          <normaloff>:/images/zoom-in.png</normaloff>:/images/zoom-in.png</iconset>
         </property>
-        <property name="iconSize" >
+        <property name="iconSize">
          <size>
           <width>22</width>
           <height>22</height>
          </size>
         </property>
-        <property name="autoRaise" >
+        <property name="autoRaise">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QWidget" native="1" name="widget" >
-        <property name="minimumSize" >
+       <widget class="QWidget" name="widget" native="true">
+        <property name="minimumSize">
          <size>
           <width>0</width>
           <height>30</height>
          </size>
         </property>
-        <layout class="QHBoxLayout" >
-         <property name="spacing" >
+        <layout class="QHBoxLayout">
+         <property name="spacing">
           <number>0</number>
          </property>
-         <property name="leftMargin" >
-          <number>0</number>
-         </property>
-         <property name="topMargin" >
-          <number>0</number>
-         </property>
-         <property name="rightMargin" >
-          <number>0</number>
-         </property>
-         <property name="bottomMargin" >
+         <property name="margin">
           <number>0</number>
          </property>
          <item>
-          <widget class="QToolButton" name="m_pAssignB" >
-           <property name="minimumSize" >
+          <widget class="QToolButton" name="m_pAssignB">
+           <property name="minimumSize">
             <size>
              <width>28</width>
              <height>28</height>
             </size>
            </property>
-           <property name="maximumSize" >
+           <property name="maximumSize">
             <size>
              <width>28</width>
              <height>28</height>
             </size>
            </property>
-           <property name="toolTip" >
+           <property name="toolTip">
             <string>Assign picture to songs</string>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>...</string>
            </property>
-           <property name="icon" >
-            <iconset resource="Mp3Diags.qrc" >:/images/assign.png</iconset>
+           <property name="icon">
+            <iconset resource="Mp3Diags.qrc">
+             <normaloff>:/images/assign.png</normaloff>:/images/assign.png</iconset>
            </property>
-           <property name="iconSize" >
+           <property name="iconSize">
             <size>
              <width>22</width>
              <height>22</height>
             </size>
            </property>
-           <property name="autoRaise" >
+           <property name="autoRaise">
             <bool>true</bool>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QToolButton" name="m_pEraseB" >
-           <property name="minimumSize" >
+          <widget class="QToolButton" name="m_pEraseB">
+           <property name="minimumSize">
             <size>
              <width>28</width>
              <height>28</height>
             </size>
            </property>
-           <property name="maximumSize" >
+           <property name="maximumSize">
             <size>
              <width>28</width>
              <height>28</height>
             </size>
            </property>
-           <property name="toolTip" >
+           <property name="toolTip">
             <string>Erase local file</string>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>...</string>
            </property>
-           <property name="icon" >
-            <iconset resource="Mp3Diags.qrc" >:/images/remove_file.png</iconset>
+           <property name="icon">
+            <iconset resource="Mp3Diags.qrc">
+             <normaloff>:/images/remove_file.png</normaloff>:/images/remove_file.png</iconset>
            </property>
-           <property name="iconSize" >
+           <property name="iconSize">
             <size>
              <width>22</width>
              <height>22</height>
             </size>
            </property>
-           <property name="autoRaise" >
+           <property name="autoRaise">
             <bool>true</bool>
            </property>
           </widget>
          </item>
          <item>
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeType" >
+           <property name="sizeType">
             <enum>QSizePolicy::MinimumExpanding</enum>
            </property>
-           <property name="sizeHint" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>1</width>
              <height>20</height>
@@ -250,7 +236,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="Mp3Diags.qrc" />
+  <include location="Mp3Diags.qrc"/>
  </resources>
  <connections/>
 </ui>

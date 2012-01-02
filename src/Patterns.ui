@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>PatternsDlg</class>
- <widget class="QDialog" name="PatternsDlg" >
-  <property name="geometry" >
+ <widget class="QDialog" name="PatternsDlg">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,82 +10,64 @@
     <height>528</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Patterns</string>
   </property>
-  <property name="sizeGripEnabled" >
+  <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
-  <layout class="QGridLayout" >
-   <item row="0" column="0" >
-    <widget class="QTextEdit" name="m_pTextM" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+  <layout class="QGridLayout">
+   <item row="0" column="0">
+    <widget class="QTextEdit" name="m_pTextM">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>10</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="tabChangesFocus" >
+     <property name="tabChangesFocus">
       <bool>true</bool>
      </property>
-     <property name="acceptRichText" >
+     <property name="acceptRichText">
       <bool>false</bool>
      </property>
     </widget>
    </item>
-   <item row="0" column="1" >
-    <widget class="QTextBrowser" name="m_infoM" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+   <item row="0" column="1">
+    <widget class="QTextBrowser" name="m_infoM">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>9</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="2" >
-    <widget class="QWidget" native="1" name="widget" >
-     <layout class="QHBoxLayout" >
-      <property name="leftMargin" >
-       <number>0</number>
-      </property>
-      <property name="topMargin" >
-       <number>0</number>
-      </property>
-      <property name="rightMargin" >
-       <number>0</number>
-      </property>
-      <property name="bottomMargin" >
+   <item row="1" column="0" colspan="2">
+    <widget class="QWidget" name="widget" native="true">
+     <layout class="QHBoxLayout">
+      <property name="margin">
        <number>0</number>
       </property>
       <item>
-       <widget class="QPushButton" name="m_pAddPredefB" >
-        <property name="text" >
+       <widget class="QPushButton" name="m_pAddPredefB">
+        <property name="text">
          <string>Add predefined patterns</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QWidget" native="1" name="m_pSpacerW" >
-        <layout class="QHBoxLayout" >
-         <property name="leftMargin" >
-          <number>0</number>
-         </property>
-         <property name="topMargin" >
-          <number>0</number>
-         </property>
-         <property name="rightMargin" >
-          <number>0</number>
-         </property>
-         <property name="bottomMargin" >
+       <widget class="QWidget" name="m_pSpacerW" native="true">
+        <layout class="QHBoxLayout">
+         <property name="margin">
           <number>0</number>
          </property>
          <item>
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
              <height>20</height>
@@ -93,8 +76,8 @@
           </spacer>
          </item>
          <item>
-          <widget class="QLabel" name="label" >
-           <property name="text" >
+          <widget class="QLabel" name="label">
+           <property name="text">
             <string/>
            </property>
           </widget>
@@ -103,18 +86,18 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="m_pCrtPosL" >
-        <property name="text" >
+       <widget class="QLabel" name="m_pCrtPosL">
+        <property name="text">
          <string>Line 1, Col 1</string>
         </property>
        </widget>
       </item>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>40</width>
           <height>20</height>
@@ -123,15 +106,15 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="m_pOkB" >
-        <property name="text" >
+       <widget class="QPushButton" name="m_pOkB">
+        <property name="text">
          <string>O&amp;K</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="m_pCancelB" >
-        <property name="text" >
+       <widget class="QPushButton" name="m_pCancelB">
+        <property name="text">
          <string>Cancel</string>
         </property>
        </widget>

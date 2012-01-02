@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>DoubleListWdg</class>
- <widget class="QWidget" name="DoubleListWdg" >
-  <property name="geometry" >
+ <widget class="QWidget" name="DoubleListWdg">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,91 +10,73 @@
     <height>376</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" >
-   <property name="leftMargin" >
-    <number>0</number>
-   </property>
-   <property name="topMargin" >
-    <number>0</number>
-   </property>
-   <property name="rightMargin" >
-    <number>0</number>
-   </property>
-   <property name="bottomMargin" >
-    <number>0</number>
-   </property>
-   <property name="horizontalSpacing" >
+  <layout class="QGridLayout">
+   <property name="horizontalSpacing">
     <number>4</number>
    </property>
-   <property name="verticalSpacing" >
+   <property name="verticalSpacing">
     <number>0</number>
    </property>
-   <item row="0" column="0" >
-    <widget class="QLabel" name="m_pSelL" >
-     <property name="font" >
+   <property name="margin">
+    <number>0</number>
+   </property>
+   <item row="0" column="0">
+    <widget class="QLabel" name="m_pSelL">
+     <property name="font">
       <font>
        <weight>50</weight>
        <bold>false</bold>
       </font>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Include elems:</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="2" >
-    <widget class="QLabel" name="m_pAvailableL" >
-     <property name="text" >
+   <item row="0" column="2">
+    <widget class="QLabel" name="m_pAvailableL">
+     <property name="text">
       <string>Available elems:</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="0" >
-    <widget class="QTableView" name="m_pSelectedG" >
-     <property name="tabKeyNavigation" >
+   <item row="1" column="0">
+    <widget class="QTableView" name="m_pSelectedG">
+     <property name="tabKeyNavigation">
       <bool>false</bool>
      </property>
-     <property name="selectionBehavior" >
+     <property name="selectionBehavior">
       <enum>QAbstractItemView::SelectRows</enum>
      </property>
-     <property name="showGrid" >
+     <property name="showGrid">
       <bool>true</bool>
      </property>
     </widget>
    </item>
-   <item row="1" column="1" >
-    <widget class="QWidget" native="1" name="widget" >
-     <property name="maximumSize" >
+   <item row="1" column="1">
+    <widget class="QWidget" name="widget" native="true">
+     <property name="maximumSize">
       <size>
        <width>32</width>
        <height>16777215</height>
       </size>
      </property>
-     <layout class="QVBoxLayout" >
-      <property name="spacing" >
+     <layout class="QVBoxLayout">
+      <property name="spacing">
        <number>0</number>
       </property>
-      <property name="leftMargin" >
-       <number>0</number>
-      </property>
-      <property name="topMargin" >
-       <number>0</number>
-      </property>
-      <property name="rightMargin" >
-       <number>0</number>
-      </property>
-      <property name="bottomMargin" >
+      <property name="margin">
        <number>0</number>
       </property>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>32</width>
           <height>41</height>
@@ -102,91 +85,93 @@
        </spacer>
       </item>
       <item>
-       <widget class="QToolButton" name="m_pAddB" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+       <widget class="QToolButton" name="m_pAddB">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="minimumSize" >
+        <property name="minimumSize">
          <size>
           <width>32</width>
           <height>32</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>32</width>
           <height>32</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>&lt;</string>
         </property>
-        <property name="icon" >
-         <iconset resource="Mp3Diags.qrc" >:/images/arrow-left.svg</iconset>
+        <property name="icon">
+         <iconset resource="Mp3Diags.qrc">
+          <normaloff>:/images/arrow-left.svg</normaloff>:/images/arrow-left.svg</iconset>
         </property>
-        <property name="iconSize" >
+        <property name="iconSize">
          <size>
           <width>28</width>
           <height>28</height>
          </size>
         </property>
-        <property name="autoRaise" >
+        <property name="autoRaise">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="m_pDeleteB" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+       <widget class="QToolButton" name="m_pDeleteB">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="minimumSize" >
+        <property name="minimumSize">
          <size>
           <width>32</width>
           <height>32</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>32</width>
           <height>32</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="text" >
-         <string>></string>
+        <property name="text">
+         <string>&gt;</string>
         </property>
-        <property name="icon" >
-         <iconset resource="Mp3Diags.qrc" >:/images/arrow-right.svg</iconset>
+        <property name="icon">
+         <iconset resource="Mp3Diags.qrc">
+          <normaloff>:/images/arrow-right.svg</normaloff>:/images/arrow-right.svg</iconset>
         </property>
-        <property name="iconSize" >
+        <property name="iconSize">
          <size>
           <width>28</width>
           <height>28</height>
          </size>
         </property>
-        <property name="autoRaise" >
+        <property name="autoRaise">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>32</width>
           <height>41</height>
@@ -195,88 +180,90 @@
        </spacer>
       </item>
       <item>
-       <widget class="QToolButton" name="m_pAddAllB" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+       <widget class="QToolButton" name="m_pAddAllB">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="minimumSize" >
+        <property name="minimumSize">
          <size>
           <width>32</width>
           <height>32</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>32</width>
           <height>32</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="icon" >
-         <iconset resource="Mp3Diags.qrc" >:/images/arrow-left-double.svg</iconset>
+        <property name="icon">
+         <iconset resource="Mp3Diags.qrc">
+          <normaloff>:/images/arrow-left-double.svg</normaloff>:/images/arrow-left-double.svg</iconset>
         </property>
-        <property name="iconSize" >
+        <property name="iconSize">
          <size>
           <width>28</width>
           <height>28</height>
          </size>
         </property>
-        <property name="autoRaise" >
+        <property name="autoRaise">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="m_pDeleteAllB" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+       <widget class="QToolButton" name="m_pDeleteAllB">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="minimumSize" >
+        <property name="minimumSize">
          <size>
           <width>32</width>
           <height>32</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>32</width>
           <height>32</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="text" >
-         <string>>></string>
+        <property name="text">
+         <string>&gt;&gt;</string>
         </property>
-        <property name="icon" >
-         <iconset resource="Mp3Diags.qrc" >:/images/arrow-right-double.svg</iconset>
+        <property name="icon">
+         <iconset resource="Mp3Diags.qrc">
+          <normaloff>:/images/arrow-right-double.svg</normaloff>:/images/arrow-right-double.svg</iconset>
         </property>
-        <property name="iconSize" >
+        <property name="iconSize">
          <size>
           <width>28</width>
           <height>28</height>
          </size>
         </property>
-        <property name="autoRaise" >
+        <property name="autoRaise">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>32</width>
           <height>41</height>
@@ -285,79 +272,81 @@
        </spacer>
       </item>
       <item>
-       <widget class="QToolButton" name="m_pRestoreDefaultB" >
-        <property name="minimumSize" >
+       <widget class="QToolButton" name="m_pRestoreDefaultB">
+        <property name="minimumSize">
          <size>
           <width>32</width>
           <height>32</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>32</width>
           <height>32</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>...</string>
         </property>
-        <property name="icon" >
-         <iconset resource="Mp3Diags.qrc" >:/images/reset_settings.svg</iconset>
+        <property name="icon">
+         <iconset resource="Mp3Diags.qrc">
+          <normaloff>:/images/reset_settings.svg</normaloff>:/images/reset_settings.svg</iconset>
         </property>
-        <property name="iconSize" >
+        <property name="iconSize">
          <size>
           <width>28</width>
           <height>28</height>
          </size>
         </property>
-        <property name="autoRaise" >
+        <property name="autoRaise">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="m_pRestoreOpenB" >
-        <property name="minimumSize" >
+       <widget class="QToolButton" name="m_pRestoreOpenB">
+        <property name="minimumSize">
          <size>
           <width>32</width>
           <height>32</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>32</width>
           <height>32</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>...</string>
         </property>
-        <property name="icon" >
-         <iconset resource="Mp3Diags.qrc" >:/images/undo_settings.svg</iconset>
+        <property name="icon">
+         <iconset resource="Mp3Diags.qrc">
+          <normaloff>:/images/undo_settings.svg</normaloff>:/images/undo_settings.svg</iconset>
         </property>
-        <property name="iconSize" >
+        <property name="iconSize">
          <size>
           <width>28</width>
           <height>28</height>
          </size>
         </property>
-        <property name="autoRaise" >
+        <property name="autoRaise">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>32</width>
           <height>41</height>
@@ -368,15 +357,15 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="2" >
-    <widget class="QTableView" name="m_pAvailableG" >
-     <property name="tabKeyNavigation" >
+   <item row="1" column="2">
+    <widget class="QTableView" name="m_pAvailableG">
+     <property name="tabKeyNavigation">
       <bool>false</bool>
      </property>
-     <property name="selectionBehavior" >
+     <property name="selectionBehavior">
       <enum>QAbstractItemView::SelectRows</enum>
      </property>
-     <property name="showGrid" >
+     <property name="showGrid">
       <bool>true</bool>
      </property>
     </widget>
@@ -384,7 +373,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="Mp3Diags.qrc" />
+  <include location="Mp3Diags.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -226,7 +226,7 @@ package/sourceforge/linux_downloads.html	f	2009-06-10T07:26:41Z
 src/About.ui	f	2011-06-15T19:56:47Z
 src/AboutDlgImpl.cpp	f	2011-07-30T11:20:56Z
 src/AboutDlgImpl.h	f	2009-07-17T15:02:37Z
-src/AlbumInfoDownloader.ui	f	2009-10-20T08:09:13Z
+src/AlbumInfoDownloader.ui	f	2012-01-02T15:14:52Z
 src/AlbumInfoDownloaderDlgImpl.cpp	f	2011-07-31T21:42:28Z
 src/AlbumInfoDownloaderDlgImpl.h	f	2009-10-13T09:16:01Z
 src/ApeStream.cpp	f	2010-02-04T15:38:40Z
@@ -254,7 +254,7 @@ src/DiscogsDownloader.cpp	f	2011-12-31T14:41:28Z
 src/DiscogsDownloader.h	f	2009-10-20T08:11:06Z
 src/DoubleList.cpp	f	2009-09-11T14:47:51Z
 src/DoubleList.h	f	2009-09-11T14:47:51Z
-src/DoubleListWdg.ui	f	2009-05-06T07:51:09Z
+src/DoubleListWdg.ui	f	2012-01-02T15:16:59Z
 src/Export.ui	f	2012-01-02T15:17:30Z
 src/ExportDlgImpl.cpp	f	2009-11-04T08:14:32Z
 src/ExportDlgImpl.h	f	2009-10-01T07:49:02Z

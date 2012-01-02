@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>AlbumInfoDownloaderDlg</class>
- <widget class="QDialog" name="AlbumInfoDownloaderDlg" >
-  <property name="geometry" >
+ <widget class="QDialog" name="AlbumInfoDownloaderDlg">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,72 +10,72 @@
     <height>686</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>WWW</string>
   </property>
-  <property name="sizeGripEnabled" >
+  <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout">
    <item>
-    <widget class="QGroupBox" name="groupBox" >
-     <property name="title" >
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
       <string>Search</string>
      </property>
-     <layout class="QHBoxLayout" >
-      <property name="topMargin" >
+     <layout class="QHBoxLayout">
+      <property name="topMargin">
        <number>0</number>
       </property>
       <item>
-       <widget class="QLabel" name="m_pSrchArtistL" >
-        <property name="text" >
+       <widget class="QLabel" name="m_pSrchArtistL">
+        <property name="text">
          <string>Artist</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="m_pSrchArtistE" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+       <widget class="QLineEdit" name="m_pSrchArtistE">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>4</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="readOnly" >
+        <property name="readOnly">
          <bool>false</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="m_pSrchAlbumL" >
-        <property name="text" >
+       <widget class="QLabel" name="m_pSrchAlbumL">
+        <property name="text">
          <string>Album</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="m_pSrchAlbumE" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+       <widget class="QLineEdit" name="m_pSrchAlbumE">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>5</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="readOnly" >
+        <property name="readOnly">
          <bool>false</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="m_pMatchCountCkB" >
-        <property name="text" >
+       <widget class="QCheckBox" name="m_pMatchCountCkB">
+        <property name="text">
          <string>Match count</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="m_pSearchB" >
-        <property name="text" >
+       <widget class="QPushButton" name="m_pSearchB">
+        <property name="text">
          <string>Search</string>
         </property>
        </widget>
@@ -83,85 +84,76 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_2" >
-     <property name="title" >
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
       <string>Results</string>
      </property>
-     <layout class="QVBoxLayout" >
-      <property name="topMargin" >
+     <layout class="QVBoxLayout">
+      <property name="topMargin">
        <number>0</number>
       </property>
       <item>
-       <widget class="QWidget" native="1" name="widget_2" >
-        <layout class="QHBoxLayout" >
-         <property name="leftMargin" >
-          <number>0</number>
-         </property>
-         <property name="topMargin" >
-          <number>0</number>
-         </property>
-         <property name="rightMargin" >
-          <number>0</number>
-         </property>
-         <property name="bottomMargin" >
+       <widget class="QWidget" name="widget_2" native="true">
+        <layout class="QHBoxLayout">
+         <property name="margin">
           <number>0</number>
          </property>
          <item>
-          <widget class="QLabel" name="label" >
-           <property name="text" >
+          <widget class="QLabel" name="label">
+           <property name="text">
             <string>Artist</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="m_pResArtistE" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+          <widget class="QLineEdit" name="m_pResArtistE">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
              <horstretch>4</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="readOnly" >
+           <property name="readOnly">
             <bool>true</bool>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_2" >
-           <property name="text" >
+          <widget class="QLabel" name="label_2">
+           <property name="text">
             <string>Album</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="m_pResAlbumE" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+          <widget class="QLineEdit" name="m_pResAlbumE">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
              <horstretch>5</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="readOnly" >
+           <property name="readOnly">
             <bool>true</bool>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_4" >
-           <property name="text" >
+          <widget class="QLabel" name="label_4">
+           <property name="text">
             <string>Released</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="m_pRealeasedE" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+          <widget class="QLineEdit" name="m_pRealeasedE">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
              <horstretch>2</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="readOnly" >
+           <property name="readOnly">
             <bool>true</bool>
            </property>
           </widget>
@@ -170,83 +162,74 @@
        </widget>
       </item>
       <item>
-       <widget class="QWidget" native="1" name="widget_10" >
-        <layout class="QHBoxLayout" >
-         <property name="leftMargin" >
-          <number>0</number>
-         </property>
-         <property name="topMargin" >
-          <number>0</number>
-         </property>
-         <property name="rightMargin" >
-          <number>0</number>
-         </property>
-         <property name="bottomMargin" >
+       <widget class="QWidget" name="widget_10" native="true">
+        <layout class="QHBoxLayout">
+         <property name="margin">
           <number>0</number>
          </property>
          <item>
-          <widget class="QLabel" name="m_pGenreL" >
-           <property name="text" >
+          <widget class="QLabel" name="m_pGenreL">
+           <property name="text">
             <string>Genre</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="m_pGenreE" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+          <widget class="QLineEdit" name="m_pGenreE">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
              <horstretch>3</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="readOnly" >
+           <property name="readOnly">
             <bool>true</bool>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="m_pStyleL" >
-           <property name="text" >
+          <widget class="QLabel" name="m_pStyleL">
+           <property name="text">
             <string>Use</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="m_pStyleCbB" />
+          <widget class="QComboBox" name="m_pStyleCbB"/>
          </item>
          <item>
-          <widget class="QLabel" name="label_5" >
-           <property name="text" >
+          <widget class="QLabel" name="label_5">
+           <property name="text">
             <string>Format</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="m_pFormatE" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+          <widget class="QLineEdit" name="m_pFormatE">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
              <horstretch>2</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="readOnly" >
+           <property name="readOnly">
             <bool>true</bool>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="m_pSpacer01L" >
-           <property name="text" >
+          <widget class="QLabel" name="m_pSpacer01L">
+           <property name="text">
             <string/>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="m_pViewAtAmazonL" >
-           <property name="text" >
+          <widget class="QLabel" name="m_pViewAtAmazonL">
+           <property name="text">
             <string>Amazon</string>
            </property>
-           <property name="margin" >
+           <property name="margin">
             <number>0</number>
            </property>
           </widget>
@@ -255,90 +238,63 @@
        </widget>
       </item>
       <item>
-       <widget class="QWidget" native="1" name="widget_7" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+       <widget class="QWidget" name="widget_7" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>4</verstretch>
          </sizepolicy>
         </property>
-        <layout class="QHBoxLayout" >
-         <property name="leftMargin" >
-          <number>0</number>
-         </property>
-         <property name="topMargin" >
-          <number>0</number>
-         </property>
-         <property name="rightMargin" >
-          <number>0</number>
-         </property>
-         <property name="bottomMargin" >
+        <layout class="QHBoxLayout">
+         <property name="margin">
           <number>0</number>
          </property>
          <item>
-          <widget class="QTableView" name="m_pTrackListG" />
+          <widget class="QTableView" name="m_pTrackListG"/>
          </item>
          <item>
-          <widget class="QWidget" native="1" name="m_pImgP" >
-           <layout class="QVBoxLayout" >
-            <property name="leftMargin" >
-             <number>0</number>
-            </property>
-            <property name="topMargin" >
-             <number>0</number>
-            </property>
-            <property name="rightMargin" >
-             <number>0</number>
-            </property>
-            <property name="bottomMargin" >
+          <widget class="QWidget" name="m_pImgP" native="true">
+           <layout class="QVBoxLayout">
+            <property name="margin">
              <number>0</number>
             </property>
             <item>
-             <widget class="QWidget" native="1" name="widget_6" >
-              <layout class="QHBoxLayout" >
-               <property name="leftMargin" >
-                <number>0</number>
-               </property>
-               <property name="topMargin" >
-                <number>0</number>
-               </property>
-               <property name="rightMargin" >
-                <number>0</number>
-               </property>
-               <property name="bottomMargin" >
+             <widget class="QWidget" name="widget_6" native="true">
+              <layout class="QHBoxLayout">
+               <property name="margin">
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="m_pImageL" >
-                 <property name="sizePolicy" >
-                  <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+                <widget class="QLabel" name="m_pImageL">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize" >
+                 <property name="minimumSize">
                   <size>
                    <width>300</width>
                    <height>300</height>
                   </size>
                  </property>
-                 <property name="maximumSize" >
+                 <property name="maximumSize">
                   <size>
                    <width>300</width>
                    <height>300</height>
                   </size>
                  </property>
-                 <property name="frameShape" >
+                 <property name="frameShape">
                   <enum>QFrame::Box</enum>
                  </property>
-                 <property name="text" >
+                 <property name="text">
                   <string>Image</string>
                  </property>
-                 <property name="alignment" >
+                 <property name="alignment">
                   <set>Qt::AlignCenter</set>
                  </property>
-                 <property name="textInteractionFlags" >
-                  <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::NoTextInteraction</set>
+                 <property name="textInteractionFlags">
+                  <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
                  </property>
                 </widget>
                </item>
@@ -346,35 +302,26 @@
              </widget>
             </item>
             <item>
-             <widget class="QWidget" native="1" name="widget_9" >
-              <layout class="QHBoxLayout" >
-               <property name="leftMargin" >
-                <number>0</number>
-               </property>
-               <property name="topMargin" >
-                <number>0</number>
-               </property>
-               <property name="rightMargin" >
-                <number>0</number>
-               </property>
-               <property name="bottomMargin" >
+             <widget class="QWidget" name="widget_9" native="true">
+              <layout class="QHBoxLayout">
+               <property name="margin">
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="m_pImgSizeL" >
-                 <property name="sizePolicy" >
-                  <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+                <widget class="QLabel" name="m_pImgSizeL">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize" >
+                 <property name="minimumSize">
                   <size>
                    <width>0</width>
                    <height>10</height>
                   </size>
                  </property>
-                 <property name="text" >
+                 <property name="text">
                   <string>Image size</string>
                  </property>
                 </widget>
@@ -384,10 +331,10 @@
             </item>
             <item>
              <spacer>
-              <property name="orientation" >
+              <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
-              <property name="sizeHint" >
+              <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
                 <height>3</height>
@@ -402,30 +349,21 @@
        </widget>
       </item>
       <item>
-       <widget class="QWidget" native="1" name="widget_3" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+       <widget class="QWidget" name="widget_3" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>1</verstretch>
          </sizepolicy>
         </property>
-        <layout class="QHBoxLayout" >
-         <property name="leftMargin" >
-          <number>0</number>
-         </property>
-         <property name="topMargin" >
-          <number>0</number>
-         </property>
-         <property name="rightMargin" >
-          <number>0</number>
-         </property>
-         <property name="bottomMargin" >
+        <layout class="QHBoxLayout">
+         <property name="margin">
           <number>0</number>
          </property>
          <item>
-          <widget class="QTextBrowser" name="m_pAlbumNotesM" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+          <widget class="QTextBrowser" name="m_pAlbumNotesM">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
              <horstretch>5</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -433,9 +371,9 @@
           </widget>
          </item>
          <item>
-          <widget class="QTextBrowser" name="m_pDownloadsM" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+          <widget class="QTextBrowser" name="m_pDownloadsM">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
              <horstretch>3</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -446,103 +384,89 @@
        </widget>
       </item>
       <item>
-       <widget class="QWidget" native="1" name="widget_4" >
-        <layout class="QHBoxLayout" >
-         <property name="leftMargin" >
-          <number>0</number>
-         </property>
-         <property name="topMargin" >
-          <number>0</number>
-         </property>
-         <property name="rightMargin" >
-          <number>0</number>
-         </property>
-         <property name="bottomMargin" >
+       <widget class="QWidget" name="widget_4" native="true">
+        <layout class="QHBoxLayout">
+         <property name="margin">
           <number>0</number>
          </property>
          <item>
-          <widget class="QWidget" native="1" name="widget" >
-           <layout class="QHBoxLayout" >
-            <property name="leftMargin" >
-             <number>0</number>
-            </property>
-            <property name="topMargin" >
-             <number>0</number>
-            </property>
-            <property name="rightMargin" >
-             <number>0</number>
-            </property>
-            <property name="bottomMargin" >
+          <widget class="QWidget" name="widget" native="true">
+           <layout class="QHBoxLayout">
+            <property name="margin">
              <number>0</number>
             </property>
             <item>
-             <widget class="QLabel" name="m_pResultNoL" >
-              <property name="minimumSize" >
+             <widget class="QLabel" name="m_pResultNoL">
+              <property name="minimumSize">
                <size>
                 <width>170</width>
                 <height>0</height>
                </size>
               </property>
-              <property name="maximumSize" >
+              <property name="maximumSize">
                <size>
                 <width>170</width>
                 <height>16777215</height>
                </size>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>ResultNo</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QToolButton" name="m_pPrevAlbumB" >
-              <property name="toolTip" >
+             <widget class="QToolButton" name="m_pPrevAlbumB">
+              <property name="toolTip">
                <string>Previous album</string>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>...</string>
               </property>
-              <property name="icon" >
-               <iconset resource="Mp3Diags.qrc" >:/images/arrow-left-double.svg</iconset>
+              <property name="icon">
+               <iconset resource="Mp3Diags.qrc">
+                <normaloff>:/images/arrow-left-double.svg</normaloff>:/images/arrow-left-double.svg</iconset>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QToolButton" name="m_pPrevB" >
-              <property name="toolTip" >
+             <widget class="QToolButton" name="m_pPrevB">
+              <property name="toolTip">
                <string>Previous image or album</string>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>p</string>
               </property>
-              <property name="icon" >
-               <iconset resource="Mp3Diags.qrc" >:/images/arrow-left.svg</iconset>
+              <property name="icon">
+               <iconset resource="Mp3Diags.qrc">
+                <normaloff>:/images/arrow-left.svg</normaloff>:/images/arrow-left.svg</iconset>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QToolButton" name="m_pNextB" >
-              <property name="toolTip" >
+             <widget class="QToolButton" name="m_pNextB">
+              <property name="toolTip">
                <string>Next image or album</string>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>n</string>
               </property>
-              <property name="icon" >
-               <iconset resource="Mp3Diags.qrc" >:/images/arrow-right.svg</iconset>
+              <property name="icon">
+               <iconset resource="Mp3Diags.qrc">
+                <normaloff>:/images/arrow-right.svg</normaloff>:/images/arrow-right.svg</iconset>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QToolButton" name="m_pNextAlbumB" >
-              <property name="toolTip" >
+             <widget class="QToolButton" name="m_pNextAlbumB">
+              <property name="toolTip">
                <string>Next album</string>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>...</string>
               </property>
-              <property name="icon" >
-               <iconset resource="Mp3Diags.qrc" >:/images/arrow-right-double.svg</iconset>
+              <property name="icon">
+               <iconset resource="Mp3Diags.qrc">
+                <normaloff>:/images/arrow-right-double.svg</normaloff>:/images/arrow-right-double.svg</iconset>
               </property>
              </widget>
             </item>
@@ -550,39 +474,39 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_3" >
-           <property name="text" >
+          <widget class="QLabel" name="label_3">
+           <property name="text">
             <string>    Filter:</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="m_pImageFltCkB" >
-           <property name="text" >
+          <widget class="QCheckBox" name="m_pImageFltCkB">
+           <property name="text">
             <string>Image</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="m_pCdFltCkB" >
-           <property name="text" >
+          <widget class="QCheckBox" name="m_pCdFltCkB">
+           <property name="text">
             <string>CD</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="m_pTrackCntFltCkB" >
-           <property name="text" >
+          <widget class="QCheckBox" name="m_pTrackCntFltCkB">
+           <property name="text">
             <string>Track count</string>
            </property>
           </widget>
          </item>
          <item>
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
              <height>20</height>
@@ -597,26 +521,17 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" native="1" name="widget_5" >
-     <layout class="QHBoxLayout" >
-      <property name="leftMargin" >
-       <number>0</number>
-      </property>
-      <property name="topMargin" >
-       <number>0</number>
-      </property>
-      <property name="rightMargin" >
-       <number>0</number>
-      </property>
-      <property name="bottomMargin" >
+    <widget class="QWidget" name="widget_5" native="true">
+     <layout class="QHBoxLayout">
+      <property name="margin">
        <number>0</number>
       </property>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>40</width>
           <height>20</height>
@@ -625,39 +540,39 @@
        </spacer>
       </item>
       <item>
-       <widget class="QLabel" name="m_pVolumeL" >
-        <property name="enabled" >
+       <widget class="QLabel" name="m_pVolumeL">
+        <property name="enabled">
          <bool>false</bool>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>Volume</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="m_pVolumeCbB" >
-        <property name="enabled" >
+       <widget class="QComboBox" name="m_pVolumeCbB">
+        <property name="enabled">
          <bool>false</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="m_pSaveImageB" >
-        <property name="text" >
+       <widget class="QPushButton" name="m_pSaveImageB">
+        <property name="text">
          <string>Save image</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="m_pSaveAllB" >
-        <property name="text" >
+       <widget class="QPushButton" name="m_pSaveAllB">
+        <property name="text">
          <string>Save all</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="m_pCancelB" >
-        <property name="text" >
+       <widget class="QPushButton" name="m_pCancelB">
+        <property name="text">
          <string>Cancel</string>
         </property>
        </widget>
@@ -668,7 +583,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="Mp3Diags.qrc" />
+  <include location="Mp3Diags.qrc"/>
  </resources>
  <connections/>
 </ui>

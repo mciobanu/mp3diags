@@ -174,6 +174,7 @@ protected slots:
     void onPatternClicked();
 
     void on_m_pMarkUnratedAsDuplicatesCkB_clicked();
+    void on_m_pCloseB_clicked();
 
     void onHelp();
 };

@@ -96,6 +96,11 @@ DebugDlgImpl::DebugDlgImpl(QWidget* pParent, CommonData* pCommonData) : QDialog(
 
     m_pLogG->setFocus();
 
+    if (!m_pCommonData->m_bShowCustomCloseButtons)
+    {
+        m_pCloseB->hide();
+    }
+
     { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
 }
 

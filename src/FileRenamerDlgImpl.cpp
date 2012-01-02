@@ -317,6 +317,13 @@ FileRenamerDlgImpl::FileRenamerDlgImpl(QWidget* pParent, CommonData* pCommonData
         m_pNextB->setEnabled(false);
     }
 
+    if (!m_pCommonData->m_bShowCustomCloseButtons)
+    {
+        m_pCloseB->hide();
+    }
+
+
+
     QTimer::singleShot(1, this, SLOT(onShow())); // just calls reloadTable(); !!! needed to properly resize the table columns; album and file tables have very small widths until they are actually shown, so calling resizeTagEditor() earlier is pointless; calling update() on various layouts seems pointless as well; (see also DoubleList::resizeEvent() )
 }
 
@@ -861,6 +868,7 @@ void FileRenamerDlgImpl::resizeIcons()
     v.push_back(m_pNextB);
     v.push_back(m_pEditPatternsB);
     v.push_back(m_pRenameB);
+    v.push_back(m_pCloseB);
 
     int k (m_pCommonData->m_nMainWndIconSize);
     for (int i = 0, n = cSize(v); i < n; ++i)
@@ -884,6 +892,12 @@ void FileRenamerDlgImpl::onHelp()
 void FileRenamerDlgImpl::on_m_pMarkUnratedAsDuplicatesCkB_clicked()
 {
     m_pHndlrListModel->setUnratedAsDuplicates(m_pMarkUnratedAsDuplicatesCkB->isChecked());
+}
+
+
+void FileRenamerDlgImpl::on_m_pCloseB_clicked()
+{
+    reject();
 }
 
 

@@ -403,6 +403,11 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
     m_pTagWriter->reloadAll("", TagWriter::CLEAR_DATA, TagWriter::CLEAR_ASSGN);
     selectMainCrt();
 
+    if (!m_pCommonData->m_bShowCustomCloseButtons)
+    {
+        m_pCloseB->hide();
+    }
+
     resizeIcons();
 
     m_pCurrentAlbumG->installEventFilter(this);
@@ -821,6 +826,17 @@ void TagEditorDlgImpl::on_m_pConfigB_clicked()
     setupVarArtistsBtn();
 }
 
+
+void TagEditorDlgImpl::on_m_pCloseB_clicked()
+{
+    SaveOpt eSaveOpt (save(IMPLICIT));
+    if (SAVED != eSaveOpt && DISCARDED != eSaveOpt)
+    {
+        return;
+    }
+
+    reject();
+}
 
 
 void TagEditorDlgImpl::onFileChanged()
@@ -1275,6 +1291,7 @@ void TagEditorDlgImpl::resizeIcons()
     v.push_back(m_pPasteB);
     v.push_back(m_pEditPatternsB);
     v.push_back(m_pPaletteB);
+    v.push_back(m_pCloseB);
 
     int k (m_pCommonData->m_nMainWndIconSize);
     for (int i = 0, n = cSize(v); i < n; ++i)

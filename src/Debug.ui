@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>DebugDlg</class>
- <widget class="QDialog" name="DebugDlg" >
-  <property name="geometry" >
+ <widget class="QDialog" name="DebugDlg">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,98 +10,90 @@
     <height>638</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Debug</string>
   </property>
-  <property name="sizeGripEnabled" >
+  <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout">
    <item>
-    <widget class="QWidget" native="1" name="widget_14" >
-     <property name="minimumSize" >
+    <widget class="QWidget" name="widget_14" native="true">
+     <property name="minimumSize">
       <size>
        <width>0</width>
        <height>30</height>
       </size>
      </property>
-     <layout class="QHBoxLayout" >
-      <property name="spacing" >
+     <layout class="QHBoxLayout">
+      <property name="spacing">
        <number>10</number>
       </property>
-      <property name="leftMargin" >
-       <number>0</number>
-      </property>
-      <property name="topMargin" >
-       <number>0</number>
-      </property>
-      <property name="rightMargin" >
-       <number>0</number>
-      </property>
-      <property name="bottomMargin" >
+      <property name="margin">
        <number>0</number>
       </property>
       <item>
-       <widget class="QFrame" name="frame_8" >
-        <property name="frameShape" >
+       <widget class="QFrame" name="frame_8">
+        <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
-        <property name="frameShadow" >
+        <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <layout class="QHBoxLayout" >
-         <property name="leftMargin" >
+        <layout class="QHBoxLayout">
+         <property name="leftMargin">
           <number>9</number>
          </property>
-         <property name="topMargin" >
+         <property name="topMargin">
           <number>0</number>
          </property>
-         <property name="rightMargin" >
+         <property name="rightMargin">
           <number>0</number>
          </property>
-         <property name="bottomMargin" >
+         <property name="bottomMargin">
           <number>0</number>
          </property>
          <item>
-          <widget class="QCheckBox" name="m_pEnableTracingCkB" >
-           <property name="text" >
+          <widget class="QCheckBox" name="m_pEnableTracingCkB">
+           <property name="text">
             <string>Enable tracing</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QToolButton" name="m_pSaveLogB" >
-           <property name="minimumSize" >
+          <widget class="QToolButton" name="m_pSaveLogB">
+           <property name="minimumSize">
             <size>
              <width>40</width>
              <height>40</height>
             </size>
            </property>
-           <property name="maximumSize" >
+           <property name="maximumSize">
             <size>
              <width>40</width>
              <height>40</height>
             </size>
            </property>
-           <property name="focusPolicy" >
+           <property name="focusPolicy">
             <enum>Qt::NoFocus</enum>
            </property>
-           <property name="toolTip" >
+           <property name="toolTip">
             <string>Save trace messages</string>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>...</string>
            </property>
-           <property name="icon" >
-            <iconset resource="Mp3Diags.qrc" >:/images/save_log.svg</iconset>
+           <property name="icon">
+            <iconset resource="Mp3Diags.qrc">
+             <normaloff>:/images/save_log.svg</normaloff>:/images/save_log.svg</iconset>
            </property>
-           <property name="iconSize" >
+           <property name="iconSize">
             <size>
              <width>33</width>
              <height>36</height>
             </size>
            </property>
-           <property name="autoRaise" >
+           <property name="autoRaise">
             <bool>true</bool>
            </property>
           </widget>
@@ -109,32 +102,32 @@
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="frame_14" >
-        <property name="frameShape" >
+       <widget class="QFrame" name="frame_14">
+        <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
-        <property name="frameShadow" >
+        <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <layout class="QHBoxLayout" >
-         <property name="topMargin" >
+        <layout class="QHBoxLayout">
+         <property name="topMargin">
           <number>0</number>
          </property>
-         <property name="rightMargin" >
+         <property name="rightMargin">
           <number>0</number>
          </property>
-         <property name="bottomMargin" >
+         <property name="bottomMargin">
           <number>0</number>
          </property>
          <item>
-          <widget class="QLineEdit" name="m_pFrameHdrE" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+          <widget class="QLineEdit" name="m_pFrameHdrE">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="maximumSize" >
+           <property name="maximumSize">
             <size>
              <width>80</width>
              <height>16777215</height>
@@ -143,38 +136,39 @@
           </widget>
          </item>
          <item>
-          <widget class="QToolButton" name="m_pDecodeMpegFrameB" >
-           <property name="minimumSize" >
+          <widget class="QToolButton" name="m_pDecodeMpegFrameB">
+           <property name="minimumSize">
             <size>
              <width>40</width>
              <height>40</height>
             </size>
            </property>
-           <property name="maximumSize" >
+           <property name="maximumSize">
             <size>
              <width>40</width>
              <height>40</height>
             </size>
            </property>
-           <property name="focusPolicy" >
+           <property name="focusPolicy">
             <enum>Qt::NoFocus</enum>
            </property>
-           <property name="toolTip" >
+           <property name="toolTip">
             <string>Decode MPEG Audio frame header</string>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>dec</string>
            </property>
-           <property name="icon" >
-            <iconset resource="Mp3Diags.qrc" >:/images/decode.svg</iconset>
+           <property name="icon">
+            <iconset resource="Mp3Diags.qrc">
+             <normaloff>:/images/decode.svg</normaloff>:/images/decode.svg</iconset>
            </property>
-           <property name="iconSize" >
+           <property name="iconSize">
             <size>
              <width>36</width>
              <height>36</height>
             </size>
            </property>
-           <property name="autoRaise" >
+           <property name="autoRaise">
             <bool>true</bool>
            </property>
           </widget>
@@ -183,48 +177,49 @@
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="m_pTst01B" >
-        <property name="minimumSize" >
+       <widget class="QToolButton" name="m_pTst01B">
+        <property name="minimumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>40</width>
           <height>40</height>
          </size>
         </property>
-        <property name="focusPolicy" >
+        <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="toolTip" >
+        <property name="toolTip">
          <string>Test</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>tst</string>
         </property>
-        <property name="icon" >
-         <iconset resource="Mp3Diags.qrc" >:/images/test.svg</iconset>
+        <property name="icon">
+         <iconset resource="Mp3Diags.qrc">
+          <normaloff>:/images/test.svg</normaloff>:/images/test.svg</iconset>
         </property>
-        <property name="iconSize" >
+        <property name="iconSize">
          <size>
           <width>36</width>
           <height>36</height>
          </size>
         </property>
-        <property name="autoRaise" >
+        <property name="autoRaise">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>10</width>
           <height>40</height>
@@ -233,26 +228,45 @@
        </spacer>
       </item>
       <item>
-       <widget class="QWidget" native="1" name="widget" >
-        <layout class="QHBoxLayout" >
-         <property name="leftMargin" >
-          <number>0</number>
-         </property>
-         <property name="topMargin" >
-          <number>0</number>
-         </property>
-         <property name="rightMargin" >
-          <number>0</number>
-         </property>
-         <property name="bottomMargin" >
+       <widget class="QWidget" name="widget" native="true">
+        <layout class="QHBoxLayout">
+         <property name="margin">
           <number>0</number>
          </property>
          <item>
-          <widget class="QPushButton" name="m_pCloseB" >
-           <property name="text" >
+          <widget class="QToolButton" name="m_pCloseB">
+           <property name="minimumSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="toolTip">
             <string>Close</string>
            </property>
-           <property name="default" >
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset resource="Mp3Diags.qrc">
+             <normaloff>:/images/dialog-close.svg</normaloff>:/images/dialog-close.svg</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>36</width>
+             <height>36</height>
+            </size>
+           </property>
+           <property name="autoRaise">
             <bool>true</bool>
            </property>
           </widget>
@@ -264,47 +278,38 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" native="1" name="widget_2" >
-     <layout class="QHBoxLayout" >
-      <property name="leftMargin" >
-       <number>0</number>
-      </property>
-      <property name="topMargin" >
-       <number>0</number>
-      </property>
-      <property name="rightMargin" >
-       <number>0</number>
-      </property>
-      <property name="bottomMargin" >
+    <widget class="QWidget" name="widget_2" native="true">
+     <layout class="QHBoxLayout">
+      <property name="margin">
        <number>0</number>
       </property>
       <item>
-       <widget class="QCheckBox" name="m_pUseAllNotesCkB" >
-        <property name="text" >
+       <widget class="QCheckBox" name="m_pUseAllNotesCkB">
+        <property name="text">
          <string>Use all notes</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="m_pLogTransfCkB" >
-        <property name="text" >
+       <widget class="QCheckBox" name="m_pLogTransfCkB">
+        <property name="text">
          <string>Log transformations</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="m_pSaveDownloadedDataCkB" >
-        <property name="text" >
+       <widget class="QCheckBox" name="m_pSaveDownloadedDataCkB">
+        <property name="text">
          <string>Save downloaded data</string>
         </property>
        </widget>
       </item>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>40</width>
           <height>20</height>
@@ -316,19 +321,19 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="label_6" >
-     <property name="text" >
+    <widget class="QLabel" name="label_6">
+     <property name="text">
       <string>Trace messages:</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QTableView" name="m_pLogG" />
+    <widget class="QTableView" name="m_pLogG"/>
    </item>
   </layout>
  </widget>
  <resources>
-  <include location="Mp3Diags.qrc" />
+  <include location="Mp3Diags.qrc"/>
  </resources>
  <connections/>
 </ui>

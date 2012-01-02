@@ -246,6 +246,7 @@ protected slots:
     void on_m_pPasteB_clicked();
     void on_m_pSortB_clicked();
     void on_m_pConfigB_clicked();
+    void on_m_pCloseB_clicked();
 
     void onAlbSelChanged();
     void onAlbCrtChanged();

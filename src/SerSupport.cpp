@@ -371,6 +371,10 @@ string CommonData::load(const string& strFile)
     {
         return ex.what();
     }
+    catch (...)
+    {
+        return "err";
+    }
 
     Notes::clearDestroyList();
     return "";

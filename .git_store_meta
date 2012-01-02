@@ -322,7 +322,7 @@ src/RenamerPatternsDlgImpl.h	f	2009-07-28T07:25:59Z
 src/Scan.ui	f	2012-01-02T15:22:55Z
 src/ScanDlgImpl.cpp	f	2009-10-13T11:44:09Z
 src/ScanDlgImpl.h	f	2009-07-17T15:02:37Z
-src/SerSupport.cpp	f	2009-10-13T11:48:20Z
+src/SerSupport.cpp	f	2012-01-01T22:30:41Z
 src/SerSupport.h	f	2009-05-06T07:27:31Z
 src/SessionEditor.ui	f	2012-01-02T15:23:22Z
 src/SessionEditorDlgImpl.cpp	f	2011-06-26T21:05:32Z

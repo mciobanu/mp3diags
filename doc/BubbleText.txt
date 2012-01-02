@@ -240,6 +240,8 @@ If you want to use the normalization, make sure that this is correct
 
 "Various artists" functionality must be enabled manually, if wanted
 
+Check this box to add "close" buttons in case your desktop / window manager doesn't provide them. (This is usually the case with Gnome 3.)
+
 -----------------------------------
 
 You may want to use this if incorrect names are shown in files using a language other than English

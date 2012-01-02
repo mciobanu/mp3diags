@@ -84,8 +84,8 @@ doc/297_config_colors.png	f	2009-10-07T07:30:55Z
 doc/297_config_colors.xcf	f	2009-10-06T20:33:29Z
 doc/298_config_shell.png	f	2011-07-21T18:10:38Z
 doc/298_config_shell.xcf	f	2011-07-21T18:09:15Z
-doc/300_config_others.png	f	2009-10-19T06:26:58Z
-doc/300_config_others.xcf	f	2009-10-19T06:26:44Z
+doc/300_config_others.png	f	2012-01-02T16:15:20Z
+doc/300_config_others.xcf	f	2012-01-02T16:15:00Z
 doc/310_debug.png	f	2009-05-14T07:37:05Z
 doc/310_export.png	f	2009-10-07T13:41:27Z
 doc/310_export.xcf	f	2009-10-07T13:41:13Z
@@ -93,7 +93,7 @@ doc/310_export_btn.png	f	2009-10-07T13:48:19Z
 doc/310_sessions.png	f	2011-07-21T19:04:15Z
 doc/310_sessions.xcf	f	2011-07-21T19:03:53Z
 doc/310_sessions_btn.png	f	2009-05-14T07:37:29Z
-doc/BubbleText.txt	f	2010-12-06T21:54:11Z
+doc/BubbleText.txt	f	2012-01-02T16:08:25Z
 doc/Doc.01.odt	f	2009-05-11T04:58:53Z
 doc/arrow_left.png	f	2009-05-11T05:54:12Z
 doc/arrow_left.svg	f	2009-05-11T06:56:23Z
@@ -169,8 +169,8 @@ doc/html/297_config_colors.html	f	2011-07-20T20:45:29Z
 doc/html/297_config_colors.png	f	2009-10-07T07:30:55Z
 doc/html/298_config_shell.html	f	2011-07-30T19:52:32Z
 doc/html/298_config_shell.png	f	2011-07-21T18:10:38Z
-doc/html/300_config_others.html	f	2011-07-20T20:44:44Z
-doc/html/300_config_others.png	f	2009-10-19T06:26:58Z
+doc/html/300_config_others.html	f	2012-01-02T16:26:25Z
+doc/html/300_config_others.png	f	2012-01-02T16:15:20Z
 doc/html/310_advanced.html	f	2011-07-21T19:18:15Z
 doc/html/310_debug.png	f	2009-05-14T07:37:05Z
 doc/html/310_export.png	f	2009-10-07T13:41:27Z

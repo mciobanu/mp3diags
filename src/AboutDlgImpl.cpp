@@ -47,7 +47,7 @@ AboutDlgImpl::AboutDlgImpl(QWidget* pParent /*= 0*/) : QDialog(pParent, getDialo
         "<p style=\"margin-bottom:8px; margin-top:1px; \">Command-line mode by Michael Elsd&#xf6;rfer, 2011</p>"
         "<p style=\"margin-bottom:8px; margin-top:1px; \">Distributed under <a href=\"http://www.gnu.org/licenses/gpl-2.0.html#TOC1\">GPL V2</a></p>"
         //"Using <a href=\"http://doc.trolltech.com/4/opensourceedition.html\">Qt 4 Open Source Edition</a><p/>"
-        "<p style=\"margin-bottom:8px; margin-top:1px; \">Using <a href=\"http://www.qtsoftware.com/\">Qt Free Edition</a>, released under <a href=\"http://www.gnu.org/licenses/lgpl-2.1.html\">LGPL 2.1</a></p>"
+        "<p style=\"margin-bottom:8px; margin-top:1px; \">Using <a href=\"http://qt.nokia.com/products/qt-sdk\">Qt SDK</a>, released under <a href=\"http://www.gnu.org/licenses/lgpl-2.1.html\">LGPL 2.1</a></p>"
         "<p style=\"margin-bottom:8px; margin-top:1px; \">Using <a href=\"http://www.zlib.net/\">zlib</a>, released under the <a href=\"http://www.zlib.net/zlib_license.html\">zlib License</a></p>"
         "<p style=\"margin-bottom:8px; margin-top:1px; \">Using <a href=\"http://www.boost.org/doc/libs/1_39_0/libs/serialization/doc/index.html\">Boost Serialization</a>, distributed under the <a href=\"http://www.boost.org/users/license.html\">Boost Software License</a></p>"
         //"Most icons are either copies or modified versions of icons from the <a href=\"http://www.oxygen-icons.org/\">Oxygen Project</a> for <a href=\"http://www.kde.org/\">KDE 4</a>. They are distributed under <a href=\"http://www.gnu.org/licenses/lgpl.html\">LGPL V3</a><p/>"

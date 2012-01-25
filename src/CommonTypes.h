@@ -122,6 +122,25 @@ QString getCaseConv(const QString& s, TextCaseOptions eCase);
 const char* getCaseAsStr(TextCaseOptions e);
 
 
+struct ExternalToolInfo
+{
+    std::string m_strName;
+    std::string m_strCommand;
+    enum LaunchOption { DONT_WAIT, WAIT_THEN_CLOSE_WINDOW, WAIT_AND_KEEP_WINDOW_OPEN };
+    LaunchOption m_eLaunchOption;
+
+    ExternalToolInfo(const std::string& strName, const std::string& strCommand, LaunchOption eLaunchOption) : m_strName(strName), m_strCommand(strCommand), m_eLaunchOption(eLaunchOption) {}
+    ExternalToolInfo(const std::string& strSerValue);
+    std::string asString();
+    static const char* launchOptionAsString(LaunchOption);
+
+    struct InvalidExternalToolInfo {};
+private:
+    static char s_cSeparator;
+};
+
+
+
 
 #endif // #ifndef CommonTypesH
 

@@ -77,8 +77,8 @@ public:
     void saveMainSettings(int nWidth, int nHeight, int nNotesGW0, int nNotesGW2, int nStrmsGW0, int nStrmsGW1, int nStrmsGW2, int nStrmsGW3, int nUnotesGW0, const QByteArray& stateMainSpl, const QByteArray& stateLwrSpl, int nIconSize, int nScanWidth);
     void loadMainSettings(int& nWidth, int& nHeight, int& nNotesGW0, int& nNotesGW2, int& nStrmsGW0, int& nStrmsGW1, int& nStrmsGW2, int& nStrmsGW3, int& nUnotesGW0, QByteArray& stateMainSpl, QByteArray& stateLwrSpl, int& nIconSize, int& nScanWidth) const;
 
-    void saveNormalizeSettings(int nWidth, int nHeight);
-    void loadNormalizeSettings(int& nWidth, int& nHeight) const;
+    void saveExternalToolSettings(int nWidth, int nHeight);
+    void loadExternalToolSettings(int& nWidth, int& nHeight) const;
 
     void saveTagEdtPatternsSettings(int nWidth, int nHeight);
     void loadTagEdtPatternsSettings(int& nWidth, int& nHeight) const;

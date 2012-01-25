@@ -288,16 +288,20 @@ void SessionSettings::loadRenamerSettings(int& nWidth, int& nHeight, int& nSaBut
 
 
 
-void SessionSettings::saveNormalizeSettings(int nWidth, int nHeight)
+void SessionSettings::saveExternalToolSettings(int nWidth, int nHeight)
 {
-    m_pSettings->setValue("normalizer/width", nWidth);
-    m_pSettings->setValue("normalizer/height", nHeight);
+    m_pSettings->setValue("externalTool/width", nWidth);
+    m_pSettings->setValue("externalTool/height", nHeight);
+    /*m_pSettings->remove("normalizer/width"); //ttt1 maybe enable; keeping both settings should be avoided, but it is useful if an older and a newer version use thesame INI. ttt0 see about normalization keeping its own settings rather than sharing
+    m_pSettings->remove("normalizer/height");*/
 }
 
-void SessionSettings::loadNormalizeSettings(int& nWidth, int& nHeight) const
+void SessionSettings::loadExternalToolSettings(int& nWidth, int& nHeight) const
 {
-    nWidth = m_pSettings->value("normalizer/width").toInt();
-    nHeight = m_pSettings->value("normalizer/height").toInt();
+    nWidth = m_pSettings->value("externalTool/width").toInt();
+    nHeight = m_pSettings->value("externalTool/height").toInt();
+    if (0 == nWidth) { nWidth = m_pSettings->value("normalizer/width").toInt(); }
+    if (0 == nHeight) { nHeight = m_pSettings->value("normalizer/height").toInt(); }
 }
 
 

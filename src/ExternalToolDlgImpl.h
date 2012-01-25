@@ -20,12 +20,14 @@
  ***************************************************************************/
 
 
-#ifndef NormalizeDlgImplH
-#define NormalizeDlgImplH
+#ifndef ExternalToolDlgImplH
+#define ExternalToolDlgImplH
+
+#include  <string>
 
 #include  <QDialog>
 
-#include  "ui_Normalize.h"
+#include  "ui_ExternalTool.h"
 
 class QProcess;
 
@@ -33,7 +35,7 @@ class SessionSettings;
 class CommonData;
 
 
-class NormalizeDlgImpl : public QDialog, private Ui::NormalizeDlg
+class ExternalToolDlgImpl : public QDialog, private Ui::ExternalToolDlg
 {
     Q_OBJECT
 
@@ -48,15 +50,19 @@ class NormalizeDlgImpl : public QDialog, private Ui::NormalizeDlg
     SessionSettings& m_settings;
     const CommonData* m_pCommonData; // for logging
 
+    const std::string m_strCommandName;
+    const char* m_szHelpFile;
+
     /*override*/ void closeEvent(QCloseEvent* pEvent);
     // /*override*/ void keyPressEvent(QKeyEvent* pEvent);
     // /*override*/ void keyReleaseEvent(QKeyEvent* pEvent);
 
 public:
-    NormalizeDlgImpl(QWidget* pParent, bool bKeepOpen, SessionSettings& settings, const CommonData* pCommonData);
-    ~NormalizeDlgImpl();
+    ExternalToolDlgImpl(QWidget* pParent, bool bKeepOpen, SessionSettings& settings, const CommonData* pCommonData, const std::string& strCommandName, const char* szHelpFile);
+    ~ExternalToolDlgImpl();
 
-    void normalize(const QString& qstrProg, const QStringList& lFiles); // it would make sense to return true if something was changed (or even exactly what changed), but that's not easy to do, so the caller should just assume that something changed
+    void run(const QString& qstrProg, const QStringList& lFiles); // it would make sense to return true if something was changed (or even exactly what changed), but that's not easy to do, so the caller should just assume that something changed
+    static void prepareArgs(const QString& qstrCommand, const QStringList& lFiles, QString& qstrProg, QStringList& args);
 
 public slots:
     /*$PUBLIC_SLOTS$*/

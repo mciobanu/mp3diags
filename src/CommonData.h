@@ -266,7 +266,7 @@ private:
         }// */
     }
 
-    BOOST_SERIALIZATION_SPLIT_MEMBER();
+    BOOST_SERIALIZATION_SPLIT_MEMBER()
 };
 
 
@@ -314,6 +314,9 @@ public:
     QTableView* m_pStreamsG;
 
     QTableView* m_pUniqueNotesG;
+
+    std::vector<ExternalToolInfo> m_vExternalToolInfos;
+
 
     const std::deque<const Mp3Handler*>& getViewHandlers() const { return m_vpViewHandlers; }
     const std::deque<const Mp3Handler*>& getSelHandlers(); // results are sorted

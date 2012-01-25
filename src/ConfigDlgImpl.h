@@ -29,6 +29,7 @@
 
 #include  "NoteFilterDlgImpl.h" // for NoteListElem and NoteListPainter //ttt2 perhaps move them in their own file
 #include  "Transformation.h"
+#include  "CommonTypes.h"
 
 
 
@@ -36,6 +37,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------------------
+
 
 
 
@@ -47,6 +49,30 @@ class VisibleTransfPainter;
 class QSettings;
 class QStackedLayout;
 class CommonData;
+class ConfigDlgImpl;
+
+
+class ExternalToolsModel : public QAbstractTableModel
+{
+    Q_OBJECT
+
+    const ConfigDlgImpl* m_pConfigDlgImpl;
+    //const CommonData* m_pCommonData;
+
+public:
+    ExternalToolsModel(const ConfigDlgImpl* pConfigDlgImpl);
+
+    /*override*/ int rowCount(const QModelIndex&) const;
+    /*override*/ int columnCount(const QModelIndex&) const;
+    /*override*/ QVariant data(const QModelIndex&, int) const;
+
+    /*override*/ QVariant headerData(int nSection, Qt::Orientation eOrientation, int nRole = Qt::DisplayRole) const;
+
+    void emitLayoutChanged() { emit layoutChanged(); }
+};
+
+//---------------------------------------------------------------------------------------------------------------------
+
 
 void initDefaultCustomTransf(int k, std::vector<std::vector<int> >& vv, CommonData* pCommonData);
 
@@ -106,6 +132,19 @@ class ConfigDlgImpl : public QDialog, private Ui::ConfigDlg, public NoteListPain
     void setSimpleViewOpt(const TransfConfig::Options& opt); // m_bKeepOrigTime shouldn't be set
     void setFullViewOpt(const TransfConfig::Options& opt); // m_bKeepOrigTime is ignored
 
+    ExternalToolsModel* m_pExternalToolsModel;
+    /*override*/ void resizeEvent(QResizeEvent* pEvent);
+#if 0
+    /*override*/ void closeEvent(QCloseEvent* pEvent);
+    /*override*/ bool eventFilter(QObject* pObj, QEvent* pEvent);
+#endif
+    void resizeWidgets();
+    void tableToEdit();
+    void editToTable();
+    bool m_bExtToolChanged;
+    void markExtToolChanged() { m_bExtToolChanged = true; }
+    ExternalToolInfo externalToolInfoFromEdit();
+
 public:
     enum { SOME_TABS, ALL_TABS };
     ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, QWidget* pParent, bool bFull); // bFull determines if all the tabs should be visible
@@ -113,6 +152,8 @@ public:
     /*$PUBLIC_FUNCTIONS$*/
 
     bool run();
+
+    std::vector<ExternalToolInfo> m_vExternalToolInfos;
 
 public slots:
     /*$PUBLIC_SLOTS$*/
@@ -161,7 +202,23 @@ public slots:
     void on_m_pSimpleViewB_clicked();
     void on_m_pFullViewB_clicked();
 
+    void on_m_pExtToolAddB_clicked();
+    void on_m_pExtToolUpdateB_clicked();
+    void on_m_pExtToolDeleteB_clicked();
+    void on_m_pExtToolDiscardB_clicked();
+
+
     void onHelp();
+    //void on_m_pExternalToolsG_currentChanged(const QModelIndex& /*current*/, const QModelIndex& /*previous*/) { tableToEdit(); } // ttt3 see if this might be made to work (currently cannot even connect automatically, and m_pExternalToolsG->selectionModel() is used instead; there are some comments in MainFormDlgImpl.cpp, around "the next time")
+    void onExternalToolsGCurrentChanged() { tableToEdit(); }
+
+protected slots:
+    void onResizeDelayed() { resizeWidgets(); }
+    void on_m_pExtToolNameE_textEdited(const QString &) { markExtToolChanged(); }
+    void on_m_pExtToolCmdE_textEdited(const QString &) { markExtToolChanged(); }
+    void on_m_pExtToolDontWaitRB_clicked() { markExtToolChanged(); }
+    void on_m_pExtToolWaitKeepOpenRB_clicked() { markExtToolChanged(); }
+    void on_m_pExtToolWaitCloseRB_clicked() { markExtToolChanged(); }
 };
 
 

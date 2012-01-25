@@ -27,7 +27,7 @@
 #include  <QMessageBox>
 #include  <QCloseEvent>
 
-#include  "NormalizeDlgImpl.h"
+#include  "ExternalToolDlgImpl.h"
 
 #include  "Widgets.h"
 #include  "StoredSettings.h"
@@ -57,20 +57,22 @@ ttt2 doc: might seem frozen at the end; just press abort and wait for at most a 
 same may happen after pressing abort while the normalization is running
 */
 
-NormalizeDlgImpl::NormalizeDlgImpl(QWidget* pParent, bool bKeepOpen, SessionSettings& settings, const CommonData* pCommonData) : QDialog(pParent, getDialogWndFlags()), Ui::NormalizeDlg(), m_pProc(0), m_bFinished(false), m_settings(settings), m_pCommonData(pCommonData)
+ExternalToolDlgImpl::ExternalToolDlgImpl(QWidget* pParent, bool bKeepOpen, SessionSettings& settings, const CommonData* pCommonData, const std::string& strCommandName, const char* szHelpFile) : QDialog(pParent, getDialogWndFlags()), Ui::ExternalToolDlg(), m_pProc(0), m_bFinished(false), m_settings(settings), m_pCommonData(pCommonData), m_strCommandName(strCommandName), m_szHelpFile(szHelpFile)
 {
     setupUi(this);
     m_pKeepOpenCkM->setChecked(bKeepOpen);
 
     int nWidth, nHeight;
-    m_settings.loadNormalizeSettings(nWidth, nHeight);
+    m_settings.loadExternalToolSettings(nWidth, nHeight);
     if (nWidth > 400 && nHeight > 300) { resize(nWidth, nHeight); }
+
+    setWindowTitle(convStr(strCommandName));
 
     { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
 }
 
 
-NormalizeDlgImpl::~NormalizeDlgImpl()
+ExternalToolDlgImpl::~ExternalToolDlgImpl()
 {
     CursorOverrider crs;
     delete m_pProc;
@@ -79,8 +81,80 @@ NormalizeDlgImpl::~NormalizeDlgImpl()
 
 void logTransformation(const string& strLogFile, const char* szActionName, const string& strMp3File);
 
+/*static*/ void ExternalToolDlgImpl::prepareArgs(const QString& qstrCommand, const QStringList& lFiles, QString& qstrProg, QStringList& lArgs)
+{
+    if (qstrCommand.contains('"'))
+    {
+        bool bInsideQuotes (false);
+        qstrProg.clear();
+        QString qstrCrt;
+        for (int i = 0; i < qstrCommand.size(); ++i)
+        {
+            QChar c (qstrCommand[i]);
+            if (' ' == c)
+            {
+                if (bInsideQuotes)
+                {
+                    qstrCrt += c;
+                }
+                else
+                {
+                    if (!qstrCrt.isEmpty())
+                    {
+                        if (qstrProg.isEmpty())
+                        {
+                            qstrProg = qstrCrt;
+                        }
+                        else
+                        {
+                            lArgs << qstrCrt;
+                        }
+                        qstrCrt.clear();
+                    }
+                }
+            }
+            else if ('"' == c)
+            {
+                bInsideQuotes = !bInsideQuotes;
+            }
+            else
+            {
+                qstrCrt += c;
+            }
+        }
 
-void NormalizeDlgImpl::normalize(const QString& qstrProg1, const QStringList& lFiles) //ttt2 in Windows MP3Gain doesn't seem to care about Unicode (well, the GUI version does, but that doesn't help). aacgain doesn't work either; see if there's a good way to deal with this; doc about using short filenames
+        if (!qstrCrt.isEmpty())
+        {
+            if (qstrProg.isEmpty())
+            {
+                qstrProg = qstrCrt;
+            }
+            else
+            {
+                lArgs << qstrCrt;
+            }
+            qstrCrt.clear();
+        }
+        //ttt2 maybe: trigger some error if bInsideQuotes is "false" at the end
+        //ttt3 maybe allow <<ab "" cd>> to be interpreted as 3 params, with the second one empty; currently it is interpreted as 2 non-empty params
+    }
+    else
+    {
+        int k (1);
+        for (; k < qstrCommand.size() && (qstrCommand[k - 1] != ' '  || (qstrCommand[k] != '-' && qstrCommand[k] != '/')); ++k) {} //ttt2 perhaps better: look for spaces from the end and stop when a dir exists from the beginning of the name till the current space //ttt0 or allow double quotes to indicate what goes together
+        qstrProg = qstrCommand.left(k).trimmed();
+        QString qstrArg (qstrCommand.right(qstrCommand.size() - k).trimmed());
+        //qDebug("prg <%s>  arg <%s>", qstrProg.toUtf8().constData(), qstrArg.toUtf8().constData());
+
+        lArgs = qstrArg.split(" ", QString::SkipEmptyParts); // ttt2 perhaps accomodate params that contain spaces, but mp3gain doesn't seem to need them;
+        //QString qstrName (l.front());
+        //l.removeFirst();
+    }
+    lArgs << lFiles;
+}
+
+
+void ExternalToolDlgImpl::run(const QString& qstrProg1, const QStringList& lFiles) //ttt2 in Windows MP3Gain doesn't seem to care about Unicode (well, the GUI version does, but that doesn't help). aacgain doesn't work either; see if there's a good way to deal with this; doc about using short filenames
 {
     m_pProc = new QProcess(this);
     //m_pProc = new QProcess(); // !!! m_pProc is not owned; it will be destroyed
@@ -92,21 +166,14 @@ void NormalizeDlgImpl::normalize(const QString& qstrProg1, const QStringList& lF
     {
         for (int i = 0; i < lFiles.size(); ++i)
         {
-            logTransformation(m_pCommonData->m_strTransfLog, "Normalize", convStr(lFiles[i]));
+            logTransformation(m_pCommonData->m_strTransfLog, m_strCommandName.c_str(), convStr(lFiles[i]));
         }
     }
 
-    //
-    int k (1);
-    for (; k < qstrProg1.size() && (qstrProg1[k - 1] != ' '  || (qstrProg1[k] != '-' && qstrProg1[k] != '/')); ++k) {} //ttt2 perhaps better: look for spaces from the end and stop when a dir exists from the beginning of the name till the current space
-    QString qstrProg (qstrProg1.left(k).trimmed());
-    QString qstrArg (qstrProg1.right(qstrProg1.size() - k).trimmed());
-    //qDebug("prg <%s>  arg <%s>", qstrProg.toUtf8().constData(), qstrArg.toUtf8().constData());
+    QString qstrProg;
+    QStringList l;
+    prepareArgs(qstrProg1, lFiles, qstrProg, l);
 
-    QStringList l (qstrArg.split(" ", QString::SkipEmptyParts)); // ttt2 perhaps accomodate params that contain spaces, but mp3gain doesn't seem to need them;
-    //QString qstrName (l.front());
-    //l.removeFirst();
-    l << lFiles;
     m_pProc->start(qstrProg, l);
 
     if (!m_pProc->waitForStarted(5000))
@@ -124,17 +191,17 @@ void NormalizeDlgImpl::normalize(const QString& qstrProg1, const QStringList& lF
 
     exec();
 
-    m_settings.saveNormalizeSettings(width(), height());
+    m_settings.saveExternalToolSettings(width(), height());
 }
 
 
-void NormalizeDlgImpl::onOutputTxt()
+void ExternalToolDlgImpl::onOutputTxt()
 {
     addText(m_pProc->readAllStandardOutput()); //ttt2 perhaps use different colors for std and err, or use 2 separate text boxes
 }
 
 
-void NormalizeDlgImpl::onErrorTxt()
+void ExternalToolDlgImpl::onErrorTxt()
 {
     //addText("####" + m_pProc->readAllStandardError());
     QString s (m_pProc->readAllStandardError().trimmed());
@@ -159,7 +226,7 @@ void NormalizeDlgImpl::onErrorTxt()
 }
 
 
-void NormalizeDlgImpl::addText(QString s)
+void ExternalToolDlgImpl::addText(QString s)
 {
     s = s.trimmed();
     if (s.isEmpty()) { return; }
@@ -183,7 +250,7 @@ void NormalizeDlgImpl::addText(QString s)
 }
 
 
-void NormalizeDlgImpl::onFinished()
+void ExternalToolDlgImpl::onFinished()
 {
     if (m_bFinished) { return; } // !!! needed because sometimes terminating with kill() triggers onFinished() and sometimes it doesn't
     m_bFinished = true;
@@ -199,7 +266,7 @@ void NormalizeDlgImpl::onFinished()
     }
 }
 
-void NormalizeDlgImpl::on_m_pCloseB_clicked()
+void ExternalToolDlgImpl::on_m_pCloseB_clicked()
 {
     if (!m_bFinished)
     {
@@ -210,7 +277,7 @@ void NormalizeDlgImpl::on_m_pCloseB_clicked()
 }
 
 
-void NormalizeDlgImpl::on_m_pAbortB_clicked()
+void ExternalToolDlgImpl::on_m_pAbortB_clicked()
 {
 qDebug("proc state %d", int(m_pProc->state()));
     if (m_bFinished)
@@ -231,7 +298,7 @@ qDebug("proc state %d", int(m_pProc->state()));
 
 // !!! Can't allow the top-right close button or the ESC key to close the dialog, because that would kill the thread too and leave everything in an inconsistent state. So the corresponding events are intercepted and "ignore()"d and abort() is called instead
 
-/*override*/ void NormalizeDlgImpl::closeEvent(QCloseEvent* pEvent)
+/*override*/ void ExternalToolDlgImpl::closeEvent(QCloseEvent* pEvent)
 {
     /*
     Not sure if this should work: from the doc for QDialog:
@@ -247,7 +314,7 @@ qDebug("proc state %d", int(m_pProc->state()));
 }
 
 #if 0
-/*override*/ void NormalizeDlgImpl::keyPressEvent(QKeyEvent* pEvent)
+/*override*/ void ExternalToolDlgImpl::keyPressEvent(QKeyEvent* pEvent)
 {
 //qDebug("key prs %d", pEvent->key());
 
@@ -257,7 +324,7 @@ qDebug("proc state %d", int(m_pProc->state()));
 }
 
 
-/*override*/ void NormalizeDlgImpl::keyReleaseEvent(QKeyEvent* pEvent)
+/*override*/ void ExternalToolDlgImpl::keyReleaseEvent(QKeyEvent* pEvent)
 {
 //qDebug("key rel %d", pEvent->key());
     if (Qt::Key_Escape == pEvent->key())
@@ -269,9 +336,9 @@ qDebug("proc state %d", int(m_pProc->state()));
 #endif
 
 
-void NormalizeDlgImpl::onHelp()
+void ExternalToolDlgImpl::onHelp()
 {
-    openHelp("230_normalize.html");
+    openHelp(m_szHelpFile);
 }
 
 //ttt2 timer in normalizer

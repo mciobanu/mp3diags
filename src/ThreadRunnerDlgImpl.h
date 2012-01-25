@@ -62,6 +62,8 @@ Notes:
 - the user thread shouldn't make any assumptions about how long it would take for a step in PausableThread, but this should not be long (less than 0.1 s)
 - in order to help performance it is possible that one more step in PausableThread will be executed after sending pause(); (functionally this shouldn't matter, because it's the same as if pause() was called just after PausableThread checked if it should pause)
 
+Another functionality this class provides is "sleep". The sleep functions in QThread are protected but occasionally useful, so they are exposed here. //ttt2 perhaps create separate class / free functions
+
 */
 class PausableThread : public QThread
 {
@@ -89,6 +91,7 @@ public:
     PausableThread(/*QObject* pParent = 0*/);
     virtual ~PausableThread();
 
+
     bool isAborted() const { return m_bAborted; } // !!! no synch needed
     void checkPause(); // if m_bPaused is set, it waits until resume() or abort() get called; otherwise it returns immediately
     //void emitStepChanged(const QString& qstrLabel1, const QString& qstrLabel2 = "", const QString& qstrLabel3 = "", const QString& qstrLabel4 = "") { emit stepChanged(qstrLabel1, qstrLabel2, qstrLabel3, qstrLabel4); }
@@ -101,6 +104,9 @@ public:
 
     void abort();
 
+    using QThread::msleep;
+    using QThread::sleep;
+    using QThread::usleep;
 private:
     friend class ThreadRunnerDlgImpl;
     friend class PausableThread::CompleteNotif;

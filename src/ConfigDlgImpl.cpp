@@ -28,6 +28,7 @@
 #include  <QColorDialog>
 #include  <QPainter>
 #include  <QStackedLayout>
+#include  <QCloseEvent>
 
 #include  "ConfigDlgImpl.h"
 
@@ -40,6 +41,8 @@
 #include  "MpegStream.h"
 #include  "CommonData.h"
 #include  "StoredSettings.h"
+#include  "ColumnResizer.h"
+#include  "Widgets.h"
 
 ////#include  <iostream> //ttt remove
 
@@ -265,6 +268,8 @@ public:
 */
 
 
+
+
 ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, QWidget* pParent, bool bFull) :
         QDialog(pParent, getDialogWndFlags()),
         Ui::ConfigDlg(),
@@ -279,7 +284,9 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
         m_nCurrentTransf(-1),
         m_vvnDefaultCustomTransf(CUSTOM_TRANSF_CNT),
         m_pVisibleTransfPainter(0),
-        m_vnVisibleTransf(pCommonData->getVisibleTransf())
+        m_vnVisibleTransf(pCommonData->getVisibleTransf()),
+        m_bExtToolChanged(false),
+        m_vExternalToolInfos(pCommonData->m_vExternalToolInfos)
 {
     setupUi(this);
 
@@ -289,6 +296,7 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
 
     if (!bFull)
     {
+        m_pMainTabWidget->removeTab(8);
         m_pMainTabWidget->removeTab(7);
         m_pMainTabWidget->removeTab(6);
         m_pMainTabWidget->removeTab(5);
@@ -309,6 +317,16 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
     }
 
     m_pSourceDirF->hide();
+
+    {
+        m_pExternalToolsModel = new ExternalToolsModel(this);
+        m_pExternalToolsG->setModel(m_pExternalToolsModel);
+        m_pExternalToolsG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
+        m_pExternalToolsG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
+
+        connect(m_pExternalToolsG->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), this, SLOT(onExternalToolsGCurrentChanged()));
+        connect(m_pExternalToolsG->selectionModel(), SIGNAL(currentChanged(const QModelIndex&, const QModelIndex &)), this, SLOT(onExternalToolsGCurrentChanged()));
+    }
 
     int nWidth, nHeight;
     m_pCommonData->m_settings.loadConfigSize(nWidth, nHeight);
@@ -671,7 +689,15 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
         string strShellErr (ShellIntegration::getShellIntegrationError());
 
         m_pShellErrorL->setText(convStr(strShellErr));
+
+        QTimer::singleShot(1, this, SLOT(onResizeDelayed()));
     }
+
+#if 0
+    installEventFilter(this);
+    //tab_8->installEventFilter(this);
+    //m_pExtToolNameE->installEventFilter(this);
+#endif
 }
 
 
@@ -891,6 +917,7 @@ ConfigDlgImpl::~ConfigDlgImpl()
     clearPtrContainer(m_vpResetAll); // doesn't matter if it was used or not, or if m_bResultInReset is true or false
     delete m_pVisibleTransfPainter;
     delete m_pCustomTransfListPainter;
+    delete m_pExternalToolsModel;
 }
 
 
@@ -1075,6 +1102,8 @@ void ConfigDlgImpl::on_m_pOkB_clicked()
             ShellIntegration::enableTempSession(m_pShellTempSessCkB->isChecked());
         }
 
+        m_pCommonData->m_vExternalToolInfos = m_vExternalToolInfos;
+
         accept();
     }
     catch (const IncorrectDirName&)
@@ -1214,7 +1243,8 @@ void ConfigDlgImpl::onHelp()
     case 5: openHelp("295_config_quality.html"); break;
     case 6: openHelp("297_config_colors.html"); break;
     case 7: openHelp("298_config_shell.html"); break;
-    case 8: openHelp("300_config_others.html"); break;
+        //ttt0
+    case 9: openHelp("300_config_others.html"); break;
     //tttr revise as needed
 
     default: /*openHelp("index.html");*/ break;
@@ -1406,6 +1436,214 @@ void ConfigDlgImpl::on_m_pFullViewB_clicked()
 }
 
 
+
+//=====================================================================================================================
+//=====================================================================================================================
+//=====================================================================================================================
+
+
+void ConfigDlgImpl::resizeWidgets()
+{
+    SimpleQTableViewWidthInterface intf1 (*m_pExternalToolsG);
+    ColumnResizer rsz1 (intf1, 100, ColumnResizer::FILL, ColumnResizer::CONSISTENT_RESULTS);
+}
+
+/*override*/ void ConfigDlgImpl::resizeEvent(QResizeEvent* pEvent)
+{
+    resizeWidgets();
+    QDialog::resizeEvent(pEvent);
+}
+
+#if 0
+
+/*override*/ void ConfigDlgImpl::closeEvent(QCloseEvent* pEvent)
+{
+    pEvent->ignore();
+    QCoreApplication::postEvent(this, new QKeyEvent(QEvent::KeyPress, Qt::Key_Escape, Qt::NoModifier)); // ttt2 not sure if a KeyRelease pair is expected
+}
+
+
+/*override*/ bool ConfigDlgImpl::eventFilter(QObject* pObj, QEvent* pEvent)
+{
+    //throw 1;
+    //qDebug("pppp");
+    QKeyEvent* pKeyEvent (dynamic_cast<QKeyEvent*>(pEvent));
+    int nKey (0 == pKeyEvent ? 0 : pKeyEvent->key());
+
+/*static int s_nCnt (0);
+    if (0 != pKeyEvent
+        //&& Qt::Key_Escape == nKey
+        )
+    {
+        qDebug("%d. %s %d", s_nCnt++, pObj->objectName().toUtf8().constData(), (int)pEvent->type()); //return QDialog::eventFilter(pObj, pEvent);
+    }//*/
+
+    if (0 != pKeyEvent && Qt::Key_Escape == nKey && this == pObj && QEvent::KeyPress == pEvent->type())
+    {
+        bool bMayClose (true);
+        if (m_bExtToolChanged)
+        {
+            int nOpt (showMessage(this, QMessageBox::Question, 1, 1, "Confirm", "You modified the external tool information but you didn't save your changes. Discard the changes or cancel the closing?", "&Discard", "&Cancel"));
+            if (nOpt == 1)
+            {
+                bMayClose = false;
+            }
+        }
+        if (!bMayClose)
+        {
+            return true;
+        }
+    }
+
+    return QDialog::eventFilter(pObj, pEvent);
+}
+
+#endif
+
+void ConfigDlgImpl::tableToEdit()
+{
+    QModelIndex ndx (m_pExternalToolsG->currentIndex());
+    int i (ndx.row());
+    if (ndx.isValid() && i < cSize(m_vExternalToolInfos))
+    {
+
+        m_pExtToolNameE->setText(convStr(m_vExternalToolInfos[i].m_strName));
+        m_pExtToolCmdE->setText(convStr(m_vExternalToolInfos[i].m_strCommand));
+        switch (m_vExternalToolInfos[i].m_eLaunchOption)
+        {
+        case ExternalToolInfo::DONT_WAIT: m_pExtToolDontWaitRB->click(); break;
+        case ExternalToolInfo::WAIT_AND_KEEP_WINDOW_OPEN: m_pExtToolWaitKeepOpenRB->click(); break;
+        case ExternalToolInfo::WAIT_THEN_CLOSE_WINDOW: m_pExtToolWaitCloseRB->click(); break;
+        default: CB_ASSERT (false);
+        }
+    }
+    else
+    {
+        m_pExtToolNameE->setText("");
+        m_pExtToolCmdE->setText("");
+    }
+    m_bExtToolChanged = false;
+}
+
+void ConfigDlgImpl::editToTable()
+{
+    QModelIndex ndx (m_pExternalToolsG->currentIndex());
+    if (!ndx.isValid()) { return; }
+
+    int i (ndx.row());
+    if (i >= cSize(m_vExternalToolInfos)) { return; }
+    m_vExternalToolInfos[i] = externalToolInfoFromEdit();
+
+    m_bExtToolChanged = false;
+    m_pExternalToolsModel->emitLayoutChanged();
+    resizeWidgets();
+}
+
+ExternalToolInfo ConfigDlgImpl::externalToolInfoFromEdit()
+{
+    return ExternalToolInfo(
+            convStr(m_pExtToolNameE->text()),
+            convStr(m_pExtToolCmdE->text()),
+            m_pExtToolDontWaitRB->isChecked() ? ExternalToolInfo::DONT_WAIT : m_pExtToolWaitKeepOpenRB->isChecked() ? ExternalToolInfo::WAIT_AND_KEEP_WINDOW_OPEN : ExternalToolInfo::WAIT_THEN_CLOSE_WINDOW);
+}
+
+
+void ConfigDlgImpl::on_m_pExtToolAddB_clicked()
+{
+    m_vExternalToolInfos.push_back(externalToolInfoFromEdit());
+    m_pExternalToolsModel->emitLayoutChanged();
+    m_pExternalToolsG->setCurrentIndex(m_pExternalToolsModel->index(cSize(m_vExternalToolInfos) - 1, 0));
+    //editToTable();
+    //m_pExternalToolsG->re
+}
+
+void ConfigDlgImpl::on_m_pExtToolUpdateB_clicked()
+{
+    editToTable();
+}
+
+void ConfigDlgImpl::on_m_pExtToolDeleteB_clicked()
+{
+    QModelIndex ndx (m_pExternalToolsG->currentIndex());
+    int i (ndx.row());
+    if (!ndx.isValid() || i >= cSize(m_vExternalToolInfos)) { return; }
+
+    m_vExternalToolInfos.erase(m_vExternalToolInfos.begin() + i);
+    m_pExternalToolsModel->emitLayoutChanged();
+    if (!m_vExternalToolInfos.empty())
+    {
+        m_pExternalToolsG->setCurrentIndex(m_pExternalToolsModel->index(i < cSize(m_vExternalToolInfos) ? i : i - 1, 0));
+    }
+    tableToEdit();
+}
+
+void ConfigDlgImpl::on_m_pExtToolDiscardB_clicked()
+{
+    tableToEdit();
+}
+
+//=====================================================================================================================
+//=====================================================================================================================
+
+ExternalToolsModel::ExternalToolsModel(const ConfigDlgImpl* pConfigDlgImpl) : m_pConfigDlgImpl(pConfigDlgImpl)//, m_pCommonData(pConfigDlgImpl->getCommonData())
+{
+}
+
+
+/*override*/ int ExternalToolsModel::rowCount(const QModelIndex&) const
+{
+    return cSize(m_pConfigDlgImpl->m_vExternalToolInfos);
+}
+
+
+/*override*/ int ExternalToolsModel::columnCount(const QModelIndex&) const
+{
+    return 3;
+}
+
+
+/*override*/ QVariant ExternalToolsModel::data(const QModelIndex& index, int nRole) const
+{
+LAST_STEP("ExternalToolsModel::data()");
+    if (!index.isValid()) { return QVariant(); }
+    int i (index.row());
+    int j (index.column());
+//qDebug("ndx %d %d", i, j);
+
+    if (Qt::DisplayRole != nRole && Qt::ToolTipRole != nRole && Qt::EditRole != nRole) { return QVariant(); }
+    QString s;
+
+    const ExternalToolInfo& info (m_pConfigDlgImpl->m_vExternalToolInfos[i]);
+    switch (j)
+    {
+    case 0: return convStr(info.m_strName);
+    case 1: return convStr(info.m_strCommand);
+    case 2: return ExternalToolInfo::launchOptionAsString(info.m_eLaunchOption);
+    default: CB_ASSERT (false);
+    }
+}
+
+
+/*override*/ QVariant ExternalToolsModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /*= Qt::DisplayRole*/) const
+{
+LAST_STEP("ExternalToolsModel::headerData");
+    if (nRole != Qt::DisplayRole) { return QVariant(); }
+
+    if (Qt::Horizontal == eOrientation)
+    {
+        switch (nSection)
+        {
+        case 0: return "Name";
+        case 1: return "Command";
+        case 2: return "Wait";
+        default: CB_ASSERT (false);
+        }
+    }
+
+    return nSection + 1;
+}
+
+
 //=====================================================================================================================
 //=====================================================================================================================
 //=====================================================================================================================
@@ -1415,4 +1653,5 @@ void ConfigDlgImpl::on_m_pFullViewB_clicked()
 //ttt2 Font style is ignored (see DejaVu Sans / Light on machines with antialiased fonts)
 
 //ttt2 proxy: QNetworkProxyFactory::systemProxyForQuery; QNetworkProxy; http://www.dbits.be/index.php/pc-problems/65-vistaproxycfg  https://sourceforge.net/projects/mp3diags/forums/forum/947207/topic/3415940
+
 

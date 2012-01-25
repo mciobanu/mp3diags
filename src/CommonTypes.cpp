@@ -23,6 +23,7 @@
 #include  <cmath>
 #include  <map>
 #include  <set>
+#include  <sstream>
 
 #include  <QBuffer>
 #include  <QPainter>
@@ -474,3 +475,41 @@ const char* getCaseAsStr(TextCaseOptions e)
         CB_ASSERT (false);
     }
 }
+
+/*static*/ char ExternalToolInfo::s_cSeparator = ':';
+
+ExternalToolInfo::ExternalToolInfo(const string& strSerValue)
+{
+    string::size_type k1 (strSerValue.find(s_cSeparator));
+    string::size_type k2 (strSerValue.find(s_cSeparator, k1 + 1));
+    string::size_type k3 (strSerValue.find(s_cSeparator, k2 + 1));
+    CB_CHECK1(k1 != string::npos && k2 != string::npos && k3 == string::npos, InvalidExternalToolInfo());
+    m_strName = strSerValue.substr(0, k1);
+    m_strCommand = strSerValue.substr(k1 + 1, k2 - k1 -1);
+    string s (strSerValue.substr(k2 + 1));
+    CB_CHECK1(s.size() == 1 && s >= "0" && s <= "2", InvalidExternalToolInfo());
+    m_eLaunchOption = (LaunchOption)atoi(s.c_str());
+}
+
+
+string ExternalToolInfo::asString()
+{
+    ostringstream out;
+    out << m_strName << s_cSeparator << m_strCommand << s_cSeparator << (int)m_eLaunchOption;
+    return out.str();
+}
+
+
+/*static*/ const char* ExternalToolInfo::launchOptionAsString(LaunchOption eLaunchOption)
+{
+    switch (eLaunchOption)
+    {
+    case DONT_WAIT: return "Don't wait";
+    case WAIT_THEN_CLOSE_WINDOW: return "Wait for external tool to finish, then close launch window";
+    case WAIT_AND_KEEP_WINDOW_OPEN: return "Wait for external tool to finish, then keep launch window open";
+    default: CB_ASSERT(false);
+    }
+}
+
+
+

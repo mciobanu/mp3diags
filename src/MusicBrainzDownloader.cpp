@@ -370,6 +370,7 @@ void MusicBrainzDownloader::delay()
         sprintf(a, "waiting %dms", nWait + 100);
         addNote(a);
 
+        //ttt1 perhaps use PausableThread::usleep()
 #ifndef WIN32
         timespec ts;
         ts.tv_sec = 0;

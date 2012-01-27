@@ -296,7 +296,7 @@ src/LogModel.h	f	2009-05-06T07:30:16Z
 src/LyricsStream.cpp	f	2011-06-11T15:10:58Z
 src/LyricsStream.h	f	2009-10-10T09:56:52Z
 src/MainForm.ui	f	2011-07-30T12:34:43Z
-src/MainFormDlgImpl.cpp	f	2012-01-27T21:09:48Z
+src/MainFormDlgImpl.cpp	f	2012-01-27T22:05:24Z
 src/MainFormDlgImpl.h	f	2012-01-22T10:00:17Z
 src/Mp3Diags.qrc	f	2012-01-02T09:50:17Z
 src/Mp3Manip.cpp	f	2011-12-01T11:38:02Z

@@ -3162,8 +3162,6 @@ void MainFormDlgImpl::showFixes(vector<Transformation*>& vpTransf, Subset eSubse
 
 void MainFormDlgImpl::showExternalTools()
 {
-    if (m_pCommonData->m_vExternalToolInfos.empty()) { return; }
-
     ModifInfoMenu menu;
     vector<QAction*> vpAct;
 
@@ -3188,7 +3186,7 @@ void MainFormDlgImpl::showExternalTools()
             CB_ASSERT (0 != m_pCommonData->getCrtMp3Handler());
             QString qstrDir (convStr(m_pCommonData->getCrtMp3Handler()->getDir()));
             qstrDir = QDir::toNativeSeparators(qstrDir);
-            QDesktopServices::openUrl(QUrl("file:///" + qstrDir));
+            QDesktopServices::openUrl(QUrl("file://" + qstrDir));
         }
         else
         { // ttt1 copied from void MainFormDlgImpl::transform(std::vector<Transformation*>& vpTransf, Subset eSubset)

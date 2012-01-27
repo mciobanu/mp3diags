@@ -987,14 +987,12 @@ void ConfigDlgImpl::getTransfData()
 
 void ConfigDlgImpl::on_m_pOkB_clicked()
 {
+    if (m_bExtToolChanged)
     {
-        if (m_bExtToolChanged)
+        int nOpt (showMessage(this, QMessageBox::Question, 1, 1, "Confirm", "You modified the external tool information but you didn't save your changes. Discard the changes or cancel closing of the options window?", "&Discard", "&Cancel"));
+        if (nOpt == 1)
         {
-            int nOpt (showMessage(this, QMessageBox::Question, 1, 1, "Confirm", "You modified the external tool information but you didn't save your changes. Discard the changes or cancel closing of the options window?", "&Discard", "&Cancel"));
-            if (nOpt == 1)
-            {
-                return;
-            }
+            return;
         }
     }
 
@@ -1457,6 +1455,10 @@ void ConfigDlgImpl::resizeWidgets()
 {
     SimpleQTableViewWidthInterface intf1 (*m_pExternalToolsG);
     ColumnResizer rsz1 (intf1, 100, ColumnResizer::FILL, ColumnResizer::CONSISTENT_RESULTS);
+    for (int i = 0; i < cSize(m_vExternalToolInfos); ++i) // needed on Qt 4.3.1, not needed on 4.7.1
+    {
+        m_pExternalToolsG->verticalHeader()->resizeSection(i, CELL_HEIGHT);
+    }
 }
 
 /*override*/ void ConfigDlgImpl::resizeEvent(QResizeEvent* pEvent)
@@ -1568,6 +1570,7 @@ void ConfigDlgImpl::on_m_pExtToolAddB_clicked()
     m_vExternalToolInfos.push_back(externalToolInfoFromEdit());
     m_pExternalToolsModel->emitLayoutChanged();
     m_pExternalToolsG->setCurrentIndex(m_pExternalToolsModel->index(cSize(m_vExternalToolInfos) - 1, 0));
+    resizeWidgets();
     //editToTable();
     //m_pExternalToolsG->re
 }

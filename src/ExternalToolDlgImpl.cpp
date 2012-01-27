@@ -116,6 +116,13 @@ void logTransformation(const string& strLogFile, const char* szActionName, const
             else if ('"' == c)
             {
                 bInsideQuotes = !bInsideQuotes;
+                if (!bInsideQuotes && qstrCrt.isEmpty())
+                {
+                    if (i == qstrCommand.size() - 1 || qstrCommand[i + 1] == ' ')
+                    { // add an empty param
+                        lArgs << qstrCrt;
+                    }
+                }
             }
             else
             {

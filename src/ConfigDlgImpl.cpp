@@ -988,6 +988,17 @@ void ConfigDlgImpl::getTransfData()
 void ConfigDlgImpl::on_m_pOkB_clicked()
 {
     {
+        if (m_bExtToolChanged)
+        {
+            int nOpt (showMessage(this, QMessageBox::Question, 1, 1, "Confirm", "You modified the external tool information but you didn't save your changes. Discard the changes or cancel closing of the options window?", "&Discard", "&Cancel"));
+            if (nOpt == 1)
+            {
+                return;
+            }
+        }
+    }
+
+    {
         string strInv (convStr(m_pInvalidCharsE->text()));
         string strRepl (convStr(m_pInvalidReplacementE->text()));
         if (!strInv.empty())
@@ -1506,7 +1517,6 @@ void ConfigDlgImpl::tableToEdit()
     int i (ndx.row());
     if (ndx.isValid() && i < cSize(m_vExternalToolInfos))
     {
-
         m_pExtToolNameE->setText(convStr(m_vExternalToolInfos[i].m_strName));
         m_pExtToolCmdE->setText(convStr(m_vExternalToolInfos[i].m_strCommand));
         switch (m_vExternalToolInfos[i].m_eLaunchOption)
@@ -1516,14 +1526,18 @@ void ConfigDlgImpl::tableToEdit()
         case ExternalToolInfo::WAIT_THEN_CLOSE_WINDOW: m_pExtToolWaitCloseRB->click(); break;
         default: CB_ASSERT (false);
         }
+        m_pExtToolConfirmLaunchCkB->setChecked(m_vExternalToolInfos[i].m_bConfirmLaunch);
     }
     else
     {
         m_pExtToolNameE->setText("");
         m_pExtToolCmdE->setText("");
+        m_pExtToolConfirmLaunchCkB->setChecked(true);
     }
     m_bExtToolChanged = false;
 }
+
+
 
 void ConfigDlgImpl::editToTable()
 {
@@ -1544,7 +1558,8 @@ ExternalToolInfo ConfigDlgImpl::externalToolInfoFromEdit()
     return ExternalToolInfo(
             convStr(m_pExtToolNameE->text()),
             convStr(m_pExtToolCmdE->text()),
-            m_pExtToolDontWaitRB->isChecked() ? ExternalToolInfo::DONT_WAIT : m_pExtToolWaitKeepOpenRB->isChecked() ? ExternalToolInfo::WAIT_AND_KEEP_WINDOW_OPEN : ExternalToolInfo::WAIT_THEN_CLOSE_WINDOW);
+            m_pExtToolDontWaitRB->isChecked() ? ExternalToolInfo::DONT_WAIT : m_pExtToolWaitKeepOpenRB->isChecked() ? ExternalToolInfo::WAIT_AND_KEEP_WINDOW_OPEN : ExternalToolInfo::WAIT_THEN_CLOSE_WINDOW,
+            m_pExtToolConfirmLaunchCkB->isChecked());
 }
 
 
@@ -1582,6 +1597,20 @@ void ConfigDlgImpl::on_m_pExtToolDiscardB_clicked()
     tableToEdit();
 }
 
+void ConfigDlgImpl::on_m_pMainTabWidget_currentChanged(int /*nIndex*/)
+{
+    resizeWidgets(); // !!! really needed only the first time the external tools tab is shown
+    QModelIndex ndx (m_pExternalToolsG->currentIndex());
+    int i (ndx.row());
+    if (!ndx.isValid() || i >= cSize(m_vExternalToolInfos))
+    {
+        if (!m_vExternalToolInfos.empty())
+        {
+            m_pExternalToolsG->setCurrentIndex(m_pExternalToolsModel->index(0, 0)); // this will trigger tableToEdit();
+        }
+    }
+}
+
 //=====================================================================================================================
 //=====================================================================================================================
 
@@ -1598,7 +1627,7 @@ ExternalToolsModel::ExternalToolsModel(const ConfigDlgImpl* pConfigDlgImpl) : m_
 
 /*override*/ int ExternalToolsModel::columnCount(const QModelIndex&) const
 {
-    return 3;
+    return 4;
 }
 
 
@@ -1619,6 +1648,7 @@ LAST_STEP("ExternalToolsModel::data()");
     case 0: return convStr(info.m_strName);
     case 1: return convStr(info.m_strCommand);
     case 2: return ExternalToolInfo::launchOptionAsString(info.m_eLaunchOption);
+    case 3: return info.m_bConfirmLaunch ? "Yes" : "No";
     default: CB_ASSERT (false);
     }
 }
@@ -1636,6 +1666,7 @@ LAST_STEP("ExternalToolsModel::headerData");
         case 0: return "Name";
         case 1: return "Command";
         case 2: return "Wait";
+        case 3: return "Confirm launch";
         default: CB_ASSERT (false);
         }
     }

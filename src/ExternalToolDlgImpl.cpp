@@ -255,7 +255,7 @@ void ExternalToolDlgImpl::onFinished()
     if (m_bFinished) { return; } // !!! needed because sometimes terminating with kill() triggers onFinished() and sometimes it doesn't
     m_bFinished = true;
     // !!! doesn't need to destroy m_pProc and QAction, because they will be destroyed anyway when the dialog will be destroyed, which is going to be pretty soon
-    if (m_pKeepOpenCkM->isChecked())
+    if (m_pKeepOpenCkM->isChecked()) //ttt2 perhaps save in config
     {
         addText("==================================\nFinished");
         m_pDetailE->setText("");

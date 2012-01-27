@@ -219,6 +219,8 @@ protected slots:
     void on_m_pExtToolDontWaitRB_clicked() { markExtToolChanged(); }
     void on_m_pExtToolWaitKeepOpenRB_clicked() { markExtToolChanged(); }
     void on_m_pExtToolWaitCloseRB_clicked() { markExtToolChanged(); }
+    void on_m_pExtToolConfirmLaunchCkB_clicked() { markExtToolChanged(); }
+    void on_m_pMainTabWidget_currentChanged(int nIndex);
 };
 
 

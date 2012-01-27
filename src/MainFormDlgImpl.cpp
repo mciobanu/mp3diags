@@ -3205,8 +3205,7 @@ void MainFormDlgImpl::showExternalTools()
             }
             //qDebug("ctrl=%d", eSubset);
 
-            //ttt0 add confirm
-            if (!askConfirm(*pvpHandlers, info.m_strName))
+            if (info.m_bConfirmLaunch && !askConfirm(*pvpHandlers, info.m_strName))
             {
                 return;
             }
@@ -3404,7 +3403,6 @@ Development machine:
 
 
 
-//ttt2 perhaps "open file manager" on right-click (QDesktopServices::openUrl seems to do it)
 
 //ttt0 look at /d/test_mp3/1/tmp4/tmp2/unsupported/bad-decoding
 
@@ -3412,12 +3410,7 @@ Development machine:
 
 //ttt0 run CppCheck
 
-//http://stackoverflow.com/questions/3569749/qt-open-default-file-explorer-on-nix //ttt0 open explorer here ...
-//probably whole tab "external tools"
-//perhaps checkbox "wait for process to finish"
-//ttt0 delete files from main wnd
 
-//ttt0 play in external player
 
 
 //ttt0 maybe: thread to write to tmp that crt proc is alive and what session it's using; then start new process / bring existing one on top, as needed

@@ -245,11 +245,11 @@ src/ColumnResizer.cpp	f	2009-10-13T09:17:10Z
 src/ColumnResizer.h	f	2009-05-06T07:28:19Z
 src/CommonData.cpp	f	2012-01-01T22:09:58Z
 src/CommonData.h	f	2012-01-22T09:43:39Z
-src/CommonTypes.cpp	f	2012-01-22T12:53:31Z
-src/CommonTypes.h	f	2012-01-22T12:53:31Z
-src/Config.ui	f	2012-01-25T22:02:16Z
-src/ConfigDlgImpl.cpp	f	2012-01-22T23:37:05Z
-src/ConfigDlgImpl.h	f	2012-01-22T23:37:13Z
+src/CommonTypes.cpp	f	2012-01-26T22:26:13Z
+src/CommonTypes.h	f	2012-01-26T22:10:05Z
+src/Config.ui	f	2012-01-27T21:06:50Z
+src/ConfigDlgImpl.cpp	f	2012-01-27T21:27:48Z
+src/ConfigDlgImpl.h	f	2012-01-27T21:28:34Z
 src/DataStream.cpp	f	2010-03-09T18:45:06Z
 src/DataStream.h	f	2011-12-01T11:30:54Z
 src/Debug.ui	f	2012-01-02T15:03:56Z
@@ -267,7 +267,7 @@ src/Export.ui	f	2012-01-02T15:17:30Z
 src/ExportDlgImpl.cpp	f	2009-11-04T08:14:32Z
 src/ExportDlgImpl.h	f	2009-10-01T07:49:02Z
 src/ExternalTool.ui	f	2012-01-16T20:39:35Z
-src/ExternalToolDlgImpl.cpp	f	2012-01-25T21:45:14Z
+src/ExternalToolDlgImpl.cpp	f	2012-01-27T21:14:19Z
 src/ExternalToolDlgImpl.h	f	2012-01-17T22:23:05Z
 src/FileEnum.cpp	f	2009-10-13T10:05:02Z
 src/FileEnum.h	f	2009-10-13T10:05:02Z
@@ -296,7 +296,7 @@ src/LogModel.h	f	2009-05-06T07:30:16Z
 src/LyricsStream.cpp	f	2011-06-11T15:10:58Z
 src/LyricsStream.h	f	2009-10-10T09:56:52Z
 src/MainForm.ui	f	2011-07-30T12:34:43Z
-src/MainFormDlgImpl.cpp	f	2012-01-25T22:28:00Z
+src/MainFormDlgImpl.cpp	f	2012-01-27T21:09:48Z
 src/MainFormDlgImpl.h	f	2012-01-22T10:00:17Z
 src/Mp3Diags.qrc	f	2012-01-02T09:50:17Z
 src/Mp3Manip.cpp	f	2011-12-01T11:38:02Z

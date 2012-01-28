@@ -65,6 +65,8 @@ Stream list - streams that make up the current file
 
 Select a stream and press DEL to erase it
 
+Select a file and press DEL to erase it
+
 -----------------------------------
 
 Apply a single transformation.

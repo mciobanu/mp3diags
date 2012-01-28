@@ -42,8 +42,8 @@ doc/110_first_run.png	f	2009-11-04T17:25:35Z
 doc/110_first_run.xcf	f	2009-11-04T17:25:20Z
 doc/120_first_scan.png	f	2009-10-06T13:51:59Z
 doc/120_first_scan.xcf	f	2009-10-06T13:51:44Z
-doc/130_main_window.png	f	2009-10-06T14:39:05Z
-doc/130_main_window.xcf	f	2009-10-06T14:38:48Z
+doc/130_main_window.png	f	2012-01-28T15:39:49Z
+doc/130_main_window.xcf	f	2012-01-28T15:39:30Z
 doc/140_main_window_tools.png	f	2012-01-28T08:55:20Z
 doc/140_main_window_tools.xcf	f	2012-01-28T08:54:44Z
 doc/150_main_window_all_notes.png	f	2009-10-06T14:40:25Z
@@ -95,7 +95,7 @@ doc/310_export_btn.png	f	2009-10-07T13:48:19Z
 doc/310_sessions.png	f	2011-07-21T19:04:15Z
 doc/310_sessions.xcf	f	2011-07-21T19:03:53Z
 doc/310_sessions_btn.png	f	2009-05-14T07:37:29Z
-doc/BubbleText.txt	f	2012-01-28T08:54:34Z
+doc/BubbleText.txt	f	2012-01-28T15:35:16Z
 doc/Doc.01.odt	f	2009-05-11T04:58:53Z
 doc/arrow_left.png	f	2009-05-11T05:54:12Z
 doc/arrow_left.svg	f	2009-05-11T06:56:23Z
@@ -129,7 +129,7 @@ doc/html/110_first_run.png	f	2009-11-04T17:25:35Z
 doc/html/120_first_scan.html	f	2009-08-21T13:28:49Z
 doc/html/120_first_scan.png	f	2009-10-06T13:51:59Z
 doc/html/130_main_window.html	f	2009-10-07T07:37:37Z
-doc/html/130_main_window.png	f	2009-10-06T14:39:05Z
+doc/html/130_main_window.png	f	2012-01-28T15:39:49Z
 doc/html/140_main_window_tools.html	f	2012-01-28T09:04:12Z
 doc/html/140_main_window_tools.png	f	2012-01-28T08:55:20Z
 doc/html/145_transformations_list.html	f	2009-11-29T07:54:43Z
@@ -300,7 +300,7 @@ src/LogModel.h	f	2009-05-06T07:30:16Z
 src/LyricsStream.cpp	f	2011-06-11T15:10:58Z
 src/LyricsStream.h	f	2009-10-10T09:56:52Z
 src/MainForm.ui	f	2011-07-30T12:34:43Z
-src/MainFormDlgImpl.cpp	f	2012-01-28T09:59:27Z
+src/MainFormDlgImpl.cpp	f	2012-01-28T15:34:17Z
 src/MainFormDlgImpl.h	f	2012-01-22T10:00:17Z
 src/Mp3Diags.qrc	f	2012-01-02T09:50:17Z
 src/Mp3Manip.cpp	f	2011-12-01T11:38:02Z

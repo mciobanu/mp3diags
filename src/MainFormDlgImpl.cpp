@@ -2533,6 +2533,28 @@ public:
         transform(v, CURRENT);
         return true;
     }
+    else if (m_pFilesG == pObj && 0 != pKeyEvent && Qt::Key_Delete == nKey && QEvent::ShortcutOverride == pKeyEvent->type())
+    {
+        const deque<const Mp3Handler*>& vpSelHandlers (m_pCommonData->getSelHandlers());
+        if (askConfirm(vpSelHandlers, "Delete"))
+        {
+            for (int i = 0; i < cSize(vpSelHandlers); ++i)
+            {
+                try
+                {
+                    deleteFile(vpSelHandlers[i]->getName());
+                }
+                catch (const CannotDeleteFile&)
+                {
+                    QMessageBox::critical(this, "Error", convStr("Cannot delete file " + vpSelHandlers[i]->getName()));
+                    break;
+                }
+            }
+            reload(IGNORE_SEL, DONT_FORCE);
+        }
+
+        return true;
+    }
     else if (pObj == m_pFilesG)
     {
         //qDebug("type %d", pEvent->type());
@@ -3211,7 +3233,7 @@ void MainFormDlgImpl::showExternalTools()
             }
             //qDebug("ctrl=%d", eSubset);
 
-            if (info.m_bConfirmLaunch && !askConfirm(*pvpHandlers, info.m_strName))
+            if (info.m_bConfirmLaunch && !askConfirm(*pvpHandlers, "Run \"" + info.m_strName + "\" on"))
             {
                 return;
             }
@@ -3257,41 +3279,45 @@ void MainFormDlgImpl::showExternalTools()
 }
 
 
-bool MainFormDlgImpl::askConfirm(const deque<const Mp3Handler*>& vpHandlers, const string& strAction) //ttt0 adapt for "delete"
+bool MainFormDlgImpl::askConfirm(const deque<const Mp3Handler*>& vpHandlers, const string& strAction)
 {
-    QString qstrConf = "Run " + convStr(strAction) + " on";
-    if (vpHandlers.size() > 0)
+    if (vpHandlers.empty())
     {
-        qstrConf += "\n";
-        qstrConf += convStr(vpHandlers[0]->getShortName());
-        if (vpHandlers.size() > 1)
+        return false;
+    }
+
+    QString qstrConf = convStr(strAction);
+
+    qstrConf += " ";
+    qstrConf += convStr(vpHandlers[0]->getShortName());
+    if (vpHandlers.size() > 1)
+    {
+        if (vpHandlers.size() == 2)
         {
-            if (vpHandlers.size() == 2)
+            qstrConf += " and ";
+        }
+        else
+        {
+            qstrConf += ", ";
+        }
+        qstrConf += convStr(vpHandlers[1]->getShortName());
+        if (vpHandlers.size() > 2)
+        {
+            qstrConf += " and ";
+            if (vpHandlers.size() == 3)
             {
-                qstrConf += "\nand ";
+                qstrConf += convStr(vpHandlers[2]->getShortName());
             }
             else
             {
-                qstrConf += ",\n";
-            }
-            qstrConf += convStr(vpHandlers[1]->getShortName());
-            if (vpHandlers.size() > 2)
-            {
-                qstrConf += "\nand ";
-                if (vpHandlers.size() == 3)
-                {
-                    qstrConf += convStr(vpHandlers[2]->getShortName());
-                }
-                else
-                {
-                    qstrConf += QString().sprintf("%d other files", (int)vpHandlers.size() - 2);
-                }
+                qstrConf += QString().sprintf("%d other files", (int)vpHandlers.size() - 2);
             }
         }
     }
-    qstrConf += " ?";
 
-    QMessageBox::StandardButton res (QMessageBox::question(this, "Confirmation", qstrConf, QMessageBox::Yes | QMessageBox::No));
+    qstrConf += "?";
+
+    QMessageBox::StandardButton res (QMessageBox::question(this, "Confirmation", qstrConf, QMessageBox::Yes | QMessageBox::No, QMessageBox::No));
     return QMessageBox::Yes == res;
 }
 
@@ -3432,4 +3458,3 @@ Development machine:
 
 //ttt0 link from stable to unstable in doc. perhaps also have a notification popup
 
-//ttt0 delete files on right-click / DEL

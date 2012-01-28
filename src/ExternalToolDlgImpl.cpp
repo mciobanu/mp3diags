@@ -277,7 +277,7 @@ void ExternalToolDlgImpl::on_m_pCloseB_clicked()
 {
     if (!m_bFinished)
     {
-        QMessageBox::warning(this, "Warning", "Cannot close while the normalization is running.");
+        QMessageBox::warning(this, "Warning", convStr("Cannot close while \"" + m_strCommandName + "\" is running."));
         return;
     }
     accept();
@@ -293,7 +293,7 @@ qDebug("proc state %d", int(m_pProc->state()));
         return;
     }
 
-    if (0 == showMessage(this, QMessageBox::Warning, 1, 1, "Confirm", "Stopping normalization may leave the files in an inconsistent state or may prevent temporary files from being deleted. Are you sure you want to abort the normalization?", "Yes, abort", "Don't abort"))
+    if (0 == showMessage(this, QMessageBox::Warning, 1, 1, "Confirm", convStr("Stopping \"" + m_strCommandName + "\" may leave the files in an inconsistent state or may prevent temporary files from being deleted. Are you sure you want to abort " + m_strCommandName + "?"), "Yes, abort", "Don't abort"))
     {
         CursorOverrider crs;
         m_pProc->kill();

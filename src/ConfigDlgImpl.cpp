@@ -1252,7 +1252,7 @@ void ConfigDlgImpl::onHelp()
     case 5: openHelp("295_config_quality.html"); break;
     case 6: openHelp("297_config_colors.html"); break;
     case 7: openHelp("298_config_shell.html"); break;
-        //ttt0
+    case 8: openHelp("299_ext_tools.html"); break;
     case 9: openHelp("300_config_others.html"); break;
     //tttr revise as needed
 
@@ -1515,7 +1515,7 @@ void ConfigDlgImpl::resizeWidgets()
 
 void ConfigDlgImpl::tableToEdit()
 {
-    QModelIndex ndx (m_pExternalToolsG->currentIndex());
+    QModelIndex ndx (m_pExternalToolsG->currentIndex()); //ttt2 perhaps don't allow the current element to be changed as long as m_bExtToolChanged==true; or better: get rid of the other controls and just use edits and combo boxes in the table, then allow dragging of the cells in the vertical header to rearrange the tools
     int i (ndx.row());
     if (ndx.isValid() && i < cSize(m_vExternalToolInfos))
     {
@@ -1535,6 +1535,7 @@ void ConfigDlgImpl::tableToEdit()
         m_pExtToolNameE->setText("");
         m_pExtToolCmdE->setText("");
         m_pExtToolConfirmLaunchCkB->setChecked(true);
+        m_pExtToolDontWaitRB->setChecked(true);
     }
     m_bExtToolChanged = false;
 }
@@ -1610,6 +1611,10 @@ void ConfigDlgImpl::on_m_pMainTabWidget_currentChanged(int /*nIndex*/)
         if (!m_vExternalToolInfos.empty())
         {
             m_pExternalToolsG->setCurrentIndex(m_pExternalToolsModel->index(0, 0)); // this will trigger tableToEdit();
+        }
+        else
+        {
+            tableToEdit();
         }
     }
 }

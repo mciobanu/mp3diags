@@ -476,7 +476,7 @@ const char* getCaseAsStr(TextCaseOptions e)
     }
 }
 
-/*static*/ char ExternalToolInfo::s_cSeparator = ':';
+/*static*/ char ExternalToolInfo::s_cSeparator = '|';
 
 ExternalToolInfo::ExternalToolInfo(const string& strSerValue)
 {

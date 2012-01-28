@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="keywords" content="MP3, diags, diagnosis, tag editor, tagger, normalizer" />
+<meta name="description" content="End-user documentation for MP3 Diags, an MP3 analysis tool that also includes correction and tag editing functionality" />
+<title>MP3 Diags - Config - External tools</title>
+<link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+<!--[if lte IE 6]>  <link rel="stylesheet" type="text/css" href="style_ie6.css" />  <![endif]-->
+<!--[if IE 7]>  <link rel="stylesheet" type="text/css" href="style_ie7.css" />  <![endif]-->
+</head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+<body>
+
+<!-- add_this_conf -->
+
+<div class="HeaderTableText RegFnt ChpCol2">
+<table width="100%" class="HeaderTable">
+    <tr>
+        <td border="0" class="HeaderText">
+            <span class="HeaderPadLeft">
+                <a href="index.html" class="RightMargin"><img src="logo.png" border="0" alt="MP3 Diags" align="middle" /></a>
+                <!-- add_this_link -->
+            </span>
+        </td>
+
+        <!-- sf_hosting -->
+    </tr>
+</table>
+</div>
+
+
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+
+
+
+
+<div class="NavPadTable RegFnt ChpCol1">
+<div style="width:100%">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="NavTable">
+    <tr>
+        <td width="30%" align="left"> <a href="298_config_shell.html"><img src="arrow_left_small.png" class="ImgNoBorder NavPadLeft" align="absmiddle" /></a> <a href="298_config_shell.html"> Config - Shell integration </a> </td>
+        <td width="40%" align="center" valign="middle" class="NavBarText"> <a href="030_users_guide.html">User's guide</a> - Config - External tools </td>
+        <td width="30%" align="right"> <a href="300_config_others.html"> Config - Others</a> <a href="300_config_others.html"> <img src="arrow_right_small.png" class="ImgNoBorder NavPadRight" align="absmiddle" /> </a> </td>
+    </tr>
+</table>
+</div>
+</div>
+
+
+<div class="FreeNormalText RegFnt ChpCol2">
+Click on <img src="configure.png" /> in the <a href="130_main_window.html">main window</a> to open this window.
+</div>
+
+
+<div class="Screenshot RegFnt ChpCol1">
+<img src="299_ext_tools.png" />
+</div>
+
+
+<div class="FreeNormalText RegFnt ChpCol2">
+Here you can define some external tools, which you can invoke by right-clicking on files in the <a href="140_main_window_tools.html">main window</a>.
+</div>
+
+
+<div class="SubChapterText RegFnt ChpCol1">
+Fields
+</div>
+
+
+<div class="FreeNormalText RegFnt ChpCol1">
+<table border="1" cellpadding="3" cellspacing="1" class="TableText RegFnt ChpCol1">
+    <tr>
+        <td> Name </td>
+        <td> The user-recognizable menu entry that appears when right-clicking on a file. Each tool should have a unique name, but this is not enforced. </td>
+    </tr>
+    <tr>
+        <td> Command </td>
+        <td>
+            The actual command that it is going to be executed. The names of the selected files will be added at the end. This doesn't cover directly all the use cases for launching an external tool. For example, if you selected several files, you might want to launch the command repeatedly for one file at a time, rather than all at once, perhaps waiting a little between launches, maybe abandoning processing if encountering an error. Or you need to add some parameters after the file names. For these and similar things you should write a script in your favorite scripting language and here pass the name of your script.<br/><br/>
+
+            To use command names and parameters that contain spaces, they should be enclosed in double quotes. There is an heuristic that allows the name of the executable to contain spaces and still be recognized without being enclosed in double quotes, but this is best avoided.
+        </td>
+    </tr>
+    <tr>
+        <td> Wait </td>
+        <td> Whether MP3 Diags should wait for the external tool to complete. <b>You should probably set this set to "Don't wait"</b>, the main reason being that detecting that the external tool finished isn't very reliable. There have been cases when the normalizer hung after completion (and the normalizer is treated as an external tool which MP3 Diags waits for to finish). Another reason is that if you choose to wait, then you cannot interact with MP3 Diags until the external tool exits.</td>
+    </tr>
+    <tr>
+        <td> Confirm launch </td>
+        <td> Check this if you should be asked for confirmation before actually launching the external tool. </td>
+    </tr>
+</table>
+</div>
+
+
+
+<div class="NavPadTable RegFnt ChpCol2">
+<div style="width:100%">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="NavTable">
+    <tr>
+        <td width="30%" align="left"> <a href="298_config_shell.html"><img src="arrow_left_small.png" class="ImgNoBorder NavPadLeft" align="absmiddle" /></a> <a href="298_config_shell.html"> Config - Shell integration </a> </td>
+        <td width="40%" align="center" valign="middle" class="NavBarText"> <a href="030_users_guide.html">User's guide</a> - Config - External tools </td>
+        <td width="30%" align="right"> <a href="300_config_others.html"> Config - Others</a> <a href="300_config_others.html"> <img src="arrow_right_small.png" class="ImgNoBorder NavPadRight" align="absmiddle" /> </a> </td>
+    </tr>
+</table>
+</div>
+</div>
+
+
+
+<!--QQQStatCounterQQQ-->
+
+</body>
+
+</html>
+

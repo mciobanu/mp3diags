@@ -3169,6 +3169,10 @@ void MainFormDlgImpl::showExternalTools()
     menu.addAction(pAct);
     vpAct.push_back(pAct);
 
+    if (!m_pCommonData->m_vExternalToolInfos.empty())
+    {
+        menu.addSeparator();
+    }
     for (int i = 0; i < cSize(m_pCommonData->m_vExternalToolInfos); ++i)
     {
         QAction* pAct (new QAction(convStr(m_pCommonData->m_vExternalToolInfos[i].m_strName), &menu));
@@ -3185,8 +3189,12 @@ void MainFormDlgImpl::showExternalTools()
         {
             CB_ASSERT (0 != m_pCommonData->getCrtMp3Handler());
             QString qstrDir (convStr(m_pCommonData->getCrtMp3Handler()->getDir()));
-            qstrDir = QDir::toNativeSeparators(qstrDir);
-            QDesktopServices::openUrl(QUrl("file://" + qstrDir));
+#if defined(WIN32) || defined(__OS2__)
+            //qstrDir = QDir::toNativeSeparators(qstrDir);
+            QDesktopServices::openUrl(QUrl("file:///" + qstrDir, QUrl::TolerantMode));
+#else
+            QDesktopServices::openUrl(QUrl("file://" + qstrDir, QUrl::TolerantMode));
+#endif
         }
         else
         { // ttt1 copied from void MainFormDlgImpl::transform(std::vector<Transformation*>& vpTransf, Subset eSubset)
@@ -3218,7 +3226,7 @@ void MainFormDlgImpl::showExternalTools()
             case ExternalToolInfo::WAIT_AND_KEEP_WINDOW_OPEN:
             case ExternalToolInfo::WAIT_THEN_CLOSE_WINDOW:
                 {
-                    ExternalToolDlgImpl dlg (this, info.m_eLaunchOption == ExternalToolInfo::WAIT_AND_KEEP_WINDOW_OPEN, m_settings, m_pCommonData, info.m_strName, "ttt0");
+                    ExternalToolDlgImpl dlg (this, info.m_eLaunchOption == ExternalToolInfo::WAIT_AND_KEEP_WINDOW_OPEN, m_settings, m_pCommonData, info.m_strName, "299_ext_tools.html");
                     dlg.run(convStr(info.m_strCommand), lFiles);
                 }
                 break;

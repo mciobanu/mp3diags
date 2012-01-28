@@ -88,6 +88,10 @@ Open configuration dialog
 Hover to see what a note means. Right-click to get a list with possible fixes.
 
 
+Right-click on a file name to open the folder it is located in or to launch an external tool for all selected files.
+
+Press CTRL when clicking on the menu to have the external tool launch for all the visible files, regardless of their selection status.
+
 -----------------------------------
 
 To view all the notes associated with your files, click on the "All notes" button.
@@ -255,7 +259,6 @@ Also used for composers
 The visible transformations are listed in the same order as they appear when you click the single transformation button. Drag the row headers up and down to change that order.
 
 -----------------------------------
-
 
 
 -----------------------------------

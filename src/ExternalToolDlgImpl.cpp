@@ -148,7 +148,7 @@ void logTransformation(const string& strLogFile, const char* szActionName, const
     else
     {
         int k (1);
-        for (; k < qstrCommand.size() && (qstrCommand[k - 1] != ' '  || (qstrCommand[k] != '-' && qstrCommand[k] != '/')); ++k) {} //ttt2 perhaps better: look for spaces from the end and stop when a dir exists from the beginning of the name till the current space //ttt0 or allow double quotes to indicate what goes together
+        for (; k < qstrCommand.size() && (qstrCommand[k - 1] != ' '  || (qstrCommand[k] != '-' && qstrCommand[k] != '/')); ++k) {} //ttt2 perhaps better: look for spaces from the end and stop when a dir exists from the beginning of the name till the current space
         qstrProg = qstrCommand.left(k).trimmed();
         QString qstrArg (qstrCommand.right(qstrCommand.size() - k).trimmed());
         //qDebug("prg <%s>  arg <%s>", qstrProg.toUtf8().constData(), qstrArg.toUtf8().constData());

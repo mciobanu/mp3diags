@@ -217,6 +217,28 @@ public:
 };
 
 
+class ApeRemover : public GenericRemover
+{
+    /*override*/ bool matches(DataStream* p) const;
+public:
+    /*override*/ const char* getActionName() const { return getClassName(); }
+    /*override*/ const char* getDescription() const { return "Removes all APE streams."; }
+
+    static const char* getClassName() { return "Remove all APE streams"; }
+};
+
+
+class NonAudioRemover : public GenericRemover
+{
+    /*override*/ bool matches(DataStream* p) const;
+public:
+    /*override*/ const char* getActionName() const { return getClassName(); }
+    /*override*/ const char* getDescription() const { return "Removes all non-audio streams."; }
+
+    static const char* getClassName() { return "Remove all non-audio streams"; }
+};
+
+
 //===================================================================================================================
 
 

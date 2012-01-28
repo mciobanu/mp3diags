@@ -132,7 +132,7 @@ doc/html/130_main_window.html	f	2009-10-07T07:37:37Z
 doc/html/130_main_window.png	f	2012-01-28T15:39:49Z
 doc/html/140_main_window_tools.html	f	2012-01-28T09:04:12Z
 doc/html/140_main_window_tools.png	f	2012-01-28T08:55:20Z
-doc/html/145_transformations_list.html	f	2009-11-29T07:54:43Z
+doc/html/145_transformations_list.html	f	2012-01-28T19:57:22Z
 doc/html/150_main_window_all_notes.html	f	2009-11-29T07:57:36Z
 doc/html/150_main_window_all_notes.png	f	2009-10-06T14:40:25Z
 doc/html/160_main_window_tag_details.html	f	2009-11-29T08:40:41Z
@@ -247,7 +247,7 @@ src/CheckedDir.cpp	f	2009-12-10T21:03:20Z
 src/CheckedDir.h	f	2009-05-06T07:28:09Z
 src/ColumnResizer.cpp	f	2009-10-13T09:17:10Z
 src/ColumnResizer.h	f	2009-05-06T07:28:19Z
-src/CommonData.cpp	f	2012-01-01T22:09:58Z
+src/CommonData.cpp	f	2012-01-28T19:40:35Z
 src/CommonData.h	f	2012-01-22T09:43:39Z
 src/CommonTypes.cpp	f	2012-01-28T10:13:38Z
 src/CommonTypes.h	f	2012-01-26T22:10:05Z
@@ -271,7 +271,7 @@ src/Export.ui	f	2012-01-02T15:17:30Z
 src/ExportDlgImpl.cpp	f	2009-11-04T08:14:32Z
 src/ExportDlgImpl.h	f	2009-10-01T07:49:02Z
 src/ExternalTool.ui	f	2012-01-16T20:39:35Z
-src/ExternalToolDlgImpl.cpp	f	2012-01-28T08:20:53Z
+src/ExternalToolDlgImpl.cpp	f	2012-01-28T20:01:09Z
 src/ExternalToolDlgImpl.h	f	2012-01-17T22:23:05Z
 src/FileEnum.cpp	f	2009-10-13T10:05:02Z
 src/FileEnum.h	f	2009-10-13T10:05:02Z
@@ -300,7 +300,7 @@ src/LogModel.h	f	2009-05-06T07:30:16Z
 src/LyricsStream.cpp	f	2011-06-11T15:10:58Z
 src/LyricsStream.h	f	2009-10-10T09:56:52Z
 src/MainForm.ui	f	2011-07-30T12:34:43Z
-src/MainFormDlgImpl.cpp	f	2012-01-28T15:34:17Z
+src/MainFormDlgImpl.cpp	f	2012-01-28T19:46:52Z
 src/MainFormDlgImpl.h	f	2012-01-22T10:00:17Z
 src/Mp3Diags.qrc	f	2012-01-02T09:50:17Z
 src/Mp3Manip.cpp	f	2011-12-01T11:38:02Z
@@ -349,8 +349,8 @@ src/StoredSettings.cpp	f	2012-01-25T22:17:31Z
 src/StoredSettings.h	f	2012-01-16T21:07:42Z
 src/StreamsModel.cpp	f	2009-10-13T12:02:58Z
 src/StreamsModel.h	f	2009-05-06T07:32:41Z
-src/StructuralTransformation.cpp	f	2010-12-07T21:32:17Z
-src/StructuralTransformation.h	f	2010-12-20T18:45:49Z
+src/StructuralTransformation.cpp	f	2012-01-28T19:41:36Z
+src/StructuralTransformation.h	f	2012-01-28T19:46:14Z
 src/TagEditor.ui	f	2012-01-02T10:05:18Z
 src/TagEditorDlgImpl.cpp	f	2012-01-02T10:40:33Z
 src/TagEditorDlgImpl.h	f	2012-01-02T10:06:40Z

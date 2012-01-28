@@ -164,6 +164,14 @@ These are the transformations that are currently part of MP3 Diags (note that so
         <td> Removes all ID3V1 streams. </td>
     </tr>
     <tr>
+        <td> Remove all APE streams </td>
+        <td> Removes all APE streams. </td>
+    </tr>
+    <tr>
+        <td> Remove all non-audio streams </td>
+        <td> Removes all non-audio streams, including Xing and LAME headers. You might want to use this if you want to start clean or if you plan to concatenate several files. In the latter case it's probably a good idea to run "Pad truncated audio" as well, but you should test it in your environment.</td>
+    </tr>
+    <tr>
         <td> Reserve space in ID3V2 for fast tag editing </td>
         <td> Adds extra spacing to the ID3V2 tag. This allows subsequent saving from the tag editor to complete quicker. </td>
     </tr>

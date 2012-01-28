@@ -667,6 +667,9 @@ CommonData::CommonData(
     m_vpAllTransf.push_back(new Id3V1ToId3V2Copier(this));
     m_vpAllTransf.push_back(new Id3V1Remover());
 
+    m_vpAllTransf.push_back(new ApeRemover());
+    m_vpAllTransf.push_back(new NonAudioRemover());
+
     m_vpAllTransf.push_back(new Id3V2Expander(this));
     m_vpAllTransf.push_back(new Id3V2Compactor(this));
 

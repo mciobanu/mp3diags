@@ -3450,9 +3450,6 @@ Development machine:
 
 //ttt1 warn when folders are missing (perhaps as network drives are not mounted, usb sticks not inserted, ...), to avoid erasing the database
 
-//ttt0 transf "remove non-audio" to get rid of everything non-audio, including Xing; could be used for appending files, in combination with 0-padding
-
-//ttt0 remove APE
 
 //ttt0 scripting: http://mp3diags.blogspot.com/2011/12/new-discogs-api-and-various-fixes-in.html
 

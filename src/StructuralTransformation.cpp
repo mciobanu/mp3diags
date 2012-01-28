@@ -27,6 +27,7 @@
 #include  "MpegStream.h"
 #include  "Id3V230Stream.h"
 #include  "Id3V240Stream.h"
+#include  "ApeStream.h"
 
 
 using namespace std;
@@ -495,6 +496,20 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
 {
     Id3V1Stream* p (dynamic_cast<Id3V1Stream*>(pDataStream));
     return 0 != p;
+}
+
+
+/*override*/ bool ApeRemover::matches(DataStream* pDataStream) const
+{
+    ApeStream* p (dynamic_cast<ApeStream*>(pDataStream));
+    return 0 != p;
+}
+
+
+/*override*/ bool NonAudioRemover::matches(DataStream* pDataStream) const
+{
+    MpegStream* p (dynamic_cast<MpegStream*>(pDataStream));
+    return 0 == p;
 }
 
 

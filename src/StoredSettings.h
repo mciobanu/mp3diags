@@ -93,7 +93,7 @@ public:
     std::vector<std::string> loadVector(const std::string& strPath, bool& bErr) const; // allows empty entries, but stops at the first missing entry, in which case sets bErr
 
     void saveMiscConfigSettings(const CommonData*);
-    void loadMiscConfigSettings(CommonData*) const;
+    void loadMiscConfigSettings(CommonData*, bool bInitGui = true) const;
 
     void saveDbDirty(bool bDirty);
     void loadDbDirty(bool& bDirty);

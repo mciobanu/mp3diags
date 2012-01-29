@@ -236,7 +236,7 @@ package/rpm/MP3Diags-Mandriva_2009.1.spec	f	2011-05-30T20:15:40Z
 package/rpm/MP3Diags.spec	f	2011-08-01T18:25:53Z
 package/sourceforge/linux_downloads.html	f	2009-06-10T07:26:41Z
 src/About.ui	f	2011-06-15T19:56:47Z
-src/AboutDlgImpl.cpp	f	2012-01-03T22:28:24Z
+src/AboutDlgImpl.cpp	f	2012-01-28T20:39:33Z
 src/AboutDlgImpl.h	f	2009-07-17T15:02:37Z
 src/AlbumInfoDownloader.ui	f	2012-01-02T15:14:52Z
 src/AlbumInfoDownloaderDlgImpl.cpp	f	2011-07-31T21:42:28Z
@@ -247,7 +247,7 @@ src/CheckedDir.cpp	f	2009-12-10T21:03:20Z
 src/CheckedDir.h	f	2009-05-06T07:28:09Z
 src/ColumnResizer.cpp	f	2009-10-13T09:17:10Z
 src/ColumnResizer.h	f	2009-05-06T07:28:19Z
-src/CommonData.cpp	f	2012-01-28T19:40:35Z
+src/CommonData.cpp	f	2012-01-29T10:03:24Z
 src/CommonData.h	f	2012-01-22T09:43:39Z
 src/CommonTypes.cpp	f	2012-01-28T10:13:38Z
 src/CommonTypes.h	f	2012-01-26T22:10:05Z
@@ -305,7 +305,7 @@ src/MainFormDlgImpl.h	f	2012-01-22T10:00:17Z
 src/Mp3Diags.qrc	f	2012-01-02T09:50:17Z
 src/Mp3Manip.cpp	f	2011-12-01T11:38:02Z
 src/Mp3Manip.h	f	2011-06-15T18:19:28Z
-src/Mp3TransformThread.cpp	f	2011-07-31T17:40:02Z
+src/Mp3TransformThread.cpp	f	2012-01-29T11:19:35Z
 src/Mp3TransformThread.h	f	2009-05-06T07:30:48Z
 src/MpegFrame.cpp	f	2011-06-11T15:14:33Z
 src/MpegFrame.h	f	2010-12-05T10:25:54Z
@@ -337,7 +337,7 @@ src/ScanDlgImpl.h	f	2009-07-17T15:02:37Z
 src/SerSupport.cpp	f	2012-01-01T22:30:41Z
 src/SerSupport.h	f	2009-05-06T07:27:31Z
 src/SessionEditor.ui	f	2012-01-02T15:23:22Z
-src/SessionEditorDlgImpl.cpp	f	2011-06-26T21:05:32Z
+src/SessionEditorDlgImpl.cpp	f	2012-01-29T08:14:17Z
 src/SessionEditorDlgImpl.h	f	2011-06-26T20:58:33Z
 src/Sessions.ui	f	2011-07-21T18:45:10Z
 src/SessionsDlgImpl.cpp	f	2011-07-18T19:01:23Z
@@ -346,7 +346,7 @@ src/SimpleSaxHandler.h	f	2009-10-13T12:02:58Z
 src/SongInfoParser.cpp	f	2011-06-11T15:18:40Z
 src/SongInfoParser.h	f	2009-09-11T14:47:51Z
 src/StoredSettings.cpp	f	2012-01-25T22:17:31Z
-src/StoredSettings.h	f	2012-01-16T21:07:42Z
+src/StoredSettings.h	f	2012-01-29T10:03:56Z
 src/StreamsModel.cpp	f	2009-10-13T12:02:58Z
 src/StreamsModel.h	f	2009-05-06T07:32:41Z
 src/StructuralTransformation.cpp	f	2012-01-28T19:41:36Z
@@ -434,7 +434,7 @@ src/licences/gplv3.txt	f	2008-11-14T09:24:29Z
 src/licences/lgpl-2.1.txt	f	2009-05-14T11:38:15Z
 src/licences/lgplv3.txt	f	2008-11-14T09:24:41Z
 src/licences/zlib.txt	f	2009-05-14T11:42:40Z
-src/main.cpp	f	2011-08-08T18:41:13Z
+src/main.cpp	f	2012-01-29T14:59:11Z
 src/src.pro	f	2012-01-26T21:57:41Z
 templates/cpp	f	2009-05-06T07:21:29Z
 templates/h	f	2009-05-06T07:21:39Z

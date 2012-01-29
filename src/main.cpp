@@ -51,6 +51,8 @@
 #include  "Notes.h"
 #include  "Version.h"
 #include  "Widgets.h"
+#include  "CommonData.h"
+#include  "ConfigDlgImpl.h"
 
 
 //#include  "Profiler.h"
@@ -230,6 +232,9 @@ OptionInfo s_inputFileOpt ("input-file", "", "Input file");
 OptionInfo s_hiddenFolderSessOpt ("hidden-session", "f", "Creates a new session for the specified folder and stores it inside that folder. The session will be hidden when the program exits.");
 OptionInfo s_loadedFolderSessOpt ("visible-session", "v", "Creates a new session for the specified folder and stores it inside that folder. The session will be visible in the session list after the program is restarted.");
 OptionInfo s_tempSessOpt ("temp-session", "t", "Creates a temporary session for the specified folder, which will be deleted when the program exits");
+OptionInfo s_transfListOpt ("transf-list", "l", "A number between 1 and 4. Applies the specified custom transformation list to the files and/or folders passed"); //ttt1 use CUSTOM_TRANSF_CNT instead of 4
+OptionInfo s_sessionOpt ("session", "w", "Session file name");
+
 OptionInfo s_overrideSess ("", "", ""); // ttt1 maybe implement - for s_folderSessOpt and s_tempSessOpt (and s_inputFileOpt) - session with settings to use instead of the template
 
 
@@ -296,6 +301,24 @@ struct SessEraser
 
 //ttt0 in 10.3 loading a session seemed to erase the templates, but couldn't reproduce later
 
+string getActiveSession(const po::variables_map& options, int& nSessCnt, bool& bOpenLast, string& strTempSessTempl, string& strDirSessTempl)
+{
+    string strRes;
+    vector<string> vstrSess;
+    //string strLast;
+    GlobalSettings st;
+
+    st.loadSessions(vstrSess, strRes, bOpenLast, strTempSessTempl, strDirSessTempl);
+    nSessCnt = cSize(vstrSess);
+
+    if (options.count(s_sessionOpt.m_szLongOpt) > 0)
+    {
+        strRes = options[s_sessionOpt.m_szLongOpt].as<string>();
+    }
+
+    return strRes;
+}
+
 
 // http://stackoverflow.com/questions/760323/why-does-my-qt4-5-app-open-a-console-window-under-windows - The option under Visual Studio for setting the subsystem is under Project Settings->Linker->System->SubSystem
 
@@ -334,13 +357,7 @@ int guiMain(const po::variables_map& options) {
 
     SessEraser sessEraser;
 
-    {
-        vector<string> vstrSess;
-        //string strLast;
-        GlobalSettings st;
-        st.loadSessions(vstrSess, strLastSession, bOpenLast, strTempSessTempl, strDirSessTempl);
-        nSessCnt = cSize(vstrSess);
-    }
+    strLastSession = getActiveSession(options, nSessCnt, bOpenLast, strTempSessTempl, strDirSessTempl);
 
     bool bOpenSelDlg (false);
 
@@ -646,7 +663,7 @@ public:
 
 void noMessageOutput(QtMsgType, const char*) { }
 
-
+void runTransfList(const string& strSessFile, int nTransfList, const vector<string>& vstrNames);
 
 int cmdlineMain(const po::variables_map& options)
 {
@@ -666,12 +683,15 @@ int cmdlineMain(const po::variables_map& options)
     const vector<string> inputFiles = options[s_inputFileOpt.m_szLongOpt].as< vector<string> >();
 
     Note::Severity minLevel (Note::WARNING);
-    try
+    if (options.count(s_severityOpt.m_szLongOpt) > 0)
     {
-        minLevel = options[s_severityOpt.m_szLongOpt].as<Note::Severity>(); //ttt2 see how to use default params in cmdlineDesc.add_options()
-    }
-    catch (...)
-    { // nothing
+        try
+        {
+            minLevel = options[s_severityOpt.m_szLongOpt].as<Note::Severity>(); //ttt2 see how to use default params in cmdlineDesc.add_options()
+        }
+        catch (...)
+        { // nothing
+        }
     }
 
     // In cmdline mode, we want to make sure the user only sees our
@@ -679,6 +699,26 @@ int cmdlineMain(const po::variables_map& options)
     // places in the program.
     qInstallMsgHandler(noMessageOutput);
 
+    if (options.count(s_transfListOpt.m_szLongOpt) > 0)
+    {
+        int nSessCnt;
+        bool bOpenLast;
+        string strTempSessTempl;
+        string strDirSessTempl;
+
+        string strSess (getActiveSession(options, nSessCnt, bOpenLast, strTempSessTempl, strDirSessTempl));
+
+        int nTransfList (options[s_transfListOpt.m_szLongOpt].as<int>());
+        if (nTransfList < 1 || nTransfList > CUSTOM_TRANSF_CNT)
+        {
+            cerr << "Transformation list must be a number between 1 and " << CUSTOM_TRANSF_CNT << endl;
+            return 1;
+        }
+
+        runTransfList(strSess, nTransfList, inputFiles);
+
+        return 0;
+    }
 
     // ttt2 For now, we always use the default quality thresholds; however,
     // it certainly would make sense to load those from the last session,
@@ -714,6 +754,13 @@ static void validate(boost::any& v, vector<string> const& values, Note::Severity
 
 int main(int argc, char *argv[])
 {
+    //ifstream_unicode in ("/home/ciobi/cpp/Mp3Utils/mp3diags/trunk/mp3diags/src/2/testä.txt");
+    /*ifstream_unicode in ("/home/ciobi/cpp/Mp3Utils/mp3diags/trunk/mp3diags/src/2/test_.txt");
+    string s;
+    getline(in, s);
+    cout << s;
+    return 4;//*/
+
 //char *argv[] = {"aa", "-s", "support", "pppqqq"}; argc = 4;
 //char *argv[] = {"aa", "pppqqq"}; argc = 2;
 //char *argv[] = {"aa", "/d/test_mp3/1/tmp2/c pic/vbri assertion.mp3"}; argc = 2;
@@ -750,6 +797,7 @@ int main(int argc, char *argv[])
     genericDesc.add_options()
         (s_helpOpt.m_szFullOpt, s_helpOpt.m_szDescr)
         (s_uninstOpt.m_szFullOpt, s_uninstOpt.m_szDescr)
+        (s_sessionOpt.m_szFullOpt, po::value<int>(), s_sessionOpt.m_szDescr)
     ;
 
     po::options_description cmdlineDesc ("Commandline mode");
@@ -758,6 +806,7 @@ int main(int argc, char *argv[])
         //("severity,s", po::value<Note::Severity>()->default_value(Note::WARNING), "minimum severity to show (one of error, warning, support); default: warning") //ttt1 see if this can be made to work; it sort of does, but when invoked with "--help" it prints "arg (=1)" rather than "arg (=warning)"
         (s_severityOpt.m_szFullOpt, po::value<Note::Severity>(), s_severityOpt.m_szDescr)
         //("severity,s", "minimum severity to show (one of error, warning, support")
+        (s_transfListOpt.m_szFullOpt, po::value<int>(), s_transfListOpt.m_szDescr)
     ;
 
     po::options_description folderSessDesc ("New, per-folder, session mode");
@@ -800,8 +849,14 @@ int main(int argc, char *argv[])
         po::store(po::command_line_parser(argc, argv).style(style).options(fullDesc).positional(positionalDesc).run(), options);
         po::notify(options);
     }
+    catch (const exception& ex)
+    {
+        cerr << ex.what() << endl;
+        err = true;
+    }
     catch (...)//const po::unknown_option&)
     {
+        cerr << "unknown exception" << endl;
         err = true;
     }
 
@@ -897,13 +952,100 @@ WARNING: it is ignored, until you registered a Category at adrian@suse.de .
 //ttt1 CLI-support: scan some files, create logs, apply some transforms, ...
 
 //ttt1 explorer right-click; create a new session vs. add to existing one
-//ttt0 make AdjustMt.sh work
+//ttt0 perhaps look at building Boost serialization, so it can be statically linked
 
 //ttt0 config screenshots need "shell" tab
-//ttt0 "shell" tab has smaller font
+//ttt0 "shell" tab has smaller font in screenshots
 
 //ttt0 look at running multiple instances concurrently / exit when second starts
 
 //ttt1 Windows changelog should use \n\r (probably by replacing "copy /y changelog.txt bin\\changelog.txt" in BuildMp3Diags.hta with something that reads the file line by line
 
 //ttt0 does TIFF cover art work? On Windows?
+
+//ttt2 non-utf8 file in /d/test_mp3/1/tmp2/crt_test/martin/dj not showing (reason: ListEnumerator::ListEnumerator calls QDir::entryInfoList(), which simply doesn't include the file, probably because its name is not UTF-8)
+
+
+namespace {
+
+
+void loadCustomTransf(CommonData& commonData, SessionSettings& settings, int k) // ttt1 unify with MainFormDlgImpl::loadCustomTransf() - perhaps make it member of SessionSettings
+{
+    char bfr [50];
+    sprintf(bfr, "customTransf/set%04d", k);
+    //vector<string> vstrNames (m_settings.loadCustomTransf(k));
+    bool bErr;
+    vector<string> vstrNames (settings.loadVector(bfr, bErr));
+    vector<int> v;
+    const vector<Transformation*>& u (commonData.getAllTransf());
+    int m (cSize(u));
+    for (int i = 0, n = cSize(vstrNames); i < n; ++i)
+    {
+        string strName (vstrNames[i]);
+        int j (0);
+        for (; j < m; ++j)
+        {
+            if (u[j]->getActionName() == strName)
+            {
+                v.push_back(j);
+                break;
+            }
+        }
+
+        if (j == m)
+        {
+            //QMessageBox::warning(this, "Error setting up custom transformations", "Couldn't find a transformation with the name \"" + convStr(strName) + "\". The program will proceed, but you should review the custom transformations lists.");
+            cerr << "Error setting up custom transformations: " << "Couldn't find a transformation with the name \"" + strName + "\". The program will proceed, but you should review the custom transformations lists." << endl;
+        }
+    }
+
+
+    if (v.empty())
+    {
+        vector<vector<int> > vv (CUSTOM_TRANSF_CNT);
+        initDefaultCustomTransf(k, vv, &commonData);
+        v = vv[k];
+    }
+
+    commonData.setCustomTransf(k, v);
+}
+
+
+vector<string> getFileNames(const vector<string>& vstrNames)
+{
+    vector<string> v;
+    return v;
+}
+
+
+void runTransfList(const string& strSessFile, int nTransfList, const vector<string>& vstrNames)
+{
+    SessionSettings settings (strSessFile);
+    CommonData commonData (settings, 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
+    settings.loadMiscConfigSettings(&commonData, false);
+
+    TransfConfig transfConfig;
+    settings.loadTransfConfig(transfConfig);
+
+    for (int i = 0; i < CUSTOM_TRANSF_CNT; ++i)
+    {
+        loadCustomTransf(commonData, settings, i);
+    }
+
+    vector<Transformation*> vTransf;
+
+    for (int i = 0, n = cSize(commonData.getCustomTransf()[nTransfList]); i < n; ++i)
+    {
+        vTransf.push_back(commonData.getAllTransf()[commonData.getCustomTransf()[nTransfList][i]]);
+    }
+
+    vector<string> vstrFileNames (getFileNames(vstrNames));
+    for (int i = 0; i < cSize(vstrFileNames); ++i)
+    {
+
+    }
+
+    cout << commonData.m_bKeepOneValidImg << endl;
+}
+
+}

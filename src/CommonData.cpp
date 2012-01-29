@@ -274,7 +274,7 @@ static bool isWhite(const QColor& c)
 }
 
 
-void SessionSettings::loadMiscConfigSettings(CommonData* p) const
+void SessionSettings::loadMiscConfigSettings(CommonData* p, bool bInitGui /*= true*/) const
 {
     { // quality
         QualThresholds q (QualThresholds::getDefaultQualThresholds());
@@ -340,9 +340,12 @@ void SessionSettings::loadMiscConfigSettings(CommonData* p) const
 
         QFont fnt;
         //qDebug("%d ==========================", fnt.pointSize());
-        QFontInfo inf1 (QFont(m_pSettings->value("main/generalFontName", "SansSerif").toString(), m_pSettings->value("main/generalFontSize", fnt.pointSize()).toInt())); // ttt2 try and get the system defaults
-        QFontInfo inf2 (QFont(m_pSettings->value("main/fixedFontName", "Courier").toString(), m_pSettings->value("main/fixedFontSize", fnt.pointSize()).toInt()));
-        p->setFontInfo(convStr(inf1.family()), inf1.pointSize(), m_pSettings->value("main/labelFontSizeDecr", 0).toInt(), convStr(inf2.family()), inf2.pointSize());
+        if (bInitGui)
+        {
+            QFontInfo inf1 (QFont(m_pSettings->value("main/generalFontName", "SansSerif").toString(), m_pSettings->value("main/generalFontSize", fnt.pointSize()).toInt())); // ttt2 try and get the system defaults
+            QFontInfo inf2 (QFont(m_pSettings->value("main/fixedFontName", "Courier").toString(), m_pSettings->value("main/fixedFontSize", fnt.pointSize()).toInt()));
+            p->setFontInfo(convStr(inf1.family()), inf1.pointSize(), m_pSettings->value("main/labelFontSizeDecr", 0).toInt(), convStr(inf2.family()), inf2.pointSize());
+        }
 
         p->m_bWarnedAboutSel = m_pSettings->value("main/warnedAboutSel", false).toBool();
         p->m_bWarnedAboutBackup = m_pSettings->value("main/warnedAboutBackup", false).toBool();

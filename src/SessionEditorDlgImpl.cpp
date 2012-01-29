@@ -368,7 +368,7 @@ void SessionEditorDlgImpl::on_m_pFileNameB_clicked()
 }
 
 
-/*static*/ const char* const SessionEditorDlgImpl::SESS_EXT (".ini");
+/*static*/ const char* const SessionEditorDlgImpl::SESS_EXT (".ini"); //ttt0 perhaps switch to .mp3ds (keep in mind that there may be many folders with .ini in them now)
 /*static*/ int SessionEditorDlgImpl::SESS_EXT_LEN (strlen(SessionEditorDlgImpl::SESS_EXT));
 
 

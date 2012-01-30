@@ -274,7 +274,7 @@ static bool isWhite(const QColor& c)
 }
 
 
-void SessionSettings::loadMiscConfigSettings(CommonData* p, bool bInitGui /*= true*/) const
+void SessionSettings::loadMiscConfigSettings(CommonData* p, bool bInitGui) const
 {
     { // quality
         QualThresholds q (QualThresholds::getDefaultQualThresholds());

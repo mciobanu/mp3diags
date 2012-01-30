@@ -247,7 +247,7 @@ src/CheckedDir.cpp	f	2009-12-10T21:03:20Z
 src/CheckedDir.h	f	2009-05-06T07:28:09Z
 src/ColumnResizer.cpp	f	2009-10-13T09:17:10Z
 src/ColumnResizer.h	f	2009-05-06T07:28:19Z
-src/CommonData.cpp	f	2012-01-29T10:03:24Z
+src/CommonData.cpp	f	2012-01-30T21:41:21Z
 src/CommonData.h	f	2012-01-22T09:43:39Z
 src/CommonTypes.cpp	f	2012-01-28T10:13:38Z
 src/CommonTypes.h	f	2012-01-26T22:10:05Z
@@ -300,13 +300,13 @@ src/LogModel.h	f	2009-05-06T07:30:16Z
 src/LyricsStream.cpp	f	2011-06-11T15:10:58Z
 src/LyricsStream.h	f	2009-10-10T09:56:52Z
 src/MainForm.ui	f	2011-07-30T12:34:43Z
-src/MainFormDlgImpl.cpp	f	2012-01-28T19:46:52Z
+src/MainFormDlgImpl.cpp	f	2012-01-30T21:40:08Z
 src/MainFormDlgImpl.h	f	2012-01-22T10:00:17Z
 src/Mp3Diags.qrc	f	2012-01-02T09:50:17Z
 src/Mp3Manip.cpp	f	2011-12-01T11:38:02Z
 src/Mp3Manip.h	f	2011-06-15T18:19:28Z
-src/Mp3TransformThread.cpp	f	2012-01-29T11:19:35Z
-src/Mp3TransformThread.h	f	2009-05-06T07:30:48Z
+src/Mp3TransformThread.cpp	f	2012-01-30T21:18:03Z
+src/Mp3TransformThread.h	f	2012-01-30T21:15:00Z
 src/MpegFrame.cpp	f	2011-06-11T15:14:33Z
 src/MpegFrame.h	f	2010-12-05T10:25:54Z
 src/MpegStream.cpp	f	2011-11-28T21:24:29Z
@@ -346,7 +346,7 @@ src/SimpleSaxHandler.h	f	2009-10-13T12:02:58Z
 src/SongInfoParser.cpp	f	2011-06-11T15:18:40Z
 src/SongInfoParser.h	f	2009-09-11T14:47:51Z
 src/StoredSettings.cpp	f	2012-01-25T22:17:31Z
-src/StoredSettings.h	f	2012-01-29T10:03:56Z
+src/StoredSettings.h	f	2012-01-30T21:40:08Z
 src/StreamsModel.cpp	f	2009-10-13T12:02:58Z
 src/StreamsModel.h	f	2009-05-06T07:32:41Z
 src/StructuralTransformation.cpp	f	2012-01-28T19:41:36Z
@@ -434,7 +434,7 @@ src/licences/gplv3.txt	f	2008-11-14T09:24:29Z
 src/licences/lgpl-2.1.txt	f	2009-05-14T11:38:15Z
 src/licences/lgplv3.txt	f	2008-11-14T09:24:41Z
 src/licences/zlib.txt	f	2009-05-14T11:42:40Z
-src/main.cpp	f	2012-01-29T14:59:11Z
+src/main.cpp	f	2012-01-30T21:40:08Z
 src/src.pro	f	2012-01-26T21:57:41Z
 templates/cpp	f	2009-05-06T07:21:29Z
 templates/h	f	2009-05-06T07:21:39Z

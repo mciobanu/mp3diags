@@ -53,6 +53,7 @@
 #include  "Widgets.h"
 #include  "CommonData.h"
 #include  "ConfigDlgImpl.h"
+#include  "Mp3TransformThread.h"
 
 
 //#include  "Profiler.h"
@@ -538,21 +539,22 @@ int guiMain(const po::variables_map& options) {
 
 namespace {
 
-
-class CmdLineAnalyzer
+class CmdLineProcessor
 {
-    Note::Severity m_minLevel;
-
-    const QualThresholds& m_qualThresholds;
+    QualThresholds m_qualThresholds;
     int m_nCut; // for relative dirs
+
+    const vector<string>& m_vstrNames;
+
+    virtual bool processFile(const string& strFullName, Mp3Handler* mp3Handler) = 0;
 
     // returns "true" if there are no problems
     bool processFile(const string& strFullName)
     {
-        Mp3Handler* mp3;
+        Mp3Handler* mp3Handler;
         try
         {
-            mp3 = new Mp3Handler(strFullName, false, m_qualThresholds);
+            mp3Handler = new Mp3Handler(strFullName, false, m_qualThresholds);
         }
         catch (Mp3Handler::FileNotFound)
         {
@@ -560,34 +562,7 @@ class CmdLineAnalyzer
             return false;
         }
 
-        bool thisFileHasProblems = false;
-        const NoteColl& notes (mp3->getNotes());
-        for (int i = 0, n = cSize(notes.getList()); i < n; ++i) // ttt2 poor performance
-        {
-            const Note* pNote (notes.getList()[i]);
-
-            // category --include/--exclude options would be nice, too.
-            bool showThisNote = (pNote->getSeverity() <= m_minLevel);
-            if (!showThisNote)
-            {
-                continue;
-            }
-
-            if (!thisFileHasProblems)
-            {
-                thisFileHasProblems = true;
-                cout << toNativeSeparators(strFullName.substr(m_nCut)) << endl;
-            }
-
-            cout << "- " << (Note::severityToString(pNote->getSeverity())) << ": " << pNote->getDescription() << endl;
-        }
-
-        if (thisFileHasProblems)
-        {
-            cout << endl;
-        }
-
-        return !thisFileHasProblems;
+        return processFile(strFullName, mp3Handler);
     }
 
     // returns "true" if there are no problems
@@ -616,12 +591,8 @@ class CmdLineAnalyzer
         return bRes;
     }
 
-public:
-
-    CmdLineAnalyzer(Note::Severity minLevel, const QualThresholds& qualThresholds) : m_minLevel(minLevel), m_qualThresholds(qualThresholds) {}
-
     // returns "true" if there are no problems
-    bool processName(const string& strName)
+    bool processName(const string& strName) //ttt0 only ".mp3" files
     {
         string strFullName (convStr(QDir(fromNativeSeparators(convStr(strName))).absolutePath())); //ttt2 test on root
         m_nCut = endsWith(strFullName, strName) ? cSize(strFullName) - cSize(strName) : 0;
@@ -643,13 +614,24 @@ public:
         return false;
     }
 
-    // returns "true" if there are no problems
-    bool processNames(const vector<string>& vstrNames)
+protected:
+    void setQualThresholds(const QualThresholds& qualThresholds) { m_qualThresholds = qualThresholds; }
+    string getRelativeName(const string& strFullName)
     {
-        bool anyFileHasProblems (false);
-        for (int i = 0, n = cSize(vstrNames); i < n; ++i)
+        return strFullName.substr(m_nCut);
+    }
+
+    CmdLineProcessor(const vector<string>& vstrNames) : m_vstrNames(vstrNames) {}
+    virtual ~CmdLineProcessor() {}
+
+public:
+    // returns "true" if there are no problems
+    bool run()
+    {
+        bool anyFileHasProblems (false); //ttt0 hungarian
+        for (int i = 0, n = cSize(m_vstrNames); i < n; ++i)
         {
-            const string& file (vstrNames[i]);
+            const string& file (m_vstrNames[i]);
 
             anyFileHasProblems = processName(file) || anyFileHasProblems; //ttt2 make wildcards recognized on Windows (perhaps Linux too but Bash takes care of this; not sure about other shells)
         }
@@ -660,10 +642,174 @@ public:
 
 
 
+class CmdLineAnalyzer : public CmdLineProcessor
+{
+    Note::Severity m_minLevel;
+
+    /*override*/ bool processFile(const string& strFullName, Mp3Handler* pmp3Handler)
+    {
+        bool bThisFileHasProblems = false;
+        const NoteColl& notes (pmp3Handler->getNotes());
+        for (int i = 0, n = cSize(notes.getList()); i < n; ++i) // ttt2 poor performance
+        {
+            const Note* pNote (notes.getList()[i]);
+
+            // category --include/--exclude options would be nice, too.
+            bool bShowThisNote = (pNote->getSeverity() <= m_minLevel);
+            if (!bShowThisNote)
+            {
+                continue;
+            }
+
+            if (!bThisFileHasProblems)
+            {
+                bThisFileHasProblems = true;
+                cout << toNativeSeparators(getRelativeName(strFullName)) << endl;
+            }
+
+            cout << "- " << (Note::severityToString(pNote->getSeverity())) << ": " << pNote->getDescription() << endl;
+        }
+
+        if (bThisFileHasProblems)
+        {
+            cout << endl;
+        }
+
+        return !bThisFileHasProblems;
+    }
+
+public:
+    CmdLineAnalyzer(Note::Severity minLevel, const QualThresholds& qualThresholds, const vector<string>& vstrNames) : CmdLineProcessor(vstrNames), m_minLevel(minLevel)
+    {
+        setQualThresholds(qualThresholds);
+    }
+
+};
+
+
+
+
+class TransfListRunner : public CmdLineProcessor
+{
+    struct Mp3TransformerCli : public Mp3Transformer
+    {
+        Mp3TransformerCli(
+            CommonData* pCommonData,
+            const TransfConfig& transfConfig,
+            const deque<const Mp3Handler*>& vpHndlr,
+            vector<const Mp3Handler*>& vpDel,
+            vector<const Mp3Handler*>& vpAdd,
+            vector<Transformation*>& vpTransf) :
+
+            Mp3Transformer(
+                pCommonData,
+                transfConfig,
+                vpHndlr,
+                vpDel,
+                vpAdd,
+                vpTransf,
+                &cout)
+        {
+        }
+
+        /*override*/ bool isAborted() { return false; }
+        /*override*/ void checkPause() {}
+        /*override*/ void emitStepChanged(const StrList&, int) {}
+    };
+
+
+    SessionSettings m_settings;
+    CommonData m_commonData;
+    TransfConfig m_transfConfig;
+
+    deque<const Mp3Handler*> m_vpHndlr;
+    vector<const Mp3Handler*> m_vpDel;
+    vector<const Mp3Handler*> m_vpAdd;
+    vector<Transformation*> m_vpTransf;
+    Mp3TransformerCli m_mp3TransformerCli;
+
+    void loadCustomTransf(int nTransfList) // ttt1 unify with MainFormDlgImpl::loadCustomTransf() - perhaps make it member of SessionSettings
+    {
+        char bfr [50];
+        sprintf(bfr, "customTransf/set%04d", nTransfList);
+        //vector<string> vstrNames (m_settings.loadCustomTransf(k));
+        bool bErr;
+        vector<string> vstrNames (m_settings.loadVector(bfr, bErr));
+        vector<int> v;
+        const vector<Transformation*>& u (m_commonData.getAllTransf());
+        int m (cSize(u));
+        for (int i = 0, n = cSize(vstrNames); i < n; ++i)
+        {
+            string strName (vstrNames[i]);
+            int j (0);
+            for (; j < m; ++j)
+            {
+                if (u[j]->getActionName() == strName)
+                {
+                    v.push_back(j);
+                    break;
+                }
+            }
+
+            if (j == m)
+            {
+                //QMessageBox::warning(this, "Error setting up custom transformations", "Couldn't find a transformation with the name \"" + convStr(strName) + "\". The program will proceed, but you should review the custom transformations lists.");
+                cerr << "Error setting up custom transformations: " << "Couldn't find a transformation with the name \"" + strName + "\". The program will proceed, but you should review the custom transformations lists." << endl;
+            }
+        }
+
+        if (v.empty())
+        {
+            vector<vector<int> > vv (CUSTOM_TRANSF_CNT);
+            initDefaultCustomTransf(nTransfList, vv, &m_commonData);
+            v = vv[nTransfList];
+        }
+
+        m_commonData.setCustomTransf(nTransfList, v);
+    }
+
+    /*override*/ bool processFile(const string& strFullName, Mp3Handler* pmp3Handler)
+    {
+        m_vpHndlr.clear();
+        m_vpHndlr.push_back(pmp3Handler);
+        m_vpDel.clear();
+        m_vpAdd.clear();
+        if (!m_mp3TransformerCli.transform())
+        {
+            //ttt0 log something
+        }
+        return true; //ttt0
+    }
+
+public:
+    TransfListRunner(const vector<string>& vstrNames, int nTransfList, const string& strSessFile) :
+        CmdLineProcessor(vstrNames),
+        m_settings(strSessFile),
+        m_commonData(m_settings, 0, 0, 0, 0, 0, 0, 0, 0, 0, false),
+        m_mp3TransformerCli(&m_commonData, m_transfConfig, m_vpHndlr, m_vpDel, m_vpAdd, m_vpTransf)
+    {
+        m_settings.loadMiscConfigSettings(&m_commonData, SessionSettings::DONT_INIT_GUI);
+        m_settings.loadTransfConfig(m_transfConfig);
+        for (int i = 0; i < CUSTOM_TRANSF_CNT; ++i)
+        {
+            loadCustomTransf(i);
+        }
+
+        m_vpTransf.clear();
+        for (int i = 0, n = cSize(m_commonData.getCustomTransf()[nTransfList]); i < n; ++i)
+        {
+            m_vpTransf.push_back(m_commonData.getAllTransf()[m_commonData.getCustomTransf()[nTransfList][i]]);
+        }
+
+        setQualThresholds(m_commonData.getQualThresholds());
+        m_commonData.m_strTransfLog = SessionEditorDlgImpl::getLogFileName(strSessFile);
+    }
+};
+
+
 
 void noMessageOutput(QtMsgType, const char*) { }
 
-void runTransfList(const string& strSessFile, int nTransfList, const vector<string>& vstrNames);
 
 int cmdlineMain(const po::variables_map& options)
 {
@@ -706,27 +852,35 @@ int cmdlineMain(const po::variables_map& options)
         string strTempSessTempl;
         string strDirSessTempl;
 
-        string strSess (getActiveSession(options, nSessCnt, bOpenLast, strTempSessTempl, strDirSessTempl));
+        string strSessFile (getActiveSession(options, nSessCnt, bOpenLast, strTempSessTempl, strDirSessTempl));
 
-        int nTransfList (options[s_transfListOpt.m_szLongOpt].as<int>());
-        if (nTransfList < 1 || nTransfList > CUSTOM_TRANSF_CNT)
+        int nTransfList (options[s_transfListOpt.m_szLongOpt].as<int>() - 1); // [1..4] -> [0..3]
+        if (nTransfList < 0 || nTransfList >= CUSTOM_TRANSF_CNT)
         {
             cerr << "Transformation list must be a number between 1 and " << CUSTOM_TRANSF_CNT << endl;
             return 1;
         }
 
-        runTransfList(strSess, nTransfList, inputFiles);
+        TransfListRunner transfListRunner (inputFiles, nTransfList, strSessFile);
 
-        return 0;
+        return transfListRunner.run() ? 0 : 1;
     }
 
     // ttt2 For now, we always use the default quality thresholds; however,
     // it certainly would make sense to load those from the last session,
     // or make it possible to specify them on the command line.
-    CmdLineAnalyzer cmdLineAnalyzer (minLevel, QualThresholds::getDefaultQualThresholds());
+    CmdLineAnalyzer cmdLineAnalyzer (minLevel, QualThresholds::getDefaultQualThresholds(), inputFiles);
 
-    return cmdLineAnalyzer.processNames(inputFiles) ? 0 : 1;
+    return cmdLineAnalyzer.run() ? 0 : 1;
 }
+
+/*
+
+ttt0 CLI params restructuring:
+- s_sessionOpt should be used by all CLI runners as well as the GUI
+- errors and warnings should be returned in strings / lists and outputting from CLI tools done from a central place
+
+*/
 
 
 //static const char* CMD_HELP = "help"; static const char* CMD_HELP_SHORT = "h"; static const char* CMD_HELP_FULL = "help,h";
@@ -965,87 +1119,3 @@ WARNING: it is ignored, until you registered a Category at adrian@suse.de .
 
 //ttt2 non-utf8 file in /d/test_mp3/1/tmp2/crt_test/martin/dj not showing (reason: ListEnumerator::ListEnumerator calls QDir::entryInfoList(), which simply doesn't include the file, probably because its name is not UTF-8)
 
-
-namespace {
-
-
-void loadCustomTransf(CommonData& commonData, SessionSettings& settings, int k) // ttt1 unify with MainFormDlgImpl::loadCustomTransf() - perhaps make it member of SessionSettings
-{
-    char bfr [50];
-    sprintf(bfr, "customTransf/set%04d", k);
-    //vector<string> vstrNames (m_settings.loadCustomTransf(k));
-    bool bErr;
-    vector<string> vstrNames (settings.loadVector(bfr, bErr));
-    vector<int> v;
-    const vector<Transformation*>& u (commonData.getAllTransf());
-    int m (cSize(u));
-    for (int i = 0, n = cSize(vstrNames); i < n; ++i)
-    {
-        string strName (vstrNames[i]);
-        int j (0);
-        for (; j < m; ++j)
-        {
-            if (u[j]->getActionName() == strName)
-            {
-                v.push_back(j);
-                break;
-            }
-        }
-
-        if (j == m)
-        {
-            //QMessageBox::warning(this, "Error setting up custom transformations", "Couldn't find a transformation with the name \"" + convStr(strName) + "\". The program will proceed, but you should review the custom transformations lists.");
-            cerr << "Error setting up custom transformations: " << "Couldn't find a transformation with the name \"" + strName + "\". The program will proceed, but you should review the custom transformations lists." << endl;
-        }
-    }
-
-
-    if (v.empty())
-    {
-        vector<vector<int> > vv (CUSTOM_TRANSF_CNT);
-        initDefaultCustomTransf(k, vv, &commonData);
-        v = vv[k];
-    }
-
-    commonData.setCustomTransf(k, v);
-}
-
-
-vector<string> getFileNames(const vector<string>& vstrNames)
-{
-    vector<string> v;
-    return v;
-}
-
-
-void runTransfList(const string& strSessFile, int nTransfList, const vector<string>& vstrNames)
-{
-    SessionSettings settings (strSessFile);
-    CommonData commonData (settings, 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
-    settings.loadMiscConfigSettings(&commonData, false);
-
-    TransfConfig transfConfig;
-    settings.loadTransfConfig(transfConfig);
-
-    for (int i = 0; i < CUSTOM_TRANSF_CNT; ++i)
-    {
-        loadCustomTransf(commonData, settings, i);
-    }
-
-    vector<Transformation*> vTransf;
-
-    for (int i = 0, n = cSize(commonData.getCustomTransf()[nTransfList]); i < n; ++i)
-    {
-        vTransf.push_back(commonData.getAllTransf()[commonData.getCustomTransf()[nTransfList][i]]);
-    }
-
-    vector<string> vstrFileNames (getFileNames(vstrNames));
-    for (int i = 0; i < cSize(vstrFileNames); ++i)
-    {
-
-    }
-
-    cout << commonData.m_bKeepOneValidImg << endl;
-}
-
-}

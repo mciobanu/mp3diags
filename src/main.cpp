@@ -551,6 +551,18 @@ class CmdLineProcessor
     // returns "true" if there are no problems
     bool processFile(const string& strFullName)
     {
+        if (strFullName.size() <= 4)
+        {
+            return true;
+        }
+
+        QString qs;
+        qs = convStr(strFullName.substr(strFullName.size() - 4)).toLower();
+        if (qs != ".mp3") // ttt1 unify with test in Mp3ProcThread::scan()
+        {
+            return true;
+        }
+
         Mp3Handler* mp3Handler;
         try
         {
@@ -566,7 +578,7 @@ class CmdLineProcessor
     }
 
     // returns "true" if there are no problems
-    bool processDir(const string& strFullName)
+    bool processFullName(const string& strFullName) //ttt2 make FileSearcher take wildcards; then this function could take files, directories, and wildcard names (which might match both files and directories); in particular, a FileSearcher might take the name of a specific file, and then it should list it
     {
         bool bRes (true);
         FileSearcher fs (strFullName);
@@ -579,7 +591,7 @@ class CmdLineProcessor
             }
             else if (fs.isDir())
             {
-                bRes = processDir(fs.getName()) && bRes;
+                bRes = processFullName(fs.getName()) && bRes;
             }
             else
             {
@@ -592,7 +604,7 @@ class CmdLineProcessor
     }
 
     // returns "true" if there are no problems
-    bool processName(const string& strName) //ttt0 only ".mp3" files
+    bool processName(const string& strName)
     {
         string strFullName (convStr(QDir(fromNativeSeparators(convStr(strName))).absolutePath())); //ttt2 test on root
         m_nCut = endsWith(strFullName, strName) ? cSize(strFullName) - cSize(strName) : 0;
@@ -604,7 +616,7 @@ class CmdLineProcessor
         }
         else if (dirExists(strFullName))
         {
-            return processDir(strFullName);
+            return processFullName(strFullName);
         }
         else
         {
@@ -628,15 +640,15 @@ public:
     // returns "true" if there are no problems
     bool run()
     {
-        bool anyFileHasProblems (false); //ttt0 hungarian
+        bool bAnyFileHasProblems (false);
         for (int i = 0, n = cSize(m_vstrNames); i < n; ++i)
         {
             const string& file (m_vstrNames[i]);
 
-            anyFileHasProblems = processName(file) || anyFileHasProblems; //ttt2 make wildcards recognized on Windows (perhaps Linux too but Bash takes care of this; not sure about other shells)
+            bAnyFileHasProblems = processName(file) || bAnyFileHasProblems; //ttt0 make wildcards recognized on Windows (perhaps Linux too but Bash takes care of this; not sure about other shells)
         }
 
-        return !anyFileHasProblems;
+        return !bAnyFileHasProblems;
     }
 };
 
@@ -717,7 +729,6 @@ class TransfListRunner : public CmdLineProcessor
         /*override*/ void emitStepChanged(const StrList&, int) {}
     };
 
-
     SessionSettings m_settings;
     CommonData m_commonData;
     TransfConfig m_transfConfig;
@@ -774,11 +785,17 @@ class TransfListRunner : public CmdLineProcessor
         m_vpHndlr.push_back(pmp3Handler);
         m_vpDel.clear();
         m_vpAdd.clear();
-        if (!m_mp3TransformerCli.transform())
+        bool bRes (m_mp3TransformerCli.transform());
+        if (!bRes)
         {
-            //ttt0 log something
+            string strErr (m_mp3TransformerCli.getError());
+            if (strErr.empty())
+            {
+                strErr = "Unknown error while processing " + strFullName;
+            }
+            cerr << strErr << endl;
         }
-        return true; //ttt0
+        return bRes;
     }
 
 public:
@@ -845,14 +862,18 @@ int cmdlineMain(const po::variables_map& options)
     // places in the program.
     qInstallMsgHandler(noMessageOutput);
 
-    if (options.count(s_transfListOpt.m_szLongOpt) > 0)
+    string strSessFile;
+
     {
         int nSessCnt;
         bool bOpenLast;
         string strTempSessTempl;
         string strDirSessTempl;
+        strSessFile = getActiveSession(options, nSessCnt, bOpenLast, strTempSessTempl, strDirSessTempl);
+    }
 
-        string strSessFile (getActiveSession(options, nSessCnt, bOpenLast, strTempSessTempl, strDirSessTempl));
+    if (options.count(s_transfListOpt.m_szLongOpt) > 0)
+    {
 
         int nTransfList (options[s_transfListOpt.m_szLongOpt].as<int>() - 1); // [1..4] -> [0..3]
         if (nTransfList < 0 || nTransfList >= CUSTOM_TRANSF_CNT)
@@ -866,10 +887,14 @@ int cmdlineMain(const po::variables_map& options)
         return transfListRunner.run() ? 0 : 1;
     }
 
-    // ttt2 For now, we always use the default quality thresholds; however,
-    // it certainly would make sense to load those from the last session,
-    // or make it possible to specify them on the command line.
-    CmdLineAnalyzer cmdLineAnalyzer (minLevel, QualThresholds::getDefaultQualThresholds(), inputFiles);
+    SessionSettings settings (strSessFile);
+    CommonData commonData (settings, 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
+
+    settings.loadMiscConfigSettings(&commonData, SessionSettings::DONT_INIT_GUI);
+    //settings.loadTransfConfig(transfConfig);
+    //commonData.m_strTransfLog = SessionEditorDlgImpl::getLogFileName(strSessFile);
+
+    CmdLineAnalyzer cmdLineAnalyzer (minLevel, commonData.getQualThresholds(), inputFiles);
 
     return cmdLineAnalyzer.run() ? 0 : 1;
 }
@@ -951,7 +976,7 @@ int main(int argc, char *argv[])
     genericDesc.add_options()
         (s_helpOpt.m_szFullOpt, s_helpOpt.m_szDescr)
         (s_uninstOpt.m_szFullOpt, s_uninstOpt.m_szDescr)
-        (s_sessionOpt.m_szFullOpt, po::value<int>(), s_sessionOpt.m_szDescr)
+        (s_sessionOpt.m_szFullOpt, po::value<string>(), s_sessionOpt.m_szDescr)
     ;
 
     po::options_description cmdlineDesc ("Commandline mode");

@@ -300,7 +300,7 @@ struct SessEraser
 } // namespace
 
 
-//ttt0 in 10.3 loading a session seemed to erase the templates, but couldn't reproduce later
+//ttt1 in 10.3 loading a session seemed to erase the templates, but couldn't reproduce later
 
 string getActiveSession(const po::variables_map& options, int& nSessCnt, bool& bOpenLast, string& strTempSessTempl, string& strDirSessTempl)
 {
@@ -578,7 +578,7 @@ class CmdLineProcessor
     }
 
     // returns "true" if there are no problems
-    bool processFullName(const string& strFullName) //ttt2 make FileSearcher take wildcards; then this function could take files, directories, and wildcard names (which might match both files and directories); in particular, a FileSearcher might take the name of a specific file, and then it should list it
+    bool processFullName(const string& strFullName) //ttt1 make FileSearcher take wildcards; then this function could take files, directories, and wildcard names (which might match both files and directories); in particular, a FileSearcher might take the name of a specific file, and then it should list it
     {
         bool bRes (true);
         FileSearcher fs (strFullName);
@@ -645,7 +645,7 @@ public:
         {
             const string& file (m_vstrNames[i]);
 
-            bAnyFileHasProblems = processName(file) || bAnyFileHasProblems; //ttt0 make wildcards recognized on Windows (perhaps Linux too but Bash takes care of this; not sure about other shells)
+            bAnyFileHasProblems = processName(file) || bAnyFileHasProblems; //ttt1 make wildcards recognized on Windows (perhaps Linux too but Bash takes care of this; not sure about other shells)
         }
 
         return !bAnyFileHasProblems;
@@ -901,10 +901,8 @@ int cmdlineMain(const po::variables_map& options)
 
 /*
 
-ttt0 CLI params restructuring:
-- s_sessionOpt should be used by all CLI runners as well as the GUI
+ttt1 CLI-friendly function restructuring:
 - errors and warnings should be returned in strings / lists and outputting from CLI tools done from a central place
-
 */
 
 
@@ -1137,6 +1135,7 @@ WARNING: it is ignored, until you registered a Category at adrian@suse.de .
 //ttt0 "shell" tab has smaller font in screenshots
 
 //ttt0 look at running multiple instances concurrently / exit when second starts
+//use a .pid file in the session dir with its name based on the session name, so multiple instances programs can start for different sessions; if pid matches and it's mp3diags exit and bring the other program up
 
 //ttt1 Windows changelog should use \n\r (probably by replacing "copy /y changelog.txt bin\\changelog.txt" in BuildMp3Diags.hta with something that reads the file line by line
 
@@ -1144,3 +1143,4 @@ WARNING: it is ignored, until you registered a Category at adrian@suse.de .
 
 //ttt2 non-utf8 file in /d/test_mp3/1/tmp2/crt_test/martin/dj not showing (reason: ListEnumerator::ListEnumerator calls QDir::entryInfoList(), which simply doesn't include the file, probably because its name is not UTF-8)
 
+//ttt0 config restructuring: session data: general settings, gui settings, files

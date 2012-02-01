@@ -1136,6 +1136,7 @@ WARNING: it is ignored, until you registered a Category at adrian@suse.de .
 
 //ttt0 look at running multiple instances concurrently / exit when second starts
 //use a .pid file in the session dir with its name based on the session name, so multiple instances programs can start for different sessions; if pid matches and it's mp3diags exit and bring the other program up
+//ttt0 maybe: thread to write to tmp that crt proc is alive and what session it's using; then start new process / bring existing one on top, as needed
 
 //ttt1 Windows changelog should use \n\r (probably by replacing "copy /y changelog.txt bin\\changelog.txt" in BuildMp3Diags.hta with something that reads the file line by line
 
@@ -1143,4 +1144,4 @@ WARNING: it is ignored, until you registered a Category at adrian@suse.de .
 
 //ttt2 non-utf8 file in /d/test_mp3/1/tmp2/crt_test/martin/dj not showing (reason: ListEnumerator::ListEnumerator calls QDir::entryInfoList(), which simply doesn't include the file, probably because its name is not UTF-8)
 
-//ttt0 config restructuring: session data: general settings, gui settings, files
+//ttt0 config restructuring: session data: general settings, gui settings, gui controls, files

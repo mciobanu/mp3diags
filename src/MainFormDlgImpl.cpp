@@ -3445,7 +3445,6 @@ Development machine:
 
 
 
-//ttt0 maybe: thread to write to tmp that crt proc is alive and what session it's using; then start new process / bring existing one on top, as needed
 
 
 //ttt1 warn when folders are missing (perhaps as network drives are not mounted, usb sticks not inserted, ...), to avoid erasing the database

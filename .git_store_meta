@@ -300,7 +300,7 @@ src/LogModel.h	f	2009-05-06T07:30:16Z
 src/LyricsStream.cpp	f	2011-06-11T15:10:58Z
 src/LyricsStream.h	f	2009-10-10T09:56:52Z
 src/MainForm.ui	f	2011-07-30T12:34:43Z
-src/MainFormDlgImpl.cpp	f	2012-01-30T21:40:08Z
+src/MainFormDlgImpl.cpp	f	2012-01-31T22:17:15Z
 src/MainFormDlgImpl.h	f	2012-01-22T10:00:17Z
 src/Mp3Diags.qrc	f	2012-01-02T09:50:17Z
 src/Mp3Manip.cpp	f	2011-12-01T11:38:02Z
@@ -337,7 +337,7 @@ src/ScanDlgImpl.h	f	2009-07-17T15:02:37Z
 src/SerSupport.cpp	f	2012-01-01T22:30:41Z
 src/SerSupport.h	f	2009-05-06T07:27:31Z
 src/SessionEditor.ui	f	2012-01-02T15:23:22Z
-src/SessionEditorDlgImpl.cpp	f	2012-01-29T08:14:17Z
+src/SessionEditorDlgImpl.cpp	f	2012-01-31T22:38:46Z
 src/SessionEditorDlgImpl.h	f	2011-06-26T20:58:33Z
 src/Sessions.ui	f	2011-07-21T18:45:10Z
 src/SessionsDlgImpl.cpp	f	2011-07-18T19:01:23Z
@@ -434,7 +434,7 @@ src/licences/gplv3.txt	f	2008-11-14T09:24:29Z
 src/licences/lgpl-2.1.txt	f	2009-05-14T11:38:15Z
 src/licences/lgplv3.txt	f	2008-11-14T09:24:41Z
 src/licences/zlib.txt	f	2009-05-14T11:42:40Z
-src/main.cpp	f	2012-01-31T21:38:40Z
+src/main.cpp	f	2012-01-31T22:17:27Z
 src/src.pro	f	2012-01-26T21:57:41Z
 templates/cpp	f	2009-05-06T07:21:29Z
 templates/h	f	2009-05-06T07:21:39Z

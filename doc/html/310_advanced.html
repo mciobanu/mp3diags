@@ -105,7 +105,18 @@ In the <a href="300_config_others.html">Config - Others</a> tab you can see in t
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol1">
-It is possible to analyze several files or folders without opening the program's main window or to create sessions for a given folder. This is achieved by using command-line parameters. Currently these parameters can be used:
+<b>Note</b>: This part of the program's functionality is under development and might change. Among other things, there is little checking for the correctness of the arguments.
+</div>
+
+<div class="FreeNormalText RegFnt ChpCol1">
+You can use these options to:
+
+<ul>
+    <li>Analyze several files or folders without opening the program's main window</li>
+    <li>Apply a custom transformation list to several files or folders without opening the program's main window</li>
+    <li>Start the GUI with a specific session, rather than the last one</li>
+    <li>Create new sessions for a given folder</li>
+</ul>
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol1">
@@ -116,35 +127,54 @@ It is possible to analyze several files or folders without opening the program's
     </tr>
     <tr>
         <td> <b>--help</b> </td>
-        <td> shows the list of valid parameters and exits; see below the Windows-specific notes about seeing the console output </td>
+        <td> Shows the list of valid parameters and exits. See below the Windows-specific notes about seeing the console output. </td>
     </tr>
     <tr>
         <td> file and/or folder names </td>
-        <td> the program doesn't enter a GUI mode but just prints to the console the result of the analysis; see below the Windows-specific notes about seeing the console output </td>
+        <td> The program doesn't enter the GUI mode but either analyzes the files it was passed and prints the result to the console or applies a transformation list. It does the former if the <b>--transf-list</b> parameter is not passed and the latter if it is. See below the Windows-specific notes about seeing the console output. </td>
+    </tr>
+    <tr>
+        <td> <b>--transf-list</b> &lt;number&gt; </td>
+        <td> Runs the specified transformation list (1 to 4) on the files and/or directories passed.</td>
+    </tr>
+    <tr>
+        <td> <b>--session</b> &lt;session_file&gt; </td>
+        <td> Uses a specific session given by its session file (currently with an ".ini" extension). It is used in both GUI and CLI modes. If this parameter is not provided, MP3 Diags reopens the last open session in GUI mode or uses the settings in that session for CLI functionality.</td>
     </tr>
     <tr>
         <td> <b>--severity</b> &lt;folder_name&gt; </td>
-        <td> minimum severity to show when passing file or folder names; one of error, warning, support; default: warning </td>
+        <td> Minimum severity to show when analyzing file or folder names; one of <i>error</i>, <i>warning</i>, <i>support</i>; default: <i>warning</i>. </td>
     </tr>
     <tr>
         <td> <b>--hidden-session</b> &lt;folder_name&gt; </td>
-        <td> a session gets created inside the specified folder (if it doesn't already exist) and then the program starts up and uses that session; the session isn't stored in the session list but it is saved on disk, so running the same command again will just reuse the existing session </td>
+        <td> A session gets created inside the specified folder (if it doesn't already exist) and then the program starts up and uses that session; the session isn't stored in the session list but it is saved on disk, so running the same command again will just reuse the existing session.</td>
     </tr>
     <tr>
         <td> <b>--visible-session</b> &lt;folder_name&gt; </td>
-        <td> similar to <b>--hidden-session</b> but the session remains in the session list after the program exits</td>
+        <td> Similar to <b>--hidden-session</b> but the session remains in the session list after the program exits.</td>
     </tr>
     <tr>
         <td> <b>--temp-session</b> &lt;folder_name&gt; </td>
-        <td> similar to <b>--hidden-session</b> but this is a temporary session, which gets created inside the temporary directory and is always removed from the session list and from the disk when the program exits</td>
+        <td> Similar to <b>--hidden-session</b> but this is a temporary session, which gets created inside the temporary directory and is always removed from the session list and from the disk when the program exits.</td>
     </tr>
     <tr>
         <td> <b>--uninstall</b> </td>
-        <td> clears the session list and the global settings and removes the shell integration </td>
+        <td> Clears the session list and the global settings and removes the shell integration. </td>
     </tr>
 </table>
 </div>
 
+<div class="SubChapterText RegFnt ChpCol1">
+Transformation list notes:
+</div>
+
+<div class="FreeNormalText RegFnt ChpCol1">
+If you want to do various kinds of processing, you might prefer to pick individual transformations rather than full lists. While this is not currently supported, the lists can go a pretty long way once you notice that they are session-specific. So what you can do is define several sessions that are meant to be used only from the CLI interface and have each of their 4 lists contain a single element. It's quite cumbersome, but if you think you'd need to do this often, you can wrap everything in a script that is more user-friendly. You'd have to create those sessions in GUI mode (or, well, edit .ini files manually.)
+</div>
+
+<div class="FreeNormalText RegFnt ChpCol1">
+Running specific transformations directly might be implemented in the future if there's a real need for this.
+</div>
 
 <div class="SubChapterText RegFnt ChpCol1">
 Template notes:

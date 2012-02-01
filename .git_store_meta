@@ -12,14 +12,14 @@ Install.sh	f	2011-05-29T13:38:27Z
 MP3DiagsCLI.cmd	f	2011-07-31T07:26:38Z
 MakeArchives.sh	f	2011-07-30T11:18:26Z
 README.TXT	f	2009-10-01T16:49:38Z
-Release.txt	f	2011-12-03T08:23:42Z
+Release.txt	f	2012-01-31T22:26:44Z
 Uninstall.sh	f	2011-06-17T19:41:38Z
 Windows/MP3Diags.nsi	f	2009-09-30T08:45:38Z
 Windows/MP3DiagsUnstable.nsi	f	2011-07-20T20:25:40Z
 branch.txt	f	2011-05-30T18:19:22Z
-changelog.txt	f	2011-12-03T08:17:54Z
-changelogDeb.txt	f	2011-12-03T08:22:43Z
-changelogRpm.txt	f	2011-12-03T08:21:10Z
+changelog.txt	f	2012-01-31T22:22:56Z
+changelogDeb.txt	f	2012-01-31T22:26:03Z
+changelogRpm.txt	f	2012-01-31T22:24:53Z
 desktop/MP3Diags-unstable16.png	f	2011-07-28T21:00:46Z
 desktop/MP3Diags-unstable16.xcf	f	2011-07-28T21:00:33Z
 desktop/MP3Diags-unstable22.png	f	2011-07-28T21:00:01Z
@@ -175,7 +175,7 @@ doc/html/299_ext_tools.html	f	2012-01-28T09:05:38Z
 doc/html/299_ext_tools.png	f	2012-01-28T07:08:29Z
 doc/html/300_config_others.html	f	2012-01-28T08:03:04Z
 doc/html/300_config_others.png	f	2012-01-02T16:15:20Z
-doc/html/310_advanced.html	f	2011-07-21T19:18:15Z
+doc/html/310_advanced.html	f	2012-02-01T20:28:45Z
 doc/html/310_debug.png	f	2009-05-14T07:37:05Z
 doc/html/310_export.png	f	2009-10-07T13:41:27Z
 doc/html/310_export_btn.png	f	2009-10-07T13:48:19Z

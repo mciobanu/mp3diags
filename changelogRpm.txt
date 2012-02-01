@@ -1,3 +1,14 @@
+* Wed Feb 02 2012 Marian Ciobanu <ciobi@inbox.com> 1.1.12.068
+- external tools
+- possibility of applying transformation lists in CLI mode
+- "Open containing folder" in the main window
+- delete files from the main window
+- close buttons for Gnome 3
+- APE remover
+- non-audio remover
+- CLI analyzer uses session settings to determine quality thresholds
+- fixed menu tooltips that disappeared too quickly
+
 * Sat Dec 03 2011 Marian Ciobanu <ciobi@inbox.com> 1.1.09.064
 - moved to Discogs API V2
 - added codepage support when copying ID3V1 to ID3V2

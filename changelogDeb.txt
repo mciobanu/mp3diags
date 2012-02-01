@@ -1,3 +1,17 @@
+mp3diags (1.1.12.068) testing; urgency=low
+
+  * external tools
+  * possibility of applying transformation lists in CLI mode
+  * "Open containing folder" in the main window
+  * delete files from the main window
+  * close buttons for Gnome 3
+  * APE remover
+  * non-audio remover
+  * CLI analyzer uses session settings to determine quality thresholds
+  * fixed menu tooltips that disappeared too quickly
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Wed, 01 Feb 2012 22:00:00 +0200
+
 mp3diags (1.1.09.064) testing; urgency=low
 
   * moved to Discogs API V2

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Normalize</string>
+   <string>External tool</string>
   </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>

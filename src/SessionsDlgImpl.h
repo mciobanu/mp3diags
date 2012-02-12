@@ -78,6 +78,8 @@ class SessionsDlgImpl : public QDialog, private Ui::SessionsDlg
     void loadTemplates(); // sets up the combo boxes with temp/folder session templates based on m_vstrSessions, m_strTempSessTempl, and m_strDirSessTempl
     void saveTemplates(); // sets m_strTempSessTempl and m_strDirSessTempl based on the current items in the combo boxes
 
+    std::string m_strTranslation;
+
 public:
     SessionsDlgImpl(QWidget* pParent /*, QSettings& settings*/);
      ~SessionsDlgImpl();
@@ -102,7 +104,8 @@ protected slots:
     void on_m_pHideB_clicked();
     void on_m_pLoadB_clicked();
     void on_m_pOpenB_clicked();
-    void on_m_pCancelB_clicked();
+    void on_m_pCloseB_clicked();
+    void on_m_pTranslationCbB_currentIndexChanged(int);
     //void on_ _clicked();
     void onShow();
 

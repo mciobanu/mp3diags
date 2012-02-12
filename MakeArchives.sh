@@ -114,6 +114,7 @@ function createSrc
     fixVersion $LongDestDir/BuildBz2.sh
     chmod a+x $LongDestDir/BuildBz2.sh
 
+    cp -p MakeTranslations.sh $LongDestDir
 
     cd package/out
     tar czf $DestDir.tar.gz $DestDir

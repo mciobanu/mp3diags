@@ -178,7 +178,7 @@ public slots:
     void on_m_pChangeGenFontB_clicked();
     void on_m_pChangeFixedFontB_clicked();
 
-    void on_m_pLocaleCbB_currentIndexChanged(int);
+    void on_m_pId3LocaleCbB_currentIndexChanged(int);
 
     void on_m_pCol0B_clicked() { onButtonClicked(0); }
     void on_m_pCol1B_clicked() { onButtonClicked(1); }

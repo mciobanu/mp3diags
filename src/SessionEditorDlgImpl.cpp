@@ -33,6 +33,8 @@
 #include  "Transformation.h"
 #include  "StoredSettings.h"
 #include  "OsFile.h"
+#include  "Translation.h"
+#include  "CommonData.h"
 
 
 using namespace std;
@@ -60,18 +62,34 @@ void SessionEditorDlgImpl::commonConstr() // common code for both constructors
     grayPalette.setColor(QPalette::Base, grayPalette.color(QPalette::Disabled, QPalette::Window));
     m_pBackupE->setPalette(grayPalette);
     m_pFileNameE->setPalette(grayPalette);
+
+    { // language
+        int nCrt (0);
+        const vector<string>& vstrTranslations (TranslatorHandler::getGlobalTranslator().getTranslations());
+        string strTmpTranslation (m_strTranslation); // !!! needed because on_m_pTranslationCbB_currentIndexChanged() will get triggered and change m_strTranslation
+        for (int i = 0; i < cSize(vstrTranslations); ++i)
+        {
+            m_pTranslationCbB->addItem(convStr(TranslatorHandler::getLanguageInfo(vstrTranslations[i])));
+            if (strTmpTranslation == vstrTranslations[i])
+            {
+                nCrt = i;
+            }
+        }
+        m_strTranslation = strTmpTranslation;
+        m_pTranslationCbB->setCurrentIndex(nCrt);
+    }
 }
 
 
 // used for creating a new session;
-SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strDir, bool bFirstTime) : QDialog(pParent, getDialogWndFlags()), Ui::SessionEditorDlg(), m_strDir(strDir), m_bNew(true)
+SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strDir, bool bFirstTime, const string& strTranslation) : QDialog(pParent, getDialogWndFlags()), Ui::SessionEditorDlg(), m_strDir(strDir), m_bNew(true), m_strTranslation(strTranslation)
 {
     commonConstr();
 
     bool bAutoFileName (false);
     {
 #ifndef WIN32
-        QString qs (QDir::homePath() + "/Documents"); // OK on openSUSE, not sure how standardized it is
+        QString qs (QDir::homePath() + "/Documents"); // OK on openSUSE, not sure how standardized it is //ttt0 this is localized, so not OK; look at Qt
 #else
         QSettings settings (QSettings::UserScope, "Microsoft", "Windows");
         settings.beginGroup("CurrentVersion/Explorer/Shell Folders");
@@ -90,7 +108,7 @@ SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strDi
     }
 
     //setWindowTitle("MP3 Diags - Create a new session or load an existing one");
-    setWindowTitle("MP3 Diags - Create new session");
+    setWindowTitle();
     m_pDontCreateBackupRB->setChecked(true);
     m_pScanAtStartupCkB->setChecked(true);
 
@@ -117,9 +135,16 @@ SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strDi
 // used for editing an existing session;
 SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strSessFile) : QDialog(pParent, getDialogWndFlags()), Ui::SessionEditorDlg(), m_bNew(false)
 {
+    SessionSettings st (strSessFile);
+    {
+        CommonData commonData(st, 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
+        st.loadMiscConfigSettings(&commonData, SessionSettings::DONT_INIT_GUI);
+        m_strTranslation = commonData.m_strTranslation;
+    }
+
     commonConstr();
 
-    setWindowTitle("MP3 Diags - Edit session");
+    setWindowTitle();
     m_pFileNameE->setReadOnly(true);
     m_pFileNameE->setText(toNativeSeparators(convStr(strSessFile)));
     m_pFileNameB->hide();
@@ -130,7 +155,7 @@ SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strSe
     m_strSessFile = strSessFile;
     CB_ASSERT (!m_strSessFile.empty());
 
-    SessionSettings st (m_strSessFile);
+    //SessionSettings st (m_strSessFile);
     vector<string> vstrCheckedDirs, vstrUncheckedDirs;
     st.loadDirs(vstrCheckedDirs, vstrUncheckedDirs);
 
@@ -165,7 +190,10 @@ void SessionEditorDlgImpl::onShow()
 }
 
 
-
+void SessionEditorDlgImpl::setWindowTitle()
+{
+    QDialog::setWindowTitle(m_bNew ? tr("MP3 Diags - Create new session") : tr("MP3 Diags - Edit session"));
+}
 
 // returns the name of an INI file for OK and an empty string for Cancel; returns "*" to just go to the sessions dialog;
 string SessionEditorDlgImpl::run()
@@ -178,10 +206,10 @@ string SessionEditorDlgImpl::run()
     if (QDialog::Accepted != exec()) { return ""; }
 
     gs.saveSessionEdtSize(width(), height());
+    m_strTranslation = TranslatorHandler::getGlobalTranslator().getTranslations()[m_pTranslationCbB->currentIndex()];
 
     return m_strSessFile;
 }
-
 
 
 void SessionEditorDlgImpl::on_m_pOkB_clicked()
@@ -253,6 +281,14 @@ void SessionEditorDlgImpl::on_m_pOkB_clicked()
         st.saveDirs(vstrCheckedDirs, vstrUncheckedDirs);
 
         st.saveScanAtStartup(m_pScanAtStartupCkB->isChecked());
+
+        {
+            CommonData commonData(st, 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
+            st.loadMiscConfigSettings(&commonData, SessionSettings::DONT_INIT_GUI);
+            commonData.m_strTranslation = m_strTranslation;
+            st.saveMiscConfigSettings(&commonData);
+        }
+
 
         if (!st.sync())
         {
@@ -376,6 +412,17 @@ void SessionEditorDlgImpl::on_m_pOpenSessionsB_clicked()
 {
     m_strSessFile = "*";
     accept();
+}
+
+
+void SessionEditorDlgImpl::on_m_pTranslationCbB_currentIndexChanged(int)
+{
+    const vector<string>& vstrTranslations (TranslatorHandler::getGlobalTranslator().getTranslations());
+    m_strTranslation = vstrTranslations[m_pTranslationCbB->currentIndex()];
+
+    TranslatorHandler::getGlobalTranslator().setTranslation(m_strTranslation);
+    retranslateUi(this);
+    setWindowTitle();
 }
 
 

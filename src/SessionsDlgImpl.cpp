@@ -35,6 +35,7 @@
 #include  "SessionEditorDlgImpl.h"
 #include  "OsFile.h"
 #include  "Widgets.h"
+#include  "Translation.h"
 
 using namespace std;
 
@@ -94,18 +95,18 @@ SessionsDlgImpl::SessionsDlgImpl(QWidget* pParent) : QDialog(pParent, getMainWnd
 
     setupUi(this);
 
-    vector<string> vstrSess;
+    //vector<string> vstrSess;
     string strLast;
 
     //m_pSettings = SessionSettings::getGlobalSettings();
     GlobalSettings st;
     bool bOpenLast;
 
-    st.loadSessions(m_vstrSessions, strLast, bOpenLast, m_strTempSessTempl, m_strDirSessTempl);
+    st.loadSessions(m_vstrSessions, strLast, bOpenLast, m_strTempSessTempl, m_strDirSessTempl, m_strTranslation);
     m_pOpenLastCkB->setChecked(bOpenLast);
 
     m_pSessionsG->verticalHeader()->setResizeMode(QHeaderView::Interactive);
-    m_pSessionsG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT + 1);
+    m_pSessionsG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT + 1); // ttt0 is this initialized before creating sessions? should it be?
     m_pSessionsG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT + 1);//*/
     m_pSessionsG->setModel(&m_sessionsModel);
     m_pSessionsG->horizontalHeader()->setResizeMode(0, QHeaderView::Stretch);
@@ -146,6 +147,24 @@ SessionsDlgImpl::SessionsDlgImpl(QWidget* pParent) : QDialog(pParent, getMainWnd
         if (nWidth > 400 && nHeight > 400) { resize(nWidth, nHeight); }
     }
 
+
+    { // language
+        int nCrt (0);
+        const vector<string>& vstrTranslations (TranslatorHandler::getGlobalTranslator().getTranslations());
+        string strTmpTranslation (m_strTranslation); // !!! needed because on_m_pTranslationCbB_currentIndexChanged() will get triggered and change m_strTranslation
+        for (int i = 0; i < cSize(vstrTranslations); ++i)
+        {
+            m_pTranslationCbB->addItem(convStr(TranslatorHandler::getLanguageInfo(vstrTranslations[i])));
+            if (strTmpTranslation == vstrTranslations[i])
+            {
+                nCrt = i;
+            }
+        }
+        m_strTranslation = strTmpTranslation;
+        m_pTranslationCbB->setCurrentIndex(nCrt);
+    }
+
+
     { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
 
     QTimer::singleShot(1, this, SLOT(onShow()));
@@ -157,8 +176,7 @@ SessionsDlgImpl::~SessionsDlgImpl()
     st.saveSessionsDlgSize(width(), height());
 
     {
-        vector<string> vstrSess;
-        string strLast;
+        /*string strLast;
 
         //m_pSettings = SessionSettings::getGlobalSettings();
         //GlobalSettings st;
@@ -167,9 +185,10 @@ SessionsDlgImpl::~SessionsDlgImpl()
 
         string strTempSessTempl;
         string strDirSessTempl;
-        st.loadSessions(v, strLast, bOpenLast, strTempSessTempl, strDirSessTempl);
+        string strTranslation;
+        st.loadSessions(v, strLast, bOpenLast, strTempSessTempl, strDirSessTempl, strTranslation); //ttt0 what's the point of this? no vars are used*/
         saveTemplates();
-        st.saveSessions(m_vstrSessions, getCrtSession(), m_pOpenLastCkB->isChecked(), m_strTempSessTempl, m_strDirSessTempl, GlobalSettings::LOAD_EXTERNAL_CHANGES);
+        st.saveSessions(m_vstrSessions, getCrtSession(), m_pOpenLastCkB->isChecked(), m_strTempSessTempl, m_strDirSessTempl, m_strTranslation, GlobalSettings::LOAD_EXTERNAL_CHANGES);
     }
 }
 
@@ -328,7 +347,7 @@ void SessionsDlgImpl::addSession(const std::string& strSession)
     GlobalSettings st;
     loadTemplates();
     saveTemplates();
-    st.saveSessions(m_vstrSessions, strSession, m_pOpenLastCkB->isChecked(), m_strTempSessTempl, m_strDirSessTempl, GlobalSettings::LOAD_EXTERNAL_CHANGES);
+    st.saveSessions(m_vstrSessions, strSession, m_pOpenLastCkB->isChecked(), m_strTempSessTempl, m_strDirSessTempl, m_strTranslation, GlobalSettings::LOAD_EXTERNAL_CHANGES);
 }
 
 
@@ -336,7 +355,7 @@ void SessionsDlgImpl::on_m_pNewB_clicked()
 {
     string strSession;
     {
-        SessionEditorDlgImpl dlg (this, getCrtSessionDir(), SessionEditorDlgImpl::NOT_FIRST_TIME);
+        SessionEditorDlgImpl dlg (this, getCrtSessionDir(), SessionEditorDlgImpl::NOT_FIRST_TIME, m_strTranslation);
         strSession = dlg.run();
         if (strSession.empty())
         {
@@ -393,7 +412,7 @@ void SessionsDlgImpl::removeCrtSession()
     GlobalSettings st;
     loadTemplates();
     saveTemplates();
-    st.saveSessions(m_vstrSessions, strCrtSess, m_pOpenLastCkB->isChecked(), m_strTempSessTempl, m_strDirSessTempl, GlobalSettings::IGNORE_EXTERNAL_CHANGES);
+    st.saveSessions(m_vstrSessions, strCrtSess, m_pOpenLastCkB->isChecked(), m_strTempSessTempl, m_strDirSessTempl, m_strTranslation, GlobalSettings::IGNORE_EXTERNAL_CHANGES);
 }
 
 
@@ -505,11 +524,20 @@ void SessionsDlgImpl::on_m_pOpenB_clicked()
 }
 
 
-void SessionsDlgImpl::on_m_pCancelB_clicked()
+void SessionsDlgImpl::on_m_pCloseB_clicked() // ttt0 redo screenshots Cancel->Close
 {
     reject();
 }
 
+
+void SessionsDlgImpl::on_m_pTranslationCbB_currentIndexChanged(int)
+{
+    const vector<string>& vstrTranslations (TranslatorHandler::getGlobalTranslator().getTranslations());
+    m_strTranslation = vstrTranslations[m_pTranslationCbB->currentIndex()];
+
+    TranslatorHandler::getGlobalTranslator().setTranslation(m_strTranslation);
+    retranslateUi(this);
+}
 
 void SessionsDlgImpl::onSessDoubleClicked(const QModelIndex& index)
 {

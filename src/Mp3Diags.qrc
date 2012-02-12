@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>images/logo.svg</file>
+
         <file>images/configure.svg</file>
         <file>images/decode.svg</file>
         <file>images/filter-folder.svg</file>
@@ -20,22 +21,30 @@
         <file>images/transform.svg</file>
         <file>images/normalize.svg</file>
         <file>images/file-rename.svg</file>
+        <file>images/dialog-close.svg</file>
+
         <file>images/arrow-left-double.svg</file>
         <file>images/arrow-left.svg</file>
         <file>images/arrow-right-double.svg</file>
         <file>images/arrow-right.svg</file>
         <file>images/reset_settings.svg</file>
         <file>images/undo_settings.svg</file>
+        <file>images/preferences-desktop-locale.svg</file>
+
         <file>images/save_log.svg</file>
         <file>images/save_notes.svg</file>
+
         <file>images/about.svg</file>
+
         <file>images/zoom-in.png</file>
         <file>images/assign.png</file>
         <file>images/remove_file.png</file>
+
         <file>images/assgn-all.svg</file>
         <file>images/assgn-none.svg</file>
         <file>images/assgn-some.svg</file>
         <file>images/change-case.svg</file>
+
         <file>images/document-save.svg</file>
         <file>images/discogs.png</file>
         <file>images/musicbrainz_logo1.svg</file>
@@ -45,18 +54,21 @@
         <file>images/patterns.svg</file>
         <file>images/sort_asc.svg</file>
         <file>images/palette.svg</file>
+
         <file>images/debug.svg</file>
         <file>images/tag_editor.svg</file>
         <file>images/rename.svg</file>
         <file>images/export.svg</file>
+
+
         <file>images/va_sa.svg</file>
         <file>images/va_va.svg</file>
+
         <file>licences/gplv2.txt</file>
         <file>licences/gplv3.txt</file>
         <file>licences/lgplv3.txt</file>
         <file>licences/lgpl-2.1.txt</file>
         <file>licences/boost.txt</file>
         <file>licences/zlib.txt</file>
-        <file>images/dialog-close.svg</file>
     </qresource>
 </RCC>

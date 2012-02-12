@@ -239,6 +239,8 @@ void SessionSettings::saveMiscConfigSettings(const CommonData* p)
         m_pSettings->setValue("main/checkForNewVersions", convStr(p->m_strCheckForNewVersions));
         m_pSettings->setValue("main/timeLastNewVerCheck", p->m_timeLastNewVerCheck);
         m_pSettings->setValue("main/dontTellAboutVer", convStr(p->m_strDontTellAboutVer));
+
+        m_pSettings->setValue("main/translation", convStr(p->m_strTranslation));
     }
 
     { // note categ colors
@@ -368,6 +370,8 @@ void SessionSettings::loadMiscConfigSettings(CommonData* p, bool bInitGui) const
             p->m_timeLastNewVerCheck = t1.addYears(-1);
         }
         p->m_strDontTellAboutVer = convStr(m_pSettings->value("main/dontTellAboutVer", "").toString());
+
+        p->m_strTranslation = convStr(m_pSettings->value("main/translation", "mp3diags_en_US.qm").toString()); //ttt0 get default language from GlobalSettings
     }
 
     { // note categ colors

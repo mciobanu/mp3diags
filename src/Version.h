@@ -37,6 +37,9 @@ const char* getIconName();
 // used for location of the documentation
 const char* getHelpPackageName();
 
+// used for location of the translation files
+const char* getTranslationPackageName();
+
 // for the global settings
 const char* getSettingsAppName();
 

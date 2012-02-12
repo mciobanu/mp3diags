@@ -475,6 +475,7 @@ public:
 
     std::string m_strRenamerInvalidChars;
     std::string m_strRenamerReplacementString;
+    std::string m_strTranslation;
 
 private:
     std::deque<const Mp3Handler*> m_vpAllHandlers; // owns the pointers; sorted by CmpMp3HandlerPtrByName;

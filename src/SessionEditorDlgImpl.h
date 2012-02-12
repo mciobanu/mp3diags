@@ -43,15 +43,18 @@ class SessionEditorDlgImpl : public QDialog, private Ui::SessionEditorDlg
 
     std::string m_strSessFile;
     bool m_bNew;
+    std::string m_strTranslation;
 
     bool m_bOpenLastSession; // meaningful only if bFirstTime was true on the constructor;
     void commonConstr(); // common code for both constructors
+    void setWindowTitle();
+
 
 public:
     // if bFirstTime is false it doesn't show the "Open last session" checkbox;
     // strDir is used as a start directory by on_m_pFileNameB_clicked;
     enum { NOT_FIRST_TIME, FIRST_TIME };
-    SessionEditorDlgImpl(QWidget* pParent, const std::string& strDir, bool bFirstTime); // used for creating a new session;
+    SessionEditorDlgImpl(QWidget* pParent, const std::string& strDir, bool bFirstTime, const std::string& strTranslation); // used for creating a new session;
     SessionEditorDlgImpl(QWidget* pParent, const std::string& strSessFile); // used for editing an existing session;
     ~SessionEditorDlgImpl();
     /*$PUBLIC_FUNCTIONS$*/
@@ -62,6 +65,7 @@ public:
 
     // returns the name of an INI file for OK and an empty string for Cancel; returns "*" to just go to the sessions dialog;
     std::string run();
+    const std::string& getTranslation() const { return m_strTranslation; }
 
     static std::string getDataFileName(const std::string& strSessFile);
     static std::string getLogFileName(const std::string& strSessFile);
@@ -86,6 +90,7 @@ protected slots:
     void on_m_pFileNameB_clicked();
     //void on_m_pLoadB_clicked();
     void on_m_pOpenSessionsB_clicked();
+    void on_m_pTranslationCbB_currentIndexChanged(int);
 
     void onShow();
 

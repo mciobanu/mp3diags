@@ -43,6 +43,7 @@
 #include  "StoredSettings.h"
 #include  "ColumnResizer.h"
 #include  "Widgets.h"
+#include  "Translation.h"
 
 ////#include  <iostream> //ttt remove
 
@@ -551,10 +552,10 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
 
 //lNames.sort();
 
-        m_pLocaleCbB->addItems(lNames);
-        int n (m_pLocaleCbB->findText(m_pCommonData->m_locale));
+        m_pId3LocaleCbB->addItems(lNames);
+        int n (m_pId3LocaleCbB->findText(m_pCommonData->m_locale));
         if (-1 == n) { n = 0; }
-        m_pLocaleCbB->setCurrentIndex(n);
+        m_pId3LocaleCbB->setCurrentIndex(n);
     }
 
     { // case
@@ -646,6 +647,24 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
         m_pDecrLabelFontSB->setValue(m_pCommonData->getLabelFontSizeDecr());
         m_fixedFont = m_pCommonData->getNewFixedFont();
         setFontLabels();
+
+        { // language
+            m_pFlagIconL->setMaximumSize(CELL_HEIGHT*5, CELL_HEIGHT*3);
+            int nCrt (0);
+            const vector<string>& vstrTranslations (TranslatorHandler::getGlobalTranslator().getTranslations());
+            string m_strTranslation (m_pCommonData->m_strTranslation); //ttt0 make member; ttt0 retranslate dynamically on on_m_pTranslationCbB_currentIndexChanged()
+            string strTmpTranslation (m_strTranslation); // !!! needed because on_m_pTranslationCbB_currentIndexChanged() will get triggered and change m_strTranslation
+            for (int i = 0; i < cSize(vstrTranslations); ++i)
+            {
+                m_pTranslationCbB->addItem(convStr(TranslatorHandler::getLanguageInfo(vstrTranslations[i])));
+                if (strTmpTranslation == vstrTranslations[i])
+                {
+                    nCrt = i;
+                }
+            }
+            m_strTranslation = strTmpTranslation;
+            m_pTranslationCbB->setCurrentIndex(nCrt);
+        }
     }
 
     {
@@ -797,9 +816,9 @@ bool ConfigDlgImpl::run()
 }
 
 
-void ConfigDlgImpl::on_m_pLocaleCbB_currentIndexChanged(int)
+void ConfigDlgImpl::on_m_pId3LocaleCbB_currentIndexChanged(int)
 {
-    QTextCodec* pCodec (QTextCodec::codecForName(m_pLocaleCbB->currentText().toLatin1()));
+    QTextCodec* pCodec (QTextCodec::codecForName(m_pId3LocaleCbB->currentText().toLatin1()));
     CB_ASSERT (0 != pCodec);
     QString qstrTxt (pCodec->toUnicode(m_codepageTestText));
     m_pCodepageTestM->setText(qstrTxt);
@@ -1056,7 +1075,7 @@ void ConfigDlgImpl::on_m_pOkB_clicked()
         }
 
         {
-            m_pCommonData->m_locale = m_pLocaleCbB->currentText().toLatin1();
+            m_pCommonData->m_locale = m_pId3LocaleCbB->currentText().toLatin1();
             m_pCommonData->m_pCodec = QTextCodec::codecForName(m_pCommonData->m_locale);
             CB_ASSERT (0 != m_pCommonData->m_pCodec);
         }
@@ -1102,6 +1121,8 @@ void ConfigDlgImpl::on_m_pOkB_clicked()
             m_pCommonData->m_strRenamerReplacementString = convStr(m_pInvalidReplacementE->text());
 
             m_pCommonData->m_strCheckForNewVersions = m_pCheckForUpdatesCkB->isChecked() ? "yes" : "no";
+
+            m_pCommonData->m_strTranslation = TranslatorHandler::getGlobalTranslator().getTranslations()[m_pTranslationCbB->currentIndex()];
         }
 
         if (m_bFull)

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>788</width>
-    <height>517</height>
+    <height>537</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,6 +17,51 @@
    <bool>true</bool>
   </property>
   <layout class="QVBoxLayout">
+   <item>
+    <widget class="QWidget" name="widget_5" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="margin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="m_pFlagIconL">
+        <property name="maximumSize">
+         <size>
+          <width>75</width>
+          <height>45</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap resource="Mp3Diags.qrc">:/images/preferences-desktop-locale.svg</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_40">
+        <property name="text">
+         <string>Language</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="m_pTranslationCbB">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
    <item>
     <layout class="QHBoxLayout">
      <item>
@@ -106,9 +151,9 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="m_pCancelB">
+         <widget class="QPushButton" name="m_pCloseB">
           <property name="text">
-           <string>Cancel</string>
+           <string>Close</string>
           </property>
          </widget>
         </item>
@@ -226,9 +271,11 @@
   <tabstop>m_pEraseB</tabstop>
   <tabstop>m_pLoadB</tabstop>
   <tabstop>m_pHideB</tabstop>
-  <tabstop>m_pCancelB</tabstop>
+  <tabstop>m_pCloseB</tabstop>
   <tabstop>m_pOpenLastCkB</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="Mp3Diags.qrc"/>
+ </resources>
  <connections/>
 </ui>

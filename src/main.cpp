@@ -54,6 +54,7 @@
 #include  "CommonData.h"
 #include  "ConfigDlgImpl.h"
 #include  "Mp3TransformThread.h"
+#include  "Translation.h"
 
 
 //#include  "Profiler.h"
@@ -76,16 +77,16 @@ GlobalSettings::~GlobalSettings()
 }
 
 
-void GlobalSettings::saveSessions(const vector<string>& vstrSess1, const string& strLast, bool bOpenLast, const string& strTempSessTempl, const string& strDirSessTempl, bool bLoadExternalChanges)
+void GlobalSettings::saveSessions(const vector<string>& vstrSess1, const string& strLast, bool bOpenLast, const string& strTempSessTempl, const string& strDirSessTempl, const string& strTranslation, bool bLoadExternalChanges)
 {
     vector<string> vstrSess (vstrSess1);
 
     if (bLoadExternalChanges)
     { // add sessions that might have been added by another instance of the program
         vector<string> vstrSess2;
-        string strLast2, strTempSessTempl2, strDirSessTempl2;
+        string strLast2, strTempSessTempl2, strDirSessTempl2, strTranslation2;
         bool bOpenLast2;
-        loadSessions(vstrSess2, strLast2, bOpenLast2, strTempSessTempl2, strDirSessTempl2);
+        loadSessions(vstrSess2, strLast2, bOpenLast2, strTempSessTempl2, strDirSessTempl2, strTranslation2);
         for (int i = 0, n = cSize(vstrSess2); i < n; ++i)
         {
             if (vstrSess.end() == find(vstrSess.begin(), vstrSess.end(), vstrSess2[i]))
@@ -113,10 +114,11 @@ void GlobalSettings::saveSessions(const vector<string>& vstrSess1, const string&
     }
     m_pSettings->setValue("main/tempSessionTemplate", convStr(strTempSessTempl));
     m_pSettings->setValue("main/dirSessionTemplate", convStr(strDirSessTempl));
+    m_pSettings->setValue("main/translation", convStr(strTranslation));
 }
 
 
-void GlobalSettings::loadSessions(vector<string>& vstrSess, string& strLast, bool& bOpenLast, string& strTempSessTempl, string& strDirSessTempl) const
+void GlobalSettings::loadSessions(vector<string>& vstrSess, string& strLast, bool& bOpenLast, string& strTempSessTempl, string& strDirSessTempl, string& strTranslation) const
 {
     vstrSess.clear();
     int n (m_pSettings->value("main/sessions/count", 0).toInt());
@@ -142,6 +144,8 @@ void GlobalSettings::loadSessions(vector<string>& vstrSess, string& strLast, boo
         strLast = vstrSess.empty() ? "" : vstrSess.back();
         // ttt1 generally improve handling of missing sessions (simply erasing them is probably not the best option);
     }
+
+    strTranslation = convStr(m_pSettings->value("main/translation", "").toString());
 }
 
 const QFont& getDefaultFont()
@@ -273,7 +277,8 @@ struct SessEraser
         bool bOpenLast;
         string strTempSessTempl;
         string strDirSessTempl;
-        st.loadSessions(vstrSess, strLastSession, bOpenLast, strTempSessTempl, strDirSessTempl);
+        string strTranslation;
+        st.loadSessions(vstrSess, strLastSession, bOpenLast, strTempSessTempl, strDirSessTempl, strTranslation);
 
         vector<string>::iterator it (find(vstrSess.begin(), vstrSess.end(), m_strSessionToHide));
         if (vstrSess.end() != it)
@@ -285,7 +290,7 @@ struct SessEraser
             }
         }
 
-        st.saveSessions(vstrSess, strLastSession, bOpenLast, strTempSessTempl, strDirSessTempl, GlobalSettings::IGNORE_EXTERNAL_CHANGES);
+        st.saveSessions(vstrSess, strLastSession, bOpenLast, strTempSessTempl, strDirSessTempl, strTranslation, GlobalSettings::IGNORE_EXTERNAL_CHANGES);
     }
 
     string m_strSessionToHide;
@@ -308,8 +313,9 @@ string getActiveSession(const po::variables_map& options, int& nSessCnt, bool& b
     vector<string> vstrSess;
     //string strLast;
     GlobalSettings st;
+    string strTranslation;
 
-    st.loadSessions(vstrSess, strRes, bOpenLast, strTempSessTempl, strDirSessTempl);
+    st.loadSessions(vstrSess, strRes, bOpenLast, strTempSessTempl, strDirSessTempl, strTranslation);
     nSessCnt = cSize(vstrSess);
 
     if (options.count(s_sessionOpt.m_szLongOpt) > 0)
@@ -360,8 +366,6 @@ int guiMain(const po::variables_map& options) {
 
     strLastSession = getActiveSession(options, nSessCnt, bOpenLast, strTempSessTempl, strDirSessTempl);
 
-    bool bOpenSelDlg (false);
-
     if (options.count(s_tempSessOpt.m_szLongOpt) > 0)
     {
         SessEraser::eraseTempSess();
@@ -387,6 +391,7 @@ int guiMain(const po::variables_map& options) {
         string strProcDir (options[s_tempSessOpt.m_szLongOpt].as<string>());
         strProcDir = getNonSepTerminatedDir(convStr(QDir(fromNativeSeparators(convStr(strProcDir))).absolutePath()));
         setFolder(strStartSession, strProcDir);
+        bOpenLast = true;
     }
     else if (!strFolderSess.empty())
     {
@@ -436,10 +441,11 @@ int guiMain(const po::variables_map& options) {
             showMessage(0, QMessageBox::Critical, 0, 0, "Error", "Cannot write to file \"" + convStr(strStartSession) + "\". The program will exit ...", "O&K");
             return 1;
         }
+        bOpenLast = true;
     }
     else if (0 == nSessCnt)
     { // first run; create a new session and run it
-        SessionEditorDlgImpl dlg (0, "", SessionEditorDlgImpl::FIRST_TIME);
+        SessionEditorDlgImpl dlg (0, "", SessionEditorDlgImpl::FIRST_TIME, ""); // ttt0 detect system locale
         dlg.setWindowIcon(QIcon(":/images/logo.svg"));
         strStartSession = dlg.run();
         if (strStartSession.empty())
@@ -456,15 +462,16 @@ int guiMain(const po::variables_map& options) {
             vector<string> vstrSess;
             //vstrSess.push_back(strStartSession);
             GlobalSettings st;
-            st.saveSessions(vstrSess, strStartSession, dlg.shouldOpenLastSession(), "", "", GlobalSettings::LOAD_EXTERNAL_CHANGES);
+            st.saveSessions(vstrSess, strStartSession, dlg.shouldOpenLastSession(), "", "", dlg.getTranslation(), GlobalSettings::LOAD_EXTERNAL_CHANGES);
         }
-
-        bOpenSelDlg = strStartSession.empty() || !bOpenLast;
+        bOpenLast = true;
     }
     else
     {
         strStartSession = strLastSession;
     }
+
+    bool bOpenSelDlg (strStartSession.empty() || !bOpenLast);
 
     try
     {
@@ -497,12 +504,20 @@ int guiMain(const po::variables_map& options) {
             {
                 vector<string> vstrSess;
                 bool bOpenLast;
-                string s, s1, s2;
+                string s, s1, s2, s3;
                 GlobalSettings st;
-                st.loadSessions(vstrSess, s, bOpenLast, s1, s2);
-                st.saveSessions(vstrSess, strStartSession, bOpenLast, s1, s2, GlobalSettings::LOAD_EXTERNAL_CHANGES);
+                st.loadSessions(vstrSess, s, bOpenLast, s1, s2, s3);
+                st.saveSessions(vstrSess, strStartSession, bOpenLast, s1, s2, s3, GlobalSettings::LOAD_EXTERNAL_CHANGES);
                 bDefaultForVisibleSessBtn = (cSize(vstrSess) != 1 || !strFolderSess.empty() || vstrSess.end() != find(vstrSess.begin(), vstrSess.end(), strTempSession));
             }
+
+            { //ttt2 overkill - create a "CommonData" just to read the language setting
+                SessionSettings settings (strStartSession);
+                CommonData commonData(settings, 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
+                settings.loadMiscConfigSettings(&commonData, SessionSettings::DONT_INIT_GUI);
+                TranslatorHandler::getGlobalTranslator().setTranslation(commonData.m_strTranslation); // !!! must be done here, before the MainFormDlgImpl constructor
+            }
+
             MainFormDlgImpl mainDlg (strStartSession, bDefaultForVisibleSessBtn);
             mainDlg.setWindowIcon(QIcon(":/images/logo.svg"));
 
@@ -1058,15 +1073,32 @@ int main(int argc, char *argv[])
     {
         Q_INIT_RESOURCE(Mp3Diags); // base name of the ".qrc" file
         QCoreApplication app (argc, argv); // !!! without this Qt file functions don't work correctly, e.g. QFileInfo has problems with file names that contain accents
+        //TranslatorHandler::getGlobalTranslator();
         return cmdlineMain(options);
     }
     else
     {
+        //QTranslator translator;
+        //translator.load("mp3diags_cs");
+
         Q_INIT_RESOURCE(Mp3Diags); // base name of the ".qrc" file
         QMp3DiagsApplication app (argc, argv);
+        TranslatorHandler::getGlobalTranslator();
+
+        /*qDebug("lang %s", TranslatorHandler::getGlobalTranslator().getLanguageInfo("ww/mp3diags_cs.qm").c_str());
+        qDebug("lang %s", TranslatorHandler::getGlobalTranslator().getLanguageInfo("ww/mp3diags_en_US.qm").c_str());
+        qDebug("lang %s", TranslatorHandler::getGlobalTranslator().getLanguageInfo("ww/mp3diags_ro.qm").c_str());
+        qDebug("lang %s", TranslatorHandler::getGlobalTranslator().getLanguageInfo("mp3diags_ro.qm").c_str());
+        qDebug("lang %s", TranslatorHandler::getGlobalTranslator().getLanguageInfo("mp3diags_ro_RO.qm").c_str());
+        qDebug("lang %s", TranslatorHandler::getGlobalTranslator().getLanguageInfo("_mp3diags_ro_RO.qm").c_str());
+        qDebug("lang %s", TranslatorHandler::getGlobalTranslator().getLanguageInfo("/qweqw/_mp3diags_ro_RO.qm").c_str());*/
+
+        //app.installTranslator(&translator);
+
         return guiMain(options);
     }
 }
+
 
 
 
@@ -1145,3 +1177,38 @@ WARNING: it is ignored, until you registered a Category at adrian@suse.de .
 //ttt2 non-utf8 file in /d/test_mp3/1/tmp2/crt_test/martin/dj not showing (reason: ListEnumerator::ListEnumerator calls QDir::entryInfoList(), which simply doesn't include the file, probably because its name is not UTF-8)
 
 //ttt0 config restructuring: session data: general settings, gui settings, gui controls, files
+
+/*
+
+ttt0 move to some readme.txt
+
+using translations:
+
+MP3 Diags automatically loads translations. Translations are stored in .qm files. Several steps are needed to create them:
+    1) make MP3 Diags aware of the new translation
+    2) run lupdate to create a .ts file
+    3) update the .ts file with the actual translation
+    4) run lcreate to create a .qm file
+
+1) add an entry in the TRANSLATIONS section of src/src.pro
+
+2) to create the .ts files run:
+lupdate src/src.pro
+
+3) open Qt Linguist and load the .ts file in src/translations
+translate, save
+
+4) to create the .qm files run:
+lrelease src/src.pro
+
+After it is done, the .ts file should be added to the project's source control.
+
+The regular build (in Install.sh or BuildBz2.sh) also creates the .qm files.
+
+Testing: the program looks for .qm files in 2 places:
+    - the executable's folder
+    - folder "../share/mp3diags/translations" (or "../share/mp3diags-unstable/translations") relative to the executable's folder
+
+*/
+
+//ttt0 translation build on Wnd

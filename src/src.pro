@@ -57,7 +57,8 @@ SOURCES +=  \
  fstream_unicode.cpp \
  ExportDlgImpl.cpp \
  SerSupport.cpp \
-  FullSizeImgDlg.cpp
+  FullSizeImgDlg.cpp \
+    Translation.cpp
 TEMPLATE = app
 CONFIG += warn_on \
 	  thread \
@@ -129,7 +130,8 @@ Widgets.h \
  fstream_unicode.h \
  ExportDlgImpl.h \
  FullSizeImgDlg.h \
- Version.h
+ Version.h \
+    Translation.h
 FORMS += About.ui \
 AlbumInfoDownloader.ui \
 Config.ui \
@@ -166,5 +168,6 @@ LIBS += -lz \
   -lboost_program_options-mt
 
 
+TRANSLATIONS = translations/mp3diags_cs.ts
 
 

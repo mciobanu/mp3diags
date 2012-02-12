@@ -73,6 +73,13 @@ const char* getHelpPackageName()
 }
 
 
+// used for location of the translation files
+const char* getTranslationPackageName()
+{
+    return "mp3diags-unstable";
+}
+
+
 const char* getSettingsAppName()
 {
     return "Mp3Diags-unstable"; //ttt1 maybe replace this with "mp3diags-unstable", but have some code to import older settings and then clear them

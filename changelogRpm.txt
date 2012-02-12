@@ -1,3 +1,6 @@
+* Wed Feb 02 2012 Marian Ciobanu <ciobi@inbox.com> 1.1.13.069
+- QQQ
+
 * Wed Feb 02 2012 Marian Ciobanu <ciobi@inbox.com> 1.1.12.068
 - external tools
 - possibility of applying transformation lists in CLI mode

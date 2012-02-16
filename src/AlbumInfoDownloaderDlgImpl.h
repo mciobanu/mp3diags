@@ -128,7 +128,7 @@ protected:
 
     static std::string removeParentheses(const std::string& s);
 
-    void addNote(const char* szNote);
+    void addNote(const QString& qstrNote);
     void setImageType(const std::string& strName);
     virtual QHttp* getWaitingHttp() = 0; // the one QHttp object waiting for a reply;
     virtual void resetNavigation(); // clears pending HTTP requests, m_eNavigDir and m_eWaiting; restores the cursor if needed;

@@ -163,7 +163,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::replaceSymbols");
     return s;
 }
 
-/*static*/ const char* AlbumInfoDownloaderDlgImpl::NOT_FOUND_AT_AMAZON = "not found at amazon.com";
+/*static*/ const char* AlbumInfoDownloaderDlgImpl::NOT_FOUND_AT_AMAZON = QT_TRANSLATE_NOOP("AlbumInfoDownloaderDlgImpl", "not found at amazon.com");
 
 void AlbumInfoDownloaderDlgImpl::search()
 {
@@ -180,7 +180,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::search");
     m_pImageL->setPixmap(0);
     m_pImageL->setText("");
     m_pImgSizeL->setText("\n");
-    m_pViewAtAmazonL->setText(NOT_FOUND_AT_AMAZON);
+    m_pViewAtAmazonL->setText(tr(NOT_FOUND_AT_AMAZON));
 
     m_strQuery = escapeHttp(createQuery()); // e.g. http://www.discogs.com/search?type=all&q=beatles&f=xml&api_key=f51e9c8f6c, without page number; to be used by loadNextPage();
     m_nTotalPages = 1; m_nLastLoadedPage = -1;
@@ -189,7 +189,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::search");
     //m_eNavigDir = NEXT;
     m_eNavigDir = NEXT;
     m_bNavigateByAlbum = false;
-    addNote("searching ...");
+    addNote(tr("searching ..."));
     m_pGenreE->setText("");
     //next(); //loadNextPage();
     retryNavigation();
@@ -245,13 +245,13 @@ void AlbumInfoDownloaderDlgImpl::on_m_pSaveAllB_clicked()
 LAST_STEP("AlbumInfoDownloaderDlgImpl::on_m_pSaveAllB_clicked");
     if (NOTHING != m_eWaiting)
     {
-        QMessageBox::critical(this, "Error", "You cannot save the results now, because a request is still pending");
+        QMessageBox::critical(this, tr("Error"), tr("You cannot save the results now, because a request is still pending"));
         return;
     }
 
     if (0 == getAlbumCount())
     {
-        QMessageBox::critical(this, "Error", "You cannot save the results now, because no album is loaded");
+        QMessageBox::critical(this, tr("Error"), tr("You cannot save the results now, because no album is loaded"));
         return;
     }
 
@@ -277,23 +277,23 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::on_m_pSaveAllB_clicked");
     if (nCnt != m_nExpectedTracks)
     {
         QString s;
-        const char* szVolMsg (
+        const QString& qstrVolMsg (
             m_pVolumeCbB->isEnabled() &&
             (
                 (nCnt > m_nExpectedTracks && m_pVolumeCbB->currentIndex() == m_pVolumeCbB->count() - 1) ||
                 (nCnt < m_nExpectedTracks && m_pVolumeCbB->currentIndex() != m_pVolumeCbB->count() - 1)
             )
-            ? "You may want to use a different volume selection on this multi-volume release.\n\n" : "");
+            ? tr("You may want to use a different volume selection on this multi-volume release.\n\n") : "");
 
         if (nCnt > m_nExpectedTracks)
         {
-            s = QString("A number of %1 tracks were expected, but your selection contains %2. Additional tracks will be discarded.\n\n%3Save anyway?").arg(m_nExpectedTracks).arg(nCnt).arg(szVolMsg);
+            s = tr("A number of %1 tracks were expected, but your selection contains %2. Additional tracks will be discarded.\n\n%3Save anyway?").arg(m_nExpectedTracks).arg(nCnt).arg(qstrVolMsg);
         }
         else
         {
-            s = QString("A number of %1 tracks were expected, but your selection only contains %2. Remaining tracks will get null values.\n\n%3Save anyway?").arg(m_nExpectedTracks).arg(nCnt).arg(szVolMsg);
+            s = tr("A number of %1 tracks were expected, but your selection only contains %2. Remaining tracks will get null values.\n\n%3Save anyway?").arg(m_nExpectedTracks).arg(nCnt).arg(qstrVolMsg);
         }
-        QMessageBox::StandardButton eRes (QMessageBox::question(this, "Count inconsistency", s, QMessageBox::Cancel | QMessageBox::Save));
+        QMessageBox::StandardButton eRes (QMessageBox::question(this, tr("Count inconsistency"), s, QMessageBox::Cancel | QMessageBox::Save));
         if (QMessageBox::Save != eRes) { return; }
     }
 
@@ -306,13 +306,13 @@ void AlbumInfoDownloaderDlgImpl::on_m_pSaveImageB_clicked()
 LAST_STEP("AlbumInfoDownloaderDlgImpl::on_m_pSaveImageB_clicked");
     if (NOTHING != m_eWaiting)
     {
-        QMessageBox::critical(this, "Error", "You cannot save the results now, because a request is still pending");
+        QMessageBox::critical(this, tr("Error"), tr("You cannot save the results now, because a request is still pending"));
         return;
     }
 
     if (0 == getAlbumCount() || -1 == m_nCrtImage)
     {
-        QMessageBox::critical(this, "Error", "You cannot save any image now, because there is no image loaded");
+        QMessageBox::critical(this, tr("Error"), tr("You cannot save any image now, because there is no image loaded"));
         return;
     }
     // ttt2 perhaps shouldn't save an "error" image
@@ -505,7 +505,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onRequestFinished");
 //if (1 == nId) { return; } // some automatically generated request, which should be ignored
     if (bError)
     {
-        addNote("request error");
+        addNote(tr("request error"));
         resetNavigation();
         return;
     }
@@ -524,7 +524,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onRequestFinished");
 
     CB_ASSERT (NOTHING != m_eWaiting);
 
-    { QString qstrMsg (QString("received %1 bytes").arg(nAv)); addNote(qstrMsg.toLatin1().constData()); }
+    { QString qstrMsg (tr("received %1 bytes").arg(nAv)); addNote(qstrMsg); }
 
     QString qstrXml;
 
@@ -533,7 +533,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onRequestFinished");
 
     if (nAv < 10)
     { // too short
-        addNote("received very short response; aborting request ...");
+        addNote(tr("received very short response; aborting request ..."));
         resetNavigation();
         return;
     }
@@ -547,7 +547,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onRequestFinished");
 
         if (img.loadFromData(b)) //ttt2 not sure what happens for huge images;
         {
-            qstrInfo = QString("Original: %1kB, %2x%3").arg(nAv/1024).arg(img.width()).arg(img.height());
+            qstrInfo = tr("Original: %1kB, %2x%3").arg(nAv/1024).arg(img.width()).arg(img.height());
             //cout << "image size " << img.width() << "x" << img.height() << endl;
 
             int nWidth (img.width()), nHeight (img.height());
@@ -560,24 +560,24 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onRequestFinished");
                 m_eLoadingImageCompr = ImageInfo::JPG;
 
                 //cout << "scaled image size " << img.width() << "x" << img.height() << endl;
-                qstrInfo += QString("\nRecompressed to: %1kB, %2x%3").arg(comprImg.size()/1024).arg(img.width()).arg(img.height());
+                qstrInfo += tr("\nRecompressed to: %1kB, %2x%3").arg(comprImg.size()/1024).arg(img.width()).arg(img.height());
             }
             else
             {
-                qstrInfo += "\nNot recompressed";
+                qstrInfo += tr("\nNot recompressed");
             }
             onImageLoaded(comprImg, nWidth, nHeight, qstrInfo);
         }
         else
         {
-            QMessageBox::critical(this, "Error", "Failed to load the image");
+            QMessageBox::critical(this, tr("Error"), tr("Failed to load the image"));
             const int SIZE (150);
             QImage errImg (SIZE, SIZE, QImage::Format_ARGB32);
             QPainter pntr (&errImg);
             pntr.fillRect(0, 0, SIZE, SIZE, QColor(255, 128, 128));
             pntr.drawRect(0, 0, SIZE - 1, SIZE - 1);
             pntr.drawText(QRectF(0, 0, SIZE, SIZE), Qt::AlignCenter, "Error");
-            qstrInfo = "Error loading image\n";
+            qstrInfo = tr("Error loading image\n");
             comprImg.clear();
             QBuffer bfr (&comprImg);
             errImg.save(&bfr, "png");
@@ -603,7 +603,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onRequestFinished");
 
         //int nRes (inflateInit(&strm));
         int nRes (inflateInit2(&strm, 16 + 15)); // !!! see libz.h for details; "32" makes this able to handle both gzip and zlib, by auto-detecting the format; 16 is used to force gzip
-        if (Z_OK != nRes) { addNote("init error"); goto e2; }
+        if (Z_OK != nRes) { addNote(tr("init error")); goto e2; }
 
         strm.next_out = reinterpret_cast<unsigned char*>(&v[0]);
         strm.avail_out = v.size();
@@ -622,7 +622,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onRequestFinished");
                 continue;
             }
 
-            addNote("unexpected result"); goto e2;
+            addNote(tr("unexpected result")); goto e2;
         }
 
         {
@@ -642,7 +642,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onRequestFinished");
 
     if (qstrXml.isEmpty())
     {
-        addNote("empty string received");
+        addNote(tr("empty string received"));
     }
     else
     {
@@ -730,7 +730,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::retryNavigation");
 void AlbumInfoDownloaderDlgImpl::onSearchLoaded(const QString& qstrXml)
 {
 LAST_STEP("AlbumInfoDownloaderDlgImpl::onSearchLoaded");
-    addNote("search results received");
+    addNote(tr("search results received"));
     QByteArray b (qstrXml.toLatin1());
     QBuffer bfr (&b);
     //SearchXmlHandler hndl (*this);
@@ -743,7 +743,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onSearchLoaded");
     QXmlInputSource src (&bfr);
     if (!rdr.parse(src))
     {
-        QMessageBox::critical(this, "Error", "Couldn't process the search result. (Usually this means that the server is busy, so trying later might work.)");
+        QMessageBox::critical(this, tr("Error"), tr("Couldn't process the search result. (Usually this means that the server is busy, so trying later might work.)"));
         if (0 == getAlbumCount())
         {
             m_nTotalPages = 0;
@@ -755,7 +755,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onSearchLoaded");
 
     if (0 == getAlbumCount() && m_nLastLoadedPage == m_nTotalPages - 1)
     {
-        QMessageBox::critical(this, "Error", "No results found");
+        QMessageBox::critical(this, tr("Error"), tr("No results found"));
     }
 
     retryNavigation();
@@ -765,7 +765,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onSearchLoaded");
 void AlbumInfoDownloaderDlgImpl::onAlbumLoaded(const QString& qstrXml)
 {
 LAST_STEP("AlbumInfoDownloaderDlgImpl::onAlbumLoaded");
-    addNote("album info received");
+    addNote(tr("album info received"));
     QByteArray b (qstrXml.toLatin1());
     QBuffer bfr (&b);
     //AlbumXmlHandler hndl (album(m_nLoadingAlbum));
@@ -779,7 +779,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onAlbumLoaded");
     if (!rdr.parse(src))
     {
         //CB_ASSERT (false);
-        QMessageBox::critical(this, "Error", "Couldn't process the album information. (Usually this means that the server is busy, so trying later might work.)");
+        QMessageBox::critical(this, tr("Error"), tr("Couldn't process the album information. (Usually this means that the server is busy, so trying later might work.)"));
         /*if (0 == getAlbumCount())
         {
             m_nTotalPages = 0;
@@ -797,7 +797,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onAlbumLoaded");
 void AlbumInfoDownloaderDlgImpl::onImageLoaded(const QByteArray& comprImg, int nWidth, int nHeight, const QString& qstrInfo)
 {
 LAST_STEP("AlbumInfoDownloaderDlgImpl::onImageLoaded");
-    addNote("image received");
+    addNote(tr("image received"));
     CB_ASSERT (0 == album(m_nLoadingAlbum).m_vpImages[m_nLoadingImage]);
     CB_ASSERT (ImageInfo::INVALID != m_eLoadingImageCompr);
     album(m_nLoadingAlbum).m_vpImages[m_nLoadingImage] = new ImageInfo(-1, ImageInfo::OK, m_eLoadingImageCompr, comprImg, nWidth, nHeight);
@@ -810,7 +810,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onImageLoaded");
 
 
 
-void AlbumInfoDownloaderDlgImpl::addNote(const char* szNote)
+void AlbumInfoDownloaderDlgImpl::addNote(const QString& qstrNote)
 {
 LAST_STEP("AlbumInfoDownloaderDlgImpl::addNote");
     QString q (m_pDownloadsM->toPlainText());
@@ -821,7 +821,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::addNote");
         sprintf(a, "%02d:%02d:%02d.%03d ", t.hour(), t.minute(), t.second(), t.msec());
         q += a;
     }
-    q += szNote;
+    q += qstrNote;
     m_pDownloadsM->setText(q);
 
     QScrollBar* p (m_pDownloadsM->verticalScrollBar());
@@ -891,12 +891,12 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::reloadGui");
         {
             m_pVolumeCbB->addItem(convStr(*it));
         }
-        m_pVolumeCbB->addItem("<All>");
+        m_pVolumeCbB->addItem(tr("<All>"));
     }
 
 
     QString q1 (m_nTotalPages == m_nLastLoadedPage + 1 ? "" : "+");
-    QString s (QString("Album %1/%2%3, image %4/%5").arg(m_nCrtAlbum + 1).arg(getAlbumCount()).arg(q1).arg(m_nCrtImage + 1).arg(albumInfo.m_vpImages.size()));
+    QString s (tr("Album %1/%2%3, image %4/%5").arg(m_nCrtAlbum + 1).arg(getAlbumCount()).arg(q1).arg(m_nCrtImage + 1).arg(albumInfo.m_vpImages.size()));
     m_pResultNoL->setText(s);
 
     m_pResArtistE->setText(convStr(albumInfo.m_strArtist));
@@ -906,7 +906,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::reloadGui");
     {
         m_pImageL->setPixmap(0);
         m_pImageL->setText("");
-        m_pImgSizeL->setText("No image\n");
+        m_pImgSizeL->setText(tr("No image\n"));
     }
     else
     {
@@ -1127,17 +1127,17 @@ WebDwnldModel::WebDwnldModel(AlbumInfoDownloaderDlgImpl& dwnld, QTableView& grid
 }
 
 
-/*override*/ QVariant WebDwnldModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /*= Qt::DisplayRole*/) const
+/*override*/ QVariant WebDwnldModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /* = Qt::DisplayRole*/) const
 {
     if (nRole != Qt::DisplayRole) { return QVariant(); }
     if (Qt::Horizontal == eOrientation)
     {
         switch (nSection)
         {
-        case 0: return "Pos";
-        case 1: return "Title";
-        case 2: return "Artist";
-        case 3: return "Composer";
+        case 0: return tr("Pos");
+        case 1: return tr("Title");
+        case 2: return tr("Artist");
+        case 3: return tr("Composer");
         default:
             CB_ASSERT (false);
         }

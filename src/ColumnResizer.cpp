@@ -221,7 +221,7 @@ SimpleQTreeWidgetWidthInterface::SimpleQTreeWidgetWidthInterface(QTreeWidget& tb
 
 
 //ttt2 maybe separate text width calculations from resizing, to avoid unneeded calls to QFontMetrics (useful only when resizing a window, so perhaps can be dropped)
-ColumnResizer::ColumnResizer(TableWidthInterface& intf, int nMaxRows /*= 80*/, bool bFill /*= false*/, bool bConsistentResults /*= false*/) : m_intf(intf), m_nMaxRows(nMaxRows), m_bConsistentResults(bConsistentResults) // if bFill is true, colums are resized wider than needed, so they fill the whole area of the table
+ColumnResizer::ColumnResizer(TableWidthInterface& intf, int nMaxRows /* = 80*/, bool bFill /* = false*/, bool bConsistentResults /* = false*/) : m_intf(intf), m_nMaxRows(nMaxRows), m_bConsistentResults(bConsistentResults) // if bFill is true, colums are resized wider than needed, so they fill the whole area of the table
 {
     autoSize(bFill);
 }

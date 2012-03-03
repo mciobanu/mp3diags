@@ -38,7 +38,7 @@ class CheckedDirModel : public QDirModel
 
     /*override*/ QVariant data(const QModelIndex& index, int nRole = Qt::DisplayRole) const;
 
-    bool setData(const QModelIndex& index, const QVariant& value, int nRole /*= Qt::EditRole*/);
+    bool setData(const QModelIndex& index, const QVariant& value, int nRole /* = Qt::EditRole*/);
 
     // non-reflexive (isDescendant(s, s) is false)
     // order: "" is above "/"; "/" is above the rest;
@@ -46,7 +46,7 @@ class CheckedDirModel : public QDirModel
 
     bool m_bUserCheckable;
 
-    std::vector<QString> m_vCheckedDirs; // strings are not terminated with the path separator, excepting for the root
+    std::vector<QString> m_vCheckedDirs; // strings are not terminated with the path separator, except for the root
     std::vector<QString> m_vUncheckedDirs;
 
     void expandNode(const QString& s, QTreeView* pTreeView);

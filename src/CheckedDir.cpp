@@ -36,7 +36,7 @@
 using namespace std;
 
 
-/*override*/ QVariant CheckedDirModel::data(const QModelIndex& index, int nRole /*= Qt::DisplayRole*/) const
+/*override*/ QVariant CheckedDirModel::data(const QModelIndex& index, int nRole /* = Qt::DisplayRole*/) const
 {
     //qDebug("CheckedDirModel::data(%d, %d, role=%d)", index.row(), index.column(), nRole);
     LAST_STEP("CheckedDirModel::data()");
@@ -138,7 +138,7 @@ using namespace std;
 }
 
 
-bool CheckedDirModel::setData(const QModelIndex& index, const QVariant& value, int nRole /*= Qt::EditRole*/)
+bool CheckedDirModel::setData(const QModelIndex& index, const QVariant& value, int nRole /* = Qt::EditRole*/)
 {
     Qt::CheckState eCheck ((Qt::CheckState)value.toInt());
     if (Qt::PartiallyChecked == eCheck)

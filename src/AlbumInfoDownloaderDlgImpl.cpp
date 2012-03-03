@@ -43,6 +43,7 @@
 
 #include  "Helpers.h"
 #include  "ColumnResizer.h"
+#include  "Widgets.h"
 
 
 #include  "fstream_unicode.h"
@@ -245,13 +246,13 @@ void AlbumInfoDownloaderDlgImpl::on_m_pSaveAllB_clicked()
 LAST_STEP("AlbumInfoDownloaderDlgImpl::on_m_pSaveAllB_clicked");
     if (NOTHING != m_eWaiting)
     {
-        QMessageBox::critical(this, tr("Error"), tr("You cannot save the results now, because a request is still pending"));
+        showCritical(this, tr("Error"), tr("You cannot save the results now, because a request is still pending"));
         return;
     }
 
     if (0 == getAlbumCount())
     {
-        QMessageBox::critical(this, tr("Error"), tr("You cannot save the results now, because no album is loaded"));
+        showCritical(this, tr("Error"), tr("You cannot save the results now, because no album is loaded"));
         return;
     }
 
@@ -293,8 +294,8 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::on_m_pSaveAllB_clicked");
         {
             s = tr("A number of %1 tracks were expected, but your selection only contains %2. Remaining tracks will get null values.\n\n%3Save anyway?").arg(m_nExpectedTracks).arg(nCnt).arg(qstrVolMsg);
         }
-        QMessageBox::StandardButton eRes (QMessageBox::question(this, tr("Count inconsistency"), s, QMessageBox::Cancel | QMessageBox::Save));
-        if (QMessageBox::Save != eRes) { return; }
+
+        if (showMessage(this, QMessageBox::Question, 1, 1, tr("Count inconsistency"), s, tr("&Save"), tr("Cancel")) != 0) { return; }
     }
 
     m_bSaveImageOnly = false;
@@ -306,13 +307,13 @@ void AlbumInfoDownloaderDlgImpl::on_m_pSaveImageB_clicked()
 LAST_STEP("AlbumInfoDownloaderDlgImpl::on_m_pSaveImageB_clicked");
     if (NOTHING != m_eWaiting)
     {
-        QMessageBox::critical(this, tr("Error"), tr("You cannot save the results now, because a request is still pending"));
+        showCritical(this, tr("Error"), tr("You cannot save the results now, because a request is still pending"));
         return;
     }
 
     if (0 == getAlbumCount() || -1 == m_nCrtImage)
     {
-        QMessageBox::critical(this, tr("Error"), tr("You cannot save any image now, because there is no image loaded"));
+        showCritical(this, tr("Error"), tr("You cannot save any image now, because there is no image loaded"));
         return;
     }
     // ttt2 perhaps shouldn't save an "error" image
@@ -570,13 +571,13 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onRequestFinished");
         }
         else
         {
-            QMessageBox::critical(this, tr("Error"), tr("Failed to load the image"));
+            showCritical(this, tr("Error"), tr("Failed to load the image"));
             const int SIZE (150);
             QImage errImg (SIZE, SIZE, QImage::Format_ARGB32);
             QPainter pntr (&errImg);
             pntr.fillRect(0, 0, SIZE, SIZE, QColor(255, 128, 128));
             pntr.drawRect(0, 0, SIZE - 1, SIZE - 1);
-            pntr.drawText(QRectF(0, 0, SIZE, SIZE), Qt::AlignCenter, "Error");
+            pntr.drawText(QRectF(0, 0, SIZE, SIZE), Qt::AlignCenter, tr("Error"));
             qstrInfo = tr("Error loading image\n");
             comprImg.clear();
             QBuffer bfr (&comprImg);
@@ -743,7 +744,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onSearchLoaded");
     QXmlInputSource src (&bfr);
     if (!rdr.parse(src))
     {
-        QMessageBox::critical(this, tr("Error"), tr("Couldn't process the search result. (Usually this means that the server is busy, so trying later might work.)"));
+        showCritical(this, tr("Error"), tr("Couldn't process the search result. (Usually this means that the server is busy, so trying later might work.)"));
         if (0 == getAlbumCount())
         {
             m_nTotalPages = 0;
@@ -755,7 +756,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onSearchLoaded");
 
     if (0 == getAlbumCount() && m_nLastLoadedPage == m_nTotalPages - 1)
     {
-        QMessageBox::critical(this, tr("Error"), tr("No results found"));
+        showCritical(this, tr("Error"), tr("No results found"));
     }
 
     retryNavigation();
@@ -779,7 +780,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onAlbumLoaded");
     if (!rdr.parse(src))
     {
         //CB_ASSERT (false);
-        QMessageBox::critical(this, tr("Error"), tr("Couldn't process the album information. (Usually this means that the server is busy, so trying later might work.)"));
+        showCritical(this, tr("Error"), tr("Couldn't process the album information. (Usually this means that the server is busy, so trying later might work.)"));
         /*if (0 == getAlbumCount())
         {
             m_nTotalPages = 0;

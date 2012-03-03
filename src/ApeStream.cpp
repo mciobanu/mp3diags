@@ -20,7 +20,7 @@
  ***************************************************************************/
 
 
-#include  <sstream>
+#include  <QString>
 
 #include  "ApeStream.h"
 
@@ -34,7 +34,7 @@ namespace {
 
 //ttt3 these might get used uninitialized, if read before main()
 
-const char* LBL_TITLE ("Title");
+const char* LBL_TITLE ("Title"); //!!! no translation - these are the names of the standard APE keys, corresponding to "TIT2" in ID3V2
 const char* LBL_ARTIST ("Artist"); //ttt2 may be list
 //const char* LBL_TRACK_NUMBER ("TRCK");
 //const char* LBL_TRACK_YEAR ("TYER");
@@ -109,7 +109,7 @@ ApeItem::ApeItem(NoteColl& notes, istream& in) : m_eType(BINARY)
     m_cFlags3 = pUnsgBfr[6];
     m_cFlags4 = pUnsgBfr[7];
 
-    MP3_CHECK (0 == m_cFlags1 && 0 == m_cFlags2 && 0 == m_cFlags3 && 0 == m_cFlags4, pos, apeFlagsNotSupported, StreamIsUnsupported(ApeStream::getClassDisplayName(), "Ape stream whose items have unsupported flags."));
+    MP3_CHECK (0 == m_cFlags1 && 0 == m_cFlags2 && 0 == m_cFlags3 && 0 == m_cFlags4, pos, apeFlagsNotSupported, StreamIsUnsupported(ApeStream::getClassDisplayName(), tr("Ape stream whose items have unsupported flags.")));
     //MP3_CHECK (0 == (m_cFlags1 & 0xf8u) && 0 == m_cFlags2 && 0 == m_cFlags3 && 0 == m_cFlags4, pos, apeFlagsNotSupported, StreamIsUnsupported(ApeStream::getClassDisplayName(), "Ape stream whose items have unsupported flags.")); // ttt1 allow this; see 02_-_Brave_-_Driven.mp3, which has a "BINARY" value (hence the "2" flag, which is also larger than 256)
 //inspect(bfr, BFR_SIZE);
     int nDataSize (pUnsgBfr[0] + (pUnsgBfr[1] << 8) + (pUnsgBfr[2] << 16) + (pUnsgBfr[3] << 24));
@@ -121,9 +121,7 @@ ApeItem::ApeItem(NoteColl& notes, istream& in) : m_eType(BINARY)
 
     if (nDataSize > 256)
     {
-        ostringstream out;
-        out << "Ape Item seems too big. Although the size may be any 32-bit integer, 256 bytes should be enough in practice. If this message is determined to be mistaken, it will be removed in the future. Item key: " << m_strName << "; item size: " << nDataSize;
-        MP3_NOTE_D (pos, apeItemTooBig, out.str());
+        MP3_NOTE_D (pos, apeItemTooBig, tr("Ape Item seems too big. Although the size may be any 32-bit integer, 256 bytes should be enough in practice. If this message is determined to be mistaken, it will be removed in the future. Item key: %1; item size: %2").arg(convStr(m_strName)).arg(nDataSize));
         throw ApeStream::NotApeStream(); //ttt1 actually it's possible; see 02_-_Brave_-_Driven.mp3
     }
 
@@ -160,7 +158,7 @@ string ApeItem::getUtf8String() const
 {
     switch (m_eType)
     {
-    case BINARY: return "<non-text value>";
+    case BINARY: return convStr(TagReader::tr("<non-text value>"));
     case UTF8: return string(&m_vcValue[0], &m_vcValue[0] + cSize(m_vcValue));
     }
     CB_ASSERT(false);
@@ -190,7 +188,7 @@ ApeStream::ApeStream(int nIndex, NoteColl& notes, istream& in) : DataStream(nInd
     m_nVersion = *reinterpret_cast<int*>(bfr + 8); // ttt2 assume 32-bit int + little-endian
     m_nSize = *reinterpret_cast<int*>(bfr + 12); // ttt2 assume 32-bit int + little-endian
 
-    MP3_CHECK (0x80 == (0xc0 & (unsigned char)bfr[23]), m_pos, apeUnsupported, StreamIsUnsupported(ApeStream::getClassDisplayName(), "Tag missing header or footer.")); //ttt2 assumes both header & footer are present, but they are optional;
+    MP3_CHECK (0x80 == (0xc0 & (unsigned char)bfr[23]), m_pos, apeUnsupported, StreamIsUnsupported(ApeStream::getClassDisplayName(), tr("Tag missing header or footer."))); //ttt2 assumes both header & footer are present, but they are optional;
     MP3_CHECK (0 != (0x20 & bfr[23]), m_pos, apeFoundFooter, NotApeHeader());
 
     streampos posEnd (m_pos);
@@ -331,7 +329,7 @@ bool ApeStream::hasMp3Gain() const
 }
 
 
-/*override*/ std::string ApeStream::getTitle(bool* pbFrameExists /*= 0*/) const
+/*override*/ std::string ApeStream::getTitle(bool* pbFrameExists /* = 0*/) const
 {
     const ApeItem* p (findItem(LBL_TITLE));
     if (0 != pbFrameExists) { *pbFrameExists = 0 != p; }
@@ -340,7 +338,7 @@ bool ApeStream::hasMp3Gain() const
 }
 
 
-/*override*/ std::string ApeStream::getArtist(bool* pbFrameExists /*= 0*/) const
+/*override*/ std::string ApeStream::getArtist(bool* pbFrameExists /* = 0*/) const
 {
     const ApeItem* p (findItem(LBL_ARTIST));
     if (0 != pbFrameExists) { *pbFrameExists = 0 != p; }
@@ -348,7 +346,7 @@ bool ApeStream::hasMp3Gain() const
     return p->getUtf8String();
 }
 
-/*override*/ std::string ApeStream::getTrackNumber(bool* /*pbFrameExists*/ /*= 0*/) const
+/*override*/ std::string ApeStream::getTrackNumber(bool* /*pbFrameExists*/ /* = 0*/) const
 {
     /*const ApeItem* p (findItem(LBL_TRACK_NUMBER));
     if (0 == p) { return ""; }
@@ -357,13 +355,13 @@ bool ApeStream::hasMp3Gain() const
 }
 
 
-/*override*/ TagTimestamp ApeStream::getTime(bool* /*= 0*/) const
+/*override*/ TagTimestamp ApeStream::getTime(bool* /* = 0*/) const
 {
     throw NotSupportedOp();
 }
 
 
-/*override*/ std::string ApeStream::getGenre(bool* pbFrameExists /*= 0*/) const
+/*override*/ std::string ApeStream::getGenre(bool* pbFrameExists /* = 0*/) const
 {
     const ApeItem* p (findItem(LBL_GENRE)); // not always correct; the specs say it's a "numeric string"; usually a descriptive string seems to be used though, not a number; anyway, "Cenaclul Flacara 3/c06 Anda Calugareanu - Noi, nu.mp3" has a "(80)" in this field
     if (0 != pbFrameExists) { *pbFrameExists = 0 != p; }
@@ -371,7 +369,7 @@ bool ApeStream::hasMp3Gain() const
     return p->getUtf8String();
 }
 
-/*override*/ std::string ApeStream::getAlbumName(bool* pbFrameExists /*= 0*/) const
+/*override*/ std::string ApeStream::getAlbumName(bool* pbFrameExists /* = 0*/) const
 {
     const ApeItem* p (findItem(LBL_ALBUM));
     if (0 != pbFrameExists) { *pbFrameExists = 0 != p; }

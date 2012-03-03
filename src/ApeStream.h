@@ -26,12 +26,17 @@
 #include  <vector>
 #include  <istream>
 
+#include  <QApplication> // for translation
+
 #include  "DataStream.h"
 
 //struct ApeItem;
 
 struct ApeItem // !!! needs to be public for serialization
 {
+    Q_DECLARE_TR_FUNCTIONS(ApeItem)
+
+public:
     ApeItem(NoteColl& notes, std::istream& in);
     ~ApeItem() {}
 
@@ -74,6 +79,8 @@ private:
 
 class ApeStream : public DataStream, public TagReader
 {
+    Q_DECLARE_TR_FUNCTIONS(ApeStream)
+
     int m_nVersion;
     std::streampos m_pos;
     std::streamoff m_nSize;
@@ -87,7 +94,7 @@ public:
     ApeStream(int nIndex, NoteColl& notes, std::istream& in);
     ~ApeStream();
     /*override*/ void copy(std::istream& in, std::ostream& out);
-    DECL_RD_NAME("Ape");
+    DECL_RD_NAME("Ape")
     /*override*/ std::string getInfo() const;
 
     /*override*/ std::streampos getPos() const { return m_pos; }

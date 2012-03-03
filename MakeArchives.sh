@@ -50,6 +50,17 @@ function initialize
 }
 
 
+function checkNoteTransl
+{
+    cat src/Notes.h | grep '^    DECL_NOTE_INFO' | sed -e 's#[^"]*#    tr(#' -e 's#[^"]*$#); // AUTOTRANSL#' > /tmp/NoteTransl1
+    cat src/Notes.cpp | grep '// AUTOTRANSL' > /tmp/NoteTransl2
+    d=`diff /tmp/NoteTransl1 /tmp/NoteTransl2`
+    if [[ "$d" != "" ]] ; then echo "mismatch in note translations; see /tmp/NoteTransl1 and /tmp/NoteTransl2" ; exit 1 ; fi
+    rm /tmp/NoteTransl1
+    rm /tmp/NoteTransl2
+}
+
+
 function createPad
 {
     echo Creating pad
@@ -289,6 +300,7 @@ function createPackagerSrc
 #pwd > /home/ciobi/cpp/Mp3Utils/MP3Diags/d
 
 initialize
+checkNoteTransl
 createPad
 createSrc
 createDoc

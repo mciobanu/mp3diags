@@ -320,8 +320,8 @@ src/MusicBrainzDownloader.h	f	2009-09-11T14:47:51Z
 src/NoteFilter.ui	f	2012-01-02T15:21:05Z
 src/NoteFilterDlgImpl.cpp	f	2009-11-03T12:20:00Z
 src/NoteFilterDlgImpl.h	f	2009-09-11T14:47:51Z
-src/Notes.cpp	f	2010-02-13T06:58:04Z
-src/Notes.h	f	2011-04-30T13:17:21Z
+src/Notes.cpp	f	2012-03-04T19:41:49Z
+src/Notes.h	f	2012-03-04T19:47:39Z
 src/NotesModel.cpp	f	2009-09-03T19:35:41Z
 src/NotesModel.h	f	2009-05-06T07:31:33Z
 src/OsFile.cpp	f	2011-06-26T19:39:49Z

@@ -76,7 +76,7 @@ LAST_STEP("LogModel::data()");
     return convStr(m_pCommonData->getLog()[index.row()]);
 }
 
-/*override*/ QVariant LogModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /*= Qt::DisplayRole*/) const
+/*override*/ QVariant LogModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /* = Qt::DisplayRole*/) const
 {
 LAST_STEP("LogModel::headerData");
 #if 0
@@ -107,7 +107,7 @@ LAST_STEP("LogModel::headerData");
     {
         switch (nSection)
         {
-        case 0: return "Message";
+        case 0: return tr("Message");
         default:
             CB_ASSERT (false);
         }

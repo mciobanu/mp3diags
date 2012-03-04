@@ -29,6 +29,9 @@
 // Frame of an ID3V2.3.0 tag
 struct Id3V230Frame : public Id3V2Frame
 {
+    Q_DECLARE_TR_FUNCTIONS(Id3V230Frame)
+
+public:
     Id3V230Frame(NoteColl& notes, std::istream& in, std::streampos pos, bool bHasUnsynch, std::streampos posNext, StringWrp* pFileName);
     Id3V230Frame(const std::string& strName, std::vector<char>& vcData); // needed by Id3V230StreamWriter::addBinaryFrame(), so objects created with this constructor don't get serialized; destroys vcData by doing a swap for its own representation
     /*override*/ ~Id3V230Frame();
@@ -56,11 +59,13 @@ private:
 
 class Id3V230Stream : public Id3V2StreamBase
 {
+    Q_DECLARE_TR_FUNCTIONS(Id3V230Stream)
+
 public:
     Id3V230Stream(int nIndex, NoteColl& notes, std::istream& in, StringWrp* pFileName, bool bAcceptBroken = false);
     //typedef typename Id3V2Stream<Id3V230Frame>::NotId3V2 NotId3V230;
 
-    DECL_RD_NAME("ID3V2.3.0");
+    DECL_RD_NAME("ID3V2.3.0")
 
     /*override*/ TagTimestamp getTime(bool* pbFrameExists = 0) const;
     /*override*/ void setTrackTime(const TagTimestamp&) { throw NotSupportedOp(); }

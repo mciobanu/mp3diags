@@ -834,9 +834,7 @@ string testPattern(const string& strPattern)
     }
     catch (const TrackTextParser::InvalidPattern& ex)
     {
-        ostringstream s;
-        s << "\"" << toNativeSeparators(strPattern) << "\" is not a valid pattern. Error in column " << ex.m_nPos <<  "."; //ttt2 perhaps more details
-        return s.str();
+        return convStr(TrackTextParser::tr("\"%1\" is not a valid pattern. Error in column %2.").arg(toNativeSeparators(convStr(strPattern))).arg(ex.m_nPos));
     }
 }
 

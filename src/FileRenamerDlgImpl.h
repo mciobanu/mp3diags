@@ -30,9 +30,12 @@
 
 #include  <QDialog>
 #include  <QItemDelegate>
+#include  <QApplication> // for translation
+
 
 #include  "ui_FileRenamer.h"
 
+#include  "Helpers.h"
 
 class CommonData;
 class QSettings;
@@ -60,7 +63,7 @@ class HndlrListModel : public QAbstractTableModel
     bool m_bUseCurrentView;
 
     /*override*/ Qt::ItemFlags flags(const QModelIndex& index) const;
-    /*override*/ bool setData(const QModelIndex& index, const QVariant& value, int nRole /*= Qt::EditRole*/);
+    /*override*/ bool setData(const QModelIndex& index, const QVariant& value, int nRole /* = Qt::EditRole*/);
 public:
     HndlrListModel(CommonData* pCommonData, FileRenamerDlgImpl* pFileRenamerDlgImpl, bool bUseCurrentView);
     ~HndlrListModel();
@@ -184,6 +187,7 @@ class Mp3Handler;
 
 class Renamer
 {
+    Q_DECLARE_TR_FUNCTIONS(Renamer)
     std::string m_strPattern;
     FileRenamer::SequencePattern* m_pRoot;
     bool m_bSameDir;
@@ -201,8 +205,10 @@ public:
 
     struct InvalidPattern
     {
+        Q_DECLARE_TR_FUNCTIONS(InvalidPattern)
+    public:
         const std::string m_strErr;
-        InvalidPattern(const std::string& strPattern, const std::string& strErr) : m_strErr("Pattern \"" + strPattern + "\" is invalid. " + strErr) {}
+        InvalidPattern(const std::string& strPattern, const QString& strErr) : m_strErr(convStr(tr("Pattern \"%1\" is invalid. %2").arg(strPattern.c_str()).arg(strErr))) {}
     };
 
     mutable bool m_bUnratedAsDuplicate;

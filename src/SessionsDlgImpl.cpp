@@ -51,7 +51,7 @@ SessionsModel::SessionsModel(std::vector<std::string>& vstrSessions) : m_vstrSes
 
 /*override*/ int SessionsModel::rowCount(const QModelIndex&) const { return cSize(m_vstrSessions); }
 
-/*override*/ QVariant SessionsModel::data(const QModelIndex& index, int nRole /*= Qt::DisplayRole*/) const
+/*override*/ QVariant SessionsModel::data(const QModelIndex& index, int nRole /* = Qt::DisplayRole*/) const
 {
 LAST_STEP("SessionsModel::data()");
     if (!index.isValid()) { return QVariant(); }
@@ -64,13 +64,13 @@ LAST_STEP("SessionsModel::data()");
 }
 
 
-/*override*/ QVariant SessionsModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /*= Qt::DisplayRole*/) const
+/*override*/ QVariant SessionsModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /* = Qt::DisplayRole*/) const
 {
     if (nRole != Qt::DisplayRole) { return QVariant(); }
 
     if (Qt::Horizontal == eOrientation)
     {
-        return "File name";
+        return tr("File name");
     }
 
     return nSection + 1;
@@ -198,8 +198,8 @@ SessionsDlgImpl::~SessionsDlgImpl()
 // sets up the combo boxes with temp/folder session templates based on m_vstrSessions, m_strTempSessTempl, and m_strDirSessTempl
 void SessionsDlgImpl::loadTemplates()
 {
-    m_pTempSessionCbB->clear(); m_pTempSessionCbB->addItem("<last session>");
-    m_pDirSessionCbB->clear(); m_pDirSessionCbB->addItem("<last session>");
+    m_pTempSessionCbB->clear(); m_pTempSessionCbB->addItem(tr("<last session>"));
+    m_pDirSessionCbB->clear(); m_pDirSessionCbB->addItem(tr("<last session>"));
 
     for (int i = 0; i < cSize(m_vstrSessions); ++i)
     {
@@ -419,7 +419,7 @@ void SessionsDlgImpl::removeCrtSession()
 void SessionsDlgImpl::on_m_pEraseB_clicked()
 {
     if (m_vstrSessions.empty()) { return; }
-    if (0 != showMessage(this, QMessageBox::Question, 1, 1, "Confirm", "Do you really want to erase the current session?", "Erase", "Cancel")) { return; }
+    if (0 != showMessage(this, QMessageBox::Question, 1, 1, tr("Confirm"), tr("Do you really want to erase the current session?"), tr("Erase"), tr("Cancel"))) { return; }
     string s (getCrtSession());
     removeCrtSession();
 
@@ -436,7 +436,7 @@ void SessionsDlgImpl::on_m_pEraseB_clicked()
     catch (const std::bad_alloc&) { throw; }
     catch (...) //ttt2 use specific exceptions
     {
-        QMessageBox::critical(this, "Error", "Failed to remove the data files associated with this session"); // maybe the files were already deleted ...
+        showCritical(this, tr("Error"), tr("Failed to remove the data files associated with this session")); // maybe the files were already deleted ...
         return;
     }
 }
@@ -448,7 +448,7 @@ void SessionsDlgImpl::on_m_pSaveAsB_clicked()
     if (m_vstrSessions.empty()) { return; }
     //string s (getCrtSession());
 
-    QFileDialog dlg (this, "Save session as ...", convStr(getCrtSessionDir()), QString("MP3 Diags session files (*") + SessionEditorDlgImpl::SESS_EXT + ")");
+    QFileDialog dlg (this, tr("Save session as ..."), convStr(getCrtSessionDir()), SessionEditorDlgImpl::tr("MP3 Diags session files (*%1)").arg(SessionEditorDlgImpl::SESS_EXT));
     dlg.setAcceptMode(QFileDialog::AcceptSave);
 
     if (QDialog::Accepted != dlg.exec()) { return; }
@@ -482,14 +482,14 @@ void SessionsDlgImpl::on_m_pSaveAsB_clicked()
 void SessionsDlgImpl::on_m_pHideB_clicked()
 {
     if (m_vstrSessions.empty()) { return; }
-    if (0 != showMessage(this, QMessageBox::Question, 1, 1, "Confirm", "Do you really want to hide the current session?", "Hide", "Cancel")) { return; }
+    if (0 != showMessage(this, QMessageBox::Question, 1, 1, tr("Confirm"), tr("Do you really want to hide the current session?"), tr("Hide"), tr("Cancel"))) { return; }
     removeCrtSession();
 }
 
 
 void SessionsDlgImpl::on_m_pLoadB_clicked()
 {
-    QFileDialog dlg (this, "Choose a session file", convStr(getCrtSessionDir()), QString("MP3 Diags session files (*") + SessionEditorDlgImpl::SESS_EXT + ")"); //ttt0 add ".ini", for import from older versions
+    QFileDialog dlg (this, tr("Choose a session file"), convStr(getCrtSessionDir()), SessionEditorDlgImpl::tr("MP3 Diags session files (*%1)").arg(SessionEditorDlgImpl::SESS_EXT)); //ttt0 add ".ini", for import from older versions
     dlg.setAcceptMode(QFileDialog::AcceptOpen);
 
     if (QDialog::Accepted != dlg.exec()) { return; }
@@ -504,7 +504,7 @@ void SessionsDlgImpl::on_m_pLoadB_clicked()
     {
         if (m_vstrSessions[i] == s)
         {
-            QMessageBox::critical(this, "Error", "The session named \"" + toNativeSeparators(convStr(s)) + "\" is already part of the session list");
+            showCritical(this, tr("Error"), tr("The session named \"%1\" is already part of the session list").arg(toNativeSeparators(convStr(s))));
             return;
         }
     }
@@ -517,7 +517,7 @@ void SessionsDlgImpl::on_m_pOpenB_clicked()
 {
     if (getCrtSession().empty())
     {
-        QMessageBox::critical(this, "Error", "The session list is empty. You must create a new session or load an existing one.");
+        showCritical(this, tr("Error"), tr("The session list is empty. You must create a new session or load an existing one."));
         return;
     }
     accept();

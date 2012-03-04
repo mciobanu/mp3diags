@@ -25,6 +25,8 @@
 
 #include  <iosfwd>
 
+#include  <QApplication> // for translation
+
 #include  "DataStream.h"
 
 #include  "SerSupport.h"
@@ -34,6 +36,9 @@
 // Frame of an ID3V2 tag
 struct Id3V2Frame
 {
+    Q_DECLARE_TR_FUNCTIONS(Id3V2Frame)
+public:
+
     char m_szName[5];
     int m_nMemDataSize;  // size in memory, excluding header and unsynch
     int m_nDiskDataSize; // size including unsynchronization, excluding the header; if unsynch is used, m_nDiskDataSize>=m_nMemDataSize; if unsynch is not used, m_nDiskDataSize==m_nMemDataSize
@@ -179,6 +184,8 @@ int getId3V2Size(char* pId3Header);
 
 class Id3V2StreamBase : public DataStream, public TagReader
 {
+    Q_DECLARE_TR_FUNCTIONS(Id3V2StreamBase)
+
 protected:
     std::vector<Id3V2Frame*> m_vpFrames;
     int m_nTotalSize; // including the header

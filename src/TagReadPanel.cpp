@@ -89,7 +89,7 @@ TagReadPanel::TagReadPanel(QWidget* pParent, TagReader* pTagReader) : QFrame(pPa
         pTable->setColumnCount(1);
         QStringList lLabels;
         //lLabels << "Title" << "Artist" << "Track#" << "Time" << "Genre" << "Composer" << "Album" << "VA" << "Rating";
-        lLabels <<"Track#" << "Artist" << "Title" << "Album" << "VA" << "Time" << "Genre" << "Rating" << "Composer";
+        lLabels << tr("Track#") << tr("Artist") << tr("Title") << tr("Album") << tr("VA") << tr("Time") << tr("Genre") << tr("Rating") << tr("Composer");
         pTable->setVerticalHeaderLabels(lLabels);
 
         pTable->horizontalHeader()->hide();
@@ -279,7 +279,7 @@ ImageInfoPanel::ImageInfoPanel(QWidget* pParent, const ImageInfo& imageInfo) : Q
 
     createButton(64);
 
-    m_pInfoLabel = new QLabel("<error>", this);
+    m_pInfoLabel = new QLabel(tr("<error>"), this);
     m_pInfoLabel->setText(m_imageInfo.getTextDescr());
     m_pInfoLabel->setAlignment(Qt::AlignHCenter);
     pLayout->addWidget(m_pInfoLabel, 0, Qt::AlignHCenter);
@@ -307,7 +307,7 @@ void ImageInfoPanel::createButton(int nSize)
     m_pBtn->setMaximumSize(BTN_SIZE, BTN_SIZE);
     m_pBtn->setMinimumSize(BTN_SIZE, BTN_SIZE);
     m_pBtn->setAutoRaise(true);
-    m_pBtn->setToolTip("Click to see larger image");
+    m_pBtn->setToolTip(tr("Click to see larger image"));
 
     m_pBtn->setIconSize(QSize(ICON_SIZE, ICON_SIZE));
     pLayout->addWidget(m_pBtn, 0, Qt::AlignHCenter);

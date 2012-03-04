@@ -69,15 +69,16 @@ public:
 
 /*override*/ std::string TransfListElem::getText(int nCol) const
 {
-    if (0 == nCol) { return m_pTransformation->getActionName(); }
-    return m_pTransformation->getDescription();
+    if (0 == nCol) { return convStr(Transformation::tr(m_pTransformation->getActionName())); }
+    return convStr(Transformation::tr(m_pTransformation->getDescription()));
 }
 
 
 class CustomTransfListPainter : public ListPainter
 {
+    Q_DECLARE_TR_FUNCTIONS(CustomTransfListPainter)
     /*override*/ int getColCount() const { return 2; }
-    /*override*/ std::string getColTitle(int nCol) const { return 0 == nCol ? "Action" : "Description"; }
+    /*override*/ std::string getColTitle(int nCol) const { return 0 == nCol ? convStr(tr("Action")) : convStr(tr("Description")); }
     /*override*/ void getColor(int /*nIndex*/, int /*nColumn*/, bool /*bSubList*/, QColor& /*bckgColor*/, QColor& /*penColor*/, double& /*dGradStart*/, double& /*dGradEnd*/) const { }
     /*override*/ int getColWidth(int /*nCol*/) const { return -1; } // positive values are used for fixed widths, while negative ones are for "stretched"
     /*override*/ int getHdrHeight() const { return CELL_HEIGHT; }
@@ -118,12 +119,12 @@ CustomTransfListPainter::~CustomTransfListPainter()
     {
     case SELECTED_G: return "";//"Notes to be included";
     case AVAILABLE_G: return "";//"Available notes";
-    case ADD_B: return "Add selected transformation(s)";
-    case DELETE_B: return "Remove selected transformation(s)";
+    case ADD_B: return convStr(tr("Add selected transformation(s)"));
+    case DELETE_B: return convStr(tr("Remove selected transformation(s)"));
     case ADD_ALL_B: return "";//"Add all transformations";
     case DELETE_ALL_B: return "";//"Remove all transformations";
-    case RESTORE_DEFAULT_B: return "Restore current list to its default value";
-    case RESTORE_OPEN_B: return "Restore current list to the configuration it had when the window was open";
+    case RESTORE_DEFAULT_B: return convStr(tr("Restore current list to its default value"));
+    case RESTORE_OPEN_B: return convStr(tr("Restore current list to the configuration it had when the window was open"));
     default: CB_ASSERT(false);
     }
 }
@@ -141,8 +142,9 @@ CustomTransfListPainter::~CustomTransfListPainter()
 
 class VisibleTransfPainter : public ListPainter
 {
+    Q_DECLARE_TR_FUNCTIONS(VisibleTransfPainter)
     /*override*/ int getColCount() const { return 2; }
-    /*override*/ std::string getColTitle(int nCol) const { return 0 == nCol ? "Action" : "Description"; }
+    /*override*/ std::string getColTitle(int nCol) const { return 0 == nCol ? convStr(tr("Action")) : convStr(tr("Description")); }
     /*override*/ void getColor(int /*nIndex*/, int /*nColumn*/, bool /*bSubList*/, QColor& /*bckgColor*/, QColor& /*penColor*/, double& /*dGradStart*/, double& /*dGradEnd*/) const { }
     /*override*/ int getColWidth(int /*nCol*/) const { return -1; } // positive values are used for fixed widths, while negative ones are for "stretched"
     /*override*/ int getHdrHeight() const { return CELL_HEIGHT; }
@@ -156,7 +158,7 @@ public:
     VisibleTransfPainter(const CommonData* pCommonData, const SubList& vOrigSel, const SubList& vSel, const SubList& vDefaultSel);
     ~VisibleTransfPainter();
 };
-
+//ttt0 note that language change needs restart
 
 
 VisibleTransfPainter::VisibleTransfPainter(const CommonData* pCommonData, const SubList& vOrigSel, const SubList& vSel, const SubList& vDefaultSel) : ListPainter(""), m_vDefaultSel(vDefaultSel)
@@ -186,12 +188,12 @@ VisibleTransfPainter::~VisibleTransfPainter()
     {
     case SELECTED_G: return "";//"Notes to be included";
     case AVAILABLE_G: return "";//"Available notes";
-    case ADD_B: return "Add selected transformation(s)";
-    case DELETE_B: return "Remove selected transformation(s)";
+    case ADD_B: return convStr(tr("Add selected transformation(s)"));
+    case DELETE_B: return convStr(tr("Remove selected transformation(s)"));
     case ADD_ALL_B: return "";//"Add all transformations";
     case DELETE_ALL_B: return "";//"Remove all transformations";
-    case RESTORE_DEFAULT_B: return "Restore current list to its default value";
-    case RESTORE_OPEN_B: return "Restore current list to the configuration it had when the window was open";
+    case RESTORE_DEFAULT_B: return convStr(tr("Restore current list to its default value"));
+    case RESTORE_OPEN_B: return convStr(tr("Restore current list to the configuration it had when the window was open"));
     default: CB_ASSERT(false);
     }
 }
@@ -274,7 +276,7 @@ public:
 ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, QWidget* pParent, bool bFull) :
         QDialog(pParent, getDialogWndFlags()),
         Ui::ConfigDlg(),
-        NoteListPainterBase(pCommonData, "<all notes>"),
+        NoteListPainterBase(pCommonData, convStr(tr("<all notes>"))),
         m_transfCfg(transfCfg),
 
         m_pCommonData(pCommonData),
@@ -402,7 +404,7 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
 
         if (qstr.isEmpty())
         {
-            qstr = "If you don't know exactly what codepage you want, it's better to make current a file having an ID3V2 tag that contains text frames using the Latin-1 encoding and having non-ASCII characters. Then the content of those frames will replace this text, allowing you to decide which codepage is a match for your file. ID3V1 tags are supported as well, if you want to copy data from them to ID3V2.";
+            qstr = tr("If you don't know exactly what codepage you want, it's better to make current a file having an ID3V2 tag that contains text frames using the Latin-1 encoding and having non-ASCII characters. Then the content of those frames will replace this text, allowing you to decide which codepage is a match for your file. ID3V1 tags are supported as well, if you want to copy data from them to ID3V2.");
         }
 
         m_codepageTestText = qstr.toLatin1();
@@ -481,8 +483,8 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
             *this,
             DoubleList::ADD_ALL | DoubleList::DEL_ALL | DoubleList::RESTORE_OPEN | DoubleList::RESTORE_DEFAULT,
             DoubleList::SINGLE_UNSORTABLE,
-            "Other notes",
-            "Ignore notes",
+            convStr(tr("Other notes")),
+            convStr(tr("Ignore notes")),
             this);
 
     m_pIgnoredNotesListHldr->layout()->addWidget(m_pDoubleList);
@@ -564,10 +566,10 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
         lNames << "Upper case: FIRST PART. SECOND PART.";
         lNames << "Title case: First Part. Second Part.";
         lNames << "Sentence case: First part. Second part.";*/ // ttt2 perhaps put this back; as of 2009.10.15, "." is no longer supported as a sentence ending
-        lNames << "lower case";
-        lNames << "UPPER CASE";
-        lNames << "Title Case";
-        lNames << "Sentence case";
+        lNames << tr("lower case");
+        lNames << tr("UPPER CASE");
+        lNames << tr("Title Case");
+        lNames << tr("Sentence case");
 
         m_pArtistsCaseCbB->addItems(lNames);
         m_pOthersCaseCbB->addItems(lNames);
@@ -675,8 +677,8 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
                 *m_pVisibleTransfPainter,
                 DoubleList::RESTORE_OPEN | DoubleList::RESTORE_DEFAULT,
                 DoubleList::SINGLE_SORTABLE,
-                "Invisible transformations",
-                "Visible transformations",
+                convStr(tr("Invisible transformations")),
+                convStr(tr("Visible transformations")),
                 this);
 
         m_pVisibleTransformsHndlr->setLayout(new QHBoxLayout());
@@ -689,10 +691,10 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
 
     { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
 
-    m_pInvalidCharsE->setToolTip("Characters in this list get replaced with the string below, in \"Replace with\"\n\n"
-        "An underlined font is used to allow spaces to be seen");
-    m_pInvalidReplacementE->setToolTip("This string replaces invalid characters in the file renamer\"\n\n"
-        "An underlined font is used to allow spaces to be seen");
+    m_pInvalidCharsE->setToolTip(tr("Characters in this list get replaced with the string below, in \"Replace with\"\n\n"
+        "An underlined font is used to allow spaces to be seen"));
+    m_pInvalidReplacementE->setToolTip(tr("This string replaces invalid characters in the file renamer\"\n\n"
+        "An underlined font is used to allow spaces to be seen"));
 
     if (m_bFull)
     {
@@ -963,8 +965,8 @@ void ConfigDlgImpl::selectCustomTransf(int k) // 0 <= k <= 2
             *m_pCustomTransfListPainter,
             DoubleList::RESTORE_OPEN | DoubleList::RESTORE_DEFAULT,
             DoubleList::MULTIPLE,
-            "All transformations",
-            "Used transformations",
+            convStr(tr("All transformations")),
+            convStr(tr("Used transformations")),
             this);
 
     m_pTransfListHldr->layout()->addWidget(m_pCustomTransfDoubleList);
@@ -1008,7 +1010,7 @@ void ConfigDlgImpl::on_m_pOkB_clicked()
 {
     if (m_bExtToolChanged)
     {
-        int nOpt (showMessage(this, QMessageBox::Question, 1, 1, "Confirm", "You modified the external tool information but you didn't save your changes. Discard the changes or cancel closing of the options window?", "&Discard", "&Cancel"));
+        int nOpt (showMessage(this, QMessageBox::Question, 1, 1, tr("Confirm"), tr("You modified the external tool information but you didn't save your changes. Discard the changes or cancel closing of the options window?"), tr("&Discard"), tr("&Cancel")));
         if (nOpt == 1)
         {
             return;
@@ -1023,7 +1025,7 @@ void ConfigDlgImpl::on_m_pOkB_clicked()
             string::size_type n (strRepl.find_first_of(strInv));
             if (string::npos != n)
             {
-                QMessageBox::critical(this, "Error", QString("You can't have '") + strRepl[n] + "' in both the list of invalid characters and the string that invalid characters are replaced with.");
+                showCritical(this, tr("Error"), tr("You can't have '%1' in both the list of invalid characters and the string that invalid characters are replaced with.").arg(strRepl[n]));
                 return;
             }
         }
@@ -1138,7 +1140,7 @@ void ConfigDlgImpl::on_m_pOkB_clicked()
     }
     catch (const IncorrectDirName&)
     {
-        QMessageBox::critical(this, "Invalid folder name", "A folder name is incorrect."); //ttt2 say which name
+        showCritical(this, tr("Invalid folder name"), tr("A folder name is incorrect.")); //ttt2 say which name
     }
 }
 
@@ -1204,12 +1206,12 @@ void ConfigDlgImpl::logState(const char* /*szPlace*/) const
     {
     case SELECTED_G: return "";//"Notes to be included";
     case AVAILABLE_G: return "";//"Available notes";
-    case ADD_B: return "Add selected note(s)";
-    case DELETE_B: return "Remove selected note(s)";
-    case ADD_ALL_B: return "Add all notes";
-    case DELETE_ALL_B: return "Remove all notes";
-    case RESTORE_DEFAULT_B: return "Restore lists to their default value";
-    case RESTORE_OPEN_B: return "Restore lists to the configuration they had when the window was open";
+    case ADD_B: return convStr(tr("Add selected note(s)"));
+    case DELETE_B: return convStr(tr("Remove selected note(s)"));
+    case ADD_ALL_B: return convStr(tr("Add all notes"));
+    case DELETE_ALL_B: return convStr(tr("Remove all notes"));
+    case RESTORE_DEFAULT_B: return convStr(tr("Restore lists to their default value"));
+    case RESTORE_OPEN_B: return convStr(tr("Restore lists to the configuration they had when the window was open"));
     default: CB_ASSERT(false);
     }
 }
@@ -1236,7 +1238,8 @@ void ConfigDlgImpl::selectDir(QLineEdit* pEdt)
     QString qstrStart (fromNativeSeparators(pEdt->text()));
     qstrStart = convStr(getExistingDir(convStr(qstrStart)));
     if (qstrStart.isEmpty()) { qstrStart = getTempDir(); }
-    QFileDialog dlg (this, "Select folder", qstrStart, "All files (*)");
+    QFileDialog dlg (this, tr("Select folder"), qstrStart, tr("All files") + " (*)"/*, 0, QFileDialog::DontUseNativeDialog*/);
+    //ttt0 test on Qt 4.8, for implications of "native" standard dialogs (file, color, ...) probably best is to force non-native on Qt 4.8. The thing is the native dialogs, which seem to be introduced in 4.8, are not translatable; OTOH from http://stackoverflow.com/questions/6405234/qfiledialogdontusenativedialog-is-not-working and http://stackoverflow.com/questions/4259994/qfiledialog-alternative-that-uses-default-file-dialog-defined-by-os it seems that only the static methods of QFileDialog create native dialogs; see also TranslatorHandler::TranslatorHandler() for translations and perhaps do an ifdef for 4.8 & later
 
     dlg.setFileMode(QFileDialog::Directory);
     if (QDialog::Accepted != dlg.exec()) { return; }
@@ -1676,14 +1679,14 @@ LAST_STEP("ExternalToolsModel::data()");
     {
     case 0: return convStr(info.m_strName);
     case 1: return convStr(info.m_strCommand);
-    case 2: return ExternalToolInfo::launchOptionAsString(info.m_eLaunchOption);
-    case 3: return info.m_bConfirmLaunch ? "Yes" : "No";
+    case 2: return ExternalToolInfo::launchOptionAsTranslatedString(info.m_eLaunchOption);
+    case 3: return GlobalTranslHlp::tr(boolAsYesNo(info.m_bConfirmLaunch));
     default: CB_ASSERT (false);
     }
 }
 
 
-/*override*/ QVariant ExternalToolsModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /*= Qt::DisplayRole*/) const
+/*override*/ QVariant ExternalToolsModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /* = Qt::DisplayRole*/) const
 {
 LAST_STEP("ExternalToolsModel::headerData");
     if (nRole != Qt::DisplayRole) { return QVariant(); }
@@ -1692,10 +1695,10 @@ LAST_STEP("ExternalToolsModel::headerData");
     {
         switch (nSection)
         {
-        case 0: return "Name";
-        case 1: return "Command";
-        case 2: return "Wait";
-        case 3: return "Confirm launch";
+        case 0: return tr("Name");
+        case 1: return tr("Command");
+        case 2: return tr("Wait");
+        case 3: return tr("Confirm launch");
         default: CB_ASSERT (false);
         }
     }

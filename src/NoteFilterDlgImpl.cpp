@@ -44,7 +44,7 @@ using namespace pearl;
         //return m_pCommonData->getNoteLabel(m_pNote).toUtf8().constData();
         return convStr(getNoteLabel(m_pNote));
     }
-    return m_pNote->getDescription();
+    return convStr(Notes::tr(m_pNote->getDescription()));
 }
 
 
@@ -55,9 +55,9 @@ using namespace pearl;
 //=====================================================================================================================
 
 
-NoteFilterDlgImpl::NoteFilterDlgImpl(CommonData* pCommonData, QWidget* pParent /*=0*/) :
+NoteFilterDlgImpl::NoteFilterDlgImpl(CommonData* pCommonData, QWidget* pParent /* =0*/) :
         QDialog(pParent, getDialogWndFlags()),
-        NoteListPainterBase(pCommonData, "<all notes>")
+        NoteListPainterBase(pCommonData, convStr(tr("<all notes>")))
 {
     TRACER("NoteFilterDlgImpl constr");
     setupUi(this);
@@ -84,8 +84,8 @@ NoteFilterDlgImpl::NoteFilterDlgImpl(CommonData* pCommonData, QWidget* pParent /
             *this,
             DoubleList::ADD_ALL | DoubleList::DEL_ALL | DoubleList::RESTORE_OPEN,
             DoubleList::SINGLE_UNSORTABLE,
-            "Available notes",
-            "Include notes",
+            convStr(tr("Available notes")),
+            convStr(tr("Include notes")),
             this);
 
     m_pListHldr->layout()->addWidget(m_pDoubleList);
@@ -174,12 +174,12 @@ void NoteFilterDlgImpl::onAvlDoubleClicked(int nRow)
     {
     case SELECTED_G: return "";//"Notes to be included";
     case AVAILABLE_G: return "";//"Available notes";
-    case ADD_B: return "Add selected note(s)";
-    case DELETE_B: return "Remove selected note(s)";
-    case ADD_ALL_B: return "Add all notes";
-    case DELETE_ALL_B: return "Remove all notes";
+    case ADD_B: return convStr(tr("Add selected note(s)"));
+    case DELETE_B: return convStr(tr("Remove selected note(s)"));
+    case ADD_ALL_B: return convStr(tr("Add all notes"));
+    case DELETE_ALL_B: return convStr(tr("Remove all notes"));
     case RESTORE_DEFAULT_B: return "";
-    case RESTORE_OPEN_B: return "Restore lists to the configuration they had when the window was open";
+    case RESTORE_OPEN_B: return convStr(tr("Restore lists to the configuration they had when the window was open"));
     default: CB_ASSERT(false);
     }
 }
@@ -207,8 +207,8 @@ void NoteFilterDlgImpl::onHelp()
 {
     switch (nCol)
     {
-    case 0: return "L";
-    case 1: return "Note";
+    case 0: return convStr(NoteFilterDlgImpl::tr("L"));
+    case 1: return convStr(NoteFilterDlgImpl::tr("Note"));
     default: return "???";
     }
 }

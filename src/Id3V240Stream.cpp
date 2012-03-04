@@ -177,7 +177,7 @@ Id3V240Frame::Id3V240Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
     int nHdrBytesSkipped (0);
     int nRead (readID3V2(bHasUnsynch/*false*/, in, bfr, ID3_FRAME_HDR_SIZE, posNext, nHdrBytesSkipped));
 
-    MP3_CHECK (ID3_FRAME_HDR_SIZE == nRead || (nRead >= 1 && 0 == bfr[0]), pos, id3v2FrameTooShort, StreamIsBroken(Id3V240Stream::getClassDisplayName(), "Truncated ID3V2.4.0 tag.")); // in 2.4.0 bHasUnsynch shouldn't matter, because the frame header doesn't need unsynch; but unconforming apps use 8 bits for size, as opposed to 7, as they are supposed to
+    MP3_CHECK (ID3_FRAME_HDR_SIZE == nRead || (nRead >= 1 && 0 == bfr[0]), pos, id3v2FrameTooShort, StreamIsBroken(Id3V240Stream::getClassDisplayName(), tr("Truncated ID3V2.4.0 tag."))); // in 2.4.0 bHasUnsynch shouldn't matter, because the frame header doesn't need unsynch; but unconforming apps use 8 bits for size, as opposed to 7, as they are supposed to
     unsigned char* p (reinterpret_cast<unsigned char*> (bfr));
     if (0 == bfr[0])
     { // padding
@@ -193,11 +193,11 @@ Id3V240Frame::Id3V240Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
 
     {
         char c (m_szName[0]);
-        MP3_CHECK (c >= 'A' && c <= 'Z', pos, id3v2InvalidName, StreamIsBroken(Id3V240Stream::getClassDisplayName(), "ID3V2.4.0 tag containing a frame with an invalid name: " + getReadableName() + "."));
+        MP3_CHECK (c >= 'A' && c <= 'Z', pos, id3v2InvalidName, StreamIsBroken(Id3V240Stream::getClassDisplayName(), tr("ID3V2.4.0 tag containing a frame with an invalid name: %1.").arg(convStr(getReadableName()))));
         for (int i = 1; i < 4; ++i)
         {
             char c (m_szName[i]);
-            MP3_CHECK ((c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'), pos, id3v2InvalidName, StreamIsBroken(Id3V240Stream::getClassDisplayName(), "ID3V2.4.0 tag containing a frame with an invalid name: " + getReadableName() + "."));  //ttt3 ASCII-specific
+            MP3_CHECK ((c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'), pos, id3v2InvalidName, StreamIsBroken(Id3V240Stream::getClassDisplayName(), tr("ID3V2.4.0 tag containing a frame with an invalid name: %1.").arg(convStr(getReadableName()))));  //ttt3 ASCII-specific
         }
     }
 
@@ -206,8 +206,8 @@ Id3V240Frame::Id3V240Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
     m_cFlag2 = bfr[9];
 //inspect(bfr);
 
-    MP3_CHECK (0 == (m_cFlag1 & ~0x60), pos, id3v2UnsuppFlags1, StreamIsUnsupported(Id3V240Stream::getClassDisplayName(), "ID3V2.4.0 tag containing a frame with an unsupported flag.")); // ignores "Tag alter preservation" and "File alter preservation" // ttt2 use them
-    MP3_CHECK (0 == (m_cFlag2 & ~0x03), pos, id3v2UnsuppFlags2, StreamIsUnsupported(Id3V240Stream::getClassDisplayName(), "ID3V2.4.0 tag containing a frame with an unsupported flag."));
+    MP3_CHECK (0 == (m_cFlag1 & ~0x60), pos, id3v2UnsuppFlags1, StreamIsUnsupported(Id3V240Stream::getClassDisplayName(), tr("ID3V2.4.0 tag containing a frame with an unsupported flag."))); // ignores "Tag alter preservation" and "File alter preservation" // ttt2 use them
+    MP3_CHECK (0 == (m_cFlag2 & ~0x03), pos, id3v2UnsuppFlags2, StreamIsUnsupported(Id3V240Stream::getClassDisplayName(), tr("ID3V2.4.0 tag containing a frame with an unsupported flag.")));
 
     m_bHasUnsynch = (0 != (m_cFlag2 & ~0x02));
 //m_bHasUnsynch = false;
@@ -230,7 +230,7 @@ Id3V240Frame::Id3V240Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
 
         if (-1 == m_nMemDataSize)
         {
-            MP3_THROW (pos, id3v240CantReadFrame, StreamIsBroken(Id3V240Stream::getClassDisplayName(), "Broken ID3V2.4.0 tag."));
+            MP3_THROW (pos, id3v240CantReadFrame, StreamIsBroken(Id3V240Stream::getClassDisplayName(), tr("Broken ID3V2.4.0 tag.")));
         }
         else
         {
@@ -251,29 +251,30 @@ Id3V240Frame::Id3V240Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
                     m_vcData.clear();
                     m_vcData.push_back(0);
                     m_nMemDataSize = cSize(m_vcData);
-                    MP3_NOTE_D (pos, id3v2EmptyTextFrame, Notes::id3v2EmptyTextFrame().getDescription() + string(" (Frame:") + m_szName + ")");
+                    MP3_NOTE_D (pos, id3v2EmptyTextFrame, tr("%1 (Frame: %2)").arg(noteTr(id3v2EmptyTextFrame)).arg(m_szName));
                 }
                 else if (isTxxx() && m_nMemDataSize <= 1)
                 { // this is really invalid; text frames must have at least a byte; however, by doing these we make sure that an empty (i.e. having a single byte, for text encoding) frame gets copied if the tag is edited;
                     m_vcData.clear();
-                    static const char* szInvalid ("INVALID");
+                    string strInvalid (convStr(tr("INVALID")));
+                    const char* szInvalid (strInvalid.c_str());
                     m_vcData.push_back(0); // latin1
                     m_vcData.insert(m_vcData.end(), szInvalid, szInvalid + strlen(szInvalid)); // description
                     m_vcData.push_back(0); // terminator
                     m_vcData.insert(m_vcData.end(), szInvalid, szInvalid + strlen(szInvalid)); // value
                     m_nMemDataSize = cSize(m_vcData);
-                    MP3_NOTE_D (pos, id3v2EmptyTextFrame, Notes::id3v2EmptyTextFrame().getDescription() + string(" (Frame:") + m_szName + ")"); // ttt2 actually TXXX is not text
+                    MP3_NOTE_D (pos, id3v2EmptyTextFrame, tr("%1 (Frame: %2)").arg(noteTr(id3v2EmptyTextFrame)).arg(m_szName)); // ttt2 actually TXXX is not text
                 }
                 //ttt2 add check for terminating 0 for TXXX, to split the value into descr and val
             }
         }
         catch (const NotId3V2Frame&)
         {
-            MP3_THROW (pos, id3v2TextError, StreamIsBroken(Id3V240Stream::getClassDisplayName(), "ID3V2.4.0 tag containing a broken text frame named " + getReadableName() + "."));
+            MP3_THROW (pos, id3v2TextError, StreamIsBroken(Id3V240Stream::getClassDisplayName(), tr("ID3V2.4.0 tag containing a broken text frame named %1.").arg(convStr(getReadableName()))));
         }
         catch (const UnsupportedId3V2Frame&)
         {
-            MP3_THROW (pos, id3v240UnsuppText, StreamIsUnsupported(Id3V240Stream::getClassDisplayName(), "ID3V2.4.0 tag containing a text frame named " + getReadableName() + " using unsupported characters or unsupported text encoding.")); //ttt2 not specific enough; this might need reviewing in the future
+            MP3_THROW (pos, id3v240UnsuppText, StreamIsUnsupported(Id3V240Stream::getClassDisplayName(), tr("ID3V2.4.0 tag containing a text frame named %1 using unsupported characters or unsupported text encoding.").arg(convStr(getReadableName())))); //ttt2 not specific enough; this might need reviewing in the future
         }
     }
     catch (const std::bad_alloc&) { throw; }
@@ -295,7 +296,7 @@ string Id3V240Frame::getUtf8StringImpl() const
 {
     if ('T' != m_szName[0])
     {
-        return "<non-text value>";
+        return convStr(TagReader::tr("<non-text value>"));
     }
 
     // have a "pos" to pass here and ability to log; could also be used for large tags, to not store them in memory yet have them available
@@ -393,7 +394,7 @@ string Id3V240Frame::getUtf8StringImpl() const
 
 
 
-Id3V240Stream::Id3V240Stream(int nIndex, NoteColl& notes, istream& in, StringWrp* pFileName, bool bAcceptBroken /*= false*/) : Id3V2StreamBase(nIndex, in, pFileName)
+Id3V240Stream::Id3V240Stream(int nIndex, NoteColl& notes, istream& in, StringWrp* pFileName, bool bAcceptBroken /* = false*/) : Id3V2StreamBase(nIndex, in, pFileName)
 {
     StreamStateRestorer rst (in);
 
@@ -404,7 +405,7 @@ Id3V240Stream::Id3V240Stream(int nIndex, NoteColl& notes, istream& in, StringWrp
     MP3_CHECK_T (4 == bfr[3] && 0 == bfr[4], pos, "Invalid ID3V2.4.0 tag. Invalid ID3V2.4.0 header.", NotId3V2());
     m_nTotalSize = getId3V2Size (bfr);
     m_cFlags = bfr[5];
-    MP3_CHECK (0 == (m_cFlags & 0x7f), pos, id3v2UnsuppFlag, StreamIsUnsupported(Id3V240Stream::getClassDisplayName(), "ID3V2 tag with unsupported flag.")); //ttt2 review, support
+    MP3_CHECK (0 == (m_cFlags & 0x7f), pos, id3v2UnsuppFlag, StreamIsUnsupported(Id3V240Stream::getClassDisplayName(), tr("ID3V2 tag with unsupported flag."))); //ttt2 review, support
 
     streampos posNext (pos);
     posNext += m_nTotalSize;
@@ -536,7 +537,7 @@ Id3V240Stream::Id3V240Stream(int nIndex, NoteColl& notes, istream& in, StringWrp
 }
 
 
-/*override*/ TagTimestamp Id3V240Stream::getTime(bool* pbFrameExists /*= 0*/) const
+/*override*/ TagTimestamp Id3V240Stream::getTime(bool* pbFrameExists /* = 0*/) const
 {
     //const Id3V240Frame* p (findFrame(KnownFrames::LBL_TIME_YEAR_230()));
     const Id3V2Frame* p (findFrame(KnownFrames::LBL_TIME_240()));

@@ -28,6 +28,7 @@
 #include  "DataStream.h"
 #include  "Helpers.h"
 #include  "Notes.h"
+#include  "Widgets.h"  // for GlobalTranslHlp
 
 
 using namespace std;
@@ -203,27 +204,27 @@ MpegFrameBase::MpegFrameBase() : m_eVersion(MPEG1), m_eLayer(LAYER1), m_nBitrate
 
 const char* MpegFrameBase::getSzVersion() const
 {
-    static const char* s_versionName[] = { "MPEG-1", "MPEG-2" };
+    static const char* s_versionName[] = { QT_TRANSLATE_NOOP("DataStream", "MPEG-1"), QT_TRANSLATE_NOOP("DataStream", "MPEG-2") };
     return s_versionName[m_eVersion];
 }
 
 const char* MpegFrameBase::getSzLayer() const
 {
-    static const char* s_layerName[] = { "Layer I", "Layer II", "Layer III" };
+    static const char* s_layerName[] = { QT_TRANSLATE_NOOP("DataStream", "Layer I"), QT_TRANSLATE_NOOP("DataStream", "Layer II"), QT_TRANSLATE_NOOP("DataStream", "Layer III") };
     return s_layerName[m_eLayer];
 }
 
 const char* MpegFrameBase::getSzChannelMode() const
 {
-    static const char* s_channelModeName[] = { "Stereo", "Joint stereo", "Dual channel", "Single channel" };
+    static const char* s_channelModeName[] = { QT_TRANSLATE_NOOP("DataStream", "Stereo"), QT_TRANSLATE_NOOP("DataStream", "Joint stereo"), QT_TRANSLATE_NOOP("DataStream", "Dual channel"), QT_TRANSLATE_NOOP("DataStream", "Single channel") };
     return s_channelModeName[m_eChannelMode];
 }
 
 ostream& MpegFrameBase::write(ostream& out) const
 {
-    out << getSzVersion() << " " << getSzLayer() << ", " << getSzChannelMode() << ", " << m_nFrequency << "Hz, " <<
-            m_nBitrate << "bps, CRC=" << boolAsYesNo(m_bCrc) << ", length=" <<
-            m_nSize << " (0x" << hex << m_nSize << dec << "), padding=" << boolAsYesNo(m_nPadding);
+    out << convStr(DataStream::tr(getSzVersion())) << " " << convStr(DataStream::tr(getSzLayer())) << ", " << convStr(DataStream::tr(getSzChannelMode())) << ", " << m_nFrequency << "Hz, " <<
+            m_nBitrate << "bps, CRC=" << convStr(GlobalTranslHlp::tr(boolAsYesNo(m_bCrc))) << ", " << convStr(DataStream::tr("length=")) <<
+            m_nSize << " (0x" << hex << m_nSize << dec << "), " << convStr(DataStream::tr("padding=")) << convStr(GlobalTranslHlp::tr(boolAsYesNo(m_nPadding)));
 
     return out;
 }

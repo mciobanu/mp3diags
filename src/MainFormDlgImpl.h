@@ -187,7 +187,7 @@ private:
     void showFixes(std::vector<Transformation*>& vpTransf, Subset eSubset);
 
     void showExternalTools();
-    bool askConfirm(const std::deque<const Mp3Handler*>& vpHandlers, const std::string& strAction);
+    bool askConfirm(const std::deque<const Mp3Handler*>& vpHandlers, const QString& qstrAction);
 
     QHttp* m_pQHttp;
     QString m_qstrNewVer; // needed by onNewVersionQueryFinished2()

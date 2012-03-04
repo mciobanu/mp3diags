@@ -37,6 +37,7 @@
 #include  "Helpers.h"
 #include  "StoredSettings.h"
 #include  "LogModel.h"
+#include  "Widgets.h"
 //#include  "Serializable.h"
 
 /*#include  <boost/archive/binary_oarchive.hpp>
@@ -86,13 +87,13 @@ DebugDlgImpl::DebugDlgImpl(QWidget* pParent, CommonData* pCommonData) : QDialog(
     }
 
     m_pUseAllNotesCkB->setToolTip(
-            "If this is checked, ignored notes and trace notes\n"
+            tr("If this is checked, ignored notes and trace notes\n"
             "are shown in the note list and exported, regardless\n"
             "of the \"Ignored\" settings.\n\n"
             "Note that if this is not checked, the trace notes\n"
             "are discarded during file scanning, so checking it\n"
             "later won't bring them back. A new scan is needed\n"
-            "to see them.");
+            "to see them.", "this is a multiline tooltip"));
 
     m_pLogG->setFocus();
 
@@ -144,13 +145,13 @@ void DebugDlgImpl::exportLog(const string& strFileName)
 
 void DebugDlgImpl::on_m_pSaveLogB_clicked()
 {
-    QFileDialog dlg (this, "Choose destination file", "", "Text files (*.txt)");
+    QFileDialog dlg (this, tr("Choose destination file"), "", tr("Text files (*.txt)"));
 
     dlg.setFileMode(QFileDialog::AnyFile);
     if (QDialog::Accepted != dlg.exec()) { return; }
 
     QStringList fileNames (dlg.selectedFiles());
-    if (1 != fileNames.size()) { return; } 
+    if (1 != fileNames.size()) { return; }
 
     QString s (fileNames.first());
     exportLog(convStr(s));
@@ -163,7 +164,7 @@ void DebugDlgImpl::on_m_pDecodeMpegFrameB_clicked()
     s >> hex;
     unsigned int n;
     s >> n;
-    QMessageBox::information(this, "Decoded MPEG frame header", convStr(decodeMpegFrame(n, "\n")));
+    showInfo(this, tr("Decoded MPEG frame header"), convStr(decodeMpegFrame(n, "\n")));
 }
 
 
@@ -980,4 +981,5 @@ TstSer tstSer01;
 // -lboost_serialization-mt-1_37
 
 //ttt2 if "use all notes" is checked, it keeps rescanning at startup
+
 

@@ -30,6 +30,8 @@
 
 #include  <QStringList>
 
+#include  <QApplication> // for translation
+
 
 class Mp3Handler;
 class QWidget;
@@ -41,6 +43,8 @@ typedef QList<QString> StrList;
 
 class Mp3Transformer
 {
+    Q_DECLARE_TR_FUNCTIONS(Mp3Transformer)
+public:
     CommonData* m_pCommonData;
     const TransfConfig& m_transfConfig;
     //bool m_bAll; // if to use all handlers or only the selected ones

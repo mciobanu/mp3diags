@@ -277,7 +277,7 @@ private:
 
 MusicBrainzDownloader::MusicBrainzDownloader(QWidget* pParent, SessionSettings& settings, bool bSaveResults) : AlbumInfoDownloaderDlgImpl(pParent, settings, bSaveResults), m_nLastReqTime(0)
 {
-    setWindowTitle("Download album data from MusicBrainz.org");
+    setWindowTitle(tr("Download album data from MusicBrainz.org"));
 
     int nWidth, nHeight;
     m_settings.loadMusicBrainzSettings(nWidth, nHeight);
@@ -366,9 +366,7 @@ void MusicBrainzDownloader::delay()
         if (nDiff < 0) { nDiff = 0; }
         int nWait (999 - (int)nDiff);
         //qDebug("   wait: %d", nWait);
-        char a [15];
-        sprintf(a, "waiting %dms", nWait + 100);
-        addNote(a);
+        addNote(tr("waiting %1ms").arg(nWait + 100));
 
         //ttt1 perhaps use PausableThread::usleep()
 #ifndef WIN32
@@ -463,17 +461,17 @@ QString MusicBrainzDownloader::getAmazonText() const
 LAST_STEP("MusicBrainzDownloader::getAmazonText");
     if (m_nCrtAlbum < 0 || m_nCrtAlbum >= cSize(m_vAlbums))
     {
-        return NOT_FOUND_AT_AMAZON;
+        return AlbumInfoDownloaderDlgImpl::tr(NOT_FOUND_AT_AMAZON);
     }
 
     const MusicBrainzAlbumInfo& album (m_vAlbums[m_nCrtAlbum]);
     if (album.m_strAmazonLink.empty())
     {
-        return NOT_FOUND_AT_AMAZON;
+        return AlbumInfoDownloaderDlgImpl::tr(NOT_FOUND_AT_AMAZON);
     }
     else
     {
-        return convStr("<a href=\"" + album.m_strAmazonLink + "\">view at amazon.com</a>");
+        return tr("<a href=\"%1\">view at amazon.com</a>").arg(album.m_strAmazonLink.c_str());
     }
 }
 
@@ -514,7 +512,7 @@ LAST_STEP("MusicBrainzDownloader::requestAlbum");
     delay();
     m_pQHttp->request(header);
     //cout << "sent album " << m_vAlbums[nAlbum].m_strId << " - " << m_pQHttp->request(header) << endl;
-    addNote("getting album info ...");
+    addNote(AlbumInfoDownloaderDlgImpl::tr("getting album info ..."));
 }
 
 
@@ -540,7 +538,7 @@ LAST_STEP("MusicBrainzDownloader::requestImage");
     //qDebug("%s", strUrl.c_str());
     m_pImageQHttp->get(url.path());
 
-    addNote("getting image ...");
+    addNote(AlbumInfoDownloaderDlgImpl::tr("getting image ..."));
 }
 
 

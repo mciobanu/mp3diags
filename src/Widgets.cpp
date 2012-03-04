@@ -105,7 +105,7 @@ void ModifInfoToolButton::contextMenuEvent(QContextMenuEvent* /*pEvent*/)
 
 
 
-int showMessage(QWidget* pParent, QMessageBox::Icon icon, int nDefault, int nEscape, const QString& qstrTitle, const QString& qstrMessage, const QString& qstrButton0, const QString& qstrButton1 /*= ""*/, const QString& qstrButton2 /*= ""*/, const QString& qstrButton3 /*= ""*/)
+int showMessage(QWidget* pParent, QMessageBox::Icon icon, int nDefault, int nEscape, const QString& qstrTitle, const QString& qstrMessage, const QString& qstrButton0, const QString& qstrButton1 /* = ""*/, const QString& qstrButton2 /* = ""*/, const QString& qstrButton3 /* = ""*/)
 {
     QStringList l;
     l << qstrButton0;
@@ -145,7 +145,24 @@ int showMessage(QWidget* pParent, QMessageBox::Icon icon, int nDefault, int nEsc
 }
 
 
-CursorOverrider::CursorOverrider(Qt::CursorShape crs /*= Qt::BusyCursor*/)
+void showWarning(QWidget* pParent, const QString& qstrTitle, const QString& qstrMessage)
+{
+    showMessage(pParent, QMessageBox::Warning, 0, 0, qstrTitle, qstrMessage, GlobalTranslHlp::tr("O&K"));
+}
+
+void showCritical(QWidget* pParent, const QString& qstrTitle, const QString& qstrMessage)
+{
+    showMessage(pParent, QMessageBox::Critical, 0, 0, qstrTitle, qstrMessage, GlobalTranslHlp::tr("O&K"));
+}
+
+void showInfo(QWidget* pParent, const QString& qstrTitle, const QString& qstrMessage)
+{
+    showMessage(pParent, QMessageBox::Information, 0, 0, qstrTitle, qstrMessage, GlobalTranslHlp::tr("O&K"));
+}
+
+
+
+CursorOverrider::CursorOverrider(Qt::CursorShape crs /* = Qt::BusyCursor*/)
 {
     QApplication::setOverrideCursor(QCursor(crs));
 }
@@ -269,7 +286,7 @@ ThreadLocalDlgList& getThreadLocalDlgList()
 
 
 
-/*static*/ int HtmlMsg::msg(QWidget* pParent, int nDefault, int nEscape, bool* pbGotTheMessage, int nFlags, const QString& qstrTitle, const QString& qstrMessage, int nWidth, int nHeight, const QString& qstrButton0, const QString& qstrButton1 /*= ""*/, const QString& qstrButton2 /*= ""*/, const QString& qstrButton3 /*= ""*/)
+/*static*/ int HtmlMsg::msg(QWidget* pParent, int nDefault, int nEscape, bool* pbGotTheMessage, int nFlags, const QString& qstrTitle, const QString& qstrMessage, int nWidth, int nHeight, const QString& qstrButton0, const QString& qstrButton1 /* = ""*/, const QString& qstrButton2 /* = ""*/, const QString& qstrButton3 /* = ""*/)
 {
     LAST_STEP("HtmlMsg::msg()");
 
@@ -302,7 +319,7 @@ ThreadLocalDlgList& getThreadLocalDlgList()
     QCheckBox* pCheck (0);
     if (0 != pbGotTheMessage)
     {
-        pCheck = new QCheckBox("I got the message; don't show this again", &dlg);
+        pCheck = new QCheckBox(tr("I got the message; don't show this again"), &dlg);
         btnLayout.addWidget(pCheck);
     }
 

@@ -27,6 +27,7 @@
 #include  "Helpers.h"
 #include  "SongInfoParser.h"
 #include  "StoredSettings.h"
+#include  "Widgets.h"
 
 
 using namespace std;
@@ -49,10 +50,10 @@ TagEdtPatternsDlgImpl::TagEdtPatternsDlgImpl(QWidget* pParent, SessionSettings& 
     QString qsSep ("\\");
 #endif
 
-    m_infoM->setText("%n\ttrack number\n%a\tartist\n%t\ttitle\n%b\talbum\n%y\tyear\n%g\tgenre\n%r\trating (a lowercase letter)\n%c\tcomposer\n%i\tignored"
-            "\n\nTo include the special characters \"%\", \"[\", \"]\" and \"" + qsSep + "\", preced them by a \"%\": \"%%\", \"%[\", \"%]\" and \"%" + qsSep + "\""
-            "\n\nFor a pattern to be considered a \"file pattern\" (as opposed to a \"table pattern\"), it must contain at least a \"" + qsSep + "\", even if you don't care about what's in the file's parent directory (see the fourth predefined pattern for an example.)"
-            "\n\nLeading and trailing spaces are removed automatically from unbound fields after matching, so \"-[ ]%t\" is equivalent to \"-%t\" (but \"-[ ]%n\" is not equivalent to \"-%n\", because %n is a fixed format field). However, all non-optional characters matter in the matching phase, including spaces."); //ttt2 maybe further improve wording - see https://sourceforge.net/projects/mp3diags/forums/forum/947207/topic/3962666:
+    m_infoM->setText(tr("%n\ttrack number\n%a\tartist\n%t\ttitle\n%b\talbum\n%y\tyear\n%g\tgenre\n%r\trating (a lowercase letter)\n%c\tcomposer\n%i\tignored"
+            "\n\nTo include the special characters \"%\", \"[\", \"]\" and \"%1\", preced them by a \"%\": \"%%\", \"%[\", \"%]\" and \"%%1\""
+            "\n\nFor a pattern to be considered a \"file pattern\" (as opposed to a \"table pattern\"), it must contain at least a \"%1\", even if you don't care about what's in the file's parent directory (see the fourth predefined pattern for an example.)"
+            "\n\nLeading and trailing spaces are removed automatically from unbound fields after matching, so \"-[ ]%t\" is equivalent to \"-%t\" (but \"-[ ]%n\" is not equivalent to \"-%n\", because %n is a fixed format field). However, all non-optional characters matter in the matching phase, including spaces.").arg(qsSep)); //ttt2 maybe further improve wording - see https://sourceforge.net/projects/mp3diags/forums/forum/947207/topic/3962666:
 
     int nWidth, nHeight;
     m_settings.loadTagEdtPatternsSettings(nWidth, nHeight);
@@ -96,7 +97,7 @@ void TagEdtPatternsDlgImpl::on_m_pOkB_clicked()
             string strCheck (SongInfoParser::testPattern(s1));
             if (!strCheck.empty())
             {
-                QMessageBox::critical(this, "Error", convStr(strCheck));
+                showCritical(this, tr("Error"), convStr(strCheck));
                 return;
             }
 
@@ -182,7 +183,7 @@ void TagEdtPatternsDlgImpl::onCrtPosChanged()
     QTextCursor crs (m_pTextM->textCursor());
     m_nCrtLine = crs.blockNumber();
     m_nCrtCol = crs.columnNumber();
-    m_pCrtPosL->setText(QString("Line %1, Col %2").arg(m_nCrtLine + 1).arg(m_nCrtCol + 1));
+    m_pCrtPosL->setText(tr("Line %1, Col %2").arg(m_nCrtLine + 1).arg(m_nCrtCol + 1));
 }
 
 

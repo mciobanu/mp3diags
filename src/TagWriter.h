@@ -131,7 +131,7 @@ public:
 
     /*override*/ SuportLevel getSupport(Feature) const;
 
-    DECL_RD_NAME("Pattern");
+    DECL_RD_NAME(QT_TRANSLATE_NOOP("TagReader", "Pattern"))
     const char* getType() const { return m_szType; }
 
     TrackTextReader(SongInfoParser::TrackTextParser* pTrackTextParser, const std::string& s);
@@ -188,7 +188,7 @@ public:
 
     /*override*/ SuportLevel getSupport(Feature) const;
 
-    DECL_RD_NAME("Web");
+    DECL_RD_NAME(QT_TRANSLATE_NOOP("TagReader", "Web"))
     const std::string& getType() const { return m_strType; }
 
     WebReader(const AlbumInfo& albumInfo, int nTrackNo); // nTrackNo is 0-based, just an index in albumInfo.m_vTracks

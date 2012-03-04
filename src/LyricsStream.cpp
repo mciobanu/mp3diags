@@ -118,13 +118,13 @@ LyricsStream::LyricsStream(int nIndex, NoteColl& notes, std::istream& in, const 
             else
             {
                 MP3_NOTE (m_pos, duplicateFields); //ttt2 perhaps differentiate between various dup fields
-                m_strOther += "Additional LYR field: " + strVal + "\n\n";
+                m_strOther += convStr(TagReader::tr("Additional %1 field: %2").arg("LYR").arg(convStr(strVal))) + "\n\n";
             }
         }
         else if ("INF" == strField)
         {
             MP3_NOTE (m_pos, infInLyrics);
-            m_strOther += "INF field: " + strVal + "\n\n";
+            m_strOther += convStr(TagReader::tr("%1 field: %2").arg("INF").arg(convStr(strVal))) + "\n\n";
         }
         else if ("AUT" == strField)
         {
@@ -136,7 +136,7 @@ LyricsStream::LyricsStream(int nIndex, NoteColl& notes, std::istream& in, const 
             else
             {
                 MP3_NOTE (m_pos, duplicateFields);
-                m_strOther += "Additional AUT field: " + strVal + "\n\n";
+                m_strOther += convStr(TagReader::tr("Additional %1 field: %2").arg("AUT").arg(convStr(strVal))) + "\n\n";
             }
         }
         else if ("EAL" == strField)
@@ -149,7 +149,7 @@ LyricsStream::LyricsStream(int nIndex, NoteColl& notes, std::istream& in, const 
             else
             {
                 MP3_NOTE (m_pos, duplicateFields);
-                m_strOther += "Additional EAL field: " + strVal + "\n\n";
+                m_strOther += convStr(TagReader::tr("Additional %1 field: %2").arg("EAL").arg(convStr(strVal))) + "\n\n";
             }
         }
         else if ("EAR" == strField)
@@ -162,7 +162,7 @@ LyricsStream::LyricsStream(int nIndex, NoteColl& notes, std::istream& in, const 
             else
             {
                 MP3_NOTE (m_pos, duplicateFields);
-                m_strOther += "Additional EAR field: " + strVal + "\n\n";
+                m_strOther += convStr(TagReader::tr("Additional %1 field: %2").arg("EAR").arg(convStr(strVal))) + "\n\n";
             }
         }
         else if ("ETT" == strField)
@@ -175,7 +175,7 @@ LyricsStream::LyricsStream(int nIndex, NoteColl& notes, std::istream& in, const 
             else
             {
                 MP3_NOTE (m_pos, duplicateFields);
-                m_strOther += "Additional ETT field: " + strVal + "\n\n";
+                m_strOther += convStr(TagReader::tr("Additional %1 field: %2").arg("ETT").arg(convStr(strVal))) + "\n\n";
             }
         }
         else if ("IMG" == strField)
@@ -189,7 +189,7 @@ LyricsStream::LyricsStream(int nIndex, NoteColl& notes, std::istream& in, const 
             else
             {
                 MP3_NOTE (m_pos, duplicateFields);
-                m_strOther += "Additional IMG field: " + strVal + "\n\n";
+                m_strOther += convStr(TagReader::tr("Additional %1 field: %2").arg("IMG").arg(convStr(strVal))) + "\n\n";
             }
         }
         else if ("GRE" == strField)
@@ -202,7 +202,7 @@ LyricsStream::LyricsStream(int nIndex, NoteColl& notes, std::istream& in, const 
             else
             {
                 MP3_NOTE (m_pos, duplicateFields);
-                m_strOther += "Additional GRE field: " + strVal + "\n\n";
+                m_strOther += convStr(TagReader::tr("Additional %1 field: %2").arg("GRE").arg(convStr(strVal))) + "\n\n";
             }
         }
         else if ("IND" == strField)
@@ -214,12 +214,12 @@ LyricsStream::LyricsStream(int nIndex, NoteColl& notes, std::istream& in, const 
             else
             {
                 MP3_NOTE (m_pos, duplicateFields);
-                m_strOther += "Additional IND field: " + strVal + "\n\n";
+                m_strOther += convStr(TagReader::tr("Additional %1 field: %2").arg("IND").arg(convStr(strVal))) + "\n\n";
             }
         }
         else
         {
-            m_strOther += strField + " field: " + strVal + "\n\n";
+            m_strOther += convStr(TagReader::tr("%1 field: %2").arg(convStr(strField)).arg(convStr(strVal))) + "\n\n";
         }
 
         nTotalSize += 8 + nSize;
@@ -255,19 +255,19 @@ LyricsStream::LyricsStream(int nIndex, NoteColl& notes, std::istream& in, const 
 
 
 
-/*override*/ std::string LyricsStream::getTitle(bool* pbFrameExists /*= 0*/) const
+/*override*/ std::string LyricsStream::getTitle(bool* pbFrameExists /* = 0*/) const
 {
     if (0 != pbFrameExists) { *pbFrameExists = m_bHasTitle; }
     return m_strTitle;
 }
 
-/*override*/ std::string LyricsStream::getArtist(bool* pbFrameExists /*= 0*/) const
+/*override*/ std::string LyricsStream::getArtist(bool* pbFrameExists /* = 0*/) const
 {
     if (0 != pbFrameExists) { *pbFrameExists = m_bHasArtist; }
     return m_strArtist;
 }
 
-/*override*/ std::string LyricsStream::getGenre(bool* pbFrameExists /*= 0*/) const
+/*override*/ std::string LyricsStream::getGenre(bool* pbFrameExists /* = 0*/) const
 {
     if (0 != pbFrameExists) { *pbFrameExists = m_bHasGenre; }
     return m_strGenre;
@@ -318,7 +318,7 @@ ImageInfo LyricsStream::readImage(const QString& strRelName) const //ttt2 perhap
 }
 
 
-/*override*/ ImageInfo LyricsStream::getImage(bool* pbFrameExists /*= 0*/) const
+/*override*/ ImageInfo LyricsStream::getImage(bool* pbFrameExists /* = 0*/) const
 {
     if (0 != pbFrameExists) { *pbFrameExists = m_bHasImage; }
 
@@ -361,7 +361,7 @@ ImageInfo LyricsStream::readImage(const QString& strRelName) const //ttt2 perhap
 }
 
 
-/*override*/ std::string LyricsStream::getAlbumName(bool* pbFrameExists /*= 0*/) const
+/*override*/ std::string LyricsStream::getAlbumName(bool* pbFrameExists /* = 0*/) const
 {
     if (0 != pbFrameExists) { *pbFrameExists = m_bHasAlbum; }
     return m_strAlbum;
@@ -369,14 +369,14 @@ ImageInfo LyricsStream::readImage(const QString& strRelName) const //ttt2 perhap
 
 /*override*/ std::string LyricsStream::getOtherInfo() const
 {
-    string s;
-    if (!m_strInd.empty()) { s += "IND field: " + m_strInd + "\n\n"; }
-    if (!m_strImageFiles.empty()) { s += "IMG field: " + m_strImageFiles + "\n\n"; }
-    if (!m_strAuthor.empty()) { s += "AUT field: " + m_strAuthor + "\n\n"; }
-    if (!m_strLyrics.empty()) { s += "LYR field: " + m_strLyrics + "\n\n"; }
+    QString s;
+    if (!m_strInd.empty()) { s += TagReader::tr("%1 field: %2").arg("IND").arg(convStr(m_strInd)) + "\n\n"; }
+    if (!m_strImageFiles.empty()) { s += TagReader::tr("%1 field: %2").arg("IMG").arg(convStr(m_strImageFiles)) + "\n\n"; }
+    if (!m_strAuthor.empty()) { s += TagReader::tr("%1 field: %2").arg("AUT").arg(convStr(m_strAuthor)) + "\n\n"; }
+    if (!m_strLyrics.empty()) { s += TagReader::tr("%1 field: %2").arg("LYR").arg(convStr(m_strLyrics)) + "\n\n"; }
 
-    if (!m_strOther.empty()) { s += m_strOther + "\n\n"; }
-    return s;
+    if (!m_strOther.empty()) { s += convStr(m_strOther) + "\n\n"; }
+    return convStr(s);
 }
 
 #if 1 //...

@@ -280,7 +280,8 @@ std::string decodeMpegFrame(unsigned int n, const char* szSep, bool* pbIsValid =
 std::string decodeMpegFrame(const char* bfr, const char* szSep, bool* pbIsValid = 0);
 std::string decodeMpegFrameAsXml(const char* bfr, bool* pbIsValid = 0);
 
-inline const char* boolAsYesNo(bool b) { return b ? "yes" : "no"; }
+
+inline const char* boolAsYesNo(bool b) { return b ? QT_TRANSLATE_NOOP("GlobalTranslHlp", "yes") : QT_TRANSLATE_NOOP("GlobalTranslHlp", "no"); }
 
 char getPathSep();
 const std::string& getPathSepAsStr();

@@ -87,7 +87,7 @@ void PausableThread::checkPause() // if m_bPaused is set, it waits until resume(
 
 
 
-ThreadRunnerDlgImpl::ThreadRunnerDlgImpl(QWidget* pParent, Qt::WFlags flags, PausableThread* pThread, bool bShowCounter, TruncatePos eTruncatePos, bool bShowPauseAbort /*= true*/) :
+ThreadRunnerDlgImpl::ThreadRunnerDlgImpl(QWidget* pParent, Qt::WFlags flags, PausableThread* pThread, bool bShowCounter, TruncatePos eTruncatePos, bool bShowPauseAbort /* = true*/) :
     QDialog(pParent, flags),
     Ui::ThreadRunnerDlg(),
 
@@ -138,7 +138,7 @@ void ThreadRunnerDlgImpl::onThreadCompleted(bool bSuccess)
     m_bSuccess = bSuccess;
 
     // !!! can't just exit; should wait for the thread's "run()" metod to finish
-    m_pCurrentL->setText("Completed");
+    m_pCurrentL->setText(tr("Completed"));
     m_pPauseResumeB->setEnabled(false);
     m_pAbortB->setEnabled(false);
     m_closeTimer.start(100); // 0.1 sec
@@ -150,14 +150,14 @@ void ThreadRunnerDlgImpl::on_m_pPauseResumeB_clicked()
 {
     if (!m_pThread->m_bPaused)
     { // currently running
-        m_pPauseResumeB->setText("&Resume");
+        m_pPauseResumeB->setText(tr("&Resume"));
         m_pThread->pause();
 
         m_tPauseBegin = time(0);
     }
     else
     { // currently paused
-        m_pPauseResumeB->setText("&Pause");
+        m_pPauseResumeB->setText(tr("&Pause"));
 
         time_t t (time(0));
         m_tRunningBegin = m_tRunningBegin + t - m_tPauseBegin;
@@ -174,7 +174,7 @@ void ThreadRunnerDlgImpl::on_m_pAbortB_clicked()
 }
 
 
-QString ThreadRunnerDlgImpl::truncateLarge(const QString& s, int nKeepFirst /*= 0*/) // truncates strings that are too wide to display without resizing
+QString ThreadRunnerDlgImpl::truncateLarge(const QString& s, int nKeepFirst /* = 0*/) // truncates strings that are too wide to display without resizing
 {
     QFontMetrics fontMetrics (m_pCurrentL->font());
     const int MARGIN (8); // normally this should be 0 but in other cases Qt missed a few pixels when estimating how much space it needed, so it seems better to lose some pixels // ttt2 2009.04.30 - actually this is probably related to spacing; if this is true, the hard-coded value should be replaced by some query to QApplication::style()->pixelMetric()
@@ -219,7 +219,7 @@ QString ThreadRunnerDlgImpl::truncateLarge(const QString& s, int nKeepFirst /*= 
 }
 
 
-//void ThreadRunnerDlgImpl::onStepChanged(const QString& qstrLabel1, const QString& qstrLabel2 /*= ""*/, const QString& qstrLabel3 /*= ""*/, const QString& qstrLabel4 /*= ""*/)
+//void ThreadRunnerDlgImpl::onStepChanged(const QString& qstrLabel1, const QString& qstrLabel2 /* = ""*/, const QString& qstrLabel3 /* = ""*/, const QString& qstrLabel4 /* = ""*/)
 void ThreadRunnerDlgImpl::onStepChanged(const StrList& v, int nStep)
 {
 //qDebug("step %s", qstrLabel.toStdString().c_str());
@@ -296,12 +296,12 @@ void ThreadRunnerDlgImpl::onUpdateTimer()
     time_t t (time(0));
     if (m_bShowPauseAbort)
     {
-        s += "\n\nTotal time: " + getTimeFmt(t - m_tRealBegin); // ttt1 show only if different from Running time
-        s += "\nRunning time: " + getTimeFmt((m_pThread->m_bPaused ? m_tPauseBegin : t) - m_tRunningBegin);
+        s += tr("\n\nTotal time: %1" // ttt1 show Total time only if different from Running time
+            "\nRunning time: %2").arg(getTimeFmt(t - m_tRealBegin)).arg(getTimeFmt((m_pThread->m_bPaused ? m_tPauseBegin : t) - m_tRunningBegin));
     }
     else
     {
-        s += "\n\nTime: " + getTimeFmt(t - m_tRealBegin);
+        s += "\n\n" + tr("Time: %1").arg(getTimeFmt(t - m_tRealBegin));
     }
 
     m_pCurrentL->setText(s);

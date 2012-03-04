@@ -33,6 +33,9 @@
 #include  "Helpers.h"
 #include  "FullSizeImgDlg.h"
 
+#include  "DataStream.h" // for translations
+#include  "Widgets.h" // for translation
+
 using namespace std;
 
 
@@ -44,7 +47,7 @@ ImageInfo::ImageInfo(int nImageType, Status eStatus, Compr eCompr, QByteArray co
 
 // the picture is scaled down, keeping the aspect ratio, if the limits are exceeded; 0 and negative limits are ignored;
 // if nMaxWidth>0 and nMaxHeight<=0, nMaxHeight has the same value as nMaxWidth;
-QImage ImageInfo::getImage(int nMaxWidth /*= -1*/, int nMaxHeight /*= -1*/) const
+QImage ImageInfo::getImage(int nMaxWidth /* = -1*/, int nMaxHeight /* = -1*/) const
 {
     CB_ASSERT (NO_PICTURE_FOUND != m_eStatus);
 
@@ -102,29 +105,29 @@ ImageInfo::ImageInfo(int nImageType, Status eStatus, const QImage& pic) : m_eCom
 {
     switch (nImageType)
     {
-    case 0x00: return "other";
-    case 0x01: return "32x32 icon";
-    case 0x02: return "other file icon";
-    case 0x03: return "front cover";
-    case 0x04: return "back cover";
-    case 0x05: return "leaflet page";
-    case 0x06: return "media";
-    case 0x07: return "lead artist";
-    case 0x08: return "artist";
-    case 0x09: return "conductor";
-    case 0x0a: return "band";
-    case 0x0b: return "composer";
-    case 0x0c: return "lyricist";
-    case 0x0d: return "recording location";
-    case 0x0e: return "during recording";
-    case 0x0f: return "during performance";
-    case 0x10: return "screen capture";
-    //case 0x11: return "a bright coloured fish";
-    case 0x12: return "illustration";
-    case 0x13: return "band/artist logotype";
-    case 0x14: return "publisher/studio logotype";
+    case 0x00: return QT_TRANSLATE_NOOP("TagReader", "other");
+    case 0x01: return QT_TRANSLATE_NOOP("TagReader", "32x32 icon");
+    case 0x02: return QT_TRANSLATE_NOOP("TagReader", "other file icon");
+    case 0x03: return QT_TRANSLATE_NOOP("TagReader", "front cover");
+    case 0x04: return QT_TRANSLATE_NOOP("TagReader", "back cover");
+    case 0x05: return QT_TRANSLATE_NOOP("TagReader", "leaflet page");
+    case 0x06: return QT_TRANSLATE_NOOP("TagReader", "media");
+    case 0x07: return QT_TRANSLATE_NOOP("TagReader", "lead artist");
+    case 0x08: return QT_TRANSLATE_NOOP("TagReader", "artist");
+    case 0x09: return QT_TRANSLATE_NOOP("TagReader", "conductor");
+    case 0x0a: return QT_TRANSLATE_NOOP("TagReader", "band");
+    case 0x0b: return QT_TRANSLATE_NOOP("TagReader", "composer");
+    case 0x0c: return QT_TRANSLATE_NOOP("TagReader", "lyricist");
+    case 0x0d: return QT_TRANSLATE_NOOP("TagReader", "recording location");
+    case 0x0e: return QT_TRANSLATE_NOOP("TagReader", "during recording");
+    case 0x0f: return QT_TRANSLATE_NOOP("TagReader", "during performance");
+    case 0x10: return QT_TRANSLATE_NOOP("TagReader", "screen capture");
+    //case 0x11: return QT_TRANSLATE_NOOP("TagReader", "a bright coloured fish");
+    case 0x12: return QT_TRANSLATE_NOOP("TagReader", "illustration");
+    case 0x13: return QT_TRANSLATE_NOOP("TagReader", "band/artist logotype");
+    case 0x14: return QT_TRANSLATE_NOOP("TagReader", "publisher/studio logotype");
     default:
-        return "unknown";
+        return QT_TRANSLATE_NOOP("TagReader", "unknown");
     }
 }
 
@@ -139,7 +142,7 @@ const char* ImageInfo::getImageType() const
 {
     switch (eCompr)
     {
-    case INVALID: return "invalid";
+    case INVALID: return "invalid"; // no translation needed as long as this is only used in XML export
     case JPG: return "JPEG";
     case PNG: return "PNG";
     }
@@ -180,11 +183,11 @@ const char* ImageInfo::getImageType() const
 
 
 
-QString ImageInfo::getTextDescr(const QString& qstrSep /*= "\n"*/) const
+QString ImageInfo::getTextDescr(const QString& qstrSep /* = "\n"*/) const
 {
     QString s;
     s.sprintf("%dx%d", getWidth(), getHeight());
-    s += qstrSep + getImageType();
+    s += qstrSep + TagReader::tr(getImageType());
     return s;
 }
 
@@ -230,7 +233,7 @@ static const set<QString>& getLowerCaseSet()
         bInit = true;
         const char* aszList[] = { "a","an","the", // from http://avalon-internet.com/Capitalize_an_English_Title/en
 
-                "about","above","across","after","against","along",
+                "about","above","across","after","against","along", //ttt2 English-only //ttt0 see if there's a need for this in other languages; (this is needed for "title case"); also, this should be tied to a different locale than the one the UI is in
                 "amid","among","around","at","before","behind","below", "beneath",
                 "beside","besides","between","beyond","but","by","concerning","despite",
                 "down","during","except","from","in","including", "inside","into","like",
@@ -370,12 +373,6 @@ static QString singleWordMiddleSentence(const QString& s)
 
 QString getCaseConv(const QString& s, TextCaseOptions eCase)
 {
-/*
-    lNames << "Lower case: first part. second part.";
-    lNames << "Upper case: FIRST PART. SECOND PART.";
-    lNames << "Title case: First Part. Second Part.";
-    lNames << "Phrase case: First part. Second part.";
-*/
     switch(eCase)
     {
     //case TC_NONE: CB_ASSERT (false);
@@ -386,24 +383,6 @@ QString getCaseConv(const QString& s, TextCaseOptions eCase)
 
     case TC_TITLE:
         {
-            /*QString res;
-            int n (s.size());
-            bool bWhitesp (true);
-            for (int i = 0; i < n; ++i)
-            {
-                const QChar& qc (s[i]);
-                if (bWhitesp)
-                {
-                    res += qc.toUpper();
-                }
-                else
-                {
-                    res += qc.toLower();
-                }
-
-                bWhitesp = qc.isSpace() || qc == '.';
-            }*/
-
             QStringList l (s.split(" ", QString::SkipEmptyParts));
             int n (l.size());
             if (n > 0)
@@ -423,25 +402,6 @@ QString getCaseConv(const QString& s, TextCaseOptions eCase)
 
     case TC_SENTENCE:
         {
-            /*int n (s.size());
-            QString res;
-            bool bPer (true);
-            for (int i = 0; i < n; ++i)
-            {
-                const QChar& qc (s[i]);
-                if (bPer)
-                {
-                    res += qc.toUpper();
-                }
-                else
-                {
-                    res += qc.toLower();
-                }
-
-                if (!qc.isSpace()) { bPer = (qc == '.'); }
-            }
-            return res;*/
-
             QStringList l (s.split(" ", QString::SkipEmptyParts));
             int n (l.size());
             if (n > 0)
@@ -466,11 +426,11 @@ const char* getCaseAsStr(TextCaseOptions e)
 {
     switch (e)
     {
-    case TC_NONE: return "<no change>";
-    case TC_LOWER: return "lower case";
-    case TC_UPPER: return "UPPER CASE";
-    case TC_TITLE: return "Title Case";
-    case TC_SENTENCE: return "Sentence case";
+    case TC_NONE: return QT_TRANSLATE_NOOP("TagReader", "<no change>");
+    case TC_LOWER: return QT_TRANSLATE_NOOP("TagReader", "lower case");
+    case TC_UPPER: return QT_TRANSLATE_NOOP("TagReader", "UPPER CASE");
+    case TC_TITLE: return QT_TRANSLATE_NOOP("TagReader", "Title Case");
+    case TC_SENTENCE: return QT_TRANSLATE_NOOP("TagReader", "Sentence case");
     default:
         CB_ASSERT (false);
     }
@@ -504,13 +464,13 @@ string ExternalToolInfo::asString()
 }
 
 
-/*static*/ const char* ExternalToolInfo::launchOptionAsString(LaunchOption eLaunchOption)
+/*static*/ QString ExternalToolInfo::launchOptionAsTranslatedString(LaunchOption eLaunchOption)
 {
     switch (eLaunchOption)
     {
-    case DONT_WAIT: return "Don't wait";
-    case WAIT_THEN_CLOSE_WINDOW: return "Wait for external tool to finish, then close launch window";
-    case WAIT_AND_KEEP_WINDOW_OPEN: return "Wait for external tool to finish, then keep launch window open";
+    case DONT_WAIT: return GlobalTranslHlp::tr("Don't wait");
+    case WAIT_THEN_CLOSE_WINDOW: return GlobalTranslHlp::tr("Wait for external tool to finish, then close launch window");
+    case WAIT_AND_KEEP_WINDOW_OPEN: return GlobalTranslHlp::tr("Wait for external tool to finish, then keep launch window open");
     default: CB_ASSERT(false);
     }
 }

@@ -164,8 +164,6 @@ struct Notes
 {
     Q_DECLARE_TR_FUNCTIONS(Notes)
 
-    //static void translNoOp(); // doesn't actually do anything, but it is merely to provide context for note translation
-
 public:
     static const Note* getNote(const std::string& strDescr); // returns 0 if not found
     static const Note* getNote(int n); // returns 0 if n is out of range

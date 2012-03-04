@@ -482,7 +482,7 @@ void CommonData::setFontInfo(const std::string& strGenName, int nGenSize, int nL
 
     if (!bFirstTime)
     {
-        QMessageBox::warning(m_pFilesG, "Info", "The font changes will only be used after restarting the application."); //ttt2 try to get this work, probably needs to call QHeaderView::resizeSection(), as well as review all setMinimumSectionSize() and setDefaultSectionSize() calls;
+        showWarning(m_pFilesG, tr("Info"), tr("The font changes will only be used after restarting the application.")); //ttt2 try to get this work, probably needs to call QHeaderView::resizeSection(), as well as review all setMinimumSectionSize() and setDefaultSectionSize() calls;
         return;
     }
 
@@ -688,7 +688,7 @@ CommonData::CommonData(
     }
     catch (const DirTreeEnumerator::InvalidDirs&)
     {
-        QMessageBox::critical(m_pFilesG, "Error", "There was an error setting up the directories containing MP3 files. You will have to define them again.");
+        showCritical(m_pFilesG, tr("Error"), tr("There was an error setting up the directories containing MP3 files. You will have to define them again."));
         m_vstrIncludeDirs.clear();
         m_vstrExcludeDirs.clear();
     }
@@ -781,7 +781,7 @@ void CommonData::getUniqueNotes(const std::deque<const Mp3Handler*>& vpHandlers,
 
 
 // although the current elem can be identified (so it "shouldn't" be passed) and most of the time pMp3Handler will be just that, sometimes it will deliberately be 0, so a param is actually needed;
-void CommonData::setViewMode(ViewMode eViewMode, const Mp3Handler* pMp3Handler /*= 0*/)
+void CommonData::setViewMode(ViewMode eViewMode, const Mp3Handler* pMp3Handler /* = 0*/)
 {
     int nRes (setViewModeHlp(eViewMode, pMp3Handler));
     m_pFilesModel->selectRow(nRes);
@@ -1113,7 +1113,7 @@ void opppo()
 
 // if bExactMatch is false, it finds the nearest position in m_vpViewHandlers (so even if a file was deleted, it still finds something close);
 // returns -1 only if not found (either m_vpViewHandlers is empty or bExactMatch is true and the file is missing);
-int CommonData::getPosInView(const std::string& strName/*, bool bUsePrevIfNotFound = true*/, bool bExactMatch /*= false*/) const
+int CommonData::getPosInView(const std::string& strName/*, bool bUsePrevIfNotFound = true*/, bool bExactMatch /* = false*/) const
 {
 /*    if (strName.empty()) { return -1; }
     deque<Mp3Handler*>::const_iterator it (lower_bound(m_vpViewHandlers.begin(), m_vpViewHandlers.end(), strName, CmpMp3HandlerPtrByName()));
@@ -1715,7 +1715,7 @@ void Filter::restoreAll() // loads m_bNoteFilter from m_bSavedNoteFilter and m_b
 
 // called after config change or filter change or mergeHandlerChanges(), mainly to update unique notes (which is reflected in columns in the file grid and in lines in the unique notes list); also makes sure that something is displayed if there are any files in m_vpFltHandlers (e.g. if a transform was applied that removed all the files in an album, the next album gets loaded);
 // this is needed after transforms/normalization/tag editing, but there's no need for an explicit call, because all these call mergeHandlerChanges() (directly or through MainFormDlgImpl::scan())
-void CommonData::updateWidgets(const std::string& strCrtName /*= ""*/, const std::vector<std::string>& vstrSel /*= std::vector<std::string>()*/)
+void CommonData::updateWidgets(const std::string& strCrtName /* = ""*/, const std::vector<std::string>& vstrSel /* = std::vector<std::string>()*/)
 {
     CursorOverrider crs;
 

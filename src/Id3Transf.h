@@ -40,9 +40,9 @@ public:
     Id3V2Cleaner(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Removes all ID3V2 frames that aren't used by MP3 Diags. You normally don't want to do such a thing, but it may help if some other program misbehaves because of invalid or unknown frames in an ID3V2 tag."; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Removes all ID3V2 frames that aren't used by MP3 Diags. You normally don't want to do such a thing, but it may help if some other program misbehaves because of invalid or unknown frames in an ID3V2 tag."); }
 
-    static const char* getClassName() { return "Remove non-basic ID3V2 frames"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Remove non-basic ID3V2 frames"); }
 };
 
 
@@ -54,9 +54,9 @@ public:
     Id3V2Rescuer(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Copies only ID3V2 frames that seem valid or can be made valid, discarding those that are invalid and can't be fixed (e.g. an APIC frame claiming to hold a picture although it doesn't.) Handles both loadable and broken ID3V2 tags, in the latter case copying being stopped when a fatal error occurs."; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Copies only ID3V2 frames that seem valid or can be made valid, discarding those that are invalid and can't be fixed (e.g. an APIC frame claiming to hold a picture although it doesn't.) Handles both loadable and broken ID3V2 tags, in the latter case copying being stopped when a fatal error occurs."); }
 
-    static const char* getClassName() { return "Discard invalid ID3V2 data"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Discard invalid ID3V2 data"); }
 };
 
 
@@ -65,15 +65,14 @@ class Id3V2UnicodeTransformer : public Transformation
 {
     void processId3V2Stream(Id3V2StreamBase& frm, ofstream_utf8& out);
     CommonData* m_pCommonData;
-    mutable std::string m_strActionName; // contains the current codepage
 public:
     Id3V2UnicodeTransformer(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getVisibleActionName() const;
-    /*override*/ const char* getDescription() const { return "Transforms text frames in ID3V2 encoded as Latin1 to Unicode (UTF16.) The reason to do this is that sometimes non-conforming software treats these frames as they are encoded in a different code page, causing other programs to display unexpected data."; }
+    /*override*/ QString getVisibleActionName() const;
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Transforms text frames in ID3V2 encoded as Latin1 to Unicode (UTF16.) The reason to do this is that sometimes non-conforming software treats these frames as they are encoded in a different code page, causing other programs to display unexpected data."); }
 
-    static const char* getClassName() { return "Convert non-ASCII ID3V2 text frames to Unicode"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Convert non-ASCII ID3V2 text frames to Unicode"); }
 };
 
 
@@ -82,15 +81,14 @@ class Id3V2CaseTransformer : public Transformation
 {
     bool processId3V2Stream(Id3V2StreamBase& frm, ofstream_utf8& out);
     CommonData* m_pCommonData;
-    mutable std::string m_strActionName;
 public:
     Id3V2CaseTransformer(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getVisibleActionName() const;
-    /*override*/ const char* getDescription() const { return "Transforms the case of text frames in ID3V2 tags, according to global settings."; }
+    /*override*/ QString getVisibleActionName() const;
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Transforms the case of text frames in ID3V2 tags, according to global settings."); }
 
-    static const char* getClassName() { return "Change case for ID3V2 text frames"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Change case for ID3V2 text frames"); }
 };
 
 
@@ -101,15 +99,14 @@ class Id3V1ToId3V2Copier : public Transformation
     bool processId3V2Stream(Id3V2StreamBase& frm, ofstream_utf8& out, Id3V1Stream* pId3V1Stream);
     std::string convert(const std::string& s);
     CommonData* m_pCommonData;
-    mutable std::string m_strActionName;
 public:
     Id3V1ToId3V2Copier(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getVisibleActionName() const;
-    /*override*/ const char* getDescription() const { return "Copies frames from ID3V1 to ID3V2 if those frames don't exist in the destination or if the destination doesn't exist at all."; }
+    /*override*/ QString getVisibleActionName() const;
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Copies frames from ID3V1 to ID3V2 if those frames don't exist in the destination or if the destination doesn't exist at all."); }
 
-    static const char* getClassName() { return "Copy missing ID3V2 frames from ID3V1"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Copy missing ID3V2 frames from ID3V1"); }
 };
 
 
@@ -120,9 +117,9 @@ public:
     Id3V2ComposerAdder(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Adds the value of the composer field to the beginning of the artist field in ID3V2 frames. Useful for players that don't use the composer field."; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Adds the value of the composer field to the beginning of the artist field in ID3V2 frames. Useful for players that don't use the composer field."); }
 
-    static const char* getClassName() { return "Add composer field to the artist field in ID3V2 frames"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Add composer field to the artist field in ID3V2 frames"); }
 };
 
 
@@ -133,9 +130,9 @@ public:
     Id3V2ComposerRemover(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "\"Undo\" for \"adding composer field.\" Removes the value of the composer field from the beginning of the artist field in ID3V2 frames, if it was previously added."; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "\"Undo\" for \"adding composer field.\" Removes the value of the composer field from the beginning of the artist field in ID3V2 frames, if it was previously added."); }
 
-    static const char* getClassName() { return "Remove composer field from the artist field in ID3V2 frames"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Remove composer field from the artist field in ID3V2 frames"); }
 };
 
 
@@ -146,9 +143,9 @@ public:
     Id3V2ComposerCopier(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Copies to the \"Composer\" field the beginning of an \"Artist\" field that is formatted as \"Composer [Artist]\". Does nothing if the \"Artist\" field doesn't have this format."; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Copies to the \"Composer\" field the beginning of an \"Artist\" field that is formatted as \"Composer [Artist]\". Does nothing if the \"Artist\" field doesn't have this format."); }
 
-    static const char* getClassName() { return "Fill in composer field based on artist in ID3V2 frames"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Fill in composer field based on artist in ID3V2 frames"); }
 };
 
 
@@ -159,9 +156,9 @@ public:
     SmallerImageRemover(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Keeps only the biggest (and supposedly the best) image in a file. The image type is set to Front Cover. (This may result in the replacement of the Front Cover image.)"; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Keeps only the biggest (and supposedly the best) image in a file. The image type is set to Front Cover. (This may result in the replacement of the Front Cover image.)"); }
 
-    static const char* getClassName() { return "Make the largest image \"Front Cover\" and remove the rest"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Make the largest image \"Front Cover\" and remove the rest"); }
 };
 
 
@@ -173,10 +170,10 @@ public:
     Id3V2Expander(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Adds extra spacing to the ID3V2 tag. This allows subsequent saving from the tag editor to complete quicker."; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Adds extra spacing to the ID3V2 tag. This allows subsequent saving from the tag editor to complete quicker."); }
 
-    static const char* getClassName() { return "Reserve space in ID3V2 for fast tag editing"; }
-    static const int EXTRA_SPACE; // this gets added to whatever the current frames alrady occupy;
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Reserve space in ID3V2 for fast tag editing"); }
+    static const int EXTRA_SPACE; // this gets added to whatever the current frames already occupy;
 };
 
 
@@ -187,9 +184,9 @@ public:
     Id3V2Compactor(CommonData* pCommonData) : m_pCommonData(pCommonData) {}
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Removes large unused blocks from ID3V2 tags. (Usually these have been reserved for fast tag editing, in which case they should be removed only after the ID3V2 tag has all the right values.)"; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Removes large unused blocks from ID3V2 tags. (Usually these have been reserved for fast tag editing, in which case they should be removed only after the ID3V2 tag has all the right values.)"); }
 
-    static const char* getClassName() { return "Remove extra space from ID3V2"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Remove extra space from ID3V2"); }
 };
 
 

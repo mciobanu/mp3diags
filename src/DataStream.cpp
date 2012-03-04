@@ -70,7 +70,7 @@ UnknownDataStreamBase::UnknownDataStreamBase(int nIndex, NoteColl& notes, istrea
 
 /*override*/ std::string UnknownDataStreamBase::getInfo() const
 {
-    return "begins with: " + asHex(m_begin, min(int(BEGIN_SIZE), int(m_nSize)));
+    return convStr(DataStream::tr("begins with: ")) + asHex(m_begin, min(int(BEGIN_SIZE), int(m_nSize)));
 }
 
 
@@ -205,11 +205,25 @@ e1:
 }
 
 
+
+BrokenDataStream::BrokenDataStream(int nIndex, NoteColl& notes, std::istream& in, std::streamoff nSize, const char* szBaseName, const std::string& strInfo) :
+        UnknownDataStreamBase(nIndex, notes, in, nSize),
+        m_strName(std::string("Broken ") + szBaseName), // !!! doesn't need translation as getTranslatedDisplayName() does that
+        m_strBaseName(szBaseName),
+        m_strInfo(strInfo.empty() ? UnknownDataStreamBase::getInfo() : strInfo + "; " + UnknownDataStreamBase::getInfo())
+{
+}
+
+/*override*/ QString BrokenDataStream::getTranslatedDisplayName() const
+{
+    return DataStream::tr("Broken %1").arg(m_strBaseName.c_str());
+}
+
 UnsupportedDataStream::UnsupportedDataStream(int nIndex, NoteColl& notes, istream& in, streamoff nSize, const char* szBaseName, const string& strInfo) :
-            UnknownDataStreamBase(nIndex, notes, in, nSize),
-            m_strName(string("Unsupported ") + szBaseName),
-            m_strBaseName(szBaseName),
-            m_strInfo(UnknownDataStreamBase::getInfo())
+        UnknownDataStreamBase(nIndex, notes, in, nSize),
+        m_strName(string("Unsupported ") + szBaseName), // !!! doesn't need translation as getTranslatedDisplayName() does that
+        m_strBaseName(szBaseName),
+        m_strInfo(UnknownDataStreamBase::getInfo())
 {
     if (!strInfo.empty())
     {
@@ -220,6 +234,11 @@ UnsupportedDataStream::UnsupportedDataStream(int nIndex, NoteColl& notes, istrea
         }
         m_strInfo = s1 + " - " + m_strInfo;
     }
+}
+
+/*override*/ QString UnsupportedDataStream::getTranslatedDisplayName() const
+{
+    return DataStream::tr("Unsupported %1").arg(m_strBaseName.c_str());
 }
 
 
@@ -241,7 +260,7 @@ TagTimestamp::TagTimestamp(const std::string& strVal)
 }
 
 
-TagTimestamp::TagTimestamp(const char* szVal /*= 0*/)
+TagTimestamp::TagTimestamp(const char* szVal /* = 0*/)
 {
     init(0 != szVal ? szVal : "");
 }
@@ -297,7 +316,8 @@ void TagTimestamp::init(std::string s)
 // text representation for each Feature
 /*static*/ const char* TagReader::getLabel(int n)
 {
-    static const char* s_szTitle[] = { "Title", "Artist", "Track #", "Time", "Genre", "Picture", "Album", "Rating", "Composer", "VA" };
+    static const char* s_szTitle[] = { QT_TR_NOOP("Title"), QT_TR_NOOP("Artist"), QT_TR_NOOP("Track #"), QT_TR_NOOP("Time"), QT_TR_NOOP("Genre"), QT_TR_NOOP("Picture"),
+                                       QT_TR_NOOP("Album"), QT_TR_NOOP("Rating"), QT_TR_NOOP("Composer"), QT_TR_NOOP("VA") }; //ttt2 can these be merged with values in TagReadPanel?
     CB_ASSERT (n >= 0 && n < LIST_END);
     return s_szTitle[n];
 }
@@ -335,7 +355,7 @@ std::string TagReader::getValue(Feature f) const
     case TITLE: if (getSupport(TITLE)) { return getTitle(); } else { return ""; }
     case ARTIST: if (getSupport(ARTIST)) { return getArtist(); } else { return ""; }
     case TRACK_NUMBER: if (getSupport(TRACK_NUMBER)) { return getTrackNumber(); } else { return ""; }
-    case TIME: if (getSupport(TIME)) { return getTime().asString(); } else { return ""; }
+    case TIME: if (getSupport(TIME)) { return getTime().asString(); } else { return ""; } //!!! used only by XML export and in Mp3HandlerTagData::setUp(), so no need for translation
     case GENRE: if (getSupport(GENRE)) { return getGenre(); } else { return ""; }
     case IMAGE: return "";
     case ALBUM: if (getSupport(ALBUM)) { return getAlbumName(); } else { return ""; }

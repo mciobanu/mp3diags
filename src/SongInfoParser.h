@@ -26,6 +26,8 @@
 #include  <vector>
 #include  <string>
 
+#include  <QApplication> // for translation
+
 namespace SongInfoParser
 {
 
@@ -163,6 +165,8 @@ struct Reader;
 // if m_bSplitAtPathSep is true, the string passed to assign is broken into independent pieces, matching the independent pieces from m_strPattern, which may fail individually without triggering the failure of the whole; if it's false, the whole strPattern must match the pattern; the decision to make m_bSplitAtPathSep true or false is based on the pattern containing an unescaped path separator (keeping in mind that to include such a separator in a "table line parser" it has to be escaped)
 class TrackTextParser
 {
+    Q_DECLARE_TR_FUNCTIONS(TrackTextParser)
+
     std::vector<SequenceReader*> m_vpSeqReaders;
     std::vector<Reader*> m_vpAllReaders; // all instances of Reader-derived classes, to be easily deleted
     void construct(const std::string& strPattern);

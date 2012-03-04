@@ -197,7 +197,7 @@ void visStudioMessageOutput(QtMsgType, const char* szMsg)
     OutputDebugStringA(szMsg);
     OutputDebugStringA("\r\n");
     //cerr << szMsg << endl;
-    //QMessageBox::information(0, "Debug message", szMsg, QMessageBox::Ok);
+    //showInfo(0, "Debug message", szMsg, QMessageBox::Ok);
 }
 #endif
 
@@ -399,7 +399,7 @@ int guiMain(const po::variables_map& options) {
 
         if (!dirExists(strProcDir))
         {
-            showMessage(0, QMessageBox::Critical, 0, 0, "Error", "Folder \"" + convStr(strProcDir) + "\" doesn't exist. The program will exit ...", "O&K");
+            showMessage(0, QMessageBox::Critical, 0, 0, MainFormDlgImpl::tr("Error"), MainFormDlgImpl::tr("Folder \"%1\" doesn't exist. The program will exit ...").arg(convStr(strProcDir)), MainFormDlgImpl::tr("O&K"));
             return 1;
         }
 
@@ -438,7 +438,7 @@ int guiMain(const po::variables_map& options) {
         ofstream out (strStartSession.c_str(), ios_base::app);
         if (!out)
         {
-            showMessage(0, QMessageBox::Critical, 0, 0, "Error", "Cannot write to file \"" + convStr(strStartSession) + "\". The program will exit ...", "O&K");
+            showMessage(0, QMessageBox::Critical, 0, 0, MainFormDlgImpl::tr("Error"), MainFormDlgImpl::tr("Cannot write to file \"%1\". The program will exit ...").arg(convStr(strStartSession)), MainFormDlgImpl::tr("O&K"));
             return 1;
         }
         bOpenLast = true;
@@ -779,10 +779,11 @@ class TransfListRunner : public CmdLineProcessor
 
             if (j == m)
             {
-                //QMessageBox::warning(this, "Error setting up custom transformations", "Couldn't find a transformation with the name \"" + convStr(strName) + "\". The program will proceed, but you should review the custom transformations lists.");
+                //showWarning(this, "Error setting up custom transformations", "Couldn't find a transformation with the name \"" + convStr(strName) + "\". The program will proceed, but you should review the custom transformations lists.");
                 cerr << "Error setting up custom transformations: " << "Couldn't find a transformation with the name \"" + strName + "\". The program will proceed, but you should review the custom transformations lists." << endl;
             }
         }
+
 
         if (v.empty())
         {
@@ -935,7 +936,7 @@ ttt1 CLI-friendly function restructuring:
 static void validate(boost::any& v, vector<string> const& values, Note::Severity*, int) {
     po::validators::check_first_occurrence(v);
     const string& s = po::validators::get_single_string(values);
-    if (s.compare("error") == 0) v = Note::ERR;
+    if (s.compare("error") == 0) v = Note::ERR; //ttt1 maybe translate
     else if (s.compare("warning") == 0) v = Note::WARNING;
     else if (s.compare("support") == 0) v = Note::SUPPORT;
     //else throw po::validation_error(po::validation_error::invalid_option_value);
@@ -1209,6 +1210,15 @@ Testing: the program looks for .qm files in 2 places:
     - the executable's folder
     - folder "../share/mp3diags/translations" (or "../share/mp3diags-unstable/translations") relative to the executable's folder
 
+
+
 */
 
+
 //ttt0 translation build on Wnd
+
+//ttt0 make clean doesn't remove the .qm file (or anything in "bin")
+
+//ttt0 make OSB builds build translations
+
+

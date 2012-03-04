@@ -73,7 +73,7 @@ LAST_STEP("NotesModel::data()");
     case 1:
         {
             const string& s (pNote->getDetail());
-            if (s.empty()) { return pNote->getDescription(); }
+            if (s.empty()) { return Notes::tr(pNote->getDescription()); }
             return convStr(s);
         }
     case 2: return convStr(pNote->getPosHex());
@@ -83,7 +83,7 @@ LAST_STEP("NotesModel::data()");
     }
 }
 
-/*override*/ QVariant NotesModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /*= Qt::DisplayRole*/) const
+/*override*/ QVariant NotesModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /* = Qt::DisplayRole*/) const
 {
 LAST_STEP("NotesModel::headerData");
     if (nRole == Qt::SizeHintRole)
@@ -98,9 +98,9 @@ LAST_STEP("NotesModel::headerData");
     {
         switch (nSection)
         {
-        case 0: return "L";
-        case 1: return "Note";
-        case 2: return "Address";
+        case 0: return tr("L");
+        case 1: return tr("Note");
+        case 2: return tr("Address");
         default:
             CB_ASSERT (false);
         }

@@ -76,7 +76,7 @@ LAST_STEP("AvailableModel::data()");
 }
 
 
-/*override*/ QVariant AvailableModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /*= Qt::DisplayRole*/) const
+/*override*/ QVariant AvailableModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /* = Qt::DisplayRole*/) const
 {
 LAST_STEP("AvailableModel::headerData");
     if (nRole == Qt::SizeHintRole)
@@ -201,7 +201,7 @@ LAST_STEP("SelectedModel::data()");
 }
 
 
-/*override*/ QVariant SelectedModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /*= Qt::DisplayRole*/) const
+/*override*/ QVariant SelectedModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /* = Qt::DisplayRole*/) const
 {
 LAST_STEP("SelectedModel::headerData");
     if (nRole == Qt::SizeHintRole)
@@ -306,7 +306,7 @@ DoubleList::DoubleList(
         SelectionMode eSelectionMode,
         const std::string& strAvailableLabel,
         const std::string& strSelLabel,
-        QWidget* pParent, Qt::WFlags fl /*=0*/) :
+        QWidget* pParent, Qt::WFlags fl /* =0*/) :
 
         QWidget(pParent, fl), Ui::DoubleListWdg(),
 

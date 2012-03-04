@@ -31,6 +31,7 @@
 #include  "CommonData.h"
 #include  "Transformation.h"
 #include  "OsFile.h"
+#include  "Widgets.h"
 
 
 using namespace std;
@@ -320,7 +321,7 @@ bool Mp3Transformer::transform()
                     //TRACER1A("transf ", 4);
                     Transformation& t (*m_vpTransf[j]);
                     TRACER("Mp3TransformThread::transform()" + strOrigName + "/" + t.getActionName());
-                    l[1] = t.getActionName();
+                    l[1] = t.getVisibleActionName();
                     //emit stepChanged(l, i + 1);
                     emitStepChanged(l, i + 1);
                     Transformation::Result eTransf;
@@ -642,7 +643,7 @@ bool transform(const deque<const Mp3Handler*>& vpHndlr, vector<Transformation*>&
 
     if (!strError.empty())
     {
-        QMessageBox::critical(pParent, "Error", convStr(strError));
+        showCritical(pParent, Mp3Transformer::tr("Error"), convStr(strError));
     }
 
     return strError.empty();
@@ -654,23 +655,23 @@ std::string Mp3Transformer::getError() const
     {
         if (m_bWriteError)
         {
-            return "There was an error writing to the following file:\n\n" + toNativeSeparators(m_strErrorFile) + "\n\nMake sure that you have write permissions and that there is enough space on the disk.\n\nProcessing aborted.";
+            return convStr(tr("There was an error writing to the following file:\n\n%1\n\nMake sure that you have write permissions and that there is enough space on the disk.\n\nProcessing aborted.").arg(convStr(toNativeSeparators(m_strErrorFile))));
         }
         else
         {
             if (m_bFileChanged)
             {
-                return "The file \"" + toNativeSeparators(m_strErrorFile) + "\" seems to have been modified since the last scan. You need to rescan it before continuing.\n\nProcessing aborted.";
+                return convStr(tr("The file \"%1\" seems to have been modified since the last scan. You need to rescan it before continuing.\n\nProcessing aborted.").arg(convStr(toNativeSeparators(m_strErrorFile))));
             }
             else
             {
                 if (m_strErrorDir.empty())
                 {
-                    return "There was an error processing the following file:\n\n" + toNativeSeparators(m_strErrorFile) + "\n\nProbably the file was deleted or modified since the last scan, in which case you should reload / rescan your collection. Or it may be used by another program; if that's the case, you should stop the other program first.\n\nThis may also be caused by access restrictions or a full disk.\n\nProcessing aborted.";
+                    return convStr(tr("There was an error processing the following file:\n\n%1\n\nProbably the file was deleted or modified since the last scan, in which case you should reload / rescan your collection. Or it may be used by another program; if that's the case, you should stop the other program first.\n\nThis may also be caused by access restrictions or a full disk.\n\nProcessing aborted.").arg(convStr(toNativeSeparators(m_strErrorFile))));
                 }
                 else
                 {
-                    return "There was an error processing the following file:\n" + toNativeSeparators(m_strErrorFile) + "\n\nThe following folder couldn't be created:\n" + toNativeSeparators(m_strErrorDir) + "\n\nProcessing aborted.";
+                    return convStr(tr("There was an error processing the following file:\n%1\n\nThe following folder couldn't be created:\n\n%2\n\nProcessing aborted.").arg(convStr(toNativeSeparators(m_strErrorFile))).arg(convStr(toNativeSeparators(m_strErrorDir))));
                 }
             }
         }

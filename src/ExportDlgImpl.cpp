@@ -115,7 +115,7 @@ QString ExportDlgImpl::getFileName()
 
     if (qs.isEmpty())
     {
-        QMessageBox::critical(this, "Error", "The file name cannot be empty. Exiting ...");
+        showCritical(this, tr("Error"), tr("The file name cannot be empty. Exiting ..."));
         return "";
     }
 
@@ -123,20 +123,20 @@ QString ExportDlgImpl::getFileName()
 
     if (!m_pM3uRB->isChecked())
     {
-        QMessageBox::critical(this, "Error", "You need to specify an absolute file name when exporting to formats other than .m3u. Exiting ...");
+        showCritical(this, tr("Error"), tr("You need to specify an absolute file name when exporting to formats other than .m3u. Exiting ..."));
         return "";
     }
 
     QString qstrRoot (fromNativeSeparators(m_pM3uRootE->text()));
     if (qstrRoot.isEmpty())
     {
-        QMessageBox::critical(this, "Error", "The root cannot be empty if the file name is relative. Exiting ...");
+        showCritical(this, tr("Error"), tr("The root cannot be empty if the file name is relative. Exiting ..."));
         return "";
     }
 
     if (!QFileInfo(qstrRoot).isAbsolute())
     {
-        QMessageBox::critical(this, "Error", "The root must be an absolute directory name. Exiting ...");
+        showCritical(this, tr("Error"), tr("The root must be an absolute directory name. Exiting ..."));
         return "";
     }
 
@@ -147,7 +147,7 @@ QString ExportDlgImpl::getFileName()
 
     if (!QFileInfo(qstrRoot).isDir())
     {
-        QMessageBox::critical(this, "Error", "The root doesn't exist. Exiting ...");
+        showCritical(this, tr("Error"), tr("The root doesn't exist. Exiting ..."));
         return "";
     }
 
@@ -163,7 +163,7 @@ void ExportDlgImpl::on_m_pExportB_clicked()
 
     if (QFileInfo(qs).isFile())
     {
-        if (0 != HtmlMsg::msg(this, 1, 1, 0, 0, "Warning", "A file called \"" + toNativeSeparators(qs) + "\" already exists. Do you want to overwrite it?", 600, 200, "Overwrite", "Cancel"))
+        if (0 != HtmlMsg::msg(this, 1, 1, 0, 0, tr("Warning"), tr("A file called \"%1\" already exists. Do you want to overwrite it?").arg(toNativeSeparators(qs)), 600, 200, tr("&Overwrite"), tr("Cancel")))
         {
             return;
         }
@@ -194,11 +194,11 @@ void ExportDlgImpl::on_m_pExportB_clicked()
 
     if (b)
     {
-        HtmlMsg::msg(this, 0, 0, 0, 0, "Info", "Successfully created file \"" + toNativeSeparators(qs) + "\"", 600, 200, "OK");
+        HtmlMsg::msg(this, 0, 0, 0, 0, tr("Info"), tr("Successfully created file \"%1\"").arg(toNativeSeparators(qs)), 600, 200, tr("O&K"));
     }
     else
     {
-        HtmlMsg::msg(this, 0, 0, 0, 0, "Error", "There was an error writing to the file \"" + toNativeSeparators(qs) + "\"", 600, 200, "OK");
+        HtmlMsg::msg(this, 0, 0, 0, 0, tr("Error"), tr("There was an error writing to the file \"%1\"").arg(toNativeSeparators(qs)), 600, 200, tr("O&K"));
     }
 }
 
@@ -206,7 +206,7 @@ void ExportDlgImpl::on_m_pExportB_clicked()
 void ExportDlgImpl::on_m_pChooseFileB_clicked()
 {
     QString qstrDir (QFileInfo(fromNativeSeparators(m_pFileNameE->text())).path());
-    QFileDialog dlg (this, "Choose destination file", qstrDir, "XML files (*.xml);;Text files (*.txt);;M3U files (*.m3u)");
+    QFileDialog dlg (this, tr("Choose destination file"), qstrDir, tr("XML files (*.xml);;Text files (*.txt);;M3U files (*.m3u)"));
 
     /*QStringList filters;
     filters << "Text files (*.txt)" << "M3U files (*.m3u)";
@@ -319,7 +319,8 @@ bool ExportDlgImpl::exportAsText(const string& strFileName)
     getHandlers(v);
 
     ofstream_utf8 out (strFileName.c_str());
-    const char* aSeverity = "EWST";
+    //const char* aSeverity = "EWST";
+    QString qstrSeverity = tr("EWST", "the letters are the initials of the 4 severity levels: Error, Warning, Support, Trace");
     for (int i = 0, n = cSize(v); i < n; ++i)
     {
         const Mp3Handler* p (v[i]);
@@ -330,7 +331,7 @@ bool ExportDlgImpl::exportAsText(const string& strFileName)
         for (int i = 0, n = cSize(vpStreams); i < n; ++i)
         {
             DataStream* p (vpStreams[i]);
-            out << "  " << hex << p->getPos() << "-" << (p->getPos() + (p->getSize() - 1)) << dec << " (" << p->getSize() << ") " << p->getDisplayName();
+            out << "  " << hex << p->getPos() << "-" << (p->getPos() + (p->getSize() - 1)) << dec << " (" << p->getSize() << ") " << convStr(p->getTranslatedDisplayName());
             const string& s (p->getInfo());
             if (!s.empty())
             {
@@ -348,7 +349,7 @@ bool ExportDlgImpl::exportAsText(const string& strFileName)
             const Note* p (vpNotes[i]);
             if (getCommonData()->m_bUseAllNotes || getCommonData()->findPos(p) >= 0) // !!! "ignored" notes shouldn't be exported unless UseAllNotes is checked, so there is consistency between what is shown on the screen and what is saved
             {
-                out << "  " << aSeverity[p->getSeverity()] << " ";
+                out << "  " << convStr(QString(qstrSeverity[p->getSeverity()])) << " ";
                 const string& q (p->getPosHex());
                 if (!q.empty())
                 {
@@ -407,7 +408,7 @@ bool ExportDlgImpl::exportAsM3u(const std::string& strFileName)
             else
             {
                 CursorOverrider crs (Qt::ArrowCursor);
-                QMessageBox::critical(this, "Error", "The file named \"" + convStr(s) + "\" isn't inside the specified root. Exiting ...");
+                showCritical(this, tr("Error"), tr("The file named \"%1\" isn't inside the specified root. Exiting ...").arg(convStr(s)));
                 return false;
             }
         }
@@ -416,7 +417,7 @@ bool ExportDlgImpl::exportAsM3u(const std::string& strFileName)
         if (!pCodec->canEncode(qs))
         {
             CursorOverrider crs (Qt::ArrowCursor);
-            QMessageBox::critical(this, "Error", "The file named \"" + qs + "\" cannot be encoded in the selected locale. Exiting ...");
+            showCritical(this, tr("Error"), tr("The file named \"%1\" cannot be encoded in the selected locale. Exiting ...").arg(qs));
             return false;
         }
 
@@ -563,7 +564,7 @@ void printMpegInfo(ostream& out, const MpegFrame& frm, bool bPrintBps)
 } // namespace
 
 
-bool ExportDlgImpl::exportAsXml(const std::string& strFileName)
+bool ExportDlgImpl::exportAsXml(const std::string& strFileName) //ttt1 XML is not translated because: 1) not sure it's a good idea; 2) it's significant work and not sure it's worth it
 {
     vector<const Mp3Handler*> v;
     getHandlers(v);
@@ -606,7 +607,7 @@ bool ExportDlgImpl::exportAsXml(const std::string& strFileName)
 
                     if (Id3V2Frame::NO_APIC != p->m_eApicStatus)
                     {
-                        out << "        <pictureFrame name=\"" << p->getReadableName() << "\" size=\"" << p->m_nDiskDataSize << "\" width=\"" << p->m_nWidth << "\" height=\"" << p->m_nHeight << "\" type=\"" << p->getImageType() << "\" status=\"" << p->getImageStatus() << "\" compr=\"" << ImageInfo::getComprStr(p->m_eCompr) << "\"/>\n";
+                        out << "        <pictureFrame name=\"" << p->getReadableName() << "\" size=\"" << p->m_nDiskDataSize << "\" width=\"" << p->m_nWidth << "\" height=\"" << p->m_nHeight << "\" type=\"" << p->getImageType() << "\" status=\"" << p->getImageStatus() << "\" compr=\"" << ImageInfo::getComprStr(p->m_eCompr) << "\"/>\n"; //ttt1 somehow redundant, as there are image details both here and several lines above, in the call to printTagReader(); well, it looks like this has a few more details, while the other is an attribute blob; probably keep it as is, as it might be used
                     }
                     else if ('T' == p->m_szName[0]) // ttt2 not quite right for TXXX
                     {

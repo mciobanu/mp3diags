@@ -56,7 +56,9 @@ using namespace pearl;
 //======================================================================================================================
 //======================================================================================================================
 
+/*
 
+// 2012.03.04 - commented out to see if needs translation, noticed it's not used anymore; probably was used for debugging
 
 namespace
 {
@@ -82,7 +84,7 @@ ostream& operator<<(ostream& out, const TagWriter::OrigValue& val)
     out << "song: " << val.m_nSong << ", field: " << val.m_nField << ", status: " << (int)val.m_eStatus << ", value: " << val.m_strVal;
     return out;
 }
-
+*/
 
 //=====================================================================================================================
 //=====================================================================================================================
@@ -92,7 +94,7 @@ ImageColl::ImageColl() : m_nCurrent(-1)
 {
 }
 
-int ImageColl::addImage(const ImageInfo& img, const string& strFile /*= ""*/) // returns the index of the image; if it already exists it's not added again; if it's invalid returns -1 //ttt1 recompress large images AND mark field as changed
+int ImageColl::addImage(const ImageInfo& img, const string& strFile /* = ""*/) // returns the index of the image; if it already exists it's not added again; if it's invalid returns -1 //ttt1 recompress large images AND mark field as changed
 {
     if (img.isNull()) { return -1; }
     int n (find(img));
@@ -167,7 +169,7 @@ TrackTextReader::TrackTextReader(SongInfoParser::TrackTextParser* pTrackTextPars
     m_bHasAlbumName(false),
     m_bHasRating(false),
     m_bHasComposer(false),
-    m_szType(pTrackTextParser->isFileNameBased() ? "(file)" : "(table)")
+    m_szType(pTrackTextParser->isFileNameBased() ? QT_TRANSLATE_NOOP("TagReader", "(file)") : QT_TRANSLATE_NOOP("TagReader", "(table)"))
 {
     vector<string> v ((int)LIST_END + 1, "\1"); // !!! "LIST_END + 1" instead of just "LIST_END", so the last entry can be used for "%i" (i.e. "ignored")
     pTrackTextParser->assign(s, v);
@@ -647,7 +649,7 @@ std::string Mp3HandlerTagData::getData(int nField, int k) const
 
     if (m_pTagWriter->isFastSaving() && (m_pTagWriter->m_vTagReaderInfo.at(k).m_strName == Id3V230Stream::getClassDisplayName() || m_pTagWriter->m_vTagReaderInfo[k].m_strName == Id3V240Stream::getClassDisplayName()))
     {
-        return "N/A";
+        return convStr(DataStream::tr("N/A"));
     }
 //qDebug("%s", p->getName());
     //nField = TagReader::FEATURE_ON_POS[nField];
@@ -793,14 +795,14 @@ e1:;
     //cout << "update " << this; for (int i = 0, n = cSize(m_vpTagReaders); i < n; ++i) { cout << " " << m_vpTagReaders[i]; } cout << endl;
 }
 
-void Mp3HandlerTagData::print(std::ostream& out) const
+/*void Mp3HandlerTagData::print(std::ostream& out) const // 2012.03.04 - commented out to see if needs translation, noticed it's not used anymore; probably was used for debugging
 {
     out << "==========================================\n";
     for (int i = 0, n = cSize(m_vValueInfo); i < n; ++i)
     {
         out << m_vValueInfo[i].m_strValue << " <" << m_vValueInfo[i].m_eStatus << ">\n";
     }
-}
+}*/
 
 
 // returns 0 if i is out of range
@@ -972,7 +974,7 @@ void TagWriter::sortSongs() // sorts by track number; shows a warning if issues 
 void TagWriter::onDelayedTrackSeqWarn()
 {
     //CursorOverrider crs (Qt::ArrowCursor);
-    QMessageBox::warning(m_pParentWnd, "Warning", "Track numbers are supposed to be consecutive numbers from 1 to the total number of tracks. This is not the case with the current album, which may lead to incorrect assignments when pasting information.");
+    showWarning(m_pParentWnd, tr("Warning"), tr("Track numbers are supposed to be consecutive numbers from 1 to the total number of tracks. This is not the case with the current album, which may lead to incorrect assignments when pasting information."));
 }
 
 
@@ -1003,7 +1005,7 @@ bool s_bToldAboutPatternsInCrtRun (false); // to limit to 1 per run the number o
 void TagWriter::onDelayedChangeNotif()
 {
     m_bWaitingChangeNotif = false;
-    QMessageBox::critical(m_pParentWnd, "Error", "Some files have been modified by an external tool after the last scan. You won't be able to save any changes to those files until you rescan them.");
+    showCritical(m_pParentWnd, tr("Error"), tr("Some files have been modified by an external tool after the last scan. You won't be able to save any changes to those files until you rescan them."));
 }
 
 
@@ -1637,25 +1639,26 @@ void TagWriter::onEraseFileDelayed()
     QString s;
     if (inf.m_sstrFiles.size() > 1)
     {
-        s = "these files?";
         for (set<string>::const_iterator it = inf.m_sstrFiles.begin(); it != inf.m_sstrFiles.end(); ++it)
         {
             s += "\n" + convStr(toNativeSeparators(*it));
         }
+        s = tr("Do you want to erase these files?%1").arg(s);
     }
     else
     {
         s = "\"" + convStr(toNativeSeparators(*inf.m_sstrFiles.begin())) + "\"";
+        s = tr("Do you want to erase %1?").arg(s);
     }
 
-    if (0 != showMessage(m_pParentWnd, QMessageBox::Question, 1, 1, "Confirm", "Do you want to erase " + s, "Erase", "Cancel")) { return; }
+    if (0 != showMessage(m_pParentWnd, QMessageBox::Question, 1, 1, tr("Confirm"), s, tr("Erase"), tr("Cancel"))) { return; }
 
     bool bAssigned, bNonId3V2;
     hasUnsaved(bAssigned, bNonId3V2);
 
     if (bAssigned)
     {
-        if (0 != showMessage(m_pParentWnd, QMessageBox::Critical, 1, 1, "Error", "You cannot erase image files if there are unsaved values. Do you want to save?", "Save, then erase file", "Cancel")) { return; }
+        if (0 != showMessage(m_pParentWnd, QMessageBox::Critical, 1, 1, tr("Error"), tr("You cannot erase image files if there are unsaved values. Do you want to save?"), tr("Save, then erase file"), tr("Cancel"))) { return; }
 
         emit requestSave();
 
@@ -1665,14 +1668,14 @@ void TagWriter::onEraseFileDelayed()
 
     if (!m_vAlbumInfo.empty() || !m_vstrPastedValues.empty())
     {
-        if (0 != showMessage(m_pParentWnd, QMessageBox::Critical, 1, 1, "Warning", "Erasing image files triggers a full reload, which results in downloaded and pasted data being lost. Erase anyway?", "Erase", "Cancel")) { return; }
+        if (0 != showMessage(m_pParentWnd, QMessageBox::Critical, 1, 1, tr("Warning"), tr("Erasing image files triggers a full reload, which results in downloaded and pasted data being lost. Erase anyway?"), tr("Erase"), tr("Cancel"))) { return; }
     }
 
     for (set<string>::const_iterator it = inf.m_sstrFiles.begin(); it != inf.m_sstrFiles.end(); ++it)
     {
         if (!QFile(convStr(*it)).remove())
         {
-            QMessageBox::critical(m_pParentWnd, "Error", QString("Couldn't erase file \"%1\"").arg(toNativeSeparators(convStr(*it))));
+            showCritical(m_pParentWnd, tr("Error"), tr("Couldn't erase file \"%1\"").arg(toNativeSeparators(convStr(*it))));
         }
     }
 
@@ -1815,7 +1818,7 @@ bool TagWriter::addImgFromFile(const QString& qs, bool bConsiderAssigned)
             /*if (nSize == m_imageColl.size()) // !!! it seemed to make sense to warn the user about duplicates; however, this is also triggered when entering a directory that has contains images after one of those images is assigned to a file;
             {
                 CursorOverrider crs (Qt::ArrowCursor);
-                QMessageBox::warning(m_pParentWnd, "Warning", QString("Image in file \"%1\" was already added to the image collection, so it won't be added a second time").arg(qs));
+                showWarning(m_pParentWnd, "Warning", QString("Image in file \"%1\" was already added to the image collection, so it won't be added a second time").arg(qs));
             }*/
         }
     }
@@ -1862,7 +1865,7 @@ void TagWriter::paste()
                     if (!bWarned)
                     {
                         bWarned = true;
-                        QMessageBox::warning(m_pParentWnd, "Warning", "Currently pasting multiple file names is not supported, so only the first one is considered.");
+                        showWarning(m_pParentWnd, tr("Warning"), tr("Currently pasting multiple file names is not supported, so only the first one is considered."));
                     }
                 }
             }
@@ -1935,7 +1938,7 @@ void TagWriter::paste()
 
                 if (nFail > 0)
                 {
-                    QMessageBox::critical(m_pParentWnd, "Error", nOk > 0 ? "The pasted value couldn't be assigned to some fields" : "The pasted value couldn't be assigned to any fields"); //ttt2 some/one/several ...
+                    showCritical(m_pParentWnd, tr("Error"), nOk > 0 ? tr("The pasted value couldn't be assigned to some fields") : tr("The pasted value couldn't be assigned to any field")); //ttt2 some/one/several ...
                 }
 
                 reloadAll("", DONT_CLEAR_DATA, DONT_CLEAR_ASSGN);
@@ -1948,12 +1951,12 @@ void TagWriter::paste()
             QStringList lst (qs.split("\n", QString::SkipEmptyParts));
             if (lst.size() != cSize(m_vpMp3HandlerTagData))
             {
-                if (0 != showMessage(m_pParentWnd, QMessageBox::Warning, 1, 1, "Warning", "The number of lines in the clipboard is different from the number of files. Paste anyway?", "Paste", "Cancel")) { return; }
+                if (0 != showMessage(m_pParentWnd, QMessageBox::Warning, 1, 1, tr("Warning"), tr("The number of lines in the clipboard is different from the number of files. Paste anyway?"), tr("Paste"), tr("Cancel"))) { return; }
             }
 
             if (m_bNonStandardTrackNo && m_pCommonData->m_bWarnPastingToNonSeqTracks)
             {
-                if (0 != showMessage(m_pParentWnd, QMessageBox::Warning, 1, 1, "Warning", "The track numbers aren't consecutive numbers starting at 1, so the pasted track information might not match the tracks. Paste anyway?", "Paste", "Cancel")) { return; }
+                if (0 != showMessage(m_pParentWnd, QMessageBox::Warning, 1, 1, tr("Warning"), tr("The track numbers aren't consecutive numbers starting at 1, so the pasted track information might not match the tracks. Paste anyway?"), tr("Paste"), tr("Cancel"))) { return; }
             }
 
             sort();
@@ -1977,7 +1980,7 @@ void TagWriter::paste()
         }
     }
 
-    QMessageBox::critical(m_pParentWnd, "Error", "Unrecognized clipboard content");
+    showCritical(m_pParentWnd, tr("Error"), tr("Unrecognized clipboard content"));
 }
 
 

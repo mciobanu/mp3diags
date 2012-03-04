@@ -35,7 +35,7 @@
 #include  "OsFile.h"
 #include  "Translation.h"
 #include  "CommonData.h"
-
+#include  "Widgets.h"
 
 using namespace std;
 //using namespace pearl;
@@ -113,16 +113,16 @@ SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strDi
     m_pScanAtStartupCkB->setChecked(true);
 
     m_pFileNameE->setToolTip(bAutoFileName ?
-        "This is the name of the \"settings file\"\n\n"
+        tr("This is the name of the \"settings file\"\n\n"
         "It is supposed to be a file that doesn't already exist. You don't need to set it up. MP3 Diags\n"
         "will store its settings in this file.\n\n"
         "The name was generated automatically. If you want to choose a different name, simply click on\n"
-        "the button at the right to change it." :
+        "the button at the right to change it.", "this is a multiline tooltip") :
 
-        "Here you need to specify the name of a \"settings file\"\n\n"
+        tr("Here you need to specify the name of a \"settings file\"\n\n"
         "This is supposed to be a file that doesn't already exist. You don't need to set it up. MP3 Diags\n"
         "will store its settings in this file.\n\n"
-        "To change it, simply click on the button at the right to choose the name of the settings file.");
+        "To change it, simply click on the button at the right to choose the name of the settings file.", "this is a multiline tooltip"));
 
     if (!bFirstTime)
     {
@@ -226,7 +226,7 @@ void SessionEditorDlgImpl::on_m_pOkB_clicked()
         m_strSessFile = convStr(qstrFile);
         if (m_strSessFile.empty())
         {
-            QMessageBox::critical(this, "Error", "You need to specify the name of the settings file.\n\nThis is supposed to be a file that doesn't already exist. You don't need to set it up, but just to pick a name for it. MP3 Diags will store its settings in this file.");
+            showCritical(this, tr("Error"), tr("You need to specify the name of the settings file.\n\nThis is supposed to be a file that doesn't already exist. You don't need to set it up, but just to pick a name for it. MP3 Diags will store its settings in this file."));
             on_m_pFileNameB_clicked();
             return;
         }
@@ -236,7 +236,7 @@ void SessionEditorDlgImpl::on_m_pOkB_clicked()
 
     if (vstrCheckedDirs.empty())
     {
-        QMessageBox::critical(this, "Error", "You need to select at least a directory to be included in the session.");
+        showCritical(this, tr("Error"), tr("You need to select at least a directory to be included in the session."));
         return;
     }
 
@@ -245,7 +245,7 @@ void SessionEditorDlgImpl::on_m_pOkB_clicked()
         QString s (fromNativeSeparators(m_pBackupE->text()));
         if (s.isEmpty() || !QFileInfo(s).isDir())
         {
-            QMessageBox::critical(this, "Error", "If you want to create backups, you must select an existing directory to store them.");
+            showCritical(this, tr("Error"), tr("If you want to create backups, you must select an existing directory to store them."));
             return;
         }
     }
@@ -292,7 +292,7 @@ void SessionEditorDlgImpl::on_m_pOkB_clicked()
 
         if (!st.sync())
         {
-            QMessageBox::critical(this, "Error", "Failed to write to file " + m_pFileNameE->text());
+            showCritical(this, tr("Error"), tr("Failed to write to file %1").arg(m_pFileNameE->text()));
             if (m_bNew)
             {
                 removeSession(m_strSessFile);
@@ -317,7 +317,7 @@ void SessionEditorDlgImpl::on_m_pBackupB_clicked()
     {
         s = QDir::homePath();
     }
-    QFileDialog dlg (this, "Select folder", s, "All files (*)");
+    QFileDialog dlg (this, tr("Select folder"), s, tr("All files (*)"));
     //dlg.setAcceptMode(QFileDialog::AcceptSave);
 
     dlg.setFileMode(QFileDialog::Directory);
@@ -353,7 +353,7 @@ void SessionEditorDlgImpl::on_m_pFileNameB_clicked()
             s = convStr(m_strDir);
         }
     }
-    QFileDialog dlg (this, "Enter configuration file", s, QString("MP3 Diags session files (*") + SESS_EXT + ")");
+    QFileDialog dlg (this, tr("Enter configuration file"), s, tr("MP3 Diags session files (*%1)").arg(SESS_EXT));
     dlg.setAcceptMode(QFileDialog::AcceptSave);
 
     //dlg.setFileMode(QFileDialog::Directory);

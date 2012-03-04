@@ -95,7 +95,7 @@ LAST_STEP("CurrentAlbumModel::data()");
     if (Qt::DisplayRole != nRole && Qt::ToolTipRole != nRole && Qt::EditRole != nRole) { return QVariant(); }
     QString s;
 
-    if (m_pTagEditorDlgImpl->isSaving()) { return "N/A"; }
+    if (m_pTagEditorDlgImpl->isSaving()) { return tr("N/A"); }
     if (m_pTagEditorDlgImpl->isNavigating()) { return ""; }
 
     if (0 == j)
@@ -130,15 +130,15 @@ LAST_STEP("CurrentAlbumModel::data()");
 
 //ttt2 perhaps: "right click on crt file header moves to last; left click moves to first"; dragging the columns seems ok, though
 
-/*override*/ QVariant CurrentAlbumModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /*= Qt::DisplayRole*/) const
+/*override*/ QVariant CurrentAlbumModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /* = Qt::DisplayRole*/) const
 {
 LAST_STEP("CurrentAlbumModel::headerData");
     if (nRole != Qt::DisplayRole) { return QVariant(); }
 
     if (Qt::Horizontal == eOrientation)
     {
-        if (0 == nSection) { return "File name"; }
-        return TagReader::getLabel(TagReader::FEATURE_ON_POS[nSection - 1]);
+        if (0 == nSection) { return tr("File name"); }
+        return TagReader::tr(TagReader::getLabel(TagReader::FEATURE_ON_POS[nSection - 1]));
     }
 
     return nSection + 1;
@@ -152,7 +152,7 @@ LAST_STEP("CurrentAlbumModel::headerData");
 
 
 
-/*override*/ bool CurrentAlbumModel::setData(const QModelIndex& index, const QVariant& value, int nRole /*= Qt::EditRole*/)
+/*override*/ bool CurrentAlbumModel::setData(const QModelIndex& index, const QVariant& value, int nRole /* = Qt::EditRole*/)
 {
     if (Qt::EditRole != nRole) { return false; }
 
@@ -165,7 +165,7 @@ LAST_STEP("CurrentAlbumModel::headerData");
     }
     catch (const Mp3HandlerTagData::InvalidValue&)
     {
-        QMessageBox::critical(m_pTagEditorDlgImpl, "Error", "The data contained errors and couldn't be saved"); //ttt2 put focus on album table
+        showCritical(m_pTagEditorDlgImpl, tr("Error"), tr("The data contained errors and couldn't be saved")); //ttt2 put focus on album table
         return false; // ttt2 if it gets here the data is lost; perhaps CurrentAlbumDelegate should be modified more extensively, to not close the editor on Enter if this returns false;
     }
 }
@@ -202,7 +202,7 @@ LAST_STEP("CurrentFileModel::data()");
 
     if (Qt::DisplayRole != nRole && Qt::ToolTipRole != nRole) { return QVariant(); }
 
-    if (m_pTagEditorDlgImpl->isSaving()) { return "N/A"; }
+    if (m_pTagEditorDlgImpl->isSaving()) { return tr("N/A"); }
     if (m_pTagEditorDlgImpl->isNavigating()) { return ""; }
 
     if (0 == m_pTagWriter->getCurrentHndl()) { return QVariant(); } // may happen in transient states (prev/next album)
@@ -232,7 +232,7 @@ LAST_STEP("CurrentFileModel::data()");
 
 
 
-/*override*/ QVariant CurrentFileModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /*= Qt::DisplayRole*/) const
+/*override*/ QVariant CurrentFileModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /* = Qt::DisplayRole*/) const
 {
 LAST_STEP("CurrentFileModel::headerData");
     //if (nRole == Qt::SizeHintRole) { return QSize(CELL_WIDTH - 1, CELL_HEIGHT); }
@@ -261,13 +261,13 @@ LAST_STEP("CurrentFileModel::headerData");
                 {
                     const TrackTextReader* pRd (dynamic_cast<const TrackTextReader*>(p));
                     CB_ASSERT (0 != pRd);
-                    sSuff = QString(" ") + pRd->getType();
+                    sSuff = QString(" ") + TagReader::tr(pRd->getType());
                 }
                 else if (WebReader::getClassDisplayName() == inf.m_strName)
                 {
                     const WebReader* pRd (dynamic_cast<const WebReader*>(p));
                     CB_ASSERT (0 != pRd);
-                    sSuff = " (" + convStr(pRd->getType()) + ")";
+                    sSuff = " (" + convStr(pRd->getType()) + ")"; // !!! no translation of "Discogs" or MusicBrainz
                 }
             }
         }
@@ -275,12 +275,12 @@ LAST_STEP("CurrentFileModel::headerData");
         QString s;
 
         if (inf.m_bAlone)
-        {
-            s = convStr(inf.m_strName) + sSuff;
+        {//ttt2 see if right-to-left languages would need sSuff first; (they probably need mirror dialogs as well)
+            s = TagReader::tr(inf.m_strName.c_str()) + sSuff; // !!! the "tr()" won't do anything in most cases; the argument can be "Pattern", "Web", "ID3V2.3.0", "ID3V2.4.0", "ID3V1", ... ; only the first 2 are translatable
         }
         else
         {
-            s = QString("%1 %2").arg(convStr(inf.m_strName)).arg(inf.m_nPos + 1) + sSuff;
+            s = QString("%1 %2").arg(TagReader::tr(inf.m_strName.c_str())).arg(inf.m_nPos + 1) + sSuff; // !!! the "tr()" won't do anything in most cases; the argument can be "Pattern", "Web", "ID3V2.3.0", "ID3V2.4.0", "ID3V1", ... ; only the first 2 are translatable
         }
         return s;
     }
@@ -505,11 +505,11 @@ void TagEditorDlgImpl::setupVarArtistsBtn()
 {
     m_pVarArtistsB->setEnabled(m_pCommonData->m_bItunesVarArtists || m_pCommonData->m_bWmpVarArtists);
     m_pVarArtistsB->setToolTip(m_pVarArtistsB->isEnabled() ?
-            "Toggle \"Various Artists\"" :
+            tr("Toggle \"Various Artists\"") :
 
-            "To enable \"Various Artists\" you need to open the\n"
+            tr("To enable \"Various Artists\" you need to open the\n"
             "configuration dialog, go to the \"Others\" tab and\n"
-            "check the corresponding checkbox(es)");
+               "check the corresponding checkbox(es)", "this is a multi-line tooltip"));
 }
 
 
@@ -890,7 +890,7 @@ void TagEditorDlgImpl::loadTagWriterInf()
 
         if (bErr1 || bErr2)
         {
-            QMessageBox::warning(this, "Error setting up the tag order", "An invalid value was found in the configuration file. You'll have to sort the tags again.");
+            showWarning(this, tr("Error setting up the tag order"), tr("An invalid value was found in the configuration file. You'll have to sort the tags again."));
         }
 
         if (v.empty())
@@ -954,7 +954,7 @@ void TagEditorDlgImpl::loadTagWriterInf()
 //if (bErr) { qDebug("error when reading patterns"); } //ttt remove
         if (bErr || bErr2)
         {
-            QMessageBox::warning(this, "Error setting up patterns", "An invalid value was found in the configuration file. You'll have to set up the patterns manually.");
+            showWarning(this, tr("Error setting up patterns"), tr("An invalid value was found in the configuration file. You'll have to set up the patterns manually."));
         }
     }
 }
@@ -1025,7 +1025,7 @@ void TagEditorDlgImpl::on_m_pReloadB_clicked()
 
     if (bHasUnsavedAssgn)
     {
-        int k (showMessage(this, QMessageBox::Warning, 1, 1, "Warning", "Reloading the current album causes all unsaved changes to be lost. Really reload?", "Reload", "Cancel"));
+        int k (showMessage(this, QMessageBox::Warning, 1, 1, tr("Warning"), tr("Reloading the current album causes all unsaved changes to be lost. Really reload?"), tr("Reload"), tr("Cancel")));
         if (0 != k) { return; }
     }
     m_pTagWriter->reloadAll(m_pTagWriter->getCurrentName(), TagWriter::CLEAR_DATA, TagWriter::CLEAR_ASSGN);
@@ -1060,12 +1060,12 @@ void TagEditorDlgImpl::on_m_pCaseB_clicked()
     QAction* pAct;
     for (int i = TC_NONE; i <= TC_SENTENCE; ++i)
     {
-        pAct = new QAction(QString("Artists - ") + getCaseAsStr(TextCaseOptions(i)), &menu); menu.addAction(pAct); vpAct.push_back(pAct);
+        pAct = new QAction(tr("Artists - %1").arg(TagReader::tr(getCaseAsStr(TextCaseOptions(i)))), &menu); menu.addAction(pAct); vpAct.push_back(pAct);
     }
     menu.addSeparator();
     for (int i = TC_NONE; i <= TC_SENTENCE; ++i)
     {
-        pAct = new QAction(QString("Others - ") + getCaseAsStr(TextCaseOptions(i)), &menu); menu.addAction(pAct); vpAct.push_back(pAct);
+        pAct = new QAction(tr("Others - %1").arg(TagReader::tr(getCaseAsStr(TextCaseOptions(i)))), &menu); menu.addAction(pAct); vpAct.push_back(pAct);
     }
 
     for (int i = 0; i < cSize(vpAct); ++i) { vpAct[i]->setCheckable(true); }
@@ -1467,10 +1467,10 @@ public:
 
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Saves user-edited ID3V2.3.0 tags."; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Saves user-edited ID3V2.3.0 tags."); }
     /*override*/ bool acceptsFastSave() const { return true; }
 
-    static const char* getClassName() { return "Save ID3V2.3.0 tags"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Save ID3V2.3.0 tags"); }
 };
 
 
@@ -1688,7 +1688,7 @@ TagEditorDlgImpl::SaveOpt TagEditorDlgImpl::save(bool bImplicitCall)
         int nUnassignedImagesCnt (m_pTagWriter->getUnassignedImagesCount());
         if (bImplicitCall && nUnassignedImagesCnt > 0)
         {
-            int nOpt (showMessage(this, QMessageBox::Question, 1, 1, "Confirm", (nUnassignedImagesCnt > 1 ? QString("You added %1 images but then you didn't assign them to any songs. What do you want to do?").arg(nUnassignedImagesCnt) : QString("You added an image but then you didn't assign it to any song. What do you want to do?")), "&Discard", "&Cancel"));
+            int nOpt (showMessage(this, QMessageBox::Question, 1, 1, tr("Confirm"), (nUnassignedImagesCnt > 1 ? tr("You added %1 images but then you didn't assign them to any songs. What do you want to do?").arg(nUnassignedImagesCnt) : tr("You added an image but then you didn't assign it to any song. What do you want to do?")), tr("&Discard"), tr("&Cancel")));
             if (1 == nOpt) { return CANCELLED; }
         }
     }
@@ -1709,15 +1709,15 @@ TagEditorDlgImpl::SaveOpt TagEditorDlgImpl::save(bool bImplicitCall)
         int nOpt;
         if ((bHasUnsavedAssgn && CommonData::ASK == m_pCommonData->m_eAssignSave) && (bHasUnsavedNonId3V2 && CommonData::DISCARD == m_pCommonData->m_eNonId3v2Save))
         {
-            nOpt = showMessage(this, QMessageBox::Question, 0, 2, "Confirm", "There are unsaved fields that you assigned a value to, as well as fields whose value doesn't match the ID3V2 value. What do you want to do?", "&Save", "&Discard", "&Cancel");
+            nOpt = showMessage(this, QMessageBox::Question, 0, 2, tr("Confirm"), tr("There are unsaved fields that you assigned a value to, as well as fields whose value doesn't match the ID3V2 value. What do you want to do?"), tr("&Save"), tr("&Discard"), tr("&Cancel"));
         }
         else if (bHasUnsavedAssgn && CommonData::ASK == m_pCommonData->m_eAssignSave)
         {
-            nOpt = showMessage(this, QMessageBox::Question, 0, 2, "Confirm", "There are unsaved fields that you assigned a value to. What do you want to do?", "&Save", "&Discard", "&Cancel");
+            nOpt = showMessage(this, QMessageBox::Question, 0, 2, tr("Confirm"), tr("There are unsaved fields that you assigned a value to. What do you want to do?"), tr("&Save"), tr("&Discard"), tr("&Cancel"));
         }
         else
         {
-            nOpt = showMessage(this, QMessageBox::Question, 0, 2, "Confirm", "There are fields whose value doesn't match the ID3V2 value. What do you want to do?", "&Save", "&Discard", "&Cancel");
+            nOpt = showMessage(this, QMessageBox::Question, 0, 2, tr("Confirm"), tr("There are fields whose value doesn't match the ID3V2 value. What do you want to do?"), tr("&Save"), tr("&Discard"), tr("&Cancel"));
         }
 
         if (1 == nOpt) { return DISCARDED; }
@@ -1738,7 +1738,7 @@ TagEditorDlgImpl::SaveOpt TagEditorDlgImpl::save(bool bImplicitCall)
         ValueRestorer<bool> rst1 (m_bIsSaving);
         m_bIsSaving = true;
 
-        bRes = transform(vpHndlr, vpTransf, "Saving ID3V2.3.0 tags", this, m_pCommonData, m_transfConfig);
+        bRes = transform(vpHndlr, vpTransf, convStr(tr("Saving ID3V2.3.0 tags")), this, m_pCommonData, m_transfConfig);
     }
 
     m_pTagWriter->reloadAll(strCrt, TagWriter::DONT_CLEAR_DATA, TagWriter::CLEAR_ASSGN);
@@ -1764,9 +1764,9 @@ void TagEditorDlgImpl::onShowPatternNote()
     {
         s_bToldAboutPatternsInCrtRun = true;
 
-        HtmlMsg::msg(this, 0, 0, &m_pCommonData->m_bToldAboutPatterns, HtmlMsg::DEFAULT, "Info", "<p style=\"margin-bottom:1px; margin-top:12px; \">Some fields are missing or may be incomplete. While this is usually solved by downloading correct information, there are a cases when this approach doesn't work, like custom compilations, rare albums, or missing tracks.</p>"
+        HtmlMsg::msg(this, 0, 0, &m_pCommonData->m_bToldAboutPatterns, HtmlMsg::DEFAULT, tr("Info"), "<p style=\"margin-bottom:1px; margin-top:12px; \">" + tr("Some fields are missing or may be incomplete. While this is usually solved by downloading correct information, there are a cases when this approach doesn't work, like custom compilations, rare albums, or missing tracks.") + "</p>"
 
-        "<p style=\"margin-bottom:1px; margin-top:12px; \">If your current folder fits one of these cases or you simply have consistently named files that you would prefer to use as a source of track info, you may want to take a look at the tag editor's patterns, at <a href=\"http://mp3diags.sourceforge.net" + QString(getWebBranch()) + "/220_tag_editor_patterns.html\">http://mp3diags.sourceforge.net" + QString(getWebBranch()) + "/220_tag_editor_patterns.html</a>.</p>", 550, 300, "OK");
+            "<p style=\"margin-bottom:1px; margin-top:12px; \">" + tr("If your current folder fits one of these cases or you simply have consistently named files that you would prefer to use as a source of track info, you may want to take a look at the tag editor's patterns, at %1").arg("<a href=\"http://mp3diags.sourceforge.net" + QString(getWebBranch()) + "/220_tag_editor_patterns.html\">http://mp3diags.sourceforge.net" + QString(getWebBranch()) + "/220_tag_editor_patterns.html</a>.</p>"), 550, 300, tr("O&K"));
     }
 }
 
@@ -1939,7 +1939,7 @@ bool CurrentAlbumDelegate::closeEditor() // closes the editor opened with F2, sa
     }
     //delete m_pEditor;
 
-    if (0 != showMessage(m_pTableView, QMessageBox::Warning, 1, 1, "Warning", "You are editing data in a cell. If you proceed that change will be lost. Proceed and lose the data?", "Proceed", "Cancel")) { return false; } //ttt2 try and post somehow the content of the editor (?? perhaps send it a keyboard message that ENTER was pressed)
+    if (0 != showMessage(m_pTableView, QMessageBox::Warning, 1, 1, tr("Warning"), tr("You are editing data in a cell. If you proceed that change will be lost. Proceed and lose the data?"), tr("Proceed"), tr("Cancel"))) { return false; } //ttt2 try and post somehow the content of the editor (?? perhaps send it a keyboard message that ENTER was pressed)
     //ttt2 review this
 
     delete *m_spEditors.begin();

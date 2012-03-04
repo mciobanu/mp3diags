@@ -62,10 +62,10 @@ LAST_STEP("UniqueNotesModel::data()");
         return getNoteLabel(v[index.row()]);
     }
 
-    return m_pCommonData->getUniqueNotes().getFlt(index.row())->getDescription();
+    return Notes::tr(m_pCommonData->getUniqueNotes().getFlt(index.row())->getDescription());
 }
 
-/*override*/ QVariant UniqueNotesModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /*= Qt::DisplayRole*/) const
+/*override*/ QVariant UniqueNotesModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /* = Qt::DisplayRole*/) const
 {
 LAST_STEP("UniqueNotesModel::headerData");
     if (nRole == Qt::SizeHintRole)
@@ -78,8 +78,8 @@ LAST_STEP("UniqueNotesModel::headerData");
     {
         switch (nSection)
         {
-        case 0: return "L";
-        case 1: return "Note";
+        case 0: return tr("L");
+        case 1: return tr("Note");
         default:
             CB_ASSERT (false);
         }

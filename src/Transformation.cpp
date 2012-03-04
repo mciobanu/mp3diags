@@ -32,6 +32,7 @@
 #include  "OsFile.h"
 #include  "Mp3Manip.h"
 #include  "CommonData.h"
+#include  "Widgets.h"
 
 
 using namespace std;
@@ -204,7 +205,7 @@ TransfConfig::TransfConfig(
 
     if (nOptions >= 0x00040000)
     { // only the first 18 bits are supposed to be used; if more seem to be used, it is because of a manually entered wrong value or because a change in the bitfield representation;
-        QMessageBox::critical(getMainForm(), "Error", "Invalid value found for file settings. Reverting to default settings.");
+        showCritical(getMainForm(), tr("Error"), tr("Invalid value found for file settings. Reverting to default settings."));
         nOptions = -1;
         m_bInitError = true;
     }
@@ -340,7 +341,7 @@ int TransfConfig::getOptionValue(Option eOption) const
 }
 
 // normally makes sure that the name returned doesn't exist, by applying any renaming specified in the params; there's an exception, though: is bAllowDup is true, duplicates are allowed
-string TransfConfig::getRenamedName(const std::string& strOrigSrcName, const std::string& strNewRootDir, const std::string& strLabel, bool bAlwayUseCounter, bool bAlwaysRename, bool bAllowDup /*= false*/) const // bAllowDup is needed only for the option 5 of m_nProcOrigChange, when ORIG_MOVE_OR_ERASE gets returned
+string TransfConfig::getRenamedName(const std::string& strOrigSrcName, const std::string& strNewRootDir, const std::string& strLabel, bool bAlwayUseCounter, bool bAlwaysRename, bool bAllowDup /* = false*/) const // bAllowDup is needed only for the option 5 of m_nProcOrigChange, when ORIG_MOVE_OR_ERASE gets returned
 {
     /* steps
         1. decide if it should rename, based on bAlwaysRename (merely changing the folder isn't considered renaming)

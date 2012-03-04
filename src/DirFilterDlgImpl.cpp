@@ -187,9 +187,9 @@ void DirFilterDlgImpl::populateLists()
 
 
 
-DirFilterDlgImpl::DirFilterDlgImpl(CommonData* pCommonData, QWidget* pParent /*=0*/) :
+DirFilterDlgImpl::DirFilterDlgImpl(CommonData* pCommonData, QWidget* pParent /* =0*/) :
         QDialog(pParent, getDialogWndFlags()),
-        ListPainter("<all folders>"),
+        ListPainter(convStr(tr("<all folders>"))),
         m_pCommonData(pCommonData)
 {
     TRACER("DirFilterDlgImpl constr");
@@ -203,8 +203,8 @@ DirFilterDlgImpl::DirFilterDlgImpl(CommonData* pCommonData, QWidget* pParent /*=
             *this,
             DoubleList::RESTORE_OPEN,
             DoubleList::SINGLE_UNSORTABLE,
-            "Available folders",
-            "Include folders",
+            convStr(tr("Available folders")),
+            convStr(tr("Include folders")),
             this);
 
     m_pListHldr->layout()->addWidget(m_pDoubleList);
@@ -291,12 +291,12 @@ void DirFilterDlgImpl::onAvlDoubleClicked(int nRow)
     {
     case SELECTED_G: return "";//"Notes to be included";
     case AVAILABLE_G: return "";//"Available notes";
-    case ADD_B: return "Add selected folders";
-    case DELETE_B: return "Remove selected folders";
+    case ADD_B: return convStr(tr("Add selected folders"));
+    case DELETE_B: return convStr(tr("Remove selected folders"));
     case ADD_ALL_B: return "";//"Add all folders";
     case DELETE_ALL_B: return "";//"Remove all folders";
     case RESTORE_DEFAULT_B: return "";
-    case RESTORE_OPEN_B: return "Restore lists to the configuration they had when the window was open";
+    case RESTORE_OPEN_B: return convStr(tr("Restore lists to the configuration they had when the window was open"));
     default: CB_ASSERT(false);
     }
 }

@@ -25,6 +25,8 @@
 
 #include  <string>
 
+#include  <QApplication> // for translation
+
 /*
 
 Processing a file by MainFormDlgImpl:
@@ -87,6 +89,8 @@ Note: all file names are absolute.
 */
 class TransfConfig
 {
+    Q_DECLARE_TR_FUNCTIONS(TransfConfig)
+
     //bool m_bRename
     std::string m_strSrcDir; // all scanned files are supposed to be here; // 2009.04.08 - for now it seems better to force this to be empty, by not allowing it to be edited // ttt2 perhaps put back, or calculate it from a session's folders in saveTransfConfig(), but seems likely to create confusion; can be edited manually in the config file to see what it does (or by commenting out "m_pSourceDirF->hide()")
     std::string m_strProcOrigDir;
@@ -342,6 +346,7 @@ class Mp3Handler;
 
 class Transformation
 {
+    Q_DECLARE_TR_FUNCTIONS(Transformation)
 public:
     virtual ~Transformation() {}
 
@@ -353,7 +358,7 @@ public:
 
     virtual Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName) = 0; // this may throw
     virtual const char* getActionName() const = 0; // should return the same thing for all objects of a class, as this is used in string comparisons in several places (visible transformations, custom transformation lists, ...)
-    virtual const char* getVisibleActionName() const { return getActionName(); } // to be used only by the UI, providing more details to the user
+    virtual QString getVisibleActionName() const { return tr(getActionName()); } // to be used only by the UI, providing more details to the user
     virtual const char* getDescription() const = 0;
 
     virtual bool acceptsFastSave() const { return false; } // whether to consider Mp3Handler::m_nFastSaveTime as a match when deciding if a file was changed (so a transformation can't be applied)
@@ -367,9 +372,9 @@ class IdentityTransformation : public Transformation
 public:
     /*override*/ Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Doesn't actually change the file, but it creates a temporary copy and it reports that it does change it. This is not as meaningless as it might first seem: if the configuration settings indicate some action (i.e. rename, move or erase) to be taken for processed files, then that action will be performed for these files. While the same can be achieved by changing the settings for unprocessed files, this is easier to use when it is executed on a subset of all the files (filtered or selected)."; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Doesn't actually change the file, but it creates a temporary copy and it reports that it does change it. This is not as meaningless as it might first seem: if the configuration settings indicate some action (i.e. rename, move or erase) to be taken for processed files, then that action will be performed for these files. While the same can be achieved by changing the settings for unprocessed files, this is easier to use when it is executed on a subset of all the files (filtered or selected)."); }
 
-    static const char* getClassName() { return "No change"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "No change"); }
 };
 
 

@@ -333,7 +333,7 @@ string CommonData::save(const string& strFile) const
     try
     {
         ofstream_utf8 out (strFile.c_str());
-        if (!out) { return "Cannot open file \"" + strFile + "\""; }
+        if (!out) { return "Cannot open file \"" + strFile + "\""; } //ttt1 maybe translate, but it makes less sense to do the same in load()
 
         //boost::archive::binary_oarchive oar (out);
         boost::archive::text_oarchive oar (out);

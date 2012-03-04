@@ -54,7 +54,9 @@ TranslatorHandler::TranslatorHandler()
     {
         addTranslations(convStr(QCoreApplication::instance()->applicationDirPath() + "/../share/" + getTranslationPackageName() + "/translations"));
     }
+    //ttt0 also look in "my documents", so users can easily add translations
 
+    m_qstrSystemTranslDir = "/usr/share/qt4/translations"; //ttt0 improve; ship .qm files on Wnd
 }
 
 void TranslatorHandler::addTranslations(const std::string& strDir)
@@ -70,19 +72,33 @@ void TranslatorHandler::addTranslations(const std::string& strDir)
 }
 
 
+string TranslatorHandler::getLocale(string strTranslation)
+{
+    strTranslation.erase(strTranslation.size() - 3, 3);
+    strTranslation.erase(0, 8);
+    return strTranslation;
+}
+
+
 void TranslatorHandler::setTranslation(const string& strTranslation)
 {
     for (int i = 0; i < cSize(m_vstrTranslations); ++i)
     {
         if (m_vstrTranslations[i] == strTranslation)
         {
-            m_translator.load(convStr(m_vstrLongTranslations[i]));
+            m_appTranslator.load(convStr(m_vstrLongTranslations[i]));
             break;
         }
     }
 
-    QCoreApplication::instance()->removeTranslator(&m_translator);
-    QCoreApplication::instance()->installTranslator(&m_translator);
+    QCoreApplication::instance()->removeTranslator(&m_appTranslator);
+    QCoreApplication::instance()->installTranslator(&m_appTranslator);
+
+    // http://www.qtcentre.org/threads/20889-Translation-of-app-and-Qt-Dialogs
+    //m_systemTranslator.load("qt_cs.qm", m_qstrSystemTranslDir);
+    m_systemTranslator.load("qt" + convStr(getLocale(strTranslation)) + ".qm", m_qstrSystemTranslDir);
+    QCoreApplication::instance()->removeTranslator(&m_systemTranslator);
+    QCoreApplication::instance()->installTranslator(&m_systemTranslator);
 }
 
 

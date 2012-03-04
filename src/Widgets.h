@@ -28,6 +28,8 @@
 #include  <QMessageBox>
 #include  <QHeaderView>
 
+#include  <QApplication> // for translation
+
 
 //=====================================================================================================================
 //=====================================================================================================================
@@ -75,6 +77,14 @@ public:
 
 int showMessage(QWidget* pParent, QMessageBox::Icon icon, int nDefault, int nEscape, const QString& qstrTitle, const QString& qstrMessage, const QString& qstrButton0, const QString& qstrButton1 = "", const QString& qstrButton2 = "", const QString& qstrButton3 = "");
 
+void showWarning(QWidget* pParent, const QString& qstrTitle, const QString& qstrMessage);
+void showCritical(QWidget* pParent, const QString& qstrTitle, const QString& qstrMessage);
+void showInfo(QWidget* pParent, const QString& qstrTitle, const QString& qstrMessage);
+
+class GlobalTranslHlp
+{
+    Q_DECLARE_TR_FUNCTIONS(GlobalTranslHlp)
+};
 
 
 class QDialog;

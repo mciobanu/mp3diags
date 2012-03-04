@@ -498,12 +498,12 @@ std::string DiscogsAlbumInfo::getGenre() const // combination of m_strGenre and 
 
 
 
-/*static*/ const char* DiscogsDownloader::SOURCE_NAME ("Discogs");
+/*static*/ const char* DiscogsDownloader::SOURCE_NAME ("Discogs"); // !!! non-translatable
 
 
 DiscogsDownloader::DiscogsDownloader(QWidget* pParent, SessionSettings& settings, bool bSaveResults) : AlbumInfoDownloaderDlgImpl(pParent, settings, bSaveResults)
 {
-    setWindowTitle("Download album data from Discogs.com");
+    setWindowTitle(tr("Download album data from Discogs.com"));
 
     int nWidth, nHeight, nStyleOption;
     m_settings.loadDiscogsSettings(nWidth, nHeight, nStyleOption);
@@ -526,7 +526,7 @@ DiscogsDownloader::DiscogsDownloader(QWidget* pParent, SessionSettings& settings
     {
         QStringList l;
         //l << "< don't use >" << "Genre1, Genre2, ... , Style1, Style2, ..." << "Genre1, Genre2, ... (Style1, Style2, ...)" << "Style1, Style2, ...";
-        l << "Genres" << "Genres, Styles" << "Genres (Styles)" << "Styles";
+        l << tr("Genres") << tr("Genres, Styles") << tr("Genres (Styles)") << tr("Styles");
         m_pStyleCbB->addItems(l);
         m_pStyleCbB->setCurrentIndex(nStyleOption);
     }
@@ -678,7 +678,7 @@ LAST_STEP("DiscogsDownloader::requestAlbum");
     header.setValue("User-Agent" , "Mp3Diags");
     m_pQHttp->request(header);
     //cout << "sent album " << m_vAlbums[nAlbum].m_strId << " - " << m_pQHttp->request(header) << endl;
-    addNote("getting album info ...");
+    addNote(AlbumInfoDownloaderDlgImpl::tr("getting album info ..."));
 }
 
 //http://api.discogs.com/image/R-1565272-1228883740.jpeg vs http://www.discogs.com/image/R-1565272-1228883740.jpeg?api_key=f51e9c8f6c
@@ -701,7 +701,7 @@ LAST_STEP("DiscogsDownloader::requestImage");
     header.setValue("User-Agent" , "Mp3Diags");
     m_pQHttp->request(header);
     //cout << "sent img " <<  m_vAlbums[nAlbum].m_vstrImageNames[nImage] << " - " << m_pQHttp->request(header) << endl;
-    addNote("getting image ...");
+    addNote(AlbumInfoDownloaderDlgImpl::tr("getting image ..."));
 }
 
 

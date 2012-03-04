@@ -322,14 +322,9 @@ e1:
 //========================================================================================================================
 
 
-/*override*/ const char* Id3V2UnicodeTransformer::getVisibleActionName() const
+/*override*/ QString Id3V2UnicodeTransformer::getVisibleActionName() const
 {
-    string strActionName (string("Convert non-ASCII ID3V2 text frames to Unicode assuming codepage ") + m_pCommonData->m_pCodec->name().constData());
-    if (strActionName != m_strActionName)
-    {
-        m_strActionName = strActionName; // to make sure that pointer comparisons still work (though they should probably be replaced by string comparisons) //ttt2 replace ptr comparisons
-    }
-    return m_strActionName.c_str();
+    return Transformation::tr("Convert non-ASCII ID3V2 text frames to Unicode assuming codepage %1").arg(m_pCommonData->m_pCodec->name().constData());
 }
 
 
@@ -447,15 +442,9 @@ PLPAS llpwwe;
 
 
 
-/*override*/ const char* Id3V2CaseTransformer::getVisibleActionName() const
+/*override*/ QString Id3V2CaseTransformer::getVisibleActionName() const
 {
-    string strActionName (string("Change case for ID3V2 text frames: Artists - ") + getCaseAsStr(m_pCommonData->m_eCaseForArtists) + "; Others - " + getCaseAsStr(m_pCommonData->m_eCaseForOthers));
-
-    if (strActionName != m_strActionName)
-    {
-        m_strActionName = strActionName; // to make sure that pointer comparisons still work (though they should probably be replaced by string comparisons) //ttt2 replace ptr comparisons
-    }
-    return m_strActionName.c_str();
+    return Transformation::tr("Change case for ID3V2 text frames: Artists - %1; Others - %2").arg(TagReader::tr(getCaseAsStr(m_pCommonData->m_eCaseForArtists))).arg(TagReader::tr(getCaseAsStr(m_pCommonData->m_eCaseForOthers)));
 }
 
 
@@ -748,14 +737,9 @@ bool Id3V1ToId3V2Copier::processId3V2Stream(Id3V2StreamBase& strm, ofstream_utf8
 }
 
 
-/*override*/ const char* Id3V1ToId3V2Copier::getVisibleActionName() const
+/*override*/ QString Id3V1ToId3V2Copier::getVisibleActionName() const
 {
-    string strActionName (string("Copy missing ID3V2 frames from ID3V1 assuming codepage ") + m_pCommonData->m_pCodec->name().constData());
-    if (strActionName != m_strActionName)
-    {
-        m_strActionName = strActionName; // to make sure that pointer comparisons still work (though they should probably be replaced by string comparisons) //ttt2 replace ptr comparisons
-    }
-    return m_strActionName.c_str();
+    return Transformation::tr("Copy missing ID3V2 frames from ID3V1 assuming codepage %1").arg(m_pCommonData->m_pCodec->name().constData());
 }
 
 

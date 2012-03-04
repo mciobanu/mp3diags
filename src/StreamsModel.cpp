@@ -109,14 +109,14 @@ if (0 == CRT % 2000)
         }
     case 3:
         {
-            return QString(pDataStream->getDisplayName());
+            return QString(pDataStream->getTranslatedDisplayName());
         }
     case 4: return convStr(pDataStream->getInfo());
     default: CB_ASSERT(false);
     }//out << "Ape: " <<" offset=0x" << hex << m_pos << ", size=0x" << m_nSize << dec << " (" << m_nSize << ")";
 }
 
-/*override*/ QVariant StreamsModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /*= Qt::DisplayRole*/) const
+/*override*/ QVariant StreamsModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /* = Qt::DisplayRole*/) const
 {
 LAST_STEP("StreamsModel::headerData");
     if (nRole == Qt::SizeHintRole)
@@ -130,11 +130,11 @@ LAST_STEP("StreamsModel::headerData");
         //return section;
         switch (nSection)
         {
-        case 0: return "Address";
-        case 1: return "Size (dec)";
-        case 2: return "Size (hex)";
-        case 3: return "Type";
-        case 4: return "Stream details";
+        case 0: return tr("Address");
+        case 1: return tr("Size (dec)");
+        case 2: return tr("Size (hex)");
+        case 3: return tr("Type");
+        case 4: return tr("Stream details");
         default:
             CB_ASSERT (false);
         }

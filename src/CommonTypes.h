@@ -133,7 +133,7 @@ struct ExternalToolInfo
     ExternalToolInfo(const std::string& strName, const std::string& strCommand, LaunchOption eLaunchOption, bool bConfirmLaunch) : m_strName(strName), m_strCommand(strCommand), m_eLaunchOption(eLaunchOption), m_bConfirmLaunch(bConfirmLaunch) {}
     ExternalToolInfo(const std::string& strSerValue);
     std::string asString();
-    static const char* launchOptionAsString(LaunchOption);
+    static QString launchOptionAsTranslatedString(LaunchOption);
 
     struct InvalidExternalToolInfo {};
 private:

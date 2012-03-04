@@ -27,7 +27,7 @@
 #include  "Helpers.h"
 #include  "FileRenamerDlgImpl.h"
 #include  "StoredSettings.h"
-
+#include  "Widgets.h"
 
 using namespace std;
 
@@ -45,16 +45,16 @@ RenamerPatternsDlgImpl::RenamerPatternsDlgImpl(QWidget* pParent, SessionSettings
 
     m_infoM->setPalette(grayPalette);
     m_infoM->setTabStopWidth(fontMetrics().width("%ww"));
-    QString qsSep (getPathSep());
-    m_infoM->setText(QString("%n\ttrack number\n%a\tartist\n%t\ttitle\n%b\talbum\n%y\tyear\n%g\tgenre\n%r\trating (a lowercase letter)\n%c\tcomposer"
-            "\n\nTo include the special characters \"%\", \"[\" and \"]\", precede them by a \"%\": \"%%\", \"%[\" and \"%]\"\n\nThe path should be either a full path, starting with a "
 
 #ifndef WIN32
-            "\"") + getPathSep() + "\", or it should contain no \"" + getPathSep() + "\", if what is wanted is for the renamed files to remain in their original directories"
+    m_infoM->setText(tr("%n\ttrack number\n%a\tartist\n%t\ttitle\n%b\talbum\n%y\tyear\n%g\tgenre\n%r\trating (a lowercase letter)\n%c\tcomposer"
+            "\n\nTo include the special characters \"%\", \"[\" and \"]\", precede them by a \"%\": \"%%\", \"%[\" and \"%]\"\n\nThe path should be either a full path, starting with a "
+            "\"%1\", or it should contain no \"%1\", if what is wanted is for the renamed files to remain in their original directories").arg(getPathSep()));
 #else
-            "drive letter followed by \":\\\", or it should contain no \"\\\", if what is wanted is for the renamed files to remain in their original directories")
+    m_infoM->setText(tr("%n\ttrack number\n%a\tartist\n%t\ttitle\n%b\talbum\n%y\tyear\n%g\tgenre\n%r\trating (a lowercase letter)\n%c\tcomposer"
+            "\n\nTo include the special characters \"%\", \"[\" and \"]\", precede them by a \"%\": \"%%\", \"%[\" and \"%]\"\n\nThe path should be either a full path, starting with a "
+            "drive letter followed by \":\\\", or it should contain no \"\\\", if what is wanted is for the renamed files to remain in their original directories"));
 #endif
-            );
 
     int nWidth, nHeight;
     m_settings.loadRenamerPatternsSettings(nWidth, nHeight);
@@ -104,7 +104,7 @@ void RenamerPatternsDlgImpl::on_m_pOkB_clicked()
 
             if (!strErr.empty())
             {
-                QMessageBox::critical(this, "Error", convStr(strErr));
+                showCritical(this, tr("Error"), convStr(strErr));
                 return;
             }
 
@@ -174,6 +174,6 @@ void RenamerPatternsDlgImpl::onCrtPosChanged()
     QTextCursor crs (m_pTextM->textCursor());
     m_nCrtLine = crs.blockNumber();
     m_nCrtCol = crs.columnNumber();
-    m_pCrtPosL->setText(QString("Line %1, Col %2").arg(m_nCrtLine + 1).arg(m_nCrtCol + 1));
+    m_pCrtPosL->setText(tr("Line %1, Col %2").arg(m_nCrtLine + 1).arg(m_nCrtCol + 1));
 }
 

@@ -39,9 +39,9 @@ class SingleBitRepairer : public Transformation
 public:
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Sometimes a bit gets flipped in a file. This tries to identify places having this issue in audio frame headers. If found, it fixes the problem. It is most likely to apply to files that have 2 audio streams."; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Sometimes a bit gets flipped in a file. This tries to identify places having this issue in audio frame headers. If found, it fixes the problem. It is most likely to apply to files that have 2 audio streams."); }
 
-    static const char* getClassName() { return "Restore flipped bit in audio"; } // ttt1 "getClassName" is misleading and should be renamed
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Restore flipped bit in audio"); } // ttt1 "getClassName" is misleading and should be renamed
 };
 
 
@@ -71,9 +71,9 @@ class InnerNonAudioRemover : public GenericRemover
 public:
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Removes all non-audio data that is found between audio streams. In this context, VBRI streams are considered audio streams (while Xing streams are not.)"; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Removes all non-audio data that is found between audio streams. In this context, VBRI streams are considered audio streams (while Xing streams are not.)"); }
 
-    static const char* getClassName() { return "Remove inner non-audio"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Remove inner non-audio"); }
 };
 
 
@@ -83,9 +83,9 @@ class UnknownDataStreamRemover : public GenericRemover
     /*override*/ bool matches(DataStream* p) const;
 public:
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Removes all unknown streams."; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Removes all unknown streams."); }
 
-    static const char* getClassName() { return "Remove unknown streams"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Remove unknown streams"); }
 };
 
 class BrokenDataStreamRemover : public GenericRemover
@@ -93,9 +93,9 @@ class BrokenDataStreamRemover : public GenericRemover
     /*override*/ bool matches(DataStream* p) const;
 public:
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Removes all broken streams."; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Removes all broken streams."); }
 
-    static const char* getClassName() { return "Remove broken streams"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Remove broken streams"); }
 };
 
 class UnsupportedDataStreamRemover : public GenericRemover
@@ -103,9 +103,9 @@ class UnsupportedDataStreamRemover : public GenericRemover
     /*override*/ bool matches(DataStream* p) const;
 public:
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Removes all unsupported streams."; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Removes all unsupported streams."); }
 
-    static const char* getClassName() { return "Remove unsupported streams"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Remove unsupported streams"); }
 };
 
 class TruncatedMpegDataStreamRemover : public GenericRemover
@@ -113,9 +113,9 @@ class TruncatedMpegDataStreamRemover : public GenericRemover
     /*override*/ bool matches(DataStream* p) const;
 public:
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Removes all truncated audio streams."; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Removes all truncated audio streams."); }
 
-    static const char* getClassName() { return "Remove truncated audio streams"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Remove truncated audio streams"); }
 };
 
 class NullStreamRemover : public GenericRemover
@@ -123,9 +123,9 @@ class NullStreamRemover : public GenericRemover
     /*override*/ bool matches(DataStream* p) const;
 public:
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Removes all null streams."; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Removes all null streams."); }
 
-    static const char* getClassName() { return "Remove null streams"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Remove null streams"); }
 };
 
 
@@ -136,7 +136,7 @@ class StreamRemover : public GenericRemover
     /*override*/ bool matches(DataStream* p) const;
 public:
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Removes all streams that are broken, truncated, unsupported or have some errors making them unusable."; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Removes all streams that are broken, truncated, unsupported or have some errors making them unusable."); }
 
     static const char* getClassName() { return "General cleanup"; }
 };
@@ -150,9 +150,9 @@ class BrokenId3V2Remover : public GenericRemover
     /*override*/ bool matches(DataStream* p) const;
 public:
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Removes broken ID3V2 streams."; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Removes broken ID3V2 streams."); }
 
-    static const char* getClassName() { return "Remove broken ID3V2 streams"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Remove broken ID3V2 streams"); }
 };
 
 
@@ -161,9 +161,9 @@ class UnsupportedId3V2Remover : public GenericRemover
     /*override*/ bool matches(DataStream* p) const;
 public:
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Removes unsupported ID3V2 streams."; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Removes unsupported ID3V2 streams."); }
 
-    static const char* getClassName() { return "Remove unsupported ID3V2 streams"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Remove unsupported ID3V2 streams"); }
 };
 
 
@@ -175,9 +175,9 @@ class MultipleId3StreamRemover : public GenericRemover
     void setupDiscarded(const Mp3Handler& h);
 public:
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "If a file has multiple ID3 streams it keeps only the last ID3V1 and the first ID3V2 stream."; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "If a file has multiple ID3 streams it keeps only the last ID3V1 and the first ID3V2 stream."); }
 
-    static const char* getClassName() { return "Remove multiple ID3 streams"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Remove multiple ID3 streams"); }
 
     /*override*/ Transformation::Result apply(const Mp3Handler& h, const TransfConfig& cfg, const std::string& strOrigSrcName, std::string& strTempName)
     {
@@ -194,9 +194,9 @@ class MismatchedXingRemover : public GenericRemover
     void setupDiscarded(const Mp3Handler& h);
 public:
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Sometimes the number of frames in an audio stream is different from the number of frames in a preceding Xing (or Lame) header, usually because the audio stream was damaged. It's probably best for the Xing header to be removed in this case. If the audio is VBR, you may want to try \"Repair VBR data\" first."; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Sometimes the number of frames in an audio stream is different from the number of frames in a preceding Xing (or Lame) header, usually because the audio stream was damaged. It's probably best for the Xing header to be removed in this case. If the audio is VBR, you may want to try \"Repair VBR data\" first."); }
 
-    static const char* getClassName() { return "Remove mismatched Xing headers"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Remove mismatched Xing headers"); }
 
     /*override*/ Transformation::Result apply(const Mp3Handler& h, const TransfConfig& cfg, const std::string& strOrigSrcName, std::string& strTempName)
     {
@@ -211,9 +211,9 @@ class Id3V1Remover : public GenericRemover
     /*override*/ bool matches(DataStream* p) const;
 public:
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Removes all ID3V1 streams."; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Removes all ID3V1 streams."); }
 
-    static const char* getClassName() { return "Remove all ID3V1 streams"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Remove all ID3V1 streams"); }
 };
 
 
@@ -222,9 +222,9 @@ class ApeRemover : public GenericRemover
     /*override*/ bool matches(DataStream* p) const;
 public:
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Removes all APE streams."; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Removes all APE streams."); }
 
-    static const char* getClassName() { return "Remove all APE streams"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Remove all APE streams"); }
 };
 
 
@@ -233,9 +233,9 @@ class NonAudioRemover : public GenericRemover
     /*override*/ bool matches(DataStream* p) const;
 public:
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Removes all non-audio streams."; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Removes all non-audio streams."); }
 
-    static const char* getClassName() { return "Remove all non-audio streams"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Remove all non-audio streams"); }
 };
 
 
@@ -247,9 +247,9 @@ class TruncatedAudioPadder : public Transformation
 public:
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "Pads truncated audio frames with 0 to the right. Its usefulness hasn't been determined yet (it might be quite low.)"; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Pads truncated audio frames with 0 to the right. Its usefulness hasn't been determined yet (it might be quite low.)"); }
 
-    static const char* getClassName() { return "Pad truncated audio"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Pad truncated audio"); }
 };
 
 
@@ -268,9 +268,9 @@ class VbrRepairer : public VbrRepairerBase
 public:
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "If a file contains VBR audio but doesn't have a Xing header, one such header is added. If a VBRI header exists, it is removed. If a Xing header exists but is determined to be incorrect, it is corrected or replaced. Only the first audio stream is considered; if a file contains more than one audio stream, this should be fixed first."; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "If a file contains VBR audio but doesn't have a Xing header, one such header is added. If a VBRI header exists, it is removed. If a Xing header exists but is determined to be incorrect, it is corrected or replaced. Only the first audio stream is considered; if a file contains more than one audio stream, this should be fixed first."); }
 
-    static const char* getClassName() { return "Repair VBR data"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Repair VBR data"); }
 };
 
 
@@ -279,9 +279,9 @@ class VbrRebuilder : public VbrRepairerBase
 public:
     /*override*/ Transformation::Result apply(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName);
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return "If a file contains VBR audio, any existing VBRI or Xing headers are removed and a new Xing header is created. Only the first audio stream is considered; if a file contains more than one audio stream, this should be fixed first."; }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "If a file contains VBR audio, any existing VBRI or Xing headers are removed and a new Xing header is created. Only the first audio stream is considered; if a file contains more than one audio stream, this should be fixed first."); }
 
-    static const char* getClassName() { return "Rebuild VBR data"; }
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Rebuild VBR data"); }
 };
 
 

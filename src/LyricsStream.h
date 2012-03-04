@@ -37,7 +37,7 @@ public:
     LyricsStream(int nIndex, NoteColl& notes, std::istream& in, const std::string& strFileName);
 
     /*override*/ void copy(std::istream& in, std::ostream& out);
-    DECL_RD_NAME("Lyrics3 V2.00");
+    DECL_RD_NAME("Lyrics3 V2.00")
     /*override*/ std::string getInfo() const;
 
     /*override*/ std::streampos getPos() const { return m_pos; }

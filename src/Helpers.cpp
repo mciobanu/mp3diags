@@ -51,6 +51,8 @@
 #include  "Version.h"
 #include  "OsFile.h"
 
+#include  "DataStream.h" // for translation
+
 
 using namespace std;
 using namespace Version;
@@ -380,51 +382,51 @@ namespace
         const char* getSzLayer() const;
         const char* getSzChannelMode() const;
 
-        string initialize(const unsigned char* bfr, bool* pbIsValid);
-        string decodeMpegFrame(const unsigned char* bfr, const char* szSep, bool* pbIsValid);
+        QString initialize(const unsigned char* bfr, bool* pbIsValid);
+        QString decodeMpegFrame(const unsigned char* bfr, const char* szSep, bool* pbIsValid);
         string decodeMpegFrameAsXml(const unsigned char* bfr, bool* pbIsValid);
     };
 
     const char* Decoder::getSzVersion() const
     {
-        static const char* s_versionName[] = { "MPEG-1", "MPEG-2" };
+        static const char* s_versionName[] = { QT_TRANSLATE_NOOP("DataStream", "MPEG-1"), QT_TRANSLATE_NOOP("DataStream", "MPEG-2") };
         return s_versionName[m_eVersion];
     }
 
     const char* Decoder::getSzLayer() const
     {
-        static const char* s_layerName[] = { "Layer I", "Layer II", "Layer III" };
+        static const char* s_layerName[] = { QT_TRANSLATE_NOOP("DataStream", "Layer I"), QT_TRANSLATE_NOOP("DataStream", "Layer II"), QT_TRANSLATE_NOOP("DataStream", "Layer III") };
         return s_layerName[m_eLayer];
     }
 
     const char* Decoder::getSzChannelMode() const
     {
-        static const char* s_channelModeName[] = { "Stereo", "Joint stereo", "Dual channel", "Single channel" };
+        static const char* s_channelModeName[] = { QT_TRANSLATE_NOOP("DataStream", "Stereo"), QT_TRANSLATE_NOOP("DataStream", "Joint stereo"), QT_TRANSLATE_NOOP("DataStream", "Dual channel"), QT_TRANSLATE_NOOP("DataStream", "Single channel") };
         return s_channelModeName[m_eChannelMode];
     }
 
 
-    string Decoder::initialize(const unsigned char* bfr, bool* pbIsValid) //ttt2 perhaps unify with MpegFrameBase::MpegFrameBase(), using the char* constructor
+    QString Decoder::initialize(const unsigned char* bfr, bool* pbIsValid) //ttt2 perhaps unify with MpegFrameBase::MpegFrameBase(), using the char* constructor; note that they also share translations
     {
         bool b;
         bool& bRes (0 == pbIsValid ? b : *pbIsValid);
         bRes = true;
         const unsigned char* pHeader (bfr);
     //inspect(bfr, BFR_SIZE);
-        DECODE_CHECK (0xff == *pHeader && 0xe0 == (0xe0 & *(pHeader + 1)), "Not an MPEG frame. Synch missing.");
+        DECODE_CHECK (0xff == *pHeader && 0xe0 == (0xe0 & *(pHeader + 1)), DataStream::tr("Not an MPEG frame. Synch missing."));
         ++pHeader;
 
         {
             int nVer ((*pHeader & 0x18) >> 3);
             switch (nVer)
             {//TRACE
-            case 0x00: bRes = false; return "Not an MPEG frame. Unsupported version (2.5)."; //ttt2 see about supporting this: search for MPEG1 to find other places
+            case 0x00: bRes = false; return DataStream::tr("Not an MPEG frame. Unsupported version (2.5)."); //ttt2 see about supporting this: search for MPEG1 to find other places
                 // ttt2 in a way it would make more sense to warn that it's not supported, with "MP3_THROW(SUPPORT, ...)", but before warn, make sure it's a valid 2.5 frame, followed by another frame ...
 
             case 0x02: m_eVersion = MPEG2; break;
             case 0x03: m_eVersion = MPEG1; break;
 
-            default: bRes = false; return "Not an MPEG frame. Invalid version.";
+            default: bRes = false; return DataStream::tr("Not an MPEG frame. Invalid version.");
             }
         }
 
@@ -436,7 +438,7 @@ namespace
             case 0x02: m_eLayer = LAYER2; break;
             case 0x03: m_eLayer = LAYER1; break;
 
-            default: bRes = false; return "Not an MPEG frame. Invalid layer.";
+            default: bRes = false; return DataStream::tr("Not an MPEG frame. Invalid layer.");
             }
         }
 
@@ -464,7 +466,7 @@ namespace
                     { 448,     384,     320,     256,     160 }
                 };
             int nRateIndex ((*pHeader & 0xf0) >> 4);
-            DECODE_CHECK (nRateIndex >= 1 && nRateIndex <= 14, "Not an MPEG frame. Invalid bitrate.");
+            DECODE_CHECK (nRateIndex >= 1 && nRateIndex <= 14, DataStream::tr("Not an MPEG frame. Invalid bitrate."));
             int nTypeIndex (m_eVersion*3 + m_eLayer);
             if (nTypeIndex == 5) { nTypeIndex = 4; }
             m_nBitrate = s_bitrates[nRateIndex - 1][nTypeIndex]*1000;
@@ -481,7 +483,7 @@ namespace
                 case 0x01: m_nFrequency = 48000; break;
                 case 0x02: m_nFrequency = 32000; break;
 
-                default: bRes = false; return "Not an MPEG frame. Invalid frequency for MPEG1.";
+                default: bRes = false; return DataStream::tr("Not an MPEG frame. Invalid frequency for MPEG1.");
                 }
                 break;
 
@@ -492,7 +494,7 @@ namespace
                 case 0x01: m_nFrequency = 24000; break;
                 case 0x02: m_nFrequency = 16000; break;
 
-                default: bRes = false; return "Not an MPEG frame. Invalid frequency for MPEG2.";
+                default: bRes = false; return DataStream::tr("Not an MPEG frame. Invalid frequency for MPEG2.");
                 }
                 break;
 
@@ -531,26 +533,59 @@ namespace
     }
 
 
-    string Decoder::decodeMpegFrame(const unsigned char* bfr, const char* szSep, bool* pbIsValid) //ttt2 perhaps unify with MpegFrameBase::MpegFrameBase(), using the char* constructor
+    QString Decoder::decodeMpegFrame(const unsigned char* bfr, const char* szSep, bool* pbIsValid) //ttt2 perhaps unify with MpegFrameBase::MpegFrameBase(), using the char* constructor
     {
-        string s (initialize(bfr, pbIsValid));
-        if (!s.empty()) { return s; }
+        QString s (initialize(bfr, pbIsValid));
+        if (!s.isEmpty()) { return s; }
 
-        ostringstream out;
+        //ostringstream out;
         /*out << getSzVersion() << " " << getSzLayer() << ", " << m_nBitrate/1000 << "kbps, " << m_nFrequency << "Hz, " << getSzChannelMode() << ", padding=" << (m_nPadding ? "true" : "false") << ", length " <<
                 m_nSize << " (0x" << hex << m_nSize << dec << ")";*/
-        out << boolalpha << getSzVersion() << " " << getSzLayer() << szSep << getSzChannelMode() <<
-                szSep << m_nFrequency << "Hz" << szSep << m_nBitrate << "bps" << szSep << "CRC=" << boolAsYesNo(m_bCrc) << szSep <<
-                "length " << m_nSize << " (0x" << hex << m_nSize << dec << ")" << szSep << "padding=" << (m_nPadding ? "true" : "false");
 
-        return out.str();
+
+        /*out << boolalpha <<
+               getSzVersion() << " " <<
+               getSzLayer() <<
+               szSep <<
+               getSzChannelMode()/ *4* / <<
+                szSep <<
+               m_nFrequency << "Hz" <<
+               szSep <<
+               m_nBitrate / *8* / << "bps" <<
+               szSep << "CRC=" <<
+               boolAsYesNo(m_bCrc) <<
+               szSep / *11* /<< "length " <<
+               m_nSize <<
+               " (0x" << hex << m_nSize << dec << ")" <<
+               szSep / *14* /<< "padding=" <<
+               (m_nPadding ? "true" : "false");*/
+
+
+
+
+        return DataStream::tr("%1 %2%3%4%5%6Hz%7%8bps%9CRC=%10%11length %12 (0x%13)%14padding=%15")
+                .arg(DataStream::tr(getSzVersion()))
+                .arg(DataStream::tr(getSzLayer()))
+                .arg(szSep)
+                .arg(DataStream::tr(getSzChannelMode()))
+                .arg(szSep)
+                .arg(m_nFrequency)
+                .arg(szSep)
+                .arg(m_nBitrate)
+                .arg(szSep)
+                .arg(GlobalTranslHlp::tr(boolAsYesNo(m_bCrc)))
+                .arg(szSep)
+                .arg(m_nSize)
+                .arg(m_nSize, 0, 16)
+                .arg(szSep)
+                .arg(GlobalTranslHlp::tr(boolAsYesNo(m_nPadding)));
     }
 
 
     string Decoder::decodeMpegFrameAsXml(const unsigned char* bfr, bool* pbIsValid) //ttt2 perhaps unify with MpegFrameBase::MpegFrameBase(), using the char* constructor
     {
-        string s (initialize(bfr, pbIsValid));
-        if (!s.empty()) { return s; }
+        QString s (initialize(bfr, pbIsValid)); // !!! XML is not translated
+        if (!s.isEmpty()) { return convStr(s); }
 
         ostringstream out;
         out << " version=\"" << getSzVersion() << "\""
@@ -561,7 +596,7 @@ namespace
             << " crc=\"" << boolAsYesNo(m_bCrc) << "\""
 
             << " mpegSize=\"" << m_nSize << "\""
-            << " padding=\"" << boolAsYesNo(m_nPadding) << "\"";
+            << " padding=\"" << boolAsYesNo(m_nPadding) << "\""; // !!! XML isn't translated
 
         return out.str();
     }
@@ -569,26 +604,26 @@ namespace
 
 
 
-string decodeMpegFrame(unsigned int x, const char* szSep, bool* pbIsValid /*= 0*/)
+string decodeMpegFrame(unsigned int x, const char* szSep, bool* pbIsValid /* = 0*/)
 {
     Decoder d;
     unsigned char bfr [4];
     unsigned char* q (reinterpret_cast<unsigned char*>(&x));
     bfr[0] = q[3]; bfr[1] = q[2]; bfr[2] = q[1]; bfr[3] = q[0];
 
-    return d.decodeMpegFrame(bfr, szSep, pbIsValid);
+    return convStr(d.decodeMpegFrame(bfr, szSep, pbIsValid));
 }
 
 
-string decodeMpegFrame(const char* bfr, const char* szSep, bool* pbIsValid /*= 0*/)
+string decodeMpegFrame(const char* bfr, const char* szSep, bool* pbIsValid /* = 0*/)
 {
     Decoder d;
     const unsigned char* q (reinterpret_cast<const unsigned char*>(bfr));
-    return d.decodeMpegFrame(q, szSep, pbIsValid);
+    return convStr(d.decodeMpegFrame(q, szSep, pbIsValid));
 }
 
 
-string decodeMpegFrameAsXml(const char* bfr, bool* pbIsValid /*= 0*/)
+string decodeMpegFrameAsXml(const char* bfr, bool* pbIsValid /* = 0*/)
 {
     Decoder d;
     const unsigned char* q (reinterpret_cast<const unsigned char*>(bfr));
@@ -649,7 +684,7 @@ void writeZeros(ostream& out, int nCnt)
 }
 
 
-void listWidget(QWidget* p, int nIndent /*= 0*/)
+void listWidget(QWidget* p, int nIndent /* = 0*/)
 {
     //if (nIndent > 1) { return; }
     if (0 == nIndent) { cout << "\n----------------------------\n"; }
@@ -924,6 +959,7 @@ static void removeStr(string& main, const string& sub)
 #endif
 
 
+// !!! don't translate
 QString getSystemInfo() //ttt2 perhaps store this at startup, so fewer things may go wrong fhen the assertion handler needs it
 {
     QString s ("OS: ");
@@ -1250,6 +1286,8 @@ const char* DSK_EXT (".desktop");
 
 class ShellIntegrator
 {
+    Q_DECLARE_TR_FUNCTIONS(ShellIntegrator)
+
     string m_strFileName;
     string m_strAppName;
     string m_strArg;
@@ -1272,7 +1310,11 @@ class ShellIntegrator
     }
 
 public:
-    ShellIntegrator(const string& strFileNameBase, const string& strSessType, const string& strArg, bool bRebuildAssoc) : m_strFileName(getDesktopIntegrationDir() + strFileNameBase + DSK_EXT), m_strAppName(getAppName() + (" - " + strSessType)), m_strArg(strArg), m_bRebuildAssoc(bRebuildAssoc) {}
+    ShellIntegrator(const string& strFileNameBase, const char* szSessType, const string& strArg, bool bRebuildAssoc) :
+        m_strFileName(getDesktopIntegrationDir() + strFileNameBase + DSK_EXT),
+        m_strAppName(convStr(tr("%1 - %2").arg(getAppName()).arg(tr(szSessType)))),
+        m_strArg(strArg),
+        m_bRebuildAssoc(bRebuildAssoc) {}
 
     enum { DONT_REBUILD_ASSOC = 0, REBUILD_ASSOC = 1 };
 
@@ -1352,9 +1394,9 @@ public:
                 if (bError && !s_bErrorReported)
                 {
                     s_bErrorReported = true;
-                    HtmlMsg::msg(0, 0, 0, 0, HtmlMsg::CRITICAL, "Error setting up shell integration", "It appears that setting up shell integration didn't complete successfully. You might have to configure it manually.<p>"
-                                 "This message will not be shown again until the program is restarted, even if more errors occur."
-                                 , 400, 300, "O&K");
+                    HtmlMsg::msg(0, 0, 0, 0, HtmlMsg::CRITICAL, tr("Error setting up shell integration"), tr("It appears that setting up shell integration didn't complete successfully. You might have to configure it manually.") + "<p/>"
+                                 + tr("This message will not be shown again until the program is restarted, even if more errors occur.")
+                                 , 400, 300, tr("O&K"));
                 }
             }
         }
@@ -1371,9 +1413,9 @@ public:
     }
 };
 
-ShellIntegrator g_tempShellIntegrator ("mp3DiagsTempSess", "temporary folder", "-t", ShellIntegrator::REBUILD_ASSOC);
-ShellIntegrator g_hiddenShellIntegrator ("mp3DiagsHiddenSess", "hidden folder", "-f", ShellIntegrator::REBUILD_ASSOC);
-ShellIntegrator g_visibleShellIntegrator ("mp3DiagsVisibleSess", "visible folder", "-v", ShellIntegrator::REBUILD_ASSOC);
+ShellIntegrator g_tempShellIntegrator ("mp3DiagsTempSess", QT_TRANSLATE_NOOP("ShellIntegrator", "temporary folder"), "-t", ShellIntegrator::REBUILD_ASSOC);
+ShellIntegrator g_hiddenShellIntegrator ("mp3DiagsHiddenSess", QT_TRANSLATE_NOOP("ShellIntegrator", "hidden folder"), "-f", ShellIntegrator::REBUILD_ASSOC);
+ShellIntegrator g_visibleShellIntegrator ("mp3DiagsVisibleSess", QT_TRANSLATE_NOOP("ShellIntegrator", "visible folder"), "-v", ShellIntegrator::REBUILD_ASSOC);
 
 ShellIntegrator g_testShellIntegrator ("mp3DiagsTestSess_000", "test", "", ShellIntegrator::DONT_REBUILD_ASSOC);
 
@@ -1613,7 +1655,7 @@ bool deleteKey(const char* szPath, const char* szSubkey)
 
 /*static*/ string ShellIntegration::getShellIntegrationError()
 {
-    return "Platform not supported";
+    return convStr(GlobalTranslHlp::tr("Platform not supported"));
 }
 
 

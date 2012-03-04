@@ -29,14 +29,15 @@
 
 #include  "Notes.h"
 #include  "CommonTypes.h"
+#include  "Helpers.h"
 
-#define MP3_CHECK(COND, POS, MSG_ID, EXCP) { if (!(COND)) { notes.add(new Note(Notes::MSG_ID(), POS)); throw EXCP; } }
-#define MP3_CHECK_T(COND, POS, MSG, EXCP) { if (!(COND)) { static Note::SharedData d (MSG, false); notes.add(new Note(d, POS)); throw EXCP; } }
+#define MP3_CHECK(COND, POS, MSG_ID, EXCP) { if (!(COND)) { notes.add(new Note(Notes::MSG_ID(), POS)); throw EXCP; } } // MSG_ID gives a severity
+#define MP3_CHECK_T(COND, POS, MSG, EXCP) { if (!(COND)) { static Note::SharedData d (MSG, false); notes.add(new Note(d, POS)); throw EXCP; } } // TRACE-only notes
 #define MP3_THROW(POS, MSG_ID, EXCP) { notes.add(new Note(Notes::MSG_ID(), POS)); throw EXCP; }
-#define MP3_THROW_T(POS, MSG, EXCP) { static Note::SharedData d (MSG, false); notes.add(new Note(d, POS)); throw EXCP; }
+#define MP3_THROW_T(POS, MSG, EXCP) { static Note::SharedData d (MSG, false); notes.add(new Note(d, POS)); throw EXCP; } // TRACE-only notes
 #define MP3_NOTE(POS, MSG_ID) { notes.add(new Note(Notes::MSG_ID(), POS)); }
-#define MP3_NOTE_D(POS, MSG_ID, DETAIL) { notes.add(new Note(Notes::MSG_ID(), POS, DETAIL)); }
-#define MP3_TRACE(POS, MSG) { static Note::SharedData d (MSG, false); notes.add(new Note(d, POS)); }
+#define MP3_NOTE_D(POS, MSG_ID, DETAIL) { notes.add(new Note(Notes::MSG_ID(), POS, convStr(DETAIL))); }
+#define MP3_TRACE(POS, MSG) { static Note::SharedData d (MSG, false); notes.add(new Note(d, POS)); } // TRACE-only notes
 
 /*
 
@@ -53,14 +54,19 @@ DataStream constructors may leave the input file in EOF or other invalid state a
 
 #define DECL_NAME(s) \
     static const char* getClassDisplayName() { return s; } \
-    /*override*/ const char* getDisplayName() const { return getClassDisplayName(); }
+    /*override*/ const char* getDisplayName() const { return getClassDisplayName(); } \
+    /*override*/ QString getTranslatedDisplayName() const { return DataStream::tr(s); }
 
 
-// this is to be used with TagReader descendants:
+
+
+
+// this is to be used with TagReader descendants: //!!! we usually don't want translations for "readers", the exceptions being the pattern and web readers, which have them separately; OTOH we want translations for "streams"; thankfully, there are no conflicts, so streams that are also readers (e.g. Id3V2StreamBase descendants, ApeStream, Id3V1Stream) only need translation as streams, which is important when deciding the context to use ("TagReader" vs. "DataStream"); a stream&reader should be translated as a stream because it may be "broken", "unsupported", ... ; however, as a reader, it is merely an ID3V2, APE, ...
 #define DECL_RD_NAME(s) \
     static const char* getClassDisplayName() { return s; } \
     /*override*/ const char* getDisplayName() const { return getClassDisplayName(); } \
-    /*override*/ const char* getName() const { return getClassDisplayName(); }
+    /*override*/ const char* getName() const { return getClassDisplayName(); } \
+    /*override*/ QString getTranslatedDisplayName() const { return DataStream::tr(s); }
 
 
 
@@ -71,6 +77,8 @@ std::string getGlobalMp3HandlerName(); // a hack to get the name of the current 
 
 class DataStream
 {
+    Q_DECLARE_TR_FUNCTIONS(DataStream)
+
     int m_nIndex;
     DataStream(const DataStream&);
     DataStream& operator=(const DataStream&);
@@ -82,6 +90,7 @@ public:
     // throws WriteError if there are errors writing to the file; derived classes have several options on implementing this, from simply copying content from the input to ignoring the input file completely; e.g. ID3V2 can change the size of the padding, drop some frames, replace others, ...
     virtual void copy(std::istream& in, std::ostream& out) = 0;
     virtual const char* getDisplayName() const = 0;
+    virtual QString getTranslatedDisplayName() const = 0;
     virtual std::string getInfo() const = 0;
 
     virtual std::streampos getPos() const = 0;
@@ -171,7 +180,7 @@ class UnknownDataStream : public UnknownDataStreamBase
 {
 public:
     UnknownDataStream(int nIndex, NoteColl& notes, std::istream& in, std::streamoff nSize) : UnknownDataStreamBase(nIndex, notes, in, nSize) {}
-    DECL_NAME("Unknown");
+    DECL_NAME(QT_TRANSLATE_NOOP("DataStream", "Unknown"))
     using UnknownDataStreamBase::append;
 
 private:
@@ -194,15 +203,12 @@ class BrokenDataStream : public UnknownDataStreamBase
     std::string m_strBaseName;
     std::string m_strInfo;
 public:
-    BrokenDataStream(int nIndex, NoteColl& notes, std::istream& in, std::streamoff nSize, const char* szBaseName, const std::string& strInfo) :
-            UnknownDataStreamBase(nIndex, notes, in, nSize),
-            m_strName(std::string("Broken ") + szBaseName),
-            m_strBaseName(szBaseName),
-            m_strInfo(strInfo.empty() ? UnknownDataStreamBase::getInfo() : strInfo + "; " + UnknownDataStreamBase::getInfo()) {}
+    BrokenDataStream(int nIndex, NoteColl& notes, std::istream& in, std::streamoff nSize, const char* szBaseName, const std::string& strInfo);
 
     /*override*/ const char* getDisplayName() const { return m_strName.c_str(); } // DECL_NAME doesn't work in this case
     /*override*/ std::string getInfo() const { return m_strInfo; }
     const std::string& getBaseName() const { return m_strBaseName; }
+    /*override*/ QString getTranslatedDisplayName() const;
 
 private:
     friend class boost::serialization::access;
@@ -233,6 +239,7 @@ public:
     /*override*/ const char* getDisplayName() const { return m_strName.c_str(); } // DECL_NAME doesn't work in this case
     /*override*/ std::string getInfo() const { return m_strInfo; }
     const std::string& getBaseName() const { return m_strBaseName; }
+    /*override*/ QString getTranslatedDisplayName() const;
     using UnknownDataStreamBase::append;
 
 private:
@@ -267,7 +274,7 @@ public:
     TruncatedMpegDataStream(MpegStream* pPrevMpegStream, int nIndex, NoteColl& notes, std::istream& in, std::streamoff nSize);
     ~TruncatedMpegDataStream();
 
-    DECL_NAME("Truncated MPEG");
+    DECL_NAME(QT_TRANSLATE_NOOP("DataStream", "Truncated MPEG"))
     /*override*/ std::string getInfo() const;
     int getExpectedSize() const;
 
@@ -302,7 +309,7 @@ public:
     NullDataStream(int nIndex, NoteColl& notes, std::istream& in);
 
     /*override*/ void copy(std::istream& in, std::ostream& out);
-    DECL_NAME("Null");
+    DECL_NAME(QT_TRANSLATE_NOOP("DataStream", "Null"))
     /*override*/ std::string getInfo() const;
 
     /*override*/ std::streampos getPos() const { return m_pos; }
@@ -347,7 +354,7 @@ Given that the reason a stream can't be read may actually be that the code is bu
 struct StreamIsBroken
 {
     // doesn't own the pointer; param is supposed to be string literal
-    StreamIsBroken(const char* szStreamName, const std::string& strInfo) : m_szStreamName(szStreamName), m_strInfo(strInfo) {}
+    StreamIsBroken(const char* szStreamName, const QString& qstrInfo) : m_szStreamName(szStreamName), m_strInfo(convStr(qstrInfo)) {}
     const char* getStreamName() const { return m_szStreamName; }
     const std::string& getInfo() const { return m_strInfo; }
 private:
@@ -360,7 +367,7 @@ private:
 struct StreamIsUnsupported
 {
     // doesn't own the pointers; params are supposed to be string literals
-    StreamIsUnsupported(const char* szStreamName, const std::string& strInfo) : m_szStreamName(szStreamName), m_strInfo(strInfo) {}
+    StreamIsUnsupported(const char* szStreamName, const QString& qstrInfo) : m_szStreamName(szStreamName), m_strInfo(convStr(qstrInfo)) {}
     const char* getStreamName() const { return m_szStreamName; }
     const std::string& getInfo() const { return m_strInfo; }
 private:
@@ -424,6 +431,9 @@ public:
 
 struct TagReader
 {
+    Q_DECLARE_TR_FUNCTIONS(TagReader)
+
+public:
     virtual ~TagReader();
 
     enum Feature { TITLE, ARTIST, TRACK_NUMBER, TIME, GENRE, IMAGE, ALBUM, RATING, COMPOSER, VARIOUS_ARTISTS, LIST_END };
@@ -455,7 +465,7 @@ struct TagReader
 
     virtual int getVariousArtists(bool* /*pbFrameExists*/ = 0) const { throw NotSupportedOp(); } // combination of VariousArtists flags; since several frames might be involved, *pbFrameExists is set to "true" if at least a frame exists
 
-    virtual std::string getOtherInfo() const { return ""; } // non-editable tags
+    virtual std::string getOtherInfo() const { return ""; } // non-editable tags  // this is shown in the main window in the "Tag details" tab, in the big text box at the bottom
 
     virtual std::vector<ImageInfo> getImages() const { return std::vector<ImageInfo>(); } // all images, even those with errors
 

@@ -23,9 +23,12 @@ class TranslatorHandler
 {
     std::vector<std::string> m_vstrLongTranslations;
     std::vector<std::string> m_vstrTranslations;
-    QTranslator m_translator;
+    QTranslator m_appTranslator;
+    QTranslator m_systemTranslator;
     std::string m_strCurrentTranslation;
+    QString m_qstrSystemTranslDir;
     void addTranslations(const std::string& strDir);
+    std::string getLocale(std::string strTranslation);
     TranslatorHandler();
 public:
     const std::vector<std::string>& getTranslations() { return m_vstrTranslations; }

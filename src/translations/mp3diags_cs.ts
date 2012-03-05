@@ -64,63 +64,63 @@
     <message>
         <location filename="../AboutDlgImpl.cpp" line="56"/>
         <source>Written by %1, %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Napsáno %1, %2</translation>
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="57"/>
         <source>Command-line mode by %1, %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Režim příkazového řádku %1, %2</translation>
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="58"/>
         <source>Distributed under %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Šířeno pod %1</translation>
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="59"/>
         <source>Using %1, released under %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Používá %1, vydáno pod %2</translation>
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="60"/>
         <source>Using %1, released under the %2zlib License%3</source>
-        <translation type="unfinished"></translation>
+        <translation>Používá %1, vydáno pod %2zlib licence%3</translation>
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="61"/>
         <source>Using %1, distributed under the %2Boost Software License%3</source>
-        <translation type="unfinished"></translation>
+        <translation>Používá %1, šířeno pod %2Boost Software License%3</translation>
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="62"/>
         <source>Using original and modified icons from the %1 for %2, distributed under %3LGPL V3%4</source>
-        <translation type="unfinished"></translation>
+        <translation>Používá původní a upravené ikony z %1 pro %2, šířeno pod %3LGPL V3%4</translation>
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="63"/>
         <location filename="../AboutDlgImpl.cpp" line="64"/>
         <source>Using web services provided by %1 to retrieve album data</source>
-        <translation type="unfinished"></translation>
+        <translation>Používá internetové služby poskytované%1 pro získávání dat o albech</translation>
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="65"/>
         <source>Home page and documentation: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Domovské stránky a dokumentace: %1</translation>
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="66"/>
         <source>Feedback and support: %1 or %2 at SourceForge</source>
-        <translation type="unfinished"></translation>
+        <translation>Zpětná vazba a podpora: %1 nebo %2 na SourceForge</translation>
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="67"/>
         <source>Bug reports and feature requests: %1 at SourceForge</source>
-        <translation type="unfinished"></translation>
+        <translation>Hlášení chyb a žádosti o vlastnosti: %1 na SourceForge</translation>
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="68"/>
         <source>Change log for the latest version: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Seznam změn pro poslední verzi: %1</translation>
     </message>
 </context>
 <context>
@@ -276,12 +276,12 @@
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="167"/>
         <source>not found at amazon.com</source>
-        <translation type="unfinished"></translation>
+        <translation>Nenalezeno na amazon.com</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="193"/>
         <source>searching ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Hledá se...</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="249"/>
@@ -294,175 +294,184 @@
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="759"/>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="783"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="249"/>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="310"/>
         <source>You cannot save the results now, because a request is still pending</source>
-        <translation type="unfinished"></translation>
+        <translation>Nemůžete výsledky uložit nyní, protože požadavek stále čeká</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="255"/>
         <source>You cannot save the results now, because no album is loaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Nemůžete výsledky uložit nyní, protože není nahráno žádné album</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="287"/>
         <source>You may want to use a different volume selection on this multi-volume release.
 
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Možná budete chtít použít jiný výběr svazku na tomto vícesvazkovém vydání.
+
+</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="291"/>
         <source>A number of %1 tracks were expected, but your selection contains %2. Additional tracks will be discarded.
 
 %3Save anyway?</source>
-        <translation type="unfinished"></translation>
+        <translation>Byl očekáván určitý počet skladeb %1, ale váš výběr obsahuje %2. Dodatečné skladby budou zahozeny.
+
+%3 Přesto uložit?</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="295"/>
         <source>A number of %1 tracks were expected, but your selection only contains %2. Remaining tracks will get null values.
 
 %3Save anyway?</source>
-        <translation type="unfinished"></translation>
+        <translation>Byl očekáván určitý počet skladeb %1, ale váš výběr obsahuje %2. Zbývající skladby dostanou nulové hodnoty.
+
+%3 Přesto uložit?</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="298"/>
         <source>Count inconsistency</source>
-        <translation type="unfinished"></translation>
+        <translation>Nesrovnalost v počtu</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="298"/>
         <source>&amp;Save</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Uložit</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="298"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="316"/>
         <source>You cannot save any image now, because there is no image loaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Nyní nemůžete uložit žádný obrázek, protože není nahrán žádný obrázek</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="509"/>
         <source>request error</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba požadavku</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="528"/>
         <source>received %1 bytes</source>
-        <translation type="unfinished"></translation>
+        <translation>Obdrženo %1 bytů</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="537"/>
         <source>received very short response; aborting request ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Obdržena velmi krátká odpověď. Požadavek zrušen...</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="551"/>
         <source>Original: %1kB, %2x%3</source>
-        <translation type="unfinished"></translation>
+        <translation>Původní: %1kB, %2x%3</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="564"/>
         <source>
 Recompressed to: %1kB, %2x%3</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Přebaleno do: %1kB, %2x%3</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="568"/>
         <source>
 Not recompressed</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Nepřebaleno do</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="574"/>
         <source>Failed to load the image</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodařilo se nahrát obrázek</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="581"/>
         <source>Error loading image
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba při nahrávání obrázku
+</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="607"/>
         <source>init error</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba inicializace</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="626"/>
         <source>unexpected result</source>
-        <translation type="unfinished"></translation>
+        <translation>Neočekávaný výsledek</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="646"/>
         <source>empty string received</source>
-        <translation type="unfinished"></translation>
+        <translation>Obdržen prázdný řetězec</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="734"/>
         <source>search results received</source>
-        <translation type="unfinished"></translation>
+        <translation>Obdrženy výsledky hledání</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="747"/>
         <source>Couldn&apos;t process the search result. (Usually this means that the server is busy, so trying later might work.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodařilo se zpracovat výsledek hledání. (Obvykle to znamená, že je server zaneprázdněn, takže pozdější pokus by mohl zabrat.)</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="759"/>
         <source>No results found</source>
-        <translation type="unfinished"></translation>
+        <translation>Nenalezeny žádné výsledky</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="769"/>
         <source>album info received</source>
-        <translation type="unfinished"></translation>
+        <translation>Obdrženy informace o albu</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="783"/>
         <source>Couldn&apos;t process the album information. (Usually this means that the server is busy, so trying later might work.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodařilo se zpracovat informace o albu. (Obvykle to znamená, že je server zaneprázdněn, takže pozdější pokus by mohl zabrat.)</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="801"/>
         <source>image received</source>
-        <translation type="unfinished"></translation>
+        <translation>Obdržen obrázek</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="895"/>
         <source>&lt;All&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;Vše&gt;</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="900"/>
         <source>Album %1/%2%3, image %4/%5</source>
-        <translation type="unfinished"></translation>
+        <translation>Album %1/%2%3, obrázek %4/%5</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="910"/>
         <source>No image
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Žádný obrázek</translation>
     </message>
     <message>
         <location filename="../DiscogsDownloader.cpp" line="681"/>
         <location filename="../MusicBrainzDownloader.cpp" line="515"/>
         <source>getting album info ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Získávají se informace o albu...</translation>
     </message>
     <message>
         <location filename="../DiscogsDownloader.cpp" line="704"/>
         <location filename="../MusicBrainzDownloader.cpp" line="541"/>
         <source>getting image ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Získává se obrázek...</translation>
     </message>
 </context>
 <context>
@@ -470,12 +479,12 @@ Not recompressed</source>
     <message>
         <location filename="../ApeStream.cpp" line="112"/>
         <source>Ape stream whose items have unsupported flags.</source>
-        <translation type="unfinished"></translation>
+        <translation>Proud APE, jehož položky mají nepodporované příznaky.</translation>
     </message>
     <message>
         <location filename="../ApeStream.cpp" line="124"/>
         <source>Ape Item seems too big. Although the size may be any 32-bit integer, 256 bytes should be enough in practice. If this message is determined to be mistaken, it will be removed in the future. Item key: %1; item size: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Položka APE je příliš velká. Ačkoli může být velikost jakékoli  bitové celé číslo,  bytů by v praxi měl být dostatečné. Pokud je tato zpráva mylná, bude v budoucnu odstraněna. Klíč položky: %1; velikost položky: %2</translation>
     </message>
 </context>
 <context>
@@ -483,7 +492,7 @@ Not recompressed</source>
     <message>
         <location filename="../ApeStream.cpp" line="191"/>
         <source>Tag missing header or footer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Záhlaví nebo zápatí postrádá značku</translation>
     </message>
 </context>
 <context>
@@ -491,22 +500,22 @@ Not recompressed</source>
     <message>
         <location filename="../CommonData.cpp" line="485"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informace</translation>
     </message>
     <message>
         <location filename="../CommonData.cpp" line="485"/>
         <source>The font changes will only be used after restarting the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Změny písma se použijí až po znovuspuštění programu.</translation>
     </message>
     <message>
         <location filename="../CommonData.cpp" line="691"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="../CommonData.cpp" line="691"/>
         <source>There was an error setting up the directories containing MP3 files. You will have to define them again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Při nastavování adresářů obsahujících soubory MP3 se vyskytla chyba. Budete je muset určit znovu.</translation>
     </message>
 </context>
 <context>
@@ -1203,156 +1212,160 @@ Not recompressed</source>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="279"/>
         <source>&lt;all notes&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;Všechny poznámky&gt;</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="407"/>
         <source>If you don&apos;t know exactly what codepage you want, it&apos;s better to make current a file having an ID3V2 tag that contains text frames using the Latin-1 encoding and having non-ASCII characters. Then the content of those frames will replace this text, allowing you to decide which codepage is a match for your file. ID3V1 tags are supported as well, if you want to copy data from them to ID3V2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokud přesně nevíte, jakou kódovou stránku chcete, je lepší udělat soubor se značkou ID3V2, který obsahuje textová pole za použití kódování Latin-1 a se znaky ne-ASCII. Potom nahradí obsah těch polí tento text, čímž vám umožní se rozhodnout, která kódová stránka odpovídá vašemu souboru. Jsou podporovány i značky ID3V1, pokud chcete data zkopírovat z nich do ID3V2.</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="486"/>
         <source>Other notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Jiné poznámky</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="487"/>
         <source>Ignore notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Přehlížet poznámky</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="569"/>
         <source>lower case</source>
-        <translation type="unfinished"></translation>
+        <translation>Malá písmena</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="570"/>
         <source>UPPER CASE</source>
-        <translation type="unfinished"></translation>
+        <translation>Velká písmena</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="571"/>
         <source>Title Case</source>
-        <translation type="unfinished"></translation>
+        <translation>Velikost písmen názvu</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="572"/>
         <source>Sentence case</source>
-        <translation type="unfinished"></translation>
+        <translation>Velikost písmen věty</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="680"/>
         <source>Invisible transformations</source>
-        <translation type="unfinished"></translation>
+        <translation>Neviditelné proměny</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="681"/>
         <source>Visible transformations</source>
-        <translation type="unfinished"></translation>
+        <translation>Viditelné proměny</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="694"/>
         <source>Characters in this list get replaced with the string below, in &quot;Replace with&quot;
 
 An underlined font is used to allow spaces to be seen</source>
-        <translation type="unfinished"></translation>
+        <translation>Znaky v tomto seznamu budou nahrazeny řetězcem níže, v &quot;Nahradit&quot;.
+
+Podtržené písmo je dovoleno, aby byly viděny mezery</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="696"/>
         <source>This string replaces invalid characters in the file renamer&quot;
 
 An underlined font is used to allow spaces to be seen</source>
-        <translation type="unfinished"></translation>
+        <translation>Tento řetězec nahradí neplatné znaky v přejmenovávači souborů
+
+Podtržené písmo je dovoleno, aby byly viděny mezery</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="968"/>
         <source>All transformations</source>
-        <translation type="unfinished"></translation>
+        <translation>Všechny proměny</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="969"/>
         <source>Used transformations</source>
-        <translation type="unfinished"></translation>
+        <translation>Použité proměny</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="1013"/>
         <source>Confirm</source>
-        <translation type="unfinished">Potvrdit</translation>
+        <translation>Potvrdit</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="1013"/>
         <source>You modified the external tool information but you didn&apos;t save your changes. Discard the changes or cancel closing of the options window?</source>
-        <translation type="unfinished"></translation>
+        <translation>Změnil jste informace o vnějším nástroji, ale neuložil jste své změny. Zahodit změny nebo zrušit zavření okna s volbami?</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="1013"/>
         <source>&amp;Discard</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Zahodit</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="1013"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Z&amp;rušit</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="1028"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="1028"/>
         <source>You can&apos;t have &apos;%1&apos; in both the list of invalid characters and the string that invalid characters are replaced with.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nemůžete mít &apos;%1&apos; jak v seznamu neplatných znaků tak v řetězci, kterým jsou neplatné znaky nahrazeny.</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="1143"/>
         <source>Invalid folder name</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatný název složky</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="1143"/>
         <source>A folder name is incorrect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Název složky je neplatný.</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="1209"/>
         <source>Add selected note(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat vybranou(é) poznámku(y)</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="1210"/>
         <source>Remove selected note(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit vybranou(é) poznámku(y)</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="1211"/>
         <source>Add all notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat všechny poznámky</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="1212"/>
         <source>Remove all notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit všechny poznámky</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="1213"/>
         <source>Restore lists to their default value</source>
-        <translation type="unfinished"></translation>
+        <translation>Obnovit seznamy na jejich výchozí hodnotu</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="1214"/>
         <source>Restore lists to the configuration they had when the window was open</source>
-        <translation type="unfinished"></translation>
+        <translation>Obnovit seznamy na nastavení, které měly, když bylo okno otevřeno</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="1241"/>
         <source>Select folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Vybrat složku</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="1241"/>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation>Všechny soubory</translation>
     </message>
 </context>
 <context>
@@ -1360,32 +1373,32 @@ An underlined font is used to allow spaces to be seen</source>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="81"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Krok</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="81"/>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Popis</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="122"/>
         <source>Add selected transformation(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat vybranou(é) proměnu(y)</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="123"/>
         <source>Remove selected transformation(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit vybranou(é) proměnu(y)</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="126"/>
         <source>Restore current list to its default value</source>
-        <translation type="unfinished"></translation>
+        <translation>Obnovit nynější seznam na jeho výchozí hodnotu</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="127"/>
         <source>Restore current list to the configuration it had when the window was open</source>
-        <translation type="unfinished"></translation>
+        <translation>Obnovit nynější seznam na nastavení, které měl, když bylo okno otevřeno</translation>
     </message>
 </context>
 <context>
@@ -1393,212 +1406,212 @@ An underlined font is used to allow spaces to be seen</source>
     <message>
         <location filename="../DataStream.cpp" line="73"/>
         <source>begins with: </source>
-        <translation type="unfinished"></translation>
+        <translation>Začíná:</translation>
     </message>
     <message>
         <location filename="../DataStream.cpp" line="219"/>
         <source>Broken %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Poškozený %1</translation>
     </message>
     <message>
         <location filename="../DataStream.cpp" line="241"/>
         <source>Unsupported %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodporovaný %1</translation>
     </message>
     <message>
         <location filename="../DataStream.h" line="183"/>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Neznámý</translation>
     </message>
     <message>
         <location filename="../DataStream.h" line="277"/>
         <source>Truncated MPEG</source>
-        <translation type="unfinished"></translation>
+        <translation>Zkrácený MPEG</translation>
     </message>
     <message>
         <location filename="../DataStream.h" line="312"/>
         <source>Null</source>
-        <translation type="unfinished"></translation>
+        <translation>Nulový</translation>
     </message>
     <message>
         <location filename="../MpegStream.h" line="91"/>
         <source>MPEG Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Zvuk MPEG</translation>
     </message>
     <message>
         <location filename="../MpegStream.h" line="163"/>
         <source>Xing Header</source>
-        <translation type="unfinished"></translation>
+        <translation>Hlavička Xing</translation>
     </message>
     <message>
         <location filename="../MpegStream.h" line="222"/>
         <source>Lame Header</source>
-        <translation type="unfinished"></translation>
+        <translation>Hlavička Lame</translation>
     </message>
     <message>
         <location filename="../MpegStream.h" line="246"/>
         <source>VBRI Header</source>
-        <translation type="unfinished"></translation>
+        <translation>Hlavička VBRI</translation>
     </message>
     <message>
         <location filename="../Id3V2Stream.cpp" line="700"/>
         <location filename="../MpegFrame.cpp" line="227"/>
         <source>padding=</source>
-        <translation type="unfinished"></translation>
+        <translation>Vycpávka=</translation>
     </message>
     <message>
         <location filename="../Id3V2Stream.cpp" line="700"/>
         <source>unsynch=</source>
-        <translation type="unfinished"></translation>
+        <translation>Nesynch=</translation>
     </message>
     <message>
         <location filename="../Id3V2Stream.cpp" line="700"/>
         <source>frames</source>
-        <translation type="unfinished"></translation>
+        <translation>Snímky</translation>
     </message>
     <message>
         <location filename="../MpegStream.cpp" line="227"/>
         <source>frame count=</source>
-        <translation type="unfinished"></translation>
+        <translation>Počet snímků=</translation>
     </message>
     <message>
         <location filename="../MpegStream.cpp" line="228"/>
         <source>last frame removed; it was located at 0x%1</source>
-        <translation type="unfinished"></translation>
+        <translation>Poslední snímek odstraněn, byl umístěn na 0x%1</translation>
     </message>
     <message>
         <location filename="../MpegStream.cpp" line="228"/>
         <source>last frame located at 0x%1</source>
-        <translation type="unfinished"></translation>
+        <translation>Poslední snímek umístěn na 0x%1</translation>
     </message>
     <message>
         <location filename="../MpegStream.cpp" line="422"/>
         <source>Xing header info:</source>
-        <translation type="unfinished"></translation>
+        <translation>Informace o hlavičce Xing:</translation>
     </message>
     <message>
         <location filename="../MpegStream.cpp" line="424"/>
         <source> frame count=</source>
-        <translation type="unfinished"></translation>
+        <translation>Počet snímků=</translation>
     </message>
     <message>
         <location filename="../MpegStream.cpp" line="425"/>
         <source> byte count=</source>
-        <translation type="unfinished"></translation>
+        <translation>Počet bytů=</translation>
     </message>
     <message>
         <location filename="../MpegStream.cpp" line="426"/>
         <source> TOC present</source>
-        <translation type="unfinished"></translation>
+        <translation>Přítomný obsah (TOC)</translation>
     </message>
     <message>
         <location filename="../MpegStream.cpp" line="427"/>
         <source> quality=</source>
-        <translation type="unfinished"></translation>
+        <translation>Kvalita=</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="392"/>
         <location filename="../MpegFrame.cpp" line="207"/>
         <source>MPEG-1</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG-1</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="392"/>
         <location filename="../MpegFrame.cpp" line="207"/>
         <source>MPEG-2</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG-2</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="398"/>
         <location filename="../MpegFrame.cpp" line="213"/>
         <source>Layer I</source>
-        <translation type="unfinished"></translation>
+        <translation>Vrstva I</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="398"/>
         <location filename="../MpegFrame.cpp" line="213"/>
         <source>Layer II</source>
-        <translation type="unfinished"></translation>
+        <translation>Vrstva II</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="398"/>
         <location filename="../MpegFrame.cpp" line="213"/>
         <source>Layer III</source>
-        <translation type="unfinished"></translation>
+        <translation>Vrstva III</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="404"/>
         <location filename="../MpegFrame.cpp" line="219"/>
         <source>Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Stereo</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="404"/>
         <location filename="../MpegFrame.cpp" line="219"/>
         <source>Joint stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Smíšené stereo</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="404"/>
         <location filename="../MpegFrame.cpp" line="219"/>
         <source>Dual channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Dva kanály</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="404"/>
         <location filename="../MpegFrame.cpp" line="219"/>
         <source>Single channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeden kanál</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="416"/>
         <source>Not an MPEG frame. Synch missing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Není snímek MPEG. Seřízení chybí.</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="423"/>
         <source>Not an MPEG frame. Unsupported version (2.5).</source>
-        <translation type="unfinished"></translation>
+        <translation>Není snímek MPEG. Nepodporovaná verze (2.5).</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="429"/>
         <source>Not an MPEG frame. Invalid version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Není snímek MPEG. Neplatná verze.</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="441"/>
         <source>Not an MPEG frame. Invalid layer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Není snímek MPEG. Neplatná vrstva.</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="469"/>
         <source>Not an MPEG frame. Invalid bitrate.</source>
-        <translation type="unfinished"></translation>
+        <translation>Není snímek MPEG. Neplatný datový tok.</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="486"/>
         <source>Not an MPEG frame. Invalid frequency for MPEG1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Není snímek MPEG. Neplatný kmitočet pro MPEG1.</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="497"/>
         <source>Not an MPEG frame. Invalid frequency for MPEG2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Není snímek MPEG. Neplatný kmitočet pro MPEG2.</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="566"/>
         <source>%1 %2%3%4%5%6Hz%7%8bps%9CRC=%10%11length %12 (0x%13)%14padding=%15</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 %2%3%4%5%6Hz%7%8bps%9CRC=%10%11délka %12 (0x%13)%14vycpávka=%15</translation>
     </message>
     <message>
         <location filename="../MpegFrame.cpp" line="226"/>
         <source>length=</source>
-        <translation type="unfinished"></translation>
+        <translation>Délka=</translation>
     </message>
     <message>
         <location filename="../TagWriter.cpp" line="652"/>
         <source>N/A</source>
-        <translation type="unfinished"></translation>
+        <translation>Nedostupné</translation>
     </message>
 </context>
 <context>
@@ -1616,7 +1629,7 @@ An underlined font is used to allow spaces to be seen</source>
     <message>
         <location filename="../Debug.ui" line="81"/>
         <source>Save trace messages</source>
-        <translation>Uložit stopovací zprávy</translation>
+        <translation>Uložit sledovací zprávy</translation>
     </message>
     <message>
         <location filename="../Debug.ui" line="84"/>
@@ -1667,7 +1680,7 @@ An underlined font is used to allow spaces to be seen</source>
     <message>
         <location filename="../Debug.ui" line="326"/>
         <source>Trace messages:</source>
-        <translation>Vystopovat zprávy:</translation>
+        <translation>Sledovat zprávy:</translation>
     </message>
 </context>
 <context>
@@ -1683,22 +1696,28 @@ are discarded during file scanning, so checking it
 later won&apos;t bring them back. A new scan is needed
 to see them.</source>
         <comment>this is a multiline tooltip</comment>
-        <translation type="unfinished"></translation>
+        <translation>Pokud je toto zaškrtnuto, jsou ukázány přehlížené poznámky
+a stopovací poznámky v seznamu poznámek a vyvedeny, bez ohledu na
+nastavení &quot;Přehlíženo&quot;.
+
+Všimněte si, že pokud to zaškrtnuto není, jsou sledovací poznámky
+během prohledávání souboru zahozeny, takže pozdější zaškrtnutí je
+zpět nepřivede. Pro jejich zobrazení je potřeba nové prohledání.</translation>
     </message>
     <message>
         <location filename="../DebugDlgImpl.cpp" line="148"/>
         <source>Choose destination file</source>
-        <translation type="unfinished"></translation>
+        <translation>Vybrat cílový soubor</translation>
     </message>
     <message>
         <location filename="../DebugDlgImpl.cpp" line="148"/>
         <source>Text files (*.txt)</source>
-        <translation type="unfinished"></translation>
+        <translation>Textové soubory (*.txt)</translation>
     </message>
     <message>
         <location filename="../DebugDlgImpl.cpp" line="167"/>
         <source>Decoded MPEG frame header</source>
-        <translation type="unfinished"></translation>
+        <translation>Dékódovaná hlavička snímku MPEG</translation>
     </message>
 </context>
 <context>
@@ -1724,37 +1743,37 @@ to see them.</source>
     <message>
         <location filename="../DirFilterDlgImpl.cpp" line="192"/>
         <source>&lt;all folders&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;Všechny složky&gt;</translation>
     </message>
     <message>
         <location filename="../DirFilterDlgImpl.cpp" line="206"/>
         <source>Available folders</source>
-        <translation type="unfinished"></translation>
+        <translation>Dostupné složky</translation>
     </message>
     <message>
         <location filename="../DirFilterDlgImpl.cpp" line="207"/>
         <source>Include folders</source>
-        <translation type="unfinished"></translation>
+        <translation>Zahrnout složky</translation>
     </message>
     <message>
         <location filename="../DirFilterDlgImpl.cpp" line="294"/>
         <source>Add selected folders</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat vybrané složky</translation>
     </message>
     <message>
         <location filename="../DirFilterDlgImpl.cpp" line="295"/>
         <source>Remove selected folders</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit vybrané složky</translation>
     </message>
     <message>
         <location filename="../DirFilterDlgImpl.cpp" line="299"/>
         <source>Restore lists to the configuration they had when the window was open</source>
-        <translation type="unfinished"></translation>
+        <translation>Obnovit seznamy na nastavení, které měly, když bylo okno otevřeno</translation>
     </message>
     <message>
         <location filename="../DirFilterDlgImpl.h" line="51"/>
         <source>Folder</source>
-        <translation type="unfinished">Složka</translation>
+        <translation>Složka</translation>
     </message>
 </context>
 <context>
@@ -1762,27 +1781,27 @@ to see them.</source>
     <message>
         <location filename="../DiscogsDownloader.cpp" line="506"/>
         <source>Download album data from Discogs.com</source>
-        <translation type="unfinished"></translation>
+        <translation>Stáhnout data o albu z Discogs.com</translation>
     </message>
     <message>
         <location filename="../DiscogsDownloader.cpp" line="529"/>
         <source>Genres</source>
-        <translation type="unfinished"></translation>
+        <translation>Žánry</translation>
     </message>
     <message>
         <location filename="../DiscogsDownloader.cpp" line="529"/>
         <source>Genres, Styles</source>
-        <translation type="unfinished"></translation>
+        <translation>Žánry, styly</translation>
     </message>
     <message>
         <location filename="../DiscogsDownloader.cpp" line="529"/>
         <source>Genres (Styles)</source>
-        <translation type="unfinished"></translation>
+        <translation>Žánry (styly)</translation>
     </message>
     <message>
         <location filename="../DiscogsDownloader.cpp" line="529"/>
         <source>Styles</source>
-        <translation type="unfinished"></translation>
+        <translation>Styly</translation>
     </message>
 </context>
 <context>
@@ -1917,103 +1936,99 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
         <location filename="../ExportDlgImpl.cpp" line="411"/>
         <location filename="../ExportDlgImpl.cpp" line="420"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="../ExportDlgImpl.cpp" line="118"/>
         <source>The file name cannot be empty. Exiting ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Název souboru nemůže být prázdný. Ukončuje se...</translation>
     </message>
     <message>
         <location filename="../ExportDlgImpl.cpp" line="126"/>
         <source>You need to specify an absolute file name when exporting to formats other than .m3u. Exiting ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Je potřeba stanovit absolutní název souboru, když se dělá vyvedení do formátů jiných než je .m3u. Ukončuje se...</translation>
     </message>
     <message>
         <location filename="../ExportDlgImpl.cpp" line="133"/>
         <source>The root cannot be empty if the file name is relative. Exiting ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Kořen nemůže zůstat prázdný, pokud je název souboru relativní. Ukončuje se...</translation>
     </message>
     <message>
         <location filename="../ExportDlgImpl.cpp" line="139"/>
         <source>The root must be an absolute directory name. Exiting ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Kořen musí být absolutní název adresáře. Ukončuje se...</translation>
     </message>
     <message>
         <location filename="../ExportDlgImpl.cpp" line="150"/>
         <source>The root doesn&apos;t exist. Exiting ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Kořen neexistuje. Ukončuje se...</translation>
     </message>
     <message>
         <location filename="../ExportDlgImpl.cpp" line="166"/>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Varování</translation>
     </message>
     <message>
         <location filename="../ExportDlgImpl.cpp" line="166"/>
         <source>A file called &quot;%1&quot; already exists. Do you want to overwrite it?</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubor s názvem &quot;%1&quot; již existuje. Chcete jej přepsat?</translation>
     </message>
     <message>
         <location filename="../ExportDlgImpl.cpp" line="166"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="../ExportDlgImpl.cpp" line="166"/>
         <source>&amp;Overwrite</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Přepsat</translation>
     </message>
     <message>
         <location filename="../ExportDlgImpl.cpp" line="197"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informace</translation>
     </message>
     <message>
         <location filename="../ExportDlgImpl.cpp" line="197"/>
         <source>Successfully created file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Úspěšně vytvořen soubor &quot;%1&quot; </translation>
     </message>
     <message>
         <location filename="../ExportDlgImpl.cpp" line="197"/>
         <location filename="../ExportDlgImpl.cpp" line="201"/>
         <source>O&amp;K</source>
-        <translation type="unfinished">&amp;OK</translation>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../ExportDlgImpl.cpp" line="323"/>
         <source>EWST</source>
         <comment>the letters are the initials of the 4 severity levels: Error, Warning, Support, Trace</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation type="obsolete">OK</translation>
+        <translation>ChybVarPodpSled</translation>
     </message>
     <message>
         <location filename="../ExportDlgImpl.cpp" line="201"/>
         <source>There was an error writing to the file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Při zápisu do souboru &quot;%1&quot; se vyskytla chyba</translation>
     </message>
     <message>
         <location filename="../ExportDlgImpl.cpp" line="209"/>
         <source>Choose destination file</source>
-        <translation type="unfinished"></translation>
+        <translation>Vybrat cílový soubor</translation>
     </message>
     <message>
         <location filename="../ExportDlgImpl.cpp" line="209"/>
         <source>XML files (*.xml);;Text files (*.txt);;M3U files (*.m3u)</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubory XML (*.xml);;Textové soubory (*.txt);;Soubory M3U (*.m3u)</translation>
     </message>
     <message>
         <location filename="../ExportDlgImpl.cpp" line="411"/>
         <source>The file named &quot;%1&quot; isn&apos;t inside the specified root. Exiting ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubor pojmenovaný &quot;%1&quot; není v zadaném kořeni. Ukončuje se...</translation>
     </message>
     <message>
         <location filename="../ExportDlgImpl.cpp" line="420"/>
         <source>The file named &quot;%1&quot; cannot be encoded in the selected locale. Exiting ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubor pojmenovaný &quot;%1&quot; nelze zakódovat ve vybraném jazyce. Ukončuje se...</translation>
     </message>
 </context>
 <context>
@@ -2044,47 +2059,47 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
     <message>
         <location filename="../ExternalToolDlgImpl.cpp" line="188"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="../ExternalToolDlgImpl.cpp" line="188"/>
         <source>Cannot start process. Check that the executable name and the parameters are correct.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nelze spustit proces. Ověřte, zda jsou název spustitelného souboru a parametry správné.</translation>
     </message>
     <message>
         <location filename="../ExternalToolDlgImpl.cpp" line="268"/>
         <source>Finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Hotovo</translation>
     </message>
     <message>
         <location filename="../ExternalToolDlgImpl.cpp" line="281"/>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Varování</translation>
     </message>
     <message>
         <location filename="../ExternalToolDlgImpl.cpp" line="281"/>
         <source>Cannot close while &quot;%1&quot; is running.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nelze zavřít, když běží &quot;%1&quot;.</translation>
     </message>
     <message>
         <location filename="../ExternalToolDlgImpl.cpp" line="297"/>
         <source>Confirm</source>
-        <translation type="unfinished">Potvrdit</translation>
+        <translation>Potvrdit</translation>
     </message>
     <message>
         <location filename="../ExternalToolDlgImpl.cpp" line="297"/>
         <source>Stopping &quot;%1&quot; may leave the files in an inconsistent state or may prevent temporary files from being deleted. Are you sure you want to abort &quot;%1&quot;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Zastavení &quot;%1&quot; může soubory zanechat v nesoudržném stavu nebo může zabránit tomu, aby byly dočasné soubory smazány. Jste si jistý, že chcete zrušit &quot;%1&quot;?</translation>
     </message>
     <message>
         <location filename="../ExternalToolDlgImpl.cpp" line="297"/>
         <source>Yes, abort</source>
-        <translation type="unfinished"></translation>
+        <translation>Ano. Zrušit</translation>
     </message>
     <message>
         <location filename="../ExternalToolDlgImpl.cpp" line="297"/>
         <source>Don&apos;t abort</source>
-        <translation type="unfinished"></translation>
+        <translation>Nerušit</translation>
     </message>
 </context>
 <context>
@@ -2092,22 +2107,22 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="1698"/>
         <source>Name</source>
-        <translation type="unfinished">Název</translation>
+        <translation>Název</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="1699"/>
         <source>Command</source>
-        <translation type="unfinished">Příkaz</translation>
+        <translation>Příkaz</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="1700"/>
         <source>Wait</source>
-        <translation type="unfinished">Počkat</translation>
+        <translation>Počkat</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="1701"/>
         <source>Confirm launch</source>
-        <translation type="unfinished">Potvrdit spuštění</translation>
+        <translation>Potvrdit spuštění</translation>
     </message>
 </context>
 <context>
@@ -2115,27 +2130,27 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="126"/>
         <source>&lt;&lt; missing ID3V2 &gt;&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;&lt; chybí ID3V2 &gt;&gt;</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="134"/>
         <source>&lt;&lt; no pattern defined &gt;&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;&lt; nestanoven žádný vzor &gt;&gt;</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="142"/>
         <source>&lt;&lt; missing fields &gt;&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;&lt; chybí pole &gt;&gt;</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="196"/>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation>Název souboru</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="197"/>
         <source>New file name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nový název souboru</translation>
     </message>
 </context>
 <context>
@@ -2228,47 +2243,47 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="618"/>
         <source>No patterns exist</source>
-        <translation type="unfinished"></translation>
+        <translation>Neexistuje žádný vzor</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="618"/>
         <source>You must create at least a pattern before you can start renaming files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Musíte vytvořit alespoň vzor, předtím než můžete začít přejmenovávat soubory.</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="653"/>
         <source>Copy all the files?</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopírovat všechny soubory?</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="653"/>
         <source>Copy the selected files?</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopírovat vybrané soubory?</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="653"/>
         <source>Rename all the files?</source>
-        <translation type="unfinished"></translation>
+        <translation>Přejmenovat všechny soubory?</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="653"/>
         <source>Rename the selected files?</source>
-        <translation type="unfinished"></translation>
+        <translation>Přejmenovat vybrané soubory?</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="653"/>
         <source>Confirm</source>
-        <translation type="unfinished">Potvrdit</translation>
+        <translation>Potvrdit</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="653"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ano</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="653"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="662"/>
@@ -2277,67 +2292,67 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
         <location filename="../FileRenamerDlgImpl.cpp" line="681"/>
         <location filename="../FileRenamerDlgImpl.cpp" line="700"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="662"/>
         <source>Operation aborted because file &quot;%1&quot; doesn&apos;t have an ID3V2 tag.</source>
-        <translation type="unfinished"></translation>
+        <translation>Operace zrušena, protože soubor &quot;%1&quot; nemá značku ID3V2.</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="669"/>
         <source>Operation aborted because file &quot;%1&quot; is missing some required fields in its ID3V2 tag.</source>
-        <translation type="unfinished"></translation>
+        <translation>Operace zrušena, protože souboru &quot;%1&quot; v jeho značce ID3V2 chybí některá požadovaná pole.</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="675"/>
         <source>Operation aborted because it would create 2 copies of a file called &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Operace zrušena, protože by vytvořila dvě kopie souboru s názvem &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="681"/>
         <source>Operation aborted because a file called &quot;%1&quot; already exists.</source>
-        <translation type="unfinished"></translation>
+        <translation>Operace zrušena, protože soubor s názvem &quot;%1&quot; již existuje.</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="695"/>
         <source>Copying all the files in the current album</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopírování všech souborů v nynějším albu</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="695"/>
         <source>Copying the selected files in the current album</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopírování vybraných souborů v nynějším albu</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="695"/>
         <source>Renaming all the files in the current album</source>
-        <translation type="unfinished"></translation>
+        <translation>Přejmenování všech souborů v nynějším albu</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="695"/>
         <source>Renaming the selected files in the current album</source>
-        <translation type="unfinished"></translation>
+        <translation>Přejmenování vybraných souborů v nynějším albu</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="813"/>
         <source>Single artist</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeden umělec</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="813"/>
         <source>Various artists</source>
-        <translation type="unfinished"></translation>
+        <translation>Různí umělci</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="849"/>
         <source>Error setting up patterns</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba při nastavování vzorů</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="849"/>
         <source>An invalid value was found in the configuration file. You&apos;ll have to set up the patterns manually.</source>
-        <translation type="unfinished"></translation>
+        <translation>V souboru s nastavením byla nalezena neplatná hodnota. Budete muset vzory nastavit ručně.</translation>
     </message>
 </context>
 <context>
@@ -2345,7 +2360,7 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
     <message>
         <location filename="../FilesModel.cpp" line="150"/>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation>Název souboru</translation>
     </message>
 </context>
 <context>
@@ -2353,7 +2368,7 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2886"/>
         <source>Remove stream %1 at address 0x%2</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit proud %1 na adrese 0x%2</translation>
     </message>
 </context>
 <context>
@@ -2361,39 +2376,39 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
     <message>
         <location filename="../Helpers.h" line="284"/>
         <source>yes</source>
-        <translation type="unfinished"></translation>
+        <translation>ano</translation>
     </message>
     <message>
         <location filename="../Helpers.h" line="284"/>
         <source>no</source>
-        <translation type="unfinished"></translation>
+        <translation>ne</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="471"/>
         <source>Don&apos;t wait</source>
-        <translation type="unfinished">Nečekat</translation>
+        <translation>Nečekat</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="472"/>
         <source>Wait for external tool to finish, then close launch window</source>
-        <translation type="unfinished">Počkejte, až vnější nástroj skončí, pak zavřete spouštěcí okno</translation>
+        <translation>Počkejte, až vnější nástroj skončí, pak zavřete spouštěcí okno</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="473"/>
         <source>Wait for external tool to finish, then keep launch window open</source>
-        <translation type="unfinished">Počkejte, až vnější nástroj skončí, pak ponechejte spouštěcí okno otevřené</translation>
+        <translation>Počkejte, až vnější nástroj skončí, pak ponechejte spouštěcí okno otevřené</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="1658"/>
         <source>Platform not supported</source>
-        <translation type="unfinished"></translation>
+        <translation>Platforma nepodporována</translation>
     </message>
     <message>
         <location filename="../Widgets.cpp" line="150"/>
         <location filename="../Widgets.cpp" line="155"/>
         <location filename="../Widgets.cpp" line="160"/>
         <source>O&amp;K</source>
-        <translation type="unfinished">&amp;OK</translation>
+        <translation>&amp;OK</translation>
     </message>
 </context>
 <context>
@@ -2401,7 +2416,7 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
     <message>
         <location filename="../Widgets.cpp" line="322"/>
         <source>I got the message; don&apos;t show this again</source>
-        <translation type="unfinished"></translation>
+        <translation>Zpráva obdržena. Znovu ji neukazovat</translation>
     </message>
 </context>
 <context>
@@ -2410,45 +2425,45 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
         <location filename="../Id3V230Stream.cpp" line="57"/>
         <location filename="../Id3V230Stream.cpp" line="101"/>
         <source>Truncated ID3V2.3.0 tag.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zkrácená značka ID3V2.3.0.</translation>
     </message>
     <message>
         <location filename="../Id3V230Stream.cpp" line="71"/>
         <source>Broken ID3V2.3.0 tag.</source>
-        <translation type="unfinished"></translation>
+        <translation>Poškozená značka ID3V2.3.0.</translation>
     </message>
     <message>
         <location filename="../Id3V230Stream.cpp" line="75"/>
         <location filename="../Id3V230Stream.cpp" line="79"/>
         <source>ID3V2.3.0 tag containing a frame with an invalid name: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka ID3V2.3.0 obsahuje pole s neplatným názvem: %1.</translation>
     </message>
     <message>
         <location filename="../Id3V230Stream.cpp" line="87"/>
         <source>ID3V2.3.0 tag containing a frame with an unsupported flag.</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka ID3V2.3.0 obsahuje pole s nepodporovaným příznakem.</translation>
     </message>
     <message>
         <location filename="../Id3V230Stream.cpp" line="123"/>
         <location filename="../Id3V230Stream.cpp" line="135"/>
         <location filename="../Id3V230Stream.cpp" line="142"/>
         <source>%1 (Frame: %2)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 (Pole: %2)</translation>
     </message>
     <message>
         <location filename="../Id3V230Stream.cpp" line="128"/>
         <source>INVALID</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatný</translation>
     </message>
     <message>
         <location filename="../Id3V230Stream.cpp" line="150"/>
         <source>ID3V2.3.0 tag containing a broken text frame named %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka ID3V2.3.0 obsahuje poškozené textové pole s názvem %1.</translation>
     </message>
     <message>
         <location filename="../Id3V230Stream.cpp" line="154"/>
         <source>ID3V2.3.0 tag containing a text frame named %1 using unsupported characters.</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka ID3V2.3.0 obsahuje pole s názvem %1 používající nepodporované znaky.</translation>
     </message>
 </context>
 <context>
@@ -2456,12 +2471,12 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
     <message>
         <location filename="../Id3V230Stream.cpp" line="277"/>
         <source>Unsupported version of ID3V2 tag%1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodporovaná verze značky ID3V2 %1</translation>
     </message>
     <message>
         <location filename="../Id3V230Stream.cpp" line="281"/>
         <source>ID3V2 tag with unsupported flag.</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka ID3V2 s nepodporovaným příznakem.</translation>
     </message>
 </context>
 <context>
@@ -2469,45 +2484,45 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
     <message>
         <location filename="../Id3V240Stream.cpp" line="180"/>
         <source>Truncated ID3V2.4.0 tag.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zkrácená značka ID3V2.4.0.</translation>
     </message>
     <message>
         <location filename="../Id3V240Stream.cpp" line="196"/>
         <location filename="../Id3V240Stream.cpp" line="200"/>
         <source>ID3V2.4.0 tag containing a frame with an invalid name: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka ID3V2.4.0 obsahuje pole s neplatným názvem: %1.</translation>
     </message>
     <message>
         <location filename="../Id3V240Stream.cpp" line="209"/>
         <location filename="../Id3V240Stream.cpp" line="210"/>
         <source>ID3V2.4.0 tag containing a frame with an unsupported flag.</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka ID3V2.4.0 obsahuje pole s nepodporovaným příznakem.</translation>
     </message>
     <message>
         <location filename="../Id3V240Stream.cpp" line="233"/>
         <source>Broken ID3V2.4.0 tag.</source>
-        <translation type="unfinished"></translation>
+        <translation>Poškozená značka ID3V2.4.0.</translation>
     </message>
     <message>
         <location filename="../Id3V240Stream.cpp" line="254"/>
         <location filename="../Id3V240Stream.cpp" line="266"/>
         <source>%1 (Frame: %2)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 (Pole: %2)</translation>
     </message>
     <message>
         <location filename="../Id3V240Stream.cpp" line="259"/>
         <source>INVALID</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatný</translation>
     </message>
     <message>
         <location filename="../Id3V240Stream.cpp" line="273"/>
         <source>ID3V2.4.0 tag containing a broken text frame named %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka ID3V2.4.0 obsahuje poškozené textové pole s názvem %1.</translation>
     </message>
     <message>
         <location filename="../Id3V240Stream.cpp" line="277"/>
         <source>ID3V2.4.0 tag containing a text frame named %1 using unsupported characters or unsupported text encoding.</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka ID3V2.4.0 obsahuje textové pole s názvem %1 používající nepodporované znaky nebo nepodporované kódování textu.</translation>
     </message>
 </context>
 <context>
@@ -2515,7 +2530,7 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
     <message>
         <location filename="../Id3V240Stream.cpp" line="408"/>
         <source>ID3V2 tag with unsupported flag.</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka ID3V2 s nepodporovaným příznakem.</translation>
     </message>
 </context>
 <context>
@@ -2523,78 +2538,78 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
     <message>
         <location filename="../Id3V2Stream.cpp" line="287"/>
         <source>&lt;&lt; error decoding string &gt;&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;&lt; chyba při dekódování řetězce &gt;&gt;</translation>
     </message>
     <message>
         <location filename="../Id3V2Stream.cpp" line="292"/>
         <source>&lt;&lt; unsupported encoding &gt;&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;&lt; nepodporované kódování &gt;&gt;</translation>
     </message>
     <message>
         <location filename="../Id3V2Stream.cpp" line="307"/>
         <source>size=</source>
-        <translation type="unfinished"></translation>
+        <translation>Velikost=</translation>
     </message>
     <message>
         <location filename="../Id3V2Stream.cpp" line="326"/>
         <source>invalid text encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatné kódování textu</translation>
     </message>
     <message>
         <location filename="../Id3V2Stream.cpp" line="330"/>
         <source>unsupported text encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodporované kódování textu</translation>
     </message>
     <message>
         <location filename="../Id3V2Stream.cpp" line="359"/>
         <location filename="../Id3V2Stream.cpp" line="368"/>
         <source>&lt;encoding error&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;Chyba v kódování&gt;</translation>
     </message>
     <message>
         <location filename="../Id3V2Stream.cpp" line="387"/>
         <source>invalid data</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatná data</translation>
     </message>
     <message>
         <location filename="../Id3V2Stream.cpp" line="394"/>
         <source>MIME=&quot;%1&quot; File=&quot;%2&quot; Descr=&quot;%3&quot; Binary data size=%4</source>
-        <translation type="unfinished"></translation>
+        <translation>MIME=&quot;%1&quot; Soubor=&quot;%2&quot; Popis=&quot;%3&quot; Velikost binárních dat=%4</translation>
     </message>
     <message>
         <location filename="../Id3V2Stream.cpp" line="395"/>
         <source>Begins with: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Začíná: %1</translation>
     </message>
     <message>
         <location filename="../Id3V2Stream.cpp" line="395"/>
         <source>Content: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Obsah: %1</translation>
     </message>
     <message>
         <location filename="../Id3V2Stream.cpp" line="403"/>
         <source>status=%1</source>
-        <translation type="unfinished"></translation>
+        <translation>Stav=%1</translation>
     </message>
     <message>
         <location filename="../Id3V2Stream.cpp" line="419"/>
         <source>link</source>
-        <translation type="unfinished"></translation>
+        <translation>Odkaz</translation>
     </message>
     <message>
         <location filename="../Id3V2Stream.cpp" line="420"/>
         <source>non-cover</source>
-        <translation type="unfinished"></translation>
+        <translation>Ne-obal</translation>
     </message>
     <message>
         <location filename="../Id3V2Stream.cpp" line="421"/>
         <source>error</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="../Id3V2Stream.cpp" line="422"/>
         <source>cover</source>
-        <translation type="unfinished"></translation>
+        <translation>Obal</translation>
     </message>
 </context>
 <context>
@@ -2602,7 +2617,7 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
     <message>
         <location filename="../Id3V2Stream.cpp" line="1408"/>
         <source>%1 (Frame: %2)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 (Pole: %2)</translation>
     </message>
 </context>
 <context>
@@ -2610,12 +2625,12 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
     <message>
         <location filename="../TagReadPanel.cpp" line="282"/>
         <source>&lt;error&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;Chyba&gt;</translation>
     </message>
     <message>
         <location filename="../TagReadPanel.cpp" line="310"/>
         <source>Click to see larger image</source>
-        <translation type="unfinished"></translation>
+        <translation>Klepněte, abyste uviděli větší obrázek</translation>
     </message>
 </context>
 <context>
@@ -2673,12 +2688,12 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
     <message>
         <location filename="../ImageInfoPanelWdgImpl.cpp" line="60"/>
         <source>Erase these files:</source>
-        <translation type="unfinished"></translation>
+        <translation>Smazat tyto soubory:</translation>
     </message>
     <message>
         <location filename="../ImageInfoPanelWdgImpl.cpp" line="68"/>
         <source>Erase file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Smazat soubory %1</translation>
     </message>
 </context>
 <context>
@@ -2686,7 +2701,7 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
     <message>
         <location filename="../FileRenamerDlgImpl.h" line="211"/>
         <source>Pattern &quot;%1&quot; is invalid. %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Vzor &quot;%1&quot; je neplatný. %2</translation>
     </message>
 </context>
 <context>
@@ -2694,7 +2709,7 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
     <message>
         <location filename="../LogModel.cpp" line="110"/>
         <source>Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Hlášení</translation>
     </message>
 </context>
 <context>
@@ -2712,7 +2727,7 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
     <message>
         <location filename="../MainForm.ui" line="56"/>
         <source>prc</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../MainForm.ui" line="69"/>
@@ -2786,7 +2801,7 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
     <message>
         <location filename="../MainForm.ui" line="385"/>
         <source>f</source>
-        <translation type="unfinished">f</translation>
+        <translation>f</translation>
     </message>
     <message>
         <location filename="../MainForm.ui" line="441"/>
@@ -2831,7 +2846,7 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
     <message>
         <location filename="../MainForm.ui" line="554"/>
         <source>rep</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../MainForm.ui" line="589"/>
@@ -2871,12 +2886,12 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
     <message>
         <location filename="../MainForm.ui" line="902"/>
         <source>Configuration</source>
-        <translation type="unfinished">Nastavení</translation>
+        <translation>Nastavení</translation>
     </message>
     <message>
         <location filename="../MainForm.ui" line="905"/>
         <source>cfg</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../MainForm.ui" line="940"/>
@@ -2917,56 +2932,60 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="439"/>
         <source>Assertion failure</source>
-        <translation type="unfinished"></translation>
+        <translation>Neúspěch prohlašování</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="444"/>
         <source>Plese report this problem to the project&apos;s Issue Tracker at %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nahlašte, prosím, potíže sledování potíží projektu na %1</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="445"/>
         <source>Please restart the application for instructions about how to report this issue</source>
-        <translation type="unfinished"></translation>
+        <translation>Spusťte, prosím, program znovu pro pokyny k tomu, jak nahlásit tuto věc</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="448"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukončit</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="545"/>
         <source>Because MP3 Diags changes the content of your MP3 files if asked to, it has a significant destructive potential, especially in cases where the user doesn&apos;t read the documentation and simply expects the program to do other things than what it was designed to do.</source>
-        <translation type="unfinished"></translation>
+        <translation>Protože MP3 Diags mění obsah vašich souborů MP3, když je o to požádáte, má značné pustošivé schopnosti, zvláště v případech, kdy uživatel nečte dokumentaci a jednoduše očekává, že program bude dělat jiné věci, než pro jaké byl navržen, aby je dělal.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="545"/>
         <source>Therefore, it is highly advisable to back up your files first.</source>
-        <translation type="unfinished"></translation>
+        <translation>Takže se velice doporučuje zazálohovat nejprve vaše data.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="545"/>
         <source>Also, although MP3 Diags is very stable on the developer&apos;s computer, who hasn&apos;t experienced a crash in a long time and never needed to restore MP3 files from a backup, there are several crash reports that haven&apos;t been addressed, as the developer couldn&apos;t reproduce the crashes and those who reported the crashes didn&apos;t answer the developer&apos;s questions that might have helped isolate the problem.</source>
-        <translation type="unfinished"></translation>
+        <translation>I když je program MP3 Diags velmi stabilní na počítači svého vývojáře, který už dlouho nezakusil jeho pád a nikdy nepotřeboval soubory MP3 obnovovat ze zálohy, vyskytlo se několi hlášení o pádech, které ale nebyly určeny, protože se vývojáři nepodařilo tyto pády zopakovat a ti, kteří je nahlásili zase nezodpověděli vývojářovy otázky, které by pomohly s oddělením problému.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="625"/>
         <source>An unknown note was found in the configuration. This note is unknown:
 
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation>V nastavení byla nalezena neznámá poznámka. Tato poznámka je neznámá:
+
+%1</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="638"/>
         <source>Unknown notes were found in the configuration. These notes are unknown:
 
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation>V nastavení byly nalezeny neznámé poznámky. Tyto poznámky jsou neznámé:
+
+%1</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="641"/>
         <source>Error setting up the &quot;ignored notes&quot; list</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba při nastavování seznamu &quot;Přehlížené poznámky&quot;</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="641"/>
@@ -2975,12 +2994,16 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
 You may want to check again the list and add any notes that you want to ignore.
 
 (If you didn&apos;t change the settings file manually, this is probably due to a code enhanement that makes some notes no longer needed, and you can safely ignore this message.)</source>
-        <translation type="unfinished"></translation>
+        <translation>
+
+Možná budete chtít prověřit seznam znovu a přidat všechny poznámky, které se mají přehlížet.
+
+(Pokud soubor s nastavením nezměníte ručně, je to pravděpodobně kvůli vylepšení kódu, které vedlo k tomu, že některé poznámky už nejsou potřeba, a vy můžete bezpečně takovouto zprávu ignorovat.)</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="864"/>
         <source>If there is a name of an MP3 file at the end of &lt;b&gt;%1&lt;/b&gt;, that might be a file that consistently causes a crash. Please check if it is so. Then, if confirmed, please make that file available by mailing it to %2 or by putting it on a file sharing site.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokud je na konci &lt;b&gt;%1&lt;/b&gt; název souboru MP3, který by mohl být souborem působícím pád. Prověřte, prosím, jestli to tak je. Potom, potvrdí-li se to, udělejte, prosím, takový soubor dostupným jeho posláním %2 nebo jeho umístěním na stránky pro sdílení souborů.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="1289"/>
@@ -2994,19 +3017,19 @@ You may want to check again the list and add any notes that you want to ignore.
         <location filename="../main.cpp" line="402"/>
         <location filename="../main.cpp" line="441"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="1289"/>
         <source>MP3 Diags crashed while reading song data from the disk. The whole collection will be rescanned.</source>
-        <translation type="unfinished"></translation>
+        <translation>MP3 Diags spadl při čtení dat písně z disku. Celá sbírka bude prohlédnuta znovu.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="1312"/>
         <source>An error occured while loading the MP3 information. Your files will be rescanned.
 
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Při nahrávání informací o MP3 se vyskytla chyba. Vaše soubory budou prohlédnuty znovu.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="545"/>
@@ -3016,280 +3039,289 @@ You may want to check again the list and add any notes that you want to ignore.
         <location filename="../MainFormDlgImpl.cpp" line="2202"/>
         <location filename="../MainFormDlgImpl.cpp" line="2236"/>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Varování</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="455"/>
         <source>Restarting after crash</source>
-        <translation type="unfinished"></translation>
+        <translation>Opětovné spuštění po pádu</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="558"/>
         <source>Note</source>
-        <translation type="unfinished"></translation>
+        <translation>Poznámka</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="558"/>
         <source>If you simply left-click, all the visible files get processed. However, it is possible to process only the selected files. To do that, either keep SHIFT pressed down while clicking or use the right button, as described at %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokud jednoduše klepnete levým tlačítkem myši, budou všechny viditelné soubory zpracovány. Je ale možné zpracovat pouze vybrané soubory. Abyste je označil, buď držte při klepání na položky stisknutu klávesu Shift, nebo použijte pravé tlačítko myši, jak je to popsáno v %1</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="826"/>
         <source>MP3 Diags is restarting after a crash.</source>
-        <translation type="unfinished"></translation>
+        <translation>MP3 Diags se po pádu spouští znovu.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="830"/>
         <source>Information in the file %1%5%2 may help identify the cause of the crash so please make it available to the developer by mailing it to %3, by reporting an issue to the project&apos;s Issue Tracker at %4 and attaching the files to the report, or by some other means (like putting it on a file sharing site.)</source>
         <comment>%1 and %2 are HTML elements</comment>
-        <translation type="unfinished"></translation>
+        <translation>Informace v %1%5%2 mohou pomoci s určením příčiny pádu, takže je, prosím, dejte dál vývojáři jejich posláním na %3, nahlášením potíží sledování chyb v projektu %4 a připojením souborů ke zprávě, nebo jinými prostředky (jako je jejich nahrání na službu pro sdílení souborů)</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="837"/>
         <source>Information in the files %1%5%2 and %1%6%2 may help identify the cause of the crash so please make them available to the developer by mailing them to %3, by reporting an issue to the project&apos;s Issue Tracker at %4 and attaching the files to the report, or by some other means (like putting them on a file sharing site.)</source>
         <comment>%1 and %2 are HTML elements</comment>
-        <translation type="unfinished"></translation>
+        <translation>Informace v %1%5%2 a %1%6%2 mohou pomoci s určením příčiny pádu, takže je, prosím, dejte dál vývojáři jejich posláním na %3, nahlášením potíží sledování chyb v projektu %4 a připojením souborů ke zprávě, nebo jinými prostředky (jako je jejich nahrání na službu pro sdílení souborů)</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="845"/>
         <source>Information in the files %1%5%2, %1%6%2, and %1%7%2 may help identify the cause of the crash so please make them available to the developer by mailing them to %3, by reporting an issue to the project&apos;s Issue Tracker at %4 and attaching the files to the report, or by some other means (like putting them on a file sharing site.)</source>
         <comment>%1 and %2 are HTML elements</comment>
-        <translation type="unfinished"></translation>
+        <translation>Informace v %1%5%2, %1%6%2 a %1%7%2 mohou pomoci s určením příčiny pádu, takže je, prosím, dejte dál vývojáři jejich posláním na %3, nahlášením potíží sledování chyb v projektu %4 a připojením souborů ke zprávě, nebo jinými prostředky (jako je jejich nahrání na službu pro sdílení souborů)</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="859"/>
         <source>These are plain text files, which you can review before sending, if you have privacy concerns.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jsou tu soubory s prostým textem, na které byste se měl před odesláním podívat, pokud máte zájem o soukromí.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="860"/>
         <source>After getting the files, the developer will probably want to contact you for more details, so please check back on the status of your report.</source>
-        <translation type="unfinished"></translation>
+        <translation>Po obdržení souborů se s vámi bude vývojář pravděpodobně chtít spojit kvůli dalším podrobnostem, takže se, prosím, občas podívejte na stav své zprávy.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="861"/>
         <source>Note that these files &lt;b&gt;will be removed&lt;/b&gt; when you close this window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uvědomte si, že tyto soubory &lt;b&gt;budou odstraněny&lt;/b&gt;, až zavřete toto okno.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="865"/>
         <source>Please also try to &lt;b&gt;repeat the steps that led to the crash&lt;/b&gt; before reporting the crash, which will probably result in a new set of files being generated; these files are more likely to contain relevant information than the current set of files, because they will also have information on what happened before the crash, while the current files only tell where the crash occured.</source>
-        <translation type="unfinished"></translation>
+        <translation>Také se, prosím, pokuste o &lt;b&gt;zopakování kroků vedoucích k pádu&lt;/b&gt;, než pád nahlásíte. To pravděpodobně povede k novému souboru vytvořených souborů. Tyto soubory budou pravděpodobně obsahovat závažnější informace než běžný soubor informací, protože budou také obsahovat informace o tom, co se stalo před pádem, zatímco nynější soubory jen řeknou, kde k pádu došlo.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="868"/>
         <source>You should include in your report any other details that seem relevant (what might have caused the failure, steps to reproduce it, ...)</source>
-        <translation type="unfinished"></translation>
+        <translation>Do své zprávy byste měli zahrnout jakékoli další podrobnosti, které se zdají být důležité (co mohlo zapříčinit selhání, kroky pro jeho zopakování, ...)</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="868"/>
         <source>Remove these files and continue</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit tyto soubory a pokračovat</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="872"/>
         <source>MP3 Diags is restarting after a crash. There was supposed to be some information about what led to the crash in the file &lt;b&gt;%1&lt;/b&gt;, but that file cannot be found. Please report this issue to the project&apos;s Issue Tracker at %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>MP3 Diags se znovuspouští po pádu. Nějaké informace o tom, co vedlo k pádu, by měly být v souboru &lt;b&gt;%1&lt;/b&gt;, ale tento soubor nejde najít. Nahlašte, prosím, tuto věc systému pro sledování chyb v projektu na %2.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="873"/>
         <source>The developer will probably want to contact you for more details, so please check back on the status of your report.&lt;/p&gt;&lt;p style=&quot;margin-bottom:8px; margin-top:1px; &quot;&gt;Make sure to include the data below, as well as any other detail that seems relevant (what might have caused the failure, steps to reproduce it, ...)</source>
-        <translation type="unfinished"></translation>
+        <translation>Vývojář se s vámi bude chtít pravděpodobně spojit kvůli dalším podrobnostem, takže se, prosím, dívejte na stav vaší zprávy.&lt;/p&gt;&lt;p style=&quot;margin-bottom:8px; margin-top:1px; &quot;&gt;Ujistěte se, že jste zahrnul data níže, a také jakékoli další informace, které se zdají být důležité (co mohlo zapříčinit selhání, kroky pro jeho zopakování, ...)</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="880"/>
         <source>MP3 Diags is restarting after a crash. To help determine the reason for the crash, the &lt;i&gt;Log program state to _trace and _step files&lt;/i&gt; option has been activated. This logs to 3 files what the program is doing, which might make it slightly slower.</source>
-        <translation type="unfinished"></translation>
+        <translation>MP3 Diags se znovuspouští po pádu. Abyste pomohli určit důvod pádu, byla zapnuta volba &lt;i&gt;Zapsat stav programu do souborů _trace a _step&lt;/i&gt;. Toto zapíše do tří souborů, co program dělá, což jej může udělat mírně pomalejší.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="880"/>
         <source>It is recommended to not process more than several thousand MP3 files while this option is turned on. You can turn it off manually, in the configuration dialog, in the &lt;i&gt;Others&lt;/i&gt; tab, but keeping it turned on may provide very useful feedback to the developer, should the program crash again. With this feedback, future versions of MP3 Diags will get closer to being bug free.</source>
-        <translation type="unfinished"></translation>
+        <translation>Doporučuje se nezpracovávat více než několk tisíc souborů MP3, když je tato volba zapnuta. Můžete ji ručně vypnout v dialogu pro nastavení na kartě &lt;i&gt;Jiné&lt;/i&gt;, ale její ponechání zapnuté může vývojáři poskytnout velmi užitečnou zpětnou vazbu, kdyby program znovu spadl. S touto zpětnou vazbou se budoucí verze MP3 Diags dostanou blíže k tomu, aby byly bez chyb.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="1302"/>
         <source>Loading data</source>
-        <translation type="unfinished"></translation>
+        <translation>Nahrávání dat</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="1327"/>
         <source>It seems that MP3 Diags is restarting after a crash. Your files will be rescanned.
 
 (Since this may take a long time for large collections, you may want to abort the full rescanning and apply a filter to include only the files that you changed since the last time the program closed correctly, then manually rescan only those files.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Zdá se, že se MP3 Diags po pádu spouští znovu. Vaše soubory budou znovu prohlédnuty.
+
+(Protože to u větších sbírek může trvat déle, můžete chtít zrušit úplné znovuprohledání a použít filtr, aby se zahrnuly jen ty soubory, které jste změnil od té doby, kdy byl program zavřen správně, a pak ručně znovuprohledat pouze tyto soubory.)</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="1375"/>
         <source>Saving data</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukládání dat</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="1383"/>
         <source>An error occured while saving the MP3 information. You will have to scan your files again.
 
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Při ukládání informací o MP3 se vyskytla chyba. Vaše soubory se budou muset prohlédnout znovu.
+
+%1</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="1661"/>
         <source>Scanning MP3 files</source>
-        <translation type="unfinished"></translation>
+        <translation>Prohledávání souborů MP3</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="1678"/>
         <location filename="../MainFormDlgImpl.cpp" line="2694"/>
         <location filename="../MainFormDlgImpl.cpp" line="2833"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informace</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="1678"/>
         <source>Your files are not fully supported by the current version of MP3 Diags. The main reason for this is that the developer is aware of some MP3 features but doesn&apos;t have actual MP3 files to implement support for those features and test the code.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vaše soubory nejsou nynější verzí MP3 Diags plně podporovány. Hlavním důvodem pro to je to, že vývojář si je vědom některých vlastností MP3, ale nemá skutečné soubory MP3, aby zavedl podporu pro tyto vlastnosti a zkoušel kód.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="1680"/>
         <source>You can help improve MP3 Diags by making files with unsupported notes available to the developer. The preferred way to do this is to report an issue on the project&apos;s Issue Tracker at %1, after checking if others made similar files available. To actually send the files, you can mail them to %2 or put them on a file sharing site. It would be a good idea to make sure that you have the latest version of MP3 Diags.</source>
-        <translation type="unfinished"></translation>
+        <translation>Můžete pomoci zlepšit MP3 Diags tím, že učiníte soubory s nepodporovanými poznámkami dostupnými vývojáři. Upřednostňovaným přístupem pro to je nahlášení věci přes systém pro sledování potíží v projektu na %1, až když prověříte, jestli snad někdo jiný neudělal podobné soubory dostupnými. Soubory můžete poslat %2 nebo je umístit na stránky pro sdílení souborů. Dobrý nápad je ujistit se, že máte poslední verzi MP3 Diags.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="1682"/>
         <source>You can identify unsupported notes by the blue color that is used for their labels.</source>
-        <translation type="unfinished"></translation>
+        <translation>Můžete určit nepodporované poznámky podle modré barvy, která je použita na jejich štítky.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="1837"/>
         <source>Error setting up custom transformations</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba při nastavování vlastních proměn</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="1837"/>
         <source>Couldn&apos;t find a transformation with the name &quot;%1&quot;. The program will proceed, but you should review the custom transformations lists.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodařilo se najít žádnou proměnu s názvem &quot;%1&quot;. Program bude pokračovat, ale měl byste se podívat na seznam vlastních proměn.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="1889"/>
         <source>Error setting up visible transformations</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba při nastavování viditelných proměn</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="1889"/>
         <source>Couldn&apos;t find a transformation with the name &quot;%1&quot;. The program will proceed, but you should review the visible transformations list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodařilo se najít žádnou proměnu s názvem &quot;%1&quot;. Program bude pokračovat, ale měl byste se podívat na seznam viditelných proměn.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="1922"/>
         <source>Error setting up external tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba při nastavování vnějších nástrojů</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="1922"/>
         <source>Unable to parse &quot;%1&quot;. The program will proceed, but you should review the external tools list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nelze zpracovat &quot;%1&quot;. Program bude pokračovat, ale měl byste se podívat na seznam vnějších nástrojů.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="1999"/>
         <source>There are no files to normalize.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nejsou žádné soubory k normalizaci.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2008"/>
         <source>you are requesting to normalize only some of the files</source>
-        <translation type="unfinished"></translation>
+        <translation>Požadujete normalizaci jen některých ze souborů</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2014"/>
         <source>the &quot;Album&quot; mode is not selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Režim Album není vybrán</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2022"/>
         <source>filters are applied</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtry jsou použity</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2026"/>
         <source>a filter is applied</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtr je použit</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2033"/>
         <source>the normalization will process more than 50 files, which is more than what an album usually has</source>
-        <translation type="unfinished"></translation>
+        <translation>Při normalizaci bude zpracováno více než 50 souborů, což je více, než album obvykle má</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2042"/>
         <source>Normalization should process one whole album at a time, so it should only be run in &quot;Album&quot; mode, when no filters are active, and it should be applied to all the files in that album. But in the current case %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Normalizace by měla najednou zpracovat jedno celé album, takže by měla běžet jen v režimu Album, kdy nejsou v činnosti žádné filtry, a měla by se použít na všechny soubory na tom albu. Ale v nynějším případě %1.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2046"/>
         <source>Normalization should process one whole album at a time, so it should only be run in &quot;Album&quot; mode, when no filters are active, and it should be applied to all the files in that album. But in the current case  there are some issues:
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Normalizace by měla najednou zpracovat jedno celé album, takže by měla běžet jen v režimu Album, kdy nejsou v činnosti žádné filtry, a měla by se použít na všechny soubory na tom albu. Ale v nynějším případě jsou tu určité potíže:
+%1</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2049"/>
         <location filename="../MainFormDlgImpl.cpp" line="2059"/>
         <source>Normalize</source>
-        <translation type="unfinished">Normalizovat</translation>
+        <translation>Normalizovat</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2049"/>
         <location filename="../MainFormDlgImpl.cpp" line="2059"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2049"/>
         <source>Normalize anyway?</source>
-        <translation type="unfinished"></translation>
+        <translation>Přesto normalizovat?</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2059"/>
         <location filename="../MainFormDlgImpl.cpp" line="2277"/>
         <location filename="../MainFormDlgImpl.cpp" line="3364"/>
         <source>Confirm</source>
-        <translation type="unfinished">Potvrdit</translation>
+        <translation>Potvrdit</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2059"/>
         <source>Normalize all the files in the current album? (Note that normalization is done &quot;in place&quot;, by an external program, so it doesn&apos;t care about the transformation settings for original and modified files.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Normalizovat všechny soubory na nynějším albu? (Uvědomte si, že normalizace je dělána vnějším programem, takže se nestará o nastavení proměny pro původní a změněné soubory.)</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2175"/>
         <source>The file list is empty, therefore no transformations can be applied.
 
 Exiting ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Seznam se soubory je prázdný, proto nelze použít žádných proměn.
+
+Ukončuje se...</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2187"/>
         <source>all the files shown in the file list</source>
-        <translation type="unfinished"></translation>
+        <translation>Všechny soubory ukázané v seznamu se soubory</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2191"/>
         <source>all %1 files shown in the file list</source>
-        <translation type="unfinished"></translation>
+        <translation>Všech %1 souborů ukázaných v seznamu se soubory</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2202"/>
         <source>No file is selected, therefore no transformations can be applied.
 
 Exiting ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Není vybrán žádný soubor, proto nelze použít žádných proměn.
+
+Ukončuje se...</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2211"/>
         <source>and the other selected file</source>
-        <translation type="unfinished"></translation>
+        <translation>A další vybrané soubory</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2215"/>
         <source>and the other %1 selected files</source>
-        <translation type="unfinished"></translation>
+        <translation>A další %1 vybrané soubory</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2236"/>
@@ -3298,242 +3330,249 @@ Exiting ...</source>
 Based on the configuration, it is possible for changes to the files in the list to be performed, even in this case (the files may still be moved, renamed or erased). However, the current settings are to leave the original files unchanged, so currently there&apos;s no point in applying an empty transformation list.
 
 Exiting ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Seznam s proměnami je prázdný.
+
+V závislosti na nastavení je možné provést změny v souborech v seznamu, i v tomto případě (soubory lze stále přesunout, přejmenovat nebo smazat). Nicméně současná nastavení ponechávají původní soubory beze změn, takže nyní není důvod použít prázdný seznam proměn.
+
+Ukončuje se...</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2239"/>
         <source>Apply an empty transformation list to all the files shown in the file list? (Note that even if no transformations are performed, the files may still be moved, renamed or erased, based on the current settings.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Použít prázdný seznam proměn na všechny soubory ukázané v seznamu souborů? (Uvědomte si, že i když nebyly provedeny žádné proměny, soubory lze stále přesunout, přejmenovat nebo smazat, založeno na nynějších nastaveních.)</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2243"/>
         <source>Apply transformation &quot;%1&quot; to %2?</source>
-        <translation type="unfinished"></translation>
+        <translation>Použít proměnu &quot;%1&quot; na %2?</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2247"/>
         <source>Apply the following transformations to %s?</source>
-        <translation type="unfinished"></translation>
+        <translation>Použít následující proměnu na %s?</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2257"/>
         <source>don&apos;t change</source>
-        <translation type="unfinished"></translation>
+        <translation>Neměnit</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2258"/>
         <source>erase</source>
-        <translation type="unfinished"></translation>
+        <translation>Vymazat</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2259"/>
         <location filename="../MainFormDlgImpl.cpp" line="2260"/>
         <source>move</source>
-        <translation type="unfinished"></translation>
+        <translation>Přesunout</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2261"/>
         <source>rename</source>
-        <translation type="unfinished"></translation>
+        <translation>Přejmenovat</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2262"/>
         <source>move if destination doesn&apos;t exist</source>
-        <translation type="unfinished"></translation>
+        <translation>Přesunout, pokud cíl neexistuje</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2266"/>
         <source>Actions to be taken:</source>
-        <translation type="unfinished"></translation>
+        <translation>Činnosti k provedení:</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2270"/>
         <source>original file that has been transformed: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Původní soubor, který byl proměněn: %1</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2273"/>
         <source>original file that has not been transformed: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Původní soubor, který nebyl proměněn: %1</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2277"/>
         <location filename="../MainFormDlgImpl.cpp" line="3364"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ano</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2277"/>
         <location filename="../MainFormDlgImpl.cpp" line="3364"/>
         <source>&amp;No</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ne</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2289"/>
         <source>Applying transformations to MP3 files</source>
-        <translation type="unfinished"></translation>
+        <translation>Použití proměn na soubory MP3</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2320"/>
         <source>Apply custom transformation list #%1
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Použít vlastní seznam proměn #%1
+</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2328"/>
         <source>   &lt;empty list&gt;
 
 (you can edit the list in the Settings dialog)</source>
-        <translation type="unfinished"></translation>
+        <translation>   &lt;prázdný seznam&gt;
+
+(seznam můžete upravit v dialogu nastavení)</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2381"/>
         <source>The file list is empty. You need to populate it before opening the tag editor.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seznam souborů je prázdný. Musíte jej zaplnit před otevřením v editoru značek.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2417"/>
         <source>The file list is empty. You need to populate it before opening the file rename tool.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seznam souborů je prázdný. Musíte jej zaplnit před otevřením v nástroji na přejmenovávání.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2575"/>
         <source>Delete %1?</source>
-        <translation type="unfinished"></translation>
+        <translation>Smazat %1?</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2585"/>
         <source>Cannot delete file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nelze smazat soubor %1</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2695"/>
         <source>MP3 Diags can check at startup if a new version of the program has been released. Here&apos;s how this is supposed to work:</source>
-        <translation type="unfinished"></translation>
+        <translation>MP3 Diags může při spuštění ověřit, zda byla vydána nová verze programu. Zde je, jak se počítá, že to bude pracovat:</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2697"/>
         <source>The check is done in the background, when the program starts, so there should be no performance penalties</source>
-        <translation type="unfinished"></translation>
+        <translation>Ověření je uděláno na pozadí, když se program spouští, takže by tu neměl být pokles výkonu</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2698"/>
         <source>A notification message is displayed only if there&apos;s a new version available</source>
-        <translation type="unfinished"></translation>
+        <translation>Zpráva s oznámením je zobrazena, pokud je dostupná nová verze</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2699"/>
         <source>The update is manual. You are told that there is a new version and are offered links to see what&apos;s new, but nothing gets downloaded and / or installed automatically</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualizace je ruční: Je vám sděleno, že je dostupná nová verze a poskytnut odkaz, abyste se podívali, co je nového, ale nic není staženo nebo nainstalováno automaticky</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2700"/>
         <source>There is no System Tray process checking periodically for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Není žádný proces v oznamovací oblasti panelu ověřující pravidelně dostupnost novější verze</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2701"/>
         <source>You can turn the notifications on and off from the configuration dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Můžete zapnout a vypnout oznamování v dialogu pro nastavení</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2702"/>
         <source>If you restart the program within a day after a check, no new check is done</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokud program spustíte znovu během dne následujícího po ověření, nedělá se žádné nové ověření</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2710"/>
         <location filename="../MainFormDlgImpl.cpp" line="2834"/>
         <source>Disable checking for new versions</source>
-        <translation type="unfinished"></translation>
+        <translation>Zakázat ověřování dostupnosti nových verzí</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2710"/>
         <source>Enable checking for new versions</source>
-        <translation type="unfinished"></translation>
+        <translation>Povolit ověřování dostupnosti nových verzí</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2810"/>
         <source>Version %1 has been published. You are running %2. You can see what&apos;s new in %3. A more technical list with changes can be seen in %4.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verze %1 byla vydána. Provozujete %2. Můžete se podívat, co je nového v %3. Techničtější seznam změn lze shlédnout na %4.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2814"/>
         <source>the %1MP3 Diags blog%2</source>
         <comment>arguments are HTML elements</comment>
-        <translation type="unfinished"></translation>
+        <translation>stránky %1MP3 Diags%2</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2818"/>
         <source>the %1change log%2</source>
         <comment>arguments are HTML elements</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1seznam změn%2</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2825"/>
         <source>This notification is about the availability of the source code. Binaries may or may not be available at this time, depending on your particular platform.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toto oznámení se týká dostupnosti zdrojového kódu. Spustitelné soubory tentokrát nemusí být dostupné, to v závislosti na systému, který používáte.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2828"/>
         <source>You should review the changes and decide if you want to upgrade or not.</source>
-        <translation type="unfinished"></translation>
+        <translation>Měl byste se podívat na změny a rozhodnout se, zda chcete provést povýšení verze nebo nikoli.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2829"/>
         <source>Note: if you want to upgrade, you should %1close MP3 Diags%2 first.</source>
         <comment>arguments are HTML elements</comment>
-        <translation type="unfinished"></translation>
+        <translation>Poznámka: Pokud hodláte provést povýšení verze, nejprve %1zavřete MP3 Diags%2.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2830"/>
         <source>Choose what do you want to do:</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyberte, co chcete dělat:</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2834"/>
         <source>Just close this message</source>
-        <translation type="unfinished"></translation>
+        <translation>Pouze zavřít tuto zprávu</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2834"/>
         <source>Don&apos;t tell me about version %1 again</source>
-        <translation type="unfinished"></translation>
+        <translation>Znovu o verzi %1 neříkat</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="3242"/>
         <source>Open containing folder ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Otevřít obsahující složku...</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="3288"/>
         <source>Run &quot;%1&quot; on %2?</source>
-        <translation type="unfinished"></translation>
+        <translation>Spustit &quot;%1&quot; na %2?</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="3317"/>
         <source>Cannot start process. Check that the executable name and the parameters are correct.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nelze spustit proces. Ověřte, zda jsou název spustitelného souboru a parametry správné.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="3353"/>
         <source>%1 and %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 a %2</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="3357"/>
         <source>%1, %2 and %3</source>
-        <translation type="unfinished"></translation>
+        <translation>%1, %2 a %3</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="3361"/>
         <source>%1, %2 and %3 other files</source>
-        <translation type="unfinished"></translation>
+        <translation>%1, %2 a %3 jiné soubory</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="402"/>
         <source>Folder &quot;%1&quot; doesn&apos;t exist. The program will exit ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Složka &quot;%1&quot; neexistuje. Program se ukončí...</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="545"/>
@@ -3542,12 +3581,12 @@ Exiting ...</source>
         <location filename="../main.cpp" line="402"/>
         <location filename="../main.cpp" line="441"/>
         <source>O&amp;K</source>
-        <translation type="unfinished">&amp;OK</translation>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="441"/>
         <source>Cannot write to file &quot;%1&quot;. The program will exit ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Nelze zapisovat do souboru &quot;%1&quot;. Program se ukončí...</translation>
     </message>
 </context>
 <context>
@@ -3555,7 +3594,7 @@ Exiting ...</source>
     <message>
         <location filename="../Mp3TransformThread.cpp" line="646"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="../Mp3TransformThread.cpp" line="658"/>
@@ -3566,14 +3605,22 @@ Exiting ...</source>
 Make sure that you have write permissions and that there is enough space on the disk.
 
 Processing aborted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Při zápisu do následujícího souboru se vyskytla chyba:
+
+%1
+
+Ujistěte se, že máte oprávnění k zápisu a že je na disku dost místa.
+
+Zpracování zrušeno.</translation>
     </message>
     <message>
         <location filename="../Mp3TransformThread.cpp" line="664"/>
         <source>The file &quot;%1&quot; seems to have been modified since the last scan. You need to rescan it before continuing.
 
 Processing aborted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zdá se, že soubor &quot;%1&quot; byl od poslední prohlídky změněn. Před pokračováním je potřeba provést prohledání znovu.
+
+Zpracování zrušeno.</translation>
     </message>
     <message>
         <location filename="../Mp3TransformThread.cpp" line="670"/>
@@ -3586,7 +3633,15 @@ Probably the file was deleted or modified since the last scan, in which case you
 This may also be caused by access restrictions or a full disk.
 
 Processing aborted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Při zpracování následujícího souboru se vyskytla chyba:
+
+%1
+
+Pravděpodobně byl soubor od poslední prohlídky změněn nebo smazán. V tom případě byste měl svou sbírku prohledat/nahrát znovu. Nebo to může být způsobeno jiným programem. V tom případě byste měl tento program nejprve zastavit.
+
+Může to být způsobeno omezeními, co se týče přístupu k souboru, nebo plným diskem.
+
+Zpracování zrušeno.</translation>
     </message>
     <message>
         <location filename="../Mp3TransformThread.cpp" line="674"/>
@@ -3598,7 +3653,15 @@ The following folder couldn&apos;t be created:
 %2
 
 Processing aborted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Při zpracování následujícího souboru se vyskytla chyba:
+
+%1
+
+Následující složku se nepodařilo vytvořit.
+
+%2
+
+Zpracování zrušeno.</translation>
     </message>
 </context>
 <context>
@@ -3606,17 +3669,17 @@ Processing aborted.</source>
     <message>
         <location filename="../MusicBrainzDownloader.cpp" line="280"/>
         <source>Download album data from MusicBrainz.org</source>
-        <translation type="unfinished"></translation>
+        <translation>Stáhnout data o albu z MusicBrainz.org</translation>
     </message>
     <message>
         <location filename="../MusicBrainzDownloader.cpp" line="369"/>
         <source>waiting %1ms</source>
-        <translation type="unfinished"></translation>
+        <translation>Čeká se %1ms</translation>
     </message>
     <message>
         <location filename="../MusicBrainzDownloader.cpp" line="474"/>
         <source>&lt;a href=&quot;%1&quot;&gt;view at amazon.com&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;a href=&quot;%1&quot;&gt;podívat se na amazon.com&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -3642,52 +3705,52 @@ Processing aborted.</source>
     <message>
         <location filename="../NoteFilterDlgImpl.cpp" line="60"/>
         <source>&lt;all notes&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;Všechny poznámky&gt;</translation>
     </message>
     <message>
         <location filename="../NoteFilterDlgImpl.cpp" line="87"/>
         <source>Available notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Dostupné poznámky</translation>
     </message>
     <message>
         <location filename="../NoteFilterDlgImpl.cpp" line="88"/>
         <source>Include notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Zahrnout poznámky</translation>
     </message>
     <message>
         <location filename="../NoteFilterDlgImpl.cpp" line="177"/>
         <source>Add selected note(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat vybranou(é) poznámku(y)</translation>
     </message>
     <message>
         <location filename="../NoteFilterDlgImpl.cpp" line="178"/>
         <source>Remove selected note(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit vybranou(é) poznámku(y)</translation>
     </message>
     <message>
         <location filename="../NoteFilterDlgImpl.cpp" line="179"/>
         <source>Add all notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat všechny poznámky</translation>
     </message>
     <message>
         <location filename="../NoteFilterDlgImpl.cpp" line="180"/>
         <source>Remove all notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit všechny poznámky</translation>
     </message>
     <message>
         <location filename="../NoteFilterDlgImpl.cpp" line="182"/>
         <source>Restore lists to the configuration they had when the window was open</source>
-        <translation type="unfinished"></translation>
+        <translation>Obnovit seznamy na nastavení, které měly, když bylo okno otevřeno</translation>
     </message>
     <message>
         <location filename="../NoteFilterDlgImpl.cpp" line="210"/>
         <source>L</source>
-        <translation type="unfinished"></translation>
+        <translation>L</translation>
     </message>
     <message>
         <location filename="../NoteFilterDlgImpl.cpp" line="211"/>
         <source>Note</source>
-        <translation type="unfinished"></translation>
+        <translation>Poznámka</translation>
     </message>
 </context>
 <context>
@@ -3695,667 +3758,560 @@ Processing aborted.</source>
     <message>
         <location filename="../Notes.cpp" line="41"/>
         <source>&lt;Placeholder for a note that can no longer be found, most likely as a result of a software upgrade. You should rescan the file.&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;Zástupný znak pro poznámku, kterou už nejde najít, nejpravděpodobněji jako výsledek povýšení programu. Měl byste prohlédnout soubor znovu.&gt;</translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="314"/>
-        <location filename="../Notes.h" line="185"/>
+        <location filename="../Notes.h" line="183"/>
         <source>Low quality MPEG audio stream. (What is considered &quot;low quality&quot; can be changed in the configuration dialog, under &quot;Quality thresholds&quot;.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Zvukový proud MPEG o nízké jakosti. (To, za co se považuje &quot;nízká jakost&quot;, jde změnit v doalogu nastavení pod &quot;Jakostní prahy&quot;.)</translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="315"/>
-        <location filename="../Notes.h" line="186"/>
+        <location filename="../Notes.h" line="184"/>
         <source>No MPEG audio stream found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nenalezen žádný zvukový proud MPEG.</translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="316"/>
-        <location filename="../Notes.h" line="187"/>
+        <location filename="../Notes.h" line="185"/>
         <source>VBR with audio streams other than MPEG1 Layer III might work incorrectly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Proměnlivé datové toky (VBR) se zvukovými proudy jinými než MPEG1 Vrstva III mohou pracovat nesprávně.</translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="317"/>
-        <location filename="../Notes.h" line="188"/>
+        <location filename="../Notes.h" line="186"/>
         <source>Incomplete MPEG frame at the end of an MPEG stream.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neúplný snímek MPEG na konci proudu MPEG.</translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="318"/>
-        <location filename="../Notes.h" line="189"/>
+        <location filename="../Notes.h" line="187"/>
         <source>Valid frame with a different version found after an MPEG stream.</source>
-        <translation type="unfinished"></translation>
+        <translation>Platný snímek s jinou verzí nalezen po proudu MPEG.</translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="319"/>
-        <location filename="../Notes.h" line="190"/>
+        <location filename="../Notes.h" line="188"/>
         <source>Valid frame with a different layer found after an MPEG stream.</source>
-        <translation type="unfinished"></translation>
+        <translation>Platný snímek s jinou vrstvou nalezen po proudu MPEG.</translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="320"/>
-        <location filename="../Notes.h" line="191"/>
+        <location filename="../Notes.h" line="189"/>
         <source>Valid frame with a different channel mode found after an MPEG stream.</source>
-        <translation type="unfinished"></translation>
+        <translation>Platný snímek s jiným kanálem nalezen po proudu MPEG.</translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="321"/>
-        <location filename="../Notes.h" line="192"/>
+        <location filename="../Notes.h" line="190"/>
         <source>Valid frame with a different frequency found after an MPEG stream.</source>
-        <translation type="unfinished"></translation>
+        <translation>Platný snímek s jiným kmitočtem nalezen po proudu MPEG.</translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="322"/>
-        <location filename="../Notes.h" line="193"/>
+        <location filename="../Notes.h" line="191"/>
         <source>Valid frame with a different CRC policy found after an MPEG stream.</source>
-        <translation type="unfinished"></translation>
+        <translation>Platný snímek s jinou politikou CRC nalezen po proudu MPEG.</translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="323"/>
-        <location filename="../Notes.h" line="194"/>
+        <location filename="../Notes.h" line="192"/>
         <source>Invalid MPEG stream. Stream has fewer than 10 frames.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatný proud MPEG. Proud má méně než 10 snímků.</translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="324"/>
-        <location filename="../Notes.h" line="195"/>
+        <location filename="../Notes.h" line="193"/>
         <source>Invalid MPEG stream. First frame has different bitrate than the rest.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatný proud MPEG. První snímek má jiný datový tok než zbytek.</translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="325"/>
-        <location filename="../Notes.h" line="196"/>
+        <location filename="../Notes.h" line="194"/>
         <source>No normalization undo information found. The song is probably not normalized by MP3Gain or a similar program. As a result, it may sound too loud or too quiet when compared to songs from other albums.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nenalezena žádná informace o vrácení normalizace. Píseň pravděpodobně není normalizována MP3Gain nebo podobným programem. Ve výsledku může znít příliš hlasitě nebo příliš tiše, při srovnání s písněmi z jiných alb.</translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="326"/>
-        <location filename="../Notes.h" line="197"/>
+        <location filename="../Notes.h" line="195"/>
         <source>Found audio stream in an encoding other than &quot;MPEG-1 Layer 3&quot; or &quot;MPEG-2 Layer 3.&quot; While MP3 Diags understands such streams, very few tests were run on files containing them (because they are not supposed to be found inside files with the &quot;.mp3&quot; extension), so there is a bigger chance of something going wrong while processing them.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="327"/>
-        <location filename="../Notes.h" line="200"/>
+        <location filename="../Notes.h" line="198"/>
         <source>Two Lame headers found, but a file should have at most one of them.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="328"/>
-        <location filename="../Notes.h" line="201"/>
+        <location filename="../Notes.h" line="199"/>
         <source>Xing header seems added by Mp3Fixer, which makes the first frame unusable and causes a 16-byte unknown or null stream to be detected next.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="329"/>
-        <location filename="../Notes.h" line="202"/>
+        <location filename="../Notes.h" line="200"/>
         <source>Frame count mismatch between the Xing header and the audio stream.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="330"/>
-        <location filename="../Notes.h" line="203"/>
+        <location filename="../Notes.h" line="201"/>
         <source>Two Xing headers found, but a file should have at most one of them.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="331"/>
-        <location filename="../Notes.h" line="204"/>
+        <location filename="../Notes.h" line="202"/>
         <source>The Xing header should be located immediately before the MPEG audio stream.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="332"/>
-        <location filename="../Notes.h" line="205"/>
+        <location filename="../Notes.h" line="203"/>
         <source>The Xing header should be compatible with the MPEG audio stream, meaning that their MPEG version, layer and frequency must be equal.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="333"/>
-        <location filename="../Notes.h" line="206"/>
+        <location filename="../Notes.h" line="204"/>
         <source>The MPEG audio stream uses VBR but a Xing header wasn&apos;t found. This will confuse some players, which won&apos;t be able to display the song duration or to seek.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="334"/>
-        <location filename="../Notes.h" line="209"/>
+        <location filename="../Notes.h" line="207"/>
         <source>Two VBRI headers found, but a file should have at most one of them.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="335"/>
-        <location filename="../Notes.h" line="210"/>
+        <location filename="../Notes.h" line="208"/>
         <source>VBRI headers aren&apos;t well supported by some players. They should be replaced by Xing headers.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="336"/>
-        <location filename="../Notes.h" line="211"/>
+        <location filename="../Notes.h" line="209"/>
         <source>VBRI header found alongside Xing header. The VBRI header should probably be removed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="337"/>
-        <location filename="../Notes.h" line="214"/>
+        <location filename="../Notes.h" line="212"/>
         <source>Invalid ID3V2 frame. File too short.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="338"/>
-        <location filename="../Notes.h" line="215"/>
+        <location filename="../Notes.h" line="213"/>
         <source>Invalid frame name in ID3V2 tag.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="339"/>
-        <location filename="../Notes.h" line="216"/>
+        <location filename="../Notes.h" line="214"/>
         <source>Flags in the first flag group that are supposed to always be 0 are set to 1. They will be ignored.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="340"/>
-        <location filename="../Notes.h" line="217"/>
+        <location filename="../Notes.h" line="215"/>
         <source>Flags in the second flag group that are supposed to always be 0 are set to 1. They will be ignored.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="341"/>
-        <location filename="../Notes.h" line="218"/>
+        <location filename="../Notes.h" line="216"/>
         <source>Error decoding the value of a text frame while reading an Id3V2 Stream.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="342"/>
-        <location filename="../Notes.h" line="219"/>
+        <location filename="../Notes.h" line="217"/>
         <source>ID3V2 tag has text frames using Latin-1 encoding that contain characters with a code above 127. While this is valid, those frames may have their content set or displayed incorrectly by software that uses the local code page instead of Latin-1. Conversion to Unicode (UTF16) is recommended.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="343"/>
-        <location filename="../Notes.h" line="220"/>
+        <location filename="../Notes.h" line="218"/>
         <source>Empty genre frame (TCON) found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="344"/>
-        <location filename="../Notes.h" line="221"/>
+        <location filename="../Notes.h" line="219"/>
         <source>Multiple frame instances found, but only the first one will be used.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="345"/>
-        <location filename="../Notes.h" line="222"/>
+        <location filename="../Notes.h" line="220"/>
         <source>The padding in the ID3V2 tag is too large, wasting space. (Large padding improves the tag editor saving speed, if fast saving is enabled, so you may want to delay compacting the tag until after you&apos;re done with the tag editor.)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="346"/>
-        <location filename="../Notes.h" line="223"/>
+        <location filename="../Notes.h" line="221"/>
         <source>Unsupported ID3V2 version.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="347"/>
-        <location filename="../Notes.h" line="224"/>
+        <location filename="../Notes.h" line="222"/>
         <source>Unsupported ID3V2 tag. Unsupported flag.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="348"/>
-        <location filename="../Notes.h" line="225"/>
+        <location filename="../Notes.h" line="223"/>
         <source>Unsupported value for Flags1 in ID3V2 frame. (This may also indicate that the file contains garbage where it was supposed to be zero.)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="349"/>
-        <location filename="../Notes.h" line="226"/>
+        <location filename="../Notes.h" line="224"/>
         <source>Unsupported value for Flags2 in ID3V2 frame. (This may also indicate that the file contains garbage where it was supposed to be zero.)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="350"/>
-        <location filename="../Notes.h" line="227"/>
+        <location filename="../Notes.h" line="225"/>
         <source>Multiple instances of the POPM frame found in ID3V2 tag. The current version discards all the instances except the first when processing this tag.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="351"/>
-        <location filename="../Notes.h" line="228"/>
+        <location filename="../Notes.h" line="226"/>
         <source>ID3V2 tag contains no frames, which is invalid. This note will disappear once you add track information in the tag editor.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="352"/>
-        <location filename="../Notes.h" line="229"/>
+        <location filename="../Notes.h" line="227"/>
         <source>ID3V2 tag contains an empty text frame, which is invalid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="353"/>
-        <location filename="../Notes.h" line="232"/>
+        <location filename="../Notes.h" line="230"/>
         <source>ID3V2 tag doesn&apos;t have an APIC frame (which is used to store images).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="354"/>
-        <location filename="../Notes.h" line="233"/>
+        <location filename="../Notes.h" line="231"/>
         <source>ID3V2 tag has an APIC frame (which is used to store images), but the image couldn&apos;t be loaded.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="355"/>
-        <location filename="../Notes.h" line="234"/>
+        <location filename="../Notes.h" line="232"/>
         <source>ID3V2 tag has at least one valid APIC frame (which is used to store images), but no frame has a type that is associated with an album cover.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="356"/>
-        <location filename="../Notes.h" line="235"/>
+        <location filename="../Notes.h" line="233"/>
         <source>Error loading image in APIC frame.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="357"/>
-        <location filename="../Notes.h" line="236"/>
+        <location filename="../Notes.h" line="234"/>
         <source>Error loading image in APIC frame. The frame is too short anyway to have space for an image.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="358"/>
-        <location filename="../Notes.h" line="237"/>
+        <location filename="../Notes.h" line="235"/>
         <source>ID3V2 tag has multiple APIC frames with the same picture type.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="359"/>
-        <location filename="../Notes.h" line="238"/>
+        <location filename="../Notes.h" line="236"/>
         <source>ID3V2 tag has multiple APIC frames. While this is valid, players usually use only one of them to display an image, discarding the others.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="360"/>
-        <location filename="../Notes.h" line="240"/>
+        <location filename="../Notes.h" line="238"/>
         <source>Unsupported text encoding for APIC frame in ID3V2 tag.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="361"/>
-        <location filename="../Notes.h" line="241"/>
+        <location filename="../Notes.h" line="239"/>
         <source>APIC frame uses a link to a file as a MIME Type, which is not supported.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="362"/>
-        <location filename="../Notes.h" line="242"/>
+        <location filename="../Notes.h" line="240"/>
         <source>Picture description is ignored in the current version.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="363"/>
-        <location filename="../Notes.h" line="245"/>
+        <location filename="../Notes.h" line="243"/>
         <source>No ID3V2.3.0 tag found, although this is the most popular tag for storing song information.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="364"/>
-        <location filename="../Notes.h" line="246"/>
+        <location filename="../Notes.h" line="244"/>
         <source>Two ID3V2.3.0 tags found, but a file should have at most one of them.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="365"/>
-        <location filename="../Notes.h" line="247"/>
+        <location filename="../Notes.h" line="245"/>
         <source>Both ID3V2.3.0 and ID3V2.4.0 tags found, but there should be only one of them.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="366"/>
-        <location filename="../Notes.h" line="248"/>
+        <location filename="../Notes.h" line="246"/>
         <source>The ID3V2.3.0 tag should be the first tag in a file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="367"/>
-        <location filename="../Notes.h" line="249"/>
+        <location filename="../Notes.h" line="247"/>
         <source>ID3V2.3.0 tag contains a text frame encoded as UTF-8, which is valid in ID3V2.4.0 but not in ID3V2.3.0.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="368"/>
-        <location filename="../Notes.h" line="250"/>
+        <location filename="../Notes.h" line="248"/>
         <source>Unsupported value of text frame while reading an Id3V2 Stream.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="369"/>
-        <location filename="../Notes.h" line="251"/>
+        <location filename="../Notes.h" line="249"/>
         <source>Invalid ID3V2.3.0 frame. Incorrect frame size or file too short.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="370"/>
-        <location filename="../Notes.h" line="254"/>
+        <location filename="../Notes.h" line="252"/>
         <source>Two ID3V2.4.0 tags found, but a file should have at most one of them.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="371"/>
-        <location filename="../Notes.h" line="255"/>
+        <location filename="../Notes.h" line="253"/>
         <source>Invalid ID3V2.4.0 frame. Incorrect frame size or file too short.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="372"/>
-        <location filename="../Notes.h" line="256"/>
+        <location filename="../Notes.h" line="254"/>
         <source>Invalid ID3V2.4.0 frame. Frame size is supposed to be stored as a synchsafe integer, which uses only 7 bits in a byte, but the size uses all 8 bits, as in ID3V2.3.0. This will confuse some applications</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="373"/>
-        <location filename="../Notes.h" line="257"/>
+        <location filename="../Notes.h" line="255"/>
         <source>Deprecated TYER frame found in 2.4.0 tag alongside a TDRC frame.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="374"/>
-        <location filename="../Notes.h" line="258"/>
+        <location filename="../Notes.h" line="256"/>
         <source>Deprecated TYER frame found in 2.4.0 tag. It&apos;s supposed to be replaced by a TDRC frame.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="375"/>
-        <location filename="../Notes.h" line="259"/>
+        <location filename="../Notes.h" line="257"/>
         <source>Deprecated TDAT frame found in 2.4.0 tag alongside a TDRC frame.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="376"/>
-        <location filename="../Notes.h" line="260"/>
+        <location filename="../Notes.h" line="258"/>
         <source>Deprecated TDAT frame found in 2.4.0 tag. It&apos;s supposed to be replaced by a TDRC frame.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="377"/>
-        <location filename="../Notes.h" line="261"/>
+        <location filename="../Notes.h" line="259"/>
         <source>Invalid ID3V2.4.0 frame. Mismatched Data length indicator. Frame value is probably incorrect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="378"/>
-        <location filename="../Notes.h" line="262"/>
+        <location filename="../Notes.h" line="260"/>
         <source>Invalid ID3V2.4.0 frame. Incorrect unsynchronization bit.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="379"/>
-        <location filename="../Notes.h" line="263"/>
+        <location filename="../Notes.h" line="261"/>
         <source>Unsupported value of text frame while reading an Id3V2.4.0 stream. It may be using an unsupported text encoding.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="380"/>
-        <location filename="../Notes.h" line="266"/>
+        <location filename="../Notes.h" line="264"/>
         <source>The only supported tag found that is capable of storing song information is ID3V1, which has pretty limited capabilities.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="381"/>
-        <location filename="../Notes.h" line="267"/>
+        <location filename="../Notes.h" line="265"/>
         <source>The ID3V1 tag should be located after the MPEG audio stream.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="382"/>
-        <location filename="../Notes.h" line="268"/>
+        <location filename="../Notes.h" line="266"/>
         <source>Invalid ID3V1 tag. File too short.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="383"/>
-        <location filename="../Notes.h" line="269"/>
+        <location filename="../Notes.h" line="267"/>
         <source>Two ID3V1 tags found, but a file should have at most one of them.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="384"/>
-        <location filename="../Notes.h" line="271"/>
+        <location filename="../Notes.h" line="269"/>
         <source>ID3V1 tag contains fields padded with spaces alongside fields padded with zeroes. The standard only allows zeroes, but some tools use spaces. Even so, zero-padding and space-padding shouldn&apos;t be mixed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="385"/>
-        <location filename="../Notes.h" line="272"/>
+        <location filename="../Notes.h" line="270"/>
         <source>ID3V1 tag contains fields that are padded with spaces mixed with zeroes. The standard only allows zeroes, but some tools use spaces. Even so, one character should be used for padding for the whole tag.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="386"/>
-        <location filename="../Notes.h" line="273"/>
+        <location filename="../Notes.h" line="271"/>
         <source>Invalid ID3V1 tag. Invalid characters in Name field.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="387"/>
-        <location filename="../Notes.h" line="274"/>
+        <location filename="../Notes.h" line="272"/>
         <source>Invalid ID3V1 tag. Invalid characters in Artist field.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="388"/>
-        <location filename="../Notes.h" line="275"/>
+        <location filename="../Notes.h" line="273"/>
         <source>Invalid ID3V1 tag. Invalid characters in Album field.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="389"/>
-        <location filename="../Notes.h" line="276"/>
+        <location filename="../Notes.h" line="274"/>
         <source>Invalid ID3V1 tag. Invalid characters in Year field.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="390"/>
-        <location filename="../Notes.h" line="277"/>
+        <location filename="../Notes.h" line="275"/>
         <source>Invalid ID3V1 tag. Invalid characters in Comment field.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="391"/>
-        <location filename="../Notes.h" line="280"/>
+        <location filename="../Notes.h" line="278"/>
         <source>Broken stream found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="392"/>
-        <location filename="../Notes.h" line="281"/>
+        <location filename="../Notes.h" line="279"/>
         <source>Broken stream found. Since other streams follow, it is possible that players and tools will have problems using the file. Removing the stream is recommended.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="393"/>
-        <location filename="../Notes.h" line="284"/>
+        <location filename="../Notes.h" line="282"/>
         <source>Truncated MPEG stream found. The cause for this seems to be that the file was truncated.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="394"/>
-        <location filename="../Notes.h" line="285"/>
+        <location filename="../Notes.h" line="283"/>
         <source>Truncated MPEG stream found. Since other streams follow, it is possible that players and tools will have problems using the file. Removing the stream or padding it with 0 to reach its declared size is strongly recommended.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="395"/>
-        <location filename="../Notes.h" line="288"/>
+        <location filename="../Notes.h" line="286"/>
         <source>Not enough remaining bytes to create an UnknownDataStream.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="396"/>
-        <location filename="../Notes.h" line="289"/>
+        <location filename="../Notes.h" line="287"/>
         <source>Unknown stream found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="397"/>
-        <location filename="../Notes.h" line="290"/>
+        <location filename="../Notes.h" line="288"/>
         <source>Unknown stream found. Since other streams follow, it is possible that players and tools will have problems using the file. Removing the stream is recommended.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="398"/>
-        <location filename="../Notes.h" line="291"/>
+        <location filename="../Notes.h" line="289"/>
         <source>File contains null streams.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="399"/>
-        <location filename="../Notes.h" line="294"/>
+        <location filename="../Notes.h" line="292"/>
         <source>Invalid Lyrics stream tag. File too short.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="400"/>
-        <location filename="../Notes.h" line="295"/>
+        <location filename="../Notes.h" line="293"/>
         <source>Two Lyrics tags found, but only one is supported.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="401"/>
-        <location filename="../Notes.h" line="297"/>
+        <location filename="../Notes.h" line="295"/>
         <source>Invalid Lyrics stream tag. Unexpected characters found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="402"/>
-        <location filename="../Notes.h" line="298"/>
+        <location filename="../Notes.h" line="296"/>
         <source>Multiple fields with the same name were found in a Lyrics tag, but only one is supported.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="403"/>
-        <location filename="../Notes.h" line="300"/>
+        <location filename="../Notes.h" line="298"/>
         <source>Currently INF fields in Lyrics tags are not fully supported.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="404"/>
-        <location filename="../Notes.h" line="303"/>
+        <location filename="../Notes.h" line="301"/>
         <source>Invalid Ape Item. File too short.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="405"/>
-        <location filename="../Notes.h" line="304"/>
+        <location filename="../Notes.h" line="302"/>
         <source>Ape Item seems too big. Although the size may be any 32-bit integer, 256 bytes should be enough in practice. If this note is determined to be incorrect, it will be removed in the future.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="406"/>
-        <location filename="../Notes.h" line="305"/>
+        <location filename="../Notes.h" line="303"/>
         <source>Invalid Ape Item. Terminator not found for item name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="407"/>
-        <location filename="../Notes.h" line="306"/>
+        <location filename="../Notes.h" line="304"/>
         <source>Invalid Ape tag. Header expected but footer found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="408"/>
-        <location filename="../Notes.h" line="307"/>
+        <location filename="../Notes.h" line="305"/>
         <source>Not an Ape tag. File too short.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="409"/>
-        <location filename="../Notes.h" line="308"/>
+        <location filename="../Notes.h" line="306"/>
         <source>Invalid Ape tag. Footer expected but header found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="410"/>
-        <location filename="../Notes.h" line="309"/>
+        <location filename="../Notes.h" line="307"/>
         <source>Invalid Ape tag. Mismatch between header and footer.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="411"/>
-        <location filename="../Notes.h" line="310"/>
+        <location filename="../Notes.h" line="308"/>
         <source>Two Ape tags found, but only one is supported.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="412"/>
-        <location filename="../Notes.h" line="311"/>
+        <location filename="../Notes.h" line="309"/>
         <source>Ape item flags not supported.</source>
-        <translation type="unfinished"></translation>
+        <translation>Příznaky pro položku APE nepodporovány.</translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="413"/>
-        <location filename="../Notes.h" line="312"/>
+        <location filename="../Notes.h" line="310"/>
         <source>Unsupported Ape tag. Currently a missing header or footer are not supported.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodporovaný příznak APE. Nyní nejsou chybějící hlavičky a patičky podporovány.</translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="414"/>
-        <location filename="../Notes.h" line="315"/>
+        <location filename="../Notes.h" line="313"/>
         <source>The file seems to have been changed in the (short) time that passed between parsing it and the initial search for pictures. If you think that&apos;s not the case, report a bug.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="415"/>
-        <location filename="../Notes.h" line="316"/>
+        <location filename="../Notes.h" line="314"/>
         <source>No supported tag found that is capable of storing song information.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="416"/>
-        <location filename="../Notes.h" line="317"/>
+        <location filename="../Notes.h" line="315"/>
         <source>Too many TRACE notes added. The rest will be discarded.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="417"/>
-        <location filename="../Notes.h" line="318"/>
+        <location filename="../Notes.h" line="316"/>
         <source>Too many notes added. The rest will be discarded.</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidáno příliš mnoho poznámek. Zbytek bude zahozen.</translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="418"/>
-        <location filename="../Notes.h" line="319"/>
+        <location filename="../Notes.h" line="317"/>
         <source>Too many streams found. Aborting processing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nalezeno příliš mnoho proudů. Zpracování zrušeno.</translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="419"/>
-        <location filename="../Notes.h" line="320"/>
+        <location filename="../Notes.h" line="318"/>
         <source>Unsupported stream found. It may be supported in the future if there&apos;s a real need for it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nalezen nepodporovaný proud. V budoucnu bude možná podporován, pokud pro to bude skutečná potřeba.</translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="420"/>
-        <location filename="../Notes.h" line="321"/>
+        <location filename="../Notes.h" line="319"/>
         <source>The file was saved using the &quot;fast&quot; option. While this improves the saving speed, it may leave the notes in an inconsistent state, so you should rescan the file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="495"/>
+        <location filename="../Notes.cpp" line="379"/>
         <source>ERROR</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba</translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="496"/>
+        <location filename="../Notes.cpp" line="380"/>
         <source>WARNING</source>
-        <translation type="unfinished"></translation>
+        <translation>Varování</translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="497"/>
+        <location filename="../Notes.cpp" line="381"/>
         <source>SUPPORT</source>
-        <translation type="unfinished"></translation>
+        <translation>Podpora</translation>
     </message>
     <message>
-        <location filename="../Notes.h" line="184"/>
+        <location filename="../Notes.h" line="182"/>
         <source>Two MPEG audio streams found, but a file should have exactly one.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4365,17 +4321,17 @@ Processing aborted.</source>
     <message>
         <location filename="../NotesModel.cpp" line="101"/>
         <source>L</source>
-        <translation type="unfinished"></translation>
+        <translation>L</translation>
     </message>
     <message>
         <location filename="../NotesModel.cpp" line="102"/>
         <source>Note</source>
-        <translation type="unfinished"></translation>
+        <translation>Poznámka</translation>
     </message>
     <message>
         <location filename="../NotesModel.cpp" line="103"/>
         <source>Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresa</translation>
     </message>
 </context>
 <context>
@@ -4469,32 +4425,32 @@ Processing aborted.</source>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="566"/>
         <source>Source or destination is a directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Zdroj nebo cíl je adresář</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="570"/>
         <source>Error during copying</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba při kopírování</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="574"/>
         <source>Error during renaming</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba při přejmenovávání</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="578"/>
         <source>Destination already exists</source>
-        <translation type="unfinished"></translation>
+        <translation>Cíl již existuje</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="582"/>
         <source>Source not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Zdroj nenalezen</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="591"/>
         <source>Unknown error</source>
-        <translation type="unfinished"></translation>
+        <translation>Neznámá chyba</translation>
     </message>
 </context>
 <context>
@@ -4502,43 +4458,43 @@ Processing aborted.</source>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="1079"/>
         <source>A pattern cannot be empty</source>
-        <translation type="unfinished"></translation>
+        <translation>Vzor nemůže být prázdný</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="1086"/>
         <source>A pattern must either begin with &apos;%1&apos; or contain no &apos;%1&apos; at all</source>
-        <translation type="unfinished"></translation>
+        <translation>Vzor musí začínat buď &apos;%1&apos; nebo nesmí vůbec obsahovat &apos;%1&apos; </translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="1092"/>
         <location filename="../FileRenamerDlgImpl.cpp" line="1096"/>
         <source>A pattern must either begin with &quot;&lt;drive&gt;:\&quot; or contain no &apos;\&apos; at all</source>
-        <translation type="unfinished"></translation>
+        <translation>Vzor musí začínat buď &lt;drive&gt;:\&quot; nebo nesmí vůbec obsahovat &apos;\&apos;</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="1154"/>
         <source>Error in column %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba ve sloupci %1.</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="1163"/>
         <source>Nested optional elements are not allowed</source>
-        <translation type="unfinished"></translation>
+        <translation>Vnořené volitelné prvky nejsou povoleny</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="1172"/>
         <source>Trying to close and optional element although none is open</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokus o zavření volitelného prvku, ačkoli žádný není otevřen</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="1186"/>
         <source>Optional element must be closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Musí se zavřít volitelný prvek</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="1188"/>
         <source>Title entry (%t) must be present</source>
-        <translation type="unfinished"></translation>
+        <translation>Položka názvu (%t) musí být přítomna</translation>
     </message>
 </context>
 <context>
@@ -4557,7 +4513,18 @@ Processing aborted.</source>
 To include the special characters &quot;%&quot;, &quot;[&quot; and &quot;]&quot;, precede them by a &quot;%&quot;: &quot;%%&quot;, &quot;%[&quot; and &quot;%]&quot;
 
 The path should be either a full path, starting with a &quot;%1&quot;, or it should contain no &quot;%1&quot;, if what is wanted is for the renamed files to remain in their original directories</source>
-        <translation type="unfinished"></translation>
+        <translation>%n	číslo stopy
+%a	umělec
+%t	název
+%b	album
+%y	rok
+%g	žánr
+%r	hodnocení (malé písmeno)
+%c	skladatel
+
+Pro zahrnutí zvláštních znaků &quot;%&quot;, &quot;[&quot; a &quot;]&quot; je uveďte &quot;%&quot;: &quot;%%&quot;, &quot;%[&quot; a &quot;%]&quot;
+
+Cesta by měla být buď úplnou cestou začínající &quot;%1&quot;, nebo by neměla obsahovat &quot;%1&quot;, pokud to, co se chce, je, aby přejmenované soubory zůstaly ve svých původních adresářích</translation>
     </message>
     <message>
         <location filename="../RenamerPatternsDlgImpl.cpp" line="54"/>
@@ -4573,17 +4540,28 @@ The path should be either a full path, starting with a &quot;%1&quot;, or it sho
 To include the special characters &quot;%&quot;, &quot;[&quot; and &quot;]&quot;, precede them by a &quot;%&quot;: &quot;%%&quot;, &quot;%[&quot; and &quot;%]&quot;
 
 The path should be either a full path, starting with a drive letter followed by &quot;:\&quot;, or it should contain no &quot;\&quot;, if what is wanted is for the renamed files to remain in their original directories</source>
-        <translation type="unfinished"></translation>
+        <translation>%n	číslo stopy
+%a	umělec
+%t	název
+%b	album
+%y	rok
+%g	žánr
+%r	hodnocení (malé písmeno)
+%c	skladatel
+
+Pro zahrnutí zvláštních znaků &quot;%&quot;, &quot;[&quot; a &quot;]&quot; je uveďte &quot;%&quot;: &quot;%%&quot;, &quot;%[&quot; a &quot;%]&quot;
+
+Cesta by měla být buď úplnou cestou začínající písmenem diskové jednotky následovaným&quot;:\&quot;, nebo by neměla obsahovat &quot;\&quot;, pokud to, co se chce, je, aby přejmenované soubory zůstaly ve svých původních adresářích</translation>
     </message>
     <message>
         <location filename="../RenamerPatternsDlgImpl.cpp" line="107"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="../RenamerPatternsDlgImpl.cpp" line="177"/>
         <source>Line %1, Col %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Řádek %1, Sloupec %2</translation>
     </message>
 </context>
 <context>
@@ -4689,7 +4667,13 @@ will store its settings in this file.
 
 The name was generated automatically. If you want to choose a different name, simply click on
 the button at the right to change it.</source>
-        <translation type="unfinished"></translation>
+        <comment>this is a multiline tooltip</comment>
+        <translation type="unfinished">Toto je název &quot;souboru s nastavením&quot;
+
+Předpokládá se, že je to soubor, který již neexistuje. Není třeba jej vytvářet.
+MP3 Diags bude uchovávat svá nastavení v tomto souboru.
+
+Název byl vytvořen automaticky. Pokud chcete vybrat jiný název, jednoduše klepněte na tlačítko napravo pro jeho změnu.</translation>
     </message>
     <message>
         <location filename="../SessionEditorDlgImpl.cpp" line="122"/>
@@ -4699,7 +4683,13 @@ This is supposed to be a file that doesn&apos;t already exist. You don&apos;t ne
 will store its settings in this file.
 
 To change it, simply click on the button at the right to choose the name of the settings file.</source>
-        <translation type="unfinished"></translation>
+        <comment>this is a multiline tooltip</comment>
+        <translation>Zde zadejte název &quot;souboru s nastavením&quot;
+
+Předpokládá se, že je to soubor, který již neexistuje. Není třeba jej vytvářet. MP3 Diags
+bude uchovávat svá nastavení v tomto souboru.
+
+Pro jeho změnu jednoduše klepněte na tlačítko napravo pro pojmenování souboru s nastavením.</translation>
     </message>
     <message>
         <location filename="../SessionEditorDlgImpl.cpp" line="195"/>
@@ -4717,51 +4707,55 @@ To change it, simply click on the button at the right to choose the name of the 
         <location filename="../SessionEditorDlgImpl.cpp" line="248"/>
         <location filename="../SessionEditorDlgImpl.cpp" line="295"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="../SessionEditorDlgImpl.cpp" line="229"/>
         <source>You need to specify the name of the settings file.
 
 This is supposed to be a file that doesn&apos;t already exist. You don&apos;t need to set it up, but just to pick a name for it. MP3 Diags will store its settings in this file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zadejte název &quot;souboru s nastavením.
+
+Předpokládá se, že to je soubor, který již neexistuje. Není třeba jej vytvářet, jen pro něj vyberte název. MP3 Diags
+bude uchovávat svá nastavení v tomto souboru.
+</translation>
     </message>
     <message>
         <location filename="../SessionEditorDlgImpl.cpp" line="239"/>
         <source>You need to select at least a directory to be included in the session.</source>
-        <translation type="unfinished"></translation>
+        <translation>Musíte vybrat alespoň adresář, který má být zahrnut v tomto sezení.</translation>
     </message>
     <message>
         <location filename="../SessionEditorDlgImpl.cpp" line="248"/>
         <source>If you want to create backups, you must select an existing directory to store them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokud chcete vytvořit zálohy, musíte vybrat existující adresář pro jejich uložení.</translation>
     </message>
     <message>
         <location filename="../SessionEditorDlgImpl.cpp" line="295"/>
         <source>Failed to write to file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodařilo se zapsat do souboru %1</translation>
     </message>
     <message>
         <location filename="../SessionEditorDlgImpl.cpp" line="320"/>
         <source>Select folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Vybrat složku</translation>
     </message>
     <message>
         <location filename="../SessionEditorDlgImpl.cpp" line="320"/>
         <source>All files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation>Všechny soubory (*)</translation>
     </message>
     <message>
         <location filename="../SessionEditorDlgImpl.cpp" line="356"/>
         <source>Enter configuration file</source>
-        <translation type="unfinished"></translation>
+        <translation>Zadat soubor s nastavením</translation>
     </message>
     <message>
         <location filename="../SessionEditorDlgImpl.cpp" line="356"/>
         <location filename="../SessionsDlgImpl.cpp" line="451"/>
         <location filename="../SessionsDlgImpl.cpp" line="492"/>
         <source>MP3 Diags session files (*%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubory se sezením MP3 Diags (*%1)</translation>
     </message>
 </context>
 <context>
@@ -4838,71 +4832,71 @@ This is supposed to be a file that doesn&apos;t already exist. You don&apos;t ne
         <location filename="../SessionsDlgImpl.cpp" line="201"/>
         <location filename="../SessionsDlgImpl.cpp" line="202"/>
         <source>&lt;last session&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;poslední sezení&gt;</translation>
     </message>
     <message>
         <location filename="../SessionsDlgImpl.cpp" line="422"/>
         <location filename="../SessionsDlgImpl.cpp" line="485"/>
         <source>Confirm</source>
-        <translation type="unfinished">Potvrdit</translation>
+        <translation>Potvrdit</translation>
     </message>
     <message>
         <location filename="../SessionsDlgImpl.cpp" line="422"/>
         <source>Do you really want to erase the current session?</source>
-        <translation type="unfinished"></translation>
+        <translation>Opravdu chcete smazat nynější sezení?</translation>
     </message>
     <message>
         <location filename="../SessionsDlgImpl.cpp" line="422"/>
         <source>Erase</source>
-        <translation type="unfinished">Vymazat</translation>
+        <translation>Vymazat</translation>
     </message>
     <message>
         <location filename="../SessionsDlgImpl.cpp" line="422"/>
         <location filename="../SessionsDlgImpl.cpp" line="485"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="../SessionsDlgImpl.cpp" line="439"/>
         <location filename="../SessionsDlgImpl.cpp" line="507"/>
         <location filename="../SessionsDlgImpl.cpp" line="520"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="../SessionsDlgImpl.cpp" line="439"/>
         <source>Failed to remove the data files associated with this session</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodařilo se odstranit soubory s daty spojené s tímto sezením</translation>
     </message>
     <message>
         <location filename="../SessionsDlgImpl.cpp" line="451"/>
         <source>Save session as ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit sezení jako...</translation>
     </message>
     <message>
         <location filename="../SessionsDlgImpl.cpp" line="485"/>
         <source>Do you really want to hide the current session?</source>
-        <translation type="unfinished"></translation>
+        <translation>Opravdu chcete skrýt nynější sezení?</translation>
     </message>
     <message>
         <location filename="../SessionsDlgImpl.cpp" line="485"/>
         <source>Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Skrýt</translation>
     </message>
     <message>
         <location filename="../SessionsDlgImpl.cpp" line="492"/>
         <source>Choose a session file</source>
-        <translation type="unfinished"></translation>
+        <translation>Vybrat soubor se sezením</translation>
     </message>
     <message>
         <location filename="../SessionsDlgImpl.cpp" line="507"/>
         <source>The session named &quot;%1&quot; is already part of the session list</source>
-        <translation type="unfinished"></translation>
+        <translation>Sezení s názvem &quot;%1&quot; je již součástí seznamu sezení</translation>
     </message>
     <message>
         <location filename="../SessionsDlgImpl.cpp" line="520"/>
         <source>The session list is empty. You must create a new session or load an existing one.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seznam sezení je prázdný. Musíte vytvořit nové sezení nebo nahrát existující.</translation>
     </message>
 </context>
 <context>
@@ -4910,7 +4904,7 @@ This is supposed to be a file that doesn&apos;t already exist. You don&apos;t ne
     <message>
         <location filename="../SessionsDlgImpl.cpp" line="73"/>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation>Název souboru</translation>
     </message>
 </context>
 <context>
@@ -4918,42 +4912,42 @@ This is supposed to be a file that doesn&apos;t already exist. You don&apos;t ne
     <message>
         <location filename="../Helpers.cpp" line="1315"/>
         <source>%1 - %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 - %2</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="1397"/>
         <source>Error setting up shell integration</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba při nastavování integrace shellu</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="1397"/>
         <source>It appears that setting up shell integration didn&apos;t complete successfully. You might have to configure it manually.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zdá se, že nastavování integrace shellu nebylo dokončeno úspěšně. Je možné, že to budete muset udělat ručně.</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="1398"/>
         <source>This message will not be shown again until the program is restarted, even if more errors occur.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tato zpráva nebude znovu zobrazena, dokud program nebude spuštěn znovu, i kdyby se vyskytly další chyby.</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="1399"/>
         <source>O&amp;K</source>
-        <translation type="unfinished">&amp;OK</translation>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="1416"/>
         <source>temporary folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Dočasná složka</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="1417"/>
         <source>hidden folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Skrytá složka</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="1418"/>
         <source>visible folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Viditelná složka</translation>
     </message>
 </context>
 <context>
@@ -4961,27 +4955,27 @@ This is supposed to be a file that doesn&apos;t already exist. You don&apos;t ne
     <message>
         <location filename="../StreamsModel.cpp" line="133"/>
         <source>Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresa</translation>
     </message>
     <message>
         <location filename="../StreamsModel.cpp" line="134"/>
         <source>Size (dec)</source>
-        <translation type="unfinished"></translation>
+        <translation>Velikost (dec)</translation>
     </message>
     <message>
         <location filename="../StreamsModel.cpp" line="135"/>
         <source>Size (hex)</source>
-        <translation type="unfinished"></translation>
+        <translation>Velikost (hex)</translation>
     </message>
     <message>
         <location filename="../StreamsModel.cpp" line="136"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <location filename="../StreamsModel.cpp" line="137"/>
         <source>Stream details</source>
-        <translation type="unfinished"></translation>
+        <translation>Podrobnosti proudu</translation>
     </message>
 </context>
 <context>
@@ -4989,22 +4983,22 @@ This is supposed to be a file that doesn&apos;t already exist. You don&apos;t ne
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1942"/>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Varování</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1942"/>
         <source>You are editing data in a cell. If you proceed that change will be lost. Proceed and lose the data?</source>
-        <translation type="unfinished"></translation>
+        <translation>Upravujete data v buňce. Pokud budete pokračovat bude tato změna ztracena. Pokračovat nebo ztratit data?</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1942"/>
         <source>Proceed</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokračovat</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1942"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
 </context>
 <context>
@@ -5012,22 +5006,22 @@ This is supposed to be a file that doesn&apos;t already exist. You don&apos;t ne
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="98"/>
         <source>N/A</source>
-        <translation type="unfinished"></translation>
+        <translation>N/A</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="140"/>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation>Název souboru</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="168"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="168"/>
         <source>The data contained errors and couldn&apos;t be saved</source>
-        <translation type="unfinished"></translation>
+        <translation>Data obsahovala chyby a nepodařilo se je uložit</translation>
     </message>
 </context>
 <context>
@@ -5035,7 +5029,7 @@ This is supposed to be a file that doesn&apos;t already exist. You don&apos;t ne
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="205"/>
         <source>N/A</source>
-        <translation type="unfinished"></translation>
+        <translation>N/A</translation>
     </message>
 </context>
 <context>
@@ -5213,7 +5207,7 @@ This is supposed to be a file that doesn&apos;t already exist. You don&apos;t ne
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="508"/>
         <source>Toggle &quot;Various Artists&quot;</source>
-        <translation type="unfinished">Přepnout Různí umělci</translation>
+        <translation>Přepnout Různí umělci</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="510"/>
@@ -5221,57 +5215,59 @@ This is supposed to be a file that doesn&apos;t already exist. You don&apos;t ne
 configuration dialog, go to the &quot;Others&quot; tab and
 check the corresponding checkbox(es)</source>
         <comment>this is a multi-line tooltip</comment>
-        <translation type="unfinished"></translation>
+        <translation>Pro povolení &quot;Různí umělci&quot; potřebujete otevřít
+dialog pro nastavení. Jděte na kartu &quot;Jiné&quot; a zaškrtněte
+odpovídající zaškrtávací okénka</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="893"/>
         <source>Error setting up the tag order</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba při nastavování pořadí karet</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="893"/>
         <source>An invalid value was found in the configuration file. You&apos;ll have to sort the tags again.</source>
-        <translation type="unfinished"></translation>
+        <translation>V souboru s nastavením byla nalezena neplatná hodnota. Budete muset značky třídit znovu.</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="957"/>
         <source>Error setting up patterns</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba při nastavování vzorů</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="957"/>
         <source>An invalid value was found in the configuration file. You&apos;ll have to set up the patterns manually.</source>
-        <translation type="unfinished"></translation>
+        <translation>V souboru s nastavením byla nalezena neplatná hodnota. Budete muset vzory nastavit ručně.</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1028"/>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Varování</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1028"/>
         <source>Reloading the current album causes all unsaved changes to be lost. Really reload?</source>
-        <translation type="unfinished"></translation>
+        <translation>Znovunahrání nynějšího alba povede k tomu, že všechny neuložené změny budou ztraceny. Skutečně je nahrát znovu?</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1028"/>
         <source>Reload</source>
-        <translation type="unfinished">Nahrát znovu</translation>
+        <translation>Nahrát znovu</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1028"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1063"/>
         <source>Artists - %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Umělci - %1</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1068"/>
         <source>Others - %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Jiní - %1</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1691"/>
@@ -5279,17 +5275,17 @@ check the corresponding checkbox(es)</source>
         <location filename="../TagEditorDlgImpl.cpp" line="1716"/>
         <location filename="../TagEditorDlgImpl.cpp" line="1720"/>
         <source>Confirm</source>
-        <translation type="unfinished">Potvrdit</translation>
+        <translation>Potvrdit</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1691"/>
         <source>You added %1 images but then you didn&apos;t assign them to any songs. What do you want to do?</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidal jste %1 obrázků, ale pak jste je nepřiřadil k žádné písni. Co chcete dělat?</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1691"/>
         <source>You added an image but then you didn&apos;t assign it to any song. What do you want to do?</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidal jste jeden obrázek, ale pak jste jej nepřiřadil k žádné písni. Co chcete dělat?</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1691"/>
@@ -5297,7 +5293,7 @@ check the corresponding checkbox(es)</source>
         <location filename="../TagEditorDlgImpl.cpp" line="1716"/>
         <location filename="../TagEditorDlgImpl.cpp" line="1720"/>
         <source>&amp;Discard</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Zahodit</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1691"/>
@@ -5305,54 +5301,54 @@ check the corresponding checkbox(es)</source>
         <location filename="../TagEditorDlgImpl.cpp" line="1716"/>
         <location filename="../TagEditorDlgImpl.cpp" line="1720"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Z&amp;rušit</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1712"/>
         <source>There are unsaved fields that you assigned a value to, as well as fields whose value doesn&apos;t match the ID3V2 value. What do you want to do?</source>
-        <translation type="unfinished"></translation>
+        <translation>Jsou tu neuložená pole, kterým jste přiřadil hodnotu, i pole, jejichž hodnota neodpovídá hodnotě ID3V2. Co chcete dělat?</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1712"/>
         <location filename="../TagEditorDlgImpl.cpp" line="1716"/>
         <location filename="../TagEditorDlgImpl.cpp" line="1720"/>
         <source>&amp;Save</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Uložit</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1716"/>
         <source>There are unsaved fields that you assigned a value to. What do you want to do?</source>
-        <translation type="unfinished"></translation>
+        <translation>Jsou tu neuložená pole, kterým jste přiřadil hodnotu. Co chcete dělat?</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1720"/>
         <source>There are fields whose value doesn&apos;t match the ID3V2 value. What do you want to do?</source>
-        <translation type="unfinished"></translation>
+        <translation>Jsou tu pole, jejichž hodnota neodpovídá hodnotě ID3V2. Co chcete dělat?</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1741"/>
         <source>Saving ID3V2.3.0 tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukládání značek ID3V2.3.0</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1767"/>
         <source>Some fields are missing or may be incomplete. While this is usually solved by downloading correct information, there are a cases when this approach doesn&apos;t work, like custom compilations, rare albums, or missing tracks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Některá pole chybí nebo jsou neúplná. Toto je obvykle vyřešeno stažením správných informací, ale jsou případy, kdy takový přístup nepracuje, jako u vlastních kompilací, vzácných alb nebo když chybí skladby.</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1767"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informace</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1769"/>
         <source>If your current folder fits one of these cases or you simply have consistently named files that you would prefer to use as a source of track info, you may want to take a look at the tag editor&apos;s patterns, at %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokud vaše současná složka odpovídá jednomu z těchto případů nebo jednoduše máte soubory důsledně pojmenovany, protože je rád používáte jako zdroj informací o skladbě, možná se budete chtít podívat na vzory v editoru značek, v %1</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1769"/>
         <source>O&amp;K</source>
-        <translation type="unfinished">&amp;OK</translation>
+        <translation>&amp;OK</translation>
     </message>
 </context>
 <context>
@@ -5374,17 +5370,30 @@ To include the special characters &quot;%&quot;, &quot;[&quot;, &quot;]&quot; an
 For a pattern to be considered a &quot;file pattern&quot; (as opposed to a &quot;table pattern&quot;), it must contain at least a &quot;%1&quot;, even if you don&apos;t care about what&apos;s in the file&apos;s parent directory (see the fourth predefined pattern for an example.)
 
 Leading and trailing spaces are removed automatically from unbound fields after matching, so &quot;-[ ]%t&quot; is equivalent to &quot;-%t&quot; (but &quot;-[ ]%n&quot; is not equivalent to &quot;-%n&quot;, because %n is a fixed format field). However, all non-optional characters matter in the matching phase, including spaces.</source>
-        <translation type="unfinished"></translation>
+        <translation>%n	číslo stopy
+%a	umělec
+%t	název
+%b	album
+%y	rok
+%g	žánr
+%r	hodnocení (malé písmeno)
+%c	skladatel
+
+Pro zahrnutí zvláštních znaků &quot;%&quot;, &quot;[&quot;, &quot;]&quot; and &quot;%1&quot; je uveďte &quot;%&quot;: &quot;%%&quot;, &quot;%[&quot;, &quot;%]&quot; and &quot;%%1
+
+Aby byl vzor považován za &quot;souborový vzor&quot; (jako protiklad k &quot;tabulkovému vzoru&quot;), musí obsahovat alespoň &quot;%1&quot;, i když byste se nestaral o to, co je v rodičovském adresáři souboru (podívejte se například na čtvrtý přednastavený vzor)
+
+Mezery na začátku a na konci jsou po srovnání z nesvázaných polí odstraněny automaticky, takže &quot;-[ ]%t&quot; je obdoba pro &quot;-%t&quot; (ale &quot;-[ ]%n&quot; není obdoba pro &quot;-%n&quot;, protože %n je pevné pole formátu). Nicméně na všech nevolitelných znacích záleží v porovnávací fázi, včetně mezer.</translation>
     </message>
     <message>
         <location filename="../TagEdtPatternsDlgImpl.cpp" line="100"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="../TagEdtPatternsDlgImpl.cpp" line="186"/>
         <source>Line %1, Col %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Řádek: %1 Sloupec: %2</translation>
     </message>
 </context>
 <context>
@@ -5392,47 +5401,47 @@ Leading and trailing spaces are removed automatically from unbound fields after 
     <message>
         <location filename="../TagReadPanel.cpp" line="92"/>
         <source>Track#</source>
-        <translation type="unfinished"></translation>
+        <translation>Stopa#</translation>
     </message>
     <message>
         <location filename="../TagReadPanel.cpp" line="92"/>
         <source>Artist</source>
-        <translation type="unfinished">Umělec</translation>
+        <translation>Umělec</translation>
     </message>
     <message>
         <location filename="../TagReadPanel.cpp" line="92"/>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Název</translation>
     </message>
     <message>
         <location filename="../TagReadPanel.cpp" line="92"/>
         <source>Album</source>
-        <translation type="unfinished">Album</translation>
+        <translation>Album</translation>
     </message>
     <message>
         <location filename="../TagReadPanel.cpp" line="92"/>
         <source>VA</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../TagReadPanel.cpp" line="92"/>
         <source>Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Čas</translation>
     </message>
     <message>
         <location filename="../TagReadPanel.cpp" line="92"/>
         <source>Genre</source>
-        <translation type="unfinished">Žánr</translation>
+        <translation>Žánr</translation>
     </message>
     <message>
         <location filename="../TagReadPanel.cpp" line="92"/>
         <source>Rating</source>
-        <translation type="unfinished"></translation>
+        <translation>Hodnocení</translation>
     </message>
     <message>
         <location filename="../TagReadPanel.cpp" line="92"/>
         <source>Composer</source>
-        <translation type="unfinished"></translation>
+        <translation>Skladatel</translation>
     </message>
 </context>
 <context>
@@ -5440,72 +5449,72 @@ Leading and trailing spaces are removed automatically from unbound fields after 
     <message>
         <location filename="../DataStream.cpp" line="319"/>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Název</translation>
     </message>
     <message>
         <location filename="../DataStream.cpp" line="319"/>
         <source>Artist</source>
-        <translation type="unfinished">Umělec</translation>
+        <translation>Umělec</translation>
     </message>
     <message>
         <location filename="../DataStream.cpp" line="319"/>
         <source>Track #</source>
-        <translation type="unfinished"></translation>
+        <translation>Stopa#</translation>
     </message>
     <message>
         <location filename="../DataStream.cpp" line="319"/>
         <source>Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Čas</translation>
     </message>
     <message>
         <location filename="../DataStream.cpp" line="319"/>
         <source>Genre</source>
-        <translation type="unfinished">Žánr</translation>
+        <translation>Žánr</translation>
     </message>
     <message>
         <location filename="../DataStream.cpp" line="319"/>
         <source>Picture</source>
-        <translation type="unfinished"></translation>
+        <translation>Obrázek</translation>
     </message>
     <message>
         <location filename="../DataStream.cpp" line="320"/>
         <source>Album</source>
-        <translation type="unfinished">Album</translation>
+        <translation>Album</translation>
     </message>
     <message>
         <location filename="../DataStream.cpp" line="320"/>
         <source>Rating</source>
-        <translation type="unfinished"></translation>
+        <translation>Hodnocení</translation>
     </message>
     <message>
         <location filename="../DataStream.cpp" line="320"/>
         <source>Composer</source>
-        <translation type="unfinished"></translation>
+        <translation>Skladatel</translation>
     </message>
     <message>
         <location filename="../DataStream.cpp" line="320"/>
         <source>VA</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../TagWriter.cpp" line="172"/>
         <source>(file)</source>
-        <translation type="unfinished"></translation>
+        <translation>(soubor)</translation>
     </message>
     <message>
         <location filename="../TagWriter.cpp" line="172"/>
         <source>(table)</source>
-        <translation type="unfinished"></translation>
+        <translation>(tabulka)</translation>
     </message>
     <message>
         <location filename="../TagWriter.h" line="134"/>
         <source>Pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Vzor</translation>
     </message>
     <message>
         <location filename="../TagWriter.h" line="191"/>
         <source>Web</source>
-        <translation type="unfinished"></translation>
+        <translation>Web</translation>
     </message>
     <message>
         <location filename="../LyricsStream.cpp" line="121"/>
@@ -5517,7 +5526,7 @@ Leading and trailing spaces are removed automatically from unbound fields after 
         <location filename="../LyricsStream.cpp" line="205"/>
         <location filename="../LyricsStream.cpp" line="217"/>
         <source>Additional %1 field: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodatečné %1 pole: %2</translation>
     </message>
     <message>
         <location filename="../LyricsStream.cpp" line="127"/>
@@ -5527,161 +5536,161 @@ Leading and trailing spaces are removed automatically from unbound fields after 
         <location filename="../LyricsStream.cpp" line="375"/>
         <location filename="../LyricsStream.cpp" line="376"/>
         <source>%1 field: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 pole: %2</translation>
     </message>
     <message>
         <location filename="../MpegStream.cpp" line="819"/>
         <source>Comment: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Poznámka: %1</translation>
     </message>
     <message>
         <location filename="../ApeStream.cpp" line="161"/>
         <location filename="../Id3V230Stream.cpp" line="205"/>
         <location filename="../Id3V240Stream.cpp" line="299"/>
         <source>&lt;non-text value&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;netextová hodnota&gt;</translation>
     </message>
     <message>
         <location filename="../Id3V2Stream.cpp" line="511"/>
         <location filename="../Id3V2Stream.cpp" line="548"/>
         <source>&lt;error loading frame&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;chyba při nahrávání pole&gt;</translation>
     </message>
     <message>
         <location filename="../Id3V2Stream.cpp" line="515"/>
         <location filename="../Id3V2Stream.cpp" line="552"/>
         <source>&lt;error decoding frame&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;chyba při dekódování pole&gt;</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="108"/>
         <source>other</source>
-        <translation type="unfinished"></translation>
+        <translation>jiné</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="109"/>
         <source>32x32 icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Ikona 32x32</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="110"/>
         <source>other file icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Jiná souborová ikona</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="111"/>
         <source>front cover</source>
-        <translation type="unfinished"></translation>
+        <translation>Přední strana obalu</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="112"/>
         <source>back cover</source>
-        <translation type="unfinished"></translation>
+        <translation>Zadní strana obalu</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="113"/>
         <source>leaflet page</source>
-        <translation type="unfinished"></translation>
+        <translation>Strana letáku</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="114"/>
         <source>media</source>
-        <translation type="unfinished"></translation>
+        <translation>Media</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="115"/>
         <source>lead artist</source>
-        <translation type="unfinished"></translation>
+        <translation>Hlavní umělec</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="116"/>
         <source>artist</source>
-        <translation type="unfinished"></translation>
+        <translation>Umělec</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="117"/>
         <source>conductor</source>
-        <translation type="unfinished"></translation>
+        <translation>Dirigent</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="118"/>
         <source>band</source>
-        <translation type="unfinished"></translation>
+        <translation>Skupina</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="119"/>
         <source>composer</source>
-        <translation type="unfinished"></translation>
+        <translation>Skladatel</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="120"/>
         <source>lyricist</source>
-        <translation type="unfinished"></translation>
+        <translation>Textař</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="121"/>
         <source>recording location</source>
-        <translation type="unfinished"></translation>
+        <translation>Místo nahrávky</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="122"/>
         <source>during recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Během nahrávání</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="123"/>
         <source>during performance</source>
-        <translation type="unfinished"></translation>
+        <translation>Během vystoupení</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="124"/>
         <source>screen capture</source>
-        <translation type="unfinished"></translation>
+        <translation>Zachycení obrazu</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="126"/>
         <source>illustration</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázka</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="127"/>
         <source>band/artist logotype</source>
-        <translation type="unfinished"></translation>
+        <translation>Logotyp hudební skupiny/umělce</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="128"/>
         <source>publisher/studio logotype</source>
-        <translation type="unfinished"></translation>
+        <translation>Logotyp vydavatele/nahrávacího studia</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="130"/>
         <source>unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Neznámý</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="429"/>
         <source>&lt;no change&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;žádná změna&gt;</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="430"/>
         <source>lower case</source>
-        <translation type="unfinished"></translation>
+        <translation>Malá písmena</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="431"/>
         <source>UPPER CASE</source>
-        <translation type="unfinished"></translation>
+        <translation>Velká písmena</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="432"/>
         <source>Title Case</source>
-        <translation type="unfinished"></translation>
+        <translation>Velikost písmen názvu</translation>
     </message>
     <message>
         <location filename="../CommonTypes.cpp" line="433"/>
         <source>Sentence case</source>
-        <translation type="unfinished"></translation>
+        <translation>Velikost písmen věty</translation>
     </message>
 </context>
 <context>
@@ -5689,23 +5698,23 @@ Leading and trailing spaces are removed automatically from unbound fields after 
     <message>
         <location filename="../TagWriter.cpp" line="1646"/>
         <source>Do you want to erase these files?%1</source>
-        <translation type="unfinished"></translation>
+        <translation>Chcete smazat tyto soubory? %1</translation>
     </message>
     <message>
         <location filename="../TagWriter.cpp" line="1651"/>
         <source>Do you want to erase %1?</source>
-        <translation type="unfinished"></translation>
+        <translation>Chcete smazat %1?</translation>
     </message>
     <message>
         <location filename="../TagWriter.cpp" line="1654"/>
         <source>Confirm</source>
-        <translation type="unfinished">Potvrdit</translation>
+        <translation>Potvrdit</translation>
     </message>
     <message>
         <location filename="../TagWriter.cpp" line="1654"/>
         <location filename="../TagWriter.cpp" line="1671"/>
         <source>Erase</source>
-        <translation type="unfinished">Vymazat</translation>
+        <translation>Vymazat</translation>
     </message>
     <message>
         <location filename="../TagWriter.cpp" line="1654"/>
@@ -5714,43 +5723,43 @@ Leading and trailing spaces are removed automatically from unbound fields after 
         <location filename="../TagWriter.cpp" line="1954"/>
         <location filename="../TagWriter.cpp" line="1959"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="../TagWriter.cpp" line="1868"/>
         <source>Currently pasting multiple file names is not supported, so only the first one is considered.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nyní není vkládání více souborových názvů podporováno, takže se bere jen první.</translation>
     </message>
     <message>
         <location filename="../TagWriter.cpp" line="1941"/>
         <source>The pasted value couldn&apos;t be assigned to some fields</source>
-        <translation type="unfinished"></translation>
+        <translation>Vloženou hodnotu se nepodařilo přiřadit k některým polím</translation>
     </message>
     <message>
         <location filename="../TagWriter.cpp" line="1941"/>
         <source>The pasted value couldn&apos;t be assigned to any field</source>
-        <translation type="unfinished"></translation>
+        <translation>Vloženou hodnotu se nepodařilo přiřadit k žádnému poli</translation>
     </message>
     <message>
         <location filename="../TagWriter.cpp" line="1954"/>
         <source>The number of lines in the clipboard is different from the number of files. Paste anyway?</source>
-        <translation type="unfinished"></translation>
+        <translation>Počet řádků ve schránce se liší od počtu souborů. Přesto vložit?</translation>
     </message>
     <message>
         <location filename="../TagWriter.cpp" line="1954"/>
         <location filename="../TagWriter.cpp" line="1959"/>
         <source>Paste</source>
-        <translation type="unfinished">Vložit</translation>
+        <translation>Vložit</translation>
     </message>
     <message>
         <location filename="../TagWriter.cpp" line="1959"/>
         <source>The track numbers aren&apos;t consecutive numbers starting at 1, so the pasted track information might not match the tracks. Paste anyway?</source>
-        <translation type="unfinished"></translation>
+        <translation>Čísla skladeb nejsou čísla jdoucí po sobě začínající číslem 1, takže vložené informace o skladbách nemusí odpovídat skladbám. Přesto vložit?</translation>
     </message>
     <message>
         <location filename="../TagWriter.cpp" line="1983"/>
         <source>Unrecognized clipboard content</source>
-        <translation type="unfinished"></translation>
+        <translation>Nerozpoznaný obsah schránky</translation>
     </message>
     <message>
         <location filename="../TagWriter.cpp" line="1008"/>
@@ -5759,27 +5768,27 @@ Leading and trailing spaces are removed automatically from unbound fields after 
         <location filename="../TagWriter.cpp" line="1941"/>
         <location filename="../TagWriter.cpp" line="1983"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="../TagWriter.cpp" line="977"/>
         <source>Track numbers are supposed to be consecutive numbers from 1 to the total number of tracks. This is not the case with the current album, which may lead to incorrect assignments when pasting information.</source>
-        <translation type="unfinished"></translation>
+        <translation>Předpokládá se, že čísla skladeb jsou čísla jdoucí po sobě začínající číslem 1 z celkového počtu skladeb. Toto není případ nynějšího alba, což může při vkládání informací vést k nesprávným přiřazení.</translation>
     </message>
     <message>
         <location filename="../TagWriter.cpp" line="1008"/>
         <source>Some files have been modified by an external tool after the last scan. You won&apos;t be able to save any changes to those files until you rescan them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Některé soubory byly po posledním prohledání změněny vnějším nástrojem. Nebudete do těchto souborů moci uložit žádné změny, dokud je znovu neprohlédnete.</translation>
     </message>
     <message>
         <location filename="../TagWriter.cpp" line="1661"/>
         <source>You cannot erase image files if there are unsaved values. Do you want to save?</source>
-        <translation type="unfinished"></translation>
+        <translation>Nemůžete vymazat soubory s obrázky, pokud jsou tu neuložené hodnoty. Chcete je uložit?</translation>
     </message>
     <message>
         <location filename="../TagWriter.cpp" line="1661"/>
         <source>Save, then erase file</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit, a pak soubor smazat</translation>
     </message>
     <message>
         <location filename="../TagWriter.cpp" line="977"/>
@@ -5788,17 +5797,17 @@ Leading and trailing spaces are removed automatically from unbound fields after 
         <location filename="../TagWriter.cpp" line="1954"/>
         <location filename="../TagWriter.cpp" line="1959"/>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Varování</translation>
     </message>
     <message>
         <location filename="../TagWriter.cpp" line="1671"/>
         <source>Erasing image files triggers a full reload, which results in downloaded and pasted data being lost. Erase anyway?</source>
-        <translation type="unfinished"></translation>
+        <translation>Vymazání souborů s obrázky spouští plné znovunahrání, což vede k tomu, že stažená a vložená data jsou ztracena. Přesta smazat?</translation>
     </message>
     <message>
         <location filename="../TagWriter.cpp" line="1678"/>
         <source>Couldn&apos;t erase file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodařilo se smazat soubor &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -5829,17 +5838,17 @@ Leading and trailing spaces are removed automatically from unbound fields after 
     <message>
         <location filename="../ThreadRunnerDlgImpl.cpp" line="141"/>
         <source>Completed</source>
-        <translation type="unfinished"></translation>
+        <translation>Hotovo</translation>
     </message>
     <message>
         <location filename="../ThreadRunnerDlgImpl.cpp" line="153"/>
         <source>&amp;Resume</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Pokračovat</translation>
     </message>
     <message>
         <location filename="../ThreadRunnerDlgImpl.cpp" line="160"/>
         <source>&amp;Pause</source>
-        <translation type="unfinished">&amp;Pozastavit</translation>
+        <translation>&amp;Pozastavit</translation>
     </message>
     <message>
         <location filename="../ThreadRunnerDlgImpl.cpp" line="299"/>
@@ -5847,12 +5856,15 @@ Leading and trailing spaces are removed automatically from unbound fields after 
 
 Total time: %1
 Running time: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>
+
+Celkový čas: %1
+Čas běhu: %2</translation>
     </message>
     <message>
         <location filename="../ThreadRunnerDlgImpl.cpp" line="304"/>
         <source>Time: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Čas: %1</translation>
     </message>
 </context>
 <context>
@@ -5860,7 +5872,7 @@ Running time: %2</source>
     <message>
         <location filename="../SongInfoParser.cpp" line="837"/>
         <source>&quot;%1&quot; is not a valid pattern. Error in column %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%1&quot; není platný vzor. Chyba ve sloupci %2.</translation>
     </message>
 </context>
 <context>
@@ -5868,12 +5880,12 @@ Running time: %2</source>
     <message>
         <location filename="../Transformation.cpp" line="208"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="../Transformation.cpp" line="208"/>
         <source>Invalid value found for file settings. Reverting to default settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro nastavení souboru nalezena neplatná hodnota. Návrat k výchozímu nastavení.</translation>
     </message>
 </context>
 <context>
@@ -5881,342 +5893,342 @@ Running time: %2</source>
     <message>
         <location filename="../Id3Transf.cpp" line="327"/>
         <source>Convert non-ASCII ID3V2 text frames to Unicode assuming codepage %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Převést ne-ASCII ID3V2 textová pole na Unicode za předpokladu kódové stránky %1</translation>
     </message>
     <message>
         <location filename="../Id3Transf.cpp" line="447"/>
         <source>Change case for ID3V2 text frames: Artists - %1; Others - %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Změnit velikost písmen pro ID3V2 textová pole: Umělec - %1; Jiní - %2</translation>
     </message>
     <message>
         <location filename="../Id3Transf.cpp" line="742"/>
         <source>Copy missing ID3V2 frames from ID3V1 assuming codepage %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopírovat chybějící ID3V2 textové rámečky z ID3V1 za předpokladu kódové stránky %1</translation>
     </message>
     <message>
         <location filename="../Id3Transf.h" line="43"/>
         <source>Removes all ID3V2 frames that aren&apos;t used by MP3 Diags. You normally don&apos;t want to do such a thing, but it may help if some other program misbehaves because of invalid or unknown frames in an ID3V2 tag.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstraní všechny rámečky ID3V2, které nejsou MP3 Diags používány. Obyčejně něco takového dělat nechcete, ale může to pomoci, když se nějaký jiný program chová špatně z důvodu neplatných nebo neznámých polí ve značce ID3V2.</translation>
     </message>
     <message>
         <location filename="../Id3Transf.h" line="45"/>
         <source>Remove non-basic ID3V2 frames</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit ne-základní ID3V2 pole</translation>
     </message>
     <message>
         <location filename="../Id3Transf.h" line="57"/>
         <source>Copies only ID3V2 frames that seem valid or can be made valid, discarding those that are invalid and can&apos;t be fixed (e.g. an APIC frame claiming to hold a picture although it doesn&apos;t.) Handles both loadable and broken ID3V2 tags, in the latter case copying being stopped when a fatal error occurs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopíruje pouze pole ID3V2, která se zdají být platná nebo je lze udělat platnými, zahazuje ta, která jsou neplatná a nelze je opravit (např. pole APIC tvrdící, že drží obrázek, i když to nedělá). Zachází jak s nahratelnými tak s poškozenými značkami ID3V2. Ve druhém případě je kopírování zastaveno, když se objeví vážná chyba.</translation>
     </message>
     <message>
         <location filename="../Id3Transf.h" line="59"/>
         <source>Discard invalid ID3V2 data</source>
-        <translation type="unfinished"></translation>
+        <translation>Zahodit neplatná data ID3V2</translation>
     </message>
     <message>
         <location filename="../Id3Transf.h" line="73"/>
         <source>Transforms text frames in ID3V2 encoded as Latin1 to Unicode (UTF16.) The reason to do this is that sometimes non-conforming software treats these frames as they are encoded in a different code page, causing other programs to display unexpected data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Promění textová pole v ID3V2 kódovaná v Latin-1 na Unicode (UTF16). Důvod pro to je v tom, že někdy nevyhovující software zachází s těmito poli, jako by byla kódována v jiné kódové stránce, čímž způsobí, že jiné programy zobrazí neočekávaná data.</translation>
     </message>
     <message>
         <location filename="../Id3Transf.h" line="75"/>
         <source>Convert non-ASCII ID3V2 text frames to Unicode</source>
-        <translation type="unfinished"></translation>
+        <translation>Převést ne-ASCII ID3V2 textová pole na Unicode</translation>
     </message>
     <message>
         <location filename="../Id3Transf.h" line="89"/>
         <source>Transforms the case of text frames in ID3V2 tags, according to global settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Promění velikost textových polí ve značkách ID3V2 podle celkových nastavení.</translation>
     </message>
     <message>
         <location filename="../Id3Transf.h" line="91"/>
         <source>Change case for ID3V2 text frames</source>
-        <translation type="unfinished"></translation>
+        <translation>Změnit velikost písmen pro ID3V2 textová pole</translation>
     </message>
     <message>
         <location filename="../Id3Transf.h" line="107"/>
         <source>Copies frames from ID3V1 to ID3V2 if those frames don&apos;t exist in the destination or if the destination doesn&apos;t exist at all.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopíruje pole z ID3V1 do ID3V2, pokud tato pole neexistují v cíli, nebo pokud cíl neexistuje vůbec.</translation>
     </message>
     <message>
         <location filename="../Id3Transf.h" line="109"/>
         <source>Copy missing ID3V2 frames from ID3V1</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopírovat chybějící ID3V2 textová pole z ID3V1</translation>
     </message>
     <message>
         <location filename="../Id3Transf.h" line="120"/>
         <source>Adds the value of the composer field to the beginning of the artist field in ID3V2 frames. Useful for players that don&apos;t use the composer field.</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidá hodnotu pole skladatele na začátek pole umělce v polích ID3V2. Užitečné pro přehrávače, které nepoužívají pole skladatele.</translation>
     </message>
     <message>
         <location filename="../Id3Transf.h" line="122"/>
         <source>Add composer field to the artist field in ID3V2 frames</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat pole skladatele do pole umělce v polích ID3V2</translation>
     </message>
     <message>
         <location filename="../Id3Transf.h" line="133"/>
         <source>&quot;Undo&quot; for &quot;adding composer field.&quot; Removes the value of the composer field from the beginning of the artist field in ID3V2 frames, if it was previously added.</source>
-        <translation type="unfinished"></translation>
+        <translation>Krok Zpět pro přidání pole skladatele. Odstraní hodnotu pole skladatele ze začátku pole umělce v polích ID3V2, pokud bylo předtím přidáno.</translation>
     </message>
     <message>
         <location filename="../Id3Transf.h" line="135"/>
         <source>Remove composer field from the artist field in ID3V2 frames</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit pole skladatele z pole umělce v polích ID3V2</translation>
     </message>
     <message>
         <location filename="../Id3Transf.h" line="146"/>
         <source>Copies to the &quot;Composer&quot; field the beginning of an &quot;Artist&quot; field that is formatted as &quot;Composer [Artist]&quot;. Does nothing if the &quot;Artist&quot; field doesn&apos;t have this format.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopíruje do skladatelova pole začátek pole umělce, které je formátováno jako &quot;Skladatel [Umělec]&quot;. Nedělá nic, pokud nemá pole Umělec tento formát.</translation>
     </message>
     <message>
         <location filename="../Id3Transf.h" line="148"/>
         <source>Fill in composer field based on artist in ID3V2 frames</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyplnit pole skladatele vycházeje z pole umělce v polích ID3V2</translation>
     </message>
     <message>
         <location filename="../Id3Transf.h" line="159"/>
         <source>Keeps only the biggest (and supposedly the best) image in a file. The image type is set to Front Cover. (This may result in the replacement of the Front Cover image.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ponechá v souboru pouze největší obrázek (předpokládá se, že je nejlepší). Typ obrázku je nastaven na obal přední strany. (To může vést k nahrazení obrázku s obalem přední stranu)</translation>
     </message>
     <message>
         <location filename="../Id3Transf.h" line="161"/>
         <source>Make the largest image &quot;Front Cover&quot; and remove the rest</source>
-        <translation type="unfinished"></translation>
+        <translation>Udělat největší obrázek obalem přední strany a odstranit zbytek</translation>
     </message>
     <message>
         <location filename="../Id3Transf.h" line="173"/>
         <source>Adds extra spacing to the ID3V2 tag. This allows subsequent saving from the tag editor to complete quicker.</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidá do značky ID3V2 volné místo navíc. To umožní rychlejší dokončení pozdějšího uložení z editoru značek.</translation>
     </message>
     <message>
         <location filename="../Id3Transf.h" line="175"/>
         <source>Reserve space in ID3V2 for fast tag editing</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyhradit místo v ID3V2 pro rychlejší upravování značek</translation>
     </message>
     <message>
         <location filename="../Id3Transf.h" line="187"/>
         <source>Removes large unused blocks from ID3V2 tags. (Usually these have been reserved for fast tag editing, in which case they should be removed only after the ID3V2 tag has all the right values.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstraní velké nepoužívané bloky ze značek ID3V2. (Obvykle byly vyhrazeny pro rychlé úpravy značek. V tom případě by měly být odstraněny až poté, co má značka ID3V2 všechny správné hodnoty)</translation>
     </message>
     <message>
         <location filename="../Id3Transf.h" line="189"/>
         <source>Remove extra space from ID3V2</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit místo navíc z ID3V2</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2529"/>
         <source>Removes selected streams.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstraní vybrané proudy.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2531"/>
         <source>Remove selected stream(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit vybraný(é) proud(y)</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2891"/>
         <source>Removes specified stream.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstraní zadaný proud.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2893"/>
         <source>Remove specified stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit zadaný proud</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="42"/>
         <source>Sometimes a bit gets flipped in a file. This tries to identify places having this issue in audio frame headers. If found, it fixes the problem. It is most likely to apply to files that have 2 audio streams.</source>
-        <translation type="unfinished"></translation>
+        <translation>Někdy je bit v souboru převrácen. Toto zkouší určit místa mající tento problém v hlavičkách zvukových snímků. Pokud je najde, opraví problém. Nejpravděpodobněji se to použije na soubory, které mají dva zvukové proudy.</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="44"/>
         <source>Restore flipped bit in audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Obnovit převrácený bit v audio</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="74"/>
         <source>Removes all non-audio data that is found between audio streams. In this context, VBRI streams are considered audio streams (while Xing streams are not.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstraní všechna ne-audio data, která jsou nalezena mezi zvukovými proudy. VBRI proudy se považují za zvukové proudy (zatímco Xing proudy ne)</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="76"/>
         <source>Remove inner non-audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit vnitřní ne-audio</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="86"/>
         <source>Removes all unknown streams.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstraní všechny neznámé proudy.</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="88"/>
         <source>Remove unknown streams</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit neznámé proudy</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="96"/>
         <source>Removes all broken streams.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstraní všechny poškozené proudy.</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="98"/>
         <source>Remove broken streams</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit poškozené proudy</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="106"/>
         <source>Removes all unsupported streams.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstraní všechny nepodporované proudy.</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="108"/>
         <source>Remove unsupported streams</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit nepodporované proudy</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="116"/>
         <source>Removes all truncated audio streams.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstraní všechny zkrácené zvukové proudy.</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="118"/>
         <source>Remove truncated audio streams</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit zkrácené zvukové proudy</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="126"/>
         <source>Removes all null streams.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstraní všechny nulové proudy.</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="128"/>
         <source>Remove null streams</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit nulové proudy</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="139"/>
         <source>Removes all streams that are broken, truncated, unsupported or have some errors making them unusable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstraní všechny proudy, které jsou poškozené, zkrácené, nepodporované nebo mají nějaké chyby, což je dělá nepoužitelnými.</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="153"/>
         <source>Removes broken ID3V2 streams.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstraní poškozené proudy ID3V2.</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="155"/>
         <source>Remove broken ID3V2 streams</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit poškozené proudy ID3V2</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="164"/>
         <source>Removes unsupported ID3V2 streams.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstraní nepodporované proudy ID3V2.</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="166"/>
         <source>Remove unsupported ID3V2 streams</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit nepodporované proudy ID3V2</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="178"/>
         <source>If a file has multiple ID3 streams it keeps only the last ID3V1 and the first ID3V2 stream.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokud má soubor více proudů ID3, zachová pouze poslední proud ID3V1 a první ID3V2.</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="180"/>
         <source>Remove multiple ID3 streams</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit více proudů ID3</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="197"/>
         <source>Sometimes the number of frames in an audio stream is different from the number of frames in a preceding Xing (or Lame) header, usually because the audio stream was damaged. It&apos;s probably best for the Xing header to be removed in this case. If the audio is VBR, you may want to try &quot;Repair VBR data&quot; first.</source>
-        <translation type="unfinished"></translation>
+        <translation>Někdy je počet polí ve zvukovém proudu odlišný od počtu polí v předchozí hlavičce Xing (nebo Lame), obvykle proto, že byl zvukový proud poškozen. V tom případě je u Xing pravděpodobně nejlepší hlavičku odstranit. Pokud je zvuk VBR (proměnlivý datový tok), můžete chtít nejprve zkusit &quot;Opravit data VBR&quot;.</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="199"/>
         <source>Remove mismatched Xing headers</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit neodpovídající hlavičky Xing</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="214"/>
         <source>Removes all ID3V1 streams.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstraní všechny proudy ID3V1.</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="216"/>
         <source>Remove all ID3V1 streams</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit všechny proudy ID3V1</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="225"/>
         <source>Removes all APE streams.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstraní všechny proudy APE.</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="227"/>
         <source>Remove all APE streams</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit všechny proudy APE</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="236"/>
         <source>Removes all non-audio streams.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstraní všechny ne-audio proudy.</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="238"/>
         <source>Remove all non-audio streams</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit všechny ne-audio proudy</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="250"/>
         <source>Pads truncated audio frames with 0 to the right. Its usefulness hasn&apos;t been determined yet (it might be quite low.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Vycpe zkrácené zvukové snímky s 0 vpravo. Jeho užitečnost ještě nebyla určena (může být docela malá)</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="252"/>
         <source>Pad truncated audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Vycpat zkrácený zvuk</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="271"/>
         <source>If a file contains VBR audio but doesn&apos;t have a Xing header, one such header is added. If a VBRI header exists, it is removed. If a Xing header exists but is determined to be incorrect, it is corrected or replaced. Only the first audio stream is considered; if a file contains more than one audio stream, this should be fixed first.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokud soubor obsahuje zvuk s proměnlivým datovým tokem (VBR), ale nemá hlavičku Xing, je jedna taková hlavička přidána. Pokud existuje VBRI hlavička, je odstraněna. Pokud existuje hlavička Xing, ale je určena jako nesprávná, je opravena nebo nahrazena. Je zvažován pouze první zvukový proud, pokud soubor obsahuje více než jeden zvukový proud, tento by měl být nejprve opraven.</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="273"/>
         <source>Repair VBR data</source>
-        <translation type="unfinished"></translation>
+        <translation>Opravit data VBR</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="282"/>
         <source>If a file contains VBR audio, any existing VBRI or Xing headers are removed and a new Xing header is created. Only the first audio stream is considered; if a file contains more than one audio stream, this should be fixed first.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokud soubor obsahuje zvuk s proměnlivým datovým tokem (VBR), jsou existující hlavičky VBRI nebo Xing odstraněny a je vytvořena nová hlavička Xing. Je zvažován pouze první zvukový proud, pokud soubor obsahuje více než jeden zvukový proud, tento by měl být nejprve opraven.</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="284"/>
         <source>Rebuild VBR data</source>
-        <translation type="unfinished"></translation>
+        <translation>Obnovit data VBR</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1470"/>
         <source>Saves user-edited ID3V2.3.0 tags.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uloží uživatelem upravené značky ID3V2.3.0.</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1473"/>
         <source>Save ID3V2.3.0 tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit značky ID3V2.3.0</translation>
     </message>
     <message>
         <location filename="../Transformation.h" line="375"/>
         <source>Doesn&apos;t actually change the file, but it creates a temporary copy and it reports that it does change it. This is not as meaningless as it might first seem: if the configuration settings indicate some action (i.e. rename, move or erase) to be taken for processed files, then that action will be performed for these files. While the same can be achieved by changing the settings for unprocessed files, this is easier to use when it is executed on a subset of all the files (filtered or selected).</source>
-        <translation type="unfinished"></translation>
+        <translation>Ve skutečnosti nezmění soubor, ale vytvoří dočasnou kopii a nahlásí, že ji změnilo. Není to tak bezvýznamné, jak se to nejprve zdá: Pokud naznačí nastavení nastavení pro zpracovávané soubory nějakou činnost (např. přejmenovat, přesunout nebo smazat), pak tato činnost bude pro tyto soubory provedena. Zatímco lze totéž dosáhnout změnou nastavení pro nezpracované soubory, snadněji se to používá, když je to vykonáno na podmnožině všech souborů (filtrovaných nebo vybraných).</translation>
     </message>
     <message>
         <location filename="../Transformation.h" line="377"/>
         <source>No change</source>
-        <translation type="unfinished"></translation>
+        <translation>Žádná změna</translation>
     </message>
 </context>
 <context>
@@ -6224,12 +6236,12 @@ Running time: %2</source>
     <message>
         <location filename="../UniqueNotesModel.cpp" line="81"/>
         <source>L</source>
-        <translation type="unfinished"></translation>
+        <translation>L</translation>
     </message>
     <message>
         <location filename="../UniqueNotesModel.cpp" line="82"/>
         <source>Note</source>
-        <translation type="unfinished"></translation>
+        <translation>Poznámka</translation>
     </message>
 </context>
 <context>
@@ -6237,32 +6249,32 @@ Running time: %2</source>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="147"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Krok</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="147"/>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Popis</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="191"/>
         <source>Add selected transformation(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat vybranou(é) proměnu(y)</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="192"/>
         <source>Remove selected transformation(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit vybranou(é) proměnu(y)</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="195"/>
         <source>Restore current list to its default value</source>
-        <translation type="unfinished"></translation>
+        <translation>Obnovit nynější seznam na jeho výchozí hodnotu</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="196"/>
         <source>Restore current list to the configuration it had when the window was open</source>
-        <translation type="unfinished"></translation>
+        <translation>Obnovit nynější seznam na nastavení, které měl, když bylo okno otevřeno</translation>
     </message>
 </context>
 <context>
@@ -6270,22 +6282,22 @@ Running time: %2</source>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="1138"/>
         <source>Pos</source>
-        <translation type="unfinished">Poloha</translation>
+        <translation>Poloha</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="1139"/>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Název</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="1140"/>
         <source>Artist</source>
-        <translation type="unfinished">Umělec</translation>
+        <translation>Umělec</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="1141"/>
         <source>Composer</source>
-        <translation type="unfinished"></translation>
+        <translation>Skladatel</translation>
     </message>
 </context>
 </TS>

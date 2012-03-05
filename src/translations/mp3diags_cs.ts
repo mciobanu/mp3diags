@@ -484,7 +484,7 @@ Nepřebaleno do</translation>
     <message>
         <location filename="../ApeStream.cpp" line="124"/>
         <source>Ape Item seems too big. Although the size may be any 32-bit integer, 256 bytes should be enough in practice. If this message is determined to be mistaken, it will be removed in the future. Item key: %1; item size: %2</source>
-        <translation>Položka APE je příliš velká. Ačkoli může být velikost jakékoli  bitové celé číslo,  bytů by v praxi měl být dostatečné. Pokud je tato zpráva mylná, bude v budoucnu odstraněna. Klíč položky: %1; velikost položky: %2</translation>
+        <translation>Položka APE je příliš velká. Ačkoli může být velikost jakékoli 32 bitové celé číslo, 256 bytů by v praxi měl být dostatečné. Pokud je tato zpráva mylná, bude v budoucnu odstraněna. Klíč položky: %1; velikost položky: %2</translation>
     </message>
 </context>
 <context>
@@ -3823,432 +3823,432 @@ Zpracování zrušeno.</translation>
     <message>
         <location filename="../Notes.h" line="195"/>
         <source>Found audio stream in an encoding other than &quot;MPEG-1 Layer 3&quot; or &quot;MPEG-2 Layer 3.&quot; While MP3 Diags understands such streams, very few tests were run on files containing them (because they are not supposed to be found inside files with the &quot;.mp3&quot; extension), so there is a bigger chance of something going wrong while processing them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nalezen zvukový proud v kódování jiném než &quot;MPEG-1 Layer 3&quot; nebo &quot;MPEG-2 Layer 3.&quot; I když MP3 Diags rozumí takovým proudům, bylo uděláno velmi málo zkoušek na souborech je obsahujících (protože se nepředpokládá, že budou nalezeny v souborech s příponou &quot;.mp3&quot;), takže při jejich zpracování je větší šance, že se s nimi stane něco špatného.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="198"/>
         <source>Two Lame headers found, but a file should have at most one of them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nalezeny dvě hlavičky Lame, ale soubor má mít nejvíce jednu z nich.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="199"/>
         <source>Xing header seems added by Mp3Fixer, which makes the first frame unusable and causes a 16-byte unknown or null stream to be detected next.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zdá se, že Mp3Fixer byla přidána hlavička Xing, což dělá první snímek nepoužitelným a způsobuje, že dále bude zjištěn 16 bytů neznámý nebo nulový proud.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="200"/>
         <source>Frame count mismatch between the Xing header and the audio stream.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nesoulad v počtu snímků mezi hlavičkou Xing a zvukovým proudem.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="201"/>
         <source>Two Xing headers found, but a file should have at most one of them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nalezeny dvě hlavičky Xing, ale soubor má mít nejvíce jednu z nich.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="202"/>
         <source>The Xing header should be located immediately before the MPEG audio stream.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hlavička Xing má být umístěna hned před zvukovým proudem MPEG.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="203"/>
         <source>The Xing header should be compatible with the MPEG audio stream, meaning that their MPEG version, layer and frequency must be equal.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hlavička Xing má být slučitelná se zvukovým proudem MPEG, což znamená, že jejich verze MPEG, vrstva a kmitočet se musí rovnat.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="204"/>
         <source>The MPEG audio stream uses VBR but a Xing header wasn&apos;t found. This will confuse some players, which won&apos;t be able to display the song duration or to seek.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zvukový proud MPEG používá VBR, ale hlavička Xing nebyla nalezena. To zmate některé přehrávače, které nebudou schopny zobrazit dobu trvání písně nebo hledat.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="207"/>
         <source>Two VBRI headers found, but a file should have at most one of them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nalezeny dvě hlavičky VBRI, ale soubor má mít nejvíce jednu z nich.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="208"/>
         <source>VBRI headers aren&apos;t well supported by some players. They should be replaced by Xing headers.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hlavičky VBRI nejsou některými přehrávači dobře podporovány. Měly by se nahradit hlavičkami Xing.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="209"/>
         <source>VBRI header found alongside Xing header. The VBRI header should probably be removed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hlavička VBRI nalezena společně s hlavičkou Xing. Hlavička VBRI by se pravděpodobně měla odstranit.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="212"/>
         <source>Invalid ID3V2 frame. File too short.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatné pole ID3V2. Soubor příliš krátký.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="213"/>
         <source>Invalid frame name in ID3V2 tag.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatný název pole ve značce ID3V2.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="214"/>
         <source>Flags in the first flag group that are supposed to always be 0 are set to 1. They will be ignored.</source>
-        <translation type="unfinished"></translation>
+        <translation>Příznak v první skupině příznaků, u nichž se předpokládá, že budou vždy nastaveny na 0, jsou nastaveny na 1. Budou se přehlížet.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="215"/>
         <source>Flags in the second flag group that are supposed to always be 0 are set to 1. They will be ignored.</source>
-        <translation type="unfinished"></translation>
+        <translation>Příznak v druhé skupině příznaků, u nichž se předpokládá, že budou vždy nastaveny na 0, jsou nastaveny na 1. Budou se přehlížet.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="216"/>
         <source>Error decoding the value of a text frame while reading an Id3V2 Stream.</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba při dekódování hodnoty textového pole při čtení proudu ID3V2.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="217"/>
         <source>ID3V2 tag has text frames using Latin-1 encoding that contain characters with a code above 127. While this is valid, those frames may have their content set or displayed incorrectly by software that uses the local code page instead of Latin-1. Conversion to Unicode (UTF16) is recommended.</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka ID3V2 má textová pole používající kódování Latin-1, které obsahuje znaky s kódem nad 127. Zatímco toto je platné, tato pole mohou mít jejich obsah nastaven nebo zobrazen nesprávně programem, který používá místní kódovou stránku namísto Latin-1. Převod do Unicode (UTF16) se doporučuje.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="218"/>
         <source>Empty genre frame (TCON) found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nalezeno prázdné pole žánrů (TCON).</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="219"/>
         <source>Multiple frame instances found, but only the first one will be used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nalezeno více instancí polí, ale pouze první bude použita.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="220"/>
         <source>The padding in the ID3V2 tag is too large, wasting space. (Large padding improves the tag editor saving speed, if fast saving is enabled, so you may want to delay compacting the tag until after you&apos;re done with the tag editor.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Vycpávka ve značce ID3V2 je příliš velká, plýtvá místem. (Velká vycpávka zlepšuje rychlost ukládání editoru značek, pokud je povoleno rychlé ukládání, takže můžete chtít zpozdit stlačení značky, až když budete hotov s editerem značek)</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="221"/>
         <source>Unsupported ID3V2 version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodporovaná verze ID3V2.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="222"/>
         <source>Unsupported ID3V2 tag. Unsupported flag.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodporovaná značka ID3V2. Nepodporovaný příznak.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="223"/>
         <source>Unsupported value for Flags1 in ID3V2 frame. (This may also indicate that the file contains garbage where it was supposed to be zero.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodporovaná hodnota pro Flags1 v poli ID3V2. (To také může naznačovat, že soubor obsahuje zbytečnosti tam, kde se předpokládá, že bude nula)</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="224"/>
         <source>Unsupported value for Flags2 in ID3V2 frame. (This may also indicate that the file contains garbage where it was supposed to be zero.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodporovaná hodnota pro Flags2 v poli ID3V2. (To také může naznačovat, že soubor obsahuje zbytečnosti tam, kde se předpokládá, že bude nula)</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="225"/>
         <source>Multiple instances of the POPM frame found in ID3V2 tag. The current version discards all the instances except the first when processing this tag.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nalezeno více instancí POPM pole ve značce ID3V2. Současná verze při zpracovávání této značky zahazuje všechny instance kromě první.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="226"/>
         <source>ID3V2 tag contains no frames, which is invalid. This note will disappear once you add track information in the tag editor.</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka ID3V2 neobsahuje žádná pole, což je neplatné. Tato poznámka zmizí, jakmile přidáte informace o skladbě v editoru značek.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="227"/>
         <source>ID3V2 tag contains an empty text frame, which is invalid.</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka ID3V2 obsahuje prázdné textové pole, což je neplatné.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="230"/>
         <source>ID3V2 tag doesn&apos;t have an APIC frame (which is used to store images).</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka ID3V2 nemá pole APIC (které se používá pro ukládání obrázků).</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="231"/>
         <source>ID3V2 tag has an APIC frame (which is used to store images), but the image couldn&apos;t be loaded.</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka ID3V2 má pole APIC (které se používá pro ukládání obrázků), ale obrázek se nepodařilo nahrát.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="232"/>
         <source>ID3V2 tag has at least one valid APIC frame (which is used to store images), but no frame has a type that is associated with an album cover.</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka ID3V2 má alespoň jedno platné pole APIC (které se používá pro ukládání obrázků), ale žádný obrázek nemá typ, který je spojen s obalem alba.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="233"/>
         <source>Error loading image in APIC frame.</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba při nahrávání obrázku v poli APIC.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="234"/>
         <source>Error loading image in APIC frame. The frame is too short anyway to have space for an image.</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba při nahrávání obrázku v poli APIC. Pole je tak či tak příliš krátké, aby mělo místo na nějaký obrázek.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="235"/>
         <source>ID3V2 tag has multiple APIC frames with the same picture type.</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka ID3V2 má více polí APIC se stejným typem obrázku.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="236"/>
         <source>ID3V2 tag has multiple APIC frames. While this is valid, players usually use only one of them to display an image, discarding the others.</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka ID3V2 má více polí APIC. Zatímco toto je platné, přehrávače obvykle používají jen jeden z nich pro zobrazení obrázku, zahazují ostatní.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="238"/>
         <source>Unsupported text encoding for APIC frame in ID3V2 tag.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodporované kódování textu pro pole APIC ve značce ID3V2.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="239"/>
         <source>APIC frame uses a link to a file as a MIME Type, which is not supported.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pole APIC používá odkaz na soubor jako MIME typ, což není podporováno.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="240"/>
         <source>Picture description is ignored in the current version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Popis obrázku se v nynější verzi přehlíží.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="243"/>
         <source>No ID3V2.3.0 tag found, although this is the most popular tag for storing song information.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nebyla nalezena žádná značka ID3V2.3.0, ačkoli toto je nejoblíbenější značka pro ukládání informací o písni.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="244"/>
         <source>Two ID3V2.3.0 tags found, but a file should have at most one of them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nalezeny dvě značky ID3V2.3.0, ale soubor má mít nejvíce jednu z nich.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="245"/>
         <source>Both ID3V2.3.0 and ID3V2.4.0 tags found, but there should be only one of them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nalezeny jako značka ID3V2.3.0 tak ID3V2.4.0, ale má tam být pouze jedna z nich.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="246"/>
         <source>The ID3V2.3.0 tag should be the first tag in a file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka ID3V2.3.0 má být první značka v souboru.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="247"/>
         <source>ID3V2.3.0 tag contains a text frame encoded as UTF-8, which is valid in ID3V2.4.0 but not in ID3V2.3.0.</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka ID3V2.4.0 obsahuje textové pole kódované jako UTF-8, což je platné v ID3V2.4.0 ale ne v ID3V2.3.0.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="248"/>
         <source>Unsupported value of text frame while reading an Id3V2 Stream.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodporovaná hodnota textového pole při čtení proudu ID3V2.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="249"/>
         <source>Invalid ID3V2.3.0 frame. Incorrect frame size or file too short.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatné pole ID3V2.3.0. Nesprávná velikost pole nebo je soubor příliš krátký.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="252"/>
         <source>Two ID3V2.4.0 tags found, but a file should have at most one of them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nalezeny dvě značky ID3V2.4.0, ale soubor má mít nejvíce jednu z nich.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="253"/>
         <source>Invalid ID3V2.4.0 frame. Incorrect frame size or file too short.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatné pole ID3V2.4.0. Nesprávná velikost pole nebo je soubor příliš krátký.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="254"/>
         <source>Invalid ID3V2.4.0 frame. Frame size is supposed to be stored as a synchsafe integer, which uses only 7 bits in a byte, but the size uses all 8 bits, as in ID3V2.3.0. This will confuse some applications</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatné pole ID3V2.4.0. Velikost souboru se předpokládá, že bude uložena v synchronně bezpečném celém čísle, které používá pouze 7 bitů, ale velikost používá všech 8 bitů, jako v ID3V2.3.0. To některé aplikace zmate</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="255"/>
         <source>Deprecated TYER frame found in 2.4.0 tag alongside a TDRC frame.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ve značce 2.4.0 bylo nalezeno nesouhlasné pole TYER společně s polem TDRC.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="256"/>
         <source>Deprecated TYER frame found in 2.4.0 tag. It&apos;s supposed to be replaced by a TDRC frame.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ve značce 2.4.0 bylo nalezeno nesouhlasné pole TYER. Předpokládá se, že bude nahrazeno polem TDRC.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="257"/>
         <source>Deprecated TDAT frame found in 2.4.0 tag alongside a TDRC frame.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ve značce 2.4.0 bylo nalezeno nesouhlasné pole TDAT společně s polem TDRC.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="258"/>
         <source>Deprecated TDAT frame found in 2.4.0 tag. It&apos;s supposed to be replaced by a TDRC frame.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ve značce 2.4.0 bylo nalezeno nesouhlasné pole TDAT. Předpokládá se, že bude nahrazeno polem TDRC.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="259"/>
         <source>Invalid ID3V2.4.0 frame. Mismatched Data length indicator. Frame value is probably incorrect</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatné pole ID3V2.4.0. Nesouhlasící indikátor délky dat. Hodnota pole je pravděpodobně nesprávná</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="260"/>
         <source>Invalid ID3V2.4.0 frame. Incorrect unsynchronization bit.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatné pole ID3V2.4.0. Nesprávný neseřízený bit.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="261"/>
         <source>Unsupported value of text frame while reading an Id3V2.4.0 stream. It may be using an unsupported text encoding.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodporovaná hodnota textového pole při čtení proudu ID3V2.4.0. Možná používá nepodporované kódování textu.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="264"/>
         <source>The only supported tag found that is capable of storing song information is ID3V1, which has pretty limited capabilities.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jediná nalezená podporovaná značka, která je schopna ukládání informací o písni je ID3V1, která má dost omezené možnosti.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="265"/>
         <source>The ID3V1 tag should be located after the MPEG audio stream.</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka ID3V1 má být umístěna po zvukovém proudu MPEG.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="266"/>
         <source>Invalid ID3V1 tag. File too short.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatná značka ID3V1. Soubor příliš krátký.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="267"/>
         <source>Two ID3V1 tags found, but a file should have at most one of them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nalezeny dvě značky ID3V1, ale soubor má mít nejvíce jednu z nich.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="269"/>
         <source>ID3V1 tag contains fields padded with spaces alongside fields padded with zeroes. The standard only allows zeroes, but some tools use spaces. Even so, zero-padding and space-padding shouldn&apos;t be mixed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka ID3V1 obsahuje pole vycpaná mezerami (volnými místy) společně s poli vycpanými nulami. Standard povoluje pouze nuly, ale některé nástroje používají mezery - volná místa. Tak jako tak by se nemělo míchat vycpání volným místem s vycpáním nulami.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="270"/>
         <source>ID3V1 tag contains fields that are padded with spaces mixed with zeroes. The standard only allows zeroes, but some tools use spaces. Even so, one character should be used for padding for the whole tag.</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka ID3V1 obsahuje pole vycpaná mezerami (volnými místy) společně s poli vycpanými nulami. Standard povoluje pouze nuly, ale některé nástroje používají mezery - volná místa. Tak jako tak by se měl pro vycpání celé značky používat jeden znak.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="271"/>
         <source>Invalid ID3V1 tag. Invalid characters in Name field.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatná značka ID3V1. Neplatné znaky v poli Název.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="272"/>
         <source>Invalid ID3V1 tag. Invalid characters in Artist field.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatná značka ID3V1. Neplatné znaky v poli Umělec.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="273"/>
         <source>Invalid ID3V1 tag. Invalid characters in Album field.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatná značka ID3V1. Neplatné znaky v poli Album.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="274"/>
         <source>Invalid ID3V1 tag. Invalid characters in Year field.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatná značka ID3V1. Neplatné znaky v poli Rok.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="275"/>
         <source>Invalid ID3V1 tag. Invalid characters in Comment field.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatná značka ID3V1. Neplatné znaky v poli Poznámka.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="278"/>
         <source>Broken stream found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nalezen poškozený proud.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="279"/>
         <source>Broken stream found. Since other streams follow, it is possible that players and tools will have problems using the file. Removing the stream is recommended.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nalezen poškozený proud. Protože následují další proudy, je možné, že přehrávače a nástroje budou mít potíže při používání souboru. Doporučuje se proud odstranit.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="282"/>
         <source>Truncated MPEG stream found. The cause for this seems to be that the file was truncated.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nalezen zkrácený proud MPEG. Příčinou toho je, jak se zdá, že byl zkrácen soubor.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="283"/>
         <source>Truncated MPEG stream found. Since other streams follow, it is possible that players and tools will have problems using the file. Removing the stream or padding it with 0 to reach its declared size is strongly recommended.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nalezen zkrácený proud MPEG. Protože následují další proudy, je možné, že přehrávače a nástroje budou mít potíže při používání souboru. Velice se doporučuje proud odstranit nebo jej vycpat nulami, aby se dosáhlo jeho prohlášené velikosti.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="286"/>
         <source>Not enough remaining bytes to create an UnknownDataStream.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nezůstává dost bytů na vytvoření NeznáméhoDatovéhoProudu.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="287"/>
         <source>Unknown stream found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nalezen neznámý proud.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="288"/>
         <source>Unknown stream found. Since other streams follow, it is possible that players and tools will have problems using the file. Removing the stream is recommended.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nalezen neznámý proud. Protože následují další proudy, je možné, že přehrávače a nástroje budou mít potíže při používání souboru. Doporučuje se proud odstranit.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="289"/>
         <source>File contains null streams.</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubor obsahuje nulové proudy.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="292"/>
         <source>Invalid Lyrics stream tag. File too short.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatná značka proudu textu písně. Soubor příliš krátký.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="293"/>
         <source>Two Lyrics tags found, but only one is supported.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nalezeny dvě značky textu písně, ale je podporována pouze jedna.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="295"/>
         <source>Invalid Lyrics stream tag. Unexpected characters found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatná značka proudu textu písně. Nalezeny neočekávané znaky.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="296"/>
         <source>Multiple fields with the same name were found in a Lyrics tag, but only one is supported.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ve značce textu písně bylo nalezeno více polí se stejným názvem, ale je podporováno pouze jedno.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="298"/>
         <source>Currently INF fields in Lyrics tags are not fully supported.</source>
-        <translation type="unfinished"></translation>
+        <translation>V současnosti nejsou pole INF ve značkách s texty písně plně podporována.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="301"/>
         <source>Invalid Ape Item. File too short.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatná položka APE. Soubor příliš krátký.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="302"/>
         <source>Ape Item seems too big. Although the size may be any 32-bit integer, 256 bytes should be enough in practice. If this note is determined to be incorrect, it will be removed in the future.</source>
-        <translation type="unfinished"></translation>
+        <translation>Položka APE je příliš velká. Ačkoli může být velikost jakékoli 32 bitové celé číslo, 256 bytů by v praxi měl být dostatečné. Pokud je tato poznámka nesprávná, bude v budoucnu odstraněna.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="303"/>
         <source>Invalid Ape Item. Terminator not found for item name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatná položka APE. Pro název položky nebyl ukončovatel nalezen.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="304"/>
         <source>Invalid Ape tag. Header expected but footer found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatná značka APE. Byla očekávána hlavička, ale byla nalezena patička.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="305"/>
         <source>Not an Ape tag. File too short.</source>
-        <translation type="unfinished"></translation>
+        <translation>Není to značka APE. Soubor příliš krátký.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="306"/>
         <source>Invalid Ape tag. Footer expected but header found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatná značka APE. Byla očekávána patička, ale byla nalezena hlavička.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="307"/>
         <source>Invalid Ape tag. Mismatch between header and footer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatná značka APE. Nesoulad mezi hlavičkou a patičkou.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="308"/>
         <source>Two Ape tags found, but only one is supported.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nalezeny dvě značky APE, ale je podporována pouze jedna.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="309"/>
@@ -4258,22 +4258,22 @@ Zpracování zrušeno.</translation>
     <message>
         <location filename="../Notes.h" line="310"/>
         <source>Unsupported Ape tag. Currently a missing header or footer are not supported.</source>
-        <translation>Nepodporovaný příznak APE. Nyní nejsou chybějící hlavičky a patičky podporovány.</translation>
+        <translation>Nepodporovaná značka APE. Nyní nejsou chybějící hlavičky a patičky podporovány.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="313"/>
         <source>The file seems to have been changed in the (short) time that passed between parsing it and the initial search for pictures. If you think that&apos;s not the case, report a bug.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zdá se, že soubor byl během krátké doby, která proběhla mezi jeho zpracováním a počátkem hledání obrázků, změněn. Pokud si myslíte, že toto není ten případ, nahlašte chybu.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="314"/>
         <source>No supported tag found that is capable of storing song information.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nenalezena žádná podporovaná značka schopná ukládání informací o písni.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="315"/>
         <source>Too many TRACE notes added. The rest will be discarded.</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidáno příliš mnoho poznámek TRACE. Zbytek bude zahozen.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="316"/>
@@ -4293,7 +4293,7 @@ Zpracování zrušeno.</translation>
     <message>
         <location filename="../Notes.h" line="319"/>
         <source>The file was saved using the &quot;fast&quot; option. While this improves the saving speed, it may leave the notes in an inconsistent state, so you should rescan the file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubor byl uložen za použití &quot;rychlé&quot; volby. I když to zlepšuje rychlost ukládání, může to zanechat poznámky v nesoudržném stavu, takže byste měl soubor prohlédnout znovu.</translation>
     </message>
     <message>
         <location filename="../Notes.cpp" line="379"/>
@@ -4313,7 +4313,7 @@ Zpracování zrušeno.</translation>
     <message>
         <location filename="../Notes.h" line="182"/>
         <source>Two MPEG audio streams found, but a file should have exactly one.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nalezeny dva zvukové proudy MPEG, ale soubor má mít přesně jeden.</translation>
     </message>
 </context>
 <context>

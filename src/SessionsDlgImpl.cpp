@@ -537,6 +537,7 @@ void SessionsDlgImpl::on_m_pTranslationCbB_currentIndexChanged(int)
 
     TranslatorHandler::getGlobalTranslator().setTranslation(m_strTranslation);
     retranslateUi(this);
+    loadTemplates(); // !!! to retranslate "<last session>"
 }
 
 void SessionsDlgImpl::onSessDoubleClicked(const QModelIndex& index)

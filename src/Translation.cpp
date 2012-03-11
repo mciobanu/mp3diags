@@ -54,9 +54,13 @@ TranslatorHandler::TranslatorHandler()
     {
         addTranslations(convStr(QCoreApplication::instance()->applicationDirPath() + "/../share/" + getTranslationPackageName() + "/translations"));
     }
-    //ttt0 also look in "my documents", so users can easily add translations
+    //ttt0 perhaps also look in "my documents", so users can easily add translations
 
-    m_qstrSystemTranslDir = "/usr/share/qt4/translations"; //ttt0 improve; ship .qm files on Wnd
+#if defined(WIN32) || defined(__OS2__)
+    m_qstrSystemTranslDir = QCoreApplication::instance()->applicationDirPath();
+#else
+    m_qstrSystemTranslDir = "/usr/share/qt4/translations"; //ttt1 maybe improve
+#endif
 }
 
 void TranslatorHandler::addTranslations(const std::string& strDir)
@@ -171,4 +175,5 @@ LocaleInfo::LocaleInfo(std::string strFileName) : m_strCountry("err"), m_strLang
     return "Error - " + strFileName;
 }
 
+// to rebuild the translations use RebuildUkTransl.sh, which also updates all the .cs files, rather than MakeTranslations.sh, which assumes the .cs files are OK
 

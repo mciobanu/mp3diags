@@ -377,8 +377,8 @@ src/Widgets.cpp	f	2012-03-04T14:35:33Z
 src/Widgets.h	f	2012-03-02T21:17:30Z
 src/fstream_unicode.cpp	f	2011-11-28T20:59:13Z
 src/fstream_unicode.h	f	2011-11-28T20:57:17Z
-src/images/COPYING - GPL V3.txt	f	2008-11-14T09:41:43Z
-src/images/COPYING - LGPL V3.txt	f	2008-11-14T09:41:50Z
+src/images/COPYING-GPL.V3.txt	f	2008-11-14T09:41:43Z
+src/images/COPYING-LGPL.V3.txt	f	2008-11-14T09:41:50Z
 src/images/about.svg	f	2008-01-04T23:54:32Z
 src/images/arrow-left-double.svg	f	2008-01-04T23:54:32Z
 src/images/arrow-left.svg	f	2008-01-04T23:54:32Z

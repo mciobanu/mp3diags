@@ -372,6 +372,9 @@
         fOut.writeLine("qmake mp3diags.pro");
         fOut.writeLine("mingw32-make.exe -w release");
         fOut.writeLine();
+        fOut.writeLine("lrelease src\\src.pro");
+        fOut.writeLine("copy /y src\\translations\\*.qm bin");
+        fOut.writeLine();
         fOut.writeLine("copy /y changelog.txt bin\\changelog.txt");
         fOut.writeLine();
         fOut.writeLine("pause");
@@ -492,6 +495,9 @@
             //fOut.writeLine("devenv /build release mp3diags.sln");
             fOut.writeLine("msbuild src\\MP3DiagsWindows." + ext + " /p:Configuration=Release");
             fOut.writeLine("");
+            fOut.writeLine("lrelease src\\src.pro");
+            fOut.writeLine("copy /y src\\translations\\*.qm bin");
+            fOut.writeLine();
             fOut.writeLine("copy /y changelog.txt bin\\changelog.txt");
             fOut.writeLine("");
             fOut.writeLine("pause");

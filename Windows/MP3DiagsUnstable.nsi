@@ -98,7 +98,8 @@ Section "Main Application" !Required ;No components page, name is not important
   File QtXml4.dll
   File zlib.txt
   File zlib1.dll
-;  File MP3DiagsCLI.cmd
+  File qt_cs.qm
+  File mp3diags_cs.qm
 
   SetOutPath $INSTDIR\iconengines
   File iconengines\qsvgicon4.dll
@@ -157,6 +158,8 @@ Section "un.Uninstall"
   Delete $INSTDIR\QtXml4.dll
   Delete $INSTDIR\zlib.txt
   Delete $INSTDIR\zlib1.dll
+  Delete $INSTDIR\qt_cs.qm
+  Delete $INSTDIR\mp3diags_cs.qm
   Delete $INSTDIR\MP3DiagsCLI-unstable.cmd
 
   Delete $INSTDIR\iconengines\qsvgicon4.dll

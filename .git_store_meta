@@ -2,7 +2,7 @@
 <file>	<type>	<mtime>
 AdjustMt.sh	f	2011-06-15T19:46:19Z
 BuildBz2.sh	f	2012-02-12T14:32:22Z
-BuildMp3Diags.hta	f	2011-07-21T05:39:44Z
+BuildMp3Diags.hta	f	2012-03-11T10:02:08Z
 CMake-VS2008-Win32.cmd	f	2009-09-23T16:55:34Z
 CMakeLists.txt	f	2009-09-25T14:27:54Z
 COPYING	f	2009-05-06T06:54:32Z
@@ -17,7 +17,7 @@ RebuildUkTransl.sh	f	2012-02-18T08:58:34Z
 Release.txt	f	2012-02-05T15:18:44Z
 Uninstall.sh	f	2011-06-17T19:41:38Z
 Windows/MP3Diags.nsi	f	2009-09-30T08:45:38Z
-Windows/MP3DiagsUnstable.nsi	f	2011-07-20T20:25:40Z
+Windows/MP3DiagsUnstable.nsi	f	2012-03-11T09:47:26Z
 branch.txt	f	2011-05-30T18:19:22Z
 changelog.txt	f	2012-02-05T15:20:56Z
 changelogDeb.txt	f	2012-02-05T15:19:31Z

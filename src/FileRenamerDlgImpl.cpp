@@ -563,23 +563,23 @@ bool RenameThread::proc()
             }
             catch (const FoundDir&)
             {
-                m_qstrErr = tr("Source or destination is a directory");
+                m_qstrErr = FileRenamerDlgImpl::tr("Source or destination is a directory");
             }
             catch (const CannotCopyFile&)
             {
-                m_qstrErr = tr("Error during copying");
+                m_qstrErr = FileRenamerDlgImpl::tr("Error during copying");
             }
             catch (const CannotRenameFile&)
             {
-                m_qstrErr = tr("Error during renaming");
+                m_qstrErr = FileRenamerDlgImpl::tr("Error during renaming");
             }
             catch (const AlreadyExists&)
             {
-                m_qstrErr = tr("Destination already exists");
+                m_qstrErr = FileRenamerDlgImpl::tr("Destination already exists");
             }
             catch (const NameNotFound&)
             {
-                m_qstrErr = tr("Source not found");
+                m_qstrErr = FileRenamerDlgImpl::tr("Source not found");
             }
             catch (const std::bad_alloc&) { throw; }
             catch (const IncorrectDirName&)
@@ -588,7 +588,7 @@ bool RenameThread::proc()
             }
             catch (...)
             {
-                m_qstrErr = tr("Unknown error");
+                m_qstrErr = FileRenamerDlgImpl::tr("Unknown error");
             }
 
             if (!m_qstrErr.isEmpty())

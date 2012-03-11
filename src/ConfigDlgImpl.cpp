@@ -158,7 +158,7 @@ public:
     VisibleTransfPainter(const CommonData* pCommonData, const SubList& vOrigSel, const SubList& vSel, const SubList& vDefaultSel);
     ~VisibleTransfPainter();
 };
-//ttt0 note that language change needs restart
+
 
 
 VisibleTransfPainter::VisibleTransfPainter(const CommonData* pCommonData, const SubList& vOrigSel, const SubList& vSel, const SubList& vDefaultSel) : ListPainter(""), m_vDefaultSel(vDefaultSel)
@@ -1124,7 +1124,11 @@ void ConfigDlgImpl::on_m_pOkB_clicked()
 
             m_pCommonData->m_strCheckForNewVersions = m_pCheckForUpdatesCkB->isChecked() ? "yes" : "no";
 
-            m_pCommonData->m_strTranslation = TranslatorHandler::getGlobalTranslator().getTranslations()[m_pTranslationCbB->currentIndex()];
+            string strTranslation (TranslatorHandler::getGlobalTranslator().getTranslations()[m_pTranslationCbB->currentIndex()]);
+            if (m_pCommonData->m_strTranslation != strTranslation) {
+                showWarning(this, tr("Info"), tr("You need to restart the program to use the new language."));
+                m_pCommonData->m_strTranslation = strTranslation;
+            }
         }
 
         if (m_bFull)

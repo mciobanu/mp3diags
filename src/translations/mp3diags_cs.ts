@@ -73,52 +73,57 @@
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="58"/>
+        <source>Czech translation by %1, %2</source>
+        <translation>Překlad do češtiny %1, %2</translation>
+    </message>
+    <message>
+        <location filename="../AboutDlgImpl.cpp" line="59"/>
         <source>Distributed under %1</source>
         <translation>Šířeno pod %1</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="59"/>
+        <location filename="../AboutDlgImpl.cpp" line="60"/>
         <source>Using %1, released under %2</source>
         <translation>Používá %1, vydáno pod %2</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="60"/>
+        <location filename="../AboutDlgImpl.cpp" line="61"/>
         <source>Using %1, released under the %2zlib License%3</source>
         <translation>Používá %1, vydáno pod %2zlib licence%3</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="61"/>
+        <location filename="../AboutDlgImpl.cpp" line="62"/>
         <source>Using %1, distributed under the %2Boost Software License%3</source>
         <translation>Používá %1, šířeno pod %2Boost Software License%3</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="62"/>
+        <location filename="../AboutDlgImpl.cpp" line="63"/>
         <source>Using original and modified icons from the %1 for %2, distributed under %3LGPL V3%4</source>
         <translation>Používá původní a upravené ikony z %1 pro %2, šířeno pod %3LGPL V3%4</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="63"/>
         <location filename="../AboutDlgImpl.cpp" line="64"/>
+        <location filename="../AboutDlgImpl.cpp" line="65"/>
         <source>Using web services provided by %1 to retrieve album data</source>
         <translation>Používá internetové služby poskytované%1 pro získávání dat o albech</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="65"/>
+        <location filename="../AboutDlgImpl.cpp" line="66"/>
         <source>Home page and documentation: %1</source>
         <translation>Domovské stránky a dokumentace: %1</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="66"/>
+        <location filename="../AboutDlgImpl.cpp" line="67"/>
         <source>Feedback and support: %1 or %2 at SourceForge</source>
         <translation>Zpětná vazba a podpora: %1 nebo %2 na SourceForge</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="67"/>
+        <location filename="../AboutDlgImpl.cpp" line="68"/>
         <source>Bug reports and feature requests: %1 at SourceForge</source>
         <translation>Hlášení chyb a žádosti o vlastnosti: %1 na SourceForge</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="68"/>
+        <location filename="../AboutDlgImpl.cpp" line="69"/>
         <source>Change log for the latest version: %1</source>
         <translation>Seznam změn pro poslední verzi: %1</translation>
     </message>
@@ -1318,52 +1323,62 @@ Podtržené písmo je dovoleno, aby byly viděny mezery</translation>
         <translation>Nemůžete mít &apos;%1&apos; jak v seznamu neplatných znaků tak v řetězci, kterým jsou neplatné znaky nahrazeny.</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1143"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1129"/>
+        <source>Info</source>
+        <translation>Informace</translation>
+    </message>
+    <message>
+        <location filename="../ConfigDlgImpl.cpp" line="1129"/>
+        <source>You need to restart the program to use the new language.</source>
+        <translation>Aby se projevila změna jazyka, je třeba program spustit znovu.</translation>
+    </message>
+    <message>
+        <location filename="../ConfigDlgImpl.cpp" line="1147"/>
         <source>Invalid folder name</source>
         <translation>Neplatný název složky</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1143"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1147"/>
         <source>A folder name is incorrect.</source>
         <translation>Název složky je neplatný.</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1209"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1213"/>
         <source>Add selected note(s)</source>
         <translation>Přidat vybranou(é) poznámku(y)</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1210"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1214"/>
         <source>Remove selected note(s)</source>
         <translation>Odstranit vybranou(é) poznámku(y)</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1211"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1215"/>
         <source>Add all notes</source>
         <translation>Přidat všechny poznámky</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1212"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1216"/>
         <source>Remove all notes</source>
         <translation>Odstranit všechny poznámky</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1213"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1217"/>
         <source>Restore lists to their default value</source>
         <translation>Obnovit seznamy na jejich výchozí hodnotu</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1214"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1218"/>
         <source>Restore lists to the configuration they had when the window was open</source>
         <translation>Obnovit seznamy na nastavení, které měly, když bylo okno otevřeno</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1241"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1245"/>
         <source>Select folder</source>
         <translation>Vybrat složku</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1241"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1245"/>
         <source>All files</source>
         <translation>Všechny soubory</translation>
     </message>
@@ -2105,22 +2120,22 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
 <context>
     <name>ExternalToolsModel</name>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1698"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1702"/>
         <source>Name</source>
         <translation>Název</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1699"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1703"/>
         <source>Command</source>
         <translation>Příkaz</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1700"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1704"/>
         <source>Wait</source>
         <translation>Počkat</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1701"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1705"/>
         <source>Confirm launch</source>
         <translation>Potvrdit spuštění</translation>
     </message>
@@ -2240,6 +2255,36 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
 </context>
 <context>
     <name>FileRenamerDlgImpl</name>
+    <message>
+        <location filename="../FileRenamerDlgImpl.cpp" line="566"/>
+        <source>Source or destination is a directory</source>
+        <translation>Zdroj nebo cíl je adresář</translation>
+    </message>
+    <message>
+        <location filename="../FileRenamerDlgImpl.cpp" line="570"/>
+        <source>Error during copying</source>
+        <translation>Chyba při kopírování</translation>
+    </message>
+    <message>
+        <location filename="../FileRenamerDlgImpl.cpp" line="574"/>
+        <source>Error during renaming</source>
+        <translation>Chyba při přejmenovávání</translation>
+    </message>
+    <message>
+        <location filename="../FileRenamerDlgImpl.cpp" line="578"/>
+        <source>Destination already exists</source>
+        <translation>Cíl již existuje</translation>
+    </message>
+    <message>
+        <location filename="../FileRenamerDlgImpl.cpp" line="582"/>
+        <source>Source not found</source>
+        <translation>Zdroj nenalezen</translation>
+    </message>
+    <message>
+        <location filename="../FileRenamerDlgImpl.cpp" line="591"/>
+        <source>Unknown error</source>
+        <translation>Neznámá chyba</translation>
+    </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="618"/>
         <source>No patterns exist</source>
@@ -4421,39 +4466,6 @@ Zpracování zrušeno.</translation>
     </message>
 </context>
 <context>
-    <name>RenameThread</name>
-    <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="566"/>
-        <source>Source or destination is a directory</source>
-        <translation>Zdroj nebo cíl je adresář</translation>
-    </message>
-    <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="570"/>
-        <source>Error during copying</source>
-        <translation>Chyba při kopírování</translation>
-    </message>
-    <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="574"/>
-        <source>Error during renaming</source>
-        <translation>Chyba při přejmenovávání</translation>
-    </message>
-    <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="578"/>
-        <source>Destination already exists</source>
-        <translation>Cíl již existuje</translation>
-    </message>
-    <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="582"/>
-        <source>Source not found</source>
-        <translation>Zdroj nenalezen</translation>
-    </message>
-    <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="591"/>
-        <source>Unknown error</source>
-        <translation>Neznámá chyba</translation>
-    </message>
-</context>
-<context>
     <name>Renamer</name>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="1079"/>
@@ -4668,12 +4680,13 @@ will store its settings in this file.
 The name was generated automatically. If you want to choose a different name, simply click on
 the button at the right to change it.</source>
         <comment>this is a multiline tooltip</comment>
-        <translation type="unfinished">Toto je název &quot;souboru s nastavením&quot;
+        <translation>Toto je název &quot;souboru s nastavením&quot;
 
 Předpokládá se, že je to soubor, který již neexistuje. Není třeba jej vytvářet.
 MP3 Diags bude uchovávat svá nastavení v tomto souboru.
 
-Název byl vytvořen automaticky. Pokud chcete vybrat jiný název, jednoduše klepněte na tlačítko napravo pro jeho změnu.</translation>
+Název byl vytvořen automaticky. Pokud chcete vybrat jiný název, jednoduše
+klepněte na tlačítko napravo pro jeho změnu.</translation>
     </message>
     <message>
         <location filename="../SessionEditorDlgImpl.cpp" line="122"/>

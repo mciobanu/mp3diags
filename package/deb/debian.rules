@@ -30,6 +30,7 @@ build-stamp:
 	./AdjustMt.sh STATIC_SER
 	qmake
 	make
+	lrelease src/src.pro
 	strip bin/MP3Diags
 
 	touch build-stamp
@@ -72,6 +73,9 @@ install: build
 	cp desktop/MP3Diags40.png $(CURDIR)/debian/mp3diags/usr/share/icons/hicolor/40x40/apps/MP3Diags.png
 	mkdir -p $(CURDIR)/debian/mp3diags/usr/share/icons/hicolor/48x48/apps
 	cp desktop/MP3Diags48.png $(CURDIR)/debian/mp3diags/usr/share/icons/hicolor/48x48/apps/MP3Diags.png
+
+	mkdir -p $(CURDIR)/debian/mp3diags/usr/share/mp3diags-unstable/translations
+	cp src/translations/*.qm $(CURDIR)/debian/mp3diags/usr/share/mp3diags-unstable/translations
 
 # Build architecture-independent files here.
 binary-indep: build install

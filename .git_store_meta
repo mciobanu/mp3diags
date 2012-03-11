@@ -232,10 +232,10 @@ package/AddChangeLog.py	f	2009-06-22T08:08:35Z
 package/deb/MP3Diags.dsc	f	2011-07-23T18:20:55Z
 package/deb/debian.changelog	f	2009-05-31T06:47:02Z
 package/deb/debian.control	f	2011-07-23T18:25:14Z
-package/deb/debian.rules	f	2009-11-06T10:49:28Z
+package/deb/debian.rules	f	2012-03-11T09:20:09Z
 package/pad_file.xml	f	2010-07-04T11:45:45Z
-package/rpm/MP3Diags-Mandriva_2009.1.spec	f	2011-05-30T20:15:40Z
-package/rpm/MP3Diags.spec	f	2011-08-01T18:25:53Z
+package/rpm/MP3Diags-Mandriva_2009.1.spec	f	2012-03-11T08:40:59Z
+package/rpm/MP3Diags.spec	f	2012-03-11T16:00:37Z
 package/sourceforge/linux_downloads.html	f	2009-06-10T07:26:41Z
 src/About.ui	f	2011-06-15T19:56:47Z
 src/AboutDlgImpl.cpp	f	2012-02-18T14:52:12Z

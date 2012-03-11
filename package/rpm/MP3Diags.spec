@@ -9,6 +9,8 @@ Summary: Tool for finding and fixing problems in MP3 files; includes a tagger
 %define srcBaseName MP3Diags%{branch}
 # ttt1 perhaps have a binName and a dskName and use some file renaming and sed to control the name of the binary, desktop file, and icons (probably the same as the desktop file)
 
+%define translName mp3diags%{branch}
+
 Name: %{pkgName}%{branch}
 Version: %{version}
 Release: 1
@@ -69,18 +71,22 @@ Another component is the file renamer, which can rename files based on the field
 
 %if 0%{?suse_version}
 qmake
+lrelease src/src.pro
 %endif
 
 %if 0%{?mandriva_version} >= 2009
 qmake
+lrelease src/src.pro
 %endif
 
 %if 0%{?fedora} || 0%{?fedora_version}
 qmake-qt4
+lrelease-qt4 src/src.pro
 %endif
 
 make
 strip $RPM_BUILD_DIR/%{srcBaseName}-%{version}/bin/%{srcBaseName}
+
 
 %install
 # ttt1 perhaps look at http://doc.trolltech.com/4.3/qmake-variable-reference.html#installs and use INSTALLS += ...
@@ -99,6 +105,7 @@ mkdir -p %{buildroot}%{_datadir}/icons/hicolor/36x36/apps ; install -p -m644 des
 mkdir -p %{buildroot}%{_datadir}/icons/hicolor/40x40/apps ; install -p -m644 desktop/%{srcBaseName}40.png %{buildroot}%{_datadir}/icons/hicolor/40x40/apps/%{srcBaseName}.png
 mkdir -p %{buildroot}%{_datadir}/icons/hicolor/48x48/apps ; install -p -m644 desktop/%{srcBaseName}48.png %{buildroot}%{_datadir}/icons/hicolor/48x48/apps/%{srcBaseName}.png
 
+mkdir -p %{buildroot}/usr/share/%{translName}/translations ; install -p -m644 src/translations/*.qm %{buildroot}/usr/share/%{translName}/translations
 
 
 %if 0%{?suse_version} > 0000
@@ -117,9 +124,12 @@ rm -rf %{buildroot}
 %dir %{_datadir}/icons/hicolor
 %dir %{_datadir}/icons/hicolor/*
 %dir %{_datadir}/icons/hicolor/*/*
+%dir /usr/share/%{translName}
+%dir /usr/share/%{translName}/translations
 %{_bindir}/%{srcBaseName}
 %{_datadir}/applications/%{srcBaseName}.desktop
 %{_datadir}/icons/hicolor/*/apps/%{srcBaseName}.png
+/usr/share/%{translName}/translations/*.qm
 
 #?datadir (=/usr/share)
 #/usr/share/applications

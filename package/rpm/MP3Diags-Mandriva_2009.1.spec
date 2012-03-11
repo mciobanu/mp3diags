@@ -3,6 +3,9 @@ Summary: Tool for finding and fixing problems in MP3 files; includes a tagger
 %define branch test
 License: http://www.gnu.org/licenses/gpl-2.0.html
 Group: Applications/Multimedia
+%define pkgName MP3Diags
+%define translName mp3diags%{branch}
+
 Name: MP3Diags%{branch}
 #Prefix: /usr
 #Provides: MP3Diags
@@ -65,6 +68,7 @@ Another component is the file renamer, which can rename files based on the field
 #/usr/lib/qt4/bin/qmake
 qmake
 #%endif
+lrelease src/src.pro
 
 
 make
@@ -92,6 +96,7 @@ cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags40%{branch}.png $
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps
 cp $RPM_BUILD_DIR/MP3Diags%{branch}-%{version}/desktop/MP3Diags48%{branch}.png $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps/MP3Diags%{branch}.png
 
+mkdir -p %{buildroot}/usr/share/%{translName}/translations ; install -p -m644 src/translations/*.qm %{buildroot}/usr/share/%{translName}/translations
 
 #mkdir -p $RPM_BUILD_ROOT%{_bindir}
 #cp $RPM_BUILD_DIR/MP3Diags-%{version}/bin/MP3Diags $RPM_BUILD_ROOT%{_bindir}
@@ -139,6 +144,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/icons/hicolor/40x40/apps
 %dir %{_datadir}/icons/hicolor/48x48
 %dir %{_datadir}/icons/hicolor/48x48/apps
+%dir /usr/share/%{translName}/translations
 %{_bindir}/MP3Diags%{branch}
 %{_datadir}/applications/MP3Diags%{branch}.desktop
 %{_datadir}/icons/hicolor/16x16/apps/MP3Diags%{branch}.png
@@ -148,6 +154,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/icons/hicolor/36x36/apps/MP3Diags%{branch}.png
 %{_datadir}/icons/hicolor/40x40/apps/MP3Diags%{branch}.png
 %{_datadir}/icons/hicolor/48x48/apps/MP3Diags%{branch}.png
+/usr/share/%{translName}/translations/*.qm
 
 #?datadir (=/usr/share)
 #/usr/share/applications

@@ -9,7 +9,8 @@ if [[ "$#" != "0" ]]; then
 fi
 
 #lupdate mp3diags.pro
-lrelease src/src.pro
+#lrelease src/src.pro
+lrelease src/translations/mp3diags_*.ts
 
 if [[ "$?" != "0" ]] ; then
     echo -e "\nThere was an error trying to build the translations. This shouldn't impact other parts of the build process.\n" >&2

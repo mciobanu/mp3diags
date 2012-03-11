@@ -280,12 +280,12 @@ src/FileEnum.h	f	2009-10-13T10:05:02Z
 src/FileRenamer.ui	f	2012-01-02T09:53:58Z
 src/FileRenamerDlgImpl.cpp	f	2012-03-11T10:38:34Z
 src/FileRenamerDlgImpl.h	f	2012-03-03T06:58:29Z
-src/FilesModel.cpp	f	2012-03-03T06:58:29Z
+src/FilesModel.cpp	f	2012-03-11T13:29:16Z
 src/FilesModel.h	f	2009-10-01T09:28:15Z
 src/FullSizeImgDlg.cpp	f	2012-03-03T20:13:54Z
 src/FullSizeImgDlg.h	f	2009-11-28T07:25:00Z
-src/Helpers.cpp	f	2012-03-04T19:13:52Z
-src/Helpers.h	f	2012-03-02T21:28:30Z
+src/Helpers.cpp	f	2012-03-11T13:16:47Z
+src/Helpers.h	f	2012-03-11T13:16:38Z
 src/Id3Transf.cpp	f	2012-03-03T20:24:37Z
 src/Id3Transf.h	f	2012-03-03T14:27:44Z
 src/Id3V230Stream.cpp	f	2012-03-04T09:39:41Z
@@ -302,7 +302,7 @@ src/LogModel.h	f	2009-05-06T07:30:16Z
 src/LyricsStream.cpp	f	2012-03-03T18:04:43Z
 src/LyricsStream.h	f	2012-02-19T20:36:57Z
 src/MainForm.ui	f	2011-07-30T12:34:43Z
-src/MainFormDlgImpl.cpp	f	2012-03-04T11:44:17Z
+src/MainFormDlgImpl.cpp	f	2012-03-11T15:38:02Z
 src/MainFormDlgImpl.h	f	2012-02-29T20:07:21Z
 src/Mp3Diags.qrc	f	2012-02-05T19:46:04Z
 src/Mp3Manip.cpp	f	2011-12-01T11:38:02Z

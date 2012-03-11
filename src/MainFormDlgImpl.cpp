@@ -1953,7 +1953,7 @@ void MainFormDlgImpl::on_m_pTransformB_clicked() //ttt2 an alternative is to use
     {
         Transformation* pTransf (vpTransf.at(vnVisualNdx[i]));
         QAction* pAct (new QAction(pTransf->getVisibleActionName(), &menu));
-        pAct->setToolTip(makeMultiline(convStr(Transformation::tr(pTransf->getDescription())).c_str()));
+        pAct->setToolTip(makeMultiline(Transformation::tr(pTransf->getDescription())));
 
         //connect(pAct, SIGNAL(triggered()), this, SLOT(onExecTransform(i))); // !!! Qt doesn't seem to support parameter binding
         menu.addAction(pAct);
@@ -3207,7 +3207,7 @@ void MainFormDlgImpl::showFixes(vector<Transformation*>& vpTransf, Subset eSubse
     {
         Transformation* pTransf (vpTransf[i]);
         QAction* pAct (new QAction(pTransf->getVisibleActionName(), &menu));
-        pAct->setToolTip(makeMultiline(pTransf->getDescription()));
+        pAct->setToolTip(makeMultiline(Transformation::tr(pTransf->getDescription())));
 
         //connect(pAct, SIGNAL(triggered()), this, SLOT(onExecTransform(i))); // !!! Qt doesn't seem to support parameter binding
         menu.addAction(pAct);
@@ -3496,4 +3496,39 @@ Development machine:
 
 
 //ttt0 link from stable to unstable in doc. perhaps also have a notification popup
+
+
+/*
+
+  ttt0:
+http://doc.qt.nokia.com/4.7-snapshot/internationalization.html
+
+Use QKeySequence() for Accelerator Values
+Accelerator values such as Ctrl+Q or Alt+F need to be translated too. If you hardcode Qt::CTRL + Qt::Key_Q for "quit" in your application, translators won't be able to override it. The correct idiom is
+     exitAct = new QAction(tr("E&xit"), this);
+     exitAct->setShortcuts(QKeySequence::Quit);
+
+
+
+Typically, your application's main() function will look like this:
+ int main(int argc, char *argv[])
+ {
+     QApplication app(argc, argv);
+
+     QTranslator qtTranslator;
+     qtTranslator.load("qt_" + QLocale::system().name(),
+             QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+     app.installTranslator(&qtTranslator);
+
+     QTranslator myappTranslator;
+     myappTranslator.load("myapp_" + QLocale::system().name());
+     app.installTranslator(&myappTranslator);
+
+     ...
+     return app.exec();
+ }
+Note the use of QLibraryInfo::location() to locate the Qt translations. Developers should request the path to the translations at run-time by passing QLibraryInfo::TranslationsPath to this function instead of using the QTDIR environment variable in their applications.
+*/
+
+//ttt0 doc & screenshots for translation
 

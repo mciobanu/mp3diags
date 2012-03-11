@@ -343,7 +343,7 @@ void openHelp(const std::string& strFileName);
 
 
 // meant for displaying tooltips; converts some spaces to \n, so the tooltips have several short lines instead of a single wide line
-QString makeMultiline(const char* szDescr);
+QString makeMultiline(const QString& qstrDescr);
 
 QString toNativeSeparators(const QString&);
 QString fromNativeSeparators(const QString&);

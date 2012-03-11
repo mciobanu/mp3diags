@@ -1202,11 +1202,11 @@ void openHelp(const string& strFileName)
 
 
 // meant for displaying tooltips; converts some spaces to \n, so the tooltips have several short lines instead of a single wide line
-QString makeMultiline(const char* szDescr) //ttt2 param should probably be changed for localized versions, so this takes and returns QString
+QString makeMultiline(const QString& qstrDescr)
 {
-    QString s (szDescr);
+    QString s (qstrDescr);
     int SIZE (50);
-    for (int i = SIZE; i < s.size(); ++i)
+    for (int i = SIZE; i < qstrDescr.size(); ++i)
     {
         if (' ' == s[i])
         {

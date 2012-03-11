@@ -1,8 +1,9 @@
-mp3diags (1.1.13.069) testing; urgency=low
+mp3diags (1.1.16.072) testing; urgency=low
 
-  * QQQ
+  * made program translatable
+  * added Czech translation
 
- -- Marian Ciobanu <ciobi@inbox.com>  Wed, 01 Feb 2012 22:00:00 +0200
+ -- Marian Ciobanu <ciobi@inbox.com>  Sun, 11 Mar 2012 22:00:00 +0200
 
 mp3diags (1.1.12.068) testing; urgency=low
 

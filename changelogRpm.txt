@@ -1,5 +1,6 @@
-* Wed Feb 02 2012 Marian Ciobanu <ciobi@inbox.com> 1.1.13.069
-- QQQ
+* Sun Mar 11 2012 Marian Ciobanu <ciobi@inbox.com> 1.1.16.072
+- made program translatable
+- added Czech translation
 
 * Wed Feb 02 2012 Marian Ciobanu <ciobi@inbox.com> 1.1.12.068
 - external tools

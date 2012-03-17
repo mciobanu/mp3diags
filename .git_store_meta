@@ -339,7 +339,7 @@ src/ScanDlgImpl.h	f	2009-07-17T15:02:37Z
 src/SerSupport.cpp	f	2012-03-04T12:48:32Z
 src/SerSupport.h	f	2009-05-06T07:27:31Z
 src/SessionEditor.ui	f	2012-02-06T22:59:54Z
-src/SessionEditorDlgImpl.cpp	f	2012-03-04T19:59:17Z
+src/SessionEditorDlgImpl.cpp	f	2012-03-17T13:06:25Z
 src/SessionEditorDlgImpl.h	f	2012-02-12T11:32:26Z
 src/Sessions.ui	f	2012-02-12T11:48:31Z
 src/SessionsDlgImpl.cpp	f	2012-03-11T09:10:45Z
@@ -367,7 +367,7 @@ src/ThreadRunnerDlgImpl.cpp	f	2012-03-04T14:28:35Z
 src/ThreadRunnerDlgImpl.h	f	2012-01-04T22:02:20Z
 src/Transformation.cpp	f	2012-03-03T06:59:47Z
 src/Transformation.h	f	2012-02-19T08:11:42Z
-src/Translation.cpp	f	2012-03-11T11:21:18Z
+src/Translation.cpp	f	2012-03-17T12:59:04Z
 src/Translation.h	f	2012-03-04T06:52:32Z
 src/UniqueNotesModel.cpp	f	2012-03-03T06:59:47Z
 src/UniqueNotesModel.h	f	2009-05-06T07:33:22Z

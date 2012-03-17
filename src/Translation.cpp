@@ -22,6 +22,7 @@
 #include  <QApplication>
 #include  <QFileInfo>
 #include  <QDir>
+#include  <QMessageBox>
 
 #include  "Translation.h"
 
@@ -95,14 +96,30 @@ void TranslatorHandler::setTranslation(const string& strTranslation)
         }
     }
 
-    QCoreApplication::instance()->removeTranslator(&m_appTranslator);
-    QCoreApplication::instance()->installTranslator(&m_appTranslator);
+    try
+    {
+        QCoreApplication::instance()->removeTranslator(&m_appTranslator);
+        QCoreApplication::instance()->installTranslator(&m_appTranslator);
 
-    // http://www.qtcentre.org/threads/20889-Translation-of-app-and-Qt-Dialogs
-    //m_systemTranslator.load("qt_cs.qm", m_qstrSystemTranslDir);
-    m_systemTranslator.load("qt" + convStr(getLocale(strTranslation)) + ".qm", m_qstrSystemTranslDir);
-    QCoreApplication::instance()->removeTranslator(&m_systemTranslator);
-    QCoreApplication::instance()->installTranslator(&m_systemTranslator);
+        // http://www.qtcentre.org/threads/20889-Translation-of-app-and-Qt-Dialogs
+        //m_systemTranslator.load("qt_cs.qm", m_qstrSystemTranslDir);
+        try
+        {
+            m_systemTranslator.load("qt" + convStr(getLocale(strTranslation)) + ".qm", m_qstrSystemTranslDir); // ttt0 see what is available in 4.7 and recheck that "de_DE" is loaded if there's no "de" or "de_CH"
+            QCoreApplication::instance()->removeTranslator(&m_systemTranslator);
+            QCoreApplication::instance()->installTranslator(&m_systemTranslator);
+        }
+        catch (...)
+        { // !!! nothing; usually there is no system translator for this locale, so the file and color dialogs will be shown in English
+        }
+    }
+    catch (...)
+    {
+        if (strTranslation != "")
+        {
+            QMessageBox::critical(0, "Error", "An error was encountered while setting up the translation. The program will continue, but the language may be incorrect.");
+        }
+    }
 }
 
 

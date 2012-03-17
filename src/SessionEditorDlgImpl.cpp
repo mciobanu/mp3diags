@@ -75,8 +75,8 @@ void SessionEditorDlgImpl::commonConstr() // common code for both constructors
                 nCrt = i;
             }
         }
-        m_strTranslation = strTmpTranslation;
         m_pTranslationCbB->setCurrentIndex(nCrt);
+        m_strTranslation = vstrTranslations[m_pTranslationCbB->currentIndex()];
     }
 }
 

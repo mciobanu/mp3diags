@@ -101,7 +101,7 @@ struct SimpleSaxHandler : public QXmlDefaultHandler
 
     /*override*/ ~SimpleSaxHandler()
     {
-        clearPtrContainer(m_lpNodes);
+        pearl::clearPtrContainer(m_lpNodes);
     }
 
 private:

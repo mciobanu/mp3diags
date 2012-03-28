@@ -285,7 +285,7 @@ LAST_STEP("CurrentFileModel::headerData");
         return s;
     }
 
-    return TagReader::getLabel(TagReader::FEATURE_ON_POS[nSection]);
+    return TagReader::tr(TagReader::getLabel(TagReader::FEATURE_ON_POS[nSection]));
 }
 
 

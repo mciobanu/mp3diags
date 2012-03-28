@@ -170,7 +170,12 @@ LocaleInfo::LocaleInfo(std::string strFileName) : m_strCountry("err"), m_strLang
     {
         //return "Czech - Czech Republic";
         //return "Česko - Česká republika";
-        return "Česko";
+        return "Český";
+    }
+
+    if (strFileName == "mp3diags_de_DE.qm")
+    {
+        return "Deutsch";
     }
 
     if (strFileName == "mp3diags_en_US.qm")

@@ -73,58 +73,69 @@
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="58"/>
-        <source>Czech translation by %1, %2</source>
-        <translation>Tschechische Übersetzung von %1, %2</translation>
+        <location filename="../AboutDlgImpl.cpp" line="59"/>
+        <source>%1 translation by %2, %3</source>
+        <translation>%1 Übersetzung von %2, %3</translation>
+    </message>
+    <message>
+        <location filename="../AboutDlgImpl.cpp" line="58"/>
+        <source>Czech</source>
+        <translation>Tschechische</translation>
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="59"/>
+        <source>German</source>
+        <translation>Deutsch</translation>
+    </message>
+    <message>
+        <location filename="../AboutDlgImpl.cpp" line="60"/>
         <source>Distributed under %1</source>
         <translatorcomment>??</translatorcomment>
         <translation>Verbreitet unter %1</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="60"/>
+        <location filename="../AboutDlgImpl.cpp" line="61"/>
         <source>Using %1, released under %2</source>
         <translation>Benutzt %1, veröffentlicht unter %2</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="61"/>
+        <location filename="../AboutDlgImpl.cpp" line="62"/>
         <source>Using %1, released under the %2zlib License%3</source>
         <translation>Benutzt %1, veröffentlicht unter der %2zLib Lizenz%3</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="62"/>
+        <location filename="../AboutDlgImpl.cpp" line="63"/>
         <source>Using %1, distributed under the %2Boost Software License%3</source>
         <translation>Benutzt %1, verbreitet unter der %2Boost Software Lizenz%3</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="63"/>
+        <location filename="../AboutDlgImpl.cpp" line="64"/>
         <source>Using original and modified icons from the %1 for %2, distributed under %3LGPL V3%4</source>
         <translation>Benutzt originale und abgeänderte Symbole von %1 für %2, verbreitet unter %3LGPL v3%4</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="64"/>
         <location filename="../AboutDlgImpl.cpp" line="65"/>
+        <location filename="../AboutDlgImpl.cpp" line="66"/>
         <source>Using web services provided by %1 to retrieve album data</source>
         <translation>Benutzt Webdienste welche von %1 bereit gestellt werden um Albumdaten abzurufen</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="66"/>
+        <location filename="../AboutDlgImpl.cpp" line="67"/>
         <source>Home page and documentation: %1</source>
         <translation>Homepage und Dokumentation: %1</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="67"/>
+        <location filename="../AboutDlgImpl.cpp" line="68"/>
         <source>Feedback and support: %1 or %2 at SourceForge</source>
         <translation>Feedback und Supportanfragen: %1 oder %2 auf SourceForge</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="68"/>
+        <location filename="../AboutDlgImpl.cpp" line="69"/>
         <source>Bug reports and feature requests: %1 at SourceForge</source>
         <translation>Fehlerberichte und Verbesserungsvorschläge: %1 auf SourceForge</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="69"/>
+        <location filename="../AboutDlgImpl.cpp" line="70"/>
         <source>Change log for the latest version: %1</source>
         <translation>Änderungsprotokoll für die neueste Version: %1</translation>
     </message>
@@ -2443,6 +2454,11 @@ Dies ist dafür gedacht um die Erstellung von M3U Dateien mit relativen Pfaden z
         <location filename="../CommonTypes.cpp" line="473"/>
         <source>Wait for external tool to finish, then keep launch window open</source>
         <translation>Warten bis das externe Tool endet, danach das Fenter offen lassen</translation>
+    </message>
+    <message>
+        <location filename="../Helpers.cpp" line="1581"/>
+        <source>These settings cannot currently be changed. In order to make changes you should probably run the program as an administrator.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="1658"/>

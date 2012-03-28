@@ -367,7 +367,7 @@ src/ThreadRunnerDlgImpl.cpp	f	2012-03-04T14:28:35Z
 src/ThreadRunnerDlgImpl.h	f	2012-01-04T22:02:20Z
 src/Transformation.cpp	f	2012-03-03T06:59:47Z
 src/Transformation.h	f	2012-02-19T08:11:42Z
-src/Translation.cpp	f	2012-03-17T12:59:04Z
+src/Translation.cpp	f	2012-03-28T19:02:47Z
 src/Translation.h	f	2012-03-04T06:52:32Z
 src/UniqueNotesModel.cpp	f	2012-03-03T06:59:47Z
 src/UniqueNotesModel.h	f	2009-05-06T07:33:22Z
@@ -442,7 +442,7 @@ src/licences/zlib.txt	f	2009-05-14T11:42:40Z
 src/main.cpp	f	2012-03-04T12:38:56Z
 src/src.pro	f	2012-02-12T20:30:06Z
 src/translations/autoTransl/MixedCase.cpp	f	2012-02-29T21:51:40Z
-src/translations/mp3diags_cs.ts	f	2012-03-11T16:50:35Z
-src/translations/mp3diags_de_DE.ts	f	2012-03-28T19:46:35Z
+src/translations/mp3diags_cs.ts	f	2012-03-28T20:08:42Z
+src/translations/mp3diags_de_DE.ts	f	2012-03-28T20:08:43Z
 templates/cpp	f	2009-05-06T07:21:29Z
 templates/h	f	2009-05-06T07:21:39Z

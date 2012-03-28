@@ -73,57 +73,68 @@
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="58"/>
-        <source>Czech translation by %1, %2</source>
-        <translation>Překlad do češtiny %1, %2</translation>
+        <location filename="../AboutDlgImpl.cpp" line="59"/>
+        <source>%1 translation by %2, %3</source>
+        <translation>Překlad do %1 %2, %3</translation>
+    </message>
+    <message>
+        <location filename="../AboutDlgImpl.cpp" line="58"/>
+        <source>Czech</source>
+        <translation>češtiny</translation>
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="59"/>
+        <source>German</source>
+        <translation>němčina</translation>
+    </message>
+    <message>
+        <location filename="../AboutDlgImpl.cpp" line="60"/>
         <source>Distributed under %1</source>
         <translation>Šířeno pod %1</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="60"/>
+        <location filename="../AboutDlgImpl.cpp" line="61"/>
         <source>Using %1, released under %2</source>
         <translation>Používá %1, vydáno pod %2</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="61"/>
+        <location filename="../AboutDlgImpl.cpp" line="62"/>
         <source>Using %1, released under the %2zlib License%3</source>
         <translation>Používá %1, vydáno pod %2zlib licence%3</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="62"/>
+        <location filename="../AboutDlgImpl.cpp" line="63"/>
         <source>Using %1, distributed under the %2Boost Software License%3</source>
         <translation>Používá %1, šířeno pod %2Boost Software License%3</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="63"/>
+        <location filename="../AboutDlgImpl.cpp" line="64"/>
         <source>Using original and modified icons from the %1 for %2, distributed under %3LGPL V3%4</source>
         <translation>Používá původní a upravené ikony z %1 pro %2, šířeno pod %3LGPL V3%4</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="64"/>
         <location filename="../AboutDlgImpl.cpp" line="65"/>
+        <location filename="../AboutDlgImpl.cpp" line="66"/>
         <source>Using web services provided by %1 to retrieve album data</source>
-        <translation>Používá internetové služby poskytované%1 pro získávání dat o albech</translation>
+        <translation>Používá internetové služby poskytované %1 pro získávání dat o albech</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="66"/>
+        <location filename="../AboutDlgImpl.cpp" line="67"/>
         <source>Home page and documentation: %1</source>
         <translation>Domovské stránky a dokumentace: %1</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="67"/>
+        <location filename="../AboutDlgImpl.cpp" line="68"/>
         <source>Feedback and support: %1 or %2 at SourceForge</source>
         <translation>Zpětná vazba a podpora: %1 nebo %2 na SourceForge</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="68"/>
+        <location filename="../AboutDlgImpl.cpp" line="69"/>
         <source>Bug reports and feature requests: %1 at SourceForge</source>
         <translation>Hlášení chyb a žádosti o vlastnosti: %1 na SourceForge</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="69"/>
+        <location filename="../AboutDlgImpl.cpp" line="70"/>
         <source>Change log for the latest version: %1</source>
         <translation>Seznam změn pro poslední verzi: %1</translation>
     </message>
@@ -2442,6 +2453,11 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
         <location filename="../CommonTypes.cpp" line="473"/>
         <source>Wait for external tool to finish, then keep launch window open</source>
         <translation>Počkejte, až vnější nástroj skončí, pak ponechejte spouštěcí okno otevřené</translation>
+    </message>
+    <message>
+        <location filename="../Helpers.cpp" line="1581"/>
+        <source>These settings cannot currently be changed. In order to make changes you should probably run the program as an administrator.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="1658"/>

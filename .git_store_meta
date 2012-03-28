@@ -443,5 +443,6 @@ src/main.cpp	f	2012-03-04T12:38:56Z
 src/src.pro	f	2012-02-12T20:30:06Z
 src/translations/autoTransl/MixedCase.cpp	f	2012-02-29T21:51:40Z
 src/translations/mp3diags_cs.ts	f	2012-03-11T16:50:35Z
+src/translations/mp3diags_de_DE.ts	f	2012-03-28T19:46:35Z
 templates/cpp	f	2009-05-06T07:21:29Z
 templates/h	f	2009-05-06T07:21:39Z

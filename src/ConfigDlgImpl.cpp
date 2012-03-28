@@ -947,7 +947,7 @@ void ConfigDlgImpl::refreshTransfText(int k)
     QString s;
     for (int i = 0, n = cSize(m_vvnCustomTransf[k]); i < n; ++i)
     {
-        s += m_pCommonData->getAllTransf()[m_vvnCustomTransf[k][i]]->getActionName();
+        s += m_pCommonData->getAllTransf()[m_vvnCustomTransf[k][i]]->getVisibleActionName();
         if (i < n - 1) { s += "\n"; }
     }
     m_vpTransfLabels[k]->setText(s);

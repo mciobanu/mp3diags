@@ -1578,7 +1578,7 @@ bool deleteKey(const char* szPath, const char* szSubkey)
 /*static*/ string ShellIntegration::getShellIntegrationError()
 {
     if (isShellIntegrationEditable()) { return ""; }
-    return "These settings cannot currently be changed. In order to make changes you should probably run the program as an administrator.";
+    return GlobalTranslHlp::tr("These settings cannot currently be changed. In order to make changes you should probably run the program as an administrator.");
 }
 
 

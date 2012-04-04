@@ -85,7 +85,7 @@
     <message>
         <location filename="../AboutDlgImpl.cpp" line="59"/>
         <source>German</source>
-        <translation>němčina</translation>
+        <translation>němčiny</translation>
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="60"/>
@@ -2457,7 +2457,7 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
     <message>
         <location filename="../Helpers.cpp" line="1581"/>
         <source>These settings cannot currently be changed. In order to make changes you should probably run the program as an administrator.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tato nastavení nelze v současnosti změnit. Abyste mohl tyto změny provést, budete pravděpodobně muset program spustit jako správce systému.</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="1658"/>

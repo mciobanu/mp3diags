@@ -429,7 +429,7 @@ void traceLastStep(const string& s, int nLevelChange)
 static QString s_qstrErrorMsg;
 static bool s_bMainAssertOut;
 
-static QString g_qstrCrashMail ("<a href=\"mailto:mp3diags@gmail.com?subject=000 MP3 Diags crash/\">mp3diags@gmail</a>");
+static QString g_qstrCrashMail ("<a href=\"mailto:mp3diags@gmail.com?subject=000 MP3 Diags crash/\">mp3diags@gmail.com</a>");
 static QString g_qstrSupportMail ("<a href=\"mailto:mp3diags@gmail.com?subject=000 MP3 Diags support note/\">mp3diags@gmail.com</a>");
 static QString g_qstrBugReport ("<a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a>");
 
@@ -3531,4 +3531,9 @@ Note the use of QLibraryInfo::location() to locate the Qt translations. Develope
 */
 
 //ttt0 doc & screenshots for translation
+//ttt0 something to add to SF in unstable, to get the date to change
+
+//ttt0 add VS2010 to build instr
+
+//ttt0 german translates "Previous [Ctrl+P]" as "Vorherige [Strg+V]"
 

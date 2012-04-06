@@ -1,3 +1,11 @@
+mp3diags (1.1.18.074) testing; urgency=low
+
+  * German translation
+  * made code compilable on GCC 4.7
+  * several translation fixes
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Sat, 06 Apr 2012 22:00:00 +0200
+
 mp3diags (1.1.17.073) testing; urgency=low
 
   * fixed crash introduced in 1.1.16 with translation changes

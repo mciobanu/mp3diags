@@ -1,5 +1,12 @@
 ---------------------------------------------------------------------------
 
+06.04.2012 - 1.1.18.074
+- German translation
+- made code compilable on GCC 4.7
+- several translation fixes
+
+---------------------------------------------------------------------------
+
 17.03.2012 - 1.1.17.073
 - fixed crash introduced in 1.1.16 with translation changes
 

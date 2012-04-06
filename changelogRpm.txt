@@ -1,3 +1,8 @@
+* Sat Apr 06 2012 Marian Ciobanu <ciobi@inbox.com> 1.1.18.074
+- German translation
+- made code compilable on GCC 4.7
+- several translation fixes
+
 * Sat Mar 17 2012 Marian Ciobanu <ciobi@inbox.com> 1.1.17.073
 - fixed crash introduced in 1.1.16 with translation changes
 

@@ -2883,7 +2883,7 @@ Dies ist dafür gedacht um die Erstellung von M3U Dateien mit relativen Pfaden z
     <message>
         <location filename="../MainForm.ui" line="441"/>
         <source>Previous [Ctrl+P]</source>
-        <translation>Vorherige [Strg+V]</translation>
+        <translation type="unfinished">Vorherige [Strg+P]</translation>
     </message>
     <message>
         <location filename="../MainForm.ui" line="444"/>
@@ -2893,7 +2893,7 @@ Dies ist dafür gedacht um die Erstellung von M3U Dateien mit relativen Pfaden z
     <message>
         <location filename="../MainForm.ui" line="457"/>
         <source>Ctrl+P</source>
-        <translation>Strg+V</translation>
+        <translation type="unfinished">Ctrl+P</translation>
     </message>
     <message>
         <location filename="../MainForm.ui" line="470"/>
@@ -2913,7 +2913,7 @@ Dies ist dafür gedacht um die Erstellung von M3U Dateien mit relativen Pfaden z
     <message>
         <location filename="../MainForm.ui" line="511"/>
         <source>Ctrl+N</source>
-        <translation>Strg+N</translation>
+        <translation type="unfinished">Ctrl+N</translation>
     </message>
     <message>
         <location filename="../MainForm.ui" line="551"/>
@@ -5124,7 +5124,7 @@ Es sollte eine Datei sein welche noch nicht existiert. Sie brauchen sie nicht an
     <message>
         <location filename="../TagEditor.ui" line="155"/>
         <source>Ctrl+P</source>
-        <translation type="unfinished">Strg+P</translation>
+        <translation type="unfinished">Ctrl+P</translation>
     </message>
     <message>
         <location filename="../TagEditor.ui" line="184"/>
@@ -5144,7 +5144,7 @@ Es sollte eine Datei sein welche noch nicht existiert. Sie brauchen sie nicht an
     <message>
         <location filename="../TagEditor.ui" line="241"/>
         <source>Ctrl+N</source>
-        <translation>Strg+N</translation>
+        <translation type="unfinished">Ctrl+N</translation>
     </message>
     <message>
         <location filename="../TagEditor.ui" line="285"/>
@@ -5220,7 +5220,7 @@ Es sollte eine Datei sein welche noch nicht existiert. Sie brauchen sie nicht an
     <message>
         <location filename="../TagEditor.ui" line="583"/>
         <source>Ctrl+V</source>
-        <translation type="unfinished">Strg+V</translation>
+        <translation type="unfinished">Ctrl+V</translation>
     </message>
     <message>
         <location filename="../TagEditor.ui" line="608"/>

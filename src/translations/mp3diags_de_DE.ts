@@ -85,7 +85,7 @@
     <message>
         <location filename="../AboutDlgImpl.cpp" line="59"/>
         <source>German</source>
-        <translation>Deutsch</translation>
+        <translation>Deutsche</translation>
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="60"/>
@@ -2458,7 +2458,7 @@ Dies ist dafür gedacht um die Erstellung von M3U Dateien mit relativen Pfaden z
     <message>
         <location filename="../Helpers.cpp" line="1581"/>
         <source>These settings cannot currently be changed. In order to make changes you should probably run the program as an administrator.</source>
-        <translation type="unfinished"></translation>
+        <translation>Diese Einstellungen können im Moment nicht geändert werden. Dafür Sie müssen das Programm als Administrator ausführen.</translation>
     </message>
     <message>
         <location filename="../Helpers.cpp" line="1658"/>
@@ -5114,7 +5114,7 @@ Es sollte eine Datei sein welche noch nicht existiert. Sie brauchen sie nicht an
     <message>
         <location filename="../TagEditor.ui" line="139"/>
         <source>Previous [Ctrl+P]</source>
-        <translation>Vorherige [Strg+V]</translation>
+        <translation type="unfinished">Vorherige [Strg+P]</translation>
     </message>
     <message>
         <location filename="../TagEditor.ui" line="142"/>
@@ -5124,7 +5124,7 @@ Es sollte eine Datei sein welche noch nicht existiert. Sie brauchen sie nicht an
     <message>
         <location filename="../TagEditor.ui" line="155"/>
         <source>Ctrl+P</source>
-        <translation>Strg+V</translation>
+        <translation type="unfinished">Strg+P</translation>
     </message>
     <message>
         <location filename="../TagEditor.ui" line="184"/>
@@ -5220,7 +5220,7 @@ Es sollte eine Datei sein welche noch nicht existiert. Sie brauchen sie nicht an
     <message>
         <location filename="../TagEditor.ui" line="583"/>
         <source>Ctrl+V</source>
-        <translation>STRG+V</translation>
+        <translation type="unfinished">Strg+V</translation>
     </message>
     <message>
         <location filename="../TagEditor.ui" line="608"/>

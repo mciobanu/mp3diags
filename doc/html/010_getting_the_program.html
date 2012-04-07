@@ -167,13 +167,17 @@ I tested previous versions of the executable on XP SP1, XP SP2, XP SP3, Vista Ho
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-I'm not aware of attempts to compile and run the project on other platforms (xBSD, OS X, ...), but I'd like to know if somebody tried it and what the results were. At any rate, there is a file that only works with GCC or MSVC, so other compilers should fail until that file gets ported. If somebody wants to publish builds, it would probably be a good idea to tell me, so I can add a link to the build for that platform.
+There is <a href="http://pdb.finkproject.org/pdb/package.php/mp3diags-mac" onClick="javascript: pageTracker._trackPageview('/fink/mp3diags');">this page</a> in the Fink Project, so it looks like the program should work on OS X; also, several percent of the visits to the web site are by OS X users. However, I have never heard from any Mac user about their experience with MP3 Diags, so I can't really say that it works there. Or perhaps they would have told me if it didn't ...
 </div>
-
 
 <div class="NormalText RegFnt ChpCol2">
-Well, there is <a href="http://pdb.finkproject.org/pdb/package.php/mp3diags-mac" onClick="javascript: pageTracker._trackPageview('/fink/mp3diags');">this page</a> in the Fink Project, so it looks like the program should work on OS X; also, several percent of the visits to the web site are by OS X users. However, I have never heard from any Mac user about their experience with MP3 Diags, so I can't really say that it works there. Or perhaps they would have told me if it didn't ...
+There is an OS/2 port by Elbert Pol. See <a href="http://svn.netlabs.org/qtapps/wiki/QT4%20Multimedia" onClick="javascript: pageTracker._trackPageview('/os2/mp3diags');">this page</a> for links.
 </div>
+
+<div class="NormalText RegFnt ChpCol2">
+I'm not aware of attempts to compile and run the project on other platforms, but I'd like to know if anybody tried it and what the results were. At any rate, there is a file that only works with GCC or MSVC, so other compilers should fail until that file gets ported. If somebody wants to publish builds, it would probably be a good idea to tell me, so I can add a link to the build for that platform.
+</div>
+
 
 
 
@@ -199,7 +203,7 @@ You can download MP3Diags.tar.gz from <a href="http://sourceforge.net/projects/m
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-The development system is openSUSE 11.2, soon to change to 11.4. I sometimes compile MP3 Diags on other distibutions and / or versions, and that worked fine thus far.
+The development system is openSUSE. I sometimes compile MP3 Diags on other distibutions and / or versions, and that worked fine thus far.
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
@@ -233,12 +237,12 @@ In order to compile and run the project, these packages should be installed:
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-Qt 4.3.1 is the one that was used for development. Something above should be OK too, but there may be some UI glitches, about which <a href="050_feedback.html">I'd like to know</a>.
+Qt 4.3.1 is the one that was used initially for development and it is still good enough, although I moved to newer versions as they were released (so anything in 4.x above should 4.3.1 be OK too). Qt changes sometimes lead to UI glitches, which I don't always notice but about which <a href="050_feedback.html">I'd like to know</a>.
 </div>
 
 
 <div class="NormalText RegFnt ChpCol2">
-If you want to use GCC 4.4 or above, you need Boost 1.37 or later (see <a href="http://bugs.xmms2.xmms.se/view.php?id=2215" onClick="javascript: pageTracker._trackPageview('/boost_bug');">http://bugs.xmms2.xmms.se/view.php?id=2215</a>.)
+If you use GCC 4.4 or above, you need Boost 1.37 or later (see <a href="http://bugs.xmms2.xmms.se/view.php?id=2215" onClick="javascript: pageTracker._trackPageview('/boost_bug');">http://bugs.xmms2.xmms.se/view.php?id=2215</a>.)
 </div>
 
 
@@ -274,7 +278,7 @@ Since there are <a href="#binWindows">binaries</a> available (both setup.exe and
     <li>Create a .sln file that can be open from Visual C++</li>
 </ul>
 
-First you need to download and perhaps compile the required libraries: zlib, Qt, and Boost Serialization. In case it's not obvious, you cannot mix C++ libraries created by / for different compilers. While downloadable binary Qt libraries existed for MinGW for some time, for Visual C++ 2008 they have been introduced in Qt 4.6. If you have a different version of Visual Studio or if you want to use an older Qt, you'll have to compile Qt for Visual C++ yourself. Well, here's what I do:
+First you need to download and perhaps compile the required libraries: zlib, Qt, Boost Program Options, and Boost Serialization. In case it's not obvious, you cannot mix C++ libraries created by / for different compilers. While downloadable binary Qt libraries existed for MinGW for some time, for Visual C++ 2008 they have been introduced in Qt 4.6. If you have a different version of Visual Studio or if you want to use an older Qt, you'll have to compile Qt for Visual C++ yourself. Well, here's what I do:
 </div>
 
 
@@ -320,7 +324,16 @@ First you need to download and perhaps compile the required libraries: zlib, Qt,
     </tr>
 
     <tr>
-        <td>Qt for Visual C++ other than 2008</td>
+        <td>Qt for Visual C++ 2010</td>
+        <td>
+            <ul>
+                <li>Go to <a href="http://qt.nokia.com/downloads/windows-cpp-vs2010" onClick="javascript: pageTracker._trackPageview('/nokia/windows-visualc');">http://qt.nokia.com/downloads/windows-cpp-vs2010</a>, let the automatic download proceed, then install</li>
+            </ul>
+        </td>
+    </tr>
+
+    <tr>
+        <td>Qt for Visual C++ other than 2008 or 2010</td>
         <td>
             <ul>
                 <li>Go to <a href="http://qt.nokia.com/downloads/windows-cpp" onClick="javascript: pageTracker._trackPageview('/nokia/windows-cpp');">http://qt.nokia.com/downloads/windows-cpp</a>, cancel the download that starts automatically and choose qt-everywhere-opensource-src-4.x.y.zip instead</li>

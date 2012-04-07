@@ -99,6 +99,7 @@ Section "Main Application" !Required ;No components page, name is not important
   File zlib.txt
   File zlib1.dll
   File qt_cs.qm
+  File qt_de.qm
   File mp3diags_cs.qm
   File mp3diags_de_DE.qm
 
@@ -160,6 +161,7 @@ Section "un.Uninstall"
   Delete $INSTDIR\zlib.txt
   Delete $INSTDIR\zlib1.dll
   Delete $INSTDIR\qt_cs.qm
+  Delete $INSTDIR\qt_de.qm
   Delete $INSTDIR\mp3diags_cs.qm
   Delete $INSTDIR\mp3diags_de_DE.qm
   Delete $INSTDIR\MP3DiagsCLI-unstable.cmd

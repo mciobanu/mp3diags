@@ -2208,7 +2208,7 @@ Dies ist dafür gedacht um die Erstellung von M3U Dateien mit relativen Pfaden z
     <message>
         <location filename="../FileRenamer.ui" line="72"/>
         <source>Ctrl+P</source>
-        <translation>Strg+V</translation>
+        <translation>Ctrl+P</translation>
     </message>
     <message>
         <location filename="../FileRenamer.ui" line="85"/>
@@ -2228,7 +2228,7 @@ Dies ist dafür gedacht um die Erstellung von M3U Dateien mit relativen Pfaden z
     <message>
         <location filename="../FileRenamer.ui" line="126"/>
         <source>Ctrl+N</source>
-        <translation>Strg+N</translation>
+        <translation>Ctrl+N</translation>
     </message>
     <message>
         <location filename="../FileRenamer.ui" line="142"/>
@@ -2807,7 +2807,7 @@ Dies ist dafür gedacht um die Erstellung von M3U Dateien mit relativen Pfaden z
     <message>
         <location filename="../MainForm.ui" line="69"/>
         <source>Ctrl+S</source>
-        <translation>Strg+S</translation>
+        <translation>Ctrl+S</translation>
     </message>
     <message>
         <location filename="../MainForm.ui" line="103"/>

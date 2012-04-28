@@ -32,6 +32,7 @@
 #ifndef WIN32
     #include  <QDir>
     #include  <sys/utsname.h>
+    #include  <sys/types.h>
     #include  <unistd.h>
 #else
     #include  <windows.h>

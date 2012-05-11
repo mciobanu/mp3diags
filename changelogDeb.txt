@@ -1,3 +1,9 @@
+mp3diags (1.0.11.076) testing; urgency=low
+
+  * made program compilable with GCC 4.7
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Fri, 11 May 2011 22:00:00 +0200
+
 mp3diags (1.0.10.065) testing; urgency=low
 
   * updated Discogs API calls to current version

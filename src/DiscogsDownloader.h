@@ -82,7 +82,8 @@ class DiscogsDownloader : public AlbumInfoDownloaderDlgImpl
 
     /*override*/ void saveSize();
     /*override*/ char getReplacementChar() const { return '+'; }
-
+protected:
+    int m_nPageSize;
 public:
     DiscogsDownloader(QWidget* pParent, SessionSettings& settings, bool bSaveResults);
     ~DiscogsDownloader();

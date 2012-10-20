@@ -93,9 +93,14 @@ private:
         int nStart (attrs.value("start").toInt());
         int nEnd (attrs.value("end").toInt());
         int nCount (attrs.value("numResults").toInt());
-        CB_ASSERT (0 == nEnd % 20 || nEnd == nCount); //ttt2 see if this needs to be more flexible
-        int nPageCnt ((nCount + 19) / 20);
-        int nCrtPage ((nStart - 1)/20);
+        if (nStart == 1)
+        {
+            m_dlg.m_nPageSize = nEnd;
+        }
+        CB_ASSERT (m_dlg.m_nPageSize > 0);
+        CB_ASSERT (0 == nEnd % m_dlg.m_nPageSize || nEnd == nCount); //ttt2 see if this needs to be more flexible
+        int nPageCnt ((nCount + m_dlg.m_nPageSize - 1) / m_dlg.m_nPageSize);
+        int nCrtPage ((nStart - 1)/m_dlg.m_nPageSize);
         if (0 == nPageCnt) { nCrtPage = -1; } // !!! needed for consistency
         m_dlg.m_nTotalPages = nPageCnt;
         m_dlg.m_nLastLoadedPage = nCrtPage;
@@ -501,7 +506,7 @@ std::string DiscogsAlbumInfo::getGenre() const // combination of m_strGenre and 
 /*static*/ const char* DiscogsDownloader::SOURCE_NAME ("Discogs");
 
 
-DiscogsDownloader::DiscogsDownloader(QWidget* pParent, SessionSettings& settings, bool bSaveResults) : AlbumInfoDownloaderDlgImpl(pParent, settings, bSaveResults)
+DiscogsDownloader::DiscogsDownloader(QWidget* pParent, SessionSettings& settings, bool bSaveResults) : AlbumInfoDownloaderDlgImpl(pParent, settings, bSaveResults), m_nPageSize(200) //ttt0 review "200" - really should be initialized in SearchXmlHandler::onSearchResultsStart() and here just get an invalid value
 {
     setWindowTitle("Download album data from Discogs.com");
 

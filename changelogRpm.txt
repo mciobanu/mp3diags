@@ -1,16 +1,28 @@
+* Sat Oct 20 2012 Marian Ciobanu <ciobi@inbox.com> 1.1.20.077
+
+- Discogs fix
+
+* Sun Apr 29 2012 Marian Ciobanu <ciobi@inbox.com> 1.1.19.075
+
+- French translation
+
 * Sat Apr 06 2012 Marian Ciobanu <ciobi@inbox.com> 1.1.18.074
+
 - German translation
 - made code compilable on GCC 4.7
 - several translation fixes
 
 * Sat Mar 17 2012 Marian Ciobanu <ciobi@inbox.com> 1.1.17.073
+
 - fixed crash introduced in 1.1.16 with translation changes
 
 * Sun Mar 11 2012 Marian Ciobanu <ciobi@inbox.com> 1.1.16.072
+
 - made program translatable
 - added Czech translation
 
 * Wed Feb 02 2012 Marian Ciobanu <ciobi@inbox.com> 1.1.12.068
+
 - external tools
 - possibility of applying transformation lists in CLI mode
 - "Open containing folder" in the main window
@@ -22,6 +34,7 @@
 - fixed menu tooltips that disappeared too quickly
 
 * Sat Dec 03 2011 Marian Ciobanu <ciobi@inbox.com> 1.1.09.064
+
 - moved to Discogs API V2
 - added codepage support when copying ID3V1 to ID3V2
 - fixed crash caused by ID3V2.4 tag with invalid flags
@@ -29,6 +42,7 @@
 - fixed Xing generation for small bitrates
 
 * Sun Aug 28 2011 Marian Ciobanu <ciobi@inbox.com> 1.1.08.062
+
 - made Discogs queries after a Discogs API change
 - fixed track numbering when querying multi-volume albums from Discogs
 - made Linux shell integration accept file names containing spaces

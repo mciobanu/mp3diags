@@ -264,8 +264,8 @@ src/DebugDlgImpl.h	f	2009-09-27T12:45:07Z
 src/DirFilter.ui	f	2012-01-02T15:16:36Z
 src/DirFilterDlgImpl.cpp	f	2012-03-04T07:37:28Z
 src/DirFilterDlgImpl.h	f	2012-02-19T08:22:58Z
-src/DiscogsDownloader.cpp	f	2012-02-19T21:04:05Z
-src/DiscogsDownloader.h	f	2009-10-20T08:11:06Z
+src/DiscogsDownloader.cpp	f	2012-10-20T09:47:09Z
+src/DiscogsDownloader.h	f	2012-10-20T09:48:04Z
 src/DoubleList.cpp	f	2012-03-03T06:58:29Z
 src/DoubleList.h	f	2009-09-11T14:47:51Z
 src/DoubleListWdg.ui	f	2012-01-02T15:16:59Z

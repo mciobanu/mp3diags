@@ -581,6 +581,10 @@ bool RenameThread::proc()
             {
                 m_qstrErr = FileRenamerDlgImpl::tr("Source not found");
             }
+            catch (const CannotCreateDir& ex)
+            {
+                m_qstrErr = FileRenamerDlgImpl::tr("Cannot create folder %1").arg(convStr(ex.m_strDir));
+            }
             catch (const std::bad_alloc&) { throw; }
             catch (const IncorrectDirName&)
             {

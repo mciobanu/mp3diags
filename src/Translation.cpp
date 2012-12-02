@@ -180,7 +180,12 @@ LocaleInfo::LocaleInfo(std::string strFileName) : m_strCountry("err"), m_strLang
 
     if (strFileName == "mp3diags_en_US.qm")
     {
-        return "English - United States";
+        return "English";
+    }
+
+    if (strFileName == "mp3diags_fr_FR.qm")
+    {
+        return "Français";
     }
 
     if (endsWith(strFileName, ".qm"))

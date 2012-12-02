@@ -1,3 +1,9 @@
+mp3diags (1.1.21.080) testing; urgency=low
+
+  * fixed bug that caused a "%s" to be shown instead of the list of files about to be changed
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Sat, 01 Dec 2012 22:00:00 -0800
+
 mp3diags (1.1.20.077) testing; urgency=low
 
   * Discogs fix

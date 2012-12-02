@@ -1,3 +1,7 @@
+* Sat Dec 01 2012 Marian Ciobanu <ciobi@inbox.com> 1.1.21.080
+
+- fixed bug that caused a "%s" to be shown instead of the list of files about to be changed
+
 * Sat Oct 20 2012 Marian Ciobanu <ciobi@inbox.com> 1.1.20.077
 
 - Discogs fix

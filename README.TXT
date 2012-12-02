@@ -1,6 +1,6 @@
 In most cases it's easier to use pre-built binaries, which are available for
 Windows and for several major Linux distributions from the main download page:
-    http://mp3diags.sourceforge.net/010_getting_the_program.html
+    http://mp3diags.sourceforge.net/unstable/010_getting_the_program.html
 
 
 Build instructions for Windows are at:

@@ -74,6 +74,7 @@
     <message>
         <location filename="../AboutDlgImpl.cpp" line="58"/>
         <location filename="../AboutDlgImpl.cpp" line="59"/>
+        <location filename="../AboutDlgImpl.cpp" line="60"/>
         <source>%1 translation by %2, %3</source>
         <translation>%1 Übersetzung von %2, %3</translation>
     </message>
@@ -89,53 +90,58 @@
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="60"/>
+        <source>French</source>
+        <translation type="unfinished">Französisch</translation>
+    </message>
+    <message>
+        <location filename="../AboutDlgImpl.cpp" line="61"/>
         <source>Distributed under %1</source>
         <translatorcomment>??</translatorcomment>
         <translation>Verbreitet unter %1</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="61"/>
+        <location filename="../AboutDlgImpl.cpp" line="62"/>
         <source>Using %1, released under %2</source>
         <translation>Benutzt %1, veröffentlicht unter %2</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="62"/>
+        <location filename="../AboutDlgImpl.cpp" line="63"/>
         <source>Using %1, released under the %2zlib License%3</source>
         <translation>Benutzt %1, veröffentlicht unter der %2zLib Lizenz%3</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="63"/>
+        <location filename="../AboutDlgImpl.cpp" line="64"/>
         <source>Using %1, distributed under the %2Boost Software License%3</source>
         <translation>Benutzt %1, verbreitet unter der %2Boost Software Lizenz%3</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="64"/>
+        <location filename="../AboutDlgImpl.cpp" line="65"/>
         <source>Using original and modified icons from the %1 for %2, distributed under %3LGPL V3%4</source>
         <translation>Benutzt originale und abgeänderte Symbole von %1 für %2, verbreitet unter %3LGPL v3%4</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="65"/>
         <location filename="../AboutDlgImpl.cpp" line="66"/>
+        <location filename="../AboutDlgImpl.cpp" line="67"/>
         <source>Using web services provided by %1 to retrieve album data</source>
         <translation>Benutzt Webdienste welche von %1 bereit gestellt werden um Albumdaten abzurufen</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="67"/>
+        <location filename="../AboutDlgImpl.cpp" line="68"/>
         <source>Home page and documentation: %1</source>
         <translation>Homepage und Dokumentation: %1</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="68"/>
+        <location filename="../AboutDlgImpl.cpp" line="69"/>
         <source>Feedback and support: %1 or %2 at SourceForge</source>
         <translation>Feedback und Supportanfragen: %1 oder %2 auf SourceForge</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="69"/>
+        <location filename="../AboutDlgImpl.cpp" line="70"/>
         <source>Bug reports and feature requests: %1 at SourceForge</source>
         <translation>Fehlerberichte und Verbesserungsvorschläge: %1 auf SourceForge</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="70"/>
+        <location filename="../AboutDlgImpl.cpp" line="71"/>
         <source>Change log for the latest version: %1</source>
         <translation>Änderungsprotokoll für die neueste Version: %1</translation>
     </message>
@@ -482,13 +488,13 @@ Nicht neu komprimiert</translation>
 </translation>
     </message>
     <message>
-        <location filename="../DiscogsDownloader.cpp" line="681"/>
+        <location filename="../DiscogsDownloader.cpp" line="686"/>
         <location filename="../MusicBrainzDownloader.cpp" line="515"/>
         <source>getting album info ...</source>
         <translation>hole Albuminformation ...</translation>
     </message>
     <message>
-        <location filename="../DiscogsDownloader.cpp" line="704"/>
+        <location filename="../DiscogsDownloader.cpp" line="709"/>
         <location filename="../MusicBrainzDownloader.cpp" line="541"/>
         <source>getting image ...</source>
         <translation>hole Bild ...</translation>
@@ -1813,27 +1819,27 @@ erneuter Scan ist notwendig.</translation>
 <context>
     <name>DiscogsDownloader</name>
     <message>
-        <location filename="../DiscogsDownloader.cpp" line="506"/>
+        <location filename="../DiscogsDownloader.cpp" line="511"/>
         <source>Download album data from Discogs.com</source>
         <translation>Albumdaten von Discogs.com holen</translation>
     </message>
     <message>
-        <location filename="../DiscogsDownloader.cpp" line="529"/>
+        <location filename="../DiscogsDownloader.cpp" line="534"/>
         <source>Genres</source>
         <translation>Genres</translation>
     </message>
     <message>
-        <location filename="../DiscogsDownloader.cpp" line="529"/>
+        <location filename="../DiscogsDownloader.cpp" line="534"/>
         <source>Genres, Styles</source>
         <translation>Genres, Stile</translation>
     </message>
     <message>
-        <location filename="../DiscogsDownloader.cpp" line="529"/>
+        <location filename="../DiscogsDownloader.cpp" line="534"/>
         <source>Genres (Styles)</source>
         <translation>Genres (Stile)</translation>
     </message>
     <message>
-        <location filename="../DiscogsDownloader.cpp" line="529"/>
+        <location filename="../DiscogsDownloader.cpp" line="534"/>
         <source>Styles</source>
         <translation>Stile</translation>
     </message>
@@ -2303,121 +2309,126 @@ Dies ist dafür gedacht um die Erstellung von M3U Dateien mit relativen Pfaden z
         <translation>Quelle nicht gefunden</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="591"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="586"/>
+        <source>Cannot create folder %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FileRenamerDlgImpl.cpp" line="595"/>
         <source>Unknown error</source>
         <translation>unbekannter Fehler</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="618"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="622"/>
         <source>No patterns exist</source>
         <translation>kein Muster vorhanden</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="618"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="622"/>
         <source>You must create at least a pattern before you can start renaming files.</source>
         <translation>Sie müssen wenigstens ein Muster erstellen bevor Sie Dateien umbenennen können.</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="653"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="657"/>
         <source>Confirm</source>
         <translation>Bestätigen</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="653"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="657"/>
         <source>Copy all the files?</source>
         <translation>Alle Dateien kopieren?</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="653"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="657"/>
         <source>Copy the selected files?</source>
         <translation>Ausgewählte Dateien kopieren?</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="653"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="657"/>
         <source>Rename all the files?</source>
         <translation>Alle Dateien umbenennen?</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="653"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="657"/>
         <source>Rename the selected files?</source>
         <translation>Ausgewählte Dateien umbenennen?</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="653"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="657"/>
         <source>&amp;Yes</source>
         <translation>&amp;Ja</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="653"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="657"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="662"/>
-        <location filename="../FileRenamerDlgImpl.cpp" line="669"/>
-        <location filename="../FileRenamerDlgImpl.cpp" line="675"/>
-        <location filename="../FileRenamerDlgImpl.cpp" line="681"/>
-        <location filename="../FileRenamerDlgImpl.cpp" line="700"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="666"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="673"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="679"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="685"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="704"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="662"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="666"/>
         <source>Operation aborted because file &quot;%1&quot; doesn&apos;t have an ID3V2 tag.</source>
         <translation>Die Operation wurde abgebrochen da die Datei &quot;%1&quot; kein ID3v2 Tag aufweist.</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="669"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="673"/>
         <source>Operation aborted because file &quot;%1&quot; is missing some required fields in its ID3V2 tag.</source>
         <translation>Die Operation wurde abgebrochen da in der Datei &quot;%1&quot; einige notwendige Felder im ID3v2 Tag fehlen.</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="675"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="679"/>
         <source>Operation aborted because it would create 2 copies of a file called &quot;%1&quot;</source>
         <translation>Die Operation wurde abgebrochen da sonst 2 Kopien der Datei &quot;%1&quot; erstellt worden wären</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="681"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="685"/>
         <source>Operation aborted because a file called &quot;%1&quot; already exists.</source>
         <translation>Die Operation wurde abgebrochen da die Datei &quot;%1&quot; bereits existiert.</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="695"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="699"/>
         <source>Copying all the files in the current album</source>
         <translation>Alle Dateien des aktuellen Albums werden kopiert</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="695"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="699"/>
         <source>Copying the selected files in the current album</source>
         <translation>Alle ausgewählten Dateien des aktuellen Albums werden kopiert</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="695"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="699"/>
         <source>Renaming all the files in the current album</source>
         <translation>Alle Dateien des aktuellen Albums werden umbenannt</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="695"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="699"/>
         <source>Renaming the selected files in the current album</source>
         <translation>Alle ausgewählten Dateien des aktuellen Albums werden umbenannt</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="813"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="817"/>
         <source>Single artist</source>
         <translation>einzelner Künstler</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="813"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="817"/>
         <source>Various artists</source>
         <translation>verschiedene Künstler</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="849"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="853"/>
         <source>Error setting up patterns</source>
         <translation>Fehler beim Erstellen der Muster</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="849"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="853"/>
         <source>An invalid value was found in the configuration file. You&apos;ll have to set up the patterns manually.</source>
         <translation>Ein ungültiger Wert wurde in der Konfigurationsdatei gefunden. Sie müssen die Muster manuell erstellen.</translation>
     </message>
@@ -3440,8 +3451,8 @@ Beenden ...</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2247"/>
-        <source>Apply the following transformations to %s?</source>
-        <translation>Die folgenden Transformationen auf %s anwenden?</translation>
+        <source>Apply the following transformations to %1?</source>
+        <translation>Die folgenden Transformationen auf %1 anwenden?</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2257"/>
@@ -4506,43 +4517,43 @@ Verarbeitung abgebrochen.</translation>
 <context>
     <name>Renamer</name>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="1079"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="1083"/>
         <source>A pattern cannot be empty</source>
         <translation>Ein Muster kann nicht leer sein</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="1086"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="1090"/>
         <source>A pattern must either begin with &apos;%1&apos; or contain no &apos;%1&apos; at all</source>
         <translation>Ein Muster muss entweder mit %1 anfangen oder kann %1 gar nicht beinhalten</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="1092"/>
         <location filename="../FileRenamerDlgImpl.cpp" line="1096"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="1100"/>
         <source>A pattern must either begin with &quot;&lt;drive&gt;:\&quot; or contain no &apos;\&apos; at all</source>
         <translation>Ein Muster muss entweder mit &quot;&lt;Laufwerk&gt;:\&quot; anfangen oder gar kein &apos;\&apos; beinhalten</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="1154"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="1158"/>
         <source>Error in column %1.</source>
         <translation>Fehler in Spalte %1.</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="1163"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="1167"/>
         <source>Nested optional elements are not allowed</source>
         <translation>Verschachtelte optionale Elemente sind nicht erlaubt</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="1172"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="1176"/>
         <source>Trying to close and optional element although none is open</source>
         <translation>Es wurde versucht ein optionales Element zu schliessen obwohl keines geöffnet wurde</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="1186"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="1190"/>
         <source>Optional element must be closed</source>
         <translation>Optionales Element muss geschlossen werden</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="1188"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="1192"/>
         <source>Title entry (%t) must be present</source>
         <translation>Titel Eintrag (%t) muss angegeben werden</translation>
     </message>

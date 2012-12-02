@@ -2244,7 +2244,7 @@ void MainFormDlgImpl::transform(std::vector<Transformation*>& vpTransf, Subset e
     }
     else
     {
-        qstrConf = tr("Apply the following transformations to %s?").arg(qstrListInfo);
+        qstrConf = tr("Apply the following transformations to %1?").arg(qstrListInfo);
         for (int i = 0, n = cSize(vpTransf); i < n; ++i)
         {
             qstrConf += "\n      ";
@@ -3533,7 +3533,15 @@ Note the use of QLibraryInfo::location() to locate the Qt translations. Develope
 //ttt0 doc & screenshots for translation
 //ttt0 something to add to SF in unstable, to get the date to change
 
-//ttt0 add VS2010 to build instr
 
 //ttt0 german translates "Previous [Ctrl+P]" as "Vorherige [Strg+V]"
+
+//ttt0 copy ID3V2 to ID3V1
+
+//ttt0 update references based on traffic volume
+
+//ttt0 delete LAME for CBR - https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=117
+
+//ttt0 don't scan backup dir if it's inside the source
+//ttt0 compute bitrate in VBR headers //ttt0 see why the bitrate computed manually based on VBR data doesn't match exactly the one computed for the audio (see mail sent on 2012.10.14)
 

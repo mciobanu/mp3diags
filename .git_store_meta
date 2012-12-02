@@ -302,7 +302,7 @@ src/LogModel.h	f	2009-05-06T07:30:16Z
 src/LyricsStream.cpp	f	2012-03-03T18:04:43Z
 src/LyricsStream.h	f	2012-02-19T20:36:57Z
 src/MainForm.ui	f	2011-07-30T12:34:43Z
-src/MainFormDlgImpl.cpp	f	2012-04-04T16:30:22Z
+src/MainFormDlgImpl.cpp	f	2012-12-02T03:11:31Z
 src/MainFormDlgImpl.h	f	2012-02-29T20:07:21Z
 src/Mp3Diags.qrc	f	2012-02-05T19:46:04Z
 src/Mp3Manip.cpp	f	2011-12-01T11:38:02Z

@@ -371,7 +371,7 @@ void SessionSettings::loadMiscConfigSettings(CommonData* p, bool bInitGui) const
         }
         p->m_strDontTellAboutVer = convStr(m_pSettings->value("main/dontTellAboutVer", "").toString());
 
-        p->m_strTranslation = convStr(m_pSettings->value("main/translation", "mp3diags_en_US.qm").toString()); //ttt0 get default language from GlobalSettings
+        p->m_strTranslation = convStr(m_pSettings->value("main/translation", "mp3diags_en_US.qm").toString()); //ttt0 get default language from GlobalSettings (or maybe not; a new session gets a language when it is created, and the old ones were in en_US anyway)
     }
 
     { // note categ colors

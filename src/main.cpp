@@ -1215,10 +1215,9 @@ Testing: the program looks for .qm files in 2 places:
 */
 
 
-//ttt0 translation build on Wnd
 
 //ttt0 make clean doesn't remove the .qm file (or anything in "bin")
 
 //ttt0 make OSB builds build translations
 
-
+//ttt0 clear global settings, new sess gets started in home, rather than Documents

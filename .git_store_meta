@@ -13,11 +13,11 @@ MP3DiagsCLI.cmd	f	2011-07-31T07:26:38Z
 MakeArchives.sh	f	2012-03-11T07:38:25Z
 MakeTranslations.sh	f	2012-08-13T20:50:18Z
 README.TXT	f	2012-12-02T03:27:46Z
-RebuildUkTransl.sh	f	2012-03-05T19:43:41Z
+RebuildUkTransl.sh	f	2012-04-18T20:52:32Z
 Release.txt	f	2012-12-02T04:39:27Z
 Uninstall.sh	f	2012-03-11T17:03:55Z
 Windows/MP3Diags.nsi	f	2009-09-30T08:45:38Z
-Windows/MP3DiagsUnstable.nsi	f	2012-04-07T21:09:28Z
+Windows/MP3DiagsUnstable.nsi	f	2012-04-18T20:37:43Z
 branch.txt	f	2011-05-30T18:19:22Z
 changelog.txt	f	2012-12-02T04:48:54Z
 changelogDeb.txt	f	2012-12-02T04:52:51Z
@@ -302,10 +302,10 @@ src/LogModel.h	f	2009-05-06T07:30:16Z
 src/LyricsStream.cpp	f	2012-03-03T18:04:43Z
 src/LyricsStream.h	f	2012-02-19T20:36:57Z
 src/MainForm.ui	f	2011-07-30T12:34:43Z
-src/MainFormDlgImpl.cpp	f	2012-12-02T03:11:31Z
+src/MainFormDlgImpl.cpp	f	2013-03-05T08:06:00Z
 src/MainFormDlgImpl.h	f	2012-02-29T20:07:21Z
 src/Mp3Diags.qrc	f	2012-02-05T19:46:04Z
-src/Mp3Manip.cpp	f	2011-12-01T11:38:02Z
+src/Mp3Manip.cpp	f	2012-12-16T15:57:36Z
 src/Mp3Manip.h	f	2011-06-15T18:19:28Z
 src/Mp3TransformThread.cpp	f	2012-03-04T12:04:38Z
 src/Mp3TransformThread.h	f	2012-02-18T20:51:40Z

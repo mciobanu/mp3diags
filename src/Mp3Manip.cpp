@@ -568,7 +568,7 @@ e1:
     //cout << "=======================\n";
 
     //CB_ASSERT (!m_vpAllStreams.empty());
-    STRM_ASSERT (pos == m_posEnd);
+    STRM_ASSERT (pos == m_posEnd); // ttt1 triggered according to mail on 2012.12.16
     pos = 0;
     for (int i = 0; i < cSize(m_vpAllStreams); ++i)
     {

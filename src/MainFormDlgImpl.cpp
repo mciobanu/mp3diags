@@ -3545,3 +3545,8 @@ Note the use of QLibraryInfo::location() to locate the Qt translations. Develope
 //ttt0 don't scan backup dir if it's inside the source
 //ttt0 compute bitrate in VBR headers //ttt0 see why the bitrate computed manually based on VBR data doesn't match exactly the one computed for the audio (see mail sent on 2012.10.14)
 
+//ttt1 mail on 2012.12.16 - It would be nice if MP3 Diags had more explicit support for multiple artists, too. For example, in WMP 11, if you select an artist field that contains multiple artists and try to edit the artist, it will only select one of the artists - clearly it knows that there are separate individual artists.
+
+//ttt2 ID3V2 frame TBPM should be numeric - see: 20 Rimsky-Korsakov - Flight of the Bumblebee from Tsar Sultan.mp3
+
+//ttt0 https://sourceforge.net/projects/mp3diags/forums/forum/947206/topic/6884554 - use http://coverartarchive.org/

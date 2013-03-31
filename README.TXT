@@ -1,13 +1,13 @@
 In most cases it's easier to use pre-built binaries, which are available for
 Windows and for several major Linux distributions from the main download page:
-    http://mp3diags.sourceforge.net/unstable/010_getting_the_program.html
+    http://mp3diags.sourceforge.net/010_getting_the_program.html
 
 
 Build instructions for Windows are at:
-    http://mp3diags.sourceforge.net/unstable/010_getting_the_program.html#sourceWindows
+    http://mp3diags.sourceforge.net/010_getting_the_program.html#sourceWindows
 
 Build instructions for Linux / others are at:
-    http://mp3diags.sourceforge.net/unstable/010_getting_the_program.html#sourceGeneric
+    http://mp3diags.sourceforge.net/010_getting_the_program.html#sourceGeneric
 
 
 Basically, you should run BuildMp3Diags.hta on Windows and Install.sh elsewhere.

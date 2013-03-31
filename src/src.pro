@@ -168,6 +168,8 @@ LIBS += -lz \
   -lboost_program_options-mt
 
 
-TRANSLATIONS = translations/mp3diags_cs.ts
+TRANSLATIONS = translations/mp3diags_cs.ts \
+    translations/mp3diags_de_DE.ts \
+    translations/mp3diags_fr_FR.ts
 
 

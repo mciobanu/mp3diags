@@ -68,14 +68,21 @@
 <span class="NoteCol">You may want to look at the change log <a href="015_changelog.html" class="Note">here</a>, especially if you installed an older version before.</span>
 </div>
 
-<div class="NormalText RegFnt NoteCol">
-<span class="NoteCol">While the development for 1.0 is frozen, I'll fix any serious bugs that are found and reported, provided that I can reproduce them or at least have a good idea about what might be causing them. Less serious bugs and feature changes are addressed in 1.1.
-
-I am aware of several outstanding bugs, which I can't fix due to lack of user feedback: I can't reproduce the bug and I can't make a reasonable guess as to what's causing it, so I need more details from the reporter, but the reporter doesn't provide those details. After a while these bugs will be closed. My plan is to fix bugs in 1.1 in a timely manner, so potential bugs shouldn't be a big issue (at least if you keep backup copies of your MP3s). Note, though that usually bug fixing requires user cooperation, so it's not only up to me to make a fix.</span>
+<div class="FreeNormalText RegFnt NoteCol">
+    <span class="NoteCol"><b>Version to use</b></span>
 </div>
 
 <div class="NormalText RegFnt NoteCol">
-<span class="NoteCol">From time to time you may want to check the <a href="http://mp3diags.blogspot.com/" class="Note" onClick="javascript: pageTracker._trackPageview('/mp3diagsblog');">MP3 Diags blog</a>, where announcements about new versions are made, both about bug fixes for the current stable release and about the release under development (i.e. 1.1.) Then you can decide based on what changed in a given version if you want to upgrade or not. (If you use an RSS reader, you can add that page to it, so you see the notifications automatically.) </span>
+    <span class="NoteCol">There are 2 versions of MP3 Diags:  <a href="http://mp3diags.sourceforge.net/" class="Note" onClick="javascript: pageTracker._trackPageview('/sf/stable');">Stable</a> and <a href="http://mp3diags.sourceforge.net/unstable/" class="Note" onClick="javascript: pageTracker._trackPageview('/sf/unstable');">Unstable</a>. Development goes on in the unstable version and after a while changes get moved to the stable version.</span>
+</div>
+
+
+<div class="NormalText RegFnt NoteCol">
+<span class="NoteCol">Bug fixes normally happen in the unstable version, but serious bugs are also fixed in the stable version. The plan is to fix bugs in a timely manner, so potential bugs shouldn't be a big issue even when running the unstable version (at least if you keep backup copies of your MP3s.) Note that fixing bugs is easiest when I can reproduce them or at least have a good idea about what might be causing them. I am aware of several outstanding bugs, which I can't fix due to lack of user feedback: I can't reproduce the bug and I can't make a reasonable guess as to what's causing it, so I need more details from the reporter, but the reporter doesn't provide those details. After a while these bugs will be closed.</span>
+</div>
+
+<div class="NormalText RegFnt NoteCol">
+<span class="NoteCol">From time to time you may want to check the <a href="http://mp3diags.blogspot.com/" class="Note" onClick="javascript: pageTracker._trackPageview('/mp3diagsblog');">MP3 Diags blog</a>, where product announcements are made, with details about bug fixes, new features, and other changes. Then you can decide based on what changed in a given version if you want to upgrade or not. (If you use an RSS reader, you can add that page to it, so you see the notifications automatically.) </span>
 </div>
 
 
@@ -203,7 +210,7 @@ You can download MP3Diags.tar.gz from <a href="http://sourceforge.net/projects/m
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-The development system is openSUSE. I sometimes compile MP3 Diags on other distibutions and / or versions, and that worked fine thus far.
+The development system is openSUSE. I sometimes compile MP3 Diags on other distibutions, and that worked fine thus far.
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
@@ -237,7 +244,7 @@ In order to compile and run the project, these packages should be installed:
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-Qt 4.3.1 is the one that was used initially for development and it is still good enough, although I moved to newer versions as they were released (so anything in 4.x above should 4.3.1 be OK too). Qt changes sometimes lead to UI glitches, which I don't always notice but about which <a href="050_feedback.html">I'd like to know</a>.
+Qt 4.3.1 is the one that was used initially for development but I moved to newer versions as they were released (so anything in 4.x above should 4.3.1 be OK too.) Currently the project cannot be compiled with Qt to 5.x, but it shouldn't be too hard to port it. Qt changes sometimes lead to UI glitches, which I don't always notice but about which <a href="050_feedback.html">I'd like to know</a>.
 </div>
 
 

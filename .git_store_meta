@@ -109,13 +109,13 @@ doc/doc texts (obsolete).dia	f	2009-05-06T15:26:17Z
 doc/doc texts (obsolete).svg	f	2009-05-06T08:36:56Z
 doc/email.png	f	2011-12-31T10:37:46Z
 doc/email.xcf	f	2011-12-31T10:37:32Z
-doc/favicon.ico	f	2011-05-28T16:44:27Z
-doc/favicon.xcf	f	2011-05-28T16:20:28Z
+doc/favicon.ico	f	2009-05-22T14:17:58Z
+doc/favicon.xcf	f	2009-05-22T14:09:48Z
 doc/html/004_screenshot01.html	f	2009-10-13T09:01:29Z
 doc/html/005_screenshot02.html	f	2009-10-13T09:01:29Z
 doc/html/006_screenshot03.html	f	2009-10-13T09:01:29Z
 doc/html/008_licence.html	f	2012-01-04T18:01:12Z
-doc/html/010_getting_the_program.html	f	2012-04-07T08:02:31Z
+doc/html/010_getting_the_program.html	f	2013-03-31T21:16:53Z
 doc/html/010_getting_the_program_local.html	f	2011-07-22T19:21:40Z
 doc/html/015_changelog.html	f	2009-10-13T09:01:29Z
 doc/html/020_mp3_introduction.html	f	2009-11-28T13:34:48Z
@@ -188,12 +188,12 @@ doc/html/arrow_right_small.png	f	2009-05-11T06:13:54Z
 doc/html/configure.png	f	2012-01-02T18:45:25Z
 doc/html/discogs-small.png	f	2012-01-02T19:04:56Z
 doc/html/email.png	f	2011-12-31T10:37:46Z
-doc/html/favicon.ico	f	2011-05-28T16:44:27Z
+doc/html/favicon.ico	f	2009-05-22T14:17:58Z
 doc/html/file-rename.png	f	2012-01-02T18:53:05Z
 doc/html/filter-folder.png	f	2012-01-02T19:13:33Z
 doc/html/filter-note.png	f	2012-01-02T19:10:21Z
 doc/html/index.html	f	2012-11-12T04:07:07Z
-doc/html/logo.png	f	2011-05-28T16:14:37Z
+doc/html/logo.png	f	2013-03-31T20:37:12Z
 doc/html/musicbrainz.png	f	2012-01-02T19:06:30Z
 doc/html/normalize.png	f	2012-01-02T18:56:40Z
 doc/html/screenshot1.png	f	2009-07-10T15:11:41Z
@@ -208,8 +208,8 @@ doc/html/style_ie6.css	f	2009-06-20T14:51:05Z
 doc/html/style_ie7.css	f	2009-05-15T12:58:31Z
 doc/html/tag_editor.png	f	2012-01-02T18:26:17Z
 doc/logo.01.png	f	2009-05-08T08:45:11Z
-doc/logo.png	f	2011-05-28T16:14:37Z
-doc/logo.xcf	f	2011-05-28T16:14:16Z
+doc/logo.png	f	2013-03-31T20:37:12Z
+doc/logo.xcf	f	2013-03-31T20:36:50Z
 doc/screenshot1.png	f	2009-07-10T15:11:41Z
 doc/screenshot1_thumb.jpg	f	2009-07-10T15:38:32Z
 doc/screenshot1s.png	f	2009-11-28T09:00:58Z

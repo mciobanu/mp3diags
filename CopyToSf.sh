@@ -25,65 +25,30 @@ cp -p MP3DiagsExe"$BranchDash"-*.zip mp3diags"$BranchSlash"/mp3diags-windows-exe
 mkdir -p mp3diags"$BranchSlash"/mp3diags-windows-setup
 cp -p MP3DiagsSetup"$BranchDash"-*.exe mp3diags"$BranchSlash"/mp3diags-windows-setup/MP3DiagsSetup"$BranchDash".exe ; cp -p MP3DiagsSetup"$BranchDash"-*.exe mp3diags"$BranchSlash"/mp3diags-windows-setup/
 
+# the point of the "t" files is to update the directories' dates; since there are nested directories,
+# at the top level of the "unstable" or of "linux-bin" there's no indication that newer versions are available
 
-rsync -avP -e ssh mp3diags/* ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags
+# !!! touch creates empty files, which aren't shown
+date > mp3diags"$BranchSlash"/mp3diags-linux-bin/t
+date > mp3diags"$BranchSlash"/t
 
 
-BranchSlash=`cat branch.txt` ; rsync -avP -e ssh MP3DiagsSfDoc*/* ciobi07,mp3diags@web.sourceforge.net:htdocs"$BranchSlash"/
+#rsync -avP -e ssh mp3diags/* ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags
+#rsync --dry-run -avP -e ssh mp3diags/ ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags
+rsync -avP -e ssh mp3diags/ ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags
 
 
+# allow change to be detected ttt0 see if long enough
+echo 'sleeping 20 seconds ...'
+sleep 20
+
+rm mp3diags"$BranchSlash"/mp3diags-linux-bin/t
+rm mp3diags"$BranchSlash"/t
+rsync -avP --delete -e ssh mp3diags"$BranchSlash"/mp3diags-linux-bin/ --include=t --exclude='*' ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags"$BranchSlash"/mp3diags-linux-bin
+rsync -avP --delete -e ssh mp3diags"$BranchSlash"/ --include=t --exclude='*' ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags"$BranchSlash"
 
 
-# echo Kso9di8Yuw3 > zSfPasswd.txt
-#
-# RSYNC_PASSWORD=Kso9di8Yuw3
-# export RSYNC_PASSWORD
-#
-# #rsync -avP -e ssh MP3Diags-*.tar.gz ciobi07@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-src < zSfPasswd.txt
-# #rsync -avP -e ssh Mp3DiagsExe-*.zip ciobi07@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-windows-exe < zSfPasswd.txt
-# #rsync -avP -e ssh MP3DiagsSetup-*.exe ciobi07@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-windows-setup < zSfPasswd.txt
-# #rsync -avP -e ssh MP3DiagsDoc-*.tar.gz ciobi07@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-doc < zSfPasswd.txt
-# #rsync -avP -e ssh MP3Diags-*-i686.bz2 ciobi07@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-linux-bin/i686 < zSfPasswd.txt
-# #rsync -avP -e ssh MP3Diags-*-x86_64.bz2 ciobi07@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-linux-bin/x86_64 < zSfPasswd.txt
-# #
-#
-# #rsync -avP -e ssh MP3Diags-*.tar.gz ciobi07@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-src
-# #rsync -avP -e ssh MP3DiagsExe-*.zip ciobi07@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-windows-exe
-# #rsync -avP -e ssh MP3DiagsSetup-*.exe ciobi07@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-windows-setup
-# #rsync -avP -e ssh MP3DiagsDoc-*.tar.gz ciobi07@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-doc
-# #rsync -avP -e ssh MP3Diags-*-i686.bz2 ciobi07@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-linux-bin/i686
-# #rsync -avP -e ssh MP3Diags-*-x86_64.bz2 ciobi07@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-linux-bin/x86_64
-#
-#
-# #rsync -avP -e ssh MP3Diags-Linux-x86_64-*.bz2 ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-linux-bin/x86_64
-# #rsync -e ssh MP3DiagsDoc-*.tar.gz ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-doc
-# #rsync --password-file=zSfPasswd.txt -avP -e ssh MP3Diags-*.tar.gz ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-src
-#
-# #rsync -avP -e ssh Mp3DiagsExe-*.zip ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-windows-exe < zSfPasswd.txt
-# #rsync -e ssh MP3DiagsExe-*.zip ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-windows-exe
-# rsync -e ssh MP3DiagsSetup-*.exe ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-windows-setup
-#
-#
-# rm zSfPasswd.txt
-#
-# rsync -avP -e ssh MP3Diags-*.tar.gz ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-src
-#
-#
-#
-# rsync -avP -e ssh MP3Diags-*.tar.gz ciobi07,mp3diags@shell.sourceforge.net
-#
-#
-#
-# rsync -avP -e ssh id_rsa.pub ciobi07,mp3diags@frs.sourceforge.net:/home/users/c/ci/ciobi07
-#
-# rsync -avP -e ssh id_rsa.pub ciobi07,mp3diags@shell.sourceforge.net:/home/users/c/ci/ciobi07
-#
-
-# ln -s -f MP3Diags-Linux-x86_64-*.bz2 MP3Diags-Linux-x86_64.bz2 ; rsync -avP -e ssh MP3Diags-Linux-x86_64*.bz2 ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-linux-bin/x86_64
-# ln -s -f MP3Diags-Linux-i686-*.bz2 MP3Diags-Linux-i686.bz2 ; rsync -avP -e ssh MP3Diags-Linux-i686*.bz2 ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-linux-bin/i686
-# ln -s -f MP3DiagsDoc-*.tar.gz MP3DiagsDoc.tar.gz ; rsync -avP -e ssh MP3DiagsDoc*.tar.gz ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-doc
-# ln -s -f MP3Diags-*.tar.gz MP3Diags.tar.gz ; rsync -avP -e ssh MP3Diags-*.tar.gz MP3Diags.tar.gz ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-src
-#
-# ln -s -f MP3DiagsExe-*.zip MP3DiagsExe.zip ; rsync -avP -e ssh MP3DiagsExe*.zip ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-windows-exe
-# ln -s -f MP3DiagsSetup-*.exe MP3DiagsSetup.exe ; rsync -avP -e ssh MP3DiagsSetup*.exe ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags/mp3diags-windows-setup
+#BranchSlash=`cat branch.txt` ; rsync -avP -e ssh MP3DiagsSfDoc*/* ciobi07,mp3diags@web.sourceforge.net:htdocs"$BranchSlash"/
+#BranchSlash=`cat branch.txt` ; rsync --dry-run -avP -e ssh MP3DiagsSfDoc*/ ciobi07,mp3diags@web.sourceforge.net:htdocs"$BranchSlash"/
+BranchSlash=`cat branch.txt` ; rsync -avP -e ssh MP3DiagsSfDoc*/ ciobi07,mp3diags@web.sourceforge.net:htdocs"$BranchSlash"/
 

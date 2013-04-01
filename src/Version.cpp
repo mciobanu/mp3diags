@@ -32,22 +32,6 @@ const char* getAppVer()
     return "- custom build";
 }
 
-const char* getSimpleAppVer()
-{
-    static string s (getAppVer());
-    static const char* szRes (0);
-    if (0 == szRes)
-    {
-        string::size_type k (s.rfind("."));
-        if (k != string::npos)
-        {
-            s.erase(k);
-        }
-        szRes = s.c_str();
-    }
-    return szRes;
-}
-
 // used, e.g. for location at SourceForge
 const char* getWebBranch()
 {

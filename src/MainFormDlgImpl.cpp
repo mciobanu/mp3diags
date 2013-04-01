@@ -2809,7 +2809,7 @@ void MainFormDlgImpl::onNewVersionQueryFinished2()
     qstrMsg = "<p style=\"margin-bottom:1px; margin-top:12px; \">" +
             tr("Version %1 has been published. You are running %2. You can see what's new in %3. A more technical list with changes can be seen in %4.")
             .arg(m_qstrNewVer)
-            .arg(getSimpleAppVer())
+            .arg(getAppVer())
             .arg(
                 tr("the %1MP3 Diags blog%2", "arguments are HTML elements")
                 .arg("<a href=\"http://mp3diags.blogspot.com/\">")

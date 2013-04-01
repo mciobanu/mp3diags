@@ -23,8 +23,6 @@ namespace Version {
 
 const char* getAppVer();
 
-const char* getSimpleAppVer();
-
 // used, e.g. for location at SourceForge
 const char* getWebBranch();
 

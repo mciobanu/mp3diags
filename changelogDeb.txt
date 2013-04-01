@@ -1,3 +1,9 @@
+mp3diags (1.2.00) testing; urgency=low
+
+  * new version number to support the new "stable" branch
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Sun, 31 Mar 2013 22:00:00 -0800
+
 mp3diags (1.1.21.080) testing; urgency=low
 
   * fixed bug that caused a "%s" to be shown instead of the list of files about to be changed

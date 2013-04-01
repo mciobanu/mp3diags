@@ -1,5 +1,10 @@
 ---------------------------------------------------------------------------
 
+31.03.2013 - 1.2.00
+- new version number to support the new "stable" branch
+
+---------------------------------------------------------------------------
+
 01.12.2012 - 1.1.21.080
 - fixed bug that caused a "%s" to be shown instead of the list of files
     about to be changed

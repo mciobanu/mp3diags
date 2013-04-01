@@ -1,3 +1,7 @@
+* Sun Mar 31 2013 Marian Ciobanu <ciobi@inbox.com> 1.2.00
+
+- new version number to support the new "stable" branch
+
 * Sat Dec 01 2012 Marian Ciobanu <ciobi@inbox.com> 1.1.21.080
 
 - fixed bug that caused a "%s" to be shown instead of the list of files about to be changed

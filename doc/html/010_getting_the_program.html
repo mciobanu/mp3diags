@@ -258,7 +258,7 @@ If you find some other required package, please <a href="050_feedback.html">let 
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
-To install the program, unpack the surce to some directory and just run <span class="Reference">Install.sh</span> in that directory. Note that double-clicking the script in some file browser may or may not work, depending on the "current directory" being set properly and on whether a terminal window gets opened so you can type the root password to get the executable copied to /usr/local/bin. Other options are to manually run the relevant commands in <span class="Reference">Install.sh</span>, or to compile the project from KDevelop 3.5, if you have it (though you might have to first change the name of qmake and/or the serialization library.) If you don't use <span class="Reference">Install.sh</span>, pay attention to having the right serialization library. I think the default is OK for most platforms, but in some cases the file src/src.pro should have <span class="Reference">LIBS += -lboost_serialization</span> rather than <span class="Reference">LIBS += -lboost_serialization-mt</span>. Running <span class="Reference">Install.sh</span> or just <span class="Reference">AdjustMt.sh</span> sets the correct value.
+To install the program, unpack the surce to some directory and just run <span class="Reference">Install.sh</span> in that directory. Note that double-clicking the script in some file browser may or may not work, depending on the "current directory" being set properly and on whether a terminal window gets opened so you can type the root password to get the executable copied to /usr/local/bin. Other options are to manually run the relevant commands in <span class="Reference">Install.sh</span>, or to compile the project in an IDE. If you don't use <span class="Reference">Install.sh</span>, pay attention to having the right serialization library. I think the default is OK for most platforms, but in some cases the file src/src.pro should have <span class="Reference">LIBS += -lboost_serialization</span> rather than <span class="Reference">LIBS += -lboost_serialization-mt</span>. Running <span class="Reference">Install.sh</span> or just <span class="Reference">AdjustMt.sh</span> sets the correct value.
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
@@ -285,7 +285,12 @@ Since there are <a href="#binWindows">binaries</a> available (both setup.exe and
     <li>Create a .sln file that can be open from Visual C++</li>
 </ul>
 
-First you need to download and perhaps compile the required libraries: zlib, Qt, Boost Program Options, and Boost Serialization. In case it's not obvious, you cannot mix C++ libraries created by / for different compilers. While downloadable binary Qt libraries existed for MinGW for some time, for Visual C++ 2008 they have been introduced in Qt 4.6. If you have a different version of Visual Studio or if you want to use an older Qt, you'll have to compile Qt for Visual C++ yourself. Well, here's what I do:
+First you need to download and perhaps compile the required libraries: zlib, Qt, Boost Program Options, and Boost Serialization. In case it's not obvious, you cannot mix C++ libraries created by / for different compilers. While downloadable binary Qt libraries existed for MinGW for some time, for Visual C++ 2008 they have been introduced in Qt 4.6.
+</div>
+
+
+<div class="NormalText RegFnt ChpCol1">
+Well, you need binary zlib, Qt, and Boost for either MinGW or Visual C++. If you can find binaries - fine. Otherwise you'll have to build some of these from sources. These are the options for building MP3 Diags on Windows, based on what you have available:
 </div>
 
 
@@ -301,10 +306,10 @@ First you need to download and perhaps compile the required libraries: zlib, Qt,
     </tr>
 
     <tr>
-        <td>Qt for MinGW</td>
+        <td>Qt binaries for MinGW</td>
         <td>
             <ul>
-                <li>Simply go to <a href="http://qt.nokia.com/downloads/sdk-windows-cpp" onClick="javascript: pageTracker._trackPageview('/nokia/sdk-windows-cpp');">http://qt.nokia.com/downloads/sdk-windows-cpp</a> and the download should start automatically; install, and you're good to go (if the link ceases working, hunt around for LGPL and Qt SDK); note that the "Qt root folder" that BuildMp3Diags.hta wants is something like C:\QtSDK\Desktop\Qt\4.x.y\mingw</li>
+                <li>Go to <a href="http://qt-project.org/downloads" onClick="javascript: pageTracker._trackPageview('/qt-project.org/downloads');">http://qt-project.org/downloads</a> and see what you can find. As mentioned above, the program currently doesn't compile with Qt 5, so 4.x is needed. Note that the "Qt root folder" that BuildMp3Diags.hta wants is something like C:\QtSDK\Desktop\Qt\4.x.y\mingw</li>
             </ul>
         </td>
     </tr>
@@ -322,30 +327,22 @@ First you need to download and perhaps compile the required libraries: zlib, Qt,
     </tr>
 
     <tr>
-        <td>Qt for Visual C++ 2008</td>
+        <td>Qt Binaries for Visual C++</td>
         <td>
             <ul>
-                <li>Go to <a href="http://qt.nokia.com/downloads/windows-cpp-vs2008" onClick="javascript: pageTracker._trackPageview('/nokia/windows-visualc');">http://qt.nokia.com/downloads/windows-cpp-vs2008</a>, let the automatic download proceed, then install</li>
+                <li>Go to <a href="http://qt-project.org/downloads" onClick="javascript: pageTracker._trackPageview('/qt-project.org/downloads');">http://qt-project.org/downloads</a>, and see what you can find there</li>
             </ul>
         </td>
     </tr>
 
     <tr>
-        <td>Qt for Visual C++ 2010</td>
+        <td>Qt Sources for Visual C++</td>
         <td>
+            In case you can't find binaries for your Visual C++ you can try to build from sources. These used to work but weren't tested in a while:
             <ul>
-                <li>Go to <a href="http://qt.nokia.com/downloads/windows-cpp-vs2010" onClick="javascript: pageTracker._trackPageview('/nokia/windows-visualc');">http://qt.nokia.com/downloads/windows-cpp-vs2010</a>, let the automatic download proceed, then install</li>
-            </ul>
-        </td>
-    </tr>
-
-    <tr>
-        <td>Qt for Visual C++ other than 2008 or 2010</td>
-        <td>
-            <ul>
-                <li>Go to <a href="http://qt.nokia.com/downloads/windows-cpp" onClick="javascript: pageTracker._trackPageview('/nokia/windows-cpp');">http://qt.nokia.com/downloads/windows-cpp</a>, cancel the download that starts automatically and choose qt-everywhere-opensource-src-4.x.y.zip instead</li>
+                <li>Go to <a href="http://qt-project.org/downloads" onClick="javascript: pageTracker._trackPageview('/qt-project.org/downloads');">http://qt-project.org/downloads</a>, and get the archive</li>
                 <li>Unpack the zip file in the folder where you want Qt to be located</li>
-                <li>Install <a href="http://www.activestate.com/downloads">Active Pearl</a> (also have a look at the <a href="http://doc.trolltech.com/latest/requirements-win.html">QT Requirements</a>)
+                <li>Install <a href="http://www.activestate.com/downloads">Active Pearl</a>
                 <li>Open a <b>Visual C++ Command Prompt</b> and go to the root folder of the unpacked Qt</li>
                 <li>run <span class="Reference">configure.exe</span> (which may take a while)</li>
                 <li>run <span class="Reference">nmake</span> (which will take much longer than configure.exe)</li>
@@ -533,18 +530,25 @@ There are also binaries that I build at openSUSE Build Service:
 <div class="NormalText RegFnt ChpCol2">
 <table border="1" cellpadding="5" cellspacing="2" class="RegFnt ChpCol1">
     <tr>
-        <td><b> openSUSE 11.3 </b></td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.3/" onClick="javascript: pageTracker._trackPageview('/obs/suse');"> Repository </a> </td>
-        <td> <a class="NoUnderline" href="http://software.opensuse.org/ymp/home:ciobi/openSUSE_11.3/MP3DiagsQQQBRANCH_DQQQ.ymp" onClick="javascript: pageTracker._trackPageview('/obs/suse/ymp');"> 1-Click Install </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.3/i586/" onClick="javascript: pageTracker._trackPageview('/obs/suse/i586');"> i586 .rpm </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.3/x86_64/" onClick="javascript: pageTracker._trackPageview('/obs/suse/x86_64');"> x86_64 .rpm </a> </td>
+        <td><b> openSUSE 12.1 </b></td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_12.1/" onClick="javascript: pageTracker._trackPageview('/obs/suse');"> Repository </a> </td>
+        <td> <a class="NoUnderline" href="http://software.opensuse.org/ymp/home:ciobi/openSUSE_12.1/MP3DiagsQQQBRANCH_DQQQ.ymp" onClick="javascript: pageTracker._trackPageview('/obs/suse/ymp');"> 1-Click Install </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_12.1/i586/" onClick="javascript: pageTracker._trackPageview('/obs/suse/i586');"> i586 .rpm </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_12.1/x86_64/" onClick="javascript: pageTracker._trackPageview('/obs/suse/x86_64');"> x86_64 .rpm </a> </td>
     </tr>
     <tr>
-        <td><b> openSUSE 11.4 </b></td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.4/" onClick="javascript: pageTracker._trackPageview('/obs/suse');"> Repository </a> </td>
-        <td> <a class="NoUnderline" href="http://software.opensuse.org/ymp/home:ciobi/openSUSE_11.4/MP3DiagsQQQBRANCH_DQQQ.ymp" onClick="javascript: pageTracker._trackPageview('/obs/suse/ymp');"> 1-Click Install </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.4/i586/" onClick="javascript: pageTracker._trackPageview('/obs/suse/i586');"> i586 .rpm </a> </td>
-        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_11.4/x86_64/" onClick="javascript: pageTracker._trackPageview('/obs/suse/x86_64');"> x86_64 .rpm </a> </td>
+        <td><b> openSUSE 12.2 </b></td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_12.2/" onClick="javascript: pageTracker._trackPageview('/obs/suse');"> Repository </a> </td>
+        <td> <a class="NoUnderline" href="http://software.opensuse.org/ymp/home:ciobi/openSUSE_12.2/MP3DiagsQQQBRANCH_DQQQ.ymp" onClick="javascript: pageTracker._trackPageview('/obs/suse/ymp');"> 1-Click Install </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_12.2/i586/" onClick="javascript: pageTracker._trackPageview('/obs/suse/i586');"> i586 .rpm </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_12.2/x86_64/" onClick="javascript: pageTracker._trackPageview('/obs/suse/x86_64');"> x86_64 .rpm </a> </td>
+    </tr>
+    <tr>
+        <td><b> openSUSE 12.3 </b></td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_12.3/" onClick="javascript: pageTracker._trackPageview('/obs/suse');"> Repository </a> </td>
+        <td> <a class="NoUnderline" href="http://software.opensuse.org/ymp/home:ciobi/openSUSE_12.3/MP3DiagsQQQBRANCH_DQQQ.ymp" onClick="javascript: pageTracker._trackPageview('/obs/suse/ymp');"> 1-Click Install </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_12.3/i586/" onClick="javascript: pageTracker._trackPageview('/obs/suse/i586');"> i586 .rpm </a> </td>
+        <td> <a class="NoUnderline" href="http://download.opensuse.org/repositories/home:/ciobi/openSUSE_12.3/x86_64/" onClick="javascript: pageTracker._trackPageview('/obs/suse/x86_64');"> x86_64 .rpm </a> </td>
     </tr>
 </table>
 </div>

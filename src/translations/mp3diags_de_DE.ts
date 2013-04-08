@@ -91,7 +91,7 @@
     <message>
         <location filename="../AboutDlgImpl.cpp" line="60"/>
         <source>French</source>
-        <translation type="unfinished">Französisch</translation>
+        <translation>Französisch</translation>
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="61"/>
@@ -2311,7 +2311,7 @@ Dies ist dafür gedacht um die Erstellung von M3U Dateien mit relativen Pfaden z
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="586"/>
         <source>Cannot create folder %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann Verzeichnis %1 nicht erstellen</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="595"/>

@@ -442,8 +442,8 @@ src/licences/zlib.txt	f	2009-05-14T11:42:40Z
 src/main.cpp	f	2012-03-17T12:42:16Z
 src/src.pro	f	2013-03-31T18:37:08Z
 src/translations/autoTransl/MixedCase.cpp	f	2012-02-29T21:51:40Z
-src/translations/mp3diags_cs.ts	f	2012-12-02T05:56:34Z
-src/translations/mp3diags_de_DE.ts	f	2012-12-02T05:56:34Z
-src/translations/mp3diags_fr_FR.ts	f	2012-12-02T05:56:34Z
+src/translations/mp3diags_cs.ts	f	2013-04-06T19:43:37Z
+src/translations/mp3diags_de_DE.ts	f	2013-04-08T04:56:04Z
+src/translations/mp3diags_fr_FR.ts	f	2013-04-06T18:07:50Z
 templates/cpp	f	2009-05-06T07:21:29Z
 templates/h	f	2009-05-06T07:21:39Z

@@ -2306,7 +2306,7 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="586"/>
         <source>Cannot create folder %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de créer le dossier %1</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="595"/>

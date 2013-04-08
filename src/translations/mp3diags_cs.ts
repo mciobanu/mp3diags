@@ -91,7 +91,7 @@
     <message>
         <location filename="../AboutDlgImpl.cpp" line="60"/>
         <source>French</source>
-        <translation type="unfinished">francouzský</translation>
+        <translation>francouzštiny</translation>
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="61"/>
@@ -2300,7 +2300,7 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="586"/>
         <source>Cannot create folder %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nelze vytvořit složku %1</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="595"/>

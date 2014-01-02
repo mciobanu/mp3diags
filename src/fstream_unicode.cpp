@@ -19,7 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(__llvm__)
 
 
 #include  "fstream_unicode.h"
@@ -178,9 +178,10 @@ int unicodeOpenHlp(const int& fd, std::ios_base::openmode /*__mode*/)
 
 //ttt2 review O_SHORT_LIVED
 
-#else // #ifdef __GNUC__
+#else // #if defined(__GNUC__) && !defined(__llvm__)
 
 // nothing to do for now; the MSVC version is fully inline and no ports to other compilers exist
 
-#endif // #ifdef __GNUC__
+#endif // #if defined(__GNUC__) && !defined(__llvm__)
+
 

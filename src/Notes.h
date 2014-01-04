@@ -32,6 +32,10 @@
 #include  "SerSupport.h"
 #include  <boost/serialization/split_member.hpp>
 
+#ifdef ERR
+#undef ERR
+#endif
+
 /*
 Stores a message that is added while parsing a file. Multiple messages may be added, depending on the issues found.
 

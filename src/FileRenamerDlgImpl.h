@@ -33,6 +33,9 @@
 
 #include  "ui_FileRenamer.h"
 
+#ifdef ERR
+#undef ERR
+#endif
 
 class CommonData;
 class QSettings;

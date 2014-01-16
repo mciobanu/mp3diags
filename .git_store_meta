@@ -13,7 +13,7 @@ MP3DiagsCLI.cmd	f	2011-07-31T07:26:38Z
 MakeArchives.sh	f	2012-03-11T07:38:25Z
 MakeTranslations.sh	f	2012-08-13T20:50:18Z
 README.TXT	f	2012-12-02T03:27:46Z
-Rebuild-Transl-_ts-Files.sh	f	2012-04-18T20:52:32Z
+Rebuild-Transl-_ts-Files.sh	f	2014-01-16T12:59:46Z
 Release.txt	f	2013-03-31T21:58:23Z
 Uninstall.sh	f	2012-03-11T17:03:55Z
 Windows/MP3Diags.nsi	f	2009-09-30T08:45:38Z
@@ -444,8 +444,8 @@ src/licences/zlib.txt	f	2009-05-14T11:42:40Z
 src/main.cpp	f	2012-03-17T12:42:16Z
 src/src.pro	f	2013-03-31T18:37:08Z
 src/translations/autoTransl/MixedCase.cpp	f	2012-02-29T21:51:40Z
-src/translations/mp3diags_cs.ts	f	2013-04-06T19:43:37Z
-src/translations/mp3diags_de_DE.ts	f	2013-04-08T04:56:04Z
-src/translations/mp3diags_fr_FR.ts	f	2013-04-06T18:07:50Z
+src/translations/mp3diags_cs.ts	f	2014-01-16T13:00:34Z
+src/translations/mp3diags_de_DE.ts	f	2014-01-16T13:00:34Z
+src/translations/mp3diags_fr_FR.ts	f	2014-01-16T13:00:34Z
 templates/cpp	f	2009-05-06T07:21:29Z
 templates/h	f	2009-05-06T07:21:39Z

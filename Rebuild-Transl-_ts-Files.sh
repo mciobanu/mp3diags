@@ -1,4 +1,8 @@
 #!/bin/bash
+#
+# Rebuilds the _ts files based on the sources.
+# Generates an en_UK translation, which contains mixed case words and is meant to detect missing translations.
+# Needs a "translations/mp3diags_en_UK.ts" entry in "TRANSLATIONS" in src/src.pro
 
 rm src/translations/mp3diags_en_UK.ts
 #lupdate src/src.pro 2>&1 | grep -v '^/usr/'

@@ -82,6 +82,11 @@ void appendFilePart(istream& in, ostream& out, streampos pos, streamoff nSize)
         nSize -= nCrtRead;
     }
 
+    if (!out)
+    {
+        TRACER("appendFilePart() failed");
+    }
+
     CB_CHECK1 (out, WriteError());
 }
 

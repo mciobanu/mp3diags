@@ -1,0 +1,16 @@
+Drawing the anti-aliased lines in Gimp:
+Steps:
+1) Draw with "Pencil tool" lines on a transparent layer with whatever color and circle 03 (5x5) brush
+2) Copy the layer as new image
+3) Scale image 400%
+4) Create new transparent layer
+5) Select paintbrush tool (not pencil, but "paint smooth strokes using a brush")
+6) Select "Circle fuzzy 17 (19x19)" brush
+7) Select (0, 0, 128) color
+8) Draw onto the new layer lines that match the ones copied
+9) Duplicate layer
+10) Scale layer 25%
+11) Copy back to screenshot
+
+(See also http://www.gimptalk.com/index.php?/topic/39124-antialiased-straight-lines/page__p__287171)
+

@@ -40,8 +40,8 @@ desktop/MP3Diags.desktop	f	2011-07-30T09:01:42Z
 desktop/MP3DiagsBckg.xcf	f	2009-05-19T15:31:08Z
 doc/050_assert.png	f	2009-10-06T13:20:19Z
 doc/050_assert.xcf	f	2009-10-06T13:20:05Z
-doc/110_first_run.png	f	2009-11-04T17:25:35Z
-doc/110_first_run.xcf	f	2009-11-04T17:25:20Z
+doc/110_first_run.png	f	2013-04-22T15:49:49Z
+doc/110_first_run.xcf	f	2013-04-22T15:49:26Z
 doc/120_first_scan.png	f	2009-10-06T13:51:59Z
 doc/120_first_scan.xcf	f	2009-10-06T13:51:44Z
 doc/130_main_window.png	f	2012-01-28T15:39:49Z
@@ -88,14 +88,14 @@ doc/298_config_shell.png	f	2011-07-21T18:10:38Z
 doc/298_config_shell.xcf	f	2011-07-21T18:09:15Z
 doc/299_ext_tools.png	f	2012-01-28T07:08:29Z
 doc/299_ext_tools.xcf	f	2012-01-28T07:08:16Z
-doc/300_config_others.png	f	2012-01-02T16:15:20Z
-doc/300_config_others.xcf	f	2012-01-02T16:15:00Z
+doc/300_config_others.png	f	2013-04-23T05:20:49Z
+doc/300_config_others.xcf	f	2013-04-23T05:20:29Z
 doc/310_debug.png	f	2009-05-14T07:37:05Z
 doc/310_export.png	f	2009-10-07T13:41:27Z
 doc/310_export.xcf	f	2009-10-07T13:41:13Z
 doc/310_export_btn.png	f	2009-10-07T13:48:19Z
-doc/310_sessions.png	f	2011-07-21T19:04:15Z
-doc/310_sessions.xcf	f	2011-07-21T19:03:53Z
+doc/310_sessions.png	f	2013-04-22T15:47:43Z
+doc/310_sessions.xcf	f	2013-04-22T15:47:25Z
 doc/310_sessions_btn.png	f	2009-05-14T07:37:29Z
 doc/BubbleText.txt	f	2013-04-23T05:22:55Z
 doc/Doc.01.odt	f	2009-05-11T04:58:53Z
@@ -113,6 +113,7 @@ doc/email.png	f	2011-12-31T10:37:46Z
 doc/email.xcf	f	2011-12-31T10:37:32Z
 doc/favicon.ico	f	2011-05-28T16:44:27Z
 doc/favicon.xcf	f	2011-05-28T16:20:28Z
+doc/gimp-antialiased-lines.txt	f	2013-04-23T05:25:59Z
 doc/html/004_screenshot01.html	f	2009-10-13T09:01:29Z
 doc/html/005_screenshot02.html	f	2009-10-13T09:01:29Z
 doc/html/006_screenshot03.html	f	2009-10-13T09:01:29Z

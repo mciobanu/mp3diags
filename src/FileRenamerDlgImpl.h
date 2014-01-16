@@ -37,6 +37,10 @@
 
 #include  "Helpers.h"
 
+#ifdef ERR
+#undef ERR
+#endif
+
 class CommonData;
 class QSettings;
 class FileRenamerDlgImpl;

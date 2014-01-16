@@ -35,6 +35,10 @@
 #include  <boost/serialization/split_member.hpp>
 #include  <boost/lexical_cast.hpp>
 
+#ifdef ERR
+#undef ERR
+#endif
+
 /*
 Stores a message that is added while parsing a file. Multiple messages may be added, depending on the issues found.
 

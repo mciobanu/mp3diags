@@ -1744,7 +1744,7 @@ void CommonData::updateWidgets(const std::string& strCrtName /* = ""*/, const st
 
     updateUniqueNotes();
 
-    m_pFilesModel->selectRow(nRow, v);
+    m_pFilesModel->selectRow(nRow, v); //???
     m_pUniqueNotesModel->selectTopLeft();
 
     resizeFilesGCols();

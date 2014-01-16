@@ -24,7 +24,8 @@
 #define HelpersH
 
 
-#include  <iosfwd>
+#include  <ios>
+#include  <iostream>
 #include  <string>
 #include  <stdexcept>
 #include  <cstdlib> // for exit()

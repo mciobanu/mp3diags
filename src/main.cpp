@@ -676,10 +676,13 @@ class CmdLineAnalyzer : public CmdLineProcessor
     /*override*/ bool processFile(const string& strFullName, Mp3Handler* pmp3Handler)
     {
         bool bThisFileHasProblems = false;
-        const NoteColl& notes (pmp3Handler->getNotes());
-        for (int i = 0, n = cSize(notes.getList()); i < n; ++i) // ttt2 poor performance
+        vector<Note*> vpNotes (pmp3Handler->getNotes().getList());
+        // sort by position rather than note ID (notes come sorted by ID from Mp3Handler)
+        sort(vpNotes.begin(), vpNotes.end(), CmpNotePtrByPosAndId());
+
+        for (int i = 0, n = cSize(vpNotes); i < n; ++i)
         {
-            const Note* pNote (notes.getList()[i]);
+            const Note* pNote (vpNotes[i]);
 
             // category --include/--exclude options would be nice, too.
             bool bShowThisNote = (pNote->getSeverity() <= m_minLevel);
@@ -694,7 +697,7 @@ class CmdLineAnalyzer : public CmdLineProcessor
                 cout << toNativeSeparators(getRelativeName(strFullName)) << endl;
             }
 
-            cout << "- " << (Note::severityToString(pNote->getSeverity())) << ": " << pNote->getDescription() << endl;
+            cout << "- " << (Note::severityToString(pNote->getSeverity())) << ": " << pNote->getDescription() << " [" << pNote->getPos() << "]" << endl;
         }
 
         if (bThisFileHasProblems)
@@ -860,6 +863,8 @@ int cmdlineMain(const po::variables_map& options)
         http://www.halcyon.com/~ast/dload/guicon.htm
     */
     const vector<string> inputFiles = options[s_inputFileOpt.m_szLongOpt].as< vector<string> >();
+
+    Notes::getAllNotes(); // set up proper IDs for the notes, so they can be sorted meaningfully
 
     Note::Severity minLevel (Note::WARNING);
     if (options.count(s_severityOpt.m_szLongOpt) > 0)
@@ -1029,7 +1034,7 @@ int main(int argc, char *argv[])
     try
     {
 
-        po::command_line_style::style_t style (po::command_line_style::style_t(
+        po::command_line_style::style_t style ((po::command_line_style::style_t)(
             po::command_line_style::unix_style
             // | po::command_line_style::case_insensitive
             // | po::command_line_style::allow_long_disguise
@@ -1221,3 +1226,6 @@ Testing: the program looks for .qm files in 2 places:
 //ttt0 make OSB builds build translations
 
 //ttt0 clear global settings, new sess gets started in home, rather than Documents
+
+//ttt0 see about adding DLLs MSVCR100.dll and MSVCP100.dll to the MSVC build. They might be needed e.g. on 64bit XP SP3 (see mail 2013.08.18)
+

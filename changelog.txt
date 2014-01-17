@@ -1,5 +1,12 @@
 ---------------------------------------------------------------------------
 
+17.01.2014 - 1.2.01
+- 1.2 as the new stable branch
+- build fix for clang and for Solaris
+- fixed broken links in documentation and moved alternate downloads from Dropbox to my ISP
+
+---------------------------------------------------------------------------
+
 31.03.2013 - 1.2.00
 - new version number to support the new "stable" branch
 

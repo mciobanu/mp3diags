@@ -1029,7 +1029,7 @@ int main(int argc, char *argv[])
     try
     {
 
-        po::command_line_style::style_t style (po::command_line_style::style_t(
+        po::command_line_style::style_t style ((po::command_line_style::style_t)(
             po::command_line_style::unix_style
             // | po::command_line_style::case_insensitive
             // | po::command_line_style::allow_long_disguise

@@ -4,6 +4,8 @@
 #
 # Tested on several systems only
 # ttt1 Quite likely this needs changes to work with other distros and / or versions
+#
+# by passing the param "QMAKE_CXX=clang" the project will be compiled with clang
 
 
 bash ./AdjustMt.sh STATIC_SER
@@ -30,7 +32,12 @@ if [ -d bin ] ; then
     rm bin/*
 fi
 
-$QMake
+if [[ "$1" != "" ]] ; then
+    $QMake "$1"
+else
+    $QMake
+fi
+
 if [ $? -ne 0 ] ; then exit 1 ; fi
 
 make

@@ -248,6 +248,8 @@ If you want to use the normalization, make sure that this is correct
 
 Check this box to add "close" buttons in case your desktop / window manager doesn't provide them. (This is usually the case with Gnome 3.)
 
+You can choose a different language for the user interface
+
 -----------------------------------
 
 You may want to use this if incorrect names are shown in files using a language other than English
@@ -262,6 +264,7 @@ The visible transformations are listed in the same order as they appear when you
 
 -----------------------------------
 
+You can choose a different language for the user interface
 
 -----------------------------------
 

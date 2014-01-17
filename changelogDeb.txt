@@ -1,3 +1,11 @@
+mp3diags (1.2.01) testing; urgency=low
+
+  * 1.2 as the new stable branch
+  * build fix for clang and for Solaris
+  * fixed broken links in documentation and moved alternate downloads from Dropbox to my ISP
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Fri, 17 Jan 2014 22:00:00 +0200
+
 mp3diags (1.2.00) testing; urgency=low
 
   * new version number to support the new "stable" branch

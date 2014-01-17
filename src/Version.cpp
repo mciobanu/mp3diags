@@ -35,38 +35,38 @@ const char* getAppVer()
 // used, e.g. for location at SourceForge
 const char* getWebBranch()
 {
-    return "/unstable";
+    return "";
 }
 
 // to be shown to the user in various forms (app title, About box, shell integration, ...)
 const char* getAppName()
 {
-    return "MP3 Diags Unstable";
+    return "MP3 Diags";
 }
 
 // icon name, needed for shell integration in Linux
 const char* getIconName()
 {
-    return "MP3Diags-unstable";
+    return "MP3Diags";
 }
 
 // used for location of the documentation
 const char* getHelpPackageName()
 {
-    return "mp3diags-unstable";
+    return "mp3diags";
 }
 
 
 // used for location of the translation files
 const char* getTranslationPackageName()
 {
-    return "mp3diags-unstable";
+    return "mp3diags";
 }
 
 
 const char* getSettingsAppName()
 {
-    return "Mp3Diags-unstable"; //ttt1 maybe replace this with "mp3diags-unstable", but have some code to import older settings and then clear them
+    return "Mp3Diags"; //ttt1 maybe replace this with "mp3diags", but have some code to import older settings and then clear them
 }
 
 // for config only

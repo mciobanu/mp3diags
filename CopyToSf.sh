@@ -25,16 +25,15 @@ cp -p MP3DiagsExe"$BranchDash"-*.zip mp3diags"$BranchSlash"/mp3diags-windows-exe
 mkdir -p mp3diags"$BranchSlash"/mp3diags-windows-setup
 cp -p MP3DiagsSetup"$BranchDash"-*.exe mp3diags"$BranchSlash"/mp3diags-windows-setup/MP3DiagsSetup"$BranchDash".exe ; cp -p MP3DiagsSetup"$BranchDash"-*.exe mp3diags"$BranchSlash"/mp3diags-windows-setup/
 
+
 # the point of the "t" files is to update the directories' dates; since there are nested directories,
 # at the top level of the "unstable" or of "linux-bin" there's no indication that newer versions are available
 
-# !!! touch creates empty files, which aren't shown
+# !!! touch creates empty files, which aren't shown at SF, so we need some content
 date > mp3diags"$BranchSlash"/mp3diags-linux-bin/t
 date > mp3diags"$BranchSlash"/t
 
 
-#rsync -avP -e ssh mp3diags/* ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags
-#rsync --dry-run -avP -e ssh mp3diags/ ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags
 rsync -avP -e ssh mp3diags/ ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags
 
 
@@ -48,7 +47,7 @@ rsync -avP --delete -e ssh mp3diags"$BranchSlash"/mp3diags-linux-bin/ --include=
 rsync -avP --delete -e ssh mp3diags"$BranchSlash"/ --include=t --exclude='*' ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags"$BranchSlash"
 
 
-#BranchSlash=`cat branch.txt` ; rsync -avP -e ssh MP3DiagsSfDoc*/* ciobi07,mp3diags@web.sourceforge.net:htdocs"$BranchSlash"/
-#BranchSlash=`cat branch.txt` ; rsync --dry-run -avP -e ssh MP3DiagsSfDoc*/ ciobi07,mp3diags@web.sourceforge.net:htdocs"$BranchSlash"/
+
+# The next line is enough to copy the documentation
 BranchSlash=`cat branch.txt` ; rsync -avP -e ssh MP3DiagsSfDoc*/ ciobi07,mp3diags@web.sourceforge.net:htdocs"$BranchSlash"/
 

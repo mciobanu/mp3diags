@@ -7,7 +7,7 @@ mp3diags (1.3.00) testing; urgency=low
   * fixed broken links in documentation and moved alternate downloads from Dropbox to my ISP
   * new version number to support the new "unstable" branch
 
- -- Marian Ciobanu <ciobi@inbox.com>  Thu, 16 Jan 2014 22:00:00 -0800
+ -- Marian Ciobanu <ciobi@inbox.com>  Thu, 16 Jan 2014 22:00:00 +0200
 
 mp3diags (1.2.00) testing; urgency=low
 

@@ -92,6 +92,7 @@ function createSrc
     cp -p mp3diags.pro $LongDestDir
     cp -p Uninstall.sh $LongDestDir
     cp -p AdjustMt.sh $LongDestDir
+    cp -p Build.sh $LongDestDir
     cp -p CMakeLists.txt $LongDestDir
     cp -p CMake-VS2008-Win32.cmd $LongDestDir
     cat BuildMp3Diags.hta | sed -e "s#MP3DiagsWindows#MP3DiagsWindows$BranchDash#g" > $LongDestDir/BuildMp3Diags.hta

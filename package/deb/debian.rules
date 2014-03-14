@@ -74,8 +74,8 @@ install: build
 	mkdir -p $(CURDIR)/debian/mp3diags/usr/share/icons/hicolor/48x48/apps
 	cp desktop/MP3Diags48.png $(CURDIR)/debian/mp3diags/usr/share/icons/hicolor/48x48/apps/MP3Diags.png
 
-	mkdir -p $(CURDIR)/debian/mp3diags/usr/share/mp3diags-unstable/translations
-	cp src/translations/*.qm $(CURDIR)/debian/mp3diags/usr/share/mp3diags-unstable/translations
+	mkdir -p $(CURDIR)/debian/mp3diags/usr/share/mp3diags/translations
+	cp src/translations/*.qm $(CURDIR)/debian/mp3diags/usr/share/mp3diags/translations
 
 # Build architecture-independent files here.
 binary-indep: build install

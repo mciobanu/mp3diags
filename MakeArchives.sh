@@ -44,7 +44,7 @@ function initialize
 
     cat changelogDeb.txt | sed "s#^mp3diags#mp3diags$BranchDash#" > package/out/deb/debian.changelog
     cat package/deb/debian.control | sed "s#mp3diags#mp3diags$BranchDash#" > package/out/deb/debian.control
-    cat package/deb/debian.rules | sed -e "s#bin/MP3Diags#bin/MP3Diags$BranchDash#" -e "s#MP3Diags.desktop#MP3Diags$BranchDash.desktop#" -e "s#debian/mp3diags#debian/mp3diags$BranchDash#" -e "s%MP3Diags.png$%MP3Diags$BranchDash.png%" -e "s%MP3Diags\([0-9][0-9]\)%MP3Diags$BranchDash\1%" > package/out/deb/debian.rules
+    cat package/deb/debian.rules | sed -e "s#bin/MP3Diags#bin/MP3Diags$BranchDash#" -e "s#MP3Diags.desktop#MP3Diags$BranchDash.desktop#" -e "s#debian/mp3diags#debian/mp3diags$BranchDash#" -e "s%MP3Diags.png$%MP3Diags$BranchDash.png%" -e "s%MP3Diags\([0-9][0-9]\)%MP3Diags$BranchDash\1%" -e "s#mp3diags/translations#mp3diags$BranchDash/translations#" > package/out/deb/debian.rules
     cat package/deb/MP3Diags.dsc | sed -e "s%mp3diags%mp3diags$BranchDash%" -e "s%MP3Diags%MP3Diags$BranchDash%" > package/out/deb/MP3Diags$BranchDash.dsc
     fixVersion package/out/deb/MP3Diags$BranchDash.dsc
 }

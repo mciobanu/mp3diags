@@ -33,7 +33,9 @@
 
 #include  "SerSupport.h"
 #include  <boost/serialization/split_member.hpp>
+#ifndef Q_MOC_RUN  // See: https://bugreports.qt-project.org/browse/QTBUG-22829
 #include  <boost/lexical_cast.hpp>
+#endif
 
 #ifdef ERR
 #undef ERR

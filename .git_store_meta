@@ -266,7 +266,7 @@ src/DebugDlgImpl.h	f	2009-09-27T12:45:07Z
 src/DirFilter.ui	f	2012-01-02T15:16:36Z
 src/DirFilterDlgImpl.cpp	f	2012-03-04T07:37:28Z
 src/DirFilterDlgImpl.h	f	2012-02-19T08:22:58Z
-src/DiscogsDownloader.cpp	f	2012-10-20T09:47:09Z
+src/DiscogsDownloader.cpp	f	2014-07-17T07:09:57Z
 src/DiscogsDownloader.h	f	2012-10-20T09:48:04Z
 src/DoubleList.cpp	f	2012-03-03T06:58:29Z
 src/DoubleList.h	f	2009-09-11T14:47:51Z
@@ -356,7 +356,7 @@ src/StreamsModel.h	f	2009-05-06T07:32:41Z
 src/StructuralTransformation.cpp	f	2012-01-28T19:41:36Z
 src/StructuralTransformation.h	f	2012-02-19T08:11:07Z
 src/TagEditor.ui	f	2012-01-02T10:05:18Z
-src/TagEditorDlgImpl.cpp	f	2012-03-18T10:51:02Z
+src/TagEditorDlgImpl.cpp	f	2014-07-17T07:49:30Z
 src/TagEditorDlgImpl.h	f	2012-03-03T06:59:47Z
 src/TagEdtPatternsDlgImpl.cpp	f	2012-03-04T14:05:10Z
 src/TagEdtPatternsDlgImpl.h	f	2009-07-28T07:25:59Z

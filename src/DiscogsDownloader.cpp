@@ -38,6 +38,25 @@ using namespace pearl;
 using namespace Discogs;
 
 
+/*
+ * 2014.07.17
+ *
+ * Old search endpoint: http://api.discogs.com/search?q=Rammstein&f=xml
+ *      - deprecated
+ *      - supposed to be removed on  August 22, 2014 according to https://www.discogs.com/developers/resources/database/search-endpoint.html but on 2014.07.17 just returned 404
+ *
+ * New search endpoint: http://api.discogs.com/database/search?q=Rammstein
+ *      - doesn't support XML, never will;
+ *      - accepts "f=xml" param but ignores it
+ *
+ * http://www.discogs.com/forum/thread/52150d6f94697336111ca17d
+ *      I think you're confusing /search with /database/search.
+ *      The former is the old search endpoint. It works as it always has and will continue to do so for the foreseeable future.
+ *      While it is deprecated, we haven't announced a shutoff date for it -- the "deprecated" flag just means there are better ways to get the data and this endpoint may someday go away.
+ *      The latter is the new search endpoint. It has more accurate search results, better sorting and filtering, better pagination, contains IDs and API URLs for each object in the results, and only supports JSON.
+ */
+
+
 ostream& operator<<(ostream& out, const DiscogsAlbumInfo& inf)
 {
     out << "id: \"" << inf.m_strId << "\", artist: \"" << inf.m_strArtist << "\", title: \"" << inf.m_strTitle << "\", composer: \"" << inf.m_strComposer << "\", format: \"" << inf.m_strFormat << "\", genre: \"" << inf.m_strGenre << "\", style: \"" << inf.m_strStyle << "\", released: \"" << inf.m_strReleased << "\"\n\nnotes: " << inf.m_strNotes << "\n\nimages:\n";
@@ -578,7 +597,7 @@ LAST_STEP("DiscogsDownloader::initSearch");
 {
 LAST_STEP("DiscogsDownloader::createQuery");
     //string s (strArtist + "+" + strAlbum);
-    string s ("/search?q=" + replaceSymbols(convStr(m_pSrchArtistE->text())) + "&f=xml");
+    string s ("/database/search?q=" + replaceSymbols(convStr(m_pSrchArtistE->text())) + "&f=xml");
     for (string::size_type i = 0; i < s.size(); ++i)
     {
         if (' ' == s[i])

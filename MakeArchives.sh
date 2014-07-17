@@ -87,8 +87,6 @@ function createSrc
     cp -p COPYING $LongDestDir
     cp -p Install.sh $LongDestDir
     cp -p changelog.txt $LongDestDir
-    #cp mp3diags.kdevelop $LongDestDir
-    cat mp3diags.kdevelop | grep -v "cwd" | grep -v "home" > $LongDestDir/mp3diags.kdevelop
     cp -p mp3diags.pro $LongDestDir
     cp -p Uninstall.sh $LongDestDir
     cp -p AdjustMt.sh $LongDestDir
@@ -119,7 +117,7 @@ function createSrc
     cp -p MakeTranslations.sh $LongDestDir
 
     cd package/out
-    tar czf $DestDir.tar.gz $DestDir
+    tar czf $DestDir.tar.gz $DestDir -H gnu
     cd ../..
 
     #rm -f -r $LongDestDir
@@ -166,7 +164,7 @@ function createDoc
     #rm $LongDestDir/010a_getting_the_program.html
 
     cd package/out
-    tar czf $DestDir.tar.gz $DestDir
+    tar czf $DestDir.tar.gz $DestDir -H gnu
     cd ../..
 
     #rm -f -r $LongDestDir
@@ -285,7 +283,7 @@ function createPackagerSrc
     cd package/out
     mkdir MP3Diags$BranchDash-$Ver/doc
     cp -p MP3DiagsDoc$BranchDash-$Ver/* MP3Diags$BranchDash-$Ver/doc
-    tar czf MP3Diags"$BranchDash"_Src+Doc-$Ver.tar.gz MP3Diags$BranchDash-$Ver
+    tar czf MP3Diags"$BranchDash"_Src+Doc-$Ver.tar.gz MP3Diags$BranchDash-$Ver -H gnu
     mv MP3Diags"$BranchDash"_Src+Doc-$Ver.tar.gz MP3DiagsClicknetDoc$BranchDash-$Ver
     cd ../..
 }

@@ -499,7 +499,9 @@ LameStream::LameStream(int nIndex, NoteColl& notes, istream& in) : XingStreamBas
     in.seekg(m_pos);
 
     const int LAME_LABEL_SIZE (4);
-    const int LAME_OFFS (156);
+    //const int LAME_OFFS (156); // assumes a sideInfoSize of 32
+    int nSideInfoSize (m_firstFrame.getSideInfoSize());
+    int LAME_OFFS (156 + nSideInfoSize - 32);
     const int BFR_SIZE (LAME_OFFS + LAME_LABEL_SIZE); // MPEG header + side info + "Xing" size //ttt2 not sure if space for CRC16 should be added; then not sure if frame size should be increased by 2 when CRC is found
     char bfr [BFR_SIZE];
 
@@ -508,7 +510,7 @@ LameStream::LameStream(int nIndex, NoteColl& notes, istream& in) : XingStreamBas
     streamsize nRead (read(in, bfr, BFR_SIZE));
     STRM_ASSERT (BFR_SIZE == nRead); // this was supposed to be a valid frame to begin with (otherwise the base class would have thrown) and BFR_SIZE is no bigger than the frame
 
-    MP3_CHECK_T (0 == strncmp("LAME", bfr + LAME_OFFS, LAME_LABEL_SIZE), m_pos, "Not a LAME stream. Header not found.", NotLameStream());
+    MP3_CHECK_T (0 == strncmp("LAME", bfr + LAME_OFFS, LAME_LABEL_SIZE), m_pos, "Not a LAME stream. Header not found.", NotLameStream()); // ttt0 lowercase
 
     streampos posEnd (m_pos);
     posEnd += m_firstFrame.getSize();

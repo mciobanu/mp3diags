@@ -115,10 +115,12 @@ struct Mp3TransformThread : public PausableThread
 
             notif.setSuccess(m_mp3TransformerGui.transform());
         }
-        catch (...)
+        catch (...) //ttt0 catch other things too (at least std::exception, but not sure what to do, meaning probably should show a message and terminate anyway); see comment 3 lines below for a better approach
         {
             LAST_STEP("Mp3TransformThread::run()");
             CB_ASSERT (false);
+            /*ttt0 2014.09.23 - if transformations leak exceptions it usually gets here; they should be derived from exception (or CbException), in which case they would be caught and it wouldn't reach this point.
+             */
         }
     }
 
@@ -383,6 +385,22 @@ bool Mp3Transformer::transform()
                         //TRACER1A("transf ", 13);
                         return false;
                     }
+                    catch (const exception& ex)
+                    {
+                        m_strErrorFile = strOrigName;
+                        m_bWriteError = false;
+                        m_strOtherError = ex.what();
+                        if (pNewHndl.get() == pOrigHndl)
+                        {
+                        //TRACER1A("transf ", 121);
+                            pNewHndl.release();
+                        }
+                        TempFileEraser er (strTempName);
+                        //TRACER1A("transf ", 131);
+                        //ttt1 A further improvement would be to have a means to "continue/ignore"
+                        return false;
+                    }
+
 //TRACER1A("transf ", 14);
                     //cout << "trying to apply " << t.getActionName() << " to " << pNewHndl.get()->getName() << endl;
                     if (eTransf != Transformation::NOT_CHANGED)
@@ -675,25 +693,32 @@ std::string Mp3Transformer::getError() const
 {
     if (!m_strErrorFile.empty())
     {
-        if (m_bWriteError)
+        if (!m_strOtherError.empty())
         {
-            return convStr(tr("There was an error writing to the following file:\n\n%1\n\nMake sure that you have write permissions and that there is enough space on the disk.\n\nProcessing aborted.").arg(convStr(toNativeSeparators(m_strErrorFile))));
+            return convStr(tr("There was an error processing the following file:\n\n%1\n\n%2\n\nProcessing aborted.").arg(convStr(toNativeSeparators(m_strErrorFile))).arg(convStr(m_strOtherError)));
         }
         else
         {
-            if (m_bFileChanged)
+            if (m_bWriteError)
             {
-                return convStr(tr("The file \"%1\" seems to have been modified since the last scan. You need to rescan it before continuing.\n\nProcessing aborted.").arg(convStr(toNativeSeparators(m_strErrorFile))));
+                return convStr(tr("There was an error writing to the following file:\n\n%1\n\nMake sure that you have write permissions and that there is enough space on the disk.\n\nProcessing aborted.").arg(convStr(toNativeSeparators(m_strErrorFile))));
             }
             else
             {
-                if (m_strErrorDir.empty())
+                if (m_bFileChanged)
                 {
-                    return convStr(tr("There was an error processing the following file:\n\n%1\n\nProbably the file was deleted or modified since the last scan, in which case you should reload / rescan your collection. Or it may be used by another program; if that's the case, you should stop the other program first.\n\nThis may also be caused by access restrictions or a full disk.\n\nProcessing aborted.").arg(convStr(toNativeSeparators(m_strErrorFile))));
+                    return convStr(tr("The file \"%1\" seems to have been modified since the last scan. You need to rescan it before continuing.\n\nProcessing aborted.").arg(convStr(toNativeSeparators(m_strErrorFile))));
                 }
                 else
                 {
-                    return convStr(tr("There was an error processing the following file:\n%1\n\nThe following folder couldn't be created:\n\n%2\n\nProcessing aborted.").arg(convStr(toNativeSeparators(m_strErrorFile))).arg(convStr(toNativeSeparators(m_strErrorDir))));
+                    if (m_strErrorDir.empty())
+                    {
+                        return convStr(tr("There was an error processing the following file:\n\n%1\n\nProbably the file was deleted or modified since the last scan, in which case you should reload / rescan your collection. Or it may be used by another program; if that's the case, you should stop the other program first.\n\nThis may also be caused by access restrictions or a full disk.\n\nProcessing aborted.").arg(convStr(toNativeSeparators(m_strErrorFile))));
+                    }
+                    else
+                    {
+                        return convStr(tr("There was an error processing the following file:\n%1\n\nThe following folder couldn't be created:\n\n%2\n\nProcessing aborted.").arg(convStr(toNativeSeparators(m_strErrorFile))).arg(convStr(toNativeSeparators(m_strErrorDir))));
+                    }
                 }
             }
         }

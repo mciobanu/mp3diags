@@ -39,6 +39,27 @@
 void logToGlobalFile(const std::string& s);
 
 
+class CbException : public std::exception {
+
+    std::string m_strMsg;
+
+public:
+    CbException(std::string strMsg, const char* szFile, int nLine);
+
+    CbException(std::string strMsg, const char* szFile, int nLine, const CbException& cause);
+
+    ~CbException() throw() {}
+
+    /*override*/ const char* what() const throw() {
+        return m_strMsg.c_str();
+    }
+};
+
+#define CB_CHECK1a(COND, EXCP) { if (!(COND)) { ::trace(#EXCP); throw EXCP(#EXCP, __FILE__, __LINE__); } }
+#define CB_CHECK1b(COND, EXCP, MSG) { if (!(COND)) { ::trace(#EXCP); throw EXCP(MSG, __FILE__, __LINE__); } }
+
+
+
 #define CB_CHECK1(COND, EXCP) { if (!(COND)) { ::trace(#EXCP); throw EXCP; } }
 
 

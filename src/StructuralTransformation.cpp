@@ -384,6 +384,12 @@ note that inserting a blank frame before a cut duesn't really solve the warning 
         transfConfig.getTempName(strOrigSrcName, getActionName(), strTempName);
         ofstream_utf8 out (strTempName.c_str(), ios::binary);
         in.seekg(0);
+        /*static bool bb (true);
+        if (bb)
+        {
+            bb = false;
+            throw WriteError(); //ttt0 use this to investigate write errors
+        }*/
 
         for (int i = 0, n = cSize(vpStreams); i < n; ++i)
         {
@@ -678,7 +684,7 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
 
                     int nOffs (pXing->getFirstFrame().getSideInfoSize() + MpegFrame::MPEG_FRAME_HDR_SIZE);
 
-                    createXing(out, pXing->getFirstFrame(), pAudio->getFrameCount() + 1, pAudio->getSize() + pXing->getSize());
+                    createXing(strOrigSrcName, pXing->getPos(), out, pXing->getFirstFrame(), pAudio->getFrameCount() + 1, pAudio->getSize() + pXing->getSize());
 
                     appendFilePart(in, out, p->getPos(), nOffs);
                     streampos pos (p->getPos());
@@ -702,7 +708,7 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
             {
                 if (bAddXing)
                 {
-                    dynamic_cast<MpegStream*>(p)->createXing(out);
+                    dynamic_cast<MpegStream*>(p)->createXing(h.getName(), p->getPos(), out);
                 }
                 break;
             }

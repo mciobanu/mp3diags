@@ -120,7 +120,7 @@ public:
 
     struct UnknownHeader {}; // exception thrown if the first frame seems to be part of a (Lame) header, having a different framerate in an otherwise CBR stream
 
-    void createXing(std::ostream& out);
+    void createXing(const std::string& strFileName, std::streampos nStreamPos, std::ostream& out);
 
 private:
     friend class boost::serialization::access;
@@ -145,7 +145,7 @@ private:
 };
 
 
-void createXing(std::ostream& out, const MpegFrame& frame, int nFrameCount, std::streamoff nStreamSize); // throws if it can't write to the disk
+void createXing(const std::string& strFileName, std::streampos nStreamPos, std::ostream& out, const MpegFrame& frame, int nFrameCount, std::streamoff nStreamSize); // throws if it can't write to the disk
 
 class XingStreamBase : public MpegStreamBase
 {
@@ -157,6 +157,7 @@ class XingStreamBase : public MpegStreamBase
 protected:
     void getXingInfo(std::ostream&) const;
     XingStreamBase() {} // serialization-only constructor
+    unsigned char getFlags() const { return m_cFlags; }
 public:
     XingStreamBase(int nIndex, NoteColl& notes, std::istream& in);
     // /*override*/ void copy(std::istream& in, std::ostream& out);
@@ -212,6 +213,7 @@ private:
         ar & boost::serialization::base_object<XingStreamBase>(*this);
     }
 };
+
 
 
 class LameStream : public XingStreamBase //ttt2 read & interpret data from Lame tag

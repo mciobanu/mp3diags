@@ -152,7 +152,7 @@ TagEditor.ui \
 ThreadRunner.ui \
  Export.ui
 
-
+UI_DIR = ui-forms
 
 #CONFIG += console
 
@@ -165,7 +165,8 @@ QMAKE_CXXFLAGS_DEBUG += -DGENERATE_TOC_zz
 
 LIBS += -lz \
   -lboost_serialization-mt \
-  -lboost_program_options-mt
+  -lboost_program_options-mt \
+  -lmp3lame
 
 
 TRANSLATIONS = translations/mp3diags_cs.ts \

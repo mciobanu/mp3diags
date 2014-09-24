@@ -23,6 +23,8 @@
 #include  <sstream>
 #include  <memory>
 
+#include  <lame/lame.h>
+
 #include  "MpegStream.h"
 #include  "Mp3Manip.h"
 #include  "Widgets.h"  // for GlobalTranslHlp
@@ -40,6 +42,16 @@ MpegFrame getMpegFrame(istream& in)
 }
 
 }*/
+
+struct DecodeError : public CbException {
+    DecodeError (std::string strMsg, const char* szFile, int nLine) : CbException(strMsg, szFile, nLine) {}
+};
+
+struct ZeroesNotFound : public CbException {
+    ZeroesNotFound(std::string strMsg, const char* szFile, int nLine) : CbException(strMsg, szFile, nLine) {}
+    //ZeroesNotFound(std::string strMsg, const char* szFile, int nLine) : CbException(strMsg, szFile, nLine) {}
+};
+
 
 
 MpegStreamBase::MpegStreamBase(int nIndex, NoteColl& notes, istream& in) : DataStream(nIndex)
@@ -298,7 +310,8 @@ void createXing(ostream& out, const MpegFrame& frame1, int nFrameCount, streamof
     out.write(frame.getHeader(), MpegFrame::MPEG_FRAME_HDR_SIZE);
     int nSideInfoSize (frame.getSideInfoSize());
     writeZeros(out, nSideInfoSize);
-    out.write("Xing\0\0\0\7", 8);
+    //out.write("Xing\0\0\0\7", 8);
+    out.write("Xing\0\0\0\x0f", 8);
     char bfr [4];
     put32BitBigEndian(nFrameCount, bfr);
     out.write(bfr, 4);
@@ -309,11 +322,24 @@ void createXing(ostream& out, const MpegFrame& frame1, int nFrameCount, streamof
         bfr[0] = i*255/(100 - 1);
         out.write(bfr, 1);
     }
-    writeZeros(out, nSize - MpegFrame::MPEG_FRAME_HDR_SIZE - nSideInfoSize - 8 - 4 - 4 - 100);
+    //writeZeros(out, nSize - MpegFrame::MPEG_FRAME_HDR_SIZE - nSideInfoSize - 8 - 4 - 4 - 100);
+
+    out.write("\0\0\0:", 4);
+    out.write("LAME3.92 ", 9);
+    out.write("\x02\xbb", 2);
+    writeZeros(out, 8);
+    out.write("\x02\xc0", 2);
+    //out.write("\x24\x04\x22", 3);
+    out.write("\x94\x09\x22", 3);
+    //writeZeros(out, nSize - MpegFrame::MPEG_FRAME_HDR_SIZE - nSideInfoSize - 8 - 4 - 4 - 100 - 4 - 9 - 2 - 8 - 2 - 3);
+
+    out.write("\x45\0\0\0\0\x90\x72\x56\x3e\x5e\x58\xd2", 12);
+
+    writeZeros(out, nSize - MpegFrame::MPEG_FRAME_HDR_SIZE - nSideInfoSize - 8 - 4 - 4 - 100 - 4 - 9 - 2 - 8 - 2 - 3 - 12);
     CB_CHECK1 (out, WriteError());
 }
 #else
-void createXing(ostream& out, const MpegFrame& frame, int nFrameCount, streamoff nStreamSize)
+/*void createXing(ostream& out, const MpegFrame& frame, int nFrameCount, streamoff nStreamSize)
 {
     int nSize (frame.getSize());
     out.write(frame.getHeader(), MpegFrame::MPEG_FRAME_HDR_SIZE);
@@ -325,17 +351,932 @@ void createXing(ostream& out, const MpegFrame& frame, int nFrameCount, streamoff
     out.write(bfr, 4);
     put32BitBigEndian(nStreamSize, bfr);
     out.write(bfr, 4);
-    writeZeros(out, nSize - MpegFrame::MPEG_FRAME_HDR_SIZE - nSideInfoSize - 8 - 4 - 4);
+    //writeZeros(out, nSize - MpegFrame::MPEG_FRAME_HDR_SIZE - nSideInfoSize - 8 - 4 - 4);
+
+    out.write("LAME3.92 ", 9);
+    out.write("\x02\xbb", 2);
+    writeZeros(out, 8);
+    out.write("\x02\xc0", 2);
+    //out.write("\x24\x04\x22", 3);
+    //out.write("\x24\x06\xb3", 3);
+    out.write("\x24\x08\xc4", 3);
+    //out.write("\x45\0\0\0\0\x90\x72\x56\x3e\x5e\x58\xd2", 12); //ttt1 these should be included too
+    writeZeros(out, nSize - MpegFrame::MPEG_FRAME_HDR_SIZE - nSideInfoSize - 8 - 4 - 4 - 9 - 2 - 8 - 2 - 3);
+
+    CB_CHECK1 (out, WriteError());
+}*/
+
+#if 0
+namespace {
+const streamsize MP3BUF_SIZE (2048); // !!! should be large enough to accomodate
+const int OUTBFR_SIZE (MP3BUF_SIZE * 1536 / 32); // 1536 is kbps for wav at 48kHz, while 32 is min bps for MPEG1/Layer3. Other versions and layers have different values, but this should be enough)
+
+}
+
+int findZeroes(const vector<short>& v) {
+    /*for (uint i = 0; i < v.size(); ++i) {
+        qDebug("%d %d", i, v[i]);
+    }*/
+    for (uint i = 0; i < v.size(); ++i) {
+        if (abs(v[i]) > 10) {
+            return i;
+        }
+    }
+    return v.size();
+}
+
+void getDelayAndPadding(istream& in, streamoff nStreamSize, unsigned& nDelay, unsigned& nPadding)
+{
+    short pcmBfrLeft0[OUTBFR_SIZE]; // ttt0 make static after debug
+    short pcmBfrRight0[OUTBFR_SIZE];
+    short pcmBfrLeft1[OUTBFR_SIZE];
+    short pcmBfrRight1[OUTBFR_SIZE];
+    short* pcmBfrLeft[] = { pcmBfrLeft0, pcmBfrLeft1 };
+    short* pcmBfrRight[] = { pcmBfrRight0, pcmBfrRight1 };
+    char mp3Bfr[MP3BUF_SIZE];
+
+
+    hip_t pHip = hip_decode_init();
+    CB_CHECK1(pHip != 0, DecodeError());
+
+    //mp3data_struct mp3str;
+
+    int anSamples [2];
+    int nFlip = 0;
+    bool bFirst (true);
+    int nTotalSamples (0);
+
+    while (nStreamSize > 0)
+    {
+        streamsize nToRead (min(nStreamSize, MP3BUF_SIZE));
+        streamsize nRead (read(in, mp3Bfr, nToRead));
+        CB_CHECK1(nToRead == nRead, DecodeError());
+        nStreamSize -= nRead;
+        if (nRead <= 0)
+        {
+            break;
+        }
+        anSamples[nFlip] = hip_decode(pHip, (unsigned char*)(&mp3Bfr[0]), MP3BUF_SIZE, pcmBfrLeft[nFlip], pcmBfrRight[nFlip]);
+        if (anSamples[nFlip] > 0)
+        {
+            nTotalSamples += anSamples[nFlip];
+            if (bFirst)
+            {
+                bFirst = false;
+                vector<short> vnLeft, vnRight;
+                vnLeft.insert(vnLeft.end(), pcmBfrLeft[nFlip], pcmBfrLeft[nFlip] + anSamples[nFlip]);
+                vnRight.insert(vnRight.end(), pcmBfrRight[nFlip], pcmBfrRight[nFlip] + anSamples[nFlip]);
+                nDelay = findZeroes(vnLeft); //ttt0 right
+            }
+            nFlip = 1 - nFlip;
+        }
+    }
+    hip_decode_exit(pHip);
+    qDebug("Total samples %d", nTotalSamples);
+
+    vector<short> vnLeft, vnRight;
+
+    vnLeft.insert(vnLeft.end(), pcmBfrLeft[nFlip], pcmBfrLeft[nFlip] + anSamples[nFlip]);
+    vnLeft.insert(vnLeft.end(), pcmBfrLeft[1 - nFlip], pcmBfrLeft[1 - nFlip] + anSamples[1 - nFlip]);
+    reverse(vnRight.begin(), vnRight.end());
+
+    vnRight.insert(vnRight.end(), pcmBfrRight[nFlip], pcmBfrRight[nFlip] + anSamples[nFlip]);
+    vnRight.insert(vnRight.end(), pcmBfrRight[1 - nFlip], pcmBfrRight[1 - nFlip] + anSamples[1 - nFlip]);
+    reverse(vnLeft.begin(), vnLeft.end());
+
+
+    //nDelay = 576;
+    //nPadding = 1715 + 529;
+    nPadding = findZeroes(vnLeft); //ttt0
+}
+
+
+void createXing(const string& strFileName, streampos nStreamPos, ostream& out, const MpegFrame& frame, int nFrameCount, streamoff nStreamSize)
+{
+    int nSize (frame.getSize());
+    out.write(frame.getHeader(), MpegFrame::MPEG_FRAME_HDR_SIZE);
+    int nSideInfoSize (frame.getSideInfoSize());
+    writeZeros(out, nSideInfoSize);
+    out.write("Xing\0\0\0\3", 8);
+    char bfr [4];
+    put32BitBigEndian(nFrameCount, bfr);
+    out.write(bfr, 4);
+    put32BitBigEndian(nStreamSize, bfr);
+    out.write(bfr, 4);
+    //writeZeros(out, nSize - MpegFrame::MPEG_FRAME_HDR_SIZE - nSideInfoSize - 8 - 4 - 4);
+
+    out.write("LAME3.92 ", 9);
+    out.write("\x0\x0", 2);
+    writeZeros(out, 8);
+    out.write("\x0\x0", 2);
+    //out.write("\x24\x04\x22", 3);
+    //out.write("\x24\x06\xb3", 3);
+
+    ifstream_utf8 in (strFileName.c_str(), ios::binary);
+    in.seekg(nStreamPos);
+
+    unsigned nDelay, nPadding;
+    getDelayAndPadding(in, nStreamSize, nDelay, nPadding);
+    bfr[0] = nDelay >> 4;
+    bfr[1] = (nDelay << 4) ^ (nPadding >> 8);
+    bfr[2] = nPadding;
+    out.write("\x24\x08\xc4", 3);
+    //out.write("\x45\0\0\0\0\x90\x72\x56\x3e\x5e\x58\xd2", 12); //ttt1 these should be included too
+    writeZeros(out, nSize - MpegFrame::MPEG_FRAME_HDR_SIZE - nSideInfoSize - 8 - 4 - 4 - 9 - 2 - 8 - 2 - 3);
+
     CB_CHECK1 (out, WriteError());
 }
 #endif
 
-void MpegStream::createXing(ostream& out)
+namespace {
+
+const int MPEG_SAMPLES_PER_FRAME (1152);
+const int CD_SAMPLES_PER_FRAME (588);
+const int MPEG_BFR_SIZE (65536);
+//const int OUTBFR_SIZE (MPEG_SAMPLES_PER_FRAME * sizeof(int16_t));
+
+//const streamsize MP3BUF_SIZE (2048); // !!! should be large enough to accomodate
+//const int OUTBFR_SIZE (MP3BUF_SIZE * 1536 / 32); // 1536 is kbps for wav at 48kHz, while 32 is min bps for MPEG1/Layer3. Other versions and layers have different values, but this should be enough)
+
+//char mp3Bfr[MPEG_BFR_SIZE];
+
+}
+
+struct MpegFrameBfr : public MpegFrameBase
+{
+    MpegFrameBfr(NoteColl& notes, const char* bfr) : MpegFrameBase(notes, 0, bfr) {}
+};
+
+class Mp3Decoder
+{
+    vector<unsigned char> m_vcMp3Bfr;
+    //int findSync(int nStartPos) const;
+    //int err(vector<int16_t>& vSamplesBeginLeft, vector<int16_t>& vSamplesBeginRight, vector<int16_t>& vSamplesEndLeft, vector<int16_t>& vSamplesEndRight) const;
+    struct LameResourceWrapper
+    {
+        hip_t m_pHip;
+        LameResourceWrapper()
+        {
+            m_pHip = hip_decode_init();
+        }
+
+        ~LameResourceWrapper()
+        {
+            hip_decode_exit(m_pHip);
+        }
+    };
+
+    void decode3(istream& in, streamoff nStreamSize);
+
+public:
+    Mp3Decoder() : m_vcMp3Bfr(MPEG_BFR_SIZE) {}
+
+    // tries to fill the vectors with as many samples as fit, but it will shrink the vectors if there are not enough samples; returns the total sample count
+    int decode(istream& in, streamoff nStreamSize, vector<int16_t>& vSamplesBeginLeft, vector<int16_t>& vSamplesBeginRight, vector<int16_t>& vSamplesEndLeft, vector<int16_t>& vSamplesEndRight, int& globalMax);
+};
+
+
+void Mp3Decoder::decode3(istream& in, streamoff nStreamSize) {
+    const int MPEG_BFR_SIZE (2000);
+    vector<unsigned char> bfr (MPEG_BFR_SIZE);
+    vector<short> pcmBfrL (MPEG_BFR_SIZE*100);
+    vector<short> pcmBfrR (MPEG_BFR_SIZE*100);
+    ofstream outL ("/r/ciobi/cpp/Mp3Utils/mp3diags/trunk/mp3diags/mp3-decode/cpp-out-d3-l.pcm"); //ttt0 make rel dir
+    ofstream outR ("/r/ciobi/cpp/Mp3Utils/mp3diags/trunk/mp3diags/mp3-decode/cpp-out-d3-r.pcm");
+    LameResourceWrapper lameWrp;
+    StreamStateRestorer rst (in);
+    const int HDR_SIZE (4);
+    while (nStreamSize > 0) {
+        streamsize nRead (read(in, (char*)(&bfr[0]), HDR_SIZE));
+        NoteColl noteColl;
+        MpegFrameBfr frame (noteColl, (const char*)&bfr[0]);
+        int frameSize (frame.getSize());
+        nRead = read(in, (char*)(&bfr[HDR_SIZE]), frameSize - HDR_SIZE);
+        nRead += HDR_SIZE;
+        nStreamSize -= nRead;
+        CB_CHECK1a(nRead == frameSize || nStreamSize == 0, DecodeError);
+        int nSamples (hip_decode(lameWrp.m_pHip, &bfr[0], frameSize, &pcmBfrL[0], &pcmBfrR[0]));
+        CB_CHECK1a(nSamples >= 0, DecodeError);
+        if (nSamples > 0) {
+            outL.write((const char*)(&pcmBfrL[0]), nSamples * 2);
+            outR.write((const char*)(&pcmBfrR[0]), nSamples * 2);
+        }
+    }
+}
+
+
+/**
+ * @return number of samples; -1 for fatal error
+ */
+int Mp3Decoder::decode(istream& in, streamoff nStreamSize, vector<int16_t>& vSamplesBeginLeft, vector<int16_t>& vSamplesBeginRight, vector<int16_t>& vSamplesEndLeft, vector<int16_t>& vSamplesEndRight, int& globalMax) {
+
+    //decode3(in, nStreamSize);
+    globalMax = 0;
+    CB_CHECK1a (vSamplesBeginLeft.size() == vSamplesBeginRight.size() && vSamplesEndLeft.size() == vSamplesEndRight.size(), DecodeError);
+    vector<int16_t> vLeftPcmBuffer (MPEG_SAMPLES_PER_FRAME * 2000);
+    vector<int16_t> vRightPcmBuffer (MPEG_SAMPLES_PER_FRAME * 2000);
+    uint nPcmBufferSampleCount (0); // number of samples in the PCM buffers
+    uint nPcmBufferSampleIndex (0); // index of first sample in the PCM buffers
+    const int MAX_FRAME_SIZE (320000*144/8000 + 4); // this is probably more than needed, as not all combinations are valid; 320000=max bitrate; 144=max multiplying constant; 8000=min frequency
+    const int MIN_FRAME_SIZE (40);
+
+    //int nSyncPos (0);
+    int nMp3BfrOffset (0);
+    int nMp3BfrFirstFree (0); // reading buffer starts here, as the beginning is usually taken by the truncated end of the previous buffer
+    //bool bFirst (true);
+    int nTotalSamples (0);
+    int nCrtFrameAddr (0);
+    LameResourceWrapper lameWrp;
+    bool bCopiedFirst (false);
+    int crtFrame (0);
+    while (nStreamSize > 0)
+    {
+        streamsize nToRead (min((size_t)nStreamSize, m_vcMp3Bfr.size() - nMp3BfrFirstFree));
+        streamsize nRead (read(in, (char*)(&m_vcMp3Bfr[nMp3BfrFirstFree]), nToRead));
+        CB_CHECK1a (nToRead == nRead, DecodeError);
+        nStreamSize -= nRead;
+        CB_CHECK1a(nStreamSize == 0 || nRead > 0, DecodeError);
+        for (;;)
+        {
+            NoteColl noteColl;
+            MpegFrameBfr frame (noteColl, (const char*)&m_vcMp3Bfr[nCrtFrameAddr]);
+
+            if (nCrtFrameAddr + frame.getSize() > cSize(m_vcMp3Bfr))
+            { //we don't have the whole frame
+                break;
+            }
+            //qDebug("frame at global offset %d (%x), buffer offset %d; size %d", nMp3BfrOffset + nCrtFrameAddr, nMp3BfrOffset + nCrtFrameAddr, nCrtFrameAddr, frame.getSize());
+            int nSamples (hip_decode(lameWrp.m_pHip, &m_vcMp3Bfr[nCrtFrameAddr], frame.getSize(), &vLeftPcmBuffer[nPcmBufferSampleCount], &vRightPcmBuffer[nPcmBufferSampleCount]));
+            ++crtFrame;
+            if (crtFrame++ >= 11483) {
+                //qDebug("crtFrame=%d", crtFrame);
+            }
+            for (int i = 0; i < nSamples; ++i)
+            {
+                globalMax = max(max(globalMax, abs((int)vLeftPcmBuffer[nPcmBufferSampleCount + i])), abs((int)vRightPcmBuffer[nPcmBufferSampleCount + i]));
+            }
+
+            CB_CHECK1a(nSamples >= 0, DecodeError);
+            nPcmBufferSampleCount += nSamples;
+
+            if (!bCopiedFirst && nPcmBufferSampleCount >= vSamplesBeginLeft.size())
+            {
+                bCopiedFirst = true;
+                copy(vLeftPcmBuffer.begin(), vLeftPcmBuffer.begin() + vSamplesBeginLeft.size(), vSamplesBeginLeft.begin());
+                copy(vRightPcmBuffer.begin(), vRightPcmBuffer.begin() + vSamplesBeginRight.size(), vSamplesBeginRight.begin());
+            }
+
+            if (nPcmBufferSampleCount > vLeftPcmBuffer.size() - 10*MPEG_SAMPLES_PER_FRAME) {
+                uint nDiscard (nPcmBufferSampleCount - vSamplesEndLeft.size());
+                copy(vLeftPcmBuffer.begin() + nDiscard, vLeftPcmBuffer.begin() + nPcmBufferSampleCount, vLeftPcmBuffer.begin());
+                copy(vRightPcmBuffer.begin() + nDiscard, vRightPcmBuffer.begin() + nPcmBufferSampleCount, vRightPcmBuffer.begin());
+                nPcmBufferSampleIndex += nDiscard;
+                nPcmBufferSampleCount = vSamplesEndLeft.size();
+            }
+
+            nTotalSamples += nSamples;
+            if (nSamples != MPEG_SAMPLES_PER_FRAME)
+            {
+                //qDebug("frame at global offset %d (%x), buffer offset %d; size %d; decoded %d samples", nMp3BfrOffset + nCrtFrameAddr, nMp3BfrOffset + nCrtFrameAddr, nCrtFrameAddr, frame.getSize(), nSamples);
+            }
+            nCrtFrameAddr += frame.getSize();
+            if ((nMp3BfrFirstFree + nRead) - nCrtFrameAddr <= MIN_FRAME_SIZE)
+            { // we need more data for sure
+                break;
+            }
+        }
+        if (nStreamSize > 0)
+        { // more data should be read; move the frame fragment at the end to the beginning and continue
+            nMp3BfrFirstFree = m_vcMp3Bfr.size() - nCrtFrameAddr;
+            CB_CHECK1a (nMp3BfrFirstFree <= MAX_FRAME_SIZE, DecodeError);
+            copy(m_vcMp3Bfr.begin() + nCrtFrameAddr, m_vcMp3Bfr.end(), m_vcMp3Bfr.begin());
+            nCrtFrameAddr = 0;
+            nMp3BfrOffset += m_vcMp3Bfr.size() - nMp3BfrFirstFree;
+        }
+    }
+
+    CB_CHECK1a (bCopiedFirst, DecodeError);
+    CB_CHECK1a (nPcmBufferSampleCount >= vSamplesEndLeft.size(), DecodeError);
+    copy(vLeftPcmBuffer.begin() + nPcmBufferSampleCount - vSamplesEndLeft.size(), vLeftPcmBuffer.begin() + nPcmBufferSampleCount, vSamplesEndLeft.begin());
+    copy(vRightPcmBuffer.begin() + nPcmBufferSampleCount - vSamplesEndRight.size(), vRightPcmBuffer.begin() + nPcmBufferSampleCount, vSamplesEndRight.begin());
+
+    //qDebug("total samples %d", nTotalSamples);
+    return nTotalSamples;
+}
+
+#if 0
+
+/**
+ * @return number of samples; -1 for fatal error
+ */
+int Mp3Decoder::decode(istream& in, streamoff nStreamSize, vector<int16_t>& vSamplesBeginLeft, vector<int16_t>& vSamplesBeginRight, vector<int16_t>& vSamplesEndLeft, vector<int16_t>& vSamplesEndRight) {
+
+decode3(in, nStreamSize);
+    CB_CHECK1a (vSamplesBeginLeft.size() == vSamplesBeginRight.size() && vSamplesEndLeft.size() == vSamplesEndRight.size(), DecodeError);
+    vector<int16_t> vLeftPcmBuffer (MPEG_SAMPLES_PER_FRAME * 2000);
+    vector<int16_t> vRightPcmBuffer (MPEG_SAMPLES_PER_FRAME * 2000);
+    uint nPcmBufferSampleCount (0); // number of samples in the PCM buffers
+    uint nPcmBufferSampleIndex (0); // index of first sample in the PCM buffers
+    const int MAX_FRAME_SIZE (320000*144/8000 + 4); // this is probably more than needed, as not all combinations are valid; 320000=max bitrate; 144=max multiplying constant; 8000=min frequency
+    const int MIN_FRAME_SIZE (40);
+ofstream outL ("/r/ciobi/cpp/Mp3Utils/mp3diags/trunk/mp3diags/mp3-decode/cpp-out-main-l.pcm");
+ofstream outR ("/r/ciobi/cpp/Mp3Utils/mp3diags/trunk/mp3diags/mp3-decode/cpp-out-main-r.pcm");
+
+    //int nSyncPos (0);
+    int nMp3BfrOffset (0);
+    int nMp3BfrFirstFree (0); // reading buffer starts here, as the beginning is usually taken by the truncated end of the previous buffer
+    //bool bFirst (true);
+    int nTotalSamples (0);
+    int nCrtFrameAddr (0);
+    LameResourceWrapper lameWrp;
+    bool bCopiedFirst (false);
+int qq (0);
+    while (nStreamSize > 0)
+    {
+        streamsize nToRead (min((size_t)nStreamSize, m_vcMp3Bfr.size() - nMp3BfrFirstFree));
+        streamsize nRead (read(in, (char*)(&m_vcMp3Bfr[nMp3BfrFirstFree]), nToRead));
+        CB_CHECK1a (nToRead == nRead, DecodeError);
+        /*if (bFirst)
+        {
+            bFirst = false;
+            if (findSync(0) != 0)
+            { // mpeg audio must start with sync
+                return err(vSamplesBeginLeft, vSamplesBeginRight, vSamplesEndLeft, vSamplesEndRight);
+            }
+        }*/
+        nStreamSize -= nRead;
+        if (nStreamSize == 0)
+        { // we are done reading; add a fake "sync" at the end so we don't have to treat it as a special case
+            if (nRead >= (int)m_vcMp3Bfr.size() - 1)
+            {
+                m_vcMp3Bfr.resize(m_vcMp3Bfr.size() + 2);
+            }
+            m_vcMp3Bfr[nRead] = m_vcMp3Bfr[nRead + 1] = 0xff;
+        }
+        else
+        {
+            CB_CHECK1a(nRead > 0, DecodeError); // we need more data but there's nothing left
+        }
+        for (;;)
+        {
+            /*int nNextSyncPos (findSync(nSyncPos + 2));
+            if (nNextSyncPos >= 0)
+            {
+                qDebug("sync at %d", nNextSyncPos);
+                nSyncPos = nNextSyncPos;
+            }
+            else
+            {
+                break;
+            }*/
+            NoteColl noteColl;
+            MpegFrameBfr frame (noteColl, (const char*)&m_vcMp3Bfr[nCrtFrameAddr]);
+
+            if (nCrtFrameAddr + frame.getSize() > cSize(m_vcMp3Bfr))
+            { //we don't have the whole frame
+                break;
+            }
+            //qDebug("frame at global offset %d (%x), buffer offset %d; size %d", nMp3BfrOffset + nCrtFrameAddr, nMp3BfrOffset + nCrtFrameAddr, nCrtFrameAddr, frame.getSize());
+            //int nSamples (hip_decode(lameWrp.m_pHip, &m_vcMp3Bfr[nCrtFrameAddr], frame.getSize(), &(vLeftBuffers[nCrtBfr][0]), &(vRightBuffers[nCrtBfr][0])));
+            //short a1[10000], a2[10000];
+            int nSamples (hip_decode(lameWrp.m_pHip, &m_vcMp3Bfr[nCrtFrameAddr], frame.getSize(), &vLeftPcmBuffer[nPcmBufferSampleCount], &vRightPcmBuffer[nPcmBufferSampleCount]));
+outL.write((const char*)(&vLeftPcmBuffer[nPcmBufferSampleCount]), nSamples * 2);
+outR.write((const char*)(&vRightPcmBuffer[nPcmBufferSampleCount]), nSamples * 2);
+            //short bl [MPEG_SAMPLES_PER_FRAME * 3]; fill(&bl[0], &bl [MPEG_SAMPLES_PER_FRAME * 3], 0x5555);
+            //short br [MPEG_SAMPLES_PER_FRAME * 3]; fill(&br[0], &br [MPEG_SAMPLES_PER_FRAME * 3], 0x5555);
+            if (qq++ >= 11483) {
+                qDebug("qq=%d", qq);
+            }
+            //int nSamples (hip_decode(lameWrp.m_pHip, &m_vcMp3Bfr[nCrtFrameAddr], frame.getSize(), &bl[0], &br[0]));
+            //int nSamples (hip_decode(lameWrp.m_pHip, &m_vcMp3Bfr[nCrtFrameAddr], 210, &bl[0], &br[0]));
+            /*if (qq++ >= 11483) {
+                copy(vLeftPcmBuffer.begin() + nPcmBufferSampleCount, vLeftPcmBuffer.begin() + nPcmBufferSampleCount + MPEG_SAMPLES_PER_FRAME, bl);
+                copy(vRightPcmBuffer.begin() + nPcmBufferSampleCount, vRightPcmBuffer.begin() + nPcmBufferSampleCount + MPEG_SAMPLES_PER_FRAME, br);
+                qDebug("frame %d", qq);
+            }*/
+
+            CB_CHECK1a(nSamples >= 0, DecodeError);
+            nPcmBufferSampleCount += nSamples;
+
+            if (!bCopiedFirst && nPcmBufferSampleCount >= vSamplesBeginLeft.size())
+            {
+                bCopiedFirst = true;
+                copy(vLeftPcmBuffer.begin(), vLeftPcmBuffer.begin() + vSamplesBeginLeft.size(), vSamplesBeginLeft.begin());
+                copy(vRightPcmBuffer.begin(), vRightPcmBuffer.begin() + vSamplesBeginRight.size(), vSamplesBeginRight.begin());
+            }
+
+            if (nPcmBufferSampleCount > vLeftPcmBuffer.size() - 10*MPEG_SAMPLES_PER_FRAME) {
+                uint nDiscard (nPcmBufferSampleCount - vSamplesEndLeft.size());
+                copy(vLeftPcmBuffer.begin() + nDiscard, vLeftPcmBuffer.begin() + nPcmBufferSampleCount, vLeftPcmBuffer.begin());
+                copy(vRightPcmBuffer.begin() + nDiscard, vRightPcmBuffer.begin() + nPcmBufferSampleCount, vRightPcmBuffer.begin());
+                nPcmBufferSampleIndex += nDiscard;
+                nPcmBufferSampleCount = vSamplesEndLeft.size();
+            }
+
+            nTotalSamples += nSamples;
+            if (nSamples != MPEG_SAMPLES_PER_FRAME)
+            {
+                qDebug("frame at global offset %d (%x), buffer offset %d; size %d; decoded %d samples", nMp3BfrOffset + nCrtFrameAddr, nMp3BfrOffset + nCrtFrameAddr, nCrtFrameAddr, frame.getSize(), nSamples);
+            }
+            nCrtFrameAddr += frame.getSize();
+//nCrtFrameAddr += 210;
+            if ((nMp3BfrFirstFree + nRead) - nCrtFrameAddr <= MIN_FRAME_SIZE)
+            { // we need more data for sure
+                break;
+            }
+        }
+        if (nStreamSize > 0)
+        { // more data should be read; move the frame fragment at the end to the beginning and continue
+            nMp3BfrFirstFree = m_vcMp3Bfr.size() - nCrtFrameAddr;
+            CB_CHECK1a (nMp3BfrFirstFree <= MAX_FRAME_SIZE, DecodeError);
+            copy(m_vcMp3Bfr.begin() + nCrtFrameAddr, m_vcMp3Bfr.end(), m_vcMp3Bfr.begin());
+            nCrtFrameAddr = 0;
+            nMp3BfrOffset += m_vcMp3Bfr.size() - nMp3BfrFirstFree;
+        }
+    }
+
+    CB_CHECK1a (bCopiedFirst, DecodeError);
+    CB_CHECK1a (nPcmBufferSampleCount >= vSamplesEndLeft.size(), DecodeError);
+    copy(vLeftPcmBuffer.begin() + nPcmBufferSampleCount - vSamplesEndLeft.size(), vLeftPcmBuffer.begin() + nPcmBufferSampleCount, vSamplesEndLeft.begin());
+    copy(vRightPcmBuffer.begin() + nPcmBufferSampleCount - vSamplesEndRight.size(), vRightPcmBuffer.begin() + nPcmBufferSampleCount, vSamplesEndRight.begin());
+
+    qDebug("total samples %d, total bytes processed %ld", nTotalSamples, nStreamSize);
+    return nTotalSamples;
+}
+
+#endif
+
+/*int Mp3Decoder::findSync(int nStartPos) const
+{
+    for (;; ++nStartPos)
+    {
+        if (nStartPos >= (int)m_vcMp3Bfr.size() - 2) // "-2" because we test 2 bytes
+        {
+            return -1;
+        }
+        if (m_vcMp3Bfr[nStartPos] == 0xff && 0xe0 == (0xe0 & m_vcMp3Bfr[nStartPos + 1]))
+        {
+            return nStartPos;
+        }
+    }
+}*/
+
+/*int Mp3Decoder::err(vector<int16_t>& vSamplesBeginLeft, vector<int16_t>& vSamplesBeginRight, vector<int16_t>& vSamplesEndLeft, vector<int16_t>& vSamplesEndRight) const
+{
+    vSamplesBeginLeft.clear();
+    vSamplesBeginRight.clear();
+    vSamplesEndLeft.clear();
+    vSamplesEndRight.clear();
+    return -1;
+}*/
+
+const int QUIET_THRESHOLD (100);
+
+bool isQuiet(const vector<short>& v) {
+    for (uint i = 0; i < v.size(); ++i) {
+        if (abs(v[i]) > QUIET_THRESHOLD) {
+            return false;
+        }
+    }
+    return true;
+}
+
+#if 0
+int findZeroesByAverages(const vector<short>& v, double threshold) {
+    /*for (uint i = 0; i < v.size(); ++i) {
+        qDebug("%d %d", i, v[i]);
+    }*/
+    /*for (uint i = 0; i < v.size(); ++i) {
+        if (abs(v[i]) > 10) {
+            return i;
+        }
+    }*/
+
+    //const double THRESHOLD (0.2);
+    uint n (100);
+    long total (0);
+    for (uint i = 0; i < v.size(); ++i) {
+        total += abs(v[i]);
+    }
+    int globalContrib (2 * n * total / v.size());
+    int nRes (-1);
+
+    for (uint i = 0; i < n; ++i) {
+        qDebug("0");
+    }
+    for (uint i = n; i < v.size() - n; ++i)
+    {
+        int sumBefore = 0; //ttt0 inefficient
+        for (uint j = i - n; j < i; ++j)
+        {
+            sumBefore += abs(v[j]);
+        }
+        int sumAfter = 0;
+        for (uint j = i; j < i + n; ++j)
+        {
+            sumAfter += abs(v[j]);
+        }
+        double f (sumBefore / (1.0 + globalContrib + sumAfter));
+        qDebug("i=%d, val=%d, sumBefore=%d, sumAfter=%d, f=%f", i, v[i], sumBefore, sumAfter, f);
+        //qDebug("%f", f);
+        if (f > threshold && nRes == -1)
+        {
+            nRes = i;
+        }
+    }
+    for (uint i = 0; i < n; ++i) {
+        qDebug("0");
+    }
+
+    return nRes;
+}
+#endif
+
+#if 0
+int findZeroesByAverages(const vector<short>& v, double threshold) {
+
+    uint n (100);
+    long total (0);
+    for (uint i = 0; i < v.size(); ++i) {
+        total += abs(v[i]);
+    }
+    int globalContrib (2 * n * total / v.size());
+    int nRes (-1);
+
+    for (uint i = 0; i < n; ++i) {
+        //qDebug("0");
+    }
+    for (uint i = n; i < v.size() - n; ++i)
+    {
+        int sumBefore = 0; //ttt0 inefficient
+        for (uint j = i - n; j < i; ++j)
+        {
+            sumBefore += abs(v[j]);
+        }
+        int sumAfter = 0;
+        for (uint j = i; j < i + n; ++j)
+        {
+            sumAfter += abs(v[j]);
+        }
+        double f (sumBefore / (1.0 + globalContrib + sumAfter));
+        //qDebug("i=%d, val=%d, sumBefore=%d, sumAfter=%d, f=%f", i, v[i], sumBefore, sumAfter, f);
+        //qDebug("%f", f);
+        if (f > threshold && nRes == -1)
+        {
+            nRes = i;
+        }
+    }
+    for (uint i = 0; i < n; ++i) {
+        //qDebug("0");
+    }
+
+    return nRes;
+}
+#endif
+
+int findZeroesByAverages(const vector<short>& v, double threshold) {
+
+    uint n (100);
+    long total (0);
+    for (uint i = 0; i < v.size(); ++i) {
+        total += abs(v[i]);
+    }
+    int globalContrib (2 * n * total / v.size());
+    int nRes (-1);
+
+    for (uint i = 0; i < n; ++i) {
+        //qDebug("0");
+    }
+    int sumBefore (0), sumAfter (0);
+    for (uint i = 0; i < n; ++i) {
+        sumBefore += abs(v[i]);
+        sumAfter += abs(v[i + n]);
+    }
+    for (uint i = n; i < v.size() - n - 1; ++i)
+    {
+        double f (sumBefore / (1.0 + globalContrib + sumAfter));
+        //qDebug("i=%d, val=%d, sumBefore=%d, sumAfter=%d, f=%f", i, v[i], sumBefore, sumAfter, f);
+        //qDebug("%f", f);
+        if (f > threshold && nRes == -1)
+        {
+            nRes = i;
+        }
+        sumBefore += abs(v[i]);
+        sumBefore -= abs(v[i - n]);
+        sumAfter  -= abs(v[i]);
+        sumAfter  += abs(v[i + n]);
+    }
+    for (uint i = 0; i < n; ++i) {
+        //qDebug("0");
+    }
+
+    return nRes;
+}
+
+#if 0
+// returns -1 if the limit cannot be found
+int findZeroesByMax(const vector<short>& v, double threshold) {
+
+    double maxVal (0);
+    for (uint i = 0; i < v.size(); ++i) {
+        maxVal = max(maxVal, abs(v[i]));
+    }
+    //qDebug("maxVal=%f", maxVal);
+    int nCnt (0);
+    for (uint i = 0; i < v.size(); ++i)
+    {
+        if (abs(v[i]) / maxVal > threshold) {
+            ++nCnt;
+            if (nCnt > 5) {
+                //qDebug("threshold %f, result %d", threshold, i);
+                return i;
+            }
+        }
+    }
+
+    //qDebug("threshold %f, result %d", threshold, -1);
+    return -1;
+}
+#endif
+
+// returns -1 if the limit cannot be found
+int findZeroesByMax(const vector<short>& v, double threshold, int globalMax) {
+
+    double maxVal (globalMax);
+    //qDebug("maxVal=%f", maxVal);
+    int nCnt (0);
+    for (uint i = 0; i < v.size(); ++i)
+    {
+        if (abs(v[i]) / maxVal > threshold) {
+            ++nCnt;
+            if (nCnt > 5) {
+                //qDebug("threshold %f, result %d", threshold, i);
+                return i;
+            }
+        }
+    }
+
+    //qDebug("threshold %f, result %d", threshold, -1);
+    return -1;
+}
+
+
+int findZeroesByMaxHlp(const vector<short>& v, int globalMax) {
+    qDebug("------------");
+    for (double t = 0.001; t < 0.2; t *= 1.2) {
+        findZeroesByMax(v, t, globalMax);
+    }
+    //return findZeroesHlp(v, 0.03);
+    return findZeroesByMax(v, 0.08, globalMax);
+}
+
+bool approxEq(int a, int b, int limit)
+{
+    return abs(a - b) < limit;
+}
+
+int computeAvg(vector<int> v) {
+    sort(v.begin(), v.end());
+    if (v[0] == -1) {
+        return -1;
+    }
+    if (v[0] + 400 < v[v.size() - 1]) { // difference is too big
+        return -1;
+    }
+    int sum (0);
+    for (uint i = 1; i < v.size() - 1; ++i) {
+        sum += v[i];
+    }
+    return sum / (v.size() - 2);
+}
+
+int computeZeroes(vector<int16_t>& v, short globalMax) {
+/*    qDebug("----------------------");
+    qDebug("%d", findZeroesByMax(v, 0.03));
+    qDebug("%d", findZeroesByMax(v, 0.04));
+    qDebug("%d", findZeroesByMax(v, 0.08));
+    qDebug("%d", findZeroesByMax(v, 0.15));
+    qDebug("%d", findZeroesByAverages(v, 0.1));
+    qDebug("%d", findZeroesByAverages(v, 0.15));
+    qDebug("%d", findZeroesByAverages(v, 0.2));
+    qDebug("%d", findZeroesByAverages(v, 0.3));*/
+
+    vector<int> zMax, zAvg;
+    zMax.push_back(findZeroesByMax(v, 0.03, globalMax));
+    zMax.push_back(findZeroesByMax(v, 0.04, globalMax));
+    zMax.push_back(findZeroesByMax(v, 0.08, globalMax));
+    zMax.push_back(findZeroesByMax(v, 0.15, globalMax));
+    zAvg.push_back(findZeroesByAverages(v, 0.1));
+    zAvg.push_back(findZeroesByAverages(v, 0.15));
+    zAvg.push_back(findZeroesByAverages(v, 0.2));
+    zAvg.push_back(findZeroesByAverages(v, 0.3));
+    qDebug("%d,%d,%d,%d,%d,%d,%d,%d", zMax[0], zMax[1], zMax[2], zMax[3], zAvg[0], zAvg[1], zAvg[2], zAvg[3]);
+
+    int resMax (computeAvg(zMax)), resAvg(computeAvg(zAvg));
+    if (resMax == -1) {
+        return resAvg;
+    }
+    if (resAvg == -1) {
+        return resMax;
+    }
+    return min(resMax, resAvg);
+}
+
+#if 0
+void getDelayAndPadding(istream& in, streamoff nStreamSize, unsigned& nDelay, unsigned& nPadding)
+{
+    Mp3Decoder dec;
+    int globalMax;
+    vector<int16_t> vSamplesBeginLeft (0xfff), vSamplesBeginRight (0xfff), vSamplesEndLeft (0xfff), vSamplesEndRight (0xfff);
+    int nTotalSamples (dec.decode(in, nStreamSize, vSamplesBeginLeft, vSamplesBeginRight, vSamplesEndLeft, vSamplesEndRight, globalMax));
+
+    reverse(vSamplesEndLeft.begin(), vSamplesEndLeft.end());
+    reverse(vSamplesEndRight.begin(), vSamplesEndRight.end());
+
+    const int FRONT_ZEROES = 1105;
+    const int LAME_DELAY = 529;
+
+    {
+        computeZeroes(vSamplesBeginLeft, globalMax);
+        computeZeroes(vSamplesBeginRight, globalMax);
+        computeZeroes(vSamplesEndLeft, globalMax);
+        computeZeroes(vSamplesEndRight, globalMax);
+    }
+
+    int nDelay1 (-1);
+    if (!isQuiet(vSamplesBeginLeft)) {
+        nDelay1 = findZeroesByMax(vSamplesBeginLeft, 0.03, globalMax);
+        //CB_CHECK1a (approxEq(nDelay1, FRONT_ZEROES, 180), ZeroesNotFound);
+    }
+
+    int nDelay2 (-1);
+    if (!isQuiet(vSamplesBeginRight)) {
+        nDelay2 = findZeroesByMax(vSamplesBeginRight, 0.03, globalMax);
+        //CB_CHECK1a (approxEq(nDelay2, FRONT_ZEROES, 180), ZeroesNotFound);
+    }
+
+    nDelay = FRONT_ZEROES - LAME_DELAY;
+
+    int nPadding1 (-1), nRoundedPadding1 (-1);
+    if (!isQuiet(vSamplesEndLeft)) {
+        nPadding1 = findZeroesByMax(vSamplesEndLeft, 0.03, globalMax);
+        int nNonZeroSamples1 (nTotalSamples - FRONT_ZEROES - nPadding1);
+        nNonZeroSamples1 = (nNonZeroSamples1 + CD_SAMPLES_PER_FRAME/2) / CD_SAMPLES_PER_FRAME * CD_SAMPLES_PER_FRAME;
+        nRoundedPadding1 = nTotalSamples - FRONT_ZEROES - nNonZeroSamples1;
+        //CB_CHECK1a (approxEq(nRoundedPadding1, nPadding1, 150), ZeroesNotFound);
+    }
+
+    int nPadding2 (-1), nRoundedPadding2 (-1);
+    if (!isQuiet(vSamplesEndRight)) {
+        nPadding2 = findZeroesByMax(vSamplesEndRight, 0.03, globalMax);
+        int nNonZeroSamples2 (nTotalSamples - FRONT_ZEROES - nPadding2);
+        nNonZeroSamples2 = (nNonZeroSamples2 + CD_SAMPLES_PER_FRAME/2) / CD_SAMPLES_PER_FRAME * CD_SAMPLES_PER_FRAME;
+        nRoundedPadding2 = nTotalSamples - FRONT_ZEROES - nNonZeroSamples2;
+        //CB_CHECK1a (approxEq(nRoundedPadding2, nPadding2, 150), ZeroesNotFound);
+    }
+
+    qDebug("bytesProcessed=%ld, nTotalSamples=%d, nDelay1=%d, nDelay2=%d, nPadding1=%d, nPadding2=%d, nRoundedPadding1=%d, nRoundedPadding2=%d", nStreamSize, nTotalSamples, nDelay1, nDelay2, nPadding1, nPadding2, nRoundedPadding1, nRoundedPadding2);
+
+    if (nRoundedPadding1 == -1) {
+        if (nRoundedPadding2 == -1) {
+            int nNonZeroSamples (nTotalSamples - FRONT_ZEROES - 600); // "600" just to have something; since it's quite, the listener won't notice even if it's wrong
+            nNonZeroSamples = (nNonZeroSamples + CD_SAMPLES_PER_FRAME/2) / CD_SAMPLES_PER_FRAME * CD_SAMPLES_PER_FRAME;
+            int nRoundedPadding (nTotalSamples - FRONT_ZEROES - nNonZeroSamples);
+            nPadding = nRoundedPadding + LAME_DELAY;
+        } else {
+            nPadding = nRoundedPadding2 + LAME_DELAY;
+        }
+    } else {
+        //CB_CHECK1a (nRoundedPadding1 == nRoundedPadding2, ZeroesNotFound);
+        nPadding = min(nRoundedPadding1, nRoundedPadding2) + LAME_DELAY;
+    }
+
+}
+#endif
+
+
+void getDelayAndPadding(istream& in, streamoff nStreamSize, unsigned& nDelay, unsigned& nPadding)
+{
+    Mp3Decoder dec;
+    int globalMax;
+    vector<int16_t> vSamplesBeginLeft (0xfff), vSamplesBeginRight (0xfff), vSamplesEndLeft (0xfff), vSamplesEndRight (0xfff);
+    int nTotalSamples (dec.decode(in, nStreamSize, vSamplesBeginLeft, vSamplesBeginRight, vSamplesEndLeft, vSamplesEndRight, globalMax));
+
+    reverse(vSamplesEndLeft.begin(), vSamplesEndLeft.end());
+    reverse(vSamplesEndRight.begin(), vSamplesEndRight.end());
+
+    const int FRONT_ZEROES = 1105;
+    const int LAME_DELAY = 529;
+
+    int nDelay1 (-1);
+    if (!isQuiet(vSamplesBeginLeft)) {
+        nDelay1 = computeZeroes(vSamplesBeginLeft, globalMax);
+        CB_CHECK1a (nDelay1 == -1 || nDelay1 >= FRONT_ZEROES - 180, ZeroesNotFound);
+    }
+
+    int nDelay2 (-1);
+    if (!isQuiet(vSamplesBeginRight)) {
+        nDelay2 = computeZeroes(vSamplesBeginRight, globalMax);
+        CB_CHECK1a (nDelay2 == -1 || nDelay2 >= FRONT_ZEROES - 180, ZeroesNotFound);
+    }
+
+    nDelay = FRONT_ZEROES - LAME_DELAY;
+
+    int nPadding1 (-1), nRoundedPadding1 (-1);
+    if (!isQuiet(vSamplesEndLeft)) {
+        nPadding1 = computeZeroes(vSamplesEndLeft, globalMax);
+        if (nPadding1 != -1) {
+            int nNonZeroSamples1 (nTotalSamples - FRONT_ZEROES - nPadding1);
+            nNonZeroSamples1 = (nNonZeroSamples1 + CD_SAMPLES_PER_FRAME/2) / CD_SAMPLES_PER_FRAME * CD_SAMPLES_PER_FRAME;
+            nRoundedPadding1 = nTotalSamples - FRONT_ZEROES - nNonZeroSamples1;
+            CB_CHECK1a (approxEq(nRoundedPadding1, nPadding1, 150), ZeroesNotFound);
+        }
+    }
+
+    int nPadding2 (-1), nRoundedPadding2 (-1);
+    if (!isQuiet(vSamplesEndRight)) {
+        nPadding2 = computeZeroes(vSamplesEndRight, globalMax);
+        if (nPadding2 != -1) {
+            int nNonZeroSamples2 (nTotalSamples - FRONT_ZEROES - nPadding2);
+            nNonZeroSamples2 = (nNonZeroSamples2 + CD_SAMPLES_PER_FRAME/2) / CD_SAMPLES_PER_FRAME * CD_SAMPLES_PER_FRAME;
+            nRoundedPadding2 = nTotalSamples - FRONT_ZEROES - nNonZeroSamples2;
+            CB_CHECK1a (approxEq(nRoundedPadding2, nPadding2, 150), ZeroesNotFound);
+        }
+    }
+
+    qDebug("bytesProcessed=%ld, nTotalSamples=%d, nDelay1=%d, nDelay2=%d, nPadding1=%d, nPadding2=%d, nRoundedPadding1=%d, nRoundedPadding2=%d", nStreamSize, nTotalSamples, nDelay1, nDelay2, nPadding1, nPadding2, nRoundedPadding1, nRoundedPadding2);
+
+    if (nRoundedPadding1 == -1) {
+        if (nRoundedPadding2 == -1) {
+            int nNonZeroSamples (nTotalSamples - FRONT_ZEROES - 600); // "600" just to have something; since it's quite, the listener won't notice even if it's wrong
+            nNonZeroSamples = (nNonZeroSamples + CD_SAMPLES_PER_FRAME/2) / CD_SAMPLES_PER_FRAME * CD_SAMPLES_PER_FRAME;
+            int nRoundedPadding (nTotalSamples - FRONT_ZEROES - nNonZeroSamples);
+            nPadding = nRoundedPadding + LAME_DELAY;
+        } else {
+            nPadding = nRoundedPadding2 + LAME_DELAY;
+        }
+    } else {
+        //CB_CHECK1a (nRoundedPadding1 == nRoundedPadding2, ZeroesNotFound);
+        nPadding = min(nRoundedPadding1, nRoundedPadding2) + LAME_DELAY;
+    }
+
+}
+
+
+
+void createXing(const string& strFileName, streampos nStreamPos, ostream& out, const MpegFrame& frame, int nFrameCount, streamoff nStreamSize)
+{
+    qDebug("-------------------- %s -----------------", strFileName.c_str());
+    int nSize (frame.getSize());
+    out.write(frame.getHeader(), MpegFrame::MPEG_FRAME_HDR_SIZE);
+    int nSideInfoSize (frame.getSideInfoSize());
+    writeZeros(out, nSideInfoSize);
+    out.write("Xing\0\0\0\3", 8);
+    char bfr [4];
+    put32BitBigEndian(nFrameCount, bfr);
+    out.write(bfr, 4);
+    put32BitBigEndian(nStreamSize, bfr);
+    out.write(bfr, 4);
+    //writeZeros(out, nSize - MpegFrame::MPEG_FRAME_HDR_SIZE - nSideInfoSize - 8 - 4 - 4);
+
+    out.write("LAME3.92 ", 9);
+    out.write("\x0\x0", 2);
+    writeZeros(out, 8);
+    out.write("\x0\x0", 2);
+    //out.write("\x24\x04\x22", 3);
+    //out.write("\x24\x06\xb3", 3);
+
+    ifstream_utf8 in (strFileName.c_str(), ios::binary);
+    in.seekg(nStreamPos);
+
+    unsigned nDelay, nPadding;
+    getDelayAndPadding(in, nStreamSize, nDelay, nPadding);
+    qDebug("delay=%d, padding=%d", nDelay, nPadding);
+//nDelay -= 200;
+//nPadding -= 644;
+//qDebug("adjusted: delay=%d, padding=%d", nDelay, nPadding);
+    bfr[0] = nDelay >> 4;
+    bfr[1] = (nDelay << 4) ^ (nPadding >> 8);
+    bfr[2] = nPadding;
+    //out.write("\x24\x08\xc4", 3);
+    out.write(bfr, 3);
+    //out.write("\x45\0\0\0\0\x90\x72\x56\x3e\x5e\x58\xd2", 12); //ttt1 these should be included too
+    writeZeros(out, nSize - MpegFrame::MPEG_FRAME_HDR_SIZE - nSideInfoSize - 8 - 4 - 4 - 9 - 2 - 8 - 2 - 3);
+
+//CB_CHECK1 (false, DecodeError()); //ttt0
+
+    //ttt0 catch exceptions ...
+    CB_CHECK1 (out, WriteError());
+}
+#endif
+
+
+void MpegStream::createXing(const string& strFileName, std::streampos nStreamPos, ostream& out)
 {
     static const int MIN_FRAME_SIZE (200); // ttt2 this 200 is arbitrary, but there's probably enough room for TOC
     if (m_firstFrame.getSize() >= MIN_FRAME_SIZE)
     {
-        ::createXing(out, m_firstFrame, m_nFrameCount, getSize());
+        ::createXing(strFileName, nStreamPos, out, m_firstFrame, m_nFrameCount, getSize());
         return;
     }
 
@@ -352,7 +1293,7 @@ void MpegStream::createXing(ostream& out)
         MpegFrame frame (notes, in);
         if (frame.getSize() >= MIN_FRAME_SIZE)
         {
-            ::createXing(out, frame, m_nFrameCount, getSize());
+            ::createXing(strFileName, nStreamPos, out, frame, m_nFrameCount, getSize());
             return;
         }
     }
@@ -499,9 +1440,22 @@ LameStream::LameStream(int nIndex, NoteColl& notes, istream& in) : XingStreamBas
     in.seekg(m_pos);
 
     const int LAME_LABEL_SIZE (4);
-    //const int LAME_OFFS (156); // assumes a sideInfoSize of 32
     int nSideInfoSize (m_firstFrame.getSideInfoSize());
-    int LAME_OFFS (156 + nSideInfoSize - 32);
+    //int LAME_OFFS (156 + nSideInfoSize - 32);
+    int LAME_OFFS (12 + nSideInfoSize);
+    unsigned char cFlags (getFlags());
+    if ((cFlags & 0x01) != 0) {
+        LAME_OFFS += 4;
+    }
+    if ((cFlags & 0x02) != 0) {
+        LAME_OFFS += 4;
+    }
+    if ((cFlags & 0x04) != 0) {
+        LAME_OFFS += 100;
+    }
+    if ((cFlags & 0x08) != 0) {
+        LAME_OFFS += 4;
+    }
     const int BFR_SIZE (LAME_OFFS + LAME_LABEL_SIZE); // MPEG header + side info + "Xing" size //ttt2 not sure if space for CRC16 should be added; then not sure if frame size should be increased by 2 when CRC is found
     char bfr [BFR_SIZE];
 

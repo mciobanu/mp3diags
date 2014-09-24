@@ -313,8 +313,8 @@ src/Mp3TransformThread.cpp	f	2014-09-24T20:52:21Z
 src/Mp3TransformThread.h	f	2014-09-24T08:48:58Z
 src/MpegFrame.cpp	f	2012-03-03T15:55:53Z
 src/MpegFrame.h	f	2010-12-05T10:25:54Z
-src/MpegStream.cpp	f	2014-09-22T15:42:51Z
-src/MpegStream.h	f	2012-02-19T20:36:57Z
+src/MpegStream.cpp	f	2014-09-24T20:14:30Z
+src/MpegStream.h	f	2014-09-24T08:20:56Z
 src/MultiLineTvDelegate.cpp	f	2009-11-04T10:50:13Z
 src/MultiLineTvDelegate.h	f	2009-10-13T11:33:20Z
 src/MusicBrainzDownloader.cpp	f	2012-03-04T12:39:55Z
@@ -353,7 +353,7 @@ src/StoredSettings.cpp	f	2012-01-25T22:17:31Z
 src/StoredSettings.h	f	2012-02-06T23:03:21Z
 src/StreamsModel.cpp	f	2012-03-03T06:59:47Z
 src/StreamsModel.h	f	2009-05-06T07:32:41Z
-src/StructuralTransformation.cpp	f	2012-01-28T19:41:36Z
+src/StructuralTransformation.cpp	f	2014-09-24T20:54:52Z
 src/StructuralTransformation.h	f	2012-02-19T08:11:07Z
 src/TagEditor.ui	f	2012-01-02T10:05:18Z
 src/TagEditorDlgImpl.cpp	f	2014-07-17T08:12:57Z
@@ -442,7 +442,7 @@ src/licences/lgpl-2.1.txt	f	2009-05-14T11:38:15Z
 src/licences/lgplv3.txt	f	2008-11-14T09:24:41Z
 src/licences/zlib.txt	f	2009-05-14T11:42:40Z
 src/main.cpp	f	2014-01-16T17:56:46Z
-src/src.pro	f	2013-03-31T18:37:08Z
+src/src.pro	f	2014-09-24T21:01:17Z
 src/translations/autoTransl/MixedCase.cpp	f	2012-02-29T21:51:40Z
 src/translations/mp3diags_cs.ts	f	2014-01-16T13:00:34Z
 src/translations/mp3diags_de_DE.ts	f	2014-01-16T13:00:34Z

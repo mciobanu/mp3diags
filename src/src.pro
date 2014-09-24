@@ -160,17 +160,21 @@ UI_DIR = ui-forms
 #DEFINES += DISABLE_CHECK_FOR_UPDATES
 #DEFINES += OS2
 
-
-QMAKE_CXXFLAGS_DEBUG += -DGENERATE_TOC_zz
+# GENERATE_TOC and GAPLESS_SUPPORT are not independent (though perhaps they should be), so GAPLESS_SUPPORT is ignored if GENERATE_TOC is set
+# GAPLESS_SUPPORT also need LAME library
+#QMAKE_CXXFLAGS_DEBUG += -DGENERATE_TOC
+#QMAKE_CXXFLAGS_DEBUG += -DGAPLESS_SUPPORT
 
 LIBS += -lz \
   -lboost_serialization-mt \
-  -lboost_program_options-mt \
-  -lmp3lame
+  -lboost_program_options-mt
+
+#LIBS += -lmp3lame
 
 
 TRANSLATIONS = translations/mp3diags_cs.ts \
     translations/mp3diags_de_DE.ts \
     translations/mp3diags_fr_FR.ts
+
 
 

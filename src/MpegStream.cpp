@@ -992,7 +992,7 @@ LameStream::LameStream(int nIndex, NoteColl& notes, istream& in) : XingStreamBas
         LAME_OFFS += 4;
     }
     const int BFR_SIZE (LAME_OFFS + LAME_LABEL_SIZE); // MPEG header + side info + "Xing" size //ttt2 not sure if space for CRC16 should be added; then not sure if frame size should be increased by 2 when CRC is found
-    char bfr [BFR_SIZE];
+    char bfr [200]; // MSVC wants size to be a compile-time constant, so just use something bigger
 
     MP3_CHECK_T (BFR_SIZE <= m_firstFrame.getSize(), m_pos, "Not a LAME stream. This kind of MPEG audio doesn't support LAME.", NotLameStream()); // !!! some kinds of MPEG audio have very short frames, which can't accomodate a VBRI header
 

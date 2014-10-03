@@ -66,15 +66,15 @@ void assertBreakpoint()
 }
 
 CbException::CbException(std::string strMsg, const char* szFile, int nLine) {
-    char a [strMsg.size() + strlen(szFile + 20)];
-    sprintf(a, "%s [%s/%d]", strMsg.c_str(), szFile, nLine);
-    m_strMsg = a;
+    vector<char> a (strMsg.size() + strlen(szFile) + 20);
+    sprintf(&a[0], "%s [%s/%d]", strMsg.c_str(), szFile, nLine);
+    m_strMsg = &a[0];
 }
 
 CbException::CbException(std::string strMsg, const char* szFile, int nLine, const CbException& cause) {
-    char a [strMsg.size() + strlen(szFile + cause.m_strMsg.length() + 40)];
-    sprintf(a, "%s [%s/%d] / Caused by: %s", cause.m_strMsg.c_str(), szFile, nLine, cause.what());
-    m_strMsg = a;
+    vector<char> a (strMsg.size() + strlen(szFile) + cause.m_strMsg.length() + 40);
+    sprintf(&a[0], "%s [%s/%d] / Caused by: %s", cause.m_strMsg.c_str(), szFile, nLine, cause.what());
+    m_strMsg = &a[0];
 }
 
 

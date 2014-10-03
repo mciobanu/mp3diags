@@ -3558,3 +3558,20 @@ Note the use of QLibraryInfo::location() to locate the Qt translations. Develope
 //ttt1 switch to album mode and move between folders that need/don't need scrollbar; the horizontal resizing doesn't work well, so many times there is either a scrollbar or empty space
 
 //ttt0 screenshots for language selection
+
+//ttt0 once sessions have been enabled, all new sessions should have them; or better - this should be a global setting
+//ttt0 the warnings about changes, backing up, notifying about new versions, ... should also be global or at least copied; especially annoying when using shell integration
+
+//ttt0 the .deb installs translations for stable to unstable: for i in `dpkg -L mp3diags` ; do if [ -f $i ] ; then ls -l $i ; fi ; done
+
+//ttt2 https://sourceforge.net/p/mp3diags/discussion/947206/thread/1f7a776e/
+
+//ttt0 1x1 images from MusicBrainz, due to http://images.amazon.com/images/P/B00AD2IYNK.01.LZZZZZZZ.jpg no longer being there (this ASIN is .fr only)
+
+//ttt0 amarok fail in /d/test_mp3/1/tmp2/crt_test/Amarok-errors
+
+//ttt0 warning that rebuilding VBR info breaks gapless play
+
+//ttt2 individual color for each note
+//ttt2 copy ID3V2 to ID3V1
+

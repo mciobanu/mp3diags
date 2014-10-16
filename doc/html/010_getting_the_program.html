@@ -289,7 +289,7 @@ First you need to download and perhaps compile the required libraries: zlib, Qt,
 
 
 <div class="NormalText RegFnt ChpCol1">
-Well, you need binary zlib, Qt, and Boost for either MinGW or Visual C++. If you can find binaries - fine. Otherwise you'll have to build some of these from sources. These are the options for building MP3 Diags on Windows, based on what you have available:
+Well, you need binary zlib, Qt, and Boost for either MinGW or Visual C++. If you can find binaries - fine. Otherwise you'll have to build from sources what's missing. These are the options for building MP3 Diags on Windows, based on what you have available:
 </div>
 
 
@@ -314,7 +314,19 @@ Well, you need binary zlib, Qt, and Boost for either MinGW or Visual C++. If you
     </tr>
 
     <tr>
-        <td>Boost for MinGW</td>
+        <td>Boost sources 1.47 and above for MinGW</td>
+        <td>
+            <ul>
+                <li>Go to <a href="http://www.boost.org/users/download/" onClick="javascript: pageTracker._trackPageview('/boost/mingw');">http://www.boost.org/users/download/</a> and click on "Download". Unpack the archive in the folder where you want Boost to be located</li>
+                <li>Open a <b>Qt Command Prompt</b> and go to the Boost root folder</li>
+                <li>run <span class="Reference">bootstrap</span>
+                <li>run <span class="Reference">b2 toolset=gcc serialization program_options threading=multi release</span> . This will only build the <i>Serialization</i> and <i>Program Options</i> libraries, and put them inside a "bin.v2" folder</li>
+            </ul>
+        </td>
+    </tr>
+
+    <tr>
+        <td>Boost sources up to 1.46 for MinGW</td>
         <td>
             <ul>
                 <li>Go to <a href="http://www.boost.org/users/download/" onClick="javascript: pageTracker._trackPageview('/boost/mingw');">http://www.boost.org/users/download/</a> and click on "Download". Unpack the archive in the folder where you want Boost to be located</li>
@@ -351,7 +363,28 @@ Well, you need binary zlib, Qt, and Boost for either MinGW or Visual C++. If you
     </tr>
 
     <tr>
-        <td>Boost for Visual C++</td>
+        <td>Boost binaries for Visual C++</td>
+        <td>
+            <ul>
+                <li>Go to <a href="https://sourceforge.net/projects/boost/files/boost-binaries/" onClick="javascript: pageTracker._trackPageview('/boost/msvc_bin');">https://sourceforge.net/projects/boost/files/boost-binaries/</a> and download the package corresponding to your compiler. Unpack the archive in the folder where you want Boost to be located</li>
+            </ul>
+        </td>
+    </tr>
+
+    <tr>
+        <td>Boost sources 1.47 and above for Visual C++</td>
+        <td>
+            <ul>
+                <li>Go to <a href="http://www.boost.org/users/download/" onClick="javascript: pageTracker._trackPageview('/boost/msvc');">http://www.boost.org/users/download/</a> and click on "Download". Unpack the archive in the folder where you want Boost to be located</li>
+                <li>Open a <b>Visual C++ Command Prompt</b> and go to the Boost root folder</li>
+                <li>run <span class="Reference">bootstrap</span>
+                <li>run <span class="Reference">b2 toolset=msvc serialization program_options threading=multi release debug</span> . This will only build the <i>Serialization</i> and <i>Program Options</i> libraries, and put them inside a "bin.v2" folder</li>
+            </ul>
+        </td>
+    </tr>
+
+    <tr>
+        <td>Boost sources up to 1.46 for Visual C++</td>
         <td>
             <ul>
                 <li>Go to <a href="http://www.boost.org/users/download/" onClick="javascript: pageTracker._trackPageview('/boost/msvc');">http://www.boost.org/users/download/</a> and click on "Download". Unpack the archive in the folder where you want Boost to be located</li>
@@ -400,7 +433,7 @@ The source code may also be downloaded from the Subversion server provided by So
 </div>
 
 <div class="NormalText RegFnt ChpCol2 GenericSpace">
-<span class="Reference">svn checkout svn://svn.code.sf.net/p/mp3diags/code/ mp3diags-code</span>
+<span class="Reference">svn checkout svn://svn.code.sf.net/p/mp3diags/code/trunk/mp3diags mp3diags</span>
 </div>
 
 <div class="NormalText RegFnt ChpCol2">

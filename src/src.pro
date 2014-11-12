@@ -58,7 +58,8 @@ SOURCES +=  \
  ExportDlgImpl.cpp \
  SerSupport.cpp \
   FullSizeImgDlg.cpp \
-    Translation.cpp
+    Translation.cpp \
+    CbException.cpp
 TEMPLATE = app
 CONFIG += warn_on \
 	  thread \
@@ -131,7 +132,8 @@ Widgets.h \
  ExportDlgImpl.h \
  FullSizeImgDlg.h \
  Version.h \
-    Translation.h
+    Translation.h \
+    CbException.h
 FORMS += About.ui \
 AlbumInfoDownloader.ui \
 Config.ui \

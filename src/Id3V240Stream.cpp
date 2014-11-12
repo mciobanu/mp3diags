@@ -304,7 +304,7 @@ string Id3V240Frame::getUtf8StringImpl() const
     // or perhaps forget these and throw exceptions that have error messages, catch them and log/show dialogs
     // 2008.07.12 - actually all these proposals don't seem to work well: the callers don't catch the exceptions thrown here and wouldn't know what to do with them; there's no good place to display the errors (the end user isn't supposed to look at logs); it seems better to not throw, but return a string describing the problem;
     // 2008.07.12 - on a second thought - throw but call this on the constructor, where it can be logged properly; if it worked on the constructor it should work later too
-    CB_CHECK1 (m_nMemDataSize > 0, NotId3V2Frame());
+    CB_CHECK (m_nMemDataSize > 0, NotId3V2Frame);
     Id3V2FrameDataLoader wrp (*this);
     const char* pData (wrp.getData()); //ttt2 from http://www.id3.org/id3v2.4.0-frames - All text information frames supports multiple strings, stored as a null separated list
 
@@ -342,10 +342,10 @@ string Id3V240Frame::getUtf8StringImpl() const
     {
         if (2 == pData[0])
         {
-            CB_THROW1 (UnsupportedId3V2Frame()); //ttt2 add support for UTF-16BE (2 = "UTF-16BE [UTF-16] encoded Unicode [UNICODE] without BOM");
+            CB_TRACE_AND_THROW (UnsupportedId3V2Frame); //ttt2 add support for UTF-16BE (2 = "UTF-16BE [UTF-16] encoded Unicode [UNICODE] without BOM");
         }
 
-        CB_THROW1 (NotId3V2Frame());
+        CB_TRACE_AND_THROW (NotId3V2Frame);
     }
 
     { // deal with nulls

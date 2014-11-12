@@ -112,7 +112,7 @@ Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const Q
         qDebug("Couldn't open file \"%s\"", strFileName.c_str());
         //inspect(strFileName.c_str(), cSize(strFileName) + 1);
         trace("Couldn't open file: " + strFileName);
-        CB_THROW1(FileNotFound());
+        CB_TRACE_AND_THROW(FileNotFound);
     }
     //TRACER1A("Mp3Handler constr ", 2);
 
@@ -864,8 +864,15 @@ void Mp3Handler::reloadId3V2Hlp()
         pNewId3V2 = new Id3V230Stream(0, m_notes, in, m_pFileName);
     }
     catch (const std::bad_alloc&) { throw; }
+    catch (const exception& ex)
+    {
+        LAST_STEP1("Mp3Handler::reloadId3V2Hlp()", 1);
+        LAST_STEP1(ex.what(), 2);
+        STRM_ASSERT (false);
+    }
     catch (...)
     {
+        LAST_STEP("Mp3Handler::reloadId3V2Hlp() - unknown exception");
         STRM_ASSERT (false);
     }
 
@@ -915,7 +922,7 @@ streampos getNextStream(istream& in, streampos pos)
         int nRead (read(in, bfr, BFR_SIZE));
         if (0 == nRead)
         {
-            throw EndOfFile();
+            CB_THROW(EndOfFile);
         }
 
         for (i = 0; i < nRead; ++i)

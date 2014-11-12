@@ -425,7 +425,7 @@ public:
 
     void init(std::string strVal); // if strVal is invalid it clears m_strVal, m_strYear and m_strDayMonth and throws InvalidTime; the constructors call this too and let the exceptions propagate
 
-    struct InvalidTime {};
+    DEFINE_CB_EXCP(InvalidTime);
 };
 
 

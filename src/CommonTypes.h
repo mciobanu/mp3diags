@@ -29,7 +29,7 @@
 //#include  <QByteArray> // ttt2 see why this includes QByteRef, which gives warnings for lots of functions returning "const char" or "const bool", saying that "const" is going to be ignored; perhaps #define something before "//#include  <QByteArray>"; QtGui and QPixmap avoid this issue, but take longer
 #include  <QPixmap>
 
-
+#include  "CbException.h"
 
 //#include  <iosfwd>
 
@@ -135,7 +135,7 @@ struct ExternalToolInfo
     std::string asString();
     static QString launchOptionAsTranslatedString(LaunchOption);
 
-    struct InvalidExternalToolInfo {};
+    DEFINE_CB_EXCP(InvalidExternalToolInfo);
 private:
     static char s_cSeparator;
 };

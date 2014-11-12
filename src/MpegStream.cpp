@@ -315,7 +315,7 @@ void createXing(ostream& out, const MpegFrame& frame1, int nFrameCount, streamof
         out.write(bfr, 1);
     }
     writeZeros(out, nSize - MpegFrame::MPEG_FRAME_HDR_SIZE - nSideInfoSize - 8 - 4 - 4 - 100);
-    CB_CHECK1 (out, WriteError());
+    CB_OLD_CHECK1 (out, WriteError());
 }
 #else // changes made while playing with gapless; later it turned out that various fields that have values copied from some file in the code below can actually be left as zero (at least LAME decodes them and players play them)
 void createXing(ostream& out, const MpegFrame& frame1, int nFrameCount, streamoff nStreamSize)
@@ -351,7 +351,7 @@ void createXing(ostream& out, const MpegFrame& frame1, int nFrameCount, streamof
     out.write("\x45\0\0\0\0\x90\x72\x56\x3e\x5e\x58\xd2", 12);
 
     writeZeros(out, nSize - MpegFrame::MPEG_FRAME_HDR_SIZE - nSideInfoSize - 8 - 4 - 4 - 100 - 4 - 9 - 2 - 8 - 2 - 3 - 12);
-    CB_CHECK1 (out, WriteError());
+    CB_OLD_CHECK1 (out, WriteError());
 }
 
 #endif
@@ -426,9 +426,9 @@ void Mp3Decoder::decode3(istream& in, streamoff nStreamSize) {
         nRead = read(in, (char*)(&bfr[HDR_SIZE]), frameSize - HDR_SIZE);
         nRead += HDR_SIZE;
         nStreamSize -= nRead;
-        CB_CHECK1a(nRead == frameSize || nStreamSize == 0, DecodeError);
+        CB_OLD_CHECK1a(nRead == frameSize || nStreamSize == 0, DecodeError);
         int nSamples (hip_decode(lameWrp.m_pHip, &bfr[0], frameSize, &pcmBfrL[0], &pcmBfrR[0]));
-        CB_CHECK1a(nSamples >= 0, DecodeError);
+        CB_OLD_CHECK1a(nSamples >= 0, DecodeError);
         if (nSamples > 0) {
             outL.write((const char*)(&pcmBfrL[0]), nSamples * 2);
             outR.write((const char*)(&pcmBfrR[0]), nSamples * 2);
@@ -444,7 +444,7 @@ int Mp3Decoder::decode(istream& in, streamoff nStreamSize, vector<int16_t>& vSam
 
     //decode3(in, nStreamSize);
     globalMax = 0;
-    CB_CHECK1a (vSamplesBeginLeft.size() == vSamplesBeginRight.size() && vSamplesEndLeft.size() == vSamplesEndRight.size(), DecodeError);
+    CB_OLD_CHECK1a (vSamplesBeginLeft.size() == vSamplesBeginRight.size() && vSamplesEndLeft.size() == vSamplesEndRight.size(), DecodeError);
     vector<int16_t> vLeftPcmBuffer (MPEG_SAMPLES_PER_FRAME * 2000);
     vector<int16_t> vRightPcmBuffer (MPEG_SAMPLES_PER_FRAME * 2000);
     uint nPcmBufferSampleCount (0); // number of samples in the PCM buffers
@@ -465,9 +465,9 @@ int Mp3Decoder::decode(istream& in, streamoff nStreamSize, vector<int16_t>& vSam
     {
         streamsize nToRead (min((size_t)nStreamSize, m_vcMp3Bfr.size() - nMp3BfrFirstFree));
         streamsize nRead (read(in, (char*)(&m_vcMp3Bfr[nMp3BfrFirstFree]), nToRead));
-        CB_CHECK1a (nToRead == nRead, DecodeError);
+        CB_OLD_CHECK1a (nToRead == nRead, DecodeError);
         nStreamSize -= nRead;
-        CB_CHECK1a(nStreamSize == 0 || nRead > 0, DecodeError);
+        CB_OLD_CHECK1a(nStreamSize == 0 || nRead > 0, DecodeError);
         for (;;)
         {
             NoteColl noteColl;
@@ -488,7 +488,7 @@ int Mp3Decoder::decode(istream& in, streamoff nStreamSize, vector<int16_t>& vSam
                 globalMax = max(max(globalMax, abs((int)vLeftPcmBuffer[nPcmBufferSampleCount + i])), abs((int)vRightPcmBuffer[nPcmBufferSampleCount + i]));
             }
 
-            CB_CHECK1a(nSamples >= 0, DecodeError);
+            CB_OLD_CHECK1a(nSamples >= 0, DecodeError);
             nPcmBufferSampleCount += nSamples;
 
             if (!bCopiedFirst && nPcmBufferSampleCount >= vSamplesBeginLeft.size())
@@ -520,15 +520,15 @@ int Mp3Decoder::decode(istream& in, streamoff nStreamSize, vector<int16_t>& vSam
         if (nStreamSize > 0)
         { // more data should be read; move the frame fragment at the end to the beginning and continue
             nMp3BfrFirstFree = m_vcMp3Bfr.size() - nCrtFrameAddr;
-            CB_CHECK1a (nMp3BfrFirstFree <= MAX_FRAME_SIZE, DecodeError);
+            CB_OLD_CHECK1a (nMp3BfrFirstFree <= MAX_FRAME_SIZE, DecodeError);
             copy(m_vcMp3Bfr.begin() + nCrtFrameAddr, m_vcMp3Bfr.end(), m_vcMp3Bfr.begin());
             nCrtFrameAddr = 0;
             nMp3BfrOffset += m_vcMp3Bfr.size() - nMp3BfrFirstFree;
         }
     }
 
-    CB_CHECK1a (bCopiedFirst, DecodeError);
-    CB_CHECK1a (nPcmBufferSampleCount >= vSamplesEndLeft.size(), DecodeError);
+    CB_OLD_CHECK1a (bCopiedFirst, DecodeError);
+    CB_OLD_CHECK1a (nPcmBufferSampleCount >= vSamplesEndLeft.size(), DecodeError);
     copy(vLeftPcmBuffer.begin() + nPcmBufferSampleCount - vSamplesEndLeft.size(), vLeftPcmBuffer.begin() + nPcmBufferSampleCount, vSamplesEndLeft.begin());
     copy(vRightPcmBuffer.begin() + nPcmBufferSampleCount - vSamplesEndRight.size(), vRightPcmBuffer.begin() + nPcmBufferSampleCount, vSamplesEndRight.begin());
 
@@ -681,13 +681,13 @@ void getDelayAndPadding(istream& in, streamoff nStreamSize, unsigned& nDelay, un
     int nDelay1 (-1);
     if (!isQuiet(vSamplesBeginLeft)) {
         nDelay1 = computeZeroes(vSamplesBeginLeft, globalMax);
-        CB_CHECK1a (nDelay1 == -1 || nDelay1 >= FRONT_ZEROES - 180, ZeroesNotFound); // the first 1105 samples were supposed to be zero
+        CB_OLD_CHECK1a (nDelay1 == -1 || nDelay1 >= FRONT_ZEROES - 180, ZeroesNotFound); // the first 1105 samples were supposed to be zero
     }
 
     int nDelay2 (-1);
     if (!isQuiet(vSamplesBeginRight)) {
         nDelay2 = computeZeroes(vSamplesBeginRight, globalMax);
-        CB_CHECK1a (nDelay2 == -1 || nDelay2 >= FRONT_ZEROES - 180, ZeroesNotFound);
+        CB_OLD_CHECK1a (nDelay2 == -1 || nDelay2 >= FRONT_ZEROES - 180, ZeroesNotFound);
     }
 
     nDelay = FRONT_ZEROES - LAME_DELAY;
@@ -699,7 +699,7 @@ void getDelayAndPadding(istream& in, streamoff nStreamSize, unsigned& nDelay, un
             int nNonZeroSamples1 (nTotalSamples - FRONT_ZEROES - nPadding1);
             nNonZeroSamples1 = (nNonZeroSamples1 + CD_SAMPLES_PER_FRAME/2) / CD_SAMPLES_PER_FRAME * CD_SAMPLES_PER_FRAME;
             nRoundedPadding1 = nTotalSamples - FRONT_ZEROES - nNonZeroSamples1;
-            //CB_CHECK1a (approxEq(nRoundedPadding1, nPadding1, 150), ZeroesNotFound); //ttt2 maybe put this back and do more testing; the thing is it is possible that there is no fadeout and the sound really stops 2000 samples before the end, with no relation to the CD frames
+            //CB_OLD_CHECK1a (approxEq(nRoundedPadding1, nPadding1, 150), ZeroesNotFound); //ttt2 maybe put this back and do more testing; the thing is it is possible that there is no fadeout and the sound really stops 2000 samples before the end, with no relation to the CD frames
             if (!approxEq(nRoundedPadding1, nPadding1, 150)) {
                 nRoundedPadding1 = -1;
             }
@@ -713,7 +713,7 @@ void getDelayAndPadding(istream& in, streamoff nStreamSize, unsigned& nDelay, un
             int nNonZeroSamples2 (nTotalSamples - FRONT_ZEROES - nPadding2);
             nNonZeroSamples2 = (nNonZeroSamples2 + CD_SAMPLES_PER_FRAME/2) / CD_SAMPLES_PER_FRAME * CD_SAMPLES_PER_FRAME;
             nRoundedPadding2 = nTotalSamples - FRONT_ZEROES - nNonZeroSamples2;
-            //CB_CHECK1a (approxEq(nRoundedPadding2, nPadding2, 150), ZeroesNotFound);
+            //CB_OLD_CHECK1a (approxEq(nRoundedPadding2, nPadding2, 150), ZeroesNotFound);
             if (!approxEq(nRoundedPadding2, nPadding2, 150)) {
                 nRoundedPadding2 = -1;
             }
@@ -732,7 +732,7 @@ void getDelayAndPadding(istream& in, streamoff nStreamSize, unsigned& nDelay, un
             nPadding = nRoundedPadding2 + LAME_DELAY;
         }
     } else {
-        //CB_CHECK1a (nRoundedPadding1 == nRoundedPadding2, ZeroesNotFound);
+        //CB_OLD_CHECK1a (nRoundedPadding1 == nRoundedPadding2, ZeroesNotFound);
         nPadding = min(nRoundedPadding1, nRoundedPadding2) + LAME_DELAY;
     }
 
@@ -781,10 +781,10 @@ void createXing(const string& strFileName, streampos nStreamPos, ostream& out, c
     //out.write("\x45\0\0\0\0\x90\x72\x56\x3e\x5e\x58\xd2", 12); //ttt1 these should be included too
     writeZeros(out, nSize - MpegFrame::MPEG_FRAME_HDR_SIZE - nSideInfoSize - 8 - 4 - 4 - 9 - 2 - 8 - 2 - 3);
 
-//CB_CHECK1 (false, DecodeError()); //ttt0
+//CB_OLD_CHECK1 (false, DecodeError()); //ttt0
 
     //ttt0 catch exceptions ...
-    CB_CHECK1 (out, WriteError());
+    CB_OLD_CHECK1 (out, WriteError()); //ttt0 refactor CB_OLD_CHECK1
 }
 
 #else // #ifdef GENERATE_TOC  / #elif defined(GAPLESS_SUPPORT)
@@ -802,7 +802,7 @@ void createXing(const string& /*strFileName*/, streampos /*nStreamPos*/, ostream
     put32BitBigEndian(nStreamSize, bfr);
     out.write(bfr, 4);
     writeZeros(out, nSize - MpegFrame::MPEG_FRAME_HDR_SIZE - nSideInfoSize - 8 - 4 - 4);
-    CB_CHECK1 (out, WriteError());
+    CB_CHECK (out, WriteError);
 }
 #endif
 
@@ -1157,7 +1157,7 @@ Id3V1Stream::Id3V1Stream(int nIndex, NoteColl& notes, istream& in) : DataStream(
 /*override*/ void Id3V1Stream::copy(std::istream&, std::ostream& out)
 {
     out.write(m_data, 128);
-    CB_CHECK1 (out, WriteError());
+    CB_CHECK (out, WriteError);
 }
 
 

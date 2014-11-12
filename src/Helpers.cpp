@@ -65,18 +65,6 @@ void assertBreakpoint()
     //qDebug("assert");
 }
 
-CbException::CbException(std::string strMsg, const char* szFile, int nLine) {
-    vector<char> a (strMsg.size() + strlen(szFile) + 20);
-    sprintf(&a[0], "%s [%s/%d]", strMsg.c_str(), szFile, nLine);
-    m_strMsg = &a[0];
-}
-
-CbException::CbException(std::string strMsg, const char* szFile, int nLine, const CbException& cause) {
-    vector<char> a (strMsg.size() + strlen(szFile) + cause.m_strMsg.length() + 40);
-    sprintf(&a[0], "%s [%s/%d] / Caused by: %s", cause.m_strMsg.c_str(), szFile, nLine, cause.what());
-    m_strMsg = &a[0];
-}
-
 
 void appendFilePart(istream& in, ostream& out, streampos pos, streamoff nSize)
 {
@@ -88,7 +76,7 @@ void appendFilePart(istream& in, ostream& out, streampos pos, streamoff nSize)
     for (; nSize > 0;)
     {
         streamoff nCrtRead (nSize > BFR_SIZE ? BFR_SIZE : nSize);
-        CB_CHECK1 (nCrtRead == read(in, pBfr, nCrtRead), EndOfFile());
+        CB_CHECK (nCrtRead == read(in, pBfr, nCrtRead), EndOfFile);
         out.write(pBfr, nCrtRead);
 
         nSize -= nCrtRead;
@@ -99,7 +87,7 @@ void appendFilePart(istream& in, ostream& out, streampos pos, streamoff nSize)
         TRACER("appendFilePart() failed");
     }
 
-    CB_CHECK1 (out, WriteError());
+    CB_CHECK (out, WriteError);
 }
 
 
@@ -697,7 +685,7 @@ void writeZeros(ostream& out, int nCnt)
         out.write(&c, 1);
     }
 
-    CB_CHECK1 (out, WriteError());
+    CB_CHECK (out, WriteError);
 }
 
 
@@ -815,8 +803,8 @@ DesktopDetector::DesktopDetector() : m_eDesktop(Unknown)
                 cout << endl;
 
 #endif
-                char szBfr[5000] = "mP3DiAgS";
-                szBfr[0] = 0;
+                //char szBfr[5000] = "mP3DiAgS";
+                //szBfr[0] = 0;
 
 
                 strCmdLineName += "/cmdline";
@@ -1290,6 +1278,10 @@ const string& getDesktopIntegrationDir()
         {
             createDir(s_s);
         }
+        catch (const exception& ex)
+        {
+            cerr << "failed to create dir " << s_s << "; reason: " << ex.what() << endl;
+        }
         catch (...)
         { // nothing; this will cause shell integration to be disabled
             cerr << "failed to create dir " << s_s << endl;
@@ -1422,6 +1414,9 @@ public:
             try
             {
                 deleteFile(m_strFileName);
+            }
+            catch (const exception&)
+            { //ttt2 do something
             }
             catch (...)
             { //ttt2 do something

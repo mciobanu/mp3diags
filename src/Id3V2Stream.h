@@ -73,8 +73,8 @@ public:
 
     virtual bool discardOnChange() const = 0; // ttt2 should distinguish between audio and ID3V2 change, should be called when audio is changed, ...
 
-    struct NotId3V2Frame {};
-    struct UnsupportedId3V2Frame {};
+    DEFINE_CB_EXCP(NotId3V2Frame);
+    DEFINE_CB_EXCP(UnsupportedId3V2Frame);
 
     enum ApicStatus { NO_APIC, ERR, USES_LINK, NON_COVER, COVER }; // !!! the reason "ERR" is used (and not "ERROR") is that "ERROR" is a macro in MSVC
     ApicStatus m_eApicStatus;
@@ -321,7 +321,7 @@ struct KnownFrames
 
     static const char* LBL_TXXX();
 
-    struct InvalidIndex {};
+    DEFINE_CB_EXCP(InvalidIndex);
 
     static const char* getFrameName (int n); // throws InvalidIndex if n is out of bounds
     static const std::set<std::string>& getExcludeFromInfoFrames(); // frames that shouldn't be part of "other info"; doesn't include TXXX and "Various Artists" frames

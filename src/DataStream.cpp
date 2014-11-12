@@ -195,7 +195,7 @@ e1:
     }
 
     out.write(bfr, n);
-    CB_CHECK1 (out, WriteError());
+    CB_CHECK (out, WriteError);
 }
 
 
@@ -282,19 +282,19 @@ void TagTimestamp::init(std::string s)
     }
 
     static const char* szPatt ("****-**-** **:**:**X"); // 'X' is needed to avoid checking indexes
-    CB_CHECK1 (n <= 19, InvalidTime());
-    CB_CHECK1 (0 == n || '*' != szPatt[n], InvalidTime());
+    CB_CHECK (n <= 19, InvalidTime);
+    CB_CHECK (0 == n || '*' != szPatt[n], InvalidTime);
 
     for (int i = 0; i < n; ++i)
     {
         char c (szPatt[i]);
         if ('*' == c)
         {
-            CB_CHECK1 (isdigit(s[i]), InvalidTime());
+            CB_CHECK (isdigit(s[i]), InvalidTime);
         }
         else
         {
-            CB_CHECK1 (szPatt[i] == s[i], InvalidTime());
+            CB_CHECK (szPatt[i] == s[i], InvalidTime);
         }
     }
 

@@ -32,6 +32,7 @@
 
 #include  "Notes.h"
 #include  "ThreadRunnerDlgImpl.h"
+#include  "CbException.h"
 
 class Id3V2StreamBase;
 class Id3V230Stream;
@@ -153,7 +154,7 @@ public:
     mutable long long m_nFastSaveTime;
     enum { DONT_USE_FAST_SAVE, USE_FAST_SAVE };
 
-    struct FileNotFound {};
+    DEFINE_CB_EXCP(FileNotFound);
 
 private:
     friend class boost::serialization::access;

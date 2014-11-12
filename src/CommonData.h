@@ -124,12 +124,12 @@ public:
         for (typename T::const_iterator it = coll.begin(), end = coll.end(); it != end; ++it)
         {
             int nPos (getPos(*it));
-            CB_CHECK1 (-1 != nPos, NoteNotFound());
+            CB_CHECK (-1 != nPos, NoteNotFound);
             m_spFlt.insert(get(nPos));
         }
     }
 
-    struct NoteNotFound {};
+    DEFINE_CB_EXCP(NoteNotFound);
 
     int getFltCount() const { return cSize(m_spFlt); }
     const Note* getFlt(int n) const;

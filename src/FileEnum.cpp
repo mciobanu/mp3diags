@@ -122,18 +122,18 @@ void DirTreeEnumerator::DirTreeEnumeratorImpl::reset(const vector<string>& vstrI
 
     vector<string> v;
     set_intersection(m_sstrIncludeDirs.begin(), m_sstrIncludeDirs.end(), m_sstrExcludeDirs.begin(), m_sstrExcludeDirs.end(), back_inserter(v));
-    CB_CHECK1 (vstrIncludeDirs.size() + vstrExcludeDirs.size() == m_sstrIncludeDirs.size() + m_sstrExcludeDirs.size() && v.empty(), DirTreeEnumerator::InvalidDirs());
+    CB_CHECK (vstrIncludeDirs.size() + vstrExcludeDirs.size() == m_sstrIncludeDirs.size() + m_sstrExcludeDirs.size() && v.empty(), DirTreeEnumerator::InvalidDirs);
 
     for (set<string>::iterator it = m_sstrIncludeDirs.begin(), end = m_sstrIncludeDirs.end(); it != end; ++it)
     {
         ClosestAncestorState e (getClosestAncestorState(*it));
-        CB_CHECK1 (NO_ANCESTOR == e || EXCLUDED == e, DirTreeEnumerator::InvalidDirs());
+        CB_CHECK (NO_ANCESTOR == e || EXCLUDED == e, DirTreeEnumerator::InvalidDirs);
     }
 
     for (set<string>::iterator it = m_sstrExcludeDirs.begin(), end = m_sstrExcludeDirs.end(); it != end; ++it)
     {
         ClosestAncestorState e (getClosestAncestorState(*it));
-        CB_CHECK1 (INCLUDED == e, DirTreeEnumerator::InvalidDirs());
+        CB_CHECK (INCLUDED == e, DirTreeEnumerator::InvalidDirs);
     }
 
     reset();

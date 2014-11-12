@@ -590,6 +590,10 @@ bool RenameThread::proc()
             {
                 CB_ASSERT (false);
             }
+            catch (const exception& ex)
+            {
+                m_qstrErr = ex.what();
+            }
             catch (...)
             {
                 m_qstrErr = FileRenamerDlgImpl::tr("Unknown error");

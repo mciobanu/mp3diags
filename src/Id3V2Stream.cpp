@@ -378,7 +378,7 @@ void Id3V2Frame::print(ostream& out, bool bFullInfo) const
                     qstrDescr = QString::fromUtf8(pDescr);
                     break;
 
-                default: CB_ASSERT1 (false, m_pFileName->s);
+                default: CB_ASSERT_MSG (false, m_pFileName->s);
                 }
             }
 
@@ -420,7 +420,7 @@ const char* Id3V2Frame::getImageStatus() const
     case NON_COVER: return QT_TR_NOOP("non-cover");
     case ERR: return QT_TR_NOOP("error");
     case COVER: return QT_TR_NOOP("cover");
-    default: CB_ASSERT1 (false, m_pFileName->s);
+    default: CB_ASSERT_MSG (false, m_pFileName->s);
     }
 }
 
@@ -446,10 +446,10 @@ double Id3V2Frame::getRating() const // asserts it's POPM
 
 /*static*/ string Id3V2Frame::utf8FromBomUtf16(const char* pData, int nSize)
 {
-    CB_CHECK1 (nSize > 1, NotId3V2Frame()); // UNICODE string entries must have a size of 3 or more."
+    CB_CHECK (nSize > 1, NotId3V2Frame); // UNICODE string entries must have a size of 3 or more."
     if (2 == nSize && 0 == *pData && 0 == *(pData + 1)) { return ""; } // not quite correct, but seems to happen; even if a string is null, it must begin with BOM //ttt1 add a note
     const unsigned char* p (reinterpret_cast<const unsigned char*> (pData));
-    CB_CHECK1 ((0xff == p[0] && 0xfe == p[1]) || (0xff == p[1] && 0xfe == p[0]), NotId3V2Frame()); //ttt2 perhaps use other exception
+    CB_CHECK ((0xff == p[0] && 0xfe == p[1]) || (0xff == p[1] && 0xfe == p[0]), NotId3V2Frame); //ttt2 perhaps use other exception
 
 #if Q_BYTE_ORDER == Q_LITTLE_ENDIAN
     bool bIsFffeOk (true); // x86
@@ -572,8 +572,8 @@ Id3V2FrameDataLoader::Id3V2FrameDataLoader(const Id3V2Frame& frame) : m_frame(fr
     {
         int nDiscard (frame.getOffset()); // for DataLengthIndicator
         //m_bOwnsData = true;
-        CB_ASSERT1 (frame.m_vcData.empty(), m_frame.m_pFileName->s);
-        CB_ASSERT1 (0 != frame.m_pFileName, m_frame.m_pFileName->s);
+        CB_ASSERT_MSG (frame.m_vcData.empty(), m_frame.m_pFileName->s);
+        CB_ASSERT_MSG (0 != frame.m_pFileName, m_frame.m_pFileName->s);
 
         m_vcOwnData.resize(m_frame.m_nMemDataSize);
         ifstream_utf8 in (m_frame.m_pFileName->s.c_str(), ios::binary);
@@ -879,17 +879,17 @@ void Id3V2StreamBase::checkFrames(NoteColl& notes) // various checks to be calle
 
     if (ImageInfo::OK != m_eImageStatus && ImageInfo::LOADED_NOT_COVER != m_eImageStatus)
     {
-        CB_ASSERT1 (0 == m_pPicFrame, m_pFileName->s);
+        CB_ASSERT_MSG (0 == m_pPicFrame, m_pFileName->s);
         return ImageInfo(-1, m_eImageStatus);
     }
 
-    CB_ASSERT1 (0 != m_pPicFrame, m_pFileName->s);
+    CB_ASSERT_MSG (0 != m_pPicFrame, m_pFileName->s);
     try
     {
         Id3V2FrameDataLoader wrp (*m_pPicFrame);
         const char* pCrtData (wrp.getData());
         const char* pBinData (pCrtData + m_pPicFrame->m_nImgOffset);
-        //CB_CHECK (pixmap.loadFromData(pBinData, m_nImgSize));
+        //CB_OLD_CHECK (pixmap.loadFromData(pBinData, m_nImgSize));
 
         // make sure the data is still available and correct (the file might have been modified externally)
         if (-1 == m_pPicFrame->m_nWidth)
@@ -937,7 +937,7 @@ e1:
                 Id3V2FrameDataLoader wrp (*pFrame);
                 const char* pCrtData (wrp.getData());
                 const char* pBinData (pCrtData + pFrame->m_nImgOffset);
-                //CB_CHECK (pixmap.loadFromData(pBinData, m_nImgSize));
+                //CB_OLD_CHECK (pixmap.loadFromData(pBinData, m_nImgSize));
 
                 // make sure the data is still available and correct (the file might have been modified externally)
                 if (-1 == pFrame->m_nWidth)
@@ -1157,7 +1157,7 @@ void Id3V2StreamBase::preparePicture(NoteColl& notes) // initializes fields used
     {
     case Id3V2Frame::USES_LINK: m_eImageStatus = ImageInfo::USES_LINK; return;
     case Id3V2Frame::ERR: m_eImageStatus = ImageInfo::ERROR_LOADING; return;
-    default: CB_ASSERT1 (false, m_pFileName->s); // all cases should have been covered
+    default: CB_ASSERT_MSG (false, m_pFileName->s); // all cases should have been covered
     }
 
 }
@@ -1528,7 +1528,7 @@ vector<const Id3V2Frame*> Id3V2StreamBase::getKnownFrames() const // to be used 
     case 10: return LBL_COMPOSER();
     }
 
-    CB_THROW1 (InvalidIndex());
+    CB_TRACE_AND_THROW (InvalidIndex);
 }
 
 

@@ -36,38 +36,7 @@
 #include  <QStringList>  // ttt2 what we really want is QString; however, by including QString directly, lots of warnings get displayed; perhaps some defines are needed but don't know which; so we just include QStringList to avoid the warnings
 
 
-void logToGlobalFile(const std::string& s);
-
-
-class CbException : public std::exception {
-
-    std::string m_strMsg;
-
-public:
-    CbException(std::string strMsg, const char* szFile, int nLine);
-
-    CbException(std::string strMsg, const char* szFile, int nLine, const CbException& cause);
-
-    ~CbException() throw() {}
-
-    /*override*/ const char* what() const throw() {
-        return m_strMsg.c_str();
-    }
-};
-
-#define CB_CHECK1a(COND, EXCP) { if (!(COND)) { ::trace(#EXCP); throw EXCP(#EXCP, __FILE__, __LINE__); } }
-#define CB_CHECK1b(COND, EXCP, MSG) { if (!(COND)) { ::trace(#EXCP); throw EXCP(MSG, __FILE__, __LINE__); } }
-
-
-
-#define CB_CHECK1(COND, EXCP) { if (!(COND)) { ::trace(#EXCP); throw EXCP; } }
-
-
-//#define CB_THROW(MSG) { throw std::runtime_error(MSG); }
-#define CB_THROW1(EXCP) { ::trace(#EXCP); throw EXCP; }
-//#define CB_ASSERT(COND) { if (!(COND)) { ::trace("assert"); throw std::runtime_error("assertion failure"); } }
-#define CB_ASSERT(COND) { if (!(COND)) { assertBreakpoint(); ::trace("assert"); logAssert(__FILE__, __LINE__, #COND); ::exit(1); } }
-#define CB_ASSERT1(COND, MSG) { if (!(COND)) { assertBreakpoint(); ::trace("assert"); logAssert(__FILE__, __LINE__, #COND, MSG); ::exit(1); } }
+#include  "CbException.h"
 
 ////#include  <CbLibCall.h>
 
@@ -211,8 +180,9 @@ template<class T> int CB_LIB_CALL cSize(const T& c) // returns the size of a con
 
 
 
-struct EndOfFile {};
-struct WriteError {};
+DEFINE_CB_EXCP(EndOfFile);
+DEFINE_CB_EXCP(WriteError);
+DEFINE_CB_EXCP(CbRuntimeError);
 
 // throws WriteError or EndOfFile
 void appendFilePart(std::istream& in, std::ostream& out, std::streampos pos, std::streamoff nSize);

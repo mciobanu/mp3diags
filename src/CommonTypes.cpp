@@ -444,14 +444,14 @@ ExternalToolInfo::ExternalToolInfo(const string& strSerValue)
     string::size_type k2 (strSerValue.find(s_cSeparator, k1 + 1));
     string::size_type k3 (strSerValue.find(s_cSeparator, k2 + 1));
     string::size_type k4 (strSerValue.find(s_cSeparator, k3 + 1));
-    CB_CHECK1(k1 != string::npos && k2 != string::npos && k3 != string::npos && k4 == string::npos, InvalidExternalToolInfo());
+    CB_CHECK(k1 != string::npos && k2 != string::npos && k3 != string::npos && k4 == string::npos, InvalidExternalToolInfo);
     m_strName = strSerValue.substr(0, k1);
     m_strCommand = strSerValue.substr(k1 + 1, k2 - k1 -1);
     string s (strSerValue.substr(k2 + 1, k3 - k2 - 1));
-    CB_CHECK1(s.size() == 1 && s >= "0" && s <= "2", InvalidExternalToolInfo());
+    CB_CHECK(s.size() == 1 && s >= "0" && s <= "2", InvalidExternalToolInfo);
     m_eLaunchOption = (LaunchOption)atoi(s.c_str());
     s = strSerValue.substr(k3 + 1);
-    CB_CHECK1(s.size() == 1 && s >= "0" && s <= "1", InvalidExternalToolInfo());
+    CB_CHECK(s.size() == 1 && s >= "0" && s <= "1", InvalidExternalToolInfo);
     m_bConfirmLaunch = (bool)atoi(s.c_str());
 }
 

@@ -36,7 +36,7 @@
 
 MultiLineTvDelegate::MultiLineTvDelegate(QTableView* pTableView/*, QObject* pParent = 0*/) : QItemDelegate(pTableView), m_pTableView(pTableView), m_nLineHeight(0), m_nAddPerLine(0)
 {
-    CB_CHECK1 (0 != pTableView, std::runtime_error("NULL QTableView not allowed"));
+    CB_CHECK_MSG (0 != pTableView, CbRuntimeError, "NULL QTableView not allowed");
     connect(pTableView->horizontalHeader(), SIGNAL(sectionResized(int, int, int)), pTableView, SLOT(resizeRowsToContents()));
 }
 

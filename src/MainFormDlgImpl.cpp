@@ -308,6 +308,9 @@ namespace
             {
                 deleteFile(m_vstrStepFile[m_nStepFile]);
             }
+            catch (const exception&)
+            { //ttt2
+            }
             catch (...)
             { //ttt2
             }
@@ -359,6 +362,9 @@ namespace
             deleteFile(m_strTraceFile);
             deleteFile(m_vstrStepFile[0]);
             deleteFile(m_vstrStepFile[1]);
+        }
+        catch (const exception&)
+        {
         }
         catch (...)
         { //ttt2
@@ -706,6 +712,12 @@ struct SerLoadThread : public PausableThread
 
             notif.setSuccess(!bAborted);
         }
+        catch (const exception& ex)
+        {
+            LAST_STEP1("SerLoadThread::run()", 1);
+            LAST_STEP1(ex.what(), 2);
+            CB_ASSERT (false);
+        }
         catch (...)
         {
             LAST_STEP("SerLoadThread::run()");
@@ -739,6 +751,12 @@ struct SerSaveThread : public PausableThread
             bool bAborted (!save());
 
             notif.setSuccess(!bAborted);
+        }
+        catch (const exception& ex)
+        {
+            LAST_STEP1("SerSaveThread::run()", 1);
+            LAST_STEP1(ex.what(), 2);
+            CB_ASSERT (false);
         }
         catch (...)
         {
@@ -1580,6 +1598,12 @@ struct Mp3ProcThread : public PausableThread
             }
 
             notif.setSuccess(!bAborted);
+        }
+        catch (const exception& ex)
+        {
+            LAST_STEP1("Mp3ProcThread::run()", 1);
+            LAST_STEP1(ex.what(), 2);
+            CB_ASSERT (false); //ttt0 triggered according to https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=50 and https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=54
         }
         catch (...)
         {

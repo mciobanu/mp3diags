@@ -247,6 +247,8 @@ src/AlbumInfoDownloaderDlgImpl.cpp	f	2012-03-03T16:20:13Z
 src/AlbumInfoDownloaderDlgImpl.h	f	2012-02-16T20:56:36Z
 src/ApeStream.cpp	f	2012-03-03T18:13:15Z
 src/ApeStream.h	f	2012-02-19T20:36:57Z
+src/CbException.cpp	f	2014-11-12T10:16:37Z
+src/CbException.h	f	2014-11-12T11:18:01Z
 src/CheckedDir.cpp	f	2012-02-16T22:31:11Z
 src/CheckedDir.h	f	2012-02-16T22:30:59Z
 src/ColumnResizer.cpp	f	2012-03-03T06:54:28Z

@@ -31,7 +31,7 @@
 #include  "CommonTypes.h"
 #include  "Helpers.h"
 
-#define MP3_CHECK(COND, POS, MSG_ID, EXCP) { if (!(COND)) { notes.add(new Note(Notes::MSG_ID(), POS)); throw EXCP; } } // MSG_ID gives a severity // ttt2 most calls here use CB_CREATE_EXCP(); see if possible to expand macro in 1 step and get rid of CB_CREATE_EXCP()
+#define MP3_CHECK(COND, POS, MSG_ID, EXCP) { if (!(COND)) { notes.add(new Note(Notes::MSG_ID(), POS)); throw EXCP; } } // MSG_ID gives a severity // ttt2 most calls here use CB_EXCP(); see if possible to expand macro in 1 step and get rid of CB_EXCP()
 #define MP3_CHECK_T(COND, POS, MSG, EXCP) { if (!(COND)) { static Note::SharedData d (MSG, false); notes.add(new Note(d, POS)); throw EXCP; } } // TRACE-only notes
 #define MP3_THROW(POS, MSG_ID, EXCP) { notes.add(new Note(Notes::MSG_ID(), POS)); throw EXCP; }
 #define MP3_THROW_T(POS, MSG, EXCP) { static Note::SharedData d (MSG, false); notes.add(new Note(d, POS)); throw EXCP; } // TRACE-only notes

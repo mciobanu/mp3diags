@@ -66,8 +66,8 @@ struct CLASS_NAME : public CbException \
 #define CB_CHECK1(COND, EXCP, PARAM) { if (!(COND)) { ::trace(std::string(#EXCP) + ": " + boost::lexical_cast<std::string>(PARAM)); throw EXCP(PARAM, __FILE__, __LINE__); } }
 #define CB_CHECK2(COND, EXCP, PARAM1, PARAM2) { if (!(COND)) { ::trace(#EXCP); throw EXCP(PARAM1, PARAM2, __FILE__, __LINE__); } }
 
-#define CB_CREATE_EXCP(EXCP) EXCP(__FILE__, __LINE__)
-#define CB_CREATE_EXCP_PARAM(EXCP, PARAM) EXCP(PARAM, __FILE__, __LINE__)
+#define CB_EXCP(EXCP) EXCP(__FILE__, __LINE__)
+#define CB_EXCP1(EXCP, PARAM) EXCP(PARAM, __FILE__, __LINE__)
 #define CB_EXCP2(EXCP, PARAM1, PARAM2) EXCP(PARAM1, PARAM2, __FILE__, __LINE__)
 
 

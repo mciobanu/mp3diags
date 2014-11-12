@@ -63,7 +63,7 @@ UnknownDataStreamBase::UnknownDataStreamBase(int nIndex, NoteColl& notes, istrea
     in.seekg(pos);
     char c;
 
-    MP3_CHECK (1 == read(in, &c, 1), m_pos, unknTooShort, CB_CREATE_EXCP(BadUnknownStream));
+    MP3_CHECK (1 == read(in, &c, 1), m_pos, unknTooShort, CB_EXCP(BadUnknownStream));
 
     rst.setOk();
 }
@@ -172,7 +172,7 @@ NullDataStream::NullDataStream(int nIndex, NoteColl& notes, std::istream& in) : 
         if (nRead < BFR_SIZE) { break; }
     }
 e1:
-    MP3_CHECK_T (m_nSize >= 16, m_pos, "Not a NULL stream. File too short.", CB_CREATE_EXCP(NotNullStream));
+    MP3_CHECK_T (m_nSize >= 16, m_pos, "Not a NULL stream. File too short.", CB_EXCP(NotNullStream));
     pos += m_nSize;
     in.clear();
     in.seekg(pos);

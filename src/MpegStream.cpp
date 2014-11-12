@@ -179,7 +179,7 @@ MpegStream::MpegStream(int nIndex, NoteColl& notes, istream& in) : MpegStreamBas
         MP3_THROW (m_pos, audioTooShort, CB_EXCP2(StreamTooShort, strInfo, m_nFrameCount));
     }
 
-    MP3_CHECK (!m_bVbr || bVbr2, m_pos, diffBitrateInFirstFrame, CB_CREATE_EXCP(UnknownHeader)); //ttt2 perhaps add test for "null": whatever is in the first bytes that allows Xing & Co to not generate audio in decoders that don't know about them
+    MP3_CHECK (!m_bVbr || bVbr2, m_pos, diffBitrateInFirstFrame, CB_EXCP(UnknownHeader)); //ttt2 perhaps add test for "null": whatever is in the first bytes that allows Xing & Co to not generate audio in decoders that don't know about them
 
     m_nSize = pos - m_pos;
     in.seekg(pos);
@@ -852,38 +852,38 @@ XingStreamBase::XingStreamBase(int nIndex, NoteColl& notes, istream& in) : MpegS
 
     int nBfrSize (MpegFrame::MPEG_FRAME_HDR_SIZE + nSideInfoSize + XING_LABEL_SIZE);
 
-    MP3_CHECK_T (nBfrSize <= m_firstFrame.getSize(), m_pos, "Not a Xing stream. This kind of MPEG audio doesn't support Xing.", CB_CREATE_EXCP(NotXingStream)); // !!! some kinds of MPEG audio (e.g. "MPEG-1 Layer I, 44100Hz 32000bps" or "MPEG-2 Layer III, 22050Hz 8000bps") have very short frames, which can't accomodate a Xing header
+    MP3_CHECK_T (nBfrSize <= m_firstFrame.getSize(), m_pos, "Not a Xing stream. This kind of MPEG audio doesn't support Xing.", CB_EXCP(NotXingStream)); // !!! some kinds of MPEG audio (e.g. "MPEG-1 Layer I, 44100Hz 32000bps" or "MPEG-2 Layer III, 22050Hz 8000bps") have very short frames, which can't accomodate a Xing header
 
     streamsize nRead (read(in, bfr, nBfrSize));
     STRM_ASSERT (nBfrSize == nRead); // this was supposed to be a valid frame to begin with (otherwise the base class would have thrown) and nBfrSize is no bigger than the frame
 
     char* pLabel (bfr + MpegFrame::MPEG_FRAME_HDR_SIZE + nSideInfoSize);
-    MP3_CHECK_T (0 == strncmp("Xing", pLabel, XING_LABEL_SIZE) || 0 == strncmp("Info", pLabel, XING_LABEL_SIZE), m_pos, "Not a Xing stream. Header not found.", CB_CREATE_EXCP(NotXingStream));
+    MP3_CHECK_T (0 == strncmp("Xing", pLabel, XING_LABEL_SIZE) || 0 == strncmp("Info", pLabel, XING_LABEL_SIZE), m_pos, "Not a Xing stream. Header not found.", CB_EXCP(NotXingStream));
 
     // ttt0 perhaps if it gets this far it should generate some "broken xing": with the incorrect "vbr fix" which created a xing header longer than the mpeg frame that was supposed to contain it, followed by the removal of those extra bytes by the "unknown stream removal" causes the truncated xing header to be considered audio; that wouldn't happen if a "broken xing" stream would be tried before the "audio" stream in Mp3Handler::parse()
-    MP3_CHECK_T (4 == read(in, bfr, 4) && 0 == bfr[0] && 0 == bfr[1] && 0 == bfr[2], m_pos, "Not a Xing stream. Header not found.", CB_CREATE_EXCP(NotXingStream));
+    MP3_CHECK_T (4 == read(in, bfr, 4) && 0 == bfr[0] && 0 == bfr[1] && 0 == bfr[2], m_pos, "Not a Xing stream. Header not found.", CB_EXCP(NotXingStream));
     m_cFlags = bfr[3];
-    MP3_CHECK_T ((m_cFlags & 0x0f) == m_cFlags, m_pos, "Not a Xing stream. Invalid flags.", CB_CREATE_EXCP(NotXingStream));
+    MP3_CHECK_T ((m_cFlags & 0x0f) == m_cFlags, m_pos, "Not a Xing stream. Invalid flags.", CB_EXCP(NotXingStream));
     if (0x01 == (m_cFlags & 0x01))
     { // has frames
-        MP3_CHECK_T (4 == read(in, bfr, 4), m_pos, "Not a Xing stream. File too short.", CB_CREATE_EXCP(NotXingStream));
+        MP3_CHECK_T (4 == read(in, bfr, 4), m_pos, "Not a Xing stream. File too short.", CB_EXCP(NotXingStream));
         m_nFrameCount = get32BitBigEndian(bfr);
     }
 
     if (0x02 == (m_cFlags & 0x02))
     { // has bytes
-        MP3_CHECK_T (4 == read(in, bfr, 4), m_pos, "Not a Xing stream. File too short.", CB_CREATE_EXCP(NotXingStream));
+        MP3_CHECK_T (4 == read(in, bfr, 4), m_pos, "Not a Xing stream. File too short.", CB_EXCP(NotXingStream));
         m_nByteCount = get32BitBigEndian(bfr);
     }
 
     if (0x04 == (m_cFlags & 0x04))
     { // has TOC
-        MP3_CHECK_T (100 == read(in, m_toc, 100), m_pos, "Not a Xing stream. File too short.", CB_CREATE_EXCP(NotXingStream));
+        MP3_CHECK_T (100 == read(in, m_toc, 100), m_pos, "Not a Xing stream. File too short.", CB_EXCP(NotXingStream));
     }
 
     if (0x08 == (m_cFlags & 0x08))
     { // has quality
-        MP3_CHECK_T (4 == read(in, bfr, 4), m_pos, "Not a Xing stream. File too short.", CB_CREATE_EXCP(NotXingStream));
+        MP3_CHECK_T (4 == read(in, bfr, 4), m_pos, "Not a Xing stream. File too short.", CB_EXCP(NotXingStream));
         m_nQuality = get32BitBigEndian(bfr);
     }
 
@@ -994,12 +994,12 @@ LameStream::LameStream(int nIndex, NoteColl& notes, istream& in) : XingStreamBas
     const int BFR_SIZE (LAME_OFFS + LAME_LABEL_SIZE); // MPEG header + side info + "Xing" size //ttt2 not sure if space for CRC16 should be added; then not sure if frame size should be increased by 2 when CRC is found
     char bfr [200]; // MSVC wants size to be a compile-time constant, so just use something bigger
 
-    MP3_CHECK_T (BFR_SIZE <= m_firstFrame.getSize(), m_pos, "Not a LAME stream. This kind of MPEG audio doesn't support LAME.", CB_CREATE_EXCP(NotLameStream)); // !!! some kinds of MPEG audio have very short frames, which can't accomodate a VBRI header
+    MP3_CHECK_T (BFR_SIZE <= m_firstFrame.getSize(), m_pos, "Not a LAME stream. This kind of MPEG audio doesn't support LAME.", CB_EXCP(NotLameStream)); // !!! some kinds of MPEG audio have very short frames, which can't accomodate a VBRI header
 
     streamsize nRead (read(in, bfr, BFR_SIZE));
     STRM_ASSERT (BFR_SIZE == nRead); // this was supposed to be a valid frame to begin with (otherwise the base class would have thrown) and BFR_SIZE is no bigger than the frame
 
-    MP3_CHECK_T (0 == strncmp("LAME", bfr + LAME_OFFS, LAME_LABEL_SIZE), m_pos, "Not a LAME stream. Header not found.", CB_CREATE_EXCP(NotLameStream)); // ttt0 lowercase
+    MP3_CHECK_T (0 == strncmp("LAME", bfr + LAME_OFFS, LAME_LABEL_SIZE), m_pos, "Not a LAME stream. Header not found.", CB_EXCP(NotLameStream)); // ttt0 lowercase
 
     streampos posEnd (m_pos);
     posEnd += m_firstFrame.getSize();
@@ -1030,13 +1030,13 @@ VbriStream::VbriStream(int nIndex, NoteColl& notes, istream& in) : MpegStreamBas
     const int BFR_SIZE (MpegFrame::MPEG_FRAME_HDR_SIZE + 32 + VBRI_LABEL_SIZE); // MPEG header + side info + "Xing" size //ttt2 not sure if space for CRC16 should be added; then not sure if frame size should be increased by 2 when CRC is found
     char bfr [BFR_SIZE];
 
-    MP3_CHECK_T (BFR_SIZE <= m_firstFrame.getSize(), m_pos, "Not a VBRI stream. This kind of MPEG audio doesn't support VBRI.", CB_CREATE_EXCP(NotVbriStream)); // !!! some kinds of MPEG audio have very short frames, which can't accomodate a VBRI header
+    MP3_CHECK_T (BFR_SIZE <= m_firstFrame.getSize(), m_pos, "Not a VBRI stream. This kind of MPEG audio doesn't support VBRI.", CB_EXCP(NotVbriStream)); // !!! some kinds of MPEG audio have very short frames, which can't accomodate a VBRI header
 
     streamsize nRead (read(in, bfr, BFR_SIZE));
     STRM_ASSERT (BFR_SIZE == nRead); // this was supposed to be a valid frame to begin with (otherwise the base class would have thrown) and BFR_SIZE is no bigger than the frame
 
     char* pLabel (bfr + MpegFrame::MPEG_FRAME_HDR_SIZE + 32);
-    MP3_CHECK_T (0 == strncmp("VBRI", pLabel, VBRI_LABEL_SIZE), m_pos, "Not a VBRI stream. Header not found.", CB_CREATE_EXCP(NotVbriStream));
+    MP3_CHECK_T (0 == strncmp("VBRI", pLabel, VBRI_LABEL_SIZE), m_pos, "Not a VBRI stream. Header not found.", CB_EXCP(NotVbriStream));
 
     streampos posEnd (m_pos);
     posEnd += m_firstFrame.getSize();
@@ -1072,10 +1072,10 @@ Id3V1Stream::Id3V1Stream(int nIndex, NoteColl& notes, istream& in) : DataStream(
 
     const int BFR_SIZE (128);
     streamsize nRead (read(in, m_data, BFR_SIZE));
-    MP3_CHECK_T (BFR_SIZE == nRead, m_pos, "Invalid ID3V1 tag. File too short.", CB_CREATE_EXCP(NotId3V1Stream));
-    MP3_CHECK_T (0 == strncmp("TAG", m_data, 3), m_pos, "Invalid ID3V1 tag. Invalid header.", CB_CREATE_EXCP(NotId3V1Stream));
+    MP3_CHECK_T (BFR_SIZE == nRead, m_pos, "Invalid ID3V1 tag. File too short.", CB_EXCP(NotId3V1Stream));
+    MP3_CHECK_T (0 == strncmp("TAG", m_data, 3), m_pos, "Invalid ID3V1 tag. Invalid header.", CB_EXCP(NotId3V1Stream));
 
-    MP3_CHECK (BFR_SIZE == nRead, m_pos, id3v1TooShort, CB_CREATE_EXCP(NotId3V1Stream));
+    MP3_CHECK (BFR_SIZE == nRead, m_pos, id3v1TooShort, CB_EXCP(NotId3V1Stream));
 
     // not 100% correct, but should generally work
     if (0 == m_data[125] && 0 != m_data[126])
@@ -1089,11 +1089,11 @@ Id3V1Stream::Id3V1Stream(int nIndex, NoteColl& notes, istream& in) : DataStream(
     }
 
     // http://uweb.txstate.edu/~me02/tutorials/sound_file_formats/mpeg/tags.htm
-    TestResult eTrack (checkId3V1String(m_data + 3, 30)); MP3_CHECK (BAD != eTrack, m_pos, id3v1InvalidName, CB_CREATE_EXCP(NotId3V1Stream));
-    TestResult eArtist (checkId3V1String(m_data + 33, 30)); MP3_CHECK (BAD != eArtist, m_pos, id3v1InvalidArtist, CB_CREATE_EXCP(NotId3V1Stream));
-    TestResult eAlbum (checkId3V1String(m_data + 63, 30)); MP3_CHECK (BAD != eAlbum, m_pos, id3v1InvalidAlbum, CB_CREATE_EXCP(NotId3V1Stream));
-    TestResult eYear (checkId3V1String(m_data + 93, 4)); MP3_CHECK (BAD != eYear, m_pos, id3v1InvalidYear, CB_CREATE_EXCP(NotId3V1Stream));
-    TestResult eComment (checkId3V1String(m_data + 97, 28)); MP3_CHECK (BAD != eComment, m_pos, id3v1InvalidComment, CB_CREATE_EXCP(NotId3V1Stream)); // "28" is for ID3V1.1b (there's no reliable way to distinguish among versions 1.0 and 1.1 by design, and in practice among any of them because some tools use 0 instead of space and 0 seems to be a valid value for 1.1b's track and genre, for "undefined") //ttt2 use m_eVersion
+    TestResult eTrack (checkId3V1String(m_data + 3, 30)); MP3_CHECK (BAD != eTrack, m_pos, id3v1InvalidName, CB_EXCP(NotId3V1Stream));
+    TestResult eArtist (checkId3V1String(m_data + 33, 30)); MP3_CHECK (BAD != eArtist, m_pos, id3v1InvalidArtist, CB_EXCP(NotId3V1Stream));
+    TestResult eAlbum (checkId3V1String(m_data + 63, 30)); MP3_CHECK (BAD != eAlbum, m_pos, id3v1InvalidAlbum, CB_EXCP(NotId3V1Stream));
+    TestResult eYear (checkId3V1String(m_data + 93, 4)); MP3_CHECK (BAD != eYear, m_pos, id3v1InvalidYear, CB_EXCP(NotId3V1Stream));
+    TestResult eComment (checkId3V1String(m_data + 97, 28)); MP3_CHECK (BAD != eComment, m_pos, id3v1InvalidComment, CB_EXCP(NotId3V1Stream)); // "28" is for ID3V1.1b (there's no reliable way to distinguish among versions 1.0 and 1.1 by design, and in practice among any of them because some tools use 0 instead of space and 0 seems to be a valid value for 1.1b's track and genre, for "undefined") //ttt2 use m_eVersion
 
     if (ZERO_PADDED == eTrack || ZERO_PADDED == eArtist || ZERO_PADDED == eAlbum || ZERO_PADDED == eYear || ZERO_PADDED == eComment)
     {

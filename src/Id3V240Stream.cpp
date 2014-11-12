@@ -400,9 +400,9 @@ Id3V240Stream::Id3V240Stream(int nIndex, NoteColl& notes, istream& in, StringWrp
 
     streampos pos (m_pos);
     char bfr [ID3_HDR_SIZE];
-    MP3_CHECK_T (ID3_HDR_SIZE == read(in, bfr, ID3_HDR_SIZE), pos, "Invalid ID3V2.4.0 tag. File too small.", CB_CREATE_EXCP(NotId3V2));
-    MP3_CHECK_T ('I' == bfr[0] && 'D' == bfr[1] && '3' == bfr[2], pos, "Invalid ID3V2.4.0 tag. Invalid ID3V2 header.", CB_CREATE_EXCP(NotId3V2));
-    MP3_CHECK_T (4 == bfr[3] && 0 == bfr[4], pos, "Invalid ID3V2.4.0 tag. Invalid ID3V2.4.0 header.", CB_CREATE_EXCP(NotId3V2));
+    MP3_CHECK_T (ID3_HDR_SIZE == read(in, bfr, ID3_HDR_SIZE), pos, "Invalid ID3V2.4.0 tag. File too small.", CB_EXCP(NotId3V2));
+    MP3_CHECK_T ('I' == bfr[0] && 'D' == bfr[1] && '3' == bfr[2], pos, "Invalid ID3V2.4.0 tag. Invalid ID3V2 header.", CB_EXCP(NotId3V2));
+    MP3_CHECK_T (4 == bfr[3] && 0 == bfr[4], pos, "Invalid ID3V2.4.0 tag. Invalid ID3V2.4.0 header.", CB_EXCP(NotId3V2));
     m_nTotalSize = getId3V2Size (bfr);
     m_cFlags = bfr[5];
     MP3_CHECK (0 == (m_cFlags & 0x7f), pos, id3v2UnsuppFlag, CB_EXCP2(StreamIsUnsupported, Id3V240Stream::getClassDisplayName(), tr("ID3V2 tag with unsupported flag."))); //ttt2 review, support
@@ -504,7 +504,7 @@ Id3V240Stream::Id3V240Stream(int nIndex, NoteColl& notes, istream& in, StringWrp
         in.seekg(pos);
         char c;
 
-        MP3_CHECK (1 == read(in, &c, 1), m_pos, id3v240CantReadFrame, CB_CREATE_EXCP(NotId3V2));
+        MP3_CHECK (1 == read(in, &c, 1), m_pos, id3v240CantReadFrame, CB_EXCP(NotId3V2));
     }
 
     rst.setOk();

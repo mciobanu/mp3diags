@@ -503,7 +503,7 @@ namespace
                 }
                 break;
 
-            default: throw 1; // it should have thrown before getting here
+            default: CB_THROW(CbRuntimeError); // it should have thrown before getting here
             }
         }
 
@@ -531,7 +531,7 @@ namespace
             m_nSize = (MPEG1 == m_eVersion ? 144*m_nBitrate/m_nFrequency + m_nPadding : 72*m_nBitrate/m_nFrequency + m_nPadding);
             break;
 
-        default: throw 1; // it should have thrown before getting here
+        default: CB_THROW(CbRuntimeError); // it should have thrown before getting here
         }
 
         return "";

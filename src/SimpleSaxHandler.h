@@ -55,7 +55,7 @@ struct SimpleSaxHandler : public QXmlDefaultHandler
         std::string m_strName;
         void add(Node* p)
         {
-            if (0 != getChild(p->m_strName)) { throw 1; } // ttt2 throw something else
+            if (0 != getChild(p->m_strName)) { CB_THROW(CbRuntimeError); }
             m_vpChildren.push_back(p);
         }
 

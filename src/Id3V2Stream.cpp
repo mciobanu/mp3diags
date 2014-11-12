@@ -588,7 +588,7 @@ Id3V2FrameDataLoader::Id3V2FrameDataLoader(const Id3V2Frame& frame) : m_frame(fr
         //qDebug("nRead %d ; m_frame.m_nMemDataSize %d ; nContentBytesSkipped %d ", nRead, m_frame.m_nMemDataSize, nContentBytesSkipped);
         if (cSize(m_vcOwnData) != nRead)
         {
-            throw LoadFailure();
+            CB_THROW(LoadFailure);
         }
 
         m_pData = &m_vcOwnData[0];
@@ -996,13 +996,13 @@ e1:
 
 /*static*/ const char* Id3V2StreamBase::decodeApic(NoteColl& notes, int nDataSize, streampos pos, const char* const pData, const char*& szMimeType, int& nPictureType, const char*& szDescription)
 {
-    MP3_CHECK (0 == pData[0] || 3 == pData[0], pos, id3v2UnsupApicTextEnc, NotSupTextEnc()); // !!! there's no need for StreamIsUnsupported here, because this error is not fatal, and it isn't allowed to propagate, therefore doesn't cause a stream to be Unsupported; //ttt2 review, support
+    MP3_CHECK (0 == pData[0] || 3 == pData[0], pos, id3v2UnsupApicTextEnc, CB_CREATE_EXCP(NotSupTextEnc)); // !!! there's no need for StreamIsUnsupported here, because this error is not fatal, and it isn't allowed to propagate, therefore doesn't cause a stream to be Unsupported; //ttt2 review, support
     szMimeType = pData + 1; // ttt3 type 0 is Latin1, while type 3 is UTF8, so this isn't quite right; however, MIME types should probably be plain ASCII, so it's the same; and anyway, we only recognize JPEG and PNG, which are ASCII
     //int nMimeSize (strnlen(pData, nDataSize));
 
     const char* p (pData + 1);
     for (; p < pData + nDataSize && 0 != *p; ++p) {}
-    MP3_CHECK (p < pData + nDataSize - 1, pos, id3v2UnsupApicTextEnc, ErrorDecodingApic()); // "-1" to account for szDescription
+    MP3_CHECK (p < pData + nDataSize - 1, pos, id3v2UnsupApicTextEnc, CB_CREATE_EXCP(ErrorDecodingApic)); // "-1" to account for szDescription
     CB_ASSERT (0 == *p);
     ++p;
 
@@ -1017,7 +1017,7 @@ e1:
         }
     }
 
-    throw ErrorDecodingApic();
+    CB_THROW(ErrorDecodingApic);
 }
 
 

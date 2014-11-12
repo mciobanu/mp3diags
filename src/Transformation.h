@@ -365,7 +365,7 @@ public:
 
     virtual bool acceptsFastSave() const { return false; } // whether to consider Mp3Handler::m_nFastSaveTime as a match when deciding if a file was changed (so a transformation can't be applied)
 
-    struct InvalidInputFile {}; // thrown if the input file was changed so it can no longer be processed
+    DEFINE_CB_EXCP(InvalidInputFile); // thrown if the input file was changed so it can no longer be processed
 };
 
 

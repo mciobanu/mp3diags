@@ -205,7 +205,7 @@ static streampos findNearMpegFrameAtRight(streampos pos, istream& in, MpegStream
 
                                         out.seekp(pFrameToChange->getPos());
                                         out.write(bfr, 4);
-                                        CB_CHECK1 (out, WriteError());
+                                        CB_CHECK (out, WriteError);
                                     }
 
                                     return CHANGED;

@@ -182,7 +182,6 @@ template<class T> int CB_LIB_CALL cSize(const T& c) // returns the size of a con
 
 DEFINE_CB_EXCP(EndOfFile);
 DEFINE_CB_EXCP(WriteError);
-DEFINE_CB_EXCP(CbRuntimeError);
 
 // throws WriteError or EndOfFile
 void appendFilePart(std::istream& in, std::ostream& out, std::streampos pos, std::streamoff nSize);

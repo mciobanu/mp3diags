@@ -60,7 +60,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW_PARAM(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<DataStream>(*this);
 
@@ -111,14 +111,15 @@ public:
 
     std::string getDuration() const;
 
-    struct StreamTooShort // exception thrown if a stream has less than 10 frames
+    DEFINE_CB_EXCP_PARAM2(StreamTooShort, std::string, m_strInfo, int, m_nFrameCount);  // exception thrown if a stream has less than 10 frames
+    /*struct StreamTooShort // exception thrown if a stream has less than 10 frames
     {
         std::string m_strInfo;
         int m_nFrameCount;
         StreamTooShort(const std::string& strInfo, int nFrameCount) : m_strInfo(strInfo), m_nFrameCount(nFrameCount) {}
-    };
+    };*/
 
-    struct UnknownHeader {}; // exception thrown if the first frame seems to be part of a (Lame) header, having a different framerate in an otherwise CBR stream
+    DEFINE_CB_EXCP(UnknownHeader); // exception thrown if the first frame seems to be part of a (Lame) header, having a different framerate in an otherwise CBR stream
 
     void createXing(const std::string& strFileName, std::streampos nStreamPos, std::ostream& out);
 
@@ -129,7 +130,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW_PARAM(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<MpegStreamBase>(*this);
 
@@ -176,7 +177,7 @@ public:
 
     using MpegStreamBase::getFirstFrame;
 
-    struct NotXingStream {};
+    DEFINE_CB_EXCP(NotXingStream);
 
 private:
     friend class boost::serialization::access;
@@ -184,7 +185,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW_PARAM(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<MpegStreamBase>(*this);
 
@@ -208,7 +209,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW_PARAM(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<XingStreamBase>(*this);
     }
@@ -224,7 +225,7 @@ public:
     DECL_NAME(QT_TRANSLATE_NOOP("DataStream", "Lame Header"))
     /*override*/ std::string getInfo() const;
 
-    struct NotLameStream {};
+    DEFINE_CB_EXCP(NotLameStream);
 
 private:
     friend class boost::serialization::access;
@@ -233,7 +234,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW_PARAM(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<XingStreamBase>(*this);
     }
@@ -250,7 +251,7 @@ public:
 
     const MpegFrame& getFrame() const { return m_firstFrame; }
 
-    struct NotVbriStream {};
+    DEFINE_CB_EXCP(NotVbriStream);
 
 private:
     friend class boost::serialization::access;
@@ -259,7 +260,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW_PARAM(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<MpegStreamBase>(*this);
     }
@@ -292,7 +293,7 @@ public:
 
     const char* getVersion() const;
 
-    struct NotId3V1Stream {};
+    DEFINE_CB_EXCP(NotId3V1Stream);
 
     // ================================ TagReader =========================================
     /*override*/ std::string getTitle(bool* pbFrameExists = 0) const;
@@ -305,7 +306,7 @@ public:
 
     /*override*/ std::string getGenre(bool* pbFrameExists = 0) const;
 
-    /*override*/ ImageInfo getImage(bool* /*pbFrameExists*/ = 0) const { throw NotSupportedOp(); }
+    /*override*/ ImageInfo getImage(bool* /*pbFrameExists*/ = 0) const { CB_THROW(NotSupportedOp); }
 
     /*override*/ std::string getAlbumName(bool* pbFrameExists = 0) const;
 
@@ -320,7 +321,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW_PARAM(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<DataStream>(*this);
 

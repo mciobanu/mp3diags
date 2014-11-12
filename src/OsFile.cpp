@@ -245,7 +245,7 @@ void CB_LIB_CALL setFileDate(const string& strFileName, long long nChangeTime)
     if (0 != utime(strFileName.c_str(), &t))
     {
         //throw CannotSetDates(strFileName, getOsError(), LI);
-        throw 1; //ttt2
+        CB_THROW(CbRuntimeError); //ttt2
     }
 #else
     _utimbuf t;
@@ -254,7 +254,7 @@ void CB_LIB_CALL setFileDate(const string& strFileName, long long nChangeTime)
     if (0 != _wutime(wstrFromUtf8(strFileName).c_str(), &t))
     {
         //throw CannotSetDates(strFileName, getOsError(), LI);
-        throw 1; //ttt2
+        CB_THROW(CbRuntimeError); //ttt2
     }
 #endif
 }

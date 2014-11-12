@@ -112,7 +112,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 1) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 1) { CB_THROW_PARAM(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & m_szName;
         ar & m_nMemDataSize;
@@ -160,7 +160,7 @@ public:
 
     const char* getData() const { return m_pData; }
 
-    struct LoadFailure {}; // thrown if the file is deleted / moved (and perhaps changed) after frames are identified
+    DEFINE_CB_EXCP(LoadFailure); // thrown if the file is deleted / moved (and perhaps changed) after frames are identified
 };
 
 
@@ -212,8 +212,8 @@ protected:
     Id3V2StreamBase(int nIndex, std::istream& in, StringWrp* pFileName);
     Id3V2StreamBase() {} // serialization-only constructor
 
-    struct NotSupTextEnc {};
-    struct ErrorDecodingApic {};
+    DEFINE_CB_EXCP(NotSupTextEnc);
+    DEFINE_CB_EXCP(ErrorDecodingApic);
 public:
     /*override*/ ~Id3V2StreamBase();
 
@@ -240,7 +240,7 @@ public:
 
     int getPaddingSize() const { return m_nPaddingSize; }
 
-    struct NotId3V2 {};
+    DEFINE_CB_EXCP(NotId3V2);
 
     // ================================ TagReader =========================================
     /*override*/ std::string getTitle(bool* pbFrameExists = 0) const;
@@ -276,7 +276,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW_PARAM(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<DataStream>(*this);
 

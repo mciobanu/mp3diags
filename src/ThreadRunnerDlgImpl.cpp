@@ -214,7 +214,7 @@ QString ThreadRunnerDlgImpl::truncateLarge(const QString& s, int nKeepFirst /* =
 
     default:
         //CB_ASSERT (false); //ttt2 add support for TRUNCATE_MIDDLE
-        throw false;
+        CB_THROW(CbRuntimeError);
     }
 }
 

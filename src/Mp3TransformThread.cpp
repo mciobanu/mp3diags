@@ -115,6 +115,12 @@ struct Mp3TransformThread : public PausableThread
 
             notif.setSuccess(m_mp3TransformerGui.transform());
         }
+        catch (const exception& ex)
+        {
+            LAST_STEP1("Mp3TransformThread::run()", 1);
+            LAST_STEP1(ex.what(), 2);
+            CB_ASSERT (false);
+        }
         catch (...) //ttt0 catch other things too (at least std::exception, but not sure what to do, meaning probably should show a message and terminate anyway); see comment 3 lines below for a better approach
         {
             LAST_STEP("Mp3TransformThread::run()");
@@ -183,7 +189,7 @@ public:
         catch (const CannotRenameFile&)
         {
             revert();
-            throw CannotDeleteFile();
+            CB_THROW(CannotDeleteFile);
         }
     }
 
@@ -194,6 +200,9 @@ public:
         try
         {
             renameFile(m_strChangedName, m_strOrigName);
+        }
+        catch (const exception&)
+        { //ttt2
         }
         catch (...)
         { //ttt2 perhaps do something
@@ -241,6 +250,9 @@ public:
         try
         {
             deleteFile(m_strName);
+        }
+        catch (const exception&)
+        { //ttt2
         }
         catch (...)
         { //ttt2 perhaps do something
@@ -337,7 +349,7 @@ bool Mp3Transformer::transform()
                         if (nRetryCount > 0)
                         {
                             TRACER("YYYYYYYYYYYYY Write retry succeeded for the second time to " + strTempName + ". Exiting to capture this ...");
-                            throw WriteError(); //ttt0 remove
+                            CB_THROW(WriteError); //ttt0 remove
                         }
                     }
                     catch (const WriteError&)
@@ -585,6 +597,9 @@ bool Mp3Transformer::transform()
                             deleteFile(strProcName);
                             //TRACER1A("transf ", 50);
                         }
+                        catch (const exception& ex)
+                        { //ttt2
+                        }
                         catch (...)
                         { //ttt2 not sure what to do
                         }
@@ -630,7 +645,7 @@ bool Mp3Transformer::transform()
                 }
                 //TRACER1A("transf ", 62);
             }
-            catch (...)
+            catch (...) // ttt2 maybe catch std::exception
             {
             //TRACER1A("transf ", 63);
                 if (pNewHndl.get() == pOrigHndl)
@@ -642,6 +657,14 @@ bool Mp3Transformer::transform()
                 throw;
             }
         }
+    }
+    catch (const exception& ex)
+    {
+        qDebug("Caught std::exception in Mp3TransformThread::transform()");
+        traceToFile("Caught std::exception in Mp3TransformThread::transform()", 0);
+        qDebug(ex.what());
+        traceToFile(ex.what(), 0);
+        throw; // !!! needed to restore "erased" files when errors occur, because when an exception is thrown the destructors only get called if that exception is caught; so catching and rethrowing is not a "no-op"
     }
     catch (...)
     {

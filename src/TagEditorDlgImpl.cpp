@@ -1782,7 +1782,7 @@ void TagEditorDlgImpl::onShowPatternNote()
 
 CurrentFileDelegate::CurrentFileDelegate(QTableView* pTableView, const CommonData* pCommonData) : QItemDelegate(pTableView), m_pTableView(pTableView), m_pCommonData(pCommonData)
 {
-    CB_CHECK1 (0 != pTableView, std::runtime_error("NULL QTableView not allowed"));
+    CB_CHECK_MSG (0 != pTableView, CbRuntimeError, "NULL QTableView not allowed");
     //connect(pTableView->horizontalHeader(), SIGNAL(sectionResized(int, int, int)), pTableView, SLOT(resizeRowsToContents()));
 }
 
@@ -1866,7 +1866,7 @@ return QItemDelegate::sizeHint(option, index);
 
 CurrentAlbumDelegate::CurrentAlbumDelegate(QTableView* pTableView, TagEditorDlgImpl* pTagEditorDlgImpl) : QItemDelegate(pTableView), m_pTableView(pTableView), m_pTagEditorDlgImpl(pTagEditorDlgImpl), m_pTagWriter(pTagEditorDlgImpl->getTagWriter())
 {
-    CB_CHECK1 (0 != pTableView, std::runtime_error("NULL QTableView not allowed"));
+    CB_CHECK_MSG (0 != pTableView, CbRuntimeError, "NULL QTableView not allowed");
     //connect(pTableView->horizontalHeader(), SIGNAL(sectionResized(int, int, int)), pTableView, SLOT(resizeRowsToContents()));
 }
 

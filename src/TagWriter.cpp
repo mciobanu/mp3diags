@@ -587,15 +587,15 @@ void Mp3HandlerTagData::setData(int nField, const std::string& s)
         }
         catch (const TagTimestamp::InvalidTime&)
         {
-            throw InvalidValue();
+            CB_THROW(InvalidValue);
         }
     }
 
     if (TagReader::TRACK_NUMBER == nField && !s.empty()) // !!! note that an empty track# gets removed when writing to ID3V2
     {
-        if (!isdigit(s[0]) || !isdigit(s[s.size() - 1])) { throw InvalidValue(); }
+        if (!isdigit(s[0]) || !isdigit(s[s.size() - 1])) { CB_THROW(InvalidValue); }
         string::size_type n1 (s.find_first_not_of("0123456789")), n2 (s.find_last_not_of("0123456789"));
-        if (string::npos != n1 && (n1 != n2 || s[n1] != '/')) { throw InvalidValue(); }
+        if (string::npos != n1 && (n1 != n2 || s[n1] != '/')) { CB_THROW(InvalidValue); }
     }
 
     string s1 (s);
@@ -618,7 +618,7 @@ void Mp3HandlerTagData::setData(int nField, const std::string& s)
         }
         if (!bOk)
         {
-            throw InvalidValue();
+            CB_THROW(InvalidValue);
         }
     }
 

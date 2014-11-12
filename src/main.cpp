@@ -946,7 +946,7 @@ static void validate(boost::any& v, vector<string> const& values, Note::Severity
     else if (s.compare("support") == 0) v = Note::SUPPORT;
     //else throw po::validation_error(po::validation_error::invalid_option_value);
     //else throw po::validation_error("invalid option value");
-    else throw runtime_error("invalid option value");
+    else CB_THROW_PARAM(CbRuntimeError, "invalid option value");
 }
 
 

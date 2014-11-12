@@ -109,8 +109,8 @@ ApeItem::ApeItem(NoteColl& notes, istream& in) : m_eType(BINARY)
     m_cFlags3 = pUnsgBfr[6];
     m_cFlags4 = pUnsgBfr[7];
 
-    MP3_CHECK (0 == m_cFlags1 && 0 == m_cFlags2 && 0 == m_cFlags3 && 0 == m_cFlags4, pos, apeFlagsNotSupported, CB_CREATE_EXCP_PARAM2(StreamIsUnsupported, ApeStream::getClassDisplayName(), tr("Ape stream whose items have unsupported flags.")));
-    //MP3_CHECK (0 == (m_cFlags1 & 0xf8u) && 0 == m_cFlags2 && 0 == m_cFlags3 && 0 == m_cFlags4, pos, apeFlagsNotSupported, CB_CREATE_EXCP_PARAM2(StreamIsUnsupported, ApeStream::getClassDisplayName(), "Ape stream whose items have unsupported flags.")); // ttt1 allow this; see 02_-_Brave_-_Driven.mp3, which has a "BINARY" value (hence the "2" flag, which is also larger than 256)
+    MP3_CHECK (0 == m_cFlags1 && 0 == m_cFlags2 && 0 == m_cFlags3 && 0 == m_cFlags4, pos, apeFlagsNotSupported, CB_EXCP2(StreamIsUnsupported, ApeStream::getClassDisplayName(), tr("Ape stream whose items have unsupported flags.")));
+    //MP3_CHECK (0 == (m_cFlags1 & 0xf8u) && 0 == m_cFlags2 && 0 == m_cFlags3 && 0 == m_cFlags4, pos, apeFlagsNotSupported, CB_EXCP2(StreamIsUnsupported, ApeStream::getClassDisplayName(), "Ape stream whose items have unsupported flags.")); // ttt1 allow this; see 02_-_Brave_-_Driven.mp3, which has a "BINARY" value (hence the "2" flag, which is also larger than 256)
 //inspect(bfr, BFR_SIZE);
     int nDataSize (pUnsgBfr[0] + (pUnsgBfr[1] << 8) + (pUnsgBfr[2] << 16) + (pUnsgBfr[3] << 24));
     char* p (bfr + 8);
@@ -188,7 +188,7 @@ ApeStream::ApeStream(int nIndex, NoteColl& notes, istream& in) : DataStream(nInd
     m_nVersion = *reinterpret_cast<int*>(bfr + 8); // ttt2 assume 32-bit int + little-endian
     m_nSize = *reinterpret_cast<int*>(bfr + 12); // ttt2 assume 32-bit int + little-endian
 
-    MP3_CHECK (0x80 == (0xc0 & (unsigned char)bfr[23]), m_pos, apeUnsupported, CB_CREATE_EXCP_PARAM2(StreamIsUnsupported, ApeStream::getClassDisplayName(), tr("Tag missing header or footer."))); //ttt2 assumes both header & footer are present, but they are optional;
+    MP3_CHECK (0x80 == (0xc0 & (unsigned char)bfr[23]), m_pos, apeUnsupported, CB_EXCP2(StreamIsUnsupported, ApeStream::getClassDisplayName(), tr("Tag missing header or footer."))); //ttt2 assumes both header & footer are present, but they are optional;
     MP3_CHECK (0 != (0x20 & bfr[23]), m_pos, apeFoundFooter, CB_CREATE_EXCP(NotApeHeader));
 
     streampos posEnd (m_pos);

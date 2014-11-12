@@ -105,7 +105,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { CB_THROW_PARAM(CbRuntimeError, "invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & m_nIndex;
     }
@@ -134,7 +134,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { CB_THROW_PARAM(CbRuntimeError, "invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<DataStream>(*this);
 
@@ -167,7 +167,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { CB_THROW_PARAM(CbRuntimeError, "invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<SimpleDataStream>(*this);
 
@@ -190,7 +190,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { CB_THROW_PARAM(CbRuntimeError, "invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<UnknownDataStreamBase>(*this);
     }
@@ -217,7 +217,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { CB_THROW_PARAM(CbRuntimeError, "invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<UnknownDataStreamBase>(*this);
 
@@ -249,7 +249,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { CB_THROW_PARAM(CbRuntimeError, "invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<UnknownDataStreamBase>(*this);
 
@@ -290,7 +290,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { CB_THROW_PARAM(CbRuntimeError, "invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<UnknownDataStreamBase>(*this);
 
@@ -324,7 +324,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { CB_THROW_PARAM(CbRuntimeError, "invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<DataStream>(*this);
 

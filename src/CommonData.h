@@ -204,7 +204,7 @@ private:
 
     template<class Archive> void save(Archive& ar, const unsigned int nVersion) const
     {
-        if (nVersion > 0) { CB_THROW_PARAM(CbRuntimeError, "invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar << m_bNoteFilter;
         ar << m_bDirFilter;
@@ -227,7 +227,7 @@ private:
 
     template<class Archive> void load(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { CB_THROW_PARAM(CbRuntimeError, "invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar >> m_bNoteFilter;
         ar >> m_bDirFilter;

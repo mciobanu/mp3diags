@@ -107,7 +107,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { CB_THROW_PARAM(CbRuntimeError, "invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         //ar & boost::serialization::base_object<DataStream>(*this);
         ar & m_header;
@@ -129,7 +129,7 @@ private:
 
 struct MpegFrame : public MpegFrameBase
 {
-    DEFINE_CB_EXCP_PARAM(PrematurelyEndedMpegFrame, std::string, m_strInfo);
+    DEFINE_CB_EXCP1(PrematurelyEndedMpegFrame, std::string, m_strInfo);
     /*struct PrematurelyEndedMpegFrame : public CbException
     {
         std::string m_strInfo;

@@ -54,7 +54,7 @@ Id3V230Frame::Id3V230Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
     int nHdrBytesSkipped (0);
     int nRead (readID3V2(bHasUnsynch, in, bfr, ID3_FRAME_HDR_SIZE, posNext, nHdrBytesSkipped));
 
-    MP3_CHECK (ID3_FRAME_HDR_SIZE == nRead || (nRead >= 1 && 0 == bfr[0]), pos, id3v2FrameTooShort, CB_CREATE_EXCP_PARAM2(StreamIsBroken, Id3V230Stream::getClassDisplayName(), tr("Truncated ID3V2.3.0 tag.")));
+    MP3_CHECK (ID3_FRAME_HDR_SIZE == nRead || (nRead >= 1 && 0 == bfr[0]), pos, id3v2FrameTooShort, CB_EXCP2(StreamIsBroken, Id3V230Stream::getClassDisplayName(), tr("Truncated ID3V2.3.0 tag.")));
     unsigned char* p (reinterpret_cast<unsigned char*> (bfr));
     if (0 == bfr[0])
     { // padding
@@ -68,15 +68,15 @@ Id3V230Frame::Id3V230Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
     m_szName[4] = 0;
     m_nMemDataSize = (p[4] << 24) + (p[5] << 16) + (p[6] << 8) + (p[7] << 0);
 
-    MP3_CHECK (m_nMemDataSize >= 0 && m_nMemDataSize < 5000000, pos, id3v230CantReadFrame, CB_CREATE_EXCP_PARAM2(StreamIsBroken, Id3V230Stream::getClassDisplayName(), tr("Broken ID3V2.3.0 tag.")));
+    MP3_CHECK (m_nMemDataSize >= 0 && m_nMemDataSize < 5000000, pos, id3v230CantReadFrame, CB_EXCP2(StreamIsBroken, Id3V230Stream::getClassDisplayName(), tr("Broken ID3V2.3.0 tag.")));
 
     {
         char c (m_szName[0]);
-        MP3_CHECK (c >= 'A' && c <= 'Z', pos, id3v2InvalidName, CB_CREATE_EXCP_PARAM2(StreamIsBroken, Id3V230Stream::getClassDisplayName(), tr("ID3V2.3.0 tag containing a frame with an invalid name: %1.").arg(convStr(getReadableName()))));
+        MP3_CHECK (c >= 'A' && c <= 'Z', pos, id3v2InvalidName, CB_EXCP2(StreamIsBroken, Id3V230Stream::getClassDisplayName(), tr("ID3V2.3.0 tag containing a frame with an invalid name: %1.").arg(convStr(getReadableName()))));
         for (int i = 1; i < 4; ++i)
         {
             char c (m_szName[i]);
-            MP3_CHECK ((c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'), pos, id3v2InvalidName, CB_CREATE_EXCP_PARAM2(StreamIsBroken, Id3V230Stream::getClassDisplayName(), tr("ID3V2.3.0 tag containing a frame with an invalid name: %1.").arg(convStr(getReadableName()))));  //ttt3 ASCII-specific
+            MP3_CHECK ((c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'), pos, id3v2InvalidName, CB_EXCP2(StreamIsBroken, Id3V230Stream::getClassDisplayName(), tr("ID3V2.3.0 tag containing a frame with an invalid name: %1.").arg(convStr(getReadableName()))));  //ttt3 ASCII-specific
         }
     }
 
@@ -84,7 +84,7 @@ Id3V230Frame::Id3V230Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
     m_cFlag2 = bfr[9];
 
     //MP3_CHECK (0 == (m_cFlag1 & ~(0x40 | 0x1f)), pos, "Invalid ID3V2.3.0 frame. Flags1 not supported.", Id3V230Stream::NotId3V2()); // !!! 0x1f is for flags that are supposed to be always 0 but aren't; the best way to deal with them seems to be to ignore them // 2008.08.25 - seems best to just ignore these flags ("Tag alter preservation", "File alter preservation" and "Read only") //ttt2 revisit this decision
-    MP3_CHECK (0 == (m_cFlag2 & ~(0x00 | 0x1f)), pos, id3v2UnsuppFlags2, CB_CREATE_EXCP_PARAM2(StreamIsUnsupported, Id3V230Stream::getClassDisplayName(), tr("ID3V2.3.0 tag containing a frame with an unsupported flag.")));
+    MP3_CHECK (0 == (m_cFlag2 & ~(0x00 | 0x1f)), pos, id3v2UnsuppFlags2, CB_EXCP2(StreamIsUnsupported, Id3V230Stream::getClassDisplayName(), tr("ID3V2.3.0 tag containing a frame with an unsupported flag.")));
 
     if (0 != (m_cFlag1 & 0x1f)) { MP3_NOTE (pos, id3v2IncorrectFlg1); }
     if (0 != (m_cFlag2 & 0x1f)) { MP3_NOTE (pos, id3v2IncorrectFlg2); }
@@ -98,7 +98,7 @@ Id3V230Frame::Id3V230Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
     if (m_nMemDataSize != nRead)
     {
         vector<char>().swap(m_vcData);
-        MP3_THROW (pos, id3v2FrameTooShort, CB_CREATE_EXCP_PARAM2(StreamIsBroken, Id3V230Stream::getClassDisplayName(), tr("Truncated ID3V2.3.0 tag.")));
+        MP3_THROW (pos, id3v2FrameTooShort, CB_EXCP2(StreamIsBroken, Id3V230Stream::getClassDisplayName(), tr("Truncated ID3V2.3.0 tag.")));
     }
 
     m_nDiskHdrSize = ID3_FRAME_HDR_SIZE + nHdrBytesSkipped;
@@ -147,11 +147,11 @@ Id3V230Frame::Id3V230Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
         }
         catch (const NotId3V2Frame&)
         {
-            MP3_THROW (pos, id3v2TextError, CB_CREATE_EXCP_PARAM2(StreamIsBroken, Id3V230Stream::getClassDisplayName(), tr("ID3V2.3.0 tag containing a broken text frame named %1.").arg(convStr(getReadableName()))));
+            MP3_THROW (pos, id3v2TextError, CB_EXCP2(StreamIsBroken, Id3V230Stream::getClassDisplayName(), tr("ID3V2.3.0 tag containing a broken text frame named %1.").arg(convStr(getReadableName()))));
         }
         catch (const UnsupportedId3V2Frame&)
         {
-            MP3_THROW (pos, id3v230UnsuppText, CB_CREATE_EXCP_PARAM2(StreamIsUnsupported, Id3V230Stream::getClassDisplayName(), tr("ID3V2.3.0 tag containing a text frame named %1 using unsupported characters.").arg(convStr(getReadableName())))); //ttt2 NotSupported is not specific enough; this might need reviewing in the future
+            MP3_THROW (pos, id3v230UnsuppText, CB_EXCP2(StreamIsUnsupported, Id3V230Stream::getClassDisplayName(), tr("ID3V2.3.0 tag containing a text frame named %1 using unsupported characters.").arg(convStr(getReadableName())))); //ttt2 NotSupported is not specific enough; this might need reviewing in the future
         }
     }
     catch (const std::bad_alloc&) { throw; }
@@ -274,11 +274,11 @@ Id3V230Stream::Id3V230Stream(int nIndex, NoteColl& notes, istream& in, StringWrp
     char bfr [ID3_HDR_SIZE];
     MP3_CHECK_T (ID3_HDR_SIZE == read(in, bfr, ID3_HDR_SIZE), pos, "Invalid ID3V2.3.0 tag. File too small.", CB_CREATE_EXCP(NotId3V2));
     MP3_CHECK_T ('I' == bfr[0] && 'D' == bfr[1] && '3' == bfr[2], pos, "Invalid ID3V2.3.0 tag. Invalid ID3V2 header.", CB_CREATE_EXCP(NotId3V2));
-    MP3_CHECK ((3 == bfr[3] || 4 == bfr[3]) && 0 == bfr[4], pos, id3v2UnsuppVer, CB_CREATE_EXCP_PARAM2(StreamIsUnsupported, Id3V2StreamBase::getClassDisplayName(), tr("Unsupported version of ID3V2 tag%1").arg((bfr[3] >= 0 && bfr[3] <=9 && bfr[4] >= 0 && bfr[4] <=9) ? QString(": ID3V2.") + char('0' + bfr[3]) + '.'  + char('0' + bfr[4]) : "."))); // !!! tests for both 2.3.0 and 2.4.0 to make sure a SUPPORT message is generated (as opposed to TRACE); this test could be done either here or in ID3V240 (or in a separate function);
+    MP3_CHECK ((3 == bfr[3] || 4 == bfr[3]) && 0 == bfr[4], pos, id3v2UnsuppVer, CB_EXCP2(StreamIsUnsupported, Id3V2StreamBase::getClassDisplayName(), tr("Unsupported version of ID3V2 tag%1").arg((bfr[3] >= 0 && bfr[3] <=9 && bfr[4] >= 0 && bfr[4] <=9) ? QString(": ID3V2.") + char('0' + bfr[3]) + '.'  + char('0' + bfr[4]) : "."))); // !!! tests for both 2.3.0 and 2.4.0 to make sure a SUPPORT message is generated (as opposed to TRACE); this test could be done either here or in ID3V240 (or in a separate function);
     MP3_CHECK_T (3 == bfr[3] && 0 == bfr[4], pos, "Invalid ID3V2.3.0 tag. Invalid ID3V2.3.0 header.", CB_CREATE_EXCP(NotId3V2));
     m_nTotalSize = getId3V2Size (bfr);
     m_cFlags = bfr[5];
-    MP3_CHECK (0 == (m_cFlags & 0x7f), pos, id3v2UnsuppFlag, CB_CREATE_EXCP_PARAM2(StreamIsUnsupported, Id3V230Stream::getClassDisplayName(), tr("ID3V2 tag with unsupported flag."))); //ttt2 review, support
+    MP3_CHECK (0 == (m_cFlags & 0x7f), pos, id3v2UnsuppFlag, CB_EXCP2(StreamIsUnsupported, Id3V230Stream::getClassDisplayName(), tr("ID3V2 tag with unsupported flag."))); //ttt2 review, support
 
     streampos posNext (pos);
     posNext += m_nTotalSize;
@@ -417,7 +417,7 @@ Id3V230StreamWriter::Id3V230StreamWriter(bool bKeepOneValidImg, bool bFastSave, 
             for (int i = 0; i < cSize(p->getFrames()); ++i)
             {
                 const Id3V2Frame* q (p->getFrames()[i]);
-                CB_ASSERT_MSG ((0 == strcmp(q->m_szName, KnownFrames::LBL_IMAGE())) ^ (Id3V2Frame::NO_APIC == q->m_eApicStatus), m_strDebugFileName); // if the frame name is APIC, it should have some status that is not "NO_APIC", i.e. one of ERR, USES_LINK, NON_COVER, COVER
+                CB_ASSERT1 ((0 == strcmp(q->m_szName, KnownFrames::LBL_IMAGE())) ^ (Id3V2Frame::NO_APIC == q->m_eApicStatus), m_strDebugFileName); // if the frame name is APIC, it should have some status that is not "NO_APIC", i.e. one of ERR, USES_LINK, NON_COVER, COVER
                 if (Id3V2Frame::NO_APIC == q->m_eApicStatus)
                 {
                     bool bCopyFrame (true);
@@ -617,7 +617,7 @@ void Id3V230StreamWriter::addTextFrame(const std::string& strName, const std::st
 void Id3V230StreamWriter::addBinaryFrame(const std::string& strName, vector<char>& vcData)
 {
     Id3V230Frame* p (new Id3V230Frame(strName, vcData));
-    CB_ASSERT_MSG (0 != strcmp(KnownFrames::LBL_IMAGE(), p->m_szName), m_strDebugFileName);
+    CB_ASSERT1 (0 != strcmp(KnownFrames::LBL_IMAGE(), p->m_szName), m_strDebugFileName);
     addNonOwnedFrame(p);
     m_vpOwnFrames.push_back(p);
 }
@@ -633,16 +633,16 @@ void Id3V230StreamWriter::addImg(std::vector<char>& vcData)
 {
     int n (cSize(vcData));
     char* p (&vcData[0]);
-    CB_ASSERT_MSG (0 == *p || 3 == *p, m_strDebugFileName); // text encoding // this should be kept in synch with Id3V2StreamBase::decodeApic() //ttt1 triggered according to mail; might have been caused by SmallerImageRemover::apply() incorrectly assuming that an invalid APIC frame is a large picture; the test using the frame name was replaced after the assert with a test using m_eApicStatus; will have to wait until some MP3 is received that triggered this to be sure
+    CB_ASSERT1 (0 == *p || 3 == *p, m_strDebugFileName); // text encoding // this should be kept in synch with Id3V2StreamBase::decodeApic() //ttt1 triggered according to mail; might have been caused by SmallerImageRemover::apply() incorrectly assuming that an invalid APIC frame is a large picture; the test using the frame name was replaced after the assert with a test using m_eApicStatus; will have to wait until some MP3 is received that triggered this to be sure
 
     char* q (p + 1);
     for (; q < p + 90 && 0 != *q; ++q) {}
-    CB_ASSERT_MSG (0 == *q, m_strDebugFileName);
+    CB_ASSERT1 (0 == *q, m_strDebugFileName);
     ++q;
     *q = Id3V2Frame::PT_COVER;
     ++q;
     for (; q < p + n && 0 != *q; ++q) {}
-    CB_ASSERT_MSG (0 == *q, m_strDebugFileName);
+    CB_ASSERT1 (0 == *q, m_strDebugFileName);
     ++q; // now q points to the beginning of the actual image
     int nOffs (q - p);
     int nImgSize (n - nOffs);
@@ -714,7 +714,7 @@ void Id3V230StreamWriter::removeFrames(const std::string& strName, int nPictureT
     for (int i = cSize(m_vpAllFrames) - 1; i >= 0; --i)
     {
         p = m_vpAllFrames[i];
-        CB_ASSERT_MSG (-1 == nPictureType || KnownFrames::LBL_IMAGE() == strName, m_strDebugFileName);
+        CB_ASSERT1 (-1 == nPictureType || KnownFrames::LBL_IMAGE() == strName, m_strDebugFileName);
         if (p->m_szName == strName && (p->m_nPictureType == nPictureType || m_bKeepOneValidImg || -1 == nPictureType))
         {
             m_vpAllFrames.erase(m_vpAllFrames.begin() + i);
@@ -724,7 +724,7 @@ void Id3V230StreamWriter::removeFrames(const std::string& strName, int nPictureT
     for (int i = cSize(m_vpOwnFrames) - 1; i >= 0; --i)
     {
         p = m_vpOwnFrames[i];
-        CB_ASSERT_MSG (-1 == nPictureType || KnownFrames::LBL_IMAGE() == strName, m_strDebugFileName);
+        CB_ASSERT1 (-1 == nPictureType || KnownFrames::LBL_IMAGE() == strName, m_strDebugFileName);
         if (p->m_szName == strName && (p->m_nPictureType == nPictureType || m_bKeepOneValidImg || -1 == nPictureType))
         {
             delete p;

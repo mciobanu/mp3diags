@@ -94,7 +94,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 1) { CB_THROW_PARAM(CbRuntimeError, "invalid version of serialized file"); }
+        if (nVersion > 1) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<DataStream>(*this);
 

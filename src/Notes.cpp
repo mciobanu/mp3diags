@@ -380,7 +380,7 @@ string Note::getPosHex() const
     if (s == ERR) return convStr(Notes::tr("ERROR"));
     if (s == WARNING) return convStr(Notes::tr("WARNING"));
     if (s == SUPPORT) return convStr(Notes::tr("SUPPORT"));
-    CB_THROW_PARAM(CbInvalidArgument, boost::lexical_cast<std::string>((int)s));
+    CB_THROW1(CbInvalidArgument, boost::lexical_cast<std::string>((int)s));
 }
 
 

@@ -36,7 +36,7 @@ struct CLASS_NAME : public CbException \
     CLASS_NAME(const std::string& strMsg, const char* szFile, int nLine, const CbException& cause) : CbException(#CLASS_NAME + (": " + strMsg), szFile, nLine, cause) {} \
 }
 
-#define DEFINE_CB_EXCP_PARAM(CLASS_NAME, TYPE, FIELD) \
+#define DEFINE_CB_EXCP1(CLASS_NAME, TYPE, FIELD) \
 struct CLASS_NAME : public CbException \
 { \
     TYPE FIELD; \
@@ -44,7 +44,7 @@ struct CLASS_NAME : public CbException \
     /*override*/ ~CLASS_NAME() throw() {} \
 }
 
-#define DEFINE_CB_EXCP_PARAM2(CLASS_NAME, TYPE1, FIELD1, TYPE2, FIELD2) \
+#define DEFINE_CB_EXCP2(CLASS_NAME, TYPE1, FIELD1, TYPE2, FIELD2) \
 struct CLASS_NAME : public CbException \
 { \
     TYPE1 FIELD1; \
@@ -53,30 +53,32 @@ struct CLASS_NAME : public CbException \
     /*override*/ ~CLASS_NAME() throw() {} \
 }
 
+
+
 #define CB_THROW(CLASS_NAME) throw CLASS_NAME(__FILE__, __LINE__)
-#define CB_THROW_PARAM(CLASS_NAME, PARAM) throw CLASS_NAME(PARAM, __FILE__, __LINE__)
-#define CB_THROW_PARAM2(CLASS_NAME, PARAM1, PARAM2) throw CLASS_NAME(PARAM1, PARAM2, __FILE__, __LINE__)
+#define CB_THROW1(CLASS_NAME, PARAM) throw CLASS_NAME(PARAM, __FILE__, __LINE__)
+#define CB_THROW2(CLASS_NAME, PARAM1, PARAM2) throw CLASS_NAME(PARAM1, PARAM2, __FILE__, __LINE__)
 
 
 //#define CB_CHECK1(COND, EXCP) { if (!(COND)) { ::trace(#EXCP); throw EXCP; } }
 #define CB_CHECK(COND, EXCP) { if (!(COND)) { ::trace(#EXCP); throw EXCP(#EXCP, __FILE__, __LINE__); } } //ttt2 see how to force calling code to end with ";", like CB_THROW
 #define CB_CHECK_MSG(COND, EXCP, MSG) { if (!(COND)) { ::trace(std::string(#EXCP) + ": " + MSG); throw EXCP(MSG, __FILE__, __LINE__); } }
-#define CB_CHECK_PARAM(COND, EXCP, PARAM) { if (!(COND)) { ::trace(std::string(#EXCP) + ": " + boost::lexical_cast<std::string>(PARAM)); throw EXCP(PARAM, __FILE__, __LINE__); } }
-#define CB_CHECK_PARAM2(COND, EXCP, PARAM1, PARAM2) { if (!(COND)) { ::trace(#EXCP); throw EXCP(PARAM1, PARAM2, __FILE__, __LINE__); } }
+#define CB_CHECK1(COND, EXCP, PARAM) { if (!(COND)) { ::trace(std::string(#EXCP) + ": " + boost::lexical_cast<std::string>(PARAM)); throw EXCP(PARAM, __FILE__, __LINE__); } }
+#define CB_CHECK2(COND, EXCP, PARAM1, PARAM2) { if (!(COND)) { ::trace(#EXCP); throw EXCP(PARAM1, PARAM2, __FILE__, __LINE__); } }
 
 #define CB_CREATE_EXCP(EXCP) EXCP(__FILE__, __LINE__)
 #define CB_CREATE_EXCP_PARAM(EXCP, PARAM) EXCP(PARAM, __FILE__, __LINE__)
-#define CB_CREATE_EXCP_PARAM2(EXCP, PARAM1, PARAM2) EXCP(PARAM1, PARAM2, __FILE__, __LINE__)
+#define CB_EXCP2(EXCP, PARAM1, PARAM2) EXCP(PARAM1, PARAM2, __FILE__, __LINE__)
 
 
 //#define CB_TRACE_AND_THROW(MSG) { throw std::runtime_error(MSG); }
 //#define CB_TRACE_AND_THROW1(EXCP) { ::trace(#EXCP); throw EXCP; }
 #define CB_TRACE_AND_THROW(EXCP) { ::trace(#EXCP); throw EXCP(#EXCP, __FILE__, __LINE__); }
-#define CB_TRACE_AND_THROW_MSG(EXCP, MSG) { ::trace(#EXCP); throw EXCP((std::string(#EXCP) + ": " + MSG, __FILE__, __LINE__); }
+#define CB_TRACE_AND_THROW1(EXCP, MSG) { ::trace(#EXCP); throw EXCP((std::string(#EXCP) + ": " + MSG, __FILE__, __LINE__); }
 
-//#define CB_ASSERT(COND) { if (!(COND)) { ::trace("assert"); CB_THROW_PARAM(CbRuntimeError, "assertion failure"); } }
+//#define CB_ASSERT(COND) { if (!(COND)) { ::trace("assert"); CB_THROW1(CbRuntimeError, "assertion failure"); } }
 #define CB_ASSERT(COND) { if (!(COND)) { assertBreakpoint(); ::trace("assert"); logAssert(__FILE__, __LINE__, #COND); ::exit(1); } }
-#define CB_ASSERT_MSG(COND, MSG) { if (!(COND)) { assertBreakpoint(); ::trace("assert"); logAssert(__FILE__, __LINE__, #COND, MSG); ::exit(1); } }
+#define CB_ASSERT1(COND, MSG) { if (!(COND)) { assertBreakpoint(); ::trace("assert"); logAssert(__FILE__, __LINE__, #COND, MSG); ::exit(1); } }
 
 DEFINE_CB_EXCP(CbRuntimeError);
 DEFINE_CB_EXCP(CbInvalidArgument);

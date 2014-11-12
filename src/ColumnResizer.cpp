@@ -249,7 +249,7 @@ double ColumnResizer::SequenceGen::rnd() const
 
 ColumnResizer::SequenceGen::SequenceGen(int nTotalRows, int nTargetRows) : m_nCrt(0)
 {
-    if (nTargetRows > nTotalRows || nTotalRows <= 0) { CB_THROW_PARAM(CbInvalidArgument, "Invalid params for SequenceGen"); }
+    if (nTargetRows > nTotalRows || nTotalRows <= 0) { CB_THROW1(CbInvalidArgument, "Invalid params for SequenceGen"); }
 
     if (nTotalRows == nTargetRows)
     {

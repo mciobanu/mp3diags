@@ -176,7 +176,7 @@ MpegStream::MpegStream(int nIndex, NoteColl& notes, istream& in) : MpegStreamBas
         {
             strInfo = decodeMpegFrame(bfr, ", ");
         }
-        MP3_THROW (m_pos, audioTooShort, CB_CREATE_EXCP_PARAM2(StreamTooShort, strInfo, m_nFrameCount));
+        MP3_THROW (m_pos, audioTooShort, CB_EXCP2(StreamTooShort, strInfo, m_nFrameCount));
     }
 
     MP3_CHECK (!m_bVbr || bVbr2, m_pos, diffBitrateInFirstFrame, CB_CREATE_EXCP(UnknownHeader)); //ttt2 perhaps add test for "null": whatever is in the first bytes that allows Xing & Co to not generate audio in decoders that don't know about them

@@ -260,8 +260,8 @@ src/CommonTypes.h	f	2014-11-12T10:30:51Z
 src/Config.ui	f	2012-02-12T20:13:49Z
 src/ConfigDlgImpl.cpp	f	2012-03-28T19:13:08Z
 src/ConfigDlgImpl.h	f	2012-02-06T22:36:06Z
-src/DataStream.cpp	f	2014-11-13T10:21:51Z
-src/DataStream.h	f	2014-11-13T09:42:27Z
+src/DataStream.cpp	f	2014-11-13T11:43:27Z
+src/DataStream.h	f	2014-11-13T11:34:42Z
 src/Debug.ui	f	2012-01-02T15:03:56Z
 src/DebugDlgImpl.cpp	f	2012-03-04T19:03:56Z
 src/DebugDlgImpl.h	f	2009-09-27T12:45:07Z
@@ -306,10 +306,10 @@ src/LogModel.h	f	2009-05-06T07:30:16Z
 src/LyricsStream.cpp	f	2014-11-12T17:36:59Z
 src/LyricsStream.h	f	2014-11-12T16:53:17Z
 src/MainForm.ui	f	2011-07-30T12:34:43Z
-src/MainFormDlgImpl.cpp	f	2014-11-13T11:01:18Z
+src/MainFormDlgImpl.cpp	f	2014-11-13T12:08:37Z
 src/MainFormDlgImpl.h	f	2012-02-29T20:07:21Z
 src/Mp3Diags.qrc	f	2012-02-05T19:46:04Z
-src/Mp3Manip.cpp	f	2014-11-13T10:35:02Z
+src/Mp3Manip.cpp	f	2014-11-13T12:11:09Z
 src/Mp3Manip.h	f	2014-11-13T08:39:43Z
 src/Mp3TransformThread.cpp	f	2014-11-13T09:14:43Z
 src/Mp3TransformThread.h	f	2014-09-24T08:48:58Z

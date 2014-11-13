@@ -338,12 +338,13 @@ private:
 class UnreadableDataStream : public DataStream
 {
     std::streampos m_pos;
+    std::string m_strInfo;
 public:
-    UnreadableDataStream(int nIndex, std::streampos pos);
+    UnreadableDataStream(int nIndex, std::streampos pos, const std::string& strInfo);
 
     /*override*/ void copy(std::istream&, std::ostream&) {}
     DECL_NAME(QT_TRANSLATE_NOOP("DataStream", "Unreadable"))
-    /*override*/ std::string getInfo() const { return ""; }
+    /*override*/ std::string getInfo() const { return m_strInfo; }
 
     /*override*/ std::streampos getPos() const { return m_pos; }
     /*override*/ std::streamoff getSize() const { return 0; }
@@ -360,6 +361,7 @@ private:
         ar & boost::serialization::base_object<DataStream>(*this);
 
         ar & m_pos;
+        ar & m_strInfo;
     }
 };
 

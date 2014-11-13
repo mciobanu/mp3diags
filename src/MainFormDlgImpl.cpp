@@ -1329,7 +1329,7 @@ void MainFormDlgImpl::onShow()
         if (!strErr.empty())
         {
             bLoadErr = true;
-            showCritical(this, tr("Error"), tr("An error occured while loading the MP3 information. Your files will be rescanned.\n\n").arg(convStr(strErr)));
+            showCritical(this, tr("Error"), tr("An error occured while loading the MP3 information. Your files will be rescanned.\n\n%1").arg(convStr(strErr)));
         }
     }
 

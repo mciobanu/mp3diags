@@ -142,7 +142,8 @@ Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const Q
             pos = m_vpAllStreams.back()->getEnd();
         }*/
         clearPtrContainer(m_vpAllStreams);
-        m_vpAllStreams.push_back(new UnreadableDataStream(m_vpAllStreams.size(), pos)); // ttt1 actually the exception could be related to other issues, perhaps having nothing to do with reading the file; anyway, the note says that it couldn't read the file, not that the file/drive is bad
+        m_vpAllStreams.push_back(new UnreadableDataStream(m_vpAllStreams.size(), pos, string("Failure point: ") + ex.what())); // ttt1 actually the exception could be related to other issues, perhaps having nothing to do with reading the file; anyway, the note says that it couldn't read the file, not that the file/drive is bad
+        //ttt1 not clear if it makes more sense to have the failure point in the stream or in the note
     }
 
     //TRACER1A("Mp3Handler constr ", 4);

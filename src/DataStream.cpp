@@ -206,7 +206,7 @@ e1:
 }
 
 
-UnreadableDataStream::UnreadableDataStream(int nIndex, std::streampos pos) : DataStream(nIndex), m_pos(pos)
+UnreadableDataStream::UnreadableDataStream(int nIndex, std::streampos pos, const std::string& strInfo) : DataStream(nIndex), m_pos(pos), m_strInfo(strInfo)
 {
 }
 

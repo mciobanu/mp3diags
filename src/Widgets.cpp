@@ -288,7 +288,7 @@ ThreadLocalDlgList& getThreadLocalDlgList()
 
 /*static*/ int HtmlMsg::msg(QWidget* pParent, int nDefault, int nEscape, bool* pbGotTheMessage, int nFlags, const QString& qstrTitle, const QString& qstrMessage, int nWidth, int nHeight, const QString& qstrButton0, const QString& qstrButton1 /* = ""*/, const QString& qstrButton2 /* = ""*/, const QString& qstrButton3 /* = ""*/)
 {
-    LAST_STEP("HtmlMsg::msg()");
+    //LAST_STEP("HtmlMsg::msg()");
 
     //QDialog dlg (pParent, Qt::Dialog | getNoResizeWndFlags() | (bStayOnTop ? Qt::WindowStaysOnTopHint : Qt::WindowFlags(0)));
     QDialog dlg (pParent, getDialogWndFlags() | (nFlags & STAY_ON_TOP ? Qt::WindowStaysOnTopHint : Qt::WindowFlags(0)));
@@ -365,7 +365,7 @@ ThreadLocalDlgList& getThreadLocalDlgList()
 
     dlg.exec();
 
-    LAST_STEP1("HtmlMsg::msg 2()", 1);
+    //LAST_STEP1("HtmlMsg::msg 2()", 1);
 
     if (0 != pbGotTheMessage)
     {

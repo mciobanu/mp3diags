@@ -57,7 +57,7 @@ StreamsModel::StreamsModel(CommonData* pCommonData) : QAbstractTableModel(pCommo
 
 /*override*/ QVariant StreamsModel::data(const QModelIndex& index, int nRole) const
 {
-LAST_STEP("StreamsModel::data()");
+//LAST_STEP("StreamsModel::data()");
 
 /*
 //ttt2
@@ -118,7 +118,7 @@ if (0 == CRT % 2000)
 
 /*override*/ QVariant StreamsModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /* = Qt::DisplayRole*/) const
 {
-LAST_STEP("StreamsModel::headerData");
+//LAST_STEP("StreamsModel::headerData");
     if (nRole == Qt::SizeHintRole)
     {
         return getNumVertHdrSize(cSize(m_pCommonData->getCrtStreams()), eOrientation);

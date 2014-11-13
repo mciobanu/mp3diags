@@ -1669,7 +1669,7 @@ ExternalToolsModel::ExternalToolsModel(const ConfigDlgImpl* pConfigDlgImpl) : m_
 
 /*override*/ QVariant ExternalToolsModel::data(const QModelIndex& index, int nRole) const
 {
-LAST_STEP("ExternalToolsModel::data()");
+//LAST_STEP("ExternalToolsModel::data()");
     if (!index.isValid()) { return QVariant(); }
     int i (index.row());
     int j (index.column());
@@ -1692,7 +1692,7 @@ LAST_STEP("ExternalToolsModel::data()");
 
 /*override*/ QVariant ExternalToolsModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /* = Qt::DisplayRole*/) const
 {
-LAST_STEP("ExternalToolsModel::headerData");
+//LAST_STEP("ExternalToolsModel::headerData");
     if (nRole != Qt::DisplayRole) { return QVariant(); }
 
     if (Qt::Horizontal == eOrientation)

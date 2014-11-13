@@ -217,7 +217,7 @@ void NoteFilterDlgImpl::onHelp()
 
 /*override*/ void NoteListPainterBase::getColor(int nIndex, int nColumn, bool bSubList, QColor& bckgColor, QColor& penColor, double& dGradStart, double& dGradEnd) const
 {
-    LAST_STEP("NoteListPainterBase::getColor()");
+    //LAST_STEP("NoteListPainterBase::getColor()");
     const NoteListElem* p (dynamic_cast<const NoteListElem*>(getAll()[nIndex]));
     CB_ASSERT(0 != p);
     const Note* pNote (p->getNote());

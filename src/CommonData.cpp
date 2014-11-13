@@ -1441,7 +1441,7 @@ const QColor& SUPPORT_PEN_COLOR()
 // color is normally the category color, but for support notes it's a "support" color; if the note isn't found in vpNoteSet, dGradStart and dGradEnd are set to -1, but normally they get a segment obtained by dividing [0, 1] in equal parts;
 void CommonData::getNoteColor(const Note& note, const vector<const Note*>& vpNoteSet, QColor& color, double& dGradStart, double& dGradEnd) const
 {
-    LAST_STEP("CommonData::getNoteColor()");
+    //LAST_STEP("CommonData::getNoteColor()");
     dGradStart = -1;
     dGradEnd = -1;
 

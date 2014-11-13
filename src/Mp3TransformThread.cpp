@@ -117,13 +117,13 @@ struct Mp3TransformThread : public PausableThread
         }
         catch (const exception& ex)
         {
-            LAST_STEP1("Mp3TransformThread::run()", 1);
-            LAST_STEP1(ex.what(), 2);
-            CB_ASSERT (false);
+            TRACER1("Mp3TransformThread::run()", 1);
+            TRACER1(ex.what(), 2);
+            CB_ASSERT1 (false, ex.what());
         }
         catch (...) //ttt0 catch other things too (at least std::exception, but not sure what to do, meaning probably should show a message and terminate anyway); see comment 3 lines below for a better approach
         {
-            LAST_STEP("Mp3TransformThread::run()");
+            TRACER("Mp3TransformThread::run() - unknown exception");
             CB_ASSERT (false);
             /*ttt0 2014.09.23 - if transformations leak exceptions it usually gets here; they should be derived from exception (or CbException), in which case they would be caught and it wouldn't reach this point.
              */
@@ -578,10 +578,10 @@ bool Mp3Transformer::transform()
                     bErrorInTransform = true;
                     m_strErrorDir = ex.m_strDir;
                 }
-                catch (const CannotCopyFile&)
+                catch (const CannotCopyFile& ex)
                 {
                 //TRACER1A("transf ", 45);
-                    CB_ASSERT(false);
+                    CB_ASSERT1(false, ex.what());
                     //bErrorInTransform = true;
                 }
 //TRACER1A("transf ", 46);

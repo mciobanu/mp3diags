@@ -127,7 +127,24 @@ Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const Q
     // cout << s << endl;
 //TRACER1A("Mp3Handler constr ", 3);
 
-    parse(in);
+    //parse(in);
+    try
+    {
+        parse(in);
+    }
+    catch (const exception& ex)
+    {
+        TRACER(string("Mp3Handler::Mp3Handler() / parse: ") + ex.what());
+        std::streampos pos (0);
+        //ttt2 not sure if better to show the other streams and notes or not
+        /*if (!m_vpAllStreams.empty())
+        {
+            pos = m_vpAllStreams.back()->getEnd();
+        }*/
+        clearPtrContainer(m_vpAllStreams);
+        m_vpAllStreams.push_back(new UnreadableDataStream(m_vpAllStreams.size(), pos)); // ttt1 actually the exception could be related to other issues, perhaps having nothing to do with reading the file; anyway, the note says that it couldn't read the file, not that the file/drive is bad
+    }
+
     //TRACER1A("Mp3Handler constr ", 4);
     m_notes.resetCounter();
     //TRACER1A("Mp3Handler constr ", 5);
@@ -587,6 +604,17 @@ void Mp3Handler::analyze(const QualThresholds& qualThresholds)
 {
     NoteColl& notes (m_notes); // for MP3_NOTE()
 
+    if (cSize(m_vpAllStreams) == 1)
+    {
+        UnreadableDataStream* p (dynamic_cast<UnreadableDataStream*>(m_vpAllStreams[0]));
+        if (0 != p)
+        {
+            m_notes.removeNotes(0, 1 << 30);
+            MP3_NOTE (0, failedToRead);
+            return; // no need for other notes if the file couldn't be read
+        }
+    }
+
     for (int i = 0, n = cSize(m_vpAllStreams); i < n; ++i)
     {
         DataStream* pDs (m_vpAllStreams[i]);
@@ -866,13 +894,13 @@ void Mp3Handler::reloadId3V2Hlp()
     catch (const std::bad_alloc&) { throw; }
     catch (const exception& ex)
     {
-        LAST_STEP1("Mp3Handler::reloadId3V2Hlp()", 1);
-        LAST_STEP1(ex.what(), 2);
+        TRACER1("Mp3Handler::reloadId3V2Hlp()", 1);
+        TRACER1(ex.what(), 2);
         STRM_ASSERT (false);
     }
     catch (...)
     {
-        LAST_STEP("Mp3Handler::reloadId3V2Hlp() - unknown exception");
+        TRACER("Mp3Handler::reloadId3V2Hlp() - unknown exception");
         STRM_ASSERT (false);
     }
 

@@ -89,13 +89,14 @@ class Mp3Handler
     ApeStream* m_pApeStream;
     LyricsStream* m_pLyricsStream;
 
+    // pointers owned by m_vpAllStreams
     std::vector<NullDataStream*> m_vpNullStreams;
     std::vector<UnknownDataStream*> m_vpUnknownStreams;
     std::vector<BrokenDataStream*> m_vpBrokenStreams;
     std::vector<UnsupportedDataStream*> m_vpUnsupportedStreams;
     std::vector<TruncatedMpegDataStream*> m_vpTruncatedMpegStreams;
 
-    std::vector<DataStream*> m_vpAllStreams;
+    std::vector<DataStream*> m_vpAllStreams; // owned pointers
     ifstream_utf8* m_pIn; // this isn't used after the constructor completes; however, many streams have a StreamStateRestorer member, which does this on its destructor: it restores the stream position if the stream's constructor fails and clears the errors otherwise, assuming that the stream pointer is non-0; m_pIn is set to 0 after Mp3Handler's constructor completes, so the restorers of the successfuly built streams don't do anything when the streams get destroyed, because they see a null pointer;
 
     //bool m_bHasId3V2;

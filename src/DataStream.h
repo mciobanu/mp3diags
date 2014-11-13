@@ -334,6 +334,36 @@ private:
 };
 
 
+
+class UnreadableDataStream : public DataStream
+{
+    std::streampos m_pos;
+public:
+    UnreadableDataStream(int nIndex, std::streampos pos);
+
+    /*override*/ void copy(std::istream&, std::ostream&) {}
+    DECL_NAME(QT_TRANSLATE_NOOP("DataStream", "Unreadable"))
+    /*override*/ std::string getInfo() const { return ""; }
+
+    /*override*/ std::streampos getPos() const { return m_pos; }
+    /*override*/ std::streamoff getSize() const { return 0; }
+
+private:
+    friend class boost::serialization::access;
+    UnreadableDataStream() {} // serialization-only constructor
+
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int nVersion)
+    {
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
+
+        ar & boost::serialization::base_object<DataStream>(*this);
+
+        ar & m_pos;
+    }
+};
+
+
 //==========================================================================
 //==========================================================================
 

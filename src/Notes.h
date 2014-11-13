@@ -325,6 +325,7 @@ public:
     DECL_NOTE_INFO(tooManyStreams, WARNING, MISC, QT_TR_NOOP("Too many streams found. Aborting processing."), false) // e
     DECL_NOTE_INFO(unsupportedFound, WARNING, MISC, QT_TR_NOOP("Unsupported stream found. It may be supported in the future if there's a real need for it."), false) // f
     DECL_NOTE_INFO(rescanningNeeded, WARNING, MISC, QT_TR_NOOP("The file was saved using the \"fast\" option. While this improves the saving speed, it may leave the notes in an inconsistent state, so you should rescan the file."), false) // g
+    DECL_NOTE_INFO(failedToRead, ERR, MISC, QT_TR_NOOP("An error occurred while reading the file, so it wasn't fully processed. This usually happens when reading from external drives or USB sticks, in which case a workaround might be to copy the files to an internal drive."), false) // h
 
     struct CompNoteByName // needed for searching
     {

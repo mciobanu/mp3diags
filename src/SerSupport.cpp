@@ -249,6 +249,7 @@ void qwrqwrqsrq()
     ar.register_type<TruncatedMpegDataStream>(); \
     ar.register_type<UnknownDataStream>(); \
     ar.register_type<UnsupportedDataStream>(); \
+    ar.register_type<UnreadableDataStream>(); \
  \
     ar.register_type<Mp3Handler>(); \
 }

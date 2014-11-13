@@ -230,6 +230,7 @@ static const char* s_szPlaceholderDescr (QT_TRANSLATE_NOOP("Notes", "<Placeholde
     addNote(&Notes::tooManyStreams()); // w
     addNote(&Notes::unsupportedFound()); // w
     addNote(&Notes::rescanningNeeded()); // w
+    addNote(&Notes::failedToRead()); // e
 
     {
         CB_ASSERT (Note::CUSTOM == Note::CATEG_CNT - 1);

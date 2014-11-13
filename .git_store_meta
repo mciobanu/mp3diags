@@ -260,8 +260,8 @@ src/CommonTypes.h	f	2014-11-12T10:30:51Z
 src/Config.ui	f	2012-02-12T20:13:49Z
 src/ConfigDlgImpl.cpp	f	2012-03-28T19:13:08Z
 src/ConfigDlgImpl.h	f	2012-02-06T22:36:06Z
-src/DataStream.cpp	f	2014-11-12T17:35:14Z
-src/DataStream.h	f	2014-11-12T17:36:59Z
+src/DataStream.cpp	f	2014-11-13T10:21:51Z
+src/DataStream.h	f	2014-11-13T09:42:27Z
 src/Debug.ui	f	2012-01-02T15:03:56Z
 src/DebugDlgImpl.cpp	f	2012-03-04T19:03:56Z
 src/DebugDlgImpl.h	f	2009-09-27T12:45:07Z
@@ -282,7 +282,7 @@ src/ExternalToolDlgImpl.h	f	2012-01-17T22:23:05Z
 src/FileEnum.cpp	f	2014-11-12T10:27:06Z
 src/FileEnum.h	f	2014-11-12T08:57:34Z
 src/FileRenamer.ui	f	2012-01-02T09:53:58Z
-src/FileRenamerDlgImpl.cpp	f	2014-11-12T16:50:28Z
+src/FileRenamerDlgImpl.cpp	f	2014-11-13T09:14:54Z
 src/FileRenamerDlgImpl.h	f	2014-11-12T15:55:29Z
 src/FilesModel.cpp	f	2012-03-11T13:29:16Z
 src/FilesModel.h	f	2009-10-01T09:28:15Z
@@ -306,12 +306,12 @@ src/LogModel.h	f	2009-05-06T07:30:16Z
 src/LyricsStream.cpp	f	2014-11-12T17:36:59Z
 src/LyricsStream.h	f	2014-11-12T16:53:17Z
 src/MainForm.ui	f	2011-07-30T12:34:43Z
-src/MainFormDlgImpl.cpp	f	2014-11-12T07:49:16Z
+src/MainFormDlgImpl.cpp	f	2014-11-13T11:01:18Z
 src/MainFormDlgImpl.h	f	2012-02-29T20:07:21Z
 src/Mp3Diags.qrc	f	2012-02-05T19:46:04Z
-src/Mp3Manip.cpp	f	2014-11-12T10:37:37Z
-src/Mp3Manip.h	f	2014-11-12T16:53:17Z
-src/Mp3TransformThread.cpp	f	2014-11-12T10:27:06Z
+src/Mp3Manip.cpp	f	2014-11-13T10:35:02Z
+src/Mp3Manip.h	f	2014-11-13T08:39:43Z
+src/Mp3TransformThread.cpp	f	2014-11-13T09:14:43Z
 src/Mp3TransformThread.h	f	2014-09-24T08:48:58Z
 src/MpegFrame.cpp	f	2014-11-12T17:36:59Z
 src/MpegFrame.h	f	2014-11-12T17:00:31Z
@@ -324,8 +324,8 @@ src/MusicBrainzDownloader.h	f	2009-09-11T14:47:51Z
 src/NoteFilter.ui	f	2012-01-02T15:21:05Z
 src/NoteFilterDlgImpl.cpp	f	2012-03-04T12:42:06Z
 src/NoteFilterDlgImpl.h	f	2009-09-11T14:47:51Z
-src/Notes.cpp	f	2014-11-12T16:53:17Z
-src/Notes.h	f	2014-11-12T16:53:17Z
+src/Notes.cpp	f	2014-11-13T09:30:05Z
+src/Notes.h	f	2014-11-13T10:38:58Z
 src/NotesModel.cpp	f	2012-03-03T06:58:29Z
 src/NotesModel.h	f	2009-05-06T07:31:33Z
 src/OsFile.cpp	f	2014-11-12T16:54:52Z
@@ -340,7 +340,7 @@ src/RenamerPatternsDlgImpl.h	f	2009-07-28T07:25:59Z
 src/Scan.ui	f	2012-01-02T15:22:55Z
 src/ScanDlgImpl.cpp	f	2009-10-13T11:44:09Z
 src/ScanDlgImpl.h	f	2009-07-17T15:02:37Z
-src/SerSupport.cpp	f	2014-11-12T16:53:17Z
+src/SerSupport.cpp	f	2014-11-13T09:19:22Z
 src/SerSupport.h	f	2009-05-06T07:27:31Z
 src/SessionEditor.ui	f	2012-02-06T22:59:54Z
 src/SessionEditorDlgImpl.cpp	f	2012-03-17T13:06:25Z
@@ -443,7 +443,7 @@ src/licences/gplv3.txt	f	2008-11-14T09:24:29Z
 src/licences/lgpl-2.1.txt	f	2009-05-14T11:38:15Z
 src/licences/lgplv3.txt	f	2008-11-14T09:24:41Z
 src/licences/zlib.txt	f	2009-05-14T11:42:40Z
-src/main.cpp	f	2014-11-12T16:53:17Z
+src/main.cpp	f	2014-11-13T10:24:44Z
 src/src.pro	f	2014-11-12T11:04:54Z
 src/translations/autoTransl/MixedCase.cpp	f	2012-02-29T21:51:40Z
 src/translations/mp3diags_cs.ts	f	2014-01-16T13:00:34Z

@@ -586,9 +586,9 @@ bool RenameThread::proc()
                 m_qstrErr = FileRenamerDlgImpl::tr("Cannot create folder %1").arg(convStr(ex.m_strDir));
             }
             catch (const std::bad_alloc&) { throw; }
-            catch (const IncorrectDirName&)
+            catch (const IncorrectDirName& ex)
             {
-                CB_ASSERT (false);
+                CB_ASSERT1 (false, ex.what());
             }
             catch (const exception& ex)
             {

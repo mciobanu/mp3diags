@@ -63,6 +63,7 @@ UnknownDataStreamBase::UnknownDataStreamBase(int nIndex, NoteColl& notes, istrea
     in.seekg(pos);
     char c;
 
+    //CB_THROW(BadUnknownStream);
     MP3_CHECK (1 == read(in, &c, 1), m_pos, unknTooShort, CB_EXCP(BadUnknownStream));
 
     rst.setOk();
@@ -204,6 +205,10 @@ e1:
     return "";
 }
 
+
+UnreadableDataStream::UnreadableDataStream(int nIndex, std::streampos pos) : DataStream(nIndex), m_pos(pos)
+{
+}
 
 
 BrokenDataStream::BrokenDataStream(int nIndex, NoteColl& notes, std::istream& in, std::streamoff nSize, const char* szBaseName, const std::string& strInfo) :

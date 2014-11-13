@@ -714,13 +714,13 @@ struct SerLoadThread : public PausableThread
         }
         catch (const exception& ex)
         {
-            LAST_STEP1("SerLoadThread::run()", 1);
-            LAST_STEP1(ex.what(), 2);
-            CB_ASSERT (false);
+            TRACER1("SerLoadThread::run()", 1);
+            TRACER1(ex.what(), 2);
+            CB_ASSERT1 (false, ex.what());
         }
         catch (...)
         {
-            LAST_STEP("SerLoadThread::run()");
+            TRACER("SerLoadThread::run() - unknown exception");
             CB_ASSERT (false);
         }
     }
@@ -754,13 +754,13 @@ struct SerSaveThread : public PausableThread
         }
         catch (const exception& ex)
         {
-            LAST_STEP1("SerSaveThread::run()", 1);
-            LAST_STEP1(ex.what(), 2);
-            CB_ASSERT (false);
+            TRACER1("SerSaveThread::run()", 1);
+            TRACER1(ex.what(), 2);
+            CB_ASSERT1 (false, ex.what());
         }
         catch (...)
         {
-            LAST_STEP("SerSaveThread::run()");
+            TRACER("SerSaveThread::run() - unknown exception");
             CB_ASSERT (false);
         }
     }
@@ -1601,14 +1601,14 @@ struct Mp3ProcThread : public PausableThread
         }
         catch (const exception& ex)
         {
-            LAST_STEP1("Mp3ProcThread::run()", 1);
-            LAST_STEP1(ex.what(), 2);
-            CB_ASSERT (false); //ttt0 triggered according to https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=50 and https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=54
+            TRACER1("Mp3ProcThread::run()", 1);
+            TRACER1(ex.what(), 2);
+            CB_ASSERT1 (false, ex.what());
         }
         catch (...)
         {
-            LAST_STEP("Mp3ProcThread::run()");
-            CB_ASSERT (false); //ttt0 triggered according to https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=50 and https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=54
+            TRACER("Mp3ProcThread::run() - unknown exception");
+            CB_ASSERT (false); //ttt0 triggered according to https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=50 and https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=54  2014.11.13 - one way to get here was disabled, by catching some exceptions
         }
     }
 
@@ -1693,6 +1693,7 @@ void MainFormDlgImpl::scan(FileEnumerator& fileEnum, bool bForce, deque<const Mp
 
     m_pCommonData->mergeHandlerChanges(vpAdd, vpDel, nKeepWhenUpdate);
 
+    /*
     if (!m_pCommonData->m_bToldAboutSupport && !s_bToldAboutSupportInCrtRun)
     {
         const vector<const Note*>& v (m_pCommonData->getUniqueNotes().getFltVec());
@@ -1712,7 +1713,7 @@ void MainFormDlgImpl::scan(FileEnumerator& fileEnum, bool bForce, deque<const Mp
                 m_settings.saveMiscConfigSettings(m_pCommonData);
             }
         }
-    }
+    }*/
 }
 
 

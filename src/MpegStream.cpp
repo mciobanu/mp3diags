@@ -295,7 +295,7 @@ bool MpegStream::findNextCompatFrame(std::istream& in, std::streampos posMax)
 #ifdef GENERATE_TOC //ttt2 maybe improve and use
 #if 1
 // throws if it can't write to the disk
-void createXing(ostream& out, const MpegFrame& frame1, int nFrameCount, streamoff nStreamSize)
+void createXing(const string& /*strFileName*/, streampos /*nStreamPos*/, ostream& out, const MpegFrame& frame1, int nFrameCount, streamoff nStreamSize)
 {
     const MpegFrameBase& frame (frame1.getBigBps());
 
@@ -315,10 +315,10 @@ void createXing(ostream& out, const MpegFrame& frame1, int nFrameCount, streamof
         out.write(bfr, 1);
     }
     writeZeros(out, nSize - MpegFrame::MPEG_FRAME_HDR_SIZE - nSideInfoSize - 8 - 4 - 4 - 100);
-    CB_OLD_CHECK1 (out, WriteError());
+    CB_CHECK (out, WriteError);
 }
 #else // changes made while playing with gapless; later it turned out that various fields that have values copied from some file in the code below can actually be left as zero (at least LAME decodes them and players play them)
-void createXing(ostream& out, const MpegFrame& frame1, int nFrameCount, streamoff nStreamSize)
+void createXing(const string& /*strFileName*/, streampos /*nStreamPos*/, ostream& out, const MpegFrame& frame1, int nFrameCount, streamoff nStreamSize)
 {
     const MpegFrameBase& frame (frame1.getBigBps());
 
@@ -351,7 +351,7 @@ void createXing(ostream& out, const MpegFrame& frame1, int nFrameCount, streamof
     out.write("\x45\0\0\0\0\x90\x72\x56\x3e\x5e\x58\xd2", 12);
 
     writeZeros(out, nSize - MpegFrame::MPEG_FRAME_HDR_SIZE - nSideInfoSize - 8 - 4 - 4 - 100 - 4 - 9 - 2 - 8 - 2 - 3 - 12);
-    CB_OLD_CHECK1 (out, WriteError());
+    CB_CHECK (out, WriteError);
 }
 
 #endif
@@ -366,14 +366,8 @@ const int MPEG_SAMPLES_PER_FRAME (1152);
 const int CD_SAMPLES_PER_FRAME (588);
 const int MPEG_BFR_SIZE (65536);
 
-struct DecodeError : public CbException {
-    DecodeError (std::string strMsg, const char* szFile, int nLine) : CbException(strMsg, szFile, nLine) {}
-};
-
-struct ZeroesNotFound : public CbException {
-    ZeroesNotFound(std::string strMsg, const char* szFile, int nLine) : CbException(strMsg, szFile, nLine) {}
-    //ZeroesNotFound(std::string strMsg, const char* szFile, int nLine) : CbException(strMsg, szFile, nLine) {}
-};
+DEFINE_CB_EXCP(DecodeError);
+DEFINE_CB_EXCP(ZeroesNotFound);
 
 
 struct MpegFrameBfr : public MpegFrameBase
@@ -784,7 +778,7 @@ void createXing(const string& strFileName, streampos nStreamPos, ostream& out, c
 //CB_OLD_CHECK1 (false, DecodeError()); //ttt0
 
     //ttt0 catch exceptions ...
-    CB_CHECK (out, WriteError); //ttt0 refactor CB_OLD_CHECK1
+    CB_CHECK (out, WriteError);
 }
 
 #else // #ifdef GENERATE_TOC  / #elif defined(GAPLESS_SUPPORT)

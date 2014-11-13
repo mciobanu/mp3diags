@@ -185,11 +185,6 @@ public:
 
     bool isFileNameBased() const { return m_bSplitAtPathSep; }
 
-    /*struct InvalidPattern
-    {
-        int m_nPos;
-        InvalidPattern(int nPos) : m_nPos(nPos) {}
-    };*/
     DEFINE_CB_EXCP1(InvalidPattern, int, m_nPos);
 };
 

@@ -309,12 +309,12 @@ src/MainForm.ui	f	2011-07-30T12:34:43Z
 src/MainFormDlgImpl.cpp	f	2014-11-13T12:08:37Z
 src/MainFormDlgImpl.h	f	2012-02-29T20:07:21Z
 src/Mp3Diags.qrc	f	2012-02-05T19:46:04Z
-src/Mp3Manip.cpp	f	2014-11-13T12:11:09Z
+src/Mp3Manip.cpp	f	2014-11-13T16:25:08Z
 src/Mp3Manip.h	f	2014-11-13T08:39:43Z
 src/Mp3TransformThread.cpp	f	2014-11-13T09:14:43Z
 src/Mp3TransformThread.h	f	2014-09-24T08:48:58Z
 src/MpegFrame.cpp	f	2014-11-12T17:36:59Z
-src/MpegFrame.h	f	2014-11-12T17:00:31Z
+src/MpegFrame.h	f	2014-11-13T17:40:01Z
 src/MpegStream.cpp	f	2014-11-13T17:41:24Z
 src/MpegStream.h	f	2014-11-12T16:59:38Z
 src/MultiLineTvDelegate.cpp	f	2014-11-12T11:01:23Z
@@ -329,7 +329,7 @@ src/Notes.h	f	2014-11-13T10:38:58Z
 src/NotesModel.cpp	f	2014-11-13T15:57:59Z
 src/NotesModel.h	f	2009-05-06T07:31:33Z
 src/OsFile.cpp	f	2014-11-12T16:54:52Z
-src/OsFile.h	f	2014-11-12T10:22:15Z
+src/OsFile.h	f	2014-11-13T17:35:21Z
 src/Palette.ui	f	2012-01-02T15:21:29Z
 src/PaletteDlgImpl.cpp	f	2009-07-17T16:14:38Z
 src/PaletteDlgImpl.h	f	2009-07-17T15:02:37Z
@@ -350,7 +350,7 @@ src/SessionsDlgImpl.cpp	f	2014-11-13T15:57:59Z
 src/SessionsDlgImpl.h	f	2012-02-12T11:51:14Z
 src/SimpleSaxHandler.h	f	2014-11-12T15:53:13Z
 src/SongInfoParser.cpp	f	2014-11-12T16:53:17Z
-src/SongInfoParser.h	f	2014-11-12T17:00:31Z
+src/SongInfoParser.h	f	2014-11-13T17:42:16Z
 src/StoredSettings.cpp	f	2012-01-25T22:17:31Z
 src/StoredSettings.h	f	2012-02-06T23:03:21Z
 src/StreamsModel.cpp	f	2014-11-13T15:57:59Z

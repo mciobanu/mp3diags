@@ -130,11 +130,6 @@ private:
 struct MpegFrame : public MpegFrameBase
 {
     DEFINE_CB_EXCP1(PrematurelyEndedMpegFrame, std::string, m_strInfo);
-    /*struct PrematurelyEndedMpegFrame : public CbException
-    {
-        std::string m_strInfo;
-        PrematurelyEndedMpegFrame(const std::string& strInfo) : m_strInfo(strInfo) {}
-    };*/
 
     MpegFrame(NoteColl& notes, std::istream& in);
     MpegFrame() {}

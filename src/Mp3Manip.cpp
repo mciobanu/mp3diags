@@ -897,7 +897,7 @@ void Mp3Handler::reloadId3V2Hlp()
     {
         TRACER1("Mp3Handler::reloadId3V2Hlp()", 1);
         TRACER1(ex.what(), 2);
-        STRM_ASSERT (false);
+        STRM_ASSERT (false); // ttt2 this assert won't have the exception; sure, it's in the log, but should be in assert as well
     }
     catch (...)
     {

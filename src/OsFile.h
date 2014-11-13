@@ -88,13 +88,7 @@ public:
 void CB_LIB_CALL getFileInfo(const std::string& strFileName, long long& nChangeTime, long long& nSize); // throws NameNotFound // ttt2 currently doesn't really matter the format of nChangeTime, because it is only used in equality comparisons; so it uses time_t; however, this should be reviewed and probably choose nanoseconds from 01.01.1970 (QDateTime is better avoided, because of several issues, like serialization or low resolution)
 void CB_LIB_CALL setFileDate(const std::string& strFileName, long long nChangeTime);
 
-
-struct CannotCreateDir : public CbException
-{
-    std::string m_strDir;
-    CannotCreateDir(const std::string& strDir, const char* szFile, int nLine) : CbException("CannotCreateDir: " + strDir, szFile, nLine), m_strDir(strDir) {}
-    /*override*/ ~CannotCreateDir() throw() {}
-};
+DEFINE_CB_EXCP1(CannotCreateDir, std::string, m_strDir);
 
 
 // creates all intermediate dirs; throws CannotCreateDir on failure (if the directory already exists it's a success)

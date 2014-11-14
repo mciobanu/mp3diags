@@ -124,13 +124,52 @@ Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const Q
     trace("");
     trace(s);
 
+    istream* pIn (&in);
+    stringstream bfr;
+    for (int i = 0; i < 3; ++i)
+    {
+        long long nChangeTime, nSize;
+        getFileInfo(strFileName, nChangeTime, nSize);
+        if (nSize > 30000000)
+        {
+            TRACER("File is too big to be buffered: " + strFileName);
+            break;
+        }
+
+        bfr.str(string());
+        const int READ_SIZE (1 << 19);
+        char a [READ_SIZE];
+        streamsize nTotalRead (0);
+        for (;;)
+        {
+            streamsize nCrtRead (read(in, a, READ_SIZE));
+            bfr.write(a, nCrtRead);
+            nTotalRead += nCrtRead;
+            if (nCrtRead < READ_SIZE)
+            {
+                break;
+            }
+        }
+        if (nTotalRead == nSize)
+        {
+            pIn = &bfr;
+            break;
+        }
+        TRACER("Failed to read whole file in the internal buffer. Retrying: " + strFileName);
+        PausableThread::msleep(50);
+        in.close();
+        in.clear();
+        in.open(m_pFileName->s.c_str(), ios::binary);
+    }
+
+
     // cout << s << endl;
 //TRACER1A("Mp3Handler constr ", 3);
 
     //parse(in);
     try
     {
-        parse(in);
+        parse(*pIn);
     }
     catch (const exception& ex)
     {
@@ -190,7 +229,7 @@ const Id3V2StreamBase* Mp3Handler::getId3V2Stream() const { if (0 != m_pId3V230S
 
 
 // what looks like the last frame in an MPEG stream may actually be truncated and somewhere inside it an ID3V1 or Ape tag may actually begin; if that's the case, that "frame" is removed from the stream; then most likely an "Unknown" stream will be detected, followed by an ID3V1 or Ape stream //ttt2 make sure that that is the case; a possibility is that the standard allows the last frame to be shorter than the calculated size, if some condition is met; this seems unlikely, though
-void Mp3Handler::checkLastFrameInMpegStream(ifstream_utf8& in)
+void Mp3Handler::checkLastFrameInMpegStream(istream& in)
 {
     STRM_ASSERT (!m_vpAllStreams.empty());
     MpegStream* pStream (dynamic_cast<MpegStream*>(m_vpAllStreams.back()));
@@ -283,7 +322,7 @@ void Mp3Handler::checkLastFrameInMpegStream(ifstream_utf8& in)
 }
 
 
-void Mp3Handler::parse(ifstream_utf8& in) // ttt2 this function is a mess; needs rethinking
+void Mp3Handler::parse(istream& in) // ttt2 this function is a mess; needs rethinking
 {
     in.seekg(0, ios::end);
     m_posEnd = in.tellg();
@@ -883,7 +922,7 @@ void Mp3Handler::reloadId3V2Hlp()
 
     m_notes.removeNotes(pOldId3V2->getPos(), pOldId3V2->getPos() + pOldId3V2->getSize());
 
-    ifstream_utf8 in (m_pFileName->s.c_str(), ios::binary);
+    ifstream_utf8 in (m_pFileName->s.c_str(), ios::binary); //ttt1 the constructor uses a buffer and retries, which should probably happen here as well, but since it's the beginning of file, no rewinding, it's lower risk;
 
     STRM_ASSERT (in); // ttt2 not quite right; could have been deleted externally
 

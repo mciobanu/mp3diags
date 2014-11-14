@@ -1709,11 +1709,17 @@ bool deleteKey(const char* szPath, const char* szSubkey)
 Tracer::Tracer(const std::string& s) : m_s(s)
 {
     traceToFile("> " + s, 1);
+#ifdef OUTPUT_TRACE_TO_CONSOLE
+    qDebug(("> " + s).c_str());
+#endif
 }
 
 Tracer::~Tracer()
 {
     traceToFile(" < " + m_s, -1);
+#ifdef OUTPUT_TRACE_TO_CONSOLE
+    qDebug(("< " + m_s).c_str());
+#endif
 }
 
 

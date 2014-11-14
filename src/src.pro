@@ -160,6 +160,7 @@ UI_DIR = ui-forms
 
 # !!! One thing to keep in mind is that when using BuildMp3Diags.hta the file src.pro shouldn't be changed. At the first build attempt a copy src.pro1 is created in the "package" dir, and that is where changes for the actual location of the libs
 
+QMAKE_CXXFLAGS_DEBUG += -DOUTPUT_TRACE_TO_CONSOLE
 
 #DEFINES += DISABLE_CHECK_FOR_UPDATES
 #DEFINES += OS2

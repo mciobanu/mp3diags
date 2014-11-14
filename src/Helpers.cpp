@@ -1710,7 +1710,7 @@ Tracer::Tracer(const std::string& s) : m_s(s)
 {
     traceToFile("> " + s, 1);
 #ifdef OUTPUT_TRACE_TO_CONSOLE
-    qDebug(("> " + s).c_str());
+    qDebug("> %s", m_s.c_str());
 #endif
 }
 
@@ -1718,7 +1718,7 @@ Tracer::~Tracer()
 {
     traceToFile(" < " + m_s, -1);
 #ifdef OUTPUT_TRACE_TO_CONSOLE
-    qDebug(("< " + m_s).c_str());
+    qDebug("< %s", m_s.c_str());
 #endif
 }
 
@@ -1733,6 +1733,97 @@ LastStepTracer::LastStepTracer(const std::string& s) : m_s(s)
 LastStepTracer::~LastStepTracer()
 {
     traceLastStep(" < " + m_s, -1);
+}
+
+//=============================================================================================
+//=============================================================================================
+//=============================================================================================
+
+
+
+int64_t CB_LIB_CALL Timer::getCrtTime() const // returns time in nanoseconds
+{
+#ifdef _WIN32
+    LARGE_INTEGER li;
+    QueryPerformanceCounter(&li);
+    return li.QuadPart*m_nDurMul;
+#else
+    timespec ts;
+    //clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &ts); // CLOCK_MONOTONIC
+    clock_gettime(CLOCK_REALTIME, &ts);
+    return ts.tv_sec*1000000000LL + ts.tv_nsec;
+#endif
+}
+
+
+CB_LIB_CALL Timer::Timer(bool bStart /*= true*/) : m_nStart(-1), m_nFinish(-1), m_pStoredDuration(0)
+{
+#ifdef _WIN32
+    LARGE_INTEGER li;
+    if (QueryPerformanceFrequency(&li))
+    {
+        m_nDurMul = (int64_t)(1e9/li.QuadPart);
+    }
+    else
+    {
+        m_nDurMul = 0;
+    }
+#endif
+    if (bStart) start();
+}
+
+CB_LIB_CALL Timer::Timer(int64_t& storedDuration, bool bStart /*= true*/) : m_nStart(-1), m_nFinish(-1), m_pStoredDuration(&storedDuration)
+{
+#ifdef _WIN32
+    LARGE_INTEGER li;
+    if (QueryPerformanceFrequency(&li))
+    {
+        m_nDurMul = (int64_t)(1e9/li.QuadPart);
+    }
+    else
+    {
+        m_nDurMul = 0;
+    }
+#endif
+    if (bStart) start();
+}
+
+
+Timer::~Timer() {
+    if (m_pStoredDuration != 0) {
+        if (m_nFinish == -1) {
+            *m_pStoredDuration = stop();
+        } else {
+            *m_pStoredDuration = getDuration();
+        }
+    }
+}
+
+/*static*/ std::string CB_LIB_CALL Timer::addThSep(int64_t nTime) // to be used when converting to milli- / micro- seconds
+{
+    char a [25];
+    //sprintf(a, "%f", double(nTime)); //
+    //sprintf(a, "%lld", nTime);
+    sprintf(a, "%ld", nTime);
+    int n ((int)strlen(a));
+    std::string strRes;
+    for (int i = 0; i < n; ++i)
+    {
+        if (!strRes.empty() && 0 == (n - i)%3) { strRes += ','; } //ttt2 assumes that "a" doesn't have separators already
+        strRes += a[i];
+    }
+    return strRes;
+}
+
+
+/*static*/ std::string Timer::getLongFmt(int64_t dur) {
+    int msec (dur / 1000000);
+    int sec (msec / 1000); msec %= 1000;
+    int min (sec / 60); sec %= 60;
+    int hrs (min / 60); min %= 60;
+    char a[40];
+    sprintf(a, "%d:%02d:%02d.%03d", hrs, min, sec, msec);
+    return a;
 }
 
 //=============================================================================================

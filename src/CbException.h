@@ -74,7 +74,7 @@ struct CLASS_NAME : public CbException \
 //#define CB_TRACE_AND_THROW(MSG) { throw std::runtime_error(MSG); }
 //#define CB_TRACE_AND_THROW1(EXCP) { ::trace(#EXCP); throw EXCP; }
 #define CB_TRACE_AND_THROW(EXCP) { ::trace(#EXCP); throw EXCP(#EXCP, __FILE__, __LINE__); }
-#define CB_TRACE_AND_THROW1(EXCP, MSG) { ::trace(#EXCP); throw EXCP((std::string(#EXCP) + ": " + MSG, __FILE__, __LINE__); }
+#define CB_TRACE_AND_THROW1(EXCP, MSG) { ::trace(#EXCP); throw EXCP(std::string(#EXCP) + ": " + MSG, __FILE__, __LINE__); }
 
 //#define CB_ASSERT(COND) { if (!(COND)) { ::trace("assert"); CB_THROW1(CbRuntimeError, "assertion failure"); } }
 #define CB_ASSERT(COND) { if (!(COND)) { assertBreakpoint(); ::trace("assert"); logAssert(__FILE__, __LINE__, #COND); ::exit(1); } }

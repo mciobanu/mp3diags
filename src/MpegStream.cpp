@@ -919,7 +919,7 @@ std::string XingStreamBase::getInfoForXml() const
 }
 
 
-
+// checks that there is a match for version, layer, frequency
 bool XingStreamBase::matchesStructure(const MpegStream& mpeg) const
 {
     const MpegFrame& mpegFrm (mpeg.getFirstFrame());
@@ -929,18 +929,20 @@ bool XingStreamBase::matchesStructure(const MpegStream& mpeg) const
         m_firstFrame.getFrequency() == mpegFrm.getFrequency());
 }
 
-// checks that there is a metch for version, layer, frequency and frame count
-bool XingStreamBase::matches(const MpegStream& mpeg) const
+// checks that there is a match for version, layer, frequency and frame count
+bool XingStreamBase::matches(const MpegStream& mpeg, bool bAcceptSelfInCount) const
 {
-    return matchesStructure(mpeg) && getFrameCount() == mpeg.getFrameCount();
+    // the reason for using bAcceptSelfInCount is that some encoders incorrectly assumed that the Xing header should be counted along with the actual MPEG frames to get the
+    // total frame count; it's probably better to ignore this mistake, as the fix will cause rebuilding the Xing header, thus losing the TOC and the gapless info
+    return matchesStructure(mpeg) && ((getFrameCount() == mpeg.getFrameCount()) || (bAcceptSelfInCount && (getFrameCount() == mpeg.getFrameCount() + 1)));
 }
 
 
-// checks that pNext is MpegStream* in addition to matches(const MpegStream&)
-bool XingStreamBase::matches(const DataStream* pNext) const
+// checks that pNext is an MpegStream*, in addition to matches(const MpegStream&)
+bool XingStreamBase::matches(const DataStream* pNext, bool bAcceptSelfInCount) const
 {
     const MpegStream* q (dynamic_cast<const MpegStream*>(pNext));
-    return 0 != q && matches(*q);
+    return 0 != q && matches(*q, bAcceptSelfInCount);
 }
 
 

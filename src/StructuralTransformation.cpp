@@ -487,7 +487,7 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
         if (0 != pXing)
         {
             MpegStream* pAudio (dynamic_cast<MpegStream*>(vpStreams[i + 1]));
-            if (0 != pAudio && pXing->getFrameCount() != pAudio->getFrameCount())
+            if (0 != pAudio && pXing->getFrameCount() != pAudio->getFrameCount() && pXing->getFrameCount() != pAudio->getFrameCount() + 1)
             {
                 m_spStreamsToDiscard.insert(pXing);
             }
@@ -608,7 +608,7 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
 
 
 //ttt2 in a way this could take care of Xing headers for CBR streams as well, but it doesn't seem the best place to do it, especially as we ignore most of the data in the Lame header and "restoring a header" means just putting back byte count and frame count
-/*override*/ Transformation::Result VbrRepairerBase::repair(const Mp3Handler& h, const TransfConfig& transfConfig, const std::string& strOrigSrcName, std::string& strTempName, bool bForceRebuild)
+Transformation::Result VbrRepairerBase::repair(const Mp3Handler& h, const TransfConfig& transfConfig, const std::string& strOrigSrcName, std::string& strTempName, bool bForceRebuild, bool bAcceptSelfInCount)
 {
     const vector<DataStream*>& vpStreams (h.getStreams());
     ifstream_utf8 in (h.getName().c_str(), ios::binary);
@@ -646,7 +646,7 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
     MpegStream* pAudio (dynamic_cast<MpegStream*>(vpStreams[nAudioPos]));
     if (!pAudio->isVbr()) { return NOT_CHANGED; } // CBR audio
 
-    bool bXingOk (1 == cSize(sXingPos) && 1 == sXingPos.count(nAudioPos - 1) && pXingStreamBase->matches(pAudio));
+    bool bXingOk (1 == cSize(sXingPos) && 1 == sXingPos.count(nAudioPos - 1) && pXingStreamBase->matches(pAudio, bAcceptSelfInCount));
     if (!bForceRebuild && sVbriPos.empty() && bXingOk) { return NOT_CHANGED; } // exit if there's no VBRI and there's one matching Xing right before the audio
 
 
@@ -736,12 +736,12 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
 
 /*override*/ Transformation::Result VbrRepairer::apply(const Mp3Handler& h, const TransfConfig& transfConfig, const std::string& strOrigSrcName, std::string& strTempName)
 {
-    return repair(h, transfConfig, strOrigSrcName, strTempName, DONT_FORCE_REBUILD);
+    return repair(h, transfConfig, strOrigSrcName, strTempName, DONT_FORCE_REBUILD, true);
 }
 
 /*override*/ Transformation::Result VbrRebuilder::apply(const Mp3Handler& h, const TransfConfig& transfConfig, const std::string& strOrigSrcName, std::string& strTempName)
 {
-    return repair(h, transfConfig, strOrigSrcName, strTempName, FORCE_REBUILD);
+    return repair(h, transfConfig, strOrigSrcName, strTempName, FORCE_REBUILD, false);
 }
 
 

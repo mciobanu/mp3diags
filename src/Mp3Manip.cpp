@@ -160,7 +160,7 @@ Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const Q
         in.close();
         in.clear();
         in.open(m_pFileName->s.c_str(), ios::binary);
-    }
+    }//*/
 
 
     // cout << s << endl;
@@ -718,7 +718,14 @@ void Mp3Handler::analyze(const QualThresholds& qualThresholds)
                         MpegStream* q (dynamic_cast<MpegStream*>(m_vpAllStreams[i + 1]));
                         if (0 != q && p->getFrameCount() != q->getFrameCount())
                         {
-                            MP3_NOTE (p->getPos(), xingFrameCountMismatch);
+                            if (p->getFrameCount() == q->getFrameCount() + 1)
+                            {
+                                MP3_NOTE (p->getPos(), xingFrameInCount);
+                            }
+                            else
+                            {
+                                MP3_NOTE (p->getPos(), xingFrameCountMismatch);
+                            }
                         }
                     }
                 }

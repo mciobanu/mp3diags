@@ -210,6 +210,7 @@ public:
     DECL_NOTE_INFO(xingNotBeforeAudio, ERR, XING, QT_TR_NOOP("The Xing header should be located immediately before the MPEG audio stream."), false) // e
     DECL_NOTE_INFO(incompatXing, ERR, XING, QT_TR_NOOP("The Xing header should be compatible with the MPEG audio stream, meaning that their MPEG version, layer and frequency must be equal."), false) // f
     DECL_NOTE_INFO(missingXing, WARNING, XING, QT_TR_NOOP("The MPEG audio stream uses VBR but a Xing header wasn't found. This will confuse some players, which won't be able to display the song duration or to seek."), false) // g
+    DECL_NOTE_INFO(xingFrameInCount, WARNING, XING, QT_TR_NOOP("Xing header included in audio frame count. This is probably best ignored, as most players are fine with it and the fix erases potentially important information, like gapless playing information or the table of contents."), false) // h
 
     // vbri // c
     DECL_NOTE_INFO(twoVbri, ERR, VBRI, QT_TR_NOOP("Two VBRI headers found, but a file should have at most one of them."), true) // a

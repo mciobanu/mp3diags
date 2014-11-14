@@ -372,9 +372,9 @@ struct Tracer
     ~Tracer();
 };
 
-#define TRACER(X) Tracer FiLeTrAcEr (X);
-#define TRACER1(X, N) Tracer FiLeTrAcEr##N (X);
-#define TRACER1A(X, N) Tracer FiLeTrAcEr##N (X#N);
+#define TRACER(X) Tracer FiLeTrAcEr (X)
+#define TRACER1(X, N) Tracer FiLeTrAcEr##N (X)
+#define TRACER1A(X, N) Tracer FiLeTrAcEr##N (X#N)
 
 
 void traceLastStep(const std::string& s, int nLevelChange);
@@ -390,6 +390,48 @@ struct LastStepTracer
 
 #define LAST_STEP(X) LastStepTracer LaStStEp (X);
 #define LAST_STEP1(X, N) LastStepTracer LaStStEp##N (X);
+
+
+
+//======================================================================================================
+//======================================================================================================
+//======================================================================================================
+
+
+class Timer
+{
+    int64_t m_nStart;
+    int64_t m_nFinish;
+    int64_t* m_pStoredDuration;
+
+#ifdef _WIN32
+    int64_t m_nDurMul; // multiply by this to get a duration in nanoseconds from a duration in ticks
+#endif
+
+    int64_t CB_LIB_CALL getCrtTime() const; // returns time in nanoseconds
+
+public:
+    CB_LIB_CALL Timer(bool bStart = true);
+
+    CB_LIB_CALL Timer(int64_t& storedDuration, bool bStart = true);
+
+    ~Timer();
+
+    void CB_LIB_CALL start() { m_nStart = getCrtTime(); }
+    int64_t CB_LIB_CALL stop() { m_nFinish = getCrtTime(); return getDuration(); }
+
+    int64_t CB_LIB_CALL getDuration() const { return m_nFinish - m_nStart; } // duration in nanoseconds; may return invalid values if no counter is present or if start/stop haven't been called
+
+    int64_t CB_LIB_CALL fromStart() const { return getCrtTime() - m_nStart; }
+
+    static std::string CB_LIB_CALL addThSep(int64_t nTime); // to be used when converting to milli- / micro- seconds
+
+    std::string CB_LIB_CALL getFmtDuration() const { return addThSep(getDuration()); } // "formatted" duration, in nanoseconds using thousands separator
+
+    std::string CB_LIB_CALL getFmtDuration(int64_t nCnt) const { return addThSep(getDuration()/nCnt); } // "formatted" individual duration for a repeated task, in nanoseconds using thousands separator
+
+    static std::string getLongFmt(int64_t dur);
+};
 
 #endif // ifndef HelpersH
 

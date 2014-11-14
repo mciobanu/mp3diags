@@ -194,7 +194,7 @@ class MismatchedXingRemover : public GenericRemover
     void setupDiscarded(const Mp3Handler& h);
 public:
     /*override*/ const char* getActionName() const { return getClassName(); }
-    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Sometimes the number of frames in an audio stream is different from the number of frames in a preceding Xing (or Lame) header, usually because the audio stream was damaged. It's probably best for the Xing header to be removed in this case. If the audio is VBR, you may want to try \"Repair VBR data\" first."); }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Sometimes the number of frames in an audio stream is different from the number of frames in a preceding Xing (or Lame) header, usually because the audio stream was damaged. It's probably best for the Xing header to be removed in this case. If the audio is VBR, you may want to try \"Repair VBR data\" first. (If the number of frames specified in the Xing header is the number of audio frames + 1, the header won't be removed, as this is an old bug in some encoders and players know how to deal with it.)"); }
 
     static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Remove mismatched Xing headers"); }
 
@@ -260,7 +260,7 @@ class VbrRepairerBase : public Transformation
 {
 protected:
     enum { DONT_FORCE_REBUILD, FORCE_REBUILD };
-    Transformation::Result repair(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName, bool bForceRebuild);
+    Transformation::Result repair(const Mp3Handler&, const TransfConfig&, const std::string& strOrigSrcName, std::string& strTempName, bool bForceRebuild, bool bAcceptSelfInCount);
 };
 
 class VbrRepairer : public VbrRepairerBase

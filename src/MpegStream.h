@@ -166,9 +166,9 @@ public:
     /*override*/ std::string getInfo() const;
     std::string getInfoForXml() const;
 
-    bool matchesStructure(const MpegStream&) const; // checks that there is a metch for version, layer, frequency
-    bool matches(const MpegStream&) const; // checks that there is a metch for version, layer, frequency and frame count
-    bool matches(const DataStream* pNext) const; // checks that pNext is MpegStream* in addition to matches(const MpegStream&)
+    bool matchesStructure(const MpegStream&) const; // checks that there is a match for version, layer, frequency
+    bool matches(const MpegStream&, bool bAcceptSelfInCount) const; // checks that there is a match for version, layer, frequency and frame count
+    bool matches(const DataStream* pNext, bool bAcceptSelfInCount) const; // checks that pNext is an MpegStream* in addition to matches(const MpegStream&)
 
     bool isBrokenByMp3Fixer(const DataStream* pNext, const DataStream* pAfterNext) const;
 

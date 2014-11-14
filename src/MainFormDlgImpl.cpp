@@ -1585,6 +1585,7 @@ struct Mp3ProcThread : public PausableThread
 
     /*override*/ void run()
     {
+        Timer timer;
         try
         {
             CompleteNotif notif(this);
@@ -1610,6 +1611,7 @@ struct Mp3ProcThread : public PausableThread
             TRACER("Mp3ProcThread::run() - unknown exception");
             CB_ASSERT (false); //ttt0 triggered according to https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=50 and https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=54  2014.11.13 - one way to get here was disabled, by catching some exceptions
         }
+        TRACER("Scanning took " + Timer::addThSep(timer.stop() / 1000000) + " milliseconds");
     }
 
     bool scan();
@@ -2958,6 +2960,7 @@ vector<Transformation*> MainFormDlgImpl::getFixes(const Note* pNote, const Mp3Ha
         ADD_FIX(xingNotBeforeAudio, VbrRepairer);
         ADD_FIX(incompatXing, VbrRebuilder);
         ADD_FIX(missingXing, VbrRebuilder);
+        ADD_FIX(xingFrameInCount, VbrRebuilder);
 
         ADD_FIX(vbriFound, VbrRepairer);
         ADD_FIX(foundVbriAndXing, VbrRepairer);
@@ -3158,7 +3161,7 @@ void MainFormDlgImpl::onMainGridRightClick()
 
 void MainFormDlgImpl::fixCurrentNote(const QPoint& coords)
 {
-LAST_STEP("MainFormDlgImpl::onFixCurrentNote()");
+//LAST_STEP("MainFormDlgImpl::onFixCurrentNote()");
     //QPoint coords (m_pFilesG->mapFromGlobal(QPoint(m_nGlobalX, m_nGlobalY)));
     //int nHorHdrHght ();
     //if (coords.x() < nVertHdrWdth) { return; }

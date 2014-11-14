@@ -116,6 +116,7 @@ static const char* s_szPlaceholderDescr (QT_TRANSLATE_NOOP("Notes", "<Placeholde
     addNote(&Notes::xingNotBeforeAudio()); // e
     addNote(&Notes::incompatXing()); // e
     addNote(&Notes::missingXing()); // w
+    addNote(&Notes::xingFrameInCount()); // w
 
     // vbri
     addNote(&Notes::twoVbri());

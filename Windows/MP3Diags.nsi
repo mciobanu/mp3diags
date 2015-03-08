@@ -82,12 +82,14 @@ Section "Main Application" !Required ;No components page, name is not important
   File favicon.ico
 
   File boost.txt
-  File boost_serialization-mgw34-mt-1_39.dll
+  File libboost_serialization-mgw44-mt-1_46_1.dll
+  File libboost_program_options-mgw44-mt-1_46_1.dll
   File changelog.txt
   File gplv2.txt
   File gplv3.txt
   File lgpl-2.1.txt
   File lgplv3.txt
+  File libgcc_s_dw2-1.dll
   File mingwm10.dll
   File QtCore4.dll
   File QtGui4.dll
@@ -96,6 +98,12 @@ Section "Main Application" !Required ;No components page, name is not important
   File QtXml4.dll
   File zlib.txt
   File zlib1.dll
+  File qt_cs.qm
+  File qt_de.qm
+  File qt_fr.qm
+  File mp3diags_cs.qm
+  File mp3diags_de_DE.qm
+  File mp3diags_fr_FR.qm
 
   SetOutPath $INSTDIR\iconengines
   File iconengines\qsvgicon4.dll
@@ -113,6 +121,12 @@ Section "Main Application" !Required ;No components page, name is not important
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
   !insertmacro MUI_STARTMENU_WRITE_END
 
+  FileOpen $4 "$INSTDIR\MP3DiagsCLI.cmd" w
+  FileWrite $4 "@echo off$\r$\n"
+  FileWrite $4 "$\"$INSTDIR\MP3DiagsWindows.exe$\" %* > %TEMP%\Mp3DiagsOut.txt$\r$\n"
+  FileWrite $4 "type %TEMP%\Mp3DiagsOut.txt$\r$\n"
+  FileWrite $4 "del %TEMP%\Mp3DiagsOut.txt$\r$\n"
+  FileClose $4
 
   ; Tell the compiler to write an uninstaller and to look for a "Uninstall" section
   WriteUninstaller $INSTDIR\Uninstall.exe
@@ -132,12 +146,16 @@ Section "un.Uninstall"
   Delete $INSTDIR\favicon.ico
 
   Delete $INSTDIR\boost.txt
-  Delete $INSTDIR\boost_serialization-mgw34-mt-1_39.dll
+  Delete $INSTDIR\libboost_serialization-*.dll
+  Delete $INSTDIR\libboost_program_options-*.dll
+  ; boost_serialization-*.dll might be there from an older version
+  Delete $INSTDIR\boost_serialization-*.dll
   Delete $INSTDIR\changelog.txt
   Delete $INSTDIR\gplv2.txt
   Delete $INSTDIR\gplv3.txt
   Delete $INSTDIR\lgpl-2.1.txt
   Delete $INSTDIR\lgplv3.txt
+  Delete $INSTDIR\libgcc_s_dw2-1.dll
   Delete $INSTDIR\mingwm10.dll
   Delete $INSTDIR\QtCore4.dll
   Delete $INSTDIR\QtGui4.dll
@@ -146,6 +164,8 @@ Section "un.Uninstall"
   Delete $INSTDIR\QtXml4.dll
   Delete $INSTDIR\zlib.txt
   Delete $INSTDIR\zlib1.dll
+  Delete $INSTDIR\*.qm
+  Delete $INSTDIR\MP3DiagsCLI.cmd
 
   Delete $INSTDIR\iconengines\qsvgicon4.dll
   Delete $INSTDIR\imageformats\qsvg4.dll
@@ -155,6 +175,13 @@ Section "un.Uninstall"
   RMDir $INSTDIR\iconengines
   RMDir $INSTDIR\imageformats
   RMDir $INSTDIR
+
+  DeleteRegKey HKEY_CLASSES_ROOT "Directory\shell\mp3diags_temp_dir"
+  DeleteRegKey HKEY_CLASSES_ROOT "Drive\shell\mp3diags_temp_dir"
+  DeleteRegKey HKEY_CLASSES_ROOT "Directory\shell\mp3diags_visible_dir"
+  DeleteRegKey HKEY_CLASSES_ROOT "Drive\shell\mp3diags_visible_dir"
+  DeleteRegKey HKEY_CLASSES_ROOT "Directory\shell\mp3diags_hidden_dir"
+  DeleteRegKey HKEY_CLASSES_ROOT "Drive\shell\mp3diags_hidden_dir"
 
   !insertmacro MUI_STARTMENU_GETFOLDER Application $StartMenuFolder
 

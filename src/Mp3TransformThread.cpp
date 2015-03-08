@@ -325,27 +325,49 @@ bool Mp3Transformer::transform()
                     //emit stepChanged(l, i + 1);
                     emitStepChanged(l, i + 1);
                     Transformation::Result eTransf;
+                    int nRetryCount (0);
+                e1:
                     try
                     {
                     //TRACER1A("transf ", 5);
                         eTransf = t.apply(*pNewHndl, m_transfConfig, strOrigName, strTempName);
                         //TRACER1A("transf ", 6);
+                        if (nRetryCount > 0)
+                        {
+                            TRACER("YYYYYYYYYYYYY Write retry succeeded for the second time to " + strTempName + ". Exiting to capture this ...");
+                            throw WriteError(); //ttt0 remove
+                        }
                     }
                     catch (const WriteError&)
                     {
         //qDebug("disk err");
         //TRACER1A("transf ", 7);
-                        m_strErrorFile = strTempName;
-                        m_bWriteError = true;
-                        if (pNewHndl.get() == pOrigHndl)
-                        {
-                        //TRACER1A("transf ", 8);
-                            pNewHndl.release();
-                        }
+                        TRACER1("YYYYYYYYYYYYY Error copying from file " + strOrigName, 1);
+                        TRACER1("YYYYYYYYYYYYY Error writing to file " + strTempName, 3);
+
                         //TRACER1A("transf ", 9);
                         TempFileEraser er (strTempName);
                         //TRACER1A("transf ", 10);
-                        return false; //ttt2 review what happens to pNewHndl
+                        if (nRetryCount < 1)
+                        {
+                            TRACER("Retrying writing to file " + strTempName);
+                            ++nRetryCount;
+                            PausableThread::msleep(30);
+                            strTempName.clear();
+                            goto e1;
+                        }
+                        else
+                        {
+                            m_strErrorFile = strTempName;
+                            m_bWriteError = true;
+                            if (pNewHndl.get() == pOrigHndl)
+                            {
+                            //TRACER1A("transf ", 8);
+                                pNewHndl.release();
+                            }
+                            TRACER1("Too many errors trying to write to file " + strTempName + ". Aborting ...", 2);
+                            return false; //ttt2 review what happens to pNewHndl
+                        }
                     }
                     catch (const EndOfFile&) //ttt2 catch other exceptions, perhaps in the outer loop
                     {

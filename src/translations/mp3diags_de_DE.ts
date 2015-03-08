@@ -91,7 +91,7 @@
     <message>
         <location filename="../AboutDlgImpl.cpp" line="60"/>
         <source>French</source>
-        <translation type="unfinished">Französisch</translation>
+        <translation>Französisch</translation>
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="61"/>
@@ -111,8 +111,8 @@
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="64"/>
-        <source>Using %1, distributed under the %2Boost Software License%3</source>
-        <translation>Benutzt %1, verbreitet unter der %2Boost Software Lizenz%3</translation>
+        <source>Using %1 and %2, distributed under the %3Boost Software License%4</source>
+        <translation type="unfinished">Benutzt %1 und %2, verbreitet unter der %3Boost Software Lizenz%4</translation>
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="65"/>
@@ -1473,96 +1473,96 @@ Eine unterstrichene Schrift wird benutzt um Leerzeichen sichtbar zu machen</tran
         <translation>Null</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="392"/>
+        <location filename="../Helpers.cpp" line="397"/>
         <location filename="../MpegFrame.cpp" line="207"/>
         <source>MPEG-1</source>
         <translation>MPEG-1</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="392"/>
+        <location filename="../Helpers.cpp" line="397"/>
         <location filename="../MpegFrame.cpp" line="207"/>
         <source>MPEG-2</source>
         <translation>MPEG-2</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="398"/>
+        <location filename="../Helpers.cpp" line="403"/>
         <location filename="../MpegFrame.cpp" line="213"/>
         <source>Layer I</source>
         <translation>Layer I</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="398"/>
+        <location filename="../Helpers.cpp" line="403"/>
         <location filename="../MpegFrame.cpp" line="213"/>
         <source>Layer II</source>
         <translation>Layer II</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="398"/>
+        <location filename="../Helpers.cpp" line="403"/>
         <location filename="../MpegFrame.cpp" line="213"/>
         <source>Layer III</source>
         <translation>Layer III</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="404"/>
+        <location filename="../Helpers.cpp" line="409"/>
         <location filename="../MpegFrame.cpp" line="219"/>
         <source>Stereo</source>
         <translation>Stereo</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="404"/>
+        <location filename="../Helpers.cpp" line="409"/>
         <location filename="../MpegFrame.cpp" line="219"/>
         <source>Joint stereo</source>
         <translation>Joint stereo</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="404"/>
+        <location filename="../Helpers.cpp" line="409"/>
         <location filename="../MpegFrame.cpp" line="219"/>
         <source>Dual channel</source>
         <translation>Dual channel</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="404"/>
+        <location filename="../Helpers.cpp" line="409"/>
         <location filename="../MpegFrame.cpp" line="219"/>
         <source>Single channel</source>
         <translation>Single channel</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="416"/>
+        <location filename="../Helpers.cpp" line="421"/>
         <source>Not an MPEG frame. Synch missing.</source>
         <translation>Kein MPEG frame. Synch fehlt.</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="423"/>
+        <location filename="../Helpers.cpp" line="428"/>
         <source>Not an MPEG frame. Unsupported version (2.5).</source>
         <translation>Kein MPEG Frame. Nicht unterstützte Version (2.5).</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="429"/>
+        <location filename="../Helpers.cpp" line="434"/>
         <source>Not an MPEG frame. Invalid version.</source>
         <translation>Kein MPEG Frame. Ungültige Version.</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="441"/>
+        <location filename="../Helpers.cpp" line="446"/>
         <source>Not an MPEG frame. Invalid layer.</source>
         <translation>Kein MPEG Frame. Ungültiger Layer.</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="469"/>
+        <location filename="../Helpers.cpp" line="474"/>
         <source>Not an MPEG frame. Invalid bitrate.</source>
         <translation>Kein MPEG Frame. Ungültige Bitrate.</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="486"/>
+        <location filename="../Helpers.cpp" line="491"/>
         <source>Not an MPEG frame. Invalid frequency for MPEG1.</source>
         <translation>Kein MPEG Frame. Ungültige Frequenz für MPEG1.</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="497"/>
+        <location filename="../Helpers.cpp" line="502"/>
         <source>Not an MPEG frame. Invalid frequency for MPEG2.</source>
         <translation>Kein MPEG Frame. Ungültige Frequenz für MPEG2.</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="566"/>
+        <location filename="../Helpers.cpp" line="571"/>
         <source>%1 %2%3%4%5%6Hz%7%8bps%9CRC=%10%11length %12 (0x%13)%14padding=%15</source>
         <translation>%1 %2%3%4%5%6Hz%7%8bps%9CRC=%10%11Länge %12 (0x%13)%14Fülldaten=%15</translation>
     </message>
@@ -2311,7 +2311,7 @@ Dies ist dafür gedacht um die Erstellung von M3U Dateien mit relativen Pfaden z
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="586"/>
         <source>Cannot create folder %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann Verzeichnis %1 nicht erstellen</translation>
     </message>
     <message>
         <location filename="../FileRenamerDlgImpl.cpp" line="595"/>
@@ -2444,7 +2444,7 @@ Dies ist dafür gedacht um die Erstellung von M3U Dateien mit relativen Pfaden z
 <context>
     <name>FixedAddrRemover</name>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2886"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2888"/>
         <source>Remove stream %1 at address 0x%2</source>
         <translation>Stream %1 ab Adresse 0x%2 wird entfernt</translation>
     </message>
@@ -2467,12 +2467,12 @@ Dies ist dafür gedacht um die Erstellung von M3U Dateien mit relativen Pfaden z
         <translation>Warten bis das externe Tool endet, danach das Fenter offen lassen</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1581"/>
+        <location filename="../Helpers.cpp" line="1586"/>
         <source>These settings cannot currently be changed. In order to make changes you should probably run the program as an administrator.</source>
         <translation>Diese Einstellungen können im Moment nicht geändert werden. Dafür Sie müssen das Programm als Administrator ausführen.</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1658"/>
+        <location filename="../Helpers.cpp" line="1663"/>
         <source>Platform not supported</source>
         <translation>Plattform nicht unterstützt</translation>
     </message>
@@ -3047,11 +3047,11 @@ Dies ist dafür gedacht um die Erstellung von M3U Dateien mit relativen Pfaden z
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="545"/>
-        <location filename="../MainFormDlgImpl.cpp" line="1327"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2049"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2175"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2202"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2236"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1329"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2051"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2177"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2204"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2238"/>
         <source>Warning</source>
         <translation>Warnung</translation>
     </message>
@@ -3073,7 +3073,7 @@ Dies ist dafür gedacht um die Erstellung von M3U Dateien mit relativen Pfaden z
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="545"/>
         <location filename="../MainFormDlgImpl.cpp" line="558"/>
-        <location filename="../MainFormDlgImpl.cpp" line="1682"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1684"/>
         <location filename="../main.cpp" line="402"/>
         <location filename="../main.cpp" line="441"/>
         <source>O&amp;K</source>
@@ -3137,98 +3137,98 @@ Sie sollten die Liste überprüfen und alle Hinweise hinzufügen welche ignorier
         <translation>Die Information in der Datei %1%5%2 kann helfen die Ursache für den Absturz zu finden, bitte schicken Sie die Datei per Email an den Entwickler %3, oder melden Sie das Problem auf der Projectwebseite beim Issue Tracker %4 und hängen Sie die Datei an den Report oder machen Sie sie anderweitig zugängig (z.B. über eine FileSharing Seite)</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="837"/>
+        <location filename="../MainFormDlgImpl.cpp" line="838"/>
         <source>Information in the files %1%5%2 and %1%6%2 may help identify the cause of the crash so please make them available to the developer by mailing them to %3, by reporting an issue to the project&apos;s Issue Tracker at %4 and attaching the files to the report, or by some other means (like putting them on a file sharing site.)</source>
         <comment>%1 and %2 are HTML elements</comment>
         <translation>Die Information in der Dateien %1%5%2 und %1%6%2 können helfen die Ursache für den Absturz zu finden, bitte schicken Sie die Dateien per Email an den Entwickler %3, oder melden Sie das Problem auf der Projectwebseite beim Issue Tracker %4 und hängen Sie die Dateien an den Report oder machen Sie sie anderweitig zugängig (z.B. über eine FileSharing Seite)</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="845"/>
+        <location filename="../MainFormDlgImpl.cpp" line="847"/>
         <source>Information in the files %1%5%2, %1%6%2, and %1%7%2 may help identify the cause of the crash so please make them available to the developer by mailing them to %3, by reporting an issue to the project&apos;s Issue Tracker at %4 and attaching the files to the report, or by some other means (like putting them on a file sharing site.)</source>
         <comment>%1 and %2 are HTML elements</comment>
         <translation>Die Information in den Dateien %1%5%2, %1%6%2 und %1%7%2 können helfen die Ursache für den Absturz zu finden, bitte schicken Sie die Dateien per Email an den Entwickler %3, oder melden Sie das Problem auf der Projectwebseite beim Issue Tracker %4 und hängen Sie die Dateien an den Report oder machen Sie sie anderweitig zugängig (z.B. über eine FileSharing Seite)</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="859"/>
+        <location filename="../MainFormDlgImpl.cpp" line="861"/>
         <source>These are plain text files, which you can review before sending, if you have privacy concerns.</source>
         <translation>Dies sind einfache Textdateien, Sie können sie verifizieren bevor Sie sie versenden falls Sie Datenschutzbedenken haben.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="860"/>
+        <location filename="../MainFormDlgImpl.cpp" line="862"/>
         <source>After getting the files, the developer will probably want to contact you for more details, so please check back on the status of your report.</source>
         <translation>Nach dem Empfang der Dateien wird der Entwickler vermutlich versuchen mit Ihnen in Kontakt zu treten. Bitte überprüfen Sie den Status Ihres Reports regelmäßig.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="861"/>
+        <location filename="../MainFormDlgImpl.cpp" line="863"/>
         <source>Note that these files &lt;b&gt;will be removed&lt;/b&gt; when you close this window.</source>
         <translation>Beachten Sie daß diese Dateien &lt;b&gt;gelöscht&lt;/b&gt; werden wenn Sie das Fenster schliessen.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="864"/>
+        <location filename="../MainFormDlgImpl.cpp" line="866"/>
         <source>If there is a name of an MP3 file at the end of &lt;b&gt;%1&lt;/b&gt;, that might be a file that consistently causes a crash. Please check if it is so. Then, if confirmed, please make that file available by mailing it to %2 or by putting it on a file sharing site.</source>
         <translation>Falls der Name einer MP3 Datei am Ende von &lt;b&gt;%1&lt;/b&gt; steht dann is dies vermutlich die Datei welche den Absturz verursacht hat. Bitte überprüfen Sie dieses. Falls dies zutrifft schicken Sie diese Datei per Email an %2 oder stellen Sie sie über eine FileSharing Seite zur Verfügung.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="865"/>
+        <location filename="../MainFormDlgImpl.cpp" line="867"/>
         <source>Please also try to &lt;b&gt;repeat the steps that led to the crash&lt;/b&gt; before reporting the crash, which will probably result in a new set of files being generated; these files are more likely to contain relevant information than the current set of files, because they will also have information on what happened before the crash, while the current files only tell where the crash occured.</source>
         <translation>Bitte versuchen Sie &lt;b&gt;die Schritte bis zum Absturz zu reproduzieren&lt;/b&gt; bevor Sie das Problem melden. Dies wird vorraussichtlich einen neuen Satz von Dateien erzeugen welche mehr relevante Informationen enthalten (die neuen Dateien zeigen nur den Absturz, die älteren Dateien auch alles was vorher getan wurde).</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="868"/>
+        <location filename="../MainFormDlgImpl.cpp" line="870"/>
         <source>You should include in your report any other details that seem relevant (what might have caused the failure, steps to reproduce it, ...)</source>
         <translation>Sie sollten in Ihrem Bericht alles erwähnen was für das Problem relevant sein könnte (vermutete Ursachen für den Fehler, Schritte zum Reproduzieren, usw.)</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="868"/>
+        <location filename="../MainFormDlgImpl.cpp" line="870"/>
         <source>Remove these files and continue</source>
         <translation>Diese Dateien entfernen und fortfahren</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="872"/>
+        <location filename="../MainFormDlgImpl.cpp" line="874"/>
         <source>MP3 Diags is restarting after a crash. There was supposed to be some information about what led to the crash in the file &lt;b&gt;%1&lt;/b&gt;, but that file cannot be found. Please report this issue to the project&apos;s Issue Tracker at %2.</source>
         <translation>MP3 Diags startet neu nach einem Absturz. Die Datei &lt;b&gt;%1&lt;/b&gt; sollte Informationen über den Absturz haben aber die Datei kann nicht gefunden werden. Bitte melden Sie dieses Problem beim Projekts Issue Tracker auf %2.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="873"/>
+        <location filename="../MainFormDlgImpl.cpp" line="875"/>
         <source>The developer will probably want to contact you for more details, so please check back on the status of your report.&lt;/p&gt;&lt;p style=&quot;margin-bottom:8px; margin-top:1px; &quot;&gt;Make sure to include the data below, as well as any other detail that seems relevant (what might have caused the failure, steps to reproduce it, ...)</source>
         <translation>Der Entwickler vermutlich versuchen mit Ihnen in Kontakt zu treten. Bitte überprüfen Sie den Status Ihres Reports regelmäßig.&lt;/p&gt;&lt;p style=&quot;margin-bottom:8px; margin-top:1px; &quot;&gt; Stellen Sie sicher dass die unten aufgeführten Daten erhältlich sind, als auch alle anderen relevanten Einzelheiten (vermutete Absturzursache, Schritte zum Reproduzieren, etc.)</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="880"/>
+        <location filename="../MainFormDlgImpl.cpp" line="882"/>
         <source>MP3 Diags is restarting after a crash. To help determine the reason for the crash, the &lt;i&gt;Log program state to _trace and _step files&lt;/i&gt; option has been activated. This logs to 3 files what the program is doing, which might make it slightly slower.</source>
         <translation>MP3 Diags startet neu nach einem Absturz. Um die Absturzursache herauszufinden wurden die &lt;i&gt;Logge den Programstatus in die _trace und _step Dateien&lt;/i&gt; Option aktiviert. Dies schreibt in 3 Logdateien was das Program gerade tut. Dies kann Programm geringfügig langsamer macht.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="880"/>
+        <location filename="../MainFormDlgImpl.cpp" line="882"/>
         <source>It is recommended to not process more than several thousand MP3 files while this option is turned on. You can turn it off manually, in the configuration dialog, in the &lt;i&gt;Others&lt;/i&gt; tab, but keeping it turned on may provide very useful feedback to the developer, should the program crash again. With this feedback, future versions of MP3 Diags will get closer to being bug free.</source>
         <translation>Es wird empfohlen nicht mehrere Tausend MP3 Dateien zu verarbeiten solange diese Option aktiv ist. Sie können sie manuell im Konfigurationsdialog im &lt;i&gt;Sonstige&lt;/i&gt; Tab ausschalten. Solange die Option eingeschalten ist können wertvolle Informationen für den Entwickler gesammelt werden sollte das Programm erneut abstürzen. Mit Hilfe diese Informationen werden zukünftige Versionen von MP3 Diags stabiler laufen.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1289"/>
-        <location filename="../MainFormDlgImpl.cpp" line="1312"/>
-        <location filename="../MainFormDlgImpl.cpp" line="1383"/>
-        <location filename="../MainFormDlgImpl.cpp" line="1999"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2381"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2417"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2585"/>
-        <location filename="../MainFormDlgImpl.cpp" line="3317"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1291"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1314"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1385"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2001"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2383"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2419"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2587"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3319"/>
         <location filename="../main.cpp" line="402"/>
         <location filename="../main.cpp" line="441"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1289"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1291"/>
         <source>MP3 Diags crashed while reading song data from the disk. The whole collection will be rescanned.</source>
         <translation>MP3 Diags ist abgestürzt während Musikdaten von der Platte gelesen wurden. Die ganze Sammlung muss noch einmal gescannt werden.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1302"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1304"/>
         <source>Loading data</source>
         <translation>Lade Daten</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1312"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1314"/>
         <source>An error occured while loading the MP3 information. Your files will be rescanned.
 
 </source>
@@ -3237,7 +3237,7 @@ Sie sollten die Liste überprüfen und alle Hinweise hinzufügen welche ignorier
 </translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1327"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1329"/>
         <source>It seems that MP3 Diags is restarting after a crash. Your files will be rescanned.
 
 (Since this may take a long time for large collections, you may want to abort the full rescanning and apply a filter to include only the files that you changed since the last time the program closed correctly, then manually rescan only those files.)</source>
@@ -3246,12 +3246,12 @@ Sie sollten die Liste überprüfen und alle Hinweise hinzufügen welche ignorier
 (Da dies bei großen Sammlungen sehr lange dauern kann, sollten Sie vielleicht den Komplettscan abbrechen, einen Filter setzen welcher nur die Dateien einschliesst die seit dem letzten erfolgreichen Programmlauf verändert wurden oder hinzu kamen.Dann sollten Sie nur diese Dateien manuell scannen.)</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1375"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1377"/>
         <source>Saving data</source>
         <translation>Daten speichern</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1383"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1385"/>
         <source>An error occured while saving the MP3 information. You will have to scan your files again.
 
 %1</source>
@@ -3260,136 +3260,136 @@ Sie sollten die Liste überprüfen und alle Hinweise hinzufügen welche ignorier
 %1</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1661"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1663"/>
         <source>Scanning MP3 files</source>
         <translation>Scanne MP3 Dateien</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1678"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2694"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2833"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1680"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2696"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2835"/>
         <source>Info</source>
         <translation>Information</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1678"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1680"/>
         <source>Your files are not fully supported by the current version of MP3 Diags. The main reason for this is that the developer is aware of some MP3 features but doesn&apos;t have actual MP3 files to implement support for those features and test the code.</source>
         <translation>Ihre Dateien werden von der aktuellen Version von MP3 Diags nicht vollständig unterstützt. Hauptgrund dafür ist dass der Entwickler zwar bestimmte MP3 Merkmale kennt aber keine Dateien hat die diese auch verwenden und somit Unterstützung für diese Merkmale nicht einbauen und testen kann.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1680"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1682"/>
         <source>You can help improve MP3 Diags by making files with unsupported notes available to the developer. The preferred way to do this is to report an issue on the project&apos;s Issue Tracker at %1, after checking if others made similar files available. To actually send the files, you can mail them to %2 or put them on a file sharing site. It would be a good idea to make sure that you have the latest version of MP3 Diags.</source>
         <translation>Sie können helfen MP3 Diags zu verbessern indem Sie dem Entwickler Dateien mit nicht unterstützten Hinweisen zur Verfügung stellen. Die bevorzugte Methode wäre dass Sie einen Problemreport an den Issue Tracker des Projektes auf %1 schicken nachdem Sie geprüft haben ob vielleicht schon jemand andere dasselbe Problem gemeldet hat. Sie können dann die Dateien per Email an %2 schicken oder auf eine FileSharingseite hochladen. Sie sollten sicherstellen dass Sie die neueste Version von MP3 Diags verwenden.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1682"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1684"/>
         <source>You can identify unsupported notes by the blue color that is used for their labels.</source>
         <translatorcomment>??</translatorcomment>
         <translation>Sie können nicht unterstützte Hinweise anhand der blauen Schriftfarbe erkennen.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1837"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1839"/>
         <source>Error setting up custom transformations</source>
         <translation>Fehler beim Einrichten der benutzerdefinierten Transformationen</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1837"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1839"/>
         <source>Couldn&apos;t find a transformation with the name &quot;%1&quot;. The program will proceed, but you should review the custom transformations lists.</source>
         <translation>Konnte keine Transformation namens &quot;%1&quot; finden. Das Programm wird fortfahren aber Sie sollten die Liste mit den benutzerdefinierten Transformationen überprüfen.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1889"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1891"/>
         <source>Error setting up visible transformations</source>
         <translation>Fehler beim Einrichten der sichtbaren Transformationen</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1889"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1891"/>
         <source>Couldn&apos;t find a transformation with the name &quot;%1&quot;. The program will proceed, but you should review the visible transformations list.</source>
         <translation>Konnte keine Transformation namens &quot;%1&quot; finden. Das Programm wird fortfahren aber Sie sollten die Liste mit den sichtbaren Transformation überprüfen.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1922"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1924"/>
         <source>Error setting up external tools</source>
         <translation>Fehler beim Einrichten der externen Tools</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1922"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1924"/>
         <source>Unable to parse &quot;%1&quot;. The program will proceed, but you should review the external tools list.</source>
         <translation>Konnte &quot;%1&quot; nicht analysieren. Das Programm wird fortfahren, Sie sollten aber die Liste der externen Tools überprüfen.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1999"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2001"/>
         <source>There are no files to normalize.</source>
         <translation>Keine Dateien zum Normalisieren.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2008"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2010"/>
         <source>you are requesting to normalize only some of the files</source>
         <translation>Sie wollen nur einige der Dateien normalisieren</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2014"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2016"/>
         <source>the &quot;Album&quot; mode is not selected</source>
         <translation>Der &quot;Album&quot;modus ist nicht gewählt</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2022"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2024"/>
         <source>filters are applied</source>
         <translation>Filter wurden angewandt</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2026"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2028"/>
         <source>a filter is applied</source>
         <translation>ein Filter wurde angewandt</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2033"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2035"/>
         <source>the normalization will process more than 50 files, which is more than what an album usually has</source>
         <translation>die Normalisierung wird mehr als 50 Dateien bearbeiten, dies ist mehr als ein Album üblicherweise hat</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2042"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2044"/>
         <source>Normalization should process one whole album at a time, so it should only be run in &quot;Album&quot; mode, when no filters are active, and it should be applied to all the files in that album. But in the current case %1.</source>
         <translation>Sie sollten immer ein komplettes Album zu einem Zeitpunkt normalisieren. Am besten tun Sie dies im &quot;Album&quot; Modus, ohne aktive Filter und es sollte alle Dateien des Albums einschliessen. Aber die momentane Einstellung ist %1.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2046"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2048"/>
         <source>Normalization should process one whole album at a time, so it should only be run in &quot;Album&quot; mode, when no filters are active, and it should be applied to all the files in that album. But in the current case  there are some issues:
 %1</source>
         <translation>Sie sollten immer ein komplettes Album zu einem Zeitpunkt normalisieren. Am besten tun Sie dies im &quot;Album&quot; Modus, ohne aktive Filter und es sollte alle Dateien des Albums einschliessen. Im aktuellen Falle sind ein paar Probleme:
 %1</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2049"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2051"/>
         <source>Normalize anyway?</source>
         <translation>Trotzdem normalisieren?</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2049"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2059"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2051"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2061"/>
         <source>Normalize</source>
         <translation>Normalisieren</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2049"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2059"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2051"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2061"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2059"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2277"/>
-        <location filename="../MainFormDlgImpl.cpp" line="3364"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2061"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2279"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3366"/>
         <source>Confirm</source>
         <translation>Bestätigen</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2059"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2061"/>
         <source>Normalize all the files in the current album? (Note that normalization is done &quot;in place&quot;, by an external program, so it doesn&apos;t care about the transformation settings for original and modified files.)</source>
         <translation>Alle Dateien im aktuellen Album normalisieren? (Beachten Sie dass Normalisierung &quot;an Ort und Stelle&quot; stattfindet und von einem externen Programm durchgeführt wird welches Transformationseinstellungen für originale und veränderte Dateien nicht beachtet)</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2175"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2177"/>
         <source>The file list is empty, therefore no transformations can be applied.
 
 Exiting ...</source>
@@ -3398,17 +3398,17 @@ Exiting ...</source>
 Beenden ...</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2187"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2189"/>
         <source>all the files shown in the file list</source>
         <translation>alle in der Dateiliste angezeigten Dateien</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2191"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2193"/>
         <source>all %1 files shown in the file list</source>
         <translation>alle in der Dateiliste angezeigten %1 Dateien</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2202"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2204"/>
         <source>No file is selected, therefore no transformations can be applied.
 
 Exiting ...</source>
@@ -3417,17 +3417,17 @@ Exiting ...</source>
 Beenden ...</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2211"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2213"/>
         <source>and the other selected file</source>
         <translation>und die andere ausgewählte Datei</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2215"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2217"/>
         <source>and the other %1 selected files</source>
         <translation>und die anderen ausgewählten %1 Dateien</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2236"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2238"/>
         <source>The transformation list is empty.
 
 Based on the configuration, it is possible for changes to the files in the list to be performed, even in this case (the files may still be moved, renamed or erased). However, the current settings are to leave the original files unchanged, so currently there&apos;s no point in applying an empty transformation list.
@@ -3440,87 +3440,87 @@ Abhängig von der Konfiguration ist es trotzdem möglich dass Änderungen an den
 Beenden ...</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2239"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2241"/>
         <source>Apply an empty transformation list to all the files shown in the file list? (Note that even if no transformations are performed, the files may still be moved, renamed or erased, based on the current settings.)</source>
         <translation>Die leere Transformationsliste auf alle Dateien in der Dateiliste anwenden? (Selbst wenn keine Transformationen stattfinden so können die Dateien abhängig von den Einstellungen doch verschoben, umbenannt oder gelöscht werden)</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2243"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2245"/>
         <source>Apply transformation &quot;%1&quot; to %2?</source>
         <translation>Transformation %1 bis %2 anwenden?</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2247"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2249"/>
         <source>Apply the following transformations to %1?</source>
         <translation>Die folgenden Transformationen auf %1 anwenden?</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2257"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2259"/>
         <source>don&apos;t change</source>
         <translation>nicht ändern</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2258"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2260"/>
         <source>erase</source>
         <translation>löschen</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2259"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2260"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2261"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2262"/>
         <source>move</source>
         <translation>verschieben</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2261"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2263"/>
         <source>rename</source>
         <translation>umbenennen</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2262"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2264"/>
         <source>move if destination doesn&apos;t exist</source>
         <translation>verschieben falls das Ziel noch nicht existiert</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2266"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2268"/>
         <source>Actions to be taken:</source>
         <translation>Durchzuführende Aktionen:</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2270"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2272"/>
         <source>original file that has been transformed: %1</source>
         <translation>Originaldatei welche transformiert wurde: %1</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2273"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2275"/>
         <source>original file that has not been transformed: %1</source>
         <translation>Originaldatei welche nicht transformiert wurde: %1</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2277"/>
-        <location filename="../MainFormDlgImpl.cpp" line="3364"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2279"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3366"/>
         <source>&amp;Yes</source>
         <translation>&amp;Ja</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2277"/>
-        <location filename="../MainFormDlgImpl.cpp" line="3364"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2279"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3366"/>
         <source>&amp;No</source>
         <translation>&amp;Nein</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2289"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2291"/>
         <source>Applying transformations to MP3 files</source>
         <translation>Transformationen auf MP3 Dateien anwenden</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2320"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2322"/>
         <source>Apply custom transformation list #%1
 </source>
         <translation>Benutzerdefinierte Transformationsliste #%1 anwenden
 </translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2328"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2330"/>
         <source>   &lt;empty list&gt;
 
 (you can edit the list in the Settings dialog)</source>
@@ -3529,146 +3529,146 @@ Beenden ...</translation>
 (Sie können die Liste im Einstellungsdialog ändern)</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2381"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2383"/>
         <source>The file list is empty. You need to populate it before opening the tag editor.</source>
         <translation>Die Dateiliste ist leer. Sie müssen sie füllen bevor Sie den Tag Editor öffnen.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2417"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2419"/>
         <source>The file list is empty. You need to populate it before opening the file rename tool.</source>
         <translation>Die Dateiliste ist leer. Sie müssen sie füllen bevor Sie das &quot;Umbenennen&quot; Werkzeug öffnen.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2575"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2577"/>
         <source>Delete %1?</source>
         <translation>%1 löschen?</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2585"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2587"/>
         <source>Cannot delete file %1</source>
         <translation>Kann Datei %1 nicht löschen</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2695"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2697"/>
         <source>MP3 Diags can check at startup if a new version of the program has been released. Here&apos;s how this is supposed to work:</source>
         <translation>MP3 Diags kann beim Programmstart nach einer neuen Version suchen. Dies funktioniert wie folgt:</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2697"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2699"/>
         <source>The check is done in the background, when the program starts, so there should be no performance penalties</source>
         <translation>Die Überprüfung erfogt im Hintergrund wärend des Programmstarts. Es sollten keine Performanceeinbußen auftreten</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2698"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2700"/>
         <source>A notification message is displayed only if there&apos;s a new version available</source>
         <translation>Eine Benachrichtigung wird nur dann ausgegeben wenn eine neue Version vorliegt</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2699"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2701"/>
         <source>The update is manual. You are told that there is a new version and are offered links to see what&apos;s new, but nothing gets downloaded and / or installed automatically</source>
         <translation>Das Update verläuft manuell. Sie werden informiert dass eine neue Version vorliegt und ein Link wird angeboten um die Änderungen zu sehen aber es wird nichts automatisch heruntergeladen und/oder installiert</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2700"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2702"/>
         <source>There is no System Tray process checking periodically for updates</source>
         <translation>Es gibt keinen Taskleistenprozess welcher periodisch nach Updates schaut</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2701"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2703"/>
         <source>You can turn the notifications on and off from the configuration dialog</source>
         <translation>Sie können die Benachrichtigungen in der Konfiguration ein- und ausschalten</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2702"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2704"/>
         <source>If you restart the program within a day after a check, no new check is done</source>
         <translation>Das Programm sucht nur beim ersten Programmstart des Tages nach Updates</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2710"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2834"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2712"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2836"/>
         <source>Disable checking for new versions</source>
         <translation>Suche nach neuer Version ausschalten</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2710"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2712"/>
         <source>Enable checking for new versions</source>
         <translation>Suche nach neuer Version einschalten</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2810"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2812"/>
         <source>Version %1 has been published. You are running %2. You can see what&apos;s new in %3. A more technical list with changes can be seen in %4.</source>
         <translation>Version %1 wurde veröffentlicht. Sie benutzen %2. Einen Überblick über die Änderung gibt es hier: %3. Ein technisch detailiertere Änderungsliste befindet sich hier: %4.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2814"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2816"/>
         <source>the %1MP3 Diags blog%2</source>
         <comment>arguments are HTML elements</comment>
         <translation>Der %1MP3 Diags Blog%2</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2818"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2820"/>
         <source>the %1change log%2</source>
         <comment>arguments are HTML elements</comment>
         <translation>Das %1Änderungsprotokoll%2</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2825"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2827"/>
         <source>This notification is about the availability of the source code. Binaries may or may not be available at this time, depending on your particular platform.</source>
         <translation>Die Nachricht betrifft die Verfügbarkeit des Quelltextes. Binärdateien könnten abhängig von Ihrer Platform ebenfalls bereits zur Verfügung stehen.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2828"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2830"/>
         <source>You should review the changes and decide if you want to upgrade or not.</source>
         <translation>Sie sollten sich die Änderungsliste anschauen und dann entscheiden ob Sie upgraden wollen oder nicht.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2829"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2831"/>
         <source>Note: if you want to upgrade, you should %1close MP3 Diags%2 first.</source>
         <comment>arguments are HTML elements</comment>
         <translation>Falls Sie upgraden wollen dann sollten Sie %1 MP3 Diags %2 zuerst beenden.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2830"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2832"/>
         <source>Choose what do you want to do:</source>
         <translation>Was wollen Sie tun:</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2834"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2836"/>
         <source>Just close this message</source>
         <translation>Meldung schliessen</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2834"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2836"/>
         <source>Don&apos;t tell me about version %1 again</source>
         <translation>Bitte nicht mehr über Version %1 informieren</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3242"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3244"/>
         <source>Open containing folder ...</source>
         <translation>Öffne Verzeichnis ...</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3288"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3290"/>
         <source>Run &quot;%1&quot; on %2?</source>
         <translation>Starte &quot;%1&quot; auf %2?</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3317"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3319"/>
         <source>Cannot start process. Check that the executable name and the parameters are correct.</source>
         <translation>Kann den Prozess nicht starten. Bitte den Namen des Programms und die Parameter überprüfen.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3353"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3355"/>
         <source>%1 and %2</source>
         <translation>%1 und %2</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3357"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3359"/>
         <source>%1, %2 and %3</source>
         <translation>%1, %2 und %3</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3361"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3363"/>
         <source>%1, %2 and %3 other files</source>
         <translation>%1, %2 und %3 andere Dateien</translation>
     </message>
@@ -3686,12 +3686,12 @@ Beenden ...</translation>
 <context>
     <name>Mp3Transformer</name>
     <message>
-        <location filename="../Mp3TransformThread.cpp" line="646"/>
+        <location filename="../Mp3TransformThread.cpp" line="668"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="../Mp3TransformThread.cpp" line="658"/>
+        <location filename="../Mp3TransformThread.cpp" line="680"/>
         <source>There was an error writing to the following file:
 
 %1
@@ -3708,7 +3708,7 @@ Stellen Sie sicher dass Sie für das Verzeichnis schreibberechtigt sind und das 
 Der Vorgang wurde abgebrochen.</translation>
     </message>
     <message>
-        <location filename="../Mp3TransformThread.cpp" line="664"/>
+        <location filename="../Mp3TransformThread.cpp" line="686"/>
         <source>The file &quot;%1&quot; seems to have been modified since the last scan. You need to rescan it before continuing.
 
 Processing aborted.</source>
@@ -3717,7 +3717,7 @@ Processing aborted.</source>
 Verarbeitung abgebrochen.</translation>
     </message>
     <message>
-        <location filename="../Mp3TransformThread.cpp" line="670"/>
+        <location filename="../Mp3TransformThread.cpp" line="692"/>
         <source>There was an error processing the following file:
 
 %1
@@ -3738,7 +3738,7 @@ Es kann auch sein das keine Zugriffrechte vorliegen oder die Platte voll ist.
 Verarbeitung abgebrochen.</translation>
     </message>
     <message>
-        <location filename="../Mp3TransformThread.cpp" line="674"/>
+        <location filename="../Mp3TransformThread.cpp" line="696"/>
         <source>There was an error processing the following file:
 %1
 
@@ -4972,42 +4972,42 @@ Es sollte eine Datei sein welche noch nicht existiert. Sie brauchen sie nicht an
 <context>
     <name>ShellIntegrator</name>
     <message>
-        <location filename="../Helpers.cpp" line="1315"/>
+        <location filename="../Helpers.cpp" line="1320"/>
         <source>%1 - %2</source>
         <translation>%1 - %2</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1397"/>
+        <location filename="../Helpers.cpp" line="1402"/>
         <source>Error setting up shell integration</source>
         <translation>Fehler beim Einrichten der Shellintegration</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1397"/>
+        <location filename="../Helpers.cpp" line="1402"/>
         <source>It appears that setting up shell integration didn&apos;t complete successfully. You might have to configure it manually.</source>
         <translation>Es sieht so aus als wenn die Shellintegration nicht erfolgreich verlief. Sie müssen dies vermutlich manuell konfigurieren.</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1398"/>
+        <location filename="../Helpers.cpp" line="1403"/>
         <source>This message will not be shown again until the program is restarted, even if more errors occur.</source>
         <translation>Die Meldung wird bis zum nächsten Programmstart nicht mehr angezeigt, auch wenn der Fehler erneut auftritt.</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1399"/>
+        <location filename="../Helpers.cpp" line="1404"/>
         <source>O&amp;K</source>
         <translation>O&amp;K</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1416"/>
+        <location filename="../Helpers.cpp" line="1421"/>
         <source>temporary folder</source>
         <translation>temporäres Verzeichnis</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1417"/>
+        <location filename="../Helpers.cpp" line="1422"/>
         <source>hidden folder</source>
         <translation>verstecktes Verzeichnis</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1418"/>
+        <location filename="../Helpers.cpp" line="1423"/>
         <source>visible folder</source>
         <translation>sichbares Verzeichnis</translation>
     </message>
@@ -6085,22 +6085,22 @@ Laufzeit: %2</translation>
         <translation>Entferne extra Platz von ID3v2</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2529"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2531"/>
         <source>Removes selected streams.</source>
         <translation>Entferne ausgewählte Streams.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2531"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2533"/>
         <source>Remove selected stream(s)</source>
         <translation>Entferne ausgewählte Stream(s)</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2891"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2893"/>
         <source>Removes specified stream.</source>
         <translation>Entfernt angegebenen Stream.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2893"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2895"/>
         <source>Remove specified stream</source>
         <translation>Entferne angegebenen Stream</translation>
     </message>

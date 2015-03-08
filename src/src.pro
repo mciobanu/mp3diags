@@ -152,7 +152,7 @@ TagEditor.ui \
 ThreadRunner.ui \
  Export.ui
 
-
+UI_DIR = ui-forms
 
 #CONFIG += console
 

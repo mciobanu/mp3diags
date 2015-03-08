@@ -832,7 +832,8 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
                                 .arg("</b>")
                                 .arg(g_qstrCrashMail)
                                 .arg(g_qstrBugReport)
-                                .arg(Qt::escape(toNativeSeparators(convStr(v[0])))); break;
+                                .arg(Qt::escape(toNativeSeparators(convStr(v[0]))));
+                        break;
                     case 2:
                         qstrFiles += tr("Information in the files %1%5%2 and %1%6%2 may help identify the cause of the crash so please make them available to the developer by mailing them to %3, by reporting an issue to the project's Issue Tracker at %4 and attaching the files to the report, or by some other means (like putting them on a file sharing site.)", "%1 and %2 are HTML elements")
                                 .arg("<b>")
@@ -841,6 +842,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
                                 .arg(g_qstrBugReport)
                                 .arg(Qt::escape(toNativeSeparators(convStr(v[0]))))
                                 .arg(Qt::escape(toNativeSeparators(convStr(v[1]))));
+                        break;
                     case 3:
                         qstrFiles += tr("Information in the files %1%5%2, %1%6%2, and %1%7%2 may help identify the cause of the crash so please make them available to the developer by mailing them to %3, by reporting an issue to the project's Issue Tracker at %4 and attaching the files to the report, or by some other means (like putting them on a file sharing site.)", "%1 and %2 are HTML elements")
                                 .arg("<b>")
@@ -3550,3 +3552,9 @@ Note the use of QLibraryInfo::location() to locate the Qt translations. Develope
 //ttt2 ID3V2 frame TBPM should be numeric - see: 20 Rimsky-Korsakov - Flight of the Bumblebee from Tsar Sultan.mp3
 
 //ttt0 https://sourceforge.net/projects/mp3diags/forums/forum/947206/topic/6884554 - use http://coverartarchive.org/
+
+//ttt2 when processing a file (e.g. deleting a stream) the program will tend to scroll the file view so that file is the last; it should stay where it was.
+
+//ttt1 switch to album mode and move between folders that need/don't need scrollbar; the horizontal resizing doesn't work well, so many times there is either a scrollbar or empty space
+
+//ttt0 screenshots for language selection

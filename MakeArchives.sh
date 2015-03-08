@@ -87,11 +87,10 @@ function createSrc
     cp -p COPYING $LongDestDir
     cp -p Install.sh $LongDestDir
     cp -p changelog.txt $LongDestDir
-    #cp mp3diags.kdevelop $LongDestDir
-    cat mp3diags.kdevelop | grep -v "cwd" | grep -v "home" > $LongDestDir/mp3diags.kdevelop
     cp -p mp3diags.pro $LongDestDir
     cp -p Uninstall.sh $LongDestDir
     cp -p AdjustMt.sh $LongDestDir
+    cp -p Build.sh $LongDestDir
     cp -p CMakeLists.txt $LongDestDir
     cp -p CMake-VS2008-Win32.cmd $LongDestDir
     cat BuildMp3Diags.hta | sed -e "s#MP3DiagsWindows#MP3DiagsWindows$BranchDash#g" > $LongDestDir/BuildMp3Diags.hta
@@ -118,7 +117,7 @@ function createSrc
     cp -p MakeTranslations.sh $LongDestDir
 
     cd package/out
-    tar czf $DestDir.tar.gz $DestDir
+    tar czf $DestDir.tar.gz $DestDir -H gnu
     cd ../..
 
     #rm -f -r $LongDestDir
@@ -165,7 +164,7 @@ function createDoc
     #rm $LongDestDir/010a_getting_the_program.html
 
     cd package/out
-    tar czf $DestDir.tar.gz $DestDir
+    tar czf $DestDir.tar.gz $DestDir -H gnu
     cd ../..
 
     #rm -f -r $LongDestDir
@@ -227,6 +226,13 @@ function createClicknetDoc
 #<!-- GoogleAn --> <script type="text/javascript"> var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www."); document.write(unescape("%3Cscript src='\''" + gaJsHost + "google-analytics.com/ga.js'\'' type='\''text/javascript'\''%3E%3C/script%3E")); </script> <script type="text/javascript"> try { var pageTracker = _gat._getTracker("UA-11047979-1"); pageTracker._trackPageview(); } catch(err) {}</script> <!-- GoogleAn -->
 
 
+#<script type="text/javascript"> var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www."); document.write(unescape("%3Cscript src='\''" + gaJsHost + "google-analytics.com/ga.js'\'' type='\''text/javascript'\''%3E%3C/script%3E")); </script> <script type="text/javascript"> try { var pageTracker = _gat._getTracker("UA-11047979-1"); pageTracker._trackPageview(); } catch(err) {}</script>
+
+#<script type="text/javascript"> var _gaq = _gaq || []; _gaq.push(['_setAccount', 'UA-11047979-1']); _gaq.push(['_trackPageview']); (function() { var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s); })(); </script>
+
+#<script type="text/javascript"> var _gaq = _gaq || []; _gaq.push(['\''_setAccount'\'', '\''UA-11047979-1'\'']); _gaq.push(['\''_trackPageview'\'']); (function() { var ga = document.createElement('\''script'\''); ga.type = '\''text/javascript'\''; ga.async = true; ga.src = ('\''https:'\'' == document.location.protocol ? '\''https://'\'' : '\''http://'\'') + '\''stats.g.doubleclick.net/dc.js'\''; var s = document.getElementsByTagName('\''script'\'')[0]; s.parentNode.insertBefore(ga, s); })(); </script>
+
+#<script> (function(i,s,o,g,r,a,m){i['\''GoogleAnalyticsObject'\'']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'\''script'\'','\''//www.google-analytics.com/analytics.js'\'','\''ga'\''); ga('\''create'\'', '\''UA-11047979-1'\'', '\''sourceforge.net'\''); ga('\''send'\'', '\''pageview'\''); </script>
 
 function createSfDoc
 {
@@ -244,7 +250,7 @@ function createSfDoc
 
         origDate=`stat --printf '%Y' doc/html/$i`
 
-        cat doc/html/$i | sed 's#QQQStatCounterQQQ# Start of StatCounter Code --> <script type="text/javascript"> var sc_project=4765268; var sc_invisible=1; var sc_partition=54; var sc_click_stat=1; var sc_security="b8120652"; </script> <script type="text/javascript" src="http://www.statcounter.com/counter/counter.js"></script> <noscript> <div class="statcounter"> <a title="website statistics" href="http://www.statcounter.com/" target="_blank"> <img class="statcounter" src="http://c.statcounter.com/4765268/0/b8120652/1/" alt="website statistics" > </a> </div> </noscript> <!-- End of StatCounter Code -->          <!-- Piwik --><script type="text/javascript">var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/mp3diags/" : "http://sourceforge.net/apps/piwik/mp3diags/");document.write(unescape("%3Cscript src='\''" + pkBaseURL + "piwik.js'\'' type='\''text/javascript'\''%3E%3C/script%3E"));</script><script type="text/javascript">piwik_action_name = '\'''\'';piwik_idsite = 1;piwik_url = pkBaseURL + "piwik.php";piwik_log(piwik_action_name, piwik_idsite, piwik_url);</script><object><noscript><p><img src="http://sourceforge.net/apps/piwik/mp3diags/piwik.php?idsite=1" alt="piwik"/></p></noscript></object><!-- End Piwik Tag #' | sed 's#<!-- sf_hosting -->#<td border="0" class="HeaderText HeaderPadRight RightAlign"><a href="http://sourceforge.net/projects/mp3diags"><img border="0" align=middle src="http://sflogo.sourceforge.net/sflogo.php?group_id=260878\&amp;type=12" width="120" height="30" alt="Get MP3 Diags at SourceForge.net. Fast, secure and Free Open Source software downloads" /></a></td>#' | sed 's#<!-- add_this_conf -->#<script type="text/javascript"> var addthis_config = { username: "ciobi", data_use_flash: false } </script><script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js"></script>        <!-- GoogleAn --> <script type="text/javascript"> var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www."); document.write(unescape("%3Cscript src='\''" + gaJsHost + "google-analytics.com/ga.js'\'' type='\''text/javascript'\''%3E%3C/script%3E")); </script> <script type="text/javascript"> try { var pageTracker = _gat._getTracker("UA-11047979-1"); pageTracker._trackPageview(); } catch(err) {}</script> <!-- GoogleAn -->#' | sed 's#<!-- add_this_link -->#<a href="http://www.addthis.com/bookmark.php?v=250" class="addthis_button" addthis:url="http://mp3diags.sourceforge.net/" addthis:title="MP3 Diags"><img src="share.gif" border="0" alt="Share" align="middle" /></a>#' | sed "s#pageTracker._trackPageview.'#pageTracker._trackPageview\\('$BranchSlash#" > $LongDestDir/$i
+        cat doc/html/$i | sed 's#QQQStatCounterQQQ# Start of StatCounter Code --> <script type="text/javascript"> var sc_project=4765268; var sc_invisible=1; var sc_partition=54; var sc_click_stat=1; var sc_security="b8120652"; </script> <script type="text/javascript" src="http://www.statcounter.com/counter/counter.js"></script> <noscript> <div class="statcounter"> <a title="website statistics" href="http://www.statcounter.com/" target="_blank"> <img class="statcounter" src="http://c.statcounter.com/4765268/0/b8120652/1/" alt="website statistics" > </a> </div> </noscript> <!-- End of StatCounter Code -->          <!-- Piwik --><script type="text/javascript">var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/mp3diags/" : "http://sourceforge.net/apps/piwik/mp3diags/");document.write(unescape("%3Cscript src='\''" + pkBaseURL + "piwik.js'\'' type='\''text/javascript'\''%3E%3C/script%3E"));</script><script type="text/javascript">piwik_action_name = '\'''\'';piwik_idsite = 1;piwik_url = pkBaseURL + "piwik.php";piwik_log(piwik_action_name, piwik_idsite, piwik_url);</script><object><noscript><p><img src="http://sourceforge.net/apps/piwik/mp3diags/piwik.php?idsite=1" alt="piwik"/></p></noscript></object><!-- End Piwik Tag #' | sed 's#<!-- sf_hosting -->#<td border="0" class="HeaderText HeaderPadRight RightAlign"><a href="http://sourceforge.net/projects/mp3diags"><img border="0" align=middle src="http://sflogo.sourceforge.net/sflogo.php?group_id=260878\&amp;type=12" width="120" height="30" alt="Get MP3 Diags at SourceForge.net. Fast, secure and Free Open Source software downloads" /></a></td>#' | sed 's#<!-- add_this_conf -->#<script type="text/javascript"> var addthis_config = { username: "ciobi", data_use_flash: false } </script><script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js"></script>        <!-- GoogleAn --> <script> (function(i,s,o,g,r,a,m){i['\''GoogleAnalyticsObject'\'']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'\''script'\'','\''//www.google-analytics.com/analytics.js'\'','\''ga'\''); ga('\''create'\'', '\''UA-11047979-1'\'', '\''sourceforge.net'\''); ga('\''send'\'', '\''pageview'\''); </script> <!-- GoogleAn -->#' | sed 's#<!-- add_this_link -->#<a href="http://www.addthis.com/bookmark.php?v=250" class="addthis_button" addthis:url="http://mp3diags.sourceforge.net/" addthis:title="MP3 Diags"><img src="share.gif" border="0" alt="Share" align="middle" /></a>#' | sed "s#pageTracker._trackPageview.'#pageTracker._trackPageview\\('$BranchSlash#" > $LongDestDir/$i
         touch -d @"$origDate" $LongDestDir/$i
         fixTitleBranch $LongDestDir/$i
         fixVersion $LongDestDir/$i
@@ -277,7 +283,7 @@ function createPackagerSrc
     cd package/out
     mkdir MP3Diags$BranchDash-$Ver/doc
     cp -p MP3DiagsDoc$BranchDash-$Ver/* MP3Diags$BranchDash-$Ver/doc
-    tar czf MP3Diags"$BranchDash"_Src+Doc-$Ver.tar.gz MP3Diags$BranchDash-$Ver
+    tar czf MP3Diags"$BranchDash"_Src+Doc-$Ver.tar.gz MP3Diags$BranchDash-$Ver -H gnu
     mv MP3Diags"$BranchDash"_Src+Doc-$Ver.tar.gz MP3DiagsClicknetDoc$BranchDash-$Ver
     cd ../..
 }

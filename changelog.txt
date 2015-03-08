@@ -1,9 +1,21 @@
 ---------------------------------------------------------------------------
 
+08.03.2015 - 1.2.02
+- integrated changes from 1.3.01:
+- fixed incorrect message occurring some times when start after a crash
+- better logging and retries for write errors
+- added offset to the output created via the command line
+- fixed crash caused by saving very small images
+- build fix
+- disabled Discogs integration
+
+---------------------------------------------------------------------------
+
 17.01.2014 - 1.2.01
 - 1.2 as the new stable branch
 - build fix for clang and for Solaris
-- fixed broken links in documentation and moved alternate downloads from Dropbox to my ISP
+- fixed broken links in documentation and moved alternate downloads
+    from Dropbox to my ISP
 
 ---------------------------------------------------------------------------
 

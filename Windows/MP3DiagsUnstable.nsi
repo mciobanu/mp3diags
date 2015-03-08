@@ -146,8 +146,10 @@ Section "un.Uninstall"
   Delete $INSTDIR\favicon.ico
 
   Delete $INSTDIR\boost.txt
-  Delete $INSTDIR\libboost_serialization-mgw44-mt-1_46_1.dll
-  Delete $INSTDIR\libboost_program_options-mgw44-mt-1_46_1.dll
+  Delete $INSTDIR\libboost_serialization-*.dll
+  Delete $INSTDIR\libboost_program_options-*.dll
+  ; boost_serialization-*.dll might be there from an older version
+  Delete $INSTDIR\boost_serialization-*.dll
   Delete $INSTDIR\changelog.txt
   Delete $INSTDIR\gplv2.txt
   Delete $INSTDIR\gplv3.txt
@@ -162,12 +164,7 @@ Section "un.Uninstall"
   Delete $INSTDIR\QtXml4.dll
   Delete $INSTDIR\zlib.txt
   Delete $INSTDIR\zlib1.dll
-  Delete $INSTDIR\qt_cs.qm
-  Delete $INSTDIR\qt_de.qm
-  Delete $INSTDIR\qt_fr.qm
-  Delete $INSTDIR\mp3diags_cs.qm
-  Delete $INSTDIR\mp3diags_de_DE.qm
-  Delete $INSTDIR\mp3diags_fr_FR.qm
+  Delete $INSTDIR\*.qm
   Delete $INSTDIR\MP3DiagsCLI-unstable.cmd
 
   Delete $INSTDIR\iconengines\qsvgicon4.dll
@@ -178,7 +175,7 @@ Section "un.Uninstall"
   RMDir $INSTDIR\iconengines
   RMDir $INSTDIR\imageformats
   RMDir $INSTDIR
-  
+
   DeleteRegKey HKEY_CLASSES_ROOT "Directory\shell\mp3diags_temp_dir"
   DeleteRegKey HKEY_CLASSES_ROOT "Drive\shell\mp3diags_temp_dir"
   DeleteRegKey HKEY_CLASSES_ROOT "Directory\shell\mp3diags_visible_dir"

@@ -1,3 +1,9 @@
+* Sun Mar 08 2015 Marian Ciobanu <ciobi@inbox.com> 1.3.03
+
+- improved error reporting
+- speed improvements for external drives (USB, network, ...)
+- different treatment for the Xing frame being included in the frame count
+
 * Thu Jul 17 2014 Marian Ciobanu <ciobi@inbox.com> 1.3.01
 
 - fixed crash caused by saving very small images

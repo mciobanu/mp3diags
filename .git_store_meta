@@ -253,12 +253,12 @@ src/CheckedDir.cpp	f	2012-02-16T22:31:11Z
 src/CheckedDir.h	f	2012-02-16T22:30:59Z
 src/ColumnResizer.cpp	f	2014-11-12T16:53:17Z
 src/ColumnResizer.h	f	2009-05-06T07:28:19Z
-src/CommonData.cpp	f	2014-11-13T15:57:59Z
+src/CommonData.cpp	f	2014-11-18T07:38:35Z
 src/CommonData.h	f	2014-11-12T16:53:17Z
 src/CommonTypes.cpp	f	2014-11-12T10:27:06Z
 src/CommonTypes.h	f	2014-11-12T10:30:51Z
 src/Config.ui	f	2012-02-12T20:13:49Z
-src/ConfigDlgImpl.cpp	f	2014-11-13T15:57:59Z
+src/ConfigDlgImpl.cpp	f	2015-03-08T17:08:28Z
 src/ConfigDlgImpl.h	f	2012-02-06T22:36:06Z
 src/DataStream.cpp	f	2014-11-13T11:43:27Z
 src/DataStream.h	f	2014-11-13T11:34:42Z
@@ -306,7 +306,7 @@ src/LogModel.h	f	2009-05-06T07:30:16Z
 src/LyricsStream.cpp	f	2014-11-12T17:36:59Z
 src/LyricsStream.h	f	2014-11-12T16:53:17Z
 src/MainForm.ui	f	2011-07-30T12:34:43Z
-src/MainFormDlgImpl.cpp	f	2014-11-14T12:50:49Z
+src/MainFormDlgImpl.cpp	f	2015-03-08T17:04:11Z
 src/MainFormDlgImpl.h	f	2012-02-29T20:07:21Z
 src/Mp3Diags.qrc	f	2012-02-05T19:46:04Z
 src/Mp3Manip.cpp	f	2014-11-14T12:51:40Z
@@ -355,8 +355,8 @@ src/StoredSettings.cpp	f	2012-01-25T22:17:31Z
 src/StoredSettings.h	f	2012-02-06T23:03:21Z
 src/StreamsModel.cpp	f	2014-11-13T15:57:59Z
 src/StreamsModel.h	f	2009-05-06T07:32:41Z
-src/StructuralTransformation.cpp	f	2014-11-14T12:45:34Z
-src/StructuralTransformation.h	f	2014-11-14T12:45:10Z
+src/StructuralTransformation.cpp	f	2014-11-18T07:38:35Z
+src/StructuralTransformation.h	f	2014-11-18T07:35:05Z
 src/TagEditor.ui	f	2012-01-02T10:05:18Z
 src/TagEditorDlgImpl.cpp	f	2014-11-13T15:57:59Z
 src/TagEditorDlgImpl.h	f	2012-03-03T06:59:47Z

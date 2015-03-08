@@ -3291,7 +3291,7 @@ void MainFormDlgImpl::showExternalTools()
         //qDebug("pressed %d", nIndex);
         if (0 == nIndex)
         {
-            CB_ASSERT (0 != m_pCommonData->getCrtMp3Handler());
+            CB_ASSERT (0 != m_pCommonData->getCrtMp3Handler()); //ttt0 triggered according to mail on 2015.03.07
             QString qstrDir (convStr(m_pCommonData->getCrtMp3Handler()->getDir()));
 #if defined(WIN32) || defined(__OS2__)
             //qstrDir = QDir::toNativeSeparators(qstrDir);
@@ -3603,3 +3603,4 @@ Note the use of QLibraryInfo::location() to locate the Qt translations. Develope
 //ttt2 individual color for each note
 //ttt2 copy ID3V2 to ID3V1
 
+//ttt0 utf in normalize dialog - https://sourceforge.net/p/mp3diags/tickets/3087/

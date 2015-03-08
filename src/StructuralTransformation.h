@@ -239,6 +239,28 @@ public:
 };
 
 
+class XingRemover : public GenericRemover
+{
+    /*override*/ bool matches(DataStream* p) const;
+public:
+    /*override*/ const char* getActionName() const { return getClassName(); }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Removes all Xing streams."); }
+
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Remove all Xing streams"); }
+};
+
+
+class LameRemover : public GenericRemover
+{
+    /*override*/ bool matches(DataStream* p) const;
+public:
+    /*override*/ const char* getActionName() const { return getClassName(); }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Removes all LAME streams."); }
+
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Remove all LAME streams"); }
+};
+
+
 //===================================================================================================================
 
 

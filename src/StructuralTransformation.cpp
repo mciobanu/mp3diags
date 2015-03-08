@@ -519,6 +519,20 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
 }
 
 
+/*override*/ bool XingRemover::matches(DataStream* pDataStream) const
+{
+    XingStream* p (dynamic_cast<XingStream*>(pDataStream));
+    return 0 != p;
+}
+
+
+/*override*/ bool LameRemover::matches(DataStream* pDataStream) const
+{
+    LameStream* p (dynamic_cast<LameStream*>(pDataStream));
+    return 0 != p;
+}
+
+
 //================================================================================================================================
 //================================================================================================================================
 //================================================================================================================================

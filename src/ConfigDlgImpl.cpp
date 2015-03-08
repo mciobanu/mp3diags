@@ -927,6 +927,11 @@ void initDefaultVisibleTransf(vector<int>& v, CommonData* pCommonData)
     //v.push_back(pCommonData->getTransfPos(Id3V1ToId3V2Copier::getClassName()));
     //v.push_back(pCommonData->getTransfPos(Id3V1Remover::getClassName()));
 
+    //v.push_back(pCommonData->getTransfPos(ApeRemover::getClassName()));
+    //v.push_back(pCommonData->getTransfPos(NonAudioRemover::getClassName()));
+    //v.push_back(pCommonData->getTransfPos(XingRemover::getClassName()));
+    //v.push_back(pCommonData->getTransfPos(LameRemover::getClassName()));
+
     //v.push_back(pCommonData->getTransfPos(Id3V2Compactor::getClassName()));
     //v.push_back(pCommonData->getTransfPos(Id3V2Expander::getClassName()));
 }

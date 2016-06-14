@@ -288,7 +288,7 @@ src/FilesModel.cpp	f	2014-11-13T15:57:59Z
 src/FilesModel.h	f	2009-10-01T09:28:15Z
 src/FullSizeImgDlg.cpp	f	2012-03-03T20:13:54Z
 src/FullSizeImgDlg.h	f	2009-11-28T07:25:00Z
-src/Helpers.cpp	f	2014-11-14T11:35:44Z
+src/Helpers.cpp	f	2015-05-17T18:13:49Z
 src/Helpers.h	f	2014-11-14T10:47:06Z
 src/Id3Transf.cpp	f	2012-03-03T20:24:37Z
 src/Id3Transf.h	f	2012-03-03T14:27:44Z

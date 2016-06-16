@@ -232,6 +232,8 @@ void SessionSettings::saveMiscConfigSettings(const CommonData* p)
         m_pSettings->setValue("main/warnedAboutBackup", p->m_bWarnedAboutBackup);
         m_pSettings->setValue("tagEditor/toldAboutPatterns", p->m_bToldAboutPatterns);
         m_pSettings->setValue("main/toldAboutSupport", p->m_bToldAboutSupport);
+        m_pSettings->setValue("main/toldAboutXingRebuild", p->m_bToldAboutXingRebuild);
+        m_pSettings->setValue("main/toldAboutXingRemove", p->m_bToldAboutXingRemove);
 
         m_pSettings->setValue("fileRenamer/invalidChars", convStr(p->m_strRenamerInvalidChars));
         m_pSettings->setValue("fileRenamer/replacementForInvalid", convStr(p->m_strRenamerReplacementString));
@@ -353,6 +355,8 @@ void SessionSettings::loadMiscConfigSettings(CommonData* p, bool bInitGui) const
         p->m_bWarnedAboutBackup = m_pSettings->value("main/warnedAboutBackup", false).toBool();
         p->m_bToldAboutPatterns = m_pSettings->value("tagEditor/toldAboutPatterns", false).toBool();
         p->m_bToldAboutSupport = m_pSettings->value("main/toldAboutSupport", false).toBool();
+        p->m_bToldAboutXingRebuild = m_pSettings->value("main/toldAboutXingRebuild", false).toBool();
+        p->m_bToldAboutXingRemove = m_pSettings->value("main/toldAboutXingRemove", false).toBool();
 
 #ifndef WIN32
         const char* DEFAULT_INVALID ("/\"\\*?<>|"); //ttt2 even in Unix, it might be a good idea to not allow ":" as well in some cases, depending on the file system
@@ -654,6 +658,7 @@ CommonData::CommonData(
 
     m_vpAllTransf.push_back(new MultipleId3StreamRemover());
     m_vpAllTransf.push_back(new MismatchedXingRemover());
+    m_vpAllTransf.push_back(new XingLameCbrRemover());
 
     m_vpAllTransf.push_back(new TruncatedAudioPadder());
 

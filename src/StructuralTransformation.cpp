@@ -388,7 +388,7 @@ note that inserting a blank frame before a cut duesn't really solve the warning 
         if (bb)
         {
             bb = false;
-            throw WriteError(); //ttt0 use this to investigate write errors
+            throw WriteError(); //ttt00 use this to investigate write errors
         }*/
 
         for (int i = 0, n = cSize(vpStreams); i < n; ++i)
@@ -492,6 +492,48 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
                 m_spStreamsToDiscard.insert(pXing);
             }
         }
+    }
+}
+
+
+
+/*override*/ bool XingLameCbrRemover::matches(DataStream* p) const
+{
+    return m_spStreamsToDiscard.count(p) > 0;
+}
+
+void XingLameCbrRemover::setupDiscarded(const Mp3Handler& h)
+{
+    m_spStreamsToDiscard.clear();
+    XingStreamBase* pXing (0);
+    MpegStream* pMpegStream (0);
+
+    const vector<DataStream*>& vpStreams (h.getStreams());
+    for (int i = 0, n = cSize(vpStreams); i < n; ++i)
+    {
+        DataStream* p (vpStreams[i]);
+        if (0 != dynamic_cast<XingStreamBase*>(p))
+        {
+            if (pXing != 0)
+            { // 2 Xing headers; won't make any change
+                return;
+            }
+            pXing = dynamic_cast<XingStreamBase*>(p);
+        }
+
+        if (0 != dynamic_cast<MpegStream*>(p))
+        {
+            if (pMpegStream != 0)
+            { // 2 audio streams; won't make any change
+                return;
+            }
+            pMpegStream = dynamic_cast<MpegStream*>(p);
+        }
+    }
+
+    if (pXing != 0 && pMpegStream != 0 && !pMpegStream->isVbr())
+    {
+        m_spStreamsToDiscard.insert(pXing);
     }
 }
 

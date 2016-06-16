@@ -653,6 +653,8 @@ void MainFormDlgImpl::loadIgnored()
 
 
 static bool s_bToldAboutSupportInCrtRun (false); // to limit to 1 per run the number of times the user is told about support
+static bool s_bToldAboutXingRebuildInCrtRun (false);
+static bool s_bToldAboutXingRemoveInCrtRun (false);
 
 //=====================================================================================================================
 //=====================================================================================================================
@@ -2257,6 +2259,52 @@ void MainFormDlgImpl::transform(std::vector<Transformation*>& vpTransf, Subset e
         CB_ASSERT (false);
     }
 
+
+    if (!m_pCommonData->m_bToldAboutXingRebuild && !s_bToldAboutXingRebuildInCrtRun)
+    {
+        for (int i = 0; i < cSize(vpTransf); ++i)
+        {
+            if (dynamic_cast<VbrRebuilder*>(vpTransf[i]) != 0)
+            {
+                s_bToldAboutXingRebuildInCrtRun = true;
+
+                int res = HtmlMsg::msg(this, 0, 1, &m_pCommonData->m_bToldAboutXingRebuild, HtmlMsg::DEFAULT, tr("Confirm"), tr("<p>Rebuilding VBR data in Xing / LAME headers can destroy gapless playing information, causing albums that are supposed to be gapless to be played with short gaps between tracks.</p><p>Note that this shouldn't matter for regular, non-gapless, albums.</p><p>Proceed?</p>"), 750, 300, tr("&Yes"), tr("&No"));
+
+                if (m_pCommonData->m_bToldAboutXingRebuild)
+                {
+                    m_settings.saveMiscConfigSettings(m_pCommonData);
+                }
+
+                if (res != 0) { return; }
+                break;
+            }
+        }
+    }
+    // ttt1 not sure about VbrRepairer, which also has the potential to destroy gapless info; probably better without it
+
+    if (!m_pCommonData->m_bToldAboutXingRemove && !s_bToldAboutXingRemoveInCrtRun)
+    {
+        for (int i = 0; i < cSize(vpTransf); ++i)
+        {
+            if (dynamic_cast<XingRemover*>(vpTransf[i]) != 0 || dynamic_cast<LameRemover*>(vpTransf[i]) != 0 || dynamic_cast<MismatchedXingRemover*>(vpTransf[i]) != 0 || dynamic_cast<XingLameCbrRemover*>(vpTransf[i]) != 0)
+            {
+                s_bToldAboutXingRemoveInCrtRun = true;
+
+                int res = HtmlMsg::msg(this, 0, 1, &m_pCommonData->m_bToldAboutXingRemove, HtmlMsg::DEFAULT, tr("Confirm"), tr("<p>Removing Xing / LAME headers destroys gapless playing information, causing albums that are supposed to be gapless to be played with short gaps between tracks.</p><p>Note that this shouldn't matter for regular, non-gapless, albums.</p><p>Proceed?</p>"), 750, 300, tr("&Yes"), tr("&No"));
+
+                if (m_pCommonData->m_bToldAboutXingRemove)
+                {
+                    m_settings.saveMiscConfigSettings(m_pCommonData);
+                }
+
+                if (res != 0) { return; }
+                break;
+            }
+        }
+    }
+
+
+
     QString qstrConf;
     if (vpTransf.empty())
     {
@@ -3570,7 +3618,7 @@ Note the use of QLibraryInfo::location() to locate the Qt translations. Develope
 
 //ttt0 update references based on traffic volume
 
-//ttt0 delete LAME for CBR - https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=117
+//ttt00 delete LAME for CBR - https://sourceforge.net/p/mp3diags/tickets/117/
 
 //ttt0 don't scan backup dir if it's inside the source
 //ttt0 compute bitrate in VBR headers //ttt0 see why the bitrate computed manually based on VBR data doesn't match exactly the one computed for the audio (see mail sent on 2012.10.14)
@@ -3587,20 +3635,27 @@ Note the use of QLibraryInfo::location() to locate the Qt translations. Develope
 
 //ttt0 screenshots for language selection
 
-//ttt0 once sessions have been enabled, all new sessions should have them; or better - this should be a global setting
-//ttt0 the warnings about changes, backing up, notifying about new versions, ... should also be global or at least copied; especially annoying when using shell integration
+//ttt00 once sessions have been enabled, all new sessions should have them; or better - this should be a global setting
+//ttt00 the warnings about changes, backing up, notifying about new versions, ... should also be global or at least copied; especially annoying when using shell integration
 
-//ttt0 the .deb installs translations for stable to unstable: for i in `dpkg -L mp3diags` ; do if [ -f $i ] ; then ls -l $i ; fi ; done
+//ttt00 the .deb installs translations for stable to unstable: for i in `dpkg -L mp3diags` ; do if [ -f $i ] ; then ls -l $i ; fi ; done
 
 //ttt2 https://sourceforge.net/p/mp3diags/discussion/947206/thread/1f7a776e/
 
-//ttt0 1x1 images from MusicBrainz, due to http://images.amazon.com/images/P/B00AD2IYNK.01.LZZZZZZZ.jpg no longer being there (this ASIN is .fr only)
+//ttt00 1x1 images from MusicBrainz, due to http://images.amazon.com/images/P/B00AD2IYNK.01.LZZZZZZZ.jpg no longer being there (this ASIN is .fr only)
 
 //ttt0 amarok fail in /d/test_mp3/1/tmp2/crt_test/Amarok-errors
 
-//ttt0 warning that rebuilding VBR info breaks gapless play
+//ttt00 warning that rebuilding VBR info breaks gapless play
 
 //ttt2 individual color for each note
 //ttt2 copy ID3V2 to ID3V1
 
-//ttt0 utf in normalize dialog - https://sourceforge.net/p/mp3diags/tickets/3087/
+//ttt00 utf in normalize dialog - https://sourceforge.net/p/mp3diags/tickets/3087/
+
+//ttt00 start an older version and it shows errors about transforms not found, then crashes
+
+//ttt1 freedb.org
+//ttt1 https://sourceforge.net/p/mp3diags/discussion/947206/thread/cb3417ae/?limit=25#ef4c/6e05
+
+//ttt0 blind accessible - https://sourceforge.net/p/mp3diags/tickets/3099/

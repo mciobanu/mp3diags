@@ -206,6 +206,25 @@ public:
 };
 
 
+class XingLameCbrRemover : public GenericRemover
+{
+    /*override*/ bool matches(DataStream* p) const;
+    std::set<DataStream*> m_spStreamsToDiscard; //ttt1 duplicate code with MismatchedXingRemover and MultipleId3StreamRemover; create intermediary class
+    void setupDiscarded(const Mp3Handler& h);
+public:
+    /*override*/ const char* getActionName() const { return getClassName(); }
+    /*override*/ const char* getDescription() const { return QT_TRANSLATE_NOOP("Transformation", "Removes Xing or LAME streams from files encoded using CBR."); }
+
+    static const char* getClassName() { return QT_TRANSLATE_NOOP("Transformation", "Remove Xing or LAME streams from CBR files"); }
+
+    /*override*/ Transformation::Result apply(const Mp3Handler& h, const TransfConfig& cfg, const std::string& strOrigSrcName, std::string& strTempName)
+    {
+        setupDiscarded(h);
+        return GenericRemover::apply(h, cfg, strOrigSrcName, strTempName);
+    }
+};
+
+
 class Id3V1Remover : public GenericRemover
 {
     /*override*/ bool matches(DataStream* p) const;

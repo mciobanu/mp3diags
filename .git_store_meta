@@ -258,7 +258,7 @@ src/CommonData.h	f	2016-06-16T13:38:41Z
 src/CommonTypes.cpp	f	2014-11-12T10:27:06Z
 src/CommonTypes.h	f	2014-11-12T10:30:51Z
 src/Config.ui	f	2012-02-12T20:13:49Z
-src/ConfigDlgImpl.cpp	f	2015-03-08T17:08:28Z
+src/ConfigDlgImpl.cpp	f	2016-06-21T12:36:34Z
 src/ConfigDlgImpl.h	f	2012-02-06T22:36:06Z
 src/DataStream.cpp	f	2014-11-13T11:43:27Z
 src/DataStream.h	f	2014-11-13T11:34:42Z
@@ -306,7 +306,7 @@ src/LogModel.h	f	2009-05-06T07:30:16Z
 src/LyricsStream.cpp	f	2014-11-12T17:36:59Z
 src/LyricsStream.h	f	2014-11-12T16:53:17Z
 src/MainForm.ui	f	2011-07-30T12:34:43Z
-src/MainFormDlgImpl.cpp	f	2016-06-16T14:09:27Z
+src/MainFormDlgImpl.cpp	f	2016-06-21T12:46:30Z
 src/MainFormDlgImpl.h	f	2012-02-29T20:07:21Z
 src/Mp3Diags.qrc	f	2012-02-05T19:46:04Z
 src/Mp3Manip.cpp	f	2014-11-14T12:51:40Z
@@ -352,7 +352,7 @@ src/SimpleSaxHandler.h	f	2014-11-12T15:53:13Z
 src/SongInfoParser.cpp	f	2014-11-12T16:53:17Z
 src/SongInfoParser.h	f	2014-11-13T17:42:16Z
 src/StoredSettings.cpp	f	2012-01-25T22:17:31Z
-src/StoredSettings.h	f	2012-02-06T23:03:21Z
+src/StoredSettings.h	f	2016-06-21T12:16:07Z
 src/StreamsModel.cpp	f	2014-11-13T15:57:59Z
 src/StreamsModel.h	f	2009-05-06T07:32:41Z
 src/StructuralTransformation.cpp	f	2016-06-15T21:40:44Z
@@ -443,7 +443,7 @@ src/licences/gplv3.txt	f	2008-11-14T09:24:29Z
 src/licences/lgpl-2.1.txt	f	2009-05-14T11:38:15Z
 src/licences/lgplv3.txt	f	2008-11-14T09:24:41Z
 src/licences/zlib.txt	f	2009-05-14T11:42:40Z
-src/main.cpp	f	2014-11-13T10:24:44Z
+src/main.cpp	f	2016-06-21T12:16:53Z
 src/src.pro	f	2014-11-14T10:04:16Z
 src/translations/autoTransl/MixedCase.cpp	f	2012-02-29T21:51:40Z
 src/translations/mp3diags_cs.ts	f	2014-11-14T13:03:31Z

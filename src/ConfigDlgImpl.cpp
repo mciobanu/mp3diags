@@ -607,6 +607,13 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
     }
 
     {  //misc
+        {
+            GlobalSettings st;
+            if (st.getSessionCount() > 1)
+            {
+                m_pShowSessCkB->setEnabled(false);
+            }
+        }
         m_pScanAtStartupCkB->setChecked(m_pCommonData->m_bScanAtStartup);
         m_pFastSaveCkB->setChecked(m_pCommonData->useFastSave());
         m_pShowExportCkB->setChecked(m_pCommonData->m_bShowExport);

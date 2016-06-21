@@ -1285,7 +1285,13 @@ void MainFormDlgImpl::initializeUi()
         m_pDebugB->hide();
     }
 
-    if (!m_pCommonData->m_bShowSessions)
+    bool bShowSessions = m_pCommonData->m_bShowSessions;
+    if (!bShowSessions)
+    {
+        GlobalSettings st;
+        bShowSessions = st.getSessionCount() > 1;
+    }
+    if (!bShowSessions)
     {
         m_pSessionsB->hide();
         if (!m_pCommonData->m_bShowExport)
@@ -2517,8 +2523,14 @@ void MainFormDlgImpl::updateUi(const string& strCrt) // strCrt may be empty
 
     saveVisibleTransf();
     saveExternalTools();
+    bool bShowSessions = m_pCommonData->m_bShowSessions;
+    if (!bShowSessions)
+    {
+        GlobalSettings st;
+        bShowSessions = st.getSessionCount() > 1;
+    }
 
-    if (m_pCommonData->m_bShowExport || m_pCommonData->m_bShowSessions)
+    if (m_pCommonData->m_bShowExport || bShowSessions)
     {
         m_pOptBtn1W->show();
     }
@@ -2550,7 +2562,7 @@ void MainFormDlgImpl::updateUi(const string& strCrt) // strCrt may be empty
     }
 
 
-    if (m_pCommonData->m_bShowSessions)
+    if (bShowSessions)
     {
         m_pSessionsB->show();
         m_pSessionsB->parentWidget()->layout()->update(); // it is probably a Qt bug the fact that this is needed; should have been automatic;
@@ -3618,8 +3630,6 @@ Note the use of QLibraryInfo::location() to locate the Qt translations. Develope
 
 //ttt0 update references based on traffic volume
 
-//ttt00 delete LAME for CBR - https://sourceforge.net/p/mp3diags/tickets/117/
-
 //ttt0 don't scan backup dir if it's inside the source
 //ttt0 compute bitrate in VBR headers //ttt0 see why the bitrate computed manually based on VBR data doesn't match exactly the one computed for the audio (see mail sent on 2012.10.14)
 
@@ -3635,7 +3645,7 @@ Note the use of QLibraryInfo::location() to locate the Qt translations. Develope
 
 //ttt0 screenshots for language selection
 
-//ttt00 once sessions have been enabled, all new sessions should have them; or better - this should be a global setting
+//ttt00 delete /home/ciobi/.config/Ciobi/Mp3Diags-unstable.conf and .ini ends up in /home
 //ttt00 the warnings about changes, backing up, notifying about new versions, ... should also be global or at least copied; especially annoying when using shell integration
 
 //ttt00 the .deb installs translations for stable to unstable: for i in `dpkg -L mp3diags` ; do if [ -f $i ] ; then ls -l $i ; fi ; done
@@ -3646,12 +3656,8 @@ Note the use of QLibraryInfo::location() to locate the Qt translations. Develope
 
 //ttt0 amarok fail in /d/test_mp3/1/tmp2/crt_test/Amarok-errors
 
-//ttt00 warning that rebuilding VBR info breaks gapless play
-
 //ttt2 individual color for each note
 //ttt2 copy ID3V2 to ID3V1
-
-//ttt00 utf in normalize dialog - https://sourceforge.net/p/mp3diags/tickets/3087/
 
 //ttt00 start an older version and it shows errors about transforms not found, then crashes
 

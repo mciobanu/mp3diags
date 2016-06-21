@@ -148,6 +148,18 @@ void GlobalSettings::loadSessions(vector<string>& vstrSess, string& strLast, boo
     strTranslation = convStr(m_pSettings->value("main/translation", "").toString());
 }
 
+int GlobalSettings::getSessionCount() const
+{
+    vector<string> vstrSess;
+    bool bOpenLast;
+    string strLast, strTempSessTempl, strDirSessTempl, strTranslation;
+
+    loadSessions(vstrSess, strLast, bOpenLast, strTempSessTempl, strDirSessTempl, strTranslation);
+    int nSessCnt (cSize(vstrSess));
+    return nSessCnt;
+}
+
+
 const QFont& getDefaultFont()
 {
     static QFont s_font;
@@ -1238,7 +1250,7 @@ Testing: the program looks for .qm files in 2 places:
 
 //ttt0 make OSB builds build translations
 
-//ttt0 clear global settings, new sess gets started in home, rather than Documents
+//ttt00 clear global settings, new sess gets started in home, rather than Documents
 
 //ttt0 see about adding DLLs MSVCR100.dll and MSVCP100.dll to the MSVC build. They might be needed e.g. on 64bit XP SP3 (see mail 2013.08.18)
 

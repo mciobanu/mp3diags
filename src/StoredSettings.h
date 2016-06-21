@@ -124,6 +124,7 @@ public:
     enum { IGNORE_EXTERNAL_CHANGES = 0, LOAD_EXTERNAL_CHANGES = 1 };
     void saveSessions(const std::vector<std::string>& vstrSess, const std::string& strLastSess, bool bOpenLast, const std::string& strTempSessTempl, const std::string& strDirSessTempl, const std::string& strTranslation, bool bLoadExternalChanges);
     void loadSessions(std::vector<std::string>& vstrSess, std::string& strLastSess, bool& bOpenLast, std::string& strTempSessTempl, std::string& strDirSessTempl, std::string& strTranslation) const;
+    int getSessionCount() const;
 
     void saveSessionsDlgSize(int nWidth, int nHeight);
     void loadSessionsDlgSize(int& nWidth, int& nHeight) const;

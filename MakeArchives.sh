@@ -78,6 +78,7 @@ function createSrc
     chmod -R u+w $LongDestDir/src
     rm -rf $LongDestDir/src/translations/autoTransl
     fixVersion $LongDestDir/src/Helpers.cpp
+    fixVersion $LongDestDir/src/SessionEditorDlgImpl.cpp
     cp -p branch.txt $LongDestDir
 
     rm -f -r $LongDestDir/src/debug

@@ -25,6 +25,8 @@
 #include  <QTimer>
 #include  <QHeaderView>
 #include  <QSettings>
+#include  <QDesktopServices>
+#include  <QtGlobal>
 
 #include  "SessionEditorDlgImpl.h"
 
@@ -80,6 +82,24 @@ void SessionEditorDlgImpl::commonConstr() // common code for both constructors
     }
 }
 
+// returns the OS's "Documents" location
+static QString getDocDir() //ttt1 maybe move to Helpers
+{
+#if QT_VERSION >= 0x040400
+    QString qs = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation); //ttt00 not in Qt 4.3.1, which is listed as minimum requirement; perhaps use #ifdef
+    //ttt1 note that QStandardPaths should be used in Qt5: https://forum.qt.io/topic/28658/differences-qdesktopservices-vs-qstandardpaths
+#else
+  #ifndef WIN32
+    QString qs (QDir::homePath() + "/Documents"); // OK on openSUSE, not sure how standardized it is //ttt3 this is localized, so not OK; OTOH this branch only matters for Qt 4.3
+  #else
+    QSettings settings (QSettings::UserScope, "Microsoft", "Windows");
+    settings.beginGroup("CurrentVersion/Explorer/Shell Folders");
+    QString qs (fromNativeSeparators(settings.value("Personal").toString()));
+  #endif
+#endif
+    return qs;
+}
+
 
 // used for creating a new session;
 SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strDir, bool bFirstTime, const string& strTranslation) : QDialog(pParent, getDialogWndFlags()), Ui::SessionEditorDlg(), m_strDir(strDir), m_bNew(true), m_strTranslation(strTranslation)
@@ -88,16 +108,16 @@ SessionEditorDlgImpl::SessionEditorDlgImpl(QWidget* pParent, const string& strDi
 
     bool bAutoFileName (false);
     {
-#ifndef WIN32
-        QString qs (QDir::homePath() + "/Documents"); // OK on openSUSE, not sure how standardized it is //ttt0 this is localized, so not OK; look at Qt
-#else
-        QSettings settings (QSettings::UserScope, "Microsoft", "Windows");
-        settings.beginGroup("CurrentVersion/Explorer/Shell Folders");
-        QString qs (fromNativeSeparators(settings.value("Personal").toString()));
-#endif
+        QString qs = getDocDir();
         if (QFileInfo(qs).isDir())
         {
             qs += "/MP3Diags";
+            QString qsBranch ("QQQBRANCH_DQQQ");
+            if (qsBranch.indexOf("QQQBRANCH_") == 0)
+            {
+                qsBranch = "-unstable";
+            }
+            qs += qsBranch;
             qs += SESS_EXT;
             if (!QDir().exists(qs))
             {
@@ -344,25 +364,36 @@ void SessionEditorDlgImpl::on_m_pFileNameB_clicked()
     QString s (fromNativeSeparators(m_pFileNameE->text()));
     if (s.isEmpty())
     {
+        // Normally we'd like to not have this as a special case, and not use QFileDialog::getSaveFileName(). However, there seems to be a bug in QFileDialog that makes this "special case" necessary. (The issue is triggered when MP3Diags.ini already exists, so it gets here with an empty name.)
+        // What we'd like to happen when using QFileDialog's constructor is for the the OS's "Documents" folder to be current and the file name to be empty. What happens is that the parent of the "documents" dir will get current and the name of the dir will be filled in as a file name.
+        // The reason QFileDialog::getSaveFileName works while the constructor doesn't is that the former makes use of some private fields that the constructor cannot access (like QFileDialogPrivate::workingDirectory(dir);)
+        // The reason to want to use the constructor is consistency across platforms, e.g. so we don't get native dialogs on Windows. Not sure what the best approach is.
         if (m_strDir.empty())
         {
-            s = QDir::homePath();
+            //s = QDir::homePath();
+            s = getDocDir();
         }
         else
         {
             s = convStr(m_strDir);
         }
+        s = QFileDialog::getSaveFileName(this, tr("Enter configuration file"), s, tr("MP3 Diags session files (*%1)").arg(SESS_EXT));
+        if (s == "") { return; }
     }
-    QFileDialog dlg (this, tr("Enter configuration file"), s, tr("MP3 Diags session files (*%1)").arg(SESS_EXT));
-    dlg.setAcceptMode(QFileDialog::AcceptSave);
+    else
+    {
+        QFileDialog dlg (this, tr("Enter configuration file"), s, tr("MP3 Diags session files (*%1)").arg(SESS_EXT));
+        dlg.setAcceptMode(QFileDialog::AcceptSave);
 
-    //dlg.setFileMode(QFileDialog::Directory);
-    if (QDialog::Accepted != dlg.exec()) { return; }
+        //dlg.setFileMode(QFileDialog::Directory);
+        //dlg.setFileMode(QFileDialog::AnyFile);
+        if (QDialog::Accepted != dlg.exec()) { return; }
 
-    QStringList fileNames (dlg.selectedFiles());
-    if (1 != fileNames.size()) { return; }
+        QStringList fileNames (dlg.selectedFiles());
+        if (1 != fileNames.size()) { return; }
 
-    s = fileNames.first();
+        s = fileNames.first();
+    }
 
     if (!s.endsWith(SESS_EXT)) { s += SESS_EXT; }
 

@@ -11,7 +11,7 @@ CopyToSf.sh	f	2013-04-24T05:12:00Z
 Doxyfile	f	2011-05-21T07:43:21Z
 Install.sh	f	2014-01-19T14:37:42Z
 MP3DiagsCLI.cmd	f	2011-07-31T07:26:38Z
-MakeArchives.sh	f	2014-11-12T18:52:47Z
+MakeArchives.sh	f	2016-06-21T16:37:12Z
 MakeTranslations.sh	f	2012-08-13T20:50:18Z
 README.TXT	f	2012-12-02T03:27:46Z
 Rebuild-Transl-_ts-Files.sh	f	2014-01-17T10:00:28Z
@@ -343,7 +343,7 @@ src/ScanDlgImpl.h	f	2009-07-17T15:02:37Z
 src/SerSupport.cpp	f	2014-11-13T09:19:22Z
 src/SerSupport.h	f	2009-05-06T07:27:31Z
 src/SessionEditor.ui	f	2012-02-06T22:59:54Z
-src/SessionEditorDlgImpl.cpp	f	2012-03-17T13:06:25Z
+src/SessionEditorDlgImpl.cpp	f	2016-06-21T16:47:52Z
 src/SessionEditorDlgImpl.h	f	2012-02-12T11:32:26Z
 src/Sessions.ui	f	2012-02-12T11:48:31Z
 src/SessionsDlgImpl.cpp	f	2014-11-13T15:57:59Z

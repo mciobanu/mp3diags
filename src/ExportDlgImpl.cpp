@@ -371,7 +371,7 @@ bool ExportDlgImpl::exportAsText(const string& strFileName)
         out << "\n\n";
     }
 
-    return out;
+    return (bool)out;
 }
 
 
@@ -424,7 +424,7 @@ bool ExportDlgImpl::exportAsM3u(const std::string& strFileName)
         out << pCodec->fromUnicode(qs).constData() << endl;
     }
 
-    return out;
+    return (bool)out;
 }
 
 
@@ -761,6 +761,6 @@ bool ExportDlgImpl::exportAsXml(const std::string& strFileName) //ttt1 XML is no
 
     out << "</files>\n";
 
-    return out;
+    return (bool)out;
 }
 

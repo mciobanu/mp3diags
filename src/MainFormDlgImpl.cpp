@@ -119,7 +119,7 @@ namespace
         {
             m_strFileName = strFileName;
             ofstream_utf8 out (m_strFileName.c_str(), ios_base::app);
-            return out;
+            return (bool)out;
         }
 
         void close() { m_strFileName.clear(); }
@@ -128,7 +128,7 @@ namespace
         {
             ofstream_utf8 out (m_strFileName.c_str(), ios_base::app);
             out << s;
-            return out;
+            return (bool)out;
         }
     };
 #else // #ifndef WIN32
@@ -3645,10 +3645,10 @@ Note the use of QLibraryInfo::location() to locate the Qt translations. Develope
 
 //ttt0 screenshots for language selection
 
-//ttt00 delete /home/ciobi/.config/Ciobi/Mp3Diags-unstable.conf and .ini ends up in /home
-//ttt00 the warnings about changes, backing up, notifying about new versions, ... should also be global or at least copied; especially annoying when using shell integration
-
-//ttt00 the .deb installs translations for stable to unstable: for i in `dpkg -L mp3diags` ; do if [ -f $i ] ; then ls -l $i ; fi ; done
+//ttt2 the .deb installs translations for stable to unstable: for i in `dpkg -L mp3diags` ; do if [ -f $i ] ; then ls -l $i ; fi ; done
+//   2016.06.22 - not 100% sure, but probably fixed in changelist 781, while this bug entry wasn't checked in until 795; as the name of the package is lowercase, it is about the Ubuntu-built variant, which probably installed translations to /usr/...unstable...);
+//ttt00 better Ubuntu integration: the package is there in 16.04 but doesn't appear in "Ubuntu software", it's rather old, to install it you need Synaptic (which must be installed itself), doesn't have translations, then it doesn't show up in search, ...
+//   https://launchpad.net/ubuntu/xenial/+package/mp3diags
 
 //ttt2 https://sourceforge.net/p/mp3diags/discussion/947206/thread/1f7a776e/
 
@@ -3659,7 +3659,7 @@ Note the use of QLibraryInfo::location() to locate the Qt translations. Develope
 //ttt2 individual color for each note
 //ttt2 copy ID3V2 to ID3V1
 
-//ttt00 start an older version and it shows errors about transforms not found, then crashes
+//ttt2 start an older version and it shows errors about transforms not found, then crashes; 2016.06.22: not sure anything can be done: the "transforms not found" are not relevant, and what matters is the ".dat" file, which causes a SIGSEGV rather than some (expected) serialization exception; since it's hard to tell what is messed up, it's probably better to not try to handle the signal, which causes the program to crash and in turn triggers a rescan next time it's started; since both versions were built with the same libraries, the cause is probably failure to account for extra fields in the newer version (but still, this should probably have been serialization exception rather than segfault)
 
 //ttt1 freedb.org
 //ttt1 https://sourceforge.net/p/mp3diags/discussion/947206/thread/cb3417ae/?limit=25#ef4c/6e05

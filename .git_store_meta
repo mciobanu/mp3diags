@@ -271,7 +271,7 @@ src/DoubleList.cpp	f	2012-03-03T06:58:29Z
 src/DoubleList.h	f	2009-09-11T14:47:51Z
 src/DoubleListWdg.ui	f	2012-01-02T15:16:59Z
 src/Export.ui	f	2012-01-02T15:17:30Z
-src/ExportDlgImpl.cpp	f	2012-03-04T07:59:08Z
+src/ExportDlgImpl.cpp	f	2016-07-04T20:06:49Z
 src/ExportDlgImpl.h	f	2009-10-01T07:49:02Z
 src/ExternalTool.ui	f	2012-02-05T09:37:37Z
 src/ExternalToolDlgImpl.cpp	f	2012-03-04T08:19:29Z
@@ -303,7 +303,7 @@ src/LogModel.h	f	2009-05-06T07:30:16Z
 src/LyricsStream.cpp	f	2012-03-03T18:04:43Z
 src/LyricsStream.h	f	2012-02-19T20:36:57Z
 src/MainForm.ui	f	2011-07-30T12:34:43Z
-src/MainFormDlgImpl.cpp	f	2013-04-24T04:25:47Z
+src/MainFormDlgImpl.cpp	f	2016-07-04T20:07:46Z
 src/MainFormDlgImpl.h	f	2012-02-29T20:07:21Z
 src/Mp3Diags.qrc	f	2012-02-05T19:46:04Z
 src/Mp3Manip.cpp	f	2012-12-16T15:57:36Z

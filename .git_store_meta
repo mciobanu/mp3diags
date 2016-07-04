@@ -243,7 +243,7 @@ src/About.ui	f	2011-06-15T19:56:47Z
 src/AboutDlgImpl.cpp	f	2016-06-14T15:45:00Z
 src/AboutDlgImpl.h	f	2009-07-17T15:02:37Z
 src/AlbumInfoDownloader.ui	f	2012-01-02T15:14:52Z
-src/AlbumInfoDownloaderDlgImpl.cpp	f	2012-03-03T16:20:13Z
+src/AlbumInfoDownloaderDlgImpl.cpp	f	2015-12-14T20:30:04Z
 src/AlbumInfoDownloaderDlgImpl.h	f	2012-02-16T20:56:36Z
 src/ApeStream.cpp	f	2014-11-12T17:36:59Z
 src/ApeStream.h	f	2014-11-12T16:53:17Z
@@ -279,7 +279,7 @@ src/ExportDlgImpl.h	f	2009-10-01T07:49:02Z
 src/ExternalTool.ui	f	2012-02-05T09:37:37Z
 src/ExternalToolDlgImpl.cpp	f	2016-06-16T21:47:00Z
 src/ExternalToolDlgImpl.h	f	2012-01-17T22:23:05Z
-src/FileEnum.cpp	f	2014-11-12T10:27:06Z
+src/FileEnum.cpp	f	2016-07-04T19:30:09Z
 src/FileEnum.h	f	2014-11-12T08:57:34Z
 src/FileRenamer.ui	f	2012-01-02T09:53:58Z
 src/FileRenamerDlgImpl.cpp	f	2014-11-13T15:57:59Z
@@ -292,7 +292,7 @@ src/Helpers.cpp	f	2015-05-17T18:13:49Z
 src/Helpers.h	f	2014-11-14T10:47:06Z
 src/Id3Transf.cpp	f	2012-03-03T20:24:37Z
 src/Id3Transf.h	f	2012-03-03T14:27:44Z
-src/Id3V230Stream.cpp	f	2014-11-12T17:36:59Z
+src/Id3V230Stream.cpp	f	2016-06-14T19:54:39Z
 src/Id3V230Stream.h	f	2014-11-12T16:53:17Z
 src/Id3V240Stream.cpp	f	2015-04-15T08:11:11Z
 src/Id3V240Stream.h	f	2014-11-12T16:53:17Z
@@ -311,7 +311,7 @@ src/MainFormDlgImpl.h	f	2012-02-29T20:07:21Z
 src/Mp3Diags.qrc	f	2012-02-05T19:46:04Z
 src/Mp3Manip.cpp	f	2016-06-22T13:31:59Z
 src/Mp3Manip.h	f	2014-11-14T08:45:57Z
-src/Mp3TransformThread.cpp	f	2016-06-22T13:56:11Z
+src/Mp3TransformThread.cpp	f	2016-06-23T17:36:02Z
 src/Mp3TransformThread.h	f	2014-09-24T08:48:58Z
 src/MpegFrame.cpp	f	2014-11-12T17:36:59Z
 src/MpegFrame.h	f	2014-11-13T17:40:01Z
@@ -343,7 +343,7 @@ src/ScanDlgImpl.h	f	2009-07-17T15:02:37Z
 src/SerSupport.cpp	f	2014-11-13T09:19:22Z
 src/SerSupport.h	f	2009-05-06T07:27:31Z
 src/SessionEditor.ui	f	2012-02-06T22:59:54Z
-src/SessionEditorDlgImpl.cpp	f	2016-06-21T16:47:52Z
+src/SessionEditorDlgImpl.cpp	f	2016-06-22T05:56:09Z
 src/SessionEditorDlgImpl.h	f	2012-02-12T11:32:26Z
 src/Sessions.ui	f	2012-02-12T11:48:31Z
 src/SessionsDlgImpl.cpp	f	2014-11-13T15:57:59Z
@@ -443,7 +443,7 @@ src/licences/gplv3.txt	f	2008-11-14T09:24:29Z
 src/licences/lgpl-2.1.txt	f	2009-05-14T11:38:15Z
 src/licences/lgplv3.txt	f	2008-11-14T09:24:41Z
 src/licences/zlib.txt	f	2009-05-14T11:42:40Z
-src/main.cpp	f	2016-06-21T12:16:53Z
+src/main.cpp	f	2016-06-21T15:41:49Z
 src/src.pro	f	2014-11-14T10:04:16Z
 src/translations/autoTransl/MixedCase.cpp	f	2012-02-29T21:51:40Z
 src/translations/mp3diags_cs.ts	f	2014-11-14T13:03:31Z

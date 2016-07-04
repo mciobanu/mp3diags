@@ -86,7 +86,7 @@ void SessionEditorDlgImpl::commonConstr() // common code for both constructors
 static QString getDocDir() //ttt1 maybe move to Helpers
 {
 #if QT_VERSION >= 0x040400
-    QString qs = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation); //ttt00 not in Qt 4.3.1, which is listed as minimum requirement; perhaps use #ifdef
+    QString qs = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
     //ttt1 note that QStandardPaths should be used in Qt5: https://forum.qt.io/topic/28658/differences-qdesktopservices-vs-qstandardpaths
 #else
   #ifndef WIN32

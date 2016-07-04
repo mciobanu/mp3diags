@@ -121,7 +121,7 @@ struct Mp3TransformThread : public PausableThread
             TRACER1(ex.what(), 2);
             CB_ASSERT1 (false, ex.what());
         }
-        catch (...) //ttt00 2016.06.15: see if this is still an issue by trying to leak exceptions from transforms; see comment 3 lines below for a better approach
+        catch (...)
         {
             TRACER("Mp3TransformThread::run() - unknown exception");
             CB_ASSERT (false);

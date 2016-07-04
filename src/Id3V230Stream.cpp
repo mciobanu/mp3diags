@@ -823,7 +823,7 @@ void Id3V230StreamWriter::write(ostream& out, int nTotalSize /* = -1*/) const
             out.write(bfr, 6);
 
             //Id3V2FrameDataLoader wrp (*p); // this loads the data, if it's not already loaded
-            out.write(ldrList.m_vpLdr[i]->getData(), p->m_nMemDataSize);
+            out.write(ldrList.m_vpLdr[i]->getData(), p->m_nMemDataSize); //ttt1 https://sourceforge.net/p/mp3diags/tickets/3093/ - seems like this is the point where we save without caring about encoding - we have a 2.4.0 UTF-8 and should be converting it to 2.3.0 UTF-16; remember to deal correctly with TXXX when fixing this // 2016.06.14 - unable to reproduce issue; things seem fine, with everything converted properly
         }
     }
 

@@ -257,7 +257,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::on_m_pSaveAllB_clicked");
     }
 
     int nCnt (0);
-    CB_ASSERT (m_nCrtAlbum >= 0 && m_nCrtAlbum < getAlbumCount());
+    CB_ASSERT (m_nCrtAlbum >= 0 && m_nCrtAlbum < getAlbumCount());// ttt0 triggered according to mail on 2015.12.13
     const WebAlbumInfoBase& albumInfo (album(m_nCrtAlbum));
     if (m_pVolumeCbB->isEnabled() && m_pVolumeCbB->currentIndex() != m_pVolumeCbB->count() - 1)
     {

@@ -384,12 +384,6 @@ note that inserting a blank frame before a cut duesn't really solve the warning 
         transfConfig.getTempName(strOrigSrcName, getActionName(), strTempName);
         ofstream_utf8 out (strTempName.c_str(), ios::binary);
         in.seekg(0);
-        /*static bool bb (true);
-        if (bb)
-        {
-            bb = false;
-            throw WriteError(); //ttt00 use this to investigate write errors
-        }*/
 
         for (int i = 0, n = cSize(vpStreams); i < n; ++i)
         {

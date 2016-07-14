@@ -1064,6 +1064,10 @@ void TagWriter::reloadAll(string strCrt, bool bClearData, bool bClearAssgn)
     CB_ASSERT (v.empty() || cSize(v) == cSize(vpHndl));
 
     int n (cSize(vpHndl));
+    if (n > 500)
+    {
+        //ttt1: these 500 tracks are all in one album; not sure how to deal with the case when there are many files in 1 dir; probably transformations should work as usual while tag editing shouldn't (and TagWriter is only used for tag editing); there should be at least some warning when opening the tag editor; regardless, this doesn't seem to be the place to show any warning
+    }
     bool bFullReaderNotFound (false); // ID3V1 is not full, while the others are
 
     for (int i = 0; i < n; ++i)

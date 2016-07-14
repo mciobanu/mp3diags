@@ -364,7 +364,7 @@ src/TagEdtPatternsDlgImpl.cpp	f	2012-03-04T14:05:10Z
 src/TagEdtPatternsDlgImpl.h	f	2009-07-28T07:25:59Z
 src/TagReadPanel.cpp	f	2012-03-04T14:07:01Z
 src/TagReadPanel.h	f	2009-09-30T11:53:40Z
-src/TagWriter.cpp	f	2014-11-12T12:02:10Z
+src/TagWriter.cpp	f	2016-07-14T08:24:07Z
 src/TagWriter.h	f	2014-11-12T11:53:36Z
 src/ThreadRunner.ui	f	2012-01-02T15:25:01Z
 src/ThreadRunnerDlgImpl.cpp	f	2014-11-12T16:07:58Z

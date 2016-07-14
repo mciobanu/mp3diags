@@ -408,8 +408,6 @@ class Timer
     int64_t m_nDurMul; // multiply by this to get a duration in nanoseconds from a duration in ticks
 #endif
 
-    int64_t CB_LIB_CALL getCrtTime() const; // returns time in nanoseconds
-
 public:
     CB_LIB_CALL Timer(bool bStart = true);
 
@@ -423,6 +421,8 @@ public:
     int64_t CB_LIB_CALL getDuration() const { return m_nFinish - m_nStart; } // duration in nanoseconds; may return invalid values if no counter is present or if start/stop haven't been called
 
     int64_t CB_LIB_CALL fromStart() const { return getCrtTime() - m_nStart; }
+
+    int64_t CB_LIB_CALL getCrtTime() const; // returns time in nanoseconds
 
     static std::string CB_LIB_CALL addThSep(int64_t nTime); // to be used when converting to milli- / micro- seconds
 

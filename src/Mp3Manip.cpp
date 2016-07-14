@@ -81,6 +81,65 @@ string getGlobalMp3HandlerName() // a hack to get the name of the current file f
 }
 
 
+Mp3Handler* Mp3Handler::create(const string& strFileName, bool bStoreTraceNotes, const QualThresholds& qualThresholds)
+{
+    static Timer timer; //ttt2 not multi-threaded, but doesn't matter
+    static int64_t WAIT_AFTER_FAIL (30 * 1000000000L);
+    static int64_t nLastFail (timer.getCrtTime() - WAIT_AFTER_FAIL);
+    static int64_t nLastOkFirstAttempt (nLastFail);
+    static int64_t nLastOkAfterRetry (nLastFail);
+    try
+    {
+        Mp3Handler* res = new Mp3Handler(strFileName, bStoreTraceNotes, qualThresholds);
+        nLastOkFirstAttempt = timer.getCrtTime();
+        return res;
+    }
+
+//#define RETRY_EXCP const FileNotFound& ex
+#define RETRY_EXCP const exception& ex
+//#define RETRY_EXCP ...
+    catch (RETRY_EXCP)
+    {
+        TRACER(convStr(QString("Attempt to open file \"%1\" failed. Reason: %2").arg(strFileName.c_str()).arg(ex.what())));
+        int64_t nCrt = timer.getCrtTime();
+        if (nCrt - nLastFail < WAIT_AFTER_FAIL)
+        {
+            TRACER(convStr(QString("Couldn't open file \"%1\" and last retry was too recent (%2 ms). Won't retry. (LastOkFirstAttempt=%3, LastOkAfterRetry=%4)").arg(strFileName.c_str()).arg((nCrt - nLastFail - WAIT_AFTER_FAIL) / 1000000).arg(nLastOkFirstAttempt).arg(nLastOkAfterRetry)));
+            // we failed too recently; won't retry but also won't update nLastFail
+            throw;
+        }
+        int nSlp (1000);
+        TRACER1(convStr(QString("Couldn't open file \"%1\". Will retry, as last retry was not too recent (%2 ms)").arg(strFileName.c_str()).arg((nCrt - nLastFail - WAIT_AFTER_FAIL) / 1000000)), 1);
+        for (;;)
+        {
+            TRACER(convStr(QString("Attempt to open file \"%1\" failed. Will sleep %2 ms ...").arg(strFileName.c_str()).arg(nSlp)));
+            PausableThread::msleep(nSlp);
+            try
+            {
+                Mp3Handler* res = new Mp3Handler(strFileName, bStoreTraceNotes, qualThresholds);
+                nLastOkAfterRetry = timer.getCrtTime();
+                return res;
+            }
+            catch (RETRY_EXCP)
+            {
+                nSlp *= 2;
+                if (nSlp > 16)
+                {
+                    TRACER(convStr(QString("Multiple attempts to open file \"%1\" failed. Abandoning ...").arg(strFileName.c_str())));
+                    nLastFail = timer.getCrtTime();
+                    throw;
+                }
+            }
+        }
+    }
+    catch (...)
+    {
+        TRACER(convStr(QString("Attempt to open file \"%1\" failed due to an unknown error. Won't retry").arg(strFileName.c_str())));
+        throw;
+    }
+}
+
+
 Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const QualThresholds& qualThresholds) :
         m_pFileName(new StringWrp(strFileName)),
 
@@ -100,6 +159,18 @@ Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const Q
 
         m_nFastSaveTime(0)
 {
+#if 0
+    { // simulate random disk error //ttt0 put back and test more cases
+        static int max = 10;
+        static int cnt = max;
+        --cnt;
+        if (cnt == 0)
+        {
+            cnt = max;
+            CB_TRACE_AND_THROW1(FileNotFound, strFileName);
+        }
+    }
+#endif
     s_strPrevMp3Handler = s_strCrtMp3Handler;
     s_strCrtMp3Handler = strFileName;
     //TRACER1A("Mp3Handler constr ", 1);
@@ -114,7 +185,6 @@ Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const Q
         //inspect(strFileName.c_str(), cSize(strFileName) + 1);
         trace("Couldn't open file: " + strFileName);
         CB_TRACE_AND_THROW1(FileNotFound, strFileName); //ttt2 got triggered (email on 2016.03.05); 2016.06.22: was able to simulate the crash by setting a breakpoint and then applying a transformation and removing the temporary file when it paused
-        //ttt00 have some "retry" here; might also help with external drives
     }
     //TRACER1A("Mp3Handler constr ", 2);
 

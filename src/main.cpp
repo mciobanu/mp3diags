@@ -606,7 +606,7 @@ class CmdLineProcessor
         Mp3Handler* mp3Handler;
         try
         {
-            mp3Handler = new Mp3Handler(strFullName, false, m_qualThresholds);
+            mp3Handler = Mp3Handler::create(strFullName, false, m_qualThresholds);
         }
         catch (Mp3Handler::FileNotFound)
         {

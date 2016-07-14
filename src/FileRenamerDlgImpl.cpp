@@ -554,7 +554,7 @@ bool RenameThread::proc()
                 {
                     try
                     {
-                        m_vpAdd.push_back(new Mp3Handler(strDest, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds()));
+                        m_vpAdd.push_back(Mp3Handler::create(strDest, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds()));
                     }
                     catch (const Mp3Handler::FileNotFound&)
                     {

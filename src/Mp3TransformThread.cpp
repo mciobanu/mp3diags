@@ -454,7 +454,7 @@ bool Mp3Transformer::transform()
                         strPrevTempName = strTempName;
                         try
                         {
-                            pNewHndl.reset(new Mp3Handler(strTempName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds()));
+                            pNewHndl.reset(Mp3Handler::create(strTempName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds()));
                         }
                         catch (const Mp3Handler::FileNotFound&)
                         {
@@ -634,7 +634,7 @@ bool Mp3Transformer::transform()
                     if ("*" != strNewOrigName && m_pCommonData->m_dirTreeEnum.isIncluded(strNewOrigName))
                     {
                     //TRACER1A("transf ", 54);
-                        m_vpAdd.push_back(new Mp3Handler(strNewOrigName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds()));
+                        m_vpAdd.push_back(Mp3Handler::create(strNewOrigName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds()));
                         //TRACER1A("transf ", 55);
                     }
                 }
@@ -652,7 +652,7 @@ bool Mp3Transformer::transform()
                     if (m_pCommonData->m_dirTreeEnum.isIncluded(strProcName))
                     {
                     //TRACER1A("transf ", 59);
-                        m_vpAdd.push_back(new Mp3Handler(strProcName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds())); // !!! a new Mp3Handler is needed, because pNewHndl has an incorrect file name (but otherwise they should be identical)
+                        m_vpAdd.push_back(Mp3Handler::create(strProcName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds())); // !!! a new Mp3Handler is needed, because pNewHndl has an incorrect file name (but otherwise they should be identical)
                         //TRACER1A("transf ", 60);
                     }
                     //TRACER1A("transf ", 61);

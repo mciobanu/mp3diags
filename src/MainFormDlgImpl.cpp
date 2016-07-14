@@ -1663,7 +1663,7 @@ bool Mp3ProcThread::scan()
 
             try
             {
-                const Mp3Handler* p (new Mp3Handler(strName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds()));
+                const Mp3Handler* p (Mp3Handler::create(strName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds()));
                 m_vpAdd.push_back(p);
             }
             catch (const Mp3Handler::FileNotFound&) //ttt2 see if it should catch more

@@ -96,6 +96,7 @@ void TranslatorHandler::setTranslation(const string& strTranslation)
         }
     }
 
+    QString qstrErr;
     try
     {
         QCoreApplication::instance()->removeTranslator(&m_appTranslator);
@@ -113,11 +114,23 @@ void TranslatorHandler::setTranslation(const string& strTranslation)
         { // !!! nothing; usually there is no system translator for this locale, so the file and color dialogs will be shown in English
         }
     }
+    catch (const exception& ex)
+    {
+        qstrErr = QString(" Details: ") + ex.what();
+    }
     catch (...)
     {
+        qstrErr = "*";
+    }
+    if (!qstrErr.isEmpty())
+    {
+        if (qstrErr == "*")
+        {
+            qstrErr.clear();
+        }
         if (strTranslation != "")
         {
-            QMessageBox::critical(0, "Error", "An error was encountered while setting up the translation. The program will continue, but the language may be incorrect.");
+            QMessageBox::critical(0, "Error", "An error was encountered while setting up the translation. The program will continue, but the language may be incorrect." + qstrErr);
         }
     }
 }

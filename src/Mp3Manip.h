@@ -32,6 +32,7 @@
 
 #include  "Notes.h"
 #include  "ThreadRunnerDlgImpl.h"
+#include  "CbException.h"
 
 class Id3V2StreamBase;
 class Id3V230Stream;
@@ -88,14 +89,15 @@ class Mp3Handler
     ApeStream* m_pApeStream;
     LyricsStream* m_pLyricsStream;
 
+    // pointers owned by m_vpAllStreams
     std::vector<NullDataStream*> m_vpNullStreams;
     std::vector<UnknownDataStream*> m_vpUnknownStreams;
     std::vector<BrokenDataStream*> m_vpBrokenStreams;
     std::vector<UnsupportedDataStream*> m_vpUnsupportedStreams;
     std::vector<TruncatedMpegDataStream*> m_vpTruncatedMpegStreams;
 
-    std::vector<DataStream*> m_vpAllStreams;
-    ifstream_utf8* m_pIn; // this isn't used after the constructor completes; however, many streams have a StreamStateRestorer member, which does this on its destructor: it restores the stream position if the stream's constructor fails and clears the errors otherwise, assuming that the stream pointer is non-0; m_pIn is set to 0 after Mp3Handler's constructor completes, so the restorers of the successfuly built streams don't do anything when the streams get destroyed, because they see a null pointer;
+    std::vector<DataStream*> m_vpAllStreams; // owned pointers
+    //std::istream* m_pIn; // this isn't used after the constructor completes; however, many streams have a StreamStateRestorer member, which does this on its destructor: it restores the stream position if the stream's constructor fails and clears the errors otherwise, assuming that the stream pointer is non-0; m_pIn is set to 0 after Mp3Handler's constructor completes, so the restorers of the successfuly built streams don't do anything when the streams get destroyed, because they see a null pointer;
 
     //bool m_bHasId3V2;
     //MpegFrame m_firstFrame;
@@ -108,7 +110,7 @@ class Mp3Handler
 
     NoteColl m_notes; // owned pointers
 
-    void parse(ifstream_utf8&);
+    void parse(std::istream&);
     void analyze(const QualThresholds& qualThresholds); // checks the streams for issues (missing ID3V2, Unknown streams, inconsistencies, ...)
 
     //void checkMpegAudio();
@@ -116,7 +118,7 @@ class Mp3Handler
     //void checkEqualFrames(std::streampos pos);
     //void findFirstFrame(std::streampos& pos);
 
-    void checkLastFrameInMpegStream(ifstream_utf8& in); // what looks like the last frame in an MPEG stream may actually be truncated and somewhere inside it an ID3V1 or Ape tag may actually begin; if that's the case, that "frame" is removed from the stream; then most likely an "Unknown" stream will be detected, followed by an ID3V1 or Ape stream
+    void checkLastFrameInMpegStream(std::istream& in); // what looks like the last frame in an MPEG stream may actually be truncated and somewhere inside it an ID3V1 or Ape tag may actually begin; if that's the case, that "frame" is removed from the stream; then most likely an "Unknown" stream will be detected, followed by an ID3V1 or Ape stream
 
     void reloadId3V2Hlp();
 
@@ -153,7 +155,7 @@ public:
     mutable long long m_nFastSaveTime;
     enum { DONT_USE_FAST_SAVE, USE_FAST_SAVE };
 
-    struct FileNotFound {};
+    DEFINE_CB_EXCP(FileNotFound);
 
 private:
     friend class boost::serialization::access;
@@ -162,7 +164,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & m_pFileName;
 

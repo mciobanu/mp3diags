@@ -43,7 +43,7 @@ public:
     /*override*/ std::streampos getPos() const { return m_pos; }
     /*override*/ std::streamoff getSize() const { return m_nSize; }
 
-    struct NotLyricsStream {};
+    DEFINE_CB_EXCP(NotLyricsStream);
 
     std::string m_strTitle;
     std::string m_strArtist;
@@ -74,9 +74,9 @@ private:
 
     /*override*/ std::string getArtist(bool* pbFrameExists = 0) const;
 
-    /*override*/ std::string getTrackNumber(bool* /*pbFrameExists*/ = 0) const { throw NotSupportedOp(); }
+    /*override*/ std::string getTrackNumber(bool* /*pbFrameExists*/ = 0) const { CB_THROW(NotSupportedOp); }
 
-    /*override*/ TagTimestamp getTime(bool* /*pbFrameExists*/ = 0) const { throw NotSupportedOp(); }
+    /*override*/ TagTimestamp getTime(bool* /*pbFrameExists*/ = 0) const { CB_THROW(NotSupportedOp); }
 
     /*override*/ std::string getGenre(bool* pbFrameExists = 0) const;
 
@@ -94,7 +94,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 1) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 1) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<DataStream>(*this);
 

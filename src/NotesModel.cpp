@@ -54,7 +54,7 @@ NotesModel::NotesModel(CommonData* pCommonData) : QAbstractTableModel(pCommonDat
 
 /*override*/ QVariant NotesModel::data(const QModelIndex& index, int nRole) const
 {
-LAST_STEP("NotesModel::data()");
+//LAST_STEP("NotesModel::data()");
     int j (index.column());
     //if (nRole == Qt::SizeHintRole && j > 0) { return QSize(CELL_WIDTH - 1, CELL_HEIGHT - 1); }  // !!! "-1" so one pixel can be used to draw the grid
     //if (nRole == Qt::SizeHintRole) { return QSize(CELL_WIDTH - 10, CELL_HEIGHT - 10); }  // !!! "-1" so one pixel can be used to draw the grid
@@ -85,7 +85,7 @@ LAST_STEP("NotesModel::data()");
 
 /*override*/ QVariant NotesModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /* = Qt::DisplayRole*/) const
 {
-LAST_STEP("NotesModel::headerData");
+//LAST_STEP("NotesModel::headerData");
     if (nRole == Qt::SizeHintRole)
     {
         /*QVariant v (QAbstractTableModel::headerData(nSection, eOrientation, nRole)); // !!! doesn't work because QAbstractTableModel::headerData always returns an invalid value

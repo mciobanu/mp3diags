@@ -308,6 +308,9 @@ namespace
             {
                 deleteFile(m_vstrStepFile[m_nStepFile]);
             }
+            catch (const exception&)
+            { //ttt2
+            }
             catch (...)
             { //ttt2
             }
@@ -359,6 +362,9 @@ namespace
             deleteFile(m_strTraceFile);
             deleteFile(m_vstrStepFile[0]);
             deleteFile(m_vstrStepFile[1]);
+        }
+        catch (const exception&)
+        {
         }
         catch (...)
         { //ttt2
@@ -706,9 +712,15 @@ struct SerLoadThread : public PausableThread
 
             notif.setSuccess(!bAborted);
         }
+        catch (const exception& ex)
+        {
+            TRACER1("SerLoadThread::run()", 1);
+            TRACER1(ex.what(), 2);
+            CB_ASSERT1 (false, ex.what());
+        }
         catch (...)
         {
-            LAST_STEP("SerLoadThread::run()");
+            TRACER("SerLoadThread::run() - unknown exception");
             CB_ASSERT (false);
         }
     }
@@ -740,9 +752,15 @@ struct SerSaveThread : public PausableThread
 
             notif.setSuccess(!bAborted);
         }
+        catch (const exception& ex)
+        {
+            TRACER1("SerSaveThread::run()", 1);
+            TRACER1(ex.what(), 2);
+            CB_ASSERT1 (false, ex.what());
+        }
         catch (...)
         {
-            LAST_STEP("SerSaveThread::run()");
+            TRACER("SerSaveThread::run() - unknown exception");
             CB_ASSERT (false);
         }
     }
@@ -1311,7 +1329,7 @@ void MainFormDlgImpl::onShow()
         if (!strErr.empty())
         {
             bLoadErr = true;
-            showCritical(this, tr("Error"), tr("An error occured while loading the MP3 information. Your files will be rescanned.\n\n").arg(convStr(strErr)));
+            showCritical(this, tr("Error"), tr("An error occured while loading the MP3 information. Your files will be rescanned.\n\n%1").arg(convStr(strErr)));
         }
     }
 
@@ -1567,6 +1585,7 @@ struct Mp3ProcThread : public PausableThread
 
     /*override*/ void run()
     {
+        Timer timer;
         try
         {
             CompleteNotif notif(this);
@@ -1581,11 +1600,18 @@ struct Mp3ProcThread : public PausableThread
 
             notif.setSuccess(!bAborted);
         }
+        catch (const exception& ex)
+        {
+            TRACER1("Mp3ProcThread::run()", 1);
+            TRACER1(ex.what(), 2);
+            CB_ASSERT1 (false, ex.what());
+        }
         catch (...)
         {
-            LAST_STEP("Mp3ProcThread::run()");
-            CB_ASSERT (false); //ttt0 triggered according to https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=50 and https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=54
+            TRACER("Mp3ProcThread::run() - unknown exception");
+            CB_ASSERT (false); //ttt0 triggered according to https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=50 and https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=54  2014.11.13 - one way to get here was disabled, by catching some exceptions
         }
+        TRACER("Scanning took " + Timer::addThSep(timer.stop() / 1000000) + " milliseconds");
     }
 
     bool scan();
@@ -1669,6 +1695,7 @@ void MainFormDlgImpl::scan(FileEnumerator& fileEnum, bool bForce, deque<const Mp
 
     m_pCommonData->mergeHandlerChanges(vpAdd, vpDel, nKeepWhenUpdate);
 
+    /*
     if (!m_pCommonData->m_bToldAboutSupport && !s_bToldAboutSupportInCrtRun)
     {
         const vector<const Note*>& v (m_pCommonData->getUniqueNotes().getFltVec());
@@ -1688,7 +1715,7 @@ void MainFormDlgImpl::scan(FileEnumerator& fileEnum, bool bForce, deque<const Mp
                 m_settings.saveMiscConfigSettings(m_pCommonData);
             }
         }
-    }
+    }*/
 }
 
 
@@ -2933,6 +2960,7 @@ vector<Transformation*> MainFormDlgImpl::getFixes(const Note* pNote, const Mp3Ha
         ADD_FIX(xingNotBeforeAudio, VbrRepairer);
         ADD_FIX(incompatXing, VbrRebuilder);
         ADD_FIX(missingXing, VbrRebuilder);
+        ADD_FIX(xingFrameInCount, VbrRebuilder);
 
         ADD_FIX(vbriFound, VbrRepairer);
         ADD_FIX(foundVbriAndXing, VbrRepairer);
@@ -3133,7 +3161,7 @@ void MainFormDlgImpl::onMainGridRightClick()
 
 void MainFormDlgImpl::fixCurrentNote(const QPoint& coords)
 {
-LAST_STEP("MainFormDlgImpl::onFixCurrentNote()");
+//LAST_STEP("MainFormDlgImpl::onFixCurrentNote()");
     //QPoint coords (m_pFilesG->mapFromGlobal(QPoint(m_nGlobalX, m_nGlobalY)));
     //int nHorHdrHght ();
     //if (coords.x() < nVertHdrWdth) { return; }
@@ -3263,7 +3291,7 @@ void MainFormDlgImpl::showExternalTools()
         //qDebug("pressed %d", nIndex);
         if (0 == nIndex)
         {
-            CB_ASSERT (0 != m_pCommonData->getCrtMp3Handler());
+            CB_ASSERT (0 != m_pCommonData->getCrtMp3Handler()); //ttt0 triggered according to mail on 2015.03.07
             QString qstrDir (convStr(m_pCommonData->getCrtMp3Handler()->getDir()));
 #if defined(WIN32) || defined(__OS2__)
             //qstrDir = QDir::toNativeSeparators(qstrDir);
@@ -3558,3 +3586,21 @@ Note the use of QLibraryInfo::location() to locate the Qt translations. Develope
 //ttt1 switch to album mode and move between folders that need/don't need scrollbar; the horizontal resizing doesn't work well, so many times there is either a scrollbar or empty space
 
 //ttt0 screenshots for language selection
+
+//ttt0 once sessions have been enabled, all new sessions should have them; or better - this should be a global setting
+//ttt0 the warnings about changes, backing up, notifying about new versions, ... should also be global or at least copied; especially annoying when using shell integration
+
+//ttt0 the .deb installs translations for stable to unstable: for i in `dpkg -L mp3diags` ; do if [ -f $i ] ; then ls -l $i ; fi ; done
+
+//ttt2 https://sourceforge.net/p/mp3diags/discussion/947206/thread/1f7a776e/
+
+//ttt0 1x1 images from MusicBrainz, due to http://images.amazon.com/images/P/B00AD2IYNK.01.LZZZZZZZ.jpg no longer being there (this ASIN is .fr only)
+
+//ttt0 amarok fail in /d/test_mp3/1/tmp2/crt_test/Amarok-errors
+
+//ttt0 warning that rebuilding VBR info breaks gapless play
+
+//ttt2 individual color for each note
+//ttt2 copy ID3V2 to ID3V1
+
+//ttt0 utf in normalize dialog - https://sourceforge.net/p/mp3diags/tickets/3087/

@@ -27,6 +27,7 @@
 #include  "Notes.h"
 
 #include  "Helpers.h"
+#include  "CbException.h"
 
 using namespace std;
 using namespace pearl;
@@ -115,6 +116,7 @@ static const char* s_szPlaceholderDescr (QT_TRANSLATE_NOOP("Notes", "<Placeholde
     addNote(&Notes::xingNotBeforeAudio()); // e
     addNote(&Notes::incompatXing()); // e
     addNote(&Notes::missingXing()); // w
+    addNote(&Notes::xingFrameInCount()); // w
 
     // vbri
     addNote(&Notes::twoVbri());
@@ -229,6 +231,7 @@ static const char* s_szPlaceholderDescr (QT_TRANSLATE_NOOP("Notes", "<Placeholde
     addNote(&Notes::tooManyStreams()); // w
     addNote(&Notes::unsupportedFound()); // w
     addNote(&Notes::rescanningNeeded()); // w
+    addNote(&Notes::failedToRead()); // e
 
     {
         CB_ASSERT (Note::CUSTOM == Note::CATEG_CNT - 1);
@@ -379,7 +382,7 @@ string Note::getPosHex() const
     if (s == ERR) return convStr(Notes::tr("ERROR"));
     if (s == WARNING) return convStr(Notes::tr("WARNING"));
     if (s == SUPPORT) return convStr(Notes::tr("SUPPORT"));
-    throw std::invalid_argument(boost::lexical_cast<std::string>((int)s));
+    CB_THROW1(CbInvalidArgument, boost::lexical_cast<std::string>((int)s));
 }
 
 

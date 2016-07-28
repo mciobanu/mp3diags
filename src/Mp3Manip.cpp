@@ -112,7 +112,7 @@ Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const Q
         qDebug("Couldn't open file \"%s\"", strFileName.c_str());
         //inspect(strFileName.c_str(), cSize(strFileName) + 1);
         trace("Couldn't open file: " + strFileName);
-        CB_THROW1(FileNotFound());
+        CB_TRACE_AND_THROW(FileNotFound);
     }
     //TRACER1A("Mp3Handler constr ", 2);
 
@@ -124,10 +124,67 @@ Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const Q
     trace("");
     trace(s);
 
+    istream* pIn (&in);
+    stringstream bfr;
+    for (int i = 0; i < 3; ++i)
+    {
+        long long nChangeTime, nSize;
+        getFileInfo(strFileName, nChangeTime, nSize);
+        if (nSize > 30000000)
+        {
+            TRACER("File is too big to be buffered: " + strFileName);
+            break;
+        }
+
+        bfr.str(string());
+        const int READ_SIZE (1 << 19);
+        char a [READ_SIZE];
+        streamsize nTotalRead (0);
+        for (;;)
+        {
+            streamsize nCrtRead (read(in, a, READ_SIZE));
+            bfr.write(a, nCrtRead);
+            nTotalRead += nCrtRead;
+            if (nCrtRead < READ_SIZE)
+            {
+                break;
+            }
+        }
+        if (nTotalRead == nSize)
+        {
+            pIn = &bfr;
+            break;
+        }
+        TRACER("Failed to read whole file in the internal buffer. Retrying: " + strFileName);
+        PausableThread::msleep(50);
+        in.close();
+        in.clear();
+        in.open(m_pFileName->s.c_str(), ios::binary);
+    }//*/
+
+
     // cout << s << endl;
 //TRACER1A("Mp3Handler constr ", 3);
 
-    parse(in);
+    //parse(in);
+    try
+    {
+        parse(*pIn);
+    }
+    catch (const exception& ex)
+    {
+        TRACER(string("Mp3Handler::Mp3Handler() / parse: ") + ex.what());
+        std::streampos pos (0);
+        //ttt2 not sure if better to show the other streams and notes or not
+        /*if (!m_vpAllStreams.empty())
+        {
+            pos = m_vpAllStreams.back()->getEnd();
+        }*/
+        clearPtrContainer(m_vpAllStreams);
+        m_vpAllStreams.push_back(new UnreadableDataStream(m_vpAllStreams.size(), pos, string("Failure point: ") + ex.what())); // ttt1 actually the exception could be related to other issues, perhaps having nothing to do with reading the file; anyway, the note says that it couldn't read the file, not that the file/drive is bad
+        //ttt1 not clear if it makes more sense to have the failure point in the stream or in the note
+    }
+
     //TRACER1A("Mp3Handler constr ", 4);
     m_notes.resetCounter();
     //TRACER1A("Mp3Handler constr ", 5);
@@ -172,7 +229,7 @@ const Id3V2StreamBase* Mp3Handler::getId3V2Stream() const { if (0 != m_pId3V230S
 
 
 // what looks like the last frame in an MPEG stream may actually be truncated and somewhere inside it an ID3V1 or Ape tag may actually begin; if that's the case, that "frame" is removed from the stream; then most likely an "Unknown" stream will be detected, followed by an ID3V1 or Ape stream //ttt2 make sure that that is the case; a possibility is that the standard allows the last frame to be shorter than the calculated size, if some condition is met; this seems unlikely, though
-void Mp3Handler::checkLastFrameInMpegStream(ifstream_utf8& in)
+void Mp3Handler::checkLastFrameInMpegStream(istream& in)
 {
     STRM_ASSERT (!m_vpAllStreams.empty());
     MpegStream* pStream (dynamic_cast<MpegStream*>(m_vpAllStreams.back()));
@@ -265,7 +322,7 @@ void Mp3Handler::checkLastFrameInMpegStream(ifstream_utf8& in)
 }
 
 
-void Mp3Handler::parse(ifstream_utf8& in) // ttt2 this function is a mess; needs rethinking
+void Mp3Handler::parse(istream& in) // ttt2 this function is a mess; needs rethinking
 {
     in.seekg(0, ios::end);
     m_posEnd = in.tellg();
@@ -587,6 +644,17 @@ void Mp3Handler::analyze(const QualThresholds& qualThresholds)
 {
     NoteColl& notes (m_notes); // for MP3_NOTE()
 
+    if (cSize(m_vpAllStreams) == 1)
+    {
+        UnreadableDataStream* p (dynamic_cast<UnreadableDataStream*>(m_vpAllStreams[0]));
+        if (0 != p)
+        {
+            m_notes.removeNotes(0, 1 << 30);
+            MP3_NOTE (0, failedToRead);
+            return; // no need for other notes if the file couldn't be read
+        }
+    }
+
     for (int i = 0, n = cSize(m_vpAllStreams); i < n; ++i)
     {
         DataStream* pDs (m_vpAllStreams[i]);
@@ -650,7 +718,14 @@ void Mp3Handler::analyze(const QualThresholds& qualThresholds)
                         MpegStream* q (dynamic_cast<MpegStream*>(m_vpAllStreams[i + 1]));
                         if (0 != q && p->getFrameCount() != q->getFrameCount())
                         {
-                            MP3_NOTE (p->getPos(), xingFrameCountMismatch);
+                            if (p->getFrameCount() == q->getFrameCount() + 1)
+                            {
+                                MP3_NOTE (p->getPos(), xingFrameInCount);
+                            }
+                            else
+                            {
+                                MP3_NOTE (p->getPos(), xingFrameCountMismatch);
+                            }
                         }
                     }
                 }
@@ -854,7 +929,7 @@ void Mp3Handler::reloadId3V2Hlp()
 
     m_notes.removeNotes(pOldId3V2->getPos(), pOldId3V2->getPos() + pOldId3V2->getSize());
 
-    ifstream_utf8 in (m_pFileName->s.c_str(), ios::binary);
+    ifstream_utf8 in (m_pFileName->s.c_str(), ios::binary); //ttt1 the constructor uses a buffer and retries, which should probably happen here as well, but since it's the beginning of file, no rewinding, it's lower risk;
 
     STRM_ASSERT (in); // ttt2 not quite right; could have been deleted externally
 
@@ -864,8 +939,15 @@ void Mp3Handler::reloadId3V2Hlp()
         pNewId3V2 = new Id3V230Stream(0, m_notes, in, m_pFileName);
     }
     catch (const std::bad_alloc&) { throw; }
+    catch (const exception& ex)
+    {
+        TRACER1("Mp3Handler::reloadId3V2Hlp()", 1);
+        TRACER1(ex.what(), 2);
+        STRM_ASSERT (false); // ttt2 this assert won't have the exception; sure, it's in the log, but should be in assert as well
+    }
     catch (...)
     {
+        TRACER("Mp3Handler::reloadId3V2Hlp() - unknown exception");
         STRM_ASSERT (false);
     }
 
@@ -915,7 +997,7 @@ streampos getNextStream(istream& in, streampos pos)
         int nRead (read(in, bfr, BFR_SIZE));
         if (0 == nRead)
         {
-            throw EndOfFile();
+            CB_THROW(EndOfFile);
         }
 
         for (i = 0; i < nRead; ++i)

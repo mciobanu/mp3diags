@@ -60,7 +60,7 @@ LyricsStream::LyricsStream(int nIndex, NoteColl& notes, std::istream& in, const 
 
     streamoff nRead (read(in, &vcBfr[0], LYR_BEGIN_SIZE + LYR_END_SIZE));
 
-    MP3_CHECK_T (nRead >= LYR_BEGIN_SIZE + LYR_END_SIZE && 0 == strncmp(LYR_BEGIN, &vcBfr[0], LYR_BEGIN_SIZE), m_pos, "Invalid Lyrics stream tag. Header not found.", NotLyricsStream());
+    MP3_CHECK_T (nRead >= LYR_BEGIN_SIZE + LYR_END_SIZE && 0 == strncmp(LYR_BEGIN, &vcBfr[0], LYR_BEGIN_SIZE), m_pos, "Invalid Lyrics stream tag. Header not found.", CB_EXCP(NotLyricsStream));
 
     streampos pos (m_pos);
     int nTotalSize (LYR_BEGIN_SIZE);
@@ -70,7 +70,7 @@ LyricsStream::LyricsStream(int nIndex, NoteColl& notes, std::istream& in, const 
         in.seekg(pos);
         vcBfr.resize(8 + 1);
         streamoff nRead (read(in, &vcBfr[0], 8));
-        MP3_CHECK (8 == nRead, pos, lyrTooShort, NotLyricsStream());
+        MP3_CHECK (8 == nRead, pos, lyrTooShort, CB_EXCP(NotLyricsStream));
 
         char* pLast;
         int nSize;
@@ -79,29 +79,29 @@ LyricsStream::LyricsStream(int nIndex, NoteColl& notes, std::istream& in, const 
         { // the size, folowed by the end
             vcBfr.resize(6 + LYR_END_SIZE);
             nRead = read(in, &vcBfr[8], 6 + LYR_END_SIZE - 8);
-            MP3_CHECK (6 + LYR_END_SIZE - 8 == nRead, pos, lyrTooShort, NotLyricsStream());
+            MP3_CHECK (6 + LYR_END_SIZE - 8 == nRead, pos, lyrTooShort, CB_EXCP(NotLyricsStream));
             char c (vcBfr[6]);
             vcBfr[6] = 0;
             nSize = int(strtol(&vcBfr[0], &pLast, 10));
             vcBfr[6] = c;
-            MP3_CHECK (pLast == &vcBfr[6], pos, invalidLyr, NotLyricsStream());
+            MP3_CHECK (pLast == &vcBfr[6], pos, invalidLyr, CB_EXCP(NotLyricsStream));
 
-            MP3_CHECK (nTotalSize == nSize, pos, invalidLyr, NotLyricsStream());
-            MP3_CHECK (0 == strncmp(LYR_END, &vcBfr[6], LYR_END_SIZE), pos, invalidLyr, NotLyricsStream());
+            MP3_CHECK (nTotalSize == nSize, pos, invalidLyr, CB_EXCP(NotLyricsStream));
+            MP3_CHECK (0 == strncmp(LYR_END, &vcBfr[6], LYR_END_SIZE), pos, invalidLyr, CB_EXCP(NotLyricsStream));
 
             pos += 6 + LYR_END_SIZE;
             break;
         }
 
-        MP3_CHECK (isalnum(vcBfr[0]) && isalnum(vcBfr[1]) && isalnum(vcBfr[2]), pos, invalidLyr, NotLyricsStream());
+        MP3_CHECK (isalnum(vcBfr[0]) && isalnum(vcBfr[1]) && isalnum(vcBfr[2]), pos, invalidLyr, CB_EXCP(NotLyricsStream));
         string strField (&vcBfr[0], &vcBfr[0] + 3);
         vcBfr[8] = 0;
         nSize = int(strtol(&vcBfr[3], &pLast, 10));
-        MP3_CHECK (pLast == &vcBfr[8], pos, invalidLyr, NotLyricsStream());
-        MP3_CHECK (nSize >= 0 && nSize < 15000000, pos, invalidLyr, NotLyricsStream());
+        MP3_CHECK (pLast == &vcBfr[8], pos, invalidLyr, CB_EXCP(NotLyricsStream));
+        MP3_CHECK (nSize >= 0 && nSize < 15000000, pos, invalidLyr, CB_EXCP(NotLyricsStream));
         vcBfr.resize(nSize);
         nRead = read(in, &vcBfr[0], nSize);
-        MP3_CHECK (nSize == nRead, pos, lyrTooShort, NotLyricsStream());
+        MP3_CHECK (nSize == nRead, pos, lyrTooShort, CB_EXCP(NotLyricsStream));
         vcBfr.push_back(0);
 
         string strVal (convStr(QString::fromLatin1(&vcBfr[0])));

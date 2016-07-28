@@ -121,7 +121,7 @@ public:
 
     /*override*/ std::string getGenre(bool* pbFrameExists = 0) const { if (0 != pbFrameExists) { *pbFrameExists = m_bHasGenre; } return m_strGenre; }
 
-    /*override*/ ImageInfo getImage(bool* /*pbFrameExists*/ = 0) const { throw NotSupportedOp(); }
+    /*override*/ ImageInfo getImage(bool* /*pbFrameExists*/ = 0) const { CB_THROW(NotSupportedOp); }
 
     /*override*/ std::string getAlbumName(bool* pbFrameExists = 0) const { if (0 != pbFrameExists) { *pbFrameExists = m_bHasAlbumName; } return m_strAlbumName; }
 
@@ -233,7 +233,7 @@ public:
 
     void adjustVarArtists(bool b); // if VARIOUS_ARTISTS is not ASSIGNED, sets m_strValue and m_eStatus
 
-    struct InvalidValue {};
+    DEFINE_CB_EXCP(InvalidValue);
 private:
     void setUp(); // to be called initially and each time the priority of tag readers changes
     TagWriter* m_pTagWriter;

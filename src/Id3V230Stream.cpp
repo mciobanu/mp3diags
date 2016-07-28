@@ -54,7 +54,7 @@ Id3V230Frame::Id3V230Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
     int nHdrBytesSkipped (0);
     int nRead (readID3V2(bHasUnsynch, in, bfr, ID3_FRAME_HDR_SIZE, posNext, nHdrBytesSkipped));
 
-    MP3_CHECK (ID3_FRAME_HDR_SIZE == nRead || (nRead >= 1 && 0 == bfr[0]), pos, id3v2FrameTooShort, StreamIsBroken(Id3V230Stream::getClassDisplayName(), tr("Truncated ID3V2.3.0 tag.")));
+    MP3_CHECK (ID3_FRAME_HDR_SIZE == nRead || (nRead >= 1 && 0 == bfr[0]), pos, id3v2FrameTooShort, CB_EXCP2(StreamIsBroken, Id3V230Stream::getClassDisplayName(), tr("Truncated ID3V2.3.0 tag.")));
     unsigned char* p (reinterpret_cast<unsigned char*> (bfr));
     if (0 == bfr[0])
     { // padding
@@ -68,15 +68,15 @@ Id3V230Frame::Id3V230Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
     m_szName[4] = 0;
     m_nMemDataSize = (p[4] << 24) + (p[5] << 16) + (p[6] << 8) + (p[7] << 0);
 
-    MP3_CHECK (m_nMemDataSize >= 0 && m_nMemDataSize < 5000000, pos, id3v230CantReadFrame, StreamIsBroken(Id3V230Stream::getClassDisplayName(), tr("Broken ID3V2.3.0 tag.")));
+    MP3_CHECK (m_nMemDataSize >= 0 && m_nMemDataSize < 5000000, pos, id3v230CantReadFrame, CB_EXCP2(StreamIsBroken, Id3V230Stream::getClassDisplayName(), tr("Broken ID3V2.3.0 tag.")));
 
     {
         char c (m_szName[0]);
-        MP3_CHECK (c >= 'A' && c <= 'Z', pos, id3v2InvalidName, StreamIsBroken(Id3V230Stream::getClassDisplayName(), tr("ID3V2.3.0 tag containing a frame with an invalid name: %1.").arg(convStr(getReadableName()))));
+        MP3_CHECK (c >= 'A' && c <= 'Z', pos, id3v2InvalidName, CB_EXCP2(StreamIsBroken, Id3V230Stream::getClassDisplayName(), tr("ID3V2.3.0 tag containing a frame with an invalid name: %1.").arg(convStr(getReadableName()))));
         for (int i = 1; i < 4; ++i)
         {
             char c (m_szName[i]);
-            MP3_CHECK ((c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'), pos, id3v2InvalidName, StreamIsBroken(Id3V230Stream::getClassDisplayName(), tr("ID3V2.3.0 tag containing a frame with an invalid name: %1.").arg(convStr(getReadableName()))));  //ttt3 ASCII-specific
+            MP3_CHECK ((c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'), pos, id3v2InvalidName, CB_EXCP2(StreamIsBroken, Id3V230Stream::getClassDisplayName(), tr("ID3V2.3.0 tag containing a frame with an invalid name: %1.").arg(convStr(getReadableName()))));  //ttt3 ASCII-specific
         }
     }
 
@@ -84,7 +84,7 @@ Id3V230Frame::Id3V230Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
     m_cFlag2 = bfr[9];
 
     //MP3_CHECK (0 == (m_cFlag1 & ~(0x40 | 0x1f)), pos, "Invalid ID3V2.3.0 frame. Flags1 not supported.", Id3V230Stream::NotId3V2()); // !!! 0x1f is for flags that are supposed to be always 0 but aren't; the best way to deal with them seems to be to ignore them // 2008.08.25 - seems best to just ignore these flags ("Tag alter preservation", "File alter preservation" and "Read only") //ttt2 revisit this decision
-    MP3_CHECK (0 == (m_cFlag2 & ~(0x00 | 0x1f)), pos, id3v2UnsuppFlags2, StreamIsUnsupported(Id3V230Stream::getClassDisplayName(), tr("ID3V2.3.0 tag containing a frame with an unsupported flag.")));
+    MP3_CHECK (0 == (m_cFlag2 & ~(0x00 | 0x1f)), pos, id3v2UnsuppFlags2, CB_EXCP2(StreamIsUnsupported, Id3V230Stream::getClassDisplayName(), tr("ID3V2.3.0 tag containing a frame with an unsupported flag.")));
 
     if (0 != (m_cFlag1 & 0x1f)) { MP3_NOTE (pos, id3v2IncorrectFlg1); }
     if (0 != (m_cFlag2 & 0x1f)) { MP3_NOTE (pos, id3v2IncorrectFlg2); }
@@ -98,7 +98,7 @@ Id3V230Frame::Id3V230Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
     if (m_nMemDataSize != nRead)
     {
         vector<char>().swap(m_vcData);
-        MP3_THROW (pos, id3v2FrameTooShort, StreamIsBroken(Id3V230Stream::getClassDisplayName(), tr("Truncated ID3V2.3.0 tag.")));
+        MP3_THROW (pos, id3v2FrameTooShort, CB_EXCP2(StreamIsBroken, Id3V230Stream::getClassDisplayName(), tr("Truncated ID3V2.3.0 tag.")));
     }
 
     m_nDiskHdrSize = ID3_FRAME_HDR_SIZE + nHdrBytesSkipped;
@@ -147,11 +147,11 @@ Id3V230Frame::Id3V230Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
         }
         catch (const NotId3V2Frame&)
         {
-            MP3_THROW (pos, id3v2TextError, StreamIsBroken(Id3V230Stream::getClassDisplayName(), tr("ID3V2.3.0 tag containing a broken text frame named %1.").arg(convStr(getReadableName()))));
+            MP3_THROW (pos, id3v2TextError, CB_EXCP2(StreamIsBroken, Id3V230Stream::getClassDisplayName(), tr("ID3V2.3.0 tag containing a broken text frame named %1.").arg(convStr(getReadableName()))));
         }
         catch (const UnsupportedId3V2Frame&)
         {
-            MP3_THROW (pos, id3v230UnsuppText, StreamIsUnsupported(Id3V230Stream::getClassDisplayName(), tr("ID3V2.3.0 tag containing a text frame named %1 using unsupported characters.").arg(convStr(getReadableName())))); //ttt2 NotSupported is not specific enough; this might need reviewing in the future
+            MP3_THROW (pos, id3v230UnsuppText, CB_EXCP2(StreamIsUnsupported, Id3V230Stream::getClassDisplayName(), tr("ID3V2.3.0 tag containing a text frame named %1 using unsupported characters.").arg(convStr(getReadableName())))); //ttt2 NotSupported is not specific enough; this might need reviewing in the future
         }
     }
     catch (const std::bad_alloc&) { throw; }
@@ -171,7 +171,7 @@ Id3V230Frame::Id3V230Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
 // needed by Id3V230StreamWriter::addBinaryFrame(), so objects created with this constructor don't get serialized; destroys vcData by doing a swap for its own representation
 Id3V230Frame::Id3V230Frame(const std::string& strName, vector<char>& vcData) : Id3V2Frame(0, Id3V2Frame::NO_UNSYNCH, 0)
 {
-    CB_CHECK1 (4 == cSize(strName), NotId3V2Frame());
+    CB_CHECK (4 == cSize(strName), NotId3V2Frame);
     strcpy(m_szName, strName.c_str());
 
     m_nMemDataSize = cSize(vcData);
@@ -210,7 +210,7 @@ string Id3V230Frame::getUtf8StringImpl() const
     // or perhaps forget these and throw exceptions that have error messages, catch them and log/show dialogs
     // 2008.07.12 - actually all these proposals don't seem to work well: the callers don't catch the exceptions thrown here and wouldn't know what to do with them; there's no good place to display the errors (the end user isn't supposed to look at logs); it seems better to not throw, but return a string describing the problem;
     // 2008.07.12 - on a second thought - throw but call this on the constructor, where it can be logged properly; if it worked on the constructor it should work later too
-    CB_CHECK1 (m_nMemDataSize > 0, NotId3V2Frame()); //ttt2 perhaps other excp
+    CB_CHECK (m_nMemDataSize > 0, NotId3V2Frame); //ttt2 perhaps other excp
     Id3V2FrameDataLoader wrp (*this);
     const char* pData (wrp.getData());
     string s;
@@ -245,7 +245,7 @@ string Id3V230Frame::getUtf8StringImpl() const
     else
     {
         // pData[0] has an invalid value
-        CB_THROW1 (NotId3V2Frame());
+        CB_TRACE_AND_THROW (NotId3V2Frame);
     }
 
     return s;
@@ -272,13 +272,13 @@ Id3V230Stream::Id3V230Stream(int nIndex, NoteColl& notes, istream& in, StringWrp
 
     streampos pos (m_pos);
     char bfr [ID3_HDR_SIZE];
-    MP3_CHECK_T (ID3_HDR_SIZE == read(in, bfr, ID3_HDR_SIZE), pos, "Invalid ID3V2.3.0 tag. File too small.", NotId3V2());
-    MP3_CHECK_T ('I' == bfr[0] && 'D' == bfr[1] && '3' == bfr[2], pos, "Invalid ID3V2.3.0 tag. Invalid ID3V2 header.", NotId3V2());
-    MP3_CHECK ((3 == bfr[3] || 4 == bfr[3]) && 0 == bfr[4], pos, id3v2UnsuppVer, StreamIsUnsupported(Id3V2StreamBase::getClassDisplayName(), tr("Unsupported version of ID3V2 tag%1").arg((bfr[3] >= 0 && bfr[3] <=9 && bfr[4] >= 0 && bfr[4] <=9) ? QString(": ID3V2.") + char('0' + bfr[3]) + '.'  + char('0' + bfr[4]) : "."))); // !!! tests for both 2.3.0 and 2.4.0 to make sure a SUPPORT message is generated (as opposed to TRACE); this test could be done either here or in ID3V240 (or in a separate function);
-    MP3_CHECK_T (3 == bfr[3] && 0 == bfr[4], pos, "Invalid ID3V2.3.0 tag. Invalid ID3V2.3.0 header.", NotId3V2());
+    MP3_CHECK_T (ID3_HDR_SIZE == read(in, bfr, ID3_HDR_SIZE), pos, "Invalid ID3V2.3.0 tag. File too small.", CB_EXCP(NotId3V2));
+    MP3_CHECK_T ('I' == bfr[0] && 'D' == bfr[1] && '3' == bfr[2], pos, "Invalid ID3V2.3.0 tag. Invalid ID3V2 header.", CB_EXCP(NotId3V2));
+    MP3_CHECK ((3 == bfr[3] || 4 == bfr[3]) && 0 == bfr[4], pos, id3v2UnsuppVer, CB_EXCP2(StreamIsUnsupported, Id3V2StreamBase::getClassDisplayName(), tr("Unsupported version of ID3V2 tag%1").arg((bfr[3] >= 0 && bfr[3] <=9 && bfr[4] >= 0 && bfr[4] <=9) ? QString(": ID3V2.") + char('0' + bfr[3]) + '.'  + char('0' + bfr[4]) : "."))); // !!! tests for both 2.3.0 and 2.4.0 to make sure a SUPPORT message is generated (as opposed to TRACE); this test could be done either here or in ID3V240 (or in a separate function);
+    MP3_CHECK_T (3 == bfr[3] && 0 == bfr[4], pos, "Invalid ID3V2.3.0 tag. Invalid ID3V2.3.0 header.", CB_EXCP(NotId3V2));
     m_nTotalSize = getId3V2Size (bfr);
     m_cFlags = bfr[5];
-    MP3_CHECK (0 == (m_cFlags & 0x7f), pos, id3v2UnsuppFlag, StreamIsUnsupported(Id3V230Stream::getClassDisplayName(), tr("ID3V2 tag with unsupported flag."))); //ttt2 review, support
+    MP3_CHECK (0 == (m_cFlags & 0x7f), pos, id3v2UnsuppFlag, CB_EXCP2(StreamIsUnsupported, Id3V230Stream::getClassDisplayName(), tr("ID3V2 tag with unsupported flag."))); //ttt2 review, support
 
     streampos posNext (pos);
     posNext += m_nTotalSize;
@@ -351,7 +351,7 @@ Id3V230Stream::Id3V230Stream(int nIndex, NoteColl& notes, istream& in, StringWrp
         in.seekg(pos);
         char c;
 
-        MP3_CHECK (1 == read(in, &c, 1), m_pos, id3v230CantReadFrame, NotId3V2());
+        MP3_CHECK (1 == read(in, &c, 1), m_pos, id3v230CantReadFrame, CB_EXCP(NotId3V2));
     }
 
     rst.setOk();
@@ -788,7 +788,7 @@ void Id3V230StreamWriter::write(ostream& out, int nTotalSize /* = -1*/) const
     //int nPaddedSize (((nSize + (512 - 1) + nExtraSpace)/512)*512);
 
     nPaddedSize -= Id3V230Stream::ID3_HDR_SIZE;
-    CB_CHECK1 (nPaddedSize >= nSize, WriteError());
+    CB_CHECK (nPaddedSize >= nSize, WriteError);
 
     //put32BitBigEndian(1, &bfr[6]);
     put32BitBigEndian(getUnsynchVal(nPaddedSize), &bfr[6]);
@@ -829,7 +829,7 @@ void Id3V230StreamWriter::write(ostream& out, int nTotalSize /* = -1*/) const
 
     writeZeros(out, nPaddedSize - nSize);
 
-    CB_CHECK1 (out, WriteError());
+    CB_CHECK (out, WriteError);
 }
 
 

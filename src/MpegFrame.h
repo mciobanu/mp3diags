@@ -28,6 +28,7 @@
 #include  <stdexcept>
 
 #include  "SerSupport.h"
+#include  "CbException.h"
 
 
 struct Note;
@@ -99,14 +100,14 @@ public:
     MpegFrameBase getBigBps() const; // returns a "similar" frame to "this" but with a bigger bps, so it can hold a Xing TOC
 #endif
 
-    struct NotMpegFrame {}; // exception
+    DEFINE_CB_EXCP(NotMpegFrame); // exception
 
 private:
     friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         //ar & boost::serialization::base_object<DataStream>(*this);
         ar & m_header;
@@ -128,11 +129,7 @@ private:
 
 struct MpegFrame : public MpegFrameBase
 {
-    struct PrematurelyEndedMpegFrame // exception
-    {
-        std::string m_strInfo;
-        PrematurelyEndedMpegFrame(const std::string& strInfo) : m_strInfo(strInfo) {}
-    };
+    DEFINE_CB_EXCP1(PrematurelyEndedMpegFrame, std::string, m_strInfo);
 
     MpegFrame(NoteColl& notes, std::istream& in);
     MpegFrame() {}

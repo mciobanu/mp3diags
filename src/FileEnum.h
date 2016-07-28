@@ -66,7 +66,7 @@ public:
     /*override*/ std::string next(); // returns an empty string if there's nothing next
     bool isIncluded(const std::string& strFile);
 
-    struct InvalidDirs {};
+    DEFINE_CB_EXCP(InvalidDirs);
 };
 
 

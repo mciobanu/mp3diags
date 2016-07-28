@@ -59,6 +59,7 @@ public:
     std::string m_strErrorDir; // normally this is empty; if it's not, creating the specified backup file failed
     bool m_bWriteError;
     bool m_bFileChanged;
+    std::string m_strOtherError;
     std::ostream* m_pLog;
 
     virtual bool isAborted() = 0;

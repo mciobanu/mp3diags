@@ -181,8 +181,17 @@ public:
         {
             return QApplication::notify(pReceiver, pEvent);
         }
+        catch (const exception& ex)
+        {
+            //LAST_STEP1("Error in QMp3DiagsApplication::notify", 2);
+            //LAST_STEP1(ex.what(), 1);
+            TRACER1("Error in QMp3DiagsApplication::notify", 1); //ttt2 perhaps get rid of TRACER+CB_ASSERT combinations and just make sure CB_ASSERT logs everything
+            TRACER1(ex.what(), 2);
+            CB_ASSERT1 (false, ex.what());
+        }
         catch (...)
         {
+            TRACER("Unknown error in QMp3DiagsApplication::notify");
             CB_ASSERT (false);
         }
     }
@@ -535,6 +544,10 @@ int guiMain(const po::variables_map& options) {
                 return 0;
             }
         }
+    }
+    catch (const exception& ex)
+    {
+        CB_ASSERT1 (false, ex.what());
     }
     catch (...) // ttt2 for now it doesn't catch many exceptions; it seems that nothing can be done if an exception leaves a slot / event handler, but maybe there are ways around
     {
@@ -946,7 +959,7 @@ static void validate(boost::any& v, vector<string> const& values, Note::Severity
     else if (s.compare("support") == 0) v = Note::SUPPORT;
     //else throw po::validation_error(po::validation_error::invalid_option_value);
     //else throw po::validation_error("invalid option value");
-    else throw runtime_error("invalid option value");
+    else CB_THROW1(CbRuntimeError, "invalid option value");
 }
 
 

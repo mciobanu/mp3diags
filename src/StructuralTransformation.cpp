@@ -205,7 +205,7 @@ static streampos findNearMpegFrameAtRight(streampos pos, istream& in, MpegStream
 
                                         out.seekp(pFrameToChange->getPos());
                                         out.write(bfr, 4);
-                                        CB_CHECK1 (out, WriteError());
+                                        CB_CHECK (out, WriteError);
                                     }
 
                                     return CHANGED;
@@ -384,6 +384,12 @@ note that inserting a blank frame before a cut duesn't really solve the warning 
         transfConfig.getTempName(strOrigSrcName, getActionName(), strTempName);
         ofstream_utf8 out (strTempName.c_str(), ios::binary);
         in.seekg(0);
+        /*static bool bb (true);
+        if (bb)
+        {
+            bb = false;
+            throw WriteError(); //ttt0 use this to investigate write errors
+        }*/
 
         for (int i = 0, n = cSize(vpStreams); i < n; ++i)
         {
@@ -481,7 +487,7 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
         if (0 != pXing)
         {
             MpegStream* pAudio (dynamic_cast<MpegStream*>(vpStreams[i + 1]));
-            if (0 != pAudio && pXing->getFrameCount() != pAudio->getFrameCount())
+            if (0 != pAudio && pXing->getFrameCount() != pAudio->getFrameCount() && pXing->getFrameCount() != pAudio->getFrameCount() + 1)
             {
                 m_spStreamsToDiscard.insert(pXing);
             }
@@ -510,6 +516,20 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
 {
     MpegStream* p (dynamic_cast<MpegStream*>(pDataStream));
     return 0 == p;
+}
+
+
+/*override*/ bool XingRemover::matches(DataStream* pDataStream) const
+{
+    XingStream* p (dynamic_cast<XingStream*>(pDataStream));
+    return 0 != p;
+}
+
+
+/*override*/ bool LameRemover::matches(DataStream* pDataStream) const
+{
+    LameStream* p (dynamic_cast<LameStream*>(pDataStream));
+    return 0 != p;
 }
 
 
@@ -602,7 +622,7 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
 
 
 //ttt2 in a way this could take care of Xing headers for CBR streams as well, but it doesn't seem the best place to do it, especially as we ignore most of the data in the Lame header and "restoring a header" means just putting back byte count and frame count
-/*override*/ Transformation::Result VbrRepairerBase::repair(const Mp3Handler& h, const TransfConfig& transfConfig, const std::string& strOrigSrcName, std::string& strTempName, bool bForceRebuild)
+Transformation::Result VbrRepairerBase::repair(const Mp3Handler& h, const TransfConfig& transfConfig, const std::string& strOrigSrcName, std::string& strTempName, bool bForceRebuild, bool bAcceptSelfInCount)
 {
     const vector<DataStream*>& vpStreams (h.getStreams());
     ifstream_utf8 in (h.getName().c_str(), ios::binary);
@@ -640,7 +660,7 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
     MpegStream* pAudio (dynamic_cast<MpegStream*>(vpStreams[nAudioPos]));
     if (!pAudio->isVbr()) { return NOT_CHANGED; } // CBR audio
 
-    bool bXingOk (1 == cSize(sXingPos) && 1 == sXingPos.count(nAudioPos - 1) && pXingStreamBase->matches(pAudio));
+    bool bXingOk (1 == cSize(sXingPos) && 1 == sXingPos.count(nAudioPos - 1) && pXingStreamBase->matches(pAudio, bAcceptSelfInCount));
     if (!bForceRebuild && sVbriPos.empty() && bXingOk) { return NOT_CHANGED; } // exit if there's no VBRI and there's one matching Xing right before the audio
 
 
@@ -678,7 +698,7 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
 
                     int nOffs (pXing->getFirstFrame().getSideInfoSize() + MpegFrame::MPEG_FRAME_HDR_SIZE);
 
-                    createXing(out, pXing->getFirstFrame(), pAudio->getFrameCount() + 1, pAudio->getSize() + pXing->getSize());
+                    createXing(strOrigSrcName, pXing->getPos(), out, pXing->getFirstFrame(), pAudio->getFrameCount() + 1, pAudio->getSize() + pXing->getSize());
 
                     appendFilePart(in, out, p->getPos(), nOffs);
                     streampos pos (p->getPos());
@@ -702,7 +722,7 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
             {
                 if (bAddXing)
                 {
-                    dynamic_cast<MpegStream*>(p)->createXing(out);
+                    dynamic_cast<MpegStream*>(p)->createXing(h.getName(), p->getPos(), out);
                 }
                 break;
             }
@@ -730,12 +750,12 @@ void MismatchedXingRemover::setupDiscarded(const Mp3Handler& h)
 
 /*override*/ Transformation::Result VbrRepairer::apply(const Mp3Handler& h, const TransfConfig& transfConfig, const std::string& strOrigSrcName, std::string& strTempName)
 {
-    return repair(h, transfConfig, strOrigSrcName, strTempName, DONT_FORCE_REBUILD);
+    return repair(h, transfConfig, strOrigSrcName, strTempName, DONT_FORCE_REBUILD, true);
 }
 
 /*override*/ Transformation::Result VbrRebuilder::apply(const Mp3Handler& h, const TransfConfig& transfConfig, const std::string& strOrigSrcName, std::string& strTempName)
 {
-    return repair(h, transfConfig, strOrigSrcName, strTempName, FORCE_REBUILD);
+    return repair(h, transfConfig, strOrigSrcName, strTempName, FORCE_REBUILD, false);
 }
 
 

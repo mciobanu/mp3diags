@@ -597,7 +597,7 @@ struct OptionalReader : public Reader
 
 TrackTextParser::TrackTextParser(const string& strPattern) : m_strPattern(strPattern)
 {
-    if (strPattern.empty()) { throw InvalidPattern(0); }
+    if (strPattern.empty()) { CB_THROW1(InvalidPattern, 0); }
     string::size_type n (0);
     char cSep (getPathSep());
     enum FoundSep { NO, ESC, FREE };
@@ -610,7 +610,7 @@ TrackTextParser::TrackTextParser(const string& strPattern) : m_strPattern(strPat
         {
             if (ESC == e)
             {
-                throw InvalidPattern(n);
+                CB_THROW1(InvalidPattern, n);
             }
             else
             {
@@ -621,7 +621,7 @@ TrackTextParser::TrackTextParser(const string& strPattern) : m_strPattern(strPat
         {
             if (FREE == e)
             {
-                throw InvalidPattern(n);
+                CB_THROW1(InvalidPattern, n);
             }
             else
             {
@@ -760,7 +760,7 @@ void TrackTextParser::construct(const std::string& strPattern)
 
 err:
     clearPtrContainer(m_vpAllReaders);
-    throw InvalidPattern(nErrPos);
+    CB_THROW1(InvalidPattern, nErrPos);
 }
 
 TrackTextParser::~TrackTextParser()

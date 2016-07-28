@@ -115,10 +115,18 @@ struct Mp3TransformThread : public PausableThread
 
             notif.setSuccess(m_mp3TransformerGui.transform());
         }
-        catch (...)
+        catch (const exception& ex)
         {
-            LAST_STEP("Mp3TransformThread::run()");
+            TRACER1("Mp3TransformThread::run()", 1);
+            TRACER1(ex.what(), 2);
+            CB_ASSERT1 (false, ex.what());
+        }
+        catch (...) //ttt0 catch other things too (at least std::exception, but not sure what to do, meaning probably should show a message and terminate anyway); see comment 3 lines below for a better approach
+        {
+            TRACER("Mp3TransformThread::run() - unknown exception");
             CB_ASSERT (false);
+            /*ttt0 2014.09.23 - if transformations leak exceptions it usually gets here; they should be derived from exception (or CbException), in which case they would be caught and it wouldn't reach this point.
+             */
         }
     }
 
@@ -181,7 +189,7 @@ public:
         catch (const CannotRenameFile&)
         {
             revert();
-            throw CannotDeleteFile();
+            CB_THROW(CannotDeleteFile);
         }
     }
 
@@ -192,6 +200,9 @@ public:
         try
         {
             renameFile(m_strChangedName, m_strOrigName);
+        }
+        catch (const exception&)
+        { //ttt2
         }
         catch (...)
         { //ttt2 perhaps do something
@@ -239,6 +250,9 @@ public:
         try
         {
             deleteFile(m_strName);
+        }
+        catch (const exception&)
+        { //ttt2
         }
         catch (...)
         { //ttt2 perhaps do something
@@ -335,7 +349,7 @@ bool Mp3Transformer::transform()
                         if (nRetryCount > 0)
                         {
                             TRACER("YYYYYYYYYYYYY Write retry succeeded for the second time to " + strTempName + ". Exiting to capture this ...");
-                            throw WriteError(); //ttt0 remove
+                            CB_THROW(WriteError); //ttt0 remove
                         }
                     }
                     catch (const WriteError&)
@@ -383,6 +397,22 @@ bool Mp3Transformer::transform()
                         //TRACER1A("transf ", 13);
                         return false;
                     }
+                    catch (const exception& ex)
+                    {
+                        m_strErrorFile = strOrigName;
+                        m_bWriteError = false;
+                        m_strOtherError = ex.what();
+                        if (pNewHndl.get() == pOrigHndl)
+                        {
+                        //TRACER1A("transf ", 121);
+                            pNewHndl.release();
+                        }
+                        TempFileEraser er (strTempName);
+                        //TRACER1A("transf ", 131);
+                        //ttt1 A further improvement would be to have a means to "continue/ignore"
+                        return false;
+                    }
+
 //TRACER1A("transf ", 14);
                     //cout << "trying to apply " << t.getActionName() << " to " << pNewHndl.get()->getName() << endl;
                     if (eTransf != Transformation::NOT_CHANGED)
@@ -548,10 +578,10 @@ bool Mp3Transformer::transform()
                     bErrorInTransform = true;
                     m_strErrorDir = ex.m_strDir;
                 }
-                catch (const CannotCopyFile&)
+                catch (const CannotCopyFile& ex)
                 {
                 //TRACER1A("transf ", 45);
-                    CB_ASSERT(false);
+                    CB_ASSERT1(false, ex.what());
                     //bErrorInTransform = true;
                 }
 //TRACER1A("transf ", 46);
@@ -566,6 +596,9 @@ bool Mp3Transformer::transform()
                         //TRACER1A("transf ", 49);
                             deleteFile(strProcName);
                             //TRACER1A("transf ", 50);
+                        }
+                        catch (const exception& ex)
+                        { //ttt2
                         }
                         catch (...)
                         { //ttt2 not sure what to do
@@ -612,7 +645,7 @@ bool Mp3Transformer::transform()
                 }
                 //TRACER1A("transf ", 62);
             }
-            catch (...)
+            catch (...) // ttt2 maybe catch std::exception
             {
             //TRACER1A("transf ", 63);
                 if (pNewHndl.get() == pOrigHndl)
@@ -624,6 +657,14 @@ bool Mp3Transformer::transform()
                 throw;
             }
         }
+    }
+    catch (const exception& ex)
+    {
+        qDebug("Caught std::exception in Mp3TransformThread::transform()");
+        traceToFile("Caught std::exception in Mp3TransformThread::transform()", 0);
+        qDebug(ex.what());
+        traceToFile(ex.what(), 0);
+        throw; // !!! needed to restore "erased" files when errors occur, because when an exception is thrown the destructors only get called if that exception is caught; so catching and rethrowing is not a "no-op"
     }
     catch (...)
     {
@@ -675,25 +716,32 @@ std::string Mp3Transformer::getError() const
 {
     if (!m_strErrorFile.empty())
     {
-        if (m_bWriteError)
+        if (!m_strOtherError.empty())
         {
-            return convStr(tr("There was an error writing to the following file:\n\n%1\n\nMake sure that you have write permissions and that there is enough space on the disk.\n\nProcessing aborted.").arg(convStr(toNativeSeparators(m_strErrorFile))));
+            return convStr(tr("There was an error processing the following file:\n\n%1\n\n%2\n\nProcessing aborted.").arg(convStr(toNativeSeparators(m_strErrorFile))).arg(convStr(m_strOtherError)));
         }
         else
         {
-            if (m_bFileChanged)
+            if (m_bWriteError)
             {
-                return convStr(tr("The file \"%1\" seems to have been modified since the last scan. You need to rescan it before continuing.\n\nProcessing aborted.").arg(convStr(toNativeSeparators(m_strErrorFile))));
+                return convStr(tr("There was an error writing to the following file:\n\n%1\n\nMake sure that you have write permissions and that there is enough space on the disk.\n\nProcessing aborted.").arg(convStr(toNativeSeparators(m_strErrorFile))));
             }
             else
             {
-                if (m_strErrorDir.empty())
+                if (m_bFileChanged)
                 {
-                    return convStr(tr("There was an error processing the following file:\n\n%1\n\nProbably the file was deleted or modified since the last scan, in which case you should reload / rescan your collection. Or it may be used by another program; if that's the case, you should stop the other program first.\n\nThis may also be caused by access restrictions or a full disk.\n\nProcessing aborted.").arg(convStr(toNativeSeparators(m_strErrorFile))));
+                    return convStr(tr("The file \"%1\" seems to have been modified since the last scan. You need to rescan it before continuing.\n\nProcessing aborted.").arg(convStr(toNativeSeparators(m_strErrorFile))));
                 }
                 else
                 {
-                    return convStr(tr("There was an error processing the following file:\n%1\n\nThe following folder couldn't be created:\n\n%2\n\nProcessing aborted.").arg(convStr(toNativeSeparators(m_strErrorFile))).arg(convStr(toNativeSeparators(m_strErrorDir))));
+                    if (m_strErrorDir.empty())
+                    {
+                        return convStr(tr("There was an error processing the following file:\n\n%1\n\nProbably the file was deleted or modified since the last scan, in which case you should reload / rescan your collection. Or it may be used by another program; if that's the case, you should stop the other program first.\n\nThis may also be caused by access restrictions or a full disk.\n\nProcessing aborted.").arg(convStr(toNativeSeparators(m_strErrorFile))));
+                    }
+                    else
+                    {
+                        return convStr(tr("There was an error processing the following file:\n%1\n\nThe following folder couldn't be created:\n\n%2\n\nProcessing aborted.").arg(convStr(toNativeSeparators(m_strErrorFile))).arg(convStr(toNativeSeparators(m_strErrorDir))));
+                    }
                 }
             }
         }

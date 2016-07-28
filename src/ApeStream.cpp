@@ -102,34 +102,34 @@ ApeItem::ApeItem(NoteColl& notes, istream& in) : m_eType(BINARY)
     char bfr [BFR_SIZE];
     streamsize nRead (read(in, bfr, BFR_SIZE));
 
-    MP3_CHECK (nRead >= 4 + 4 + 2 + 1, pos, apeItemTooShort, ApeStream::NotApeStream());
+    MP3_CHECK (nRead >= 4 + 4 + 2 + 1, pos, apeItemTooShort, CB_EXCP(ApeStream::NotApeStream));
     unsigned char* pUnsgBfr (reinterpret_cast<unsigned char*>(bfr));
     m_cFlags1 = pUnsgBfr[4];
     m_cFlags2 = pUnsgBfr[5];
     m_cFlags3 = pUnsgBfr[6];
     m_cFlags4 = pUnsgBfr[7];
 
-    MP3_CHECK (0 == m_cFlags1 && 0 == m_cFlags2 && 0 == m_cFlags3 && 0 == m_cFlags4, pos, apeFlagsNotSupported, StreamIsUnsupported(ApeStream::getClassDisplayName(), tr("Ape stream whose items have unsupported flags.")));
-    //MP3_CHECK (0 == (m_cFlags1 & 0xf8u) && 0 == m_cFlags2 && 0 == m_cFlags3 && 0 == m_cFlags4, pos, apeFlagsNotSupported, StreamIsUnsupported(ApeStream::getClassDisplayName(), "Ape stream whose items have unsupported flags.")); // ttt1 allow this; see 02_-_Brave_-_Driven.mp3, which has a "BINARY" value (hence the "2" flag, which is also larger than 256)
+    MP3_CHECK (0 == m_cFlags1 && 0 == m_cFlags2 && 0 == m_cFlags3 && 0 == m_cFlags4, pos, apeFlagsNotSupported, CB_EXCP2(StreamIsUnsupported, ApeStream::getClassDisplayName(), tr("Ape stream whose items have unsupported flags.")));
+    //MP3_CHECK (0 == (m_cFlags1 & 0xf8u) && 0 == m_cFlags2 && 0 == m_cFlags3 && 0 == m_cFlags4, pos, apeFlagsNotSupported, CB_EXCP2(StreamIsUnsupported, ApeStream::getClassDisplayName(), "Ape stream whose items have unsupported flags.")); // ttt1 allow this; see 02_-_Brave_-_Driven.mp3, which has a "BINARY" value (hence the "2" flag, which is also larger than 256)
 //inspect(bfr, BFR_SIZE);
     int nDataSize (pUnsgBfr[0] + (pUnsgBfr[1] << 8) + (pUnsgBfr[2] << 16) + (pUnsgBfr[3] << 24));
     char* p (bfr + 8);
     for (; 0 != *p && p < bfr + nRead; ++p) {}
-    MP3_CHECK (p < bfr + nRead, pos, apeMissingTerminator, ApeStream::NotApeStream());
+    MP3_CHECK (p < bfr + nRead, pos, apeMissingTerminator, CB_EXCP(ApeStream::NotApeStream));
 
     m_strName = string(bfr + 8, p);
 
     if (nDataSize > 256)
     {
         MP3_NOTE_D (pos, apeItemTooBig, tr("Ape Item seems too big. Although the size may be any 32-bit integer, 256 bytes should be enough in practice. If this message is determined to be mistaken, it will be removed in the future. Item key: %1; item size: %2").arg(convStr(m_strName)).arg(nDataSize));
-        throw ApeStream::NotApeStream(); //ttt1 actually it's possible; see 02_-_Brave_-_Driven.mp3
+        CB_THROW(ApeStream::NotApeStream); //ttt1 actually it's possible; see 02_-_Brave_-_Driven.mp3
     }
 
     m_vcValue.resize(nDataSize);
     pos += getTotalSize() - nDataSize;
     in.clear();
     in.seekg(pos);
-    MP3_CHECK (nDataSize == read(in, &m_vcValue[0], nDataSize), pos, apeItemTooShort, ApeStream::NotApeStream());
+    MP3_CHECK (nDataSize == read(in, &m_vcValue[0], nDataSize), pos, apeItemTooShort, CB_EXCP(ApeStream::NotApeStream));
 
     if (getUtf8Keys().count(m_strName) > 0)
     {
@@ -181,15 +181,15 @@ ApeStream::ApeStream(int nIndex, NoteColl& notes, istream& in) : DataStream(nInd
     char bfr [32];
 
     streamsize nRead (read(in, bfr, 32));
-    MP3_CHECK_T (32 == nRead, m_pos, "Not an Ape tag. File too short.", NotApeStream());
+    MP3_CHECK_T (32 == nRead, m_pos, "Not an Ape tag. File too short.", CB_EXCP(NotApeStream));
 //inspect (bfr, m_pos);
 
-    MP3_CHECK_T (0 == strncmp("APETAGEX", bfr, 8), m_pos, "Not an Ape tag. Invalid header.", NotApeStream());
+    MP3_CHECK_T (0 == strncmp("APETAGEX", bfr, 8), m_pos, "Not an Ape tag. Invalid header.", CB_EXCP(NotApeStream));
     m_nVersion = *reinterpret_cast<int*>(bfr + 8); // ttt2 assume 32-bit int + little-endian
     m_nSize = *reinterpret_cast<int*>(bfr + 12); // ttt2 assume 32-bit int + little-endian
 
-    MP3_CHECK (0x80 == (0xc0 & (unsigned char)bfr[23]), m_pos, apeUnsupported, StreamIsUnsupported(ApeStream::getClassDisplayName(), tr("Tag missing header or footer."))); //ttt2 assumes both header & footer are present, but they are optional;
-    MP3_CHECK (0 != (0x20 & bfr[23]), m_pos, apeFoundFooter, NotApeHeader());
+    MP3_CHECK (0x80 == (0xc0 & (unsigned char)bfr[23]), m_pos, apeUnsupported, CB_EXCP2(StreamIsUnsupported, ApeStream::getClassDisplayName(), tr("Tag missing header or footer."))); //ttt2 assumes both header & footer are present, but they are optional;
+    MP3_CHECK (0 != (0x20 & bfr[23]), m_pos, apeFoundFooter, CB_EXCP(NotApeHeader));
 
     streampos posEnd (m_pos);
     posEnd += m_nSize;
@@ -198,14 +198,14 @@ ApeStream::ApeStream(int nIndex, NoteColl& notes, istream& in) : DataStream(nInd
 
     char bfr2 [32];
     nRead = read(in, bfr2, 32);
-    MP3_CHECK (32 == nRead, m_pos, apeTooShort, NotApeStream());
+    MP3_CHECK (32 == nRead, m_pos, apeTooShort, CB_EXCP(NotApeStream));
 
-    MP3_CHECK (0 == (0x20 & bfr2[23]), m_pos, apeFoundHeader, NotApeFooter());
+    MP3_CHECK (0 == (0x20 & bfr2[23]), m_pos, apeFoundHeader, CB_EXCP(NotApeFooter));
     bfr2[23] |= 0x20;
 //inspect (bfr2, posEnd);
     for (int i = 0; i < 32; ++i)
     {
-        MP3_CHECK (bfr[i] == bfr2[i], m_pos, apeHdrFtMismatch, HeaderFooterMismatch());
+        MP3_CHECK (bfr[i] == bfr2[i], m_pos, apeHdrFtMismatch, CB_EXCP(HeaderFooterMismatch));
     }
 
     readKeys(notes, in);
@@ -351,13 +351,13 @@ bool ApeStream::hasMp3Gain() const
     /*const ApeItem* p (findItem(LBL_TRACK_NUMBER));
     if (0 == p) { return ""; }
     return p->getUtf8String();*/
-    throw NotSupportedOp();
+    CB_THROW(NotSupportedOp);
 }
 
 
 /*override*/ TagTimestamp ApeStream::getTime(bool* /* = 0*/) const
 {
-    throw NotSupportedOp();
+    CB_THROW(NotSupportedOp);
 }
 
 

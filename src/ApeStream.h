@@ -62,7 +62,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & m_cFlags1;
         ar & m_cFlags2;
@@ -104,10 +104,10 @@ public:
     //Mp3Gain getMp3GainStatus() const;
     bool hasMp3Gain() const;
 
-    struct NotApeStream {};
-    struct NotApeHeader {};
-    struct NotApeFooter {};
-    struct HeaderFooterMismatch {};
+    DEFINE_CB_EXCP(NotApeStream);
+    DEFINE_CB_EXCP(NotApeHeader);
+    DEFINE_CB_EXCP(NotApeFooter);
+    DEFINE_CB_EXCP(HeaderFooterMismatch);
 
     // ================================ TagReader =========================================
 
@@ -121,7 +121,7 @@ public:
 
     /*override*/ std::string getGenre(bool* pbFrameExists = 0) const;
 
-    /*override*/ ImageInfo getImage(bool* /*pbFrameExists*/ = 0) const { throw NotSupportedOp(); }
+    /*override*/ ImageInfo getImage(bool* /*pbFrameExists*/ = 0) const { CB_THROW(NotSupportedOp); }
 
     /*override*/ std::string getAlbumName(bool* pbFrameExists = 0) const;
 
@@ -136,7 +136,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<DataStream>(*this);
         ar & m_nVersion;

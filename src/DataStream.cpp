@@ -63,7 +63,8 @@ UnknownDataStreamBase::UnknownDataStreamBase(int nIndex, NoteColl& notes, istrea
     in.seekg(pos);
     char c;
 
-    MP3_CHECK (1 == read(in, &c, 1), m_pos, unknTooShort, BadUnknownStream());
+    //CB_THROW(BadUnknownStream);
+    MP3_CHECK (1 == read(in, &c, 1), m_pos, unknTooShort, CB_EXCP(BadUnknownStream));
 
     rst.setOk();
 }
@@ -100,7 +101,7 @@ bool TruncatedMpegDataStream::hasSpace(std::streamoff nSize) const
 TruncatedMpegDataStream::TruncatedMpegDataStream(MpegStream* pPrevMpegStream, int nIndex, NoteColl& notes, std::istream& in, std::streamoff nSize) :
         UnknownDataStreamBase(nIndex, notes, in, nSize), m_pFrame(0)
 {
-    if (0 == pPrevMpegStream) { throw NotTruncatedMpegDataStream(); }
+    if (0 == pPrevMpegStream) { CB_THROW(NotTruncatedMpegDataStream); }
     in.seekg(m_pos);
 
     StreamStateRestorer rst (in);
@@ -113,14 +114,14 @@ TruncatedMpegDataStream::TruncatedMpegDataStream(MpegStream* pPrevMpegStream, in
     }
     catch (const MpegFrameBase::NotMpegFrame&)
     {
-        throw NotTruncatedMpegDataStream();
+        CB_THROW(NotTruncatedMpegDataStream);
     }
 
 
     if (!pPrevMpegStream->isCompatible(*m_pFrame))
     {
         delete m_pFrame;
-        throw NotTruncatedMpegDataStream();
+        CB_THROW(NotTruncatedMpegDataStream);
     }
 
     streampos pos (m_pos);
@@ -172,7 +173,7 @@ NullDataStream::NullDataStream(int nIndex, NoteColl& notes, std::istream& in) : 
         if (nRead < BFR_SIZE) { break; }
     }
 e1:
-    MP3_CHECK_T (m_nSize >= 16, m_pos, "Not a NULL stream. File too short.", NotNullStream());
+    MP3_CHECK_T (m_nSize >= 16, m_pos, "Not a NULL stream. File too short.", CB_EXCP(NotNullStream));
     pos += m_nSize;
     in.clear();
     in.seekg(pos);
@@ -195,7 +196,7 @@ e1:
     }
 
     out.write(bfr, n);
-    CB_CHECK1 (out, WriteError());
+    CB_CHECK (out, WriteError);
 }
 
 
@@ -204,6 +205,10 @@ e1:
     return "";
 }
 
+
+UnreadableDataStream::UnreadableDataStream(int nIndex, std::streampos pos, const std::string& strInfo) : DataStream(nIndex), m_pos(pos), m_strInfo(strInfo)
+{
+}
 
 
 BrokenDataStream::BrokenDataStream(int nIndex, NoteColl& notes, std::istream& in, std::streamoff nSize, const char* szBaseName, const std::string& strInfo) :
@@ -282,19 +287,19 @@ void TagTimestamp::init(std::string s)
     }
 
     static const char* szPatt ("****-**-** **:**:**X"); // 'X' is needed to avoid checking indexes
-    CB_CHECK1 (n <= 19, InvalidTime());
-    CB_CHECK1 (0 == n || '*' != szPatt[n], InvalidTime());
+    CB_CHECK (n <= 19, InvalidTime);
+    CB_CHECK (0 == n || '*' != szPatt[n], InvalidTime);
 
     for (int i = 0; i < n; ++i)
     {
         char c (szPatt[i]);
         if ('*' == c)
         {
-            CB_CHECK1 (isdigit(s[i]), InvalidTime());
+            CB_CHECK (isdigit(s[i]), InvalidTime);
         }
         else
         {
-            CB_CHECK1 (szPatt[i] == s[i], InvalidTime());
+            CB_CHECK (szPatt[i] == s[i], InvalidTime);
         }
     }
 

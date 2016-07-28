@@ -207,12 +207,13 @@ public:
 
     bool isSameDir() const { return m_bSameDir; }
 
-    struct InvalidPattern
+    struct InvalidPattern : public CbException
     {
         Q_DECLARE_TR_FUNCTIONS(InvalidPattern)
     public:
         const std::string m_strErr;
-        InvalidPattern(const std::string& strPattern, const QString& strErr) : m_strErr(convStr(tr("Pattern \"%1\" is invalid. %2").arg(strPattern.c_str()).arg(strErr))) {}
+        InvalidPattern(const std::string& strPattern, const QString& strErr, const char* szFile, int nLine) : CbException("StreamIsBroken", szFile, nLine), m_strErr(convStr(tr("Pattern \"%1\" is invalid. %2").arg(strPattern.c_str()).arg(strErr))) {}
+        /*override*/ ~InvalidPattern() throw() {}
     };
 
     mutable bool m_bUnratedAsDuplicate;

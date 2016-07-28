@@ -75,6 +75,7 @@ function createSrc
     done
     cat desktop/MP3Diags.desktop | sed -e "s#MP3Diags#MP3Diags$BranchDash#" -e "s#MP3 Diags#MP3 Diags$BranchSlash#" > $LongDestDir/desktop/MP3Diags$BranchDash.desktop
     cp -pr src $LongDestDir
+    chmod -R u+w $LongDestDir/src
     rm -rf $LongDestDir/src/translations/autoTransl
     fixVersion $LongDestDir/src/Helpers.cpp
     cp -p branch.txt $LongDestDir

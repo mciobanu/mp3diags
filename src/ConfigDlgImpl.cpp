@@ -927,6 +927,11 @@ void initDefaultVisibleTransf(vector<int>& v, CommonData* pCommonData)
     //v.push_back(pCommonData->getTransfPos(Id3V1ToId3V2Copier::getClassName()));
     //v.push_back(pCommonData->getTransfPos(Id3V1Remover::getClassName()));
 
+    //v.push_back(pCommonData->getTransfPos(ApeRemover::getClassName()));
+    //v.push_back(pCommonData->getTransfPos(NonAudioRemover::getClassName()));
+    //v.push_back(pCommonData->getTransfPos(XingRemover::getClassName()));
+    //v.push_back(pCommonData->getTransfPos(LameRemover::getClassName()));
+
     //v.push_back(pCommonData->getTransfPos(Id3V2Compactor::getClassName()));
     //v.push_back(pCommonData->getTransfPos(Id3V2Expander::getClassName()));
 }
@@ -1669,7 +1674,7 @@ ExternalToolsModel::ExternalToolsModel(const ConfigDlgImpl* pConfigDlgImpl) : m_
 
 /*override*/ QVariant ExternalToolsModel::data(const QModelIndex& index, int nRole) const
 {
-LAST_STEP("ExternalToolsModel::data()");
+//LAST_STEP("ExternalToolsModel::data()");
     if (!index.isValid()) { return QVariant(); }
     int i (index.row());
     int j (index.column());
@@ -1692,7 +1697,7 @@ LAST_STEP("ExternalToolsModel::data()");
 
 /*override*/ QVariant ExternalToolsModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /* = Qt::DisplayRole*/) const
 {
-LAST_STEP("ExternalToolsModel::headerData");
+//LAST_STEP("ExternalToolsModel::headerData");
     if (nRole != Qt::DisplayRole) { return QVariant(); }
 
     if (Qt::Horizontal == eOrientation)

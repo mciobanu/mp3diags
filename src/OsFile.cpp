@@ -170,7 +170,7 @@ bool CB_LIB_CALL FileSearcher::goToNextValidEntry()
 
 bool CB_LIB_CALL FileSearcher::findNext()
 {
-    CB_CHECK1 (*this, InvalidOperation()/*"findNext() may only be called on an open searcher"*/);
+    CB_CHECK (*this, InvalidOperation/*"findNext() may only be called on an open searcher"*/);
     ++m_pImpl->m_nCrtEntry;
     return goToNextValidEntry();
 }
@@ -184,21 +184,21 @@ void CB_LIB_CALL FileSearcher::close()
 
 string CB_LIB_CALL FileSearcher::getName() const
 {
-    CB_CHECK1 (*this, InvalidOperation()/*"getName() may only be called on an open searcher"*/);
+    CB_CHECK (*this, InvalidOperation/*"getName() may only be called on an open searcher"*/);
     return convStr(m_pImpl->m_vFileInfos[m_pImpl->m_nCrtEntry].absoluteFilePath());
 }
 
 
 long long CB_LIB_CALL FileSearcher::getSize() const
 {
-    CB_CHECK1 (*this, InvalidOperation()/*"getSize() may only be called on an open searcher"*/);
+    CB_CHECK (*this, InvalidOperation/*"getSize() may only be called on an open searcher"*/);
     return m_pImpl->m_vFileInfos[m_pImpl->m_nCrtEntry].size();
 }
 
 
 long long CB_LIB_CALL FileSearcher::getChangeTime() const
 {
-    CB_CHECK1 (*this, InvalidOperation()/*"getChangeTime() may only be called on an open searcher"*/);
+    CB_CHECK (*this, InvalidOperation/*"getChangeTime() may only be called on an open searcher"*/);
     return m_pImpl->m_vFileInfos[m_pImpl->m_nCrtEntry].lastModified().toTime_t(); //ttt3 32bit
 }
 
@@ -215,7 +215,7 @@ void CB_LIB_CALL getFileInfo(const string& strFileName, long long & nChangeTime,
 
     if (!fi.exists())
     {
-        throw NameNotFound();
+        CB_THROW(NameNotFound);
         //throw CannotGetData(strFileName, getOsError(), LI);
     }
 
@@ -245,7 +245,7 @@ void CB_LIB_CALL setFileDate(const string& strFileName, long long nChangeTime)
     if (0 != utime(strFileName.c_str(), &t))
     {
         //throw CannotSetDates(strFileName, getOsError(), LI);
-        throw 1; //ttt2
+        CB_THROW(CbRuntimeError); //ttt2
     }
 #else
     _utimbuf t;
@@ -254,7 +254,7 @@ void CB_LIB_CALL setFileDate(const string& strFileName, long long nChangeTime)
     if (0 != _wutime(wstrFromUtf8(strFileName).c_str(), &t))
     {
         //throw CannotSetDates(strFileName, getOsError(), LI);
-        throw 1; //ttt2
+        CB_THROW(CbRuntimeError); //ttt2
     }
 #endif
 }
@@ -263,7 +263,7 @@ void CB_LIB_CALL setFileDate(const string& strFileName, long long nChangeTime)
 // throws IncorrectDirName if the name ends with a path separator
 void CB_LIB_CALL checkDirName(const string& strDirName)
 {
-    CB_CHECK1 (!endsWith(strDirName, getPathSepAsStr()), IncorrectDirName());
+    CB_CHECK (!endsWith(strDirName, getPathSepAsStr()), IncorrectDirName);
     //ttt2 more checks
 }
 
@@ -314,14 +314,14 @@ void CB_LIB_CALL createDir(const string& strDirName)
     }
 
     string::size_type n (strDirName.rfind(getPathSep()));
-    CB_CHECK1 (string::npos != n, CannotCreateDir(strDirName));
+    CB_CHECK1 (string::npos != n, CannotCreateDir, strDirName);
     string strParent (strDirName.substr(0, n));
     createDir(strParent);
 
     QFileInfo fi (convStr(strDirName));
-    CB_CHECK1 (fi.dir().mkdir(fi.fileName()), CannotCreateDir(strDirName));
+    CB_CHECK1 (fi.dir().mkdir(fi.fileName()), CannotCreateDir, strDirName);
 
-    CB_CHECK1 (dirExists(strDirName), CannotCreateDir(strDirName));
+    CB_CHECK1 (dirExists(strDirName), CannotCreateDir, strDirName);
 }
 
 
@@ -379,10 +379,10 @@ string getNonSepTerminatedDir(const string& strDirName)
 // throws FoundDir, AlreadyExists, NameNotFound, CannotRenameFile, ?IncorrectDirName,
 void CB_LIB_CALL renameFile(const std::string& strOldName, const std::string& strNewName)
 {
-    CB_CHECK1 (!dirExists(strNewName), FoundDir());
-    CB_CHECK1 (!dirExists(strOldName), FoundDir()); // ttt2 separate OldFoundDir / NewFoundDir
-    CB_CHECK1 (!fileExists(strNewName), AlreadyExists());
-    CB_CHECK1 (fileExists(strOldName), NameNotFound());
+    CB_CHECK (!dirExists(strNewName), FoundDir);
+    CB_CHECK (!dirExists(strOldName), FoundDir); // ttt2 separate OldFoundDir / NewFoundDir
+    CB_CHECK (!fileExists(strNewName), AlreadyExists);
+    CB_CHECK (fileExists(strOldName), NameNotFound);
     createDirForFile(strNewName); //ttt3 undo on error
 
 /*    int n (rename(strOldName.c_str(), strNewName.c_str()));
@@ -399,18 +399,18 @@ void CB_LIB_CALL renameFile(const std::string& strOldName, const std::string& st
         }
         catch (const CannotCopyFile&)
         {
-            throw CannotRenameFile();
+            CB_THROW(CannotRenameFile);
         }
         catch (...) //ttt2 not quite right //ttt2 perhaps also NameNotFound, AlreadyExists, ...
         {
-            throw CannotRenameFile();
+            CB_THROW(CannotRenameFile);
         }
 
         deleteFile(strOldName);
         return;
     }
 
-    //CB_CHECK1 (0 == n, CannotRenameFile());
+    //CB_OLD_CHECK1 (0 == n, CannotRenameFile());
 }
 
 
@@ -424,24 +424,24 @@ void CB_LIB_CALL copyFile(const std::string& strSourceName, const std::string& s
     streampos nSize (getSize(in));
 
     appendFilePart(in, out, 0, nSize);
-    CB_CHECK1 (out, WriteError());
+    CB_CHECK (out, WriteError);
     streampos nOutSize (out.tellp());
-    CB_CHECK1 (nOutSize == nSize, WriteError());
+    CB_CHECK (nOutSize == nSize, WriteError);
 }
 
 
 void CB_LIB_CALL copyFile2(const std::string& strSourceName, const std::string& strDestName /*, OverwriteOption eOverwriteOption*/)
 {
-    CB_CHECK1 (!dirExists(strDestName), FoundDir());
-    CB_CHECK1 (!dirExists(strSourceName), FoundDir()); // ttt2 separate OldFoundDir / NewFoundDir
-    CB_CHECK1 (!fileExists(strDestName), AlreadyExists());
-    CB_CHECK1 (fileExists(strSourceName), NameNotFound());
+    CB_CHECK (!dirExists(strDestName), FoundDir);
+    CB_CHECK (!dirExists(strSourceName), FoundDir); // ttt2 separate OldFoundDir / NewFoundDir
+    CB_CHECK (!fileExists(strDestName), AlreadyExists);
+    CB_CHECK (fileExists(strSourceName), NameNotFound);
     createDirForFile(strDestName); //ttt3 undo on error
 
     ifstream_utf8 in (strSourceName.c_str(), ios::binary);
     ofstream_utf8 out (strDestName.c_str(), ios::binary);
-    CB_CHECK1 (in, CannotCopyFile());
-    CB_CHECK1 (out, CannotCopyFile());
+    CB_CHECK (in, CannotCopyFile);
+    CB_CHECK (out, CannotCopyFile);
     streampos nSize (getSize(in));
 
     try
@@ -450,7 +450,7 @@ void CB_LIB_CALL copyFile2(const std::string& strSourceName, const std::string& 
     }
     catch (const WriteError&)
     {
-        throw CannotCopyFile();
+        CB_THROW(CannotCopyFile);
     }
 
     streampos nOutSize (out.tellp());
@@ -458,7 +458,7 @@ void CB_LIB_CALL copyFile2(const std::string& strSourceName, const std::string& 
     {
         out.close();
         deleteFile(strDestName);
-        throw CannotCopyFile();
+        CB_THROW(CannotCopyFile);
     }
 
     long long nChangeTime;
@@ -474,11 +474,11 @@ void CB_LIB_CALL copyFile2(const std::string& strSourceName, const std::string& 
 // CannotDeleteFile, ?IncorrectDirName; it is OK if the file didn't exist to begin with
 void CB_LIB_CALL deleteFile(const std::string& strFileName)
 {
-    CB_CHECK1 (!dirExists(strFileName), FoundDir());
+    CB_CHECK (!dirExists(strFileName), FoundDir);
     if (!fileExists(strFileName)) { return; }
     QFileInfo fi (convStr(strFileName));
 
-    CB_CHECK1 (fi.dir().remove(fi.fileName()), CannotDeleteFile());
+    CB_CHECK (fi.dir().remove(fi.fileName()), CannotDeleteFile);
 }
 
 

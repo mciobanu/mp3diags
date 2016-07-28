@@ -26,6 +26,7 @@
 #include  <memory>
 #include  <string>
 
+#include  "CbException.h"
 
 #define CB_LIB_CALL
 
@@ -65,7 +66,7 @@ public:
 
     void CB_LIB_CALL close();
 
-    struct InvalidOperation {};
+    DEFINE_CB_EXCP(InvalidOperation);
 };
 
 
@@ -87,12 +88,7 @@ public:
 void CB_LIB_CALL getFileInfo(const std::string& strFileName, long long& nChangeTime, long long& nSize); // throws NameNotFound // ttt2 currently doesn't really matter the format of nChangeTime, because it is only used in equality comparisons; so it uses time_t; however, this should be reviewed and probably choose nanoseconds from 01.01.1970 (QDateTime is better avoided, because of several issues, like serialization or low resolution)
 void CB_LIB_CALL setFileDate(const std::string& strFileName, long long nChangeTime);
 
-
-struct CannotCreateDir
-{
-    std::string m_strDir;
-    CannotCreateDir(const std::string& strDir) : m_strDir(strDir) {}
-};
+DEFINE_CB_EXCP1(CannotCreateDir, std::string, m_strDir);
 
 
 // creates all intermediate dirs; throws CannotCreateDir on failure (if the directory already exists it's a success)
@@ -111,7 +107,7 @@ bool CB_LIB_CALL fileExists(const std::string& strFileName);
 bool CB_LIB_CALL dirExists(const std::string& strDirName);
 
 
-struct IncorrectDirName {}; // invalid dir name (e.g. ends with a path separator)
+DEFINE_CB_EXCP(IncorrectDirName); // invalid dir name (e.g. ends with a path separator)
 
 // throws IncorrectDirName if the name ends with a path separator
 void CB_LIB_CALL checkDirName(const std::string& strDirName);
@@ -120,11 +116,11 @@ std::string getSepTerminatedDir(const std::string& strDirName); // adds a path s
 std::string getNonSepTerminatedDir(const std::string& strDirName); // removes the path separator at the end if present; throws IncorrectDirName on invalid file names
 
 
-struct FoundDir {};
-struct AlreadyExists {};
-struct NameNotFound {};
-struct CannotRenameFile {};
-struct CannotCopyFile {};
+DEFINE_CB_EXCP(FoundDir);
+DEFINE_CB_EXCP(AlreadyExists);
+DEFINE_CB_EXCP(NameNotFound);
+DEFINE_CB_EXCP(CannotRenameFile);
+DEFINE_CB_EXCP(CannotCopyFile);
 
 // renames a file;
 // throws FoundDir, AlreadyExists, NameNotFound, CannotRenameFile, ?IncorrectDirName,
@@ -142,7 +138,7 @@ void CB_LIB_CALL copyFile2(const std::string& strSourceName, const std::string& 
 
 // deletes a file; throws FoundDir,
 // CannotDeleteFile, ?IncorrectDirName; it is OK if the file didn't exist to begin with
-struct CannotDeleteFile {};
+DEFINE_CB_EXCP(CannotDeleteFile);
 void CB_LIB_CALL deleteFile(const std::string& strFileName);
 
 // just a name that doesn't exist; the file won't be deleted automatically; normally the name is obtained by appending something to strMasterFileName, but a more generic temp is used if the name is too long on wnd

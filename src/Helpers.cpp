@@ -24,6 +24,7 @@
 #include  "fstream_unicode.h"
 #include  <sstream>
 #include  <iomanip>
+#include  <cstdio>
 
 #include  <boost/version.hpp>
 
@@ -65,7 +66,6 @@ void assertBreakpoint()
 }
 
 
-
 void appendFilePart(istream& in, ostream& out, streampos pos, streamoff nSize)
 {
     const int BFR_SIZE (1024*128);
@@ -76,7 +76,7 @@ void appendFilePart(istream& in, ostream& out, streampos pos, streamoff nSize)
     for (; nSize > 0;)
     {
         streamoff nCrtRead (nSize > BFR_SIZE ? BFR_SIZE : nSize);
-        CB_CHECK1 (nCrtRead == read(in, pBfr, nCrtRead), EndOfFile());
+        CB_CHECK (nCrtRead == read(in, pBfr, nCrtRead), EndOfFile);
         out.write(pBfr, nCrtRead);
 
         nSize -= nCrtRead;
@@ -87,7 +87,7 @@ void appendFilePart(istream& in, ostream& out, streampos pos, streamoff nSize)
         TRACER("appendFilePart() failed");
     }
 
-    CB_CHECK1 (out, WriteError());
+    CB_CHECK (out, WriteError);
 }
 
 
@@ -503,7 +503,7 @@ namespace
                 }
                 break;
 
-            default: throw 1; // it should have thrown before getting here
+            default: CB_THROW(CbRuntimeError); // it should have thrown before getting here
             }
         }
 
@@ -531,7 +531,7 @@ namespace
             m_nSize = (MPEG1 == m_eVersion ? 144*m_nBitrate/m_nFrequency + m_nPadding : 72*m_nBitrate/m_nFrequency + m_nPadding);
             break;
 
-        default: throw 1; // it should have thrown before getting here
+        default: CB_THROW(CbRuntimeError); // it should have thrown before getting here
         }
 
         return "";
@@ -685,7 +685,7 @@ void writeZeros(ostream& out, int nCnt)
         out.write(&c, 1);
     }
 
-    CB_CHECK1 (out, WriteError());
+    CB_CHECK (out, WriteError);
 }
 
 
@@ -803,8 +803,8 @@ DesktopDetector::DesktopDetector() : m_eDesktop(Unknown)
                 cout << endl;
 
 #endif
-                char szBfr[5000] = "mP3DiAgS";
-                szBfr[0] = 0;
+                //char szBfr[5000] = "mP3DiAgS";
+                //szBfr[0] = 0;
 
 
                 strCmdLineName += "/cmdline";
@@ -1278,6 +1278,10 @@ const string& getDesktopIntegrationDir()
         {
             createDir(s_s);
         }
+        catch (const exception& ex)
+        {
+            cerr << "failed to create dir " << s_s << "; reason: " << ex.what() << endl;
+        }
         catch (...)
         { // nothing; this will cause shell integration to be disabled
             cerr << "failed to create dir " << s_s << endl;
@@ -1410,6 +1414,9 @@ public:
             try
             {
                 deleteFile(m_strFileName);
+            }
+            catch (const exception&)
+            { //ttt2 do something
             }
             catch (...)
             { //ttt2 do something
@@ -1702,11 +1709,17 @@ bool deleteKey(const char* szPath, const char* szSubkey)
 Tracer::Tracer(const std::string& s) : m_s(s)
 {
     traceToFile("> " + s, 1);
+#ifdef OUTPUT_TRACE_TO_CONSOLE
+    qDebug("> %s", m_s.c_str());
+#endif
 }
 
 Tracer::~Tracer()
 {
     traceToFile(" < " + m_s, -1);
+#ifdef OUTPUT_TRACE_TO_CONSOLE
+    qDebug("< %s", m_s.c_str());
+#endif
 }
 
 
@@ -1720,6 +1733,97 @@ LastStepTracer::LastStepTracer(const std::string& s) : m_s(s)
 LastStepTracer::~LastStepTracer()
 {
     traceLastStep(" < " + m_s, -1);
+}
+
+//=============================================================================================
+//=============================================================================================
+//=============================================================================================
+
+
+
+int64_t CB_LIB_CALL Timer::getCrtTime() const // returns time in nanoseconds
+{
+#ifdef _WIN32
+    LARGE_INTEGER li;
+    QueryPerformanceCounter(&li);
+    return li.QuadPart*m_nDurMul;
+#else
+    timespec ts;
+    //clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &ts); // CLOCK_MONOTONIC
+    clock_gettime(CLOCK_REALTIME, &ts);
+    return ts.tv_sec*1000000000LL + ts.tv_nsec;
+#endif
+}
+
+
+CB_LIB_CALL Timer::Timer(bool bStart /*= true*/) : m_nStart(-1), m_nFinish(-1), m_pStoredDuration(0)
+{
+#ifdef _WIN32
+    LARGE_INTEGER li;
+    if (QueryPerformanceFrequency(&li))
+    {
+        m_nDurMul = (int64_t)(1e9/li.QuadPart);
+    }
+    else
+    {
+        m_nDurMul = 0;
+    }
+#endif
+    if (bStart) start();
+}
+
+CB_LIB_CALL Timer::Timer(int64_t& storedDuration, bool bStart /*= true*/) : m_nStart(-1), m_nFinish(-1), m_pStoredDuration(&storedDuration)
+{
+#ifdef _WIN32
+    LARGE_INTEGER li;
+    if (QueryPerformanceFrequency(&li))
+    {
+        m_nDurMul = (int64_t)(1e9/li.QuadPart);
+    }
+    else
+    {
+        m_nDurMul = 0;
+    }
+#endif
+    if (bStart) start();
+}
+
+
+Timer::~Timer() {
+    if (m_pStoredDuration != 0) {
+        if (m_nFinish == -1) {
+            *m_pStoredDuration = stop();
+        } else {
+            *m_pStoredDuration = getDuration();
+        }
+    }
+}
+
+/*static*/ std::string CB_LIB_CALL Timer::addThSep(int64_t nTime) // to be used when converting to milli- / micro- seconds
+{
+    char a [25];
+    //sprintf(a, "%f", double(nTime)); //
+    //sprintf(a, "%lld", nTime);
+    sprintf(a, "%ld", nTime);
+    int n ((int)strlen(a));
+    std::string strRes;
+    for (int i = 0; i < n; ++i)
+    {
+        if (!strRes.empty() && 0 == (n - i)%3) { strRes += ','; } //ttt2 assumes that "a" doesn't have separators already
+        strRes += a[i];
+    }
+    return strRes;
+}
+
+
+/*static*/ std::string Timer::getLongFmt(int64_t dur) {
+    int msec (dur / 1000000);
+    int sec (msec / 1000); msec %= 1000;
+    int min (sec / 60); sec %= 60;
+    int hrs (min / 60); min %= 60;
+    char a[40];
+    sprintf(a, "%d:%02d:%02d.%03d", hrs, min, sec, msec);
+    return a;
 }
 
 //=============================================================================================

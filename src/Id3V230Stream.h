@@ -49,7 +49,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<Id3V2Frame>(*this);
     }
@@ -68,7 +68,7 @@ public:
     DECL_RD_NAME("ID3V2.3.0")
 
     /*override*/ TagTimestamp getTime(bool* pbFrameExists = 0) const;
-    /*override*/ void setTrackTime(const TagTimestamp&) { throw NotSupportedOp(); }
+    /*override*/ void setTrackTime(const TagTimestamp&) { CB_THROW(NotSupportedOp); }
 
     /*override*/ SuportLevel getSupport(Feature) const;
 
@@ -79,7 +79,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<Id3V2StreamBase>(*this);
     }

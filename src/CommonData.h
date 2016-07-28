@@ -124,12 +124,12 @@ public:
         for (typename T::const_iterator it = coll.begin(), end = coll.end(); it != end; ++it)
         {
             int nPos (getPos(*it));
-            CB_CHECK1 (-1 != nPos, NoteNotFound());
+            CB_CHECK (-1 != nPos, NoteNotFound);
             m_spFlt.insert(get(nPos));
         }
     }
 
-    struct NoteNotFound {};
+    DEFINE_CB_EXCP(NoteNotFound);
 
     int getFltCount() const { return cSize(m_spFlt); }
     const Note* getFlt(int n) const;
@@ -204,7 +204,7 @@ private:
 
     template<class Archive> void save(Archive& ar, const unsigned int nVersion) const
     {
-        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar << m_bNoteFilter;
         ar << m_bDirFilter;
@@ -227,7 +227,7 @@ private:
 
     template<class Archive> void load(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar >> m_bNoteFilter;
         ar >> m_bDirFilter;

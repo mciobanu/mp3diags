@@ -446,10 +446,10 @@ double Id3V2Frame::getRating() const // asserts it's POPM
 
 /*static*/ string Id3V2Frame::utf8FromBomUtf16(const char* pData, int nSize)
 {
-    CB_CHECK1 (nSize > 1, NotId3V2Frame()); // UNICODE string entries must have a size of 3 or more."
+    CB_CHECK (nSize > 1, NotId3V2Frame); // UNICODE string entries must have a size of 3 or more."
     if (2 == nSize && 0 == *pData && 0 == *(pData + 1)) { return ""; } // not quite correct, but seems to happen; even if a string is null, it must begin with BOM //ttt1 add a note
     const unsigned char* p (reinterpret_cast<const unsigned char*> (pData));
-    CB_CHECK1 ((0xff == p[0] && 0xfe == p[1]) || (0xff == p[1] && 0xfe == p[0]), NotId3V2Frame()); //ttt2 perhaps use other exception
+    CB_CHECK ((0xff == p[0] && 0xfe == p[1]) || (0xff == p[1] && 0xfe == p[0]), NotId3V2Frame); //ttt2 perhaps use other exception
 
 #if Q_BYTE_ORDER == Q_LITTLE_ENDIAN
     bool bIsFffeOk (true); // x86
@@ -588,7 +588,7 @@ Id3V2FrameDataLoader::Id3V2FrameDataLoader(const Id3V2Frame& frame) : m_frame(fr
         //qDebug("nRead %d ; m_frame.m_nMemDataSize %d ; nContentBytesSkipped %d ", nRead, m_frame.m_nMemDataSize, nContentBytesSkipped);
         if (cSize(m_vcOwnData) != nRead)
         {
-            throw LoadFailure();
+            CB_THROW(LoadFailure);
         }
 
         m_pData = &m_vcOwnData[0];
@@ -889,7 +889,7 @@ void Id3V2StreamBase::checkFrames(NoteColl& notes) // various checks to be calle
         Id3V2FrameDataLoader wrp (*m_pPicFrame);
         const char* pCrtData (wrp.getData());
         const char* pBinData (pCrtData + m_pPicFrame->m_nImgOffset);
-        //CB_CHECK (pixmap.loadFromData(pBinData, m_nImgSize));
+        //CB_OLD_CHECK (pixmap.loadFromData(pBinData, m_nImgSize));
 
         // make sure the data is still available and correct (the file might have been modified externally)
         if (-1 == m_pPicFrame->m_nWidth)
@@ -937,7 +937,7 @@ e1:
                 Id3V2FrameDataLoader wrp (*pFrame);
                 const char* pCrtData (wrp.getData());
                 const char* pBinData (pCrtData + pFrame->m_nImgOffset);
-                //CB_CHECK (pixmap.loadFromData(pBinData, m_nImgSize));
+                //CB_OLD_CHECK (pixmap.loadFromData(pBinData, m_nImgSize));
 
                 // make sure the data is still available and correct (the file might have been modified externally)
                 if (-1 == pFrame->m_nWidth)
@@ -996,13 +996,13 @@ e1:
 
 /*static*/ const char* Id3V2StreamBase::decodeApic(NoteColl& notes, int nDataSize, streampos pos, const char* const pData, const char*& szMimeType, int& nPictureType, const char*& szDescription)
 {
-    MP3_CHECK (0 == pData[0] || 3 == pData[0], pos, id3v2UnsupApicTextEnc, NotSupTextEnc()); // !!! there's no need for StreamIsUnsupported here, because this error is not fatal, and it isn't allowed to propagate, therefore doesn't cause a stream to be Unsupported; //ttt2 review, support
+    MP3_CHECK (0 == pData[0] || 3 == pData[0], pos, id3v2UnsupApicTextEnc, CB_EXCP(NotSupTextEnc)); // !!! there's no need for StreamIsUnsupported here, because this error is not fatal, and it isn't allowed to propagate, therefore doesn't cause a stream to be Unsupported; //ttt2 review, support
     szMimeType = pData + 1; // ttt3 type 0 is Latin1, while type 3 is UTF8, so this isn't quite right; however, MIME types should probably be plain ASCII, so it's the same; and anyway, we only recognize JPEG and PNG, which are ASCII
     //int nMimeSize (strnlen(pData, nDataSize));
 
     const char* p (pData + 1);
     for (; p < pData + nDataSize && 0 != *p; ++p) {}
-    MP3_CHECK (p < pData + nDataSize - 1, pos, id3v2UnsupApicTextEnc, ErrorDecodingApic()); // "-1" to account for szDescription
+    MP3_CHECK (p < pData + nDataSize - 1, pos, id3v2UnsupApicTextEnc, CB_EXCP(ErrorDecodingApic)); // "-1" to account for szDescription
     CB_ASSERT (0 == *p);
     ++p;
 
@@ -1017,7 +1017,7 @@ e1:
         }
     }
 
-    throw ErrorDecodingApic();
+    CB_THROW(ErrorDecodingApic);
 }
 
 
@@ -1528,7 +1528,7 @@ vector<const Id3V2Frame*> Id3V2StreamBase::getKnownFrames() const // to be used 
     case 10: return LBL_COMPOSER();
     }
 
-    CB_THROW1 (InvalidIndex());
+    CB_TRACE_AND_THROW (InvalidIndex);
 }
 
 

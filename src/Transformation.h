@@ -27,6 +27,8 @@
 
 #include  <QApplication> // for translation
 
+#include  "CbException.h"
+
 /*
 
 Processing a file by MainFormDlgImpl:
@@ -332,7 +334,7 @@ public:
 
     //struct DirOverlap {};
     //struct InvalidName {}; // something is wrong with the file name
-    struct IncorrectPath {}; // thrown if a "source file" is outside of the "source folder" (takes care of this case too, where it's not enough to check for a substring: src="/tst/dir1", origName="/tst/dir10/file1.mp3")
+    DEFINE_CB_EXCP(IncorrectPath); // thrown if a "source file" is outside of the "source folder" (takes care of this case too, where it's not enough to check for a substring: src="/tst/dir1", origName="/tst/dir10/file1.mp3")
 
     void testRemoveSuffix() const;
 private:
@@ -363,7 +365,7 @@ public:
 
     virtual bool acceptsFastSave() const { return false; } // whether to consider Mp3Handler::m_nFastSaveTime as a match when deciding if a file was changed (so a transformation can't be applied)
 
-    struct InvalidInputFile {}; // thrown if the input file was changed so it can no longer be processed
+    DEFINE_CB_EXCP(InvalidInputFile); // thrown if the input file was changed so it can no longer be processed
 };
 
 

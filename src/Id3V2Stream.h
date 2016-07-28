@@ -73,8 +73,8 @@ public:
 
     virtual bool discardOnChange() const = 0; // ttt2 should distinguish between audio and ID3V2 change, should be called when audio is changed, ...
 
-    struct NotId3V2Frame {};
-    struct UnsupportedId3V2Frame {};
+    DEFINE_CB_EXCP(NotId3V2Frame);
+    DEFINE_CB_EXCP(UnsupportedId3V2Frame);
 
     enum ApicStatus { NO_APIC, ERR, USES_LINK, NON_COVER, COVER }; // !!! the reason "ERR" is used (and not "ERROR") is that "ERROR" is a macro in MSVC
     ApicStatus m_eApicStatus;
@@ -112,7 +112,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 1) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 1) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & m_szName;
         ar & m_nMemDataSize;
@@ -160,7 +160,7 @@ public:
 
     const char* getData() const { return m_pData; }
 
-    struct LoadFailure {}; // thrown if the file is deleted / moved (and perhaps changed) after frames are identified
+    DEFINE_CB_EXCP(LoadFailure); // thrown if the file is deleted / moved (and perhaps changed) after frames are identified
 };
 
 
@@ -212,8 +212,8 @@ protected:
     Id3V2StreamBase(int nIndex, std::istream& in, StringWrp* pFileName);
     Id3V2StreamBase() {} // serialization-only constructor
 
-    struct NotSupTextEnc {};
-    struct ErrorDecodingApic {};
+    DEFINE_CB_EXCP(NotSupTextEnc);
+    DEFINE_CB_EXCP(ErrorDecodingApic);
 public:
     /*override*/ ~Id3V2StreamBase();
 
@@ -240,7 +240,7 @@ public:
 
     int getPaddingSize() const { return m_nPaddingSize; }
 
-    struct NotId3V2 {};
+    DEFINE_CB_EXCP(NotId3V2);
 
     // ================================ TagReader =========================================
     /*override*/ std::string getTitle(bool* pbFrameExists = 0) const;
@@ -276,7 +276,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<DataStream>(*this);
 
@@ -321,7 +321,7 @@ struct KnownFrames
 
     static const char* LBL_TXXX();
 
-    struct InvalidIndex {};
+    DEFINE_CB_EXCP(InvalidIndex);
 
     static const char* getFrameName (int n); // throws InvalidIndex if n is out of bounds
     static const std::set<std::string>& getExcludeFromInfoFrames(); // frames that shouldn't be part of "other info"; doesn't include TXXX and "Various Artists" frames

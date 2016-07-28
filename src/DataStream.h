@@ -31,7 +31,7 @@
 #include  "CommonTypes.h"
 #include  "Helpers.h"
 
-#define MP3_CHECK(COND, POS, MSG_ID, EXCP) { if (!(COND)) { notes.add(new Note(Notes::MSG_ID(), POS)); throw EXCP; } } // MSG_ID gives a severity
+#define MP3_CHECK(COND, POS, MSG_ID, EXCP) { if (!(COND)) { notes.add(new Note(Notes::MSG_ID(), POS)); throw EXCP; } } // MSG_ID gives a severity // ttt2 most calls here use CB_EXCP(); see if possible to expand macro in 1 step and get rid of CB_EXCP()
 #define MP3_CHECK_T(COND, POS, MSG, EXCP) { if (!(COND)) { static Note::SharedData d (MSG, false); notes.add(new Note(d, POS)); throw EXCP; } } // TRACE-only notes
 #define MP3_THROW(POS, MSG_ID, EXCP) { notes.add(new Note(Notes::MSG_ID(), POS)); throw EXCP; }
 #define MP3_THROW_T(POS, MSG, EXCP) { static Note::SharedData d (MSG, false); notes.add(new Note(d, POS)); throw EXCP; } // TRACE-only notes
@@ -105,7 +105,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & m_nIndex;
     }
@@ -134,7 +134,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<DataStream>(*this);
 
@@ -159,7 +159,7 @@ public:
 
     const char* getBegin() const { return m_begin; }
 
-    struct BadUnknownStream {}; // e.g. there are not nSize chars left
+    DEFINE_CB_EXCP(BadUnknownStream); // e.g. there are not nSize chars left
 
 private:
     friend class boost::serialization::access;
@@ -167,7 +167,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<SimpleDataStream>(*this);
 
@@ -190,7 +190,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<UnknownDataStreamBase>(*this);
     }
@@ -217,7 +217,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<UnknownDataStreamBase>(*this);
 
@@ -249,7 +249,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<UnknownDataStreamBase>(*this);
 
@@ -278,7 +278,7 @@ public:
     /*override*/ std::string getInfo() const;
     int getExpectedSize() const;
 
-    struct NotTruncatedMpegDataStream {}; // thrown if pMpegStream is 0 or it points to an incompatible stream
+    DEFINE_CB_EXCP(NotTruncatedMpegDataStream); // thrown if pMpegStream is 0 or it points to an incompatible stream
 
     bool hasSpace(std::streamoff nSize) const;
     using UnknownDataStreamBase::append;
@@ -290,7 +290,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<UnknownDataStreamBase>(*this);
 
@@ -315,7 +315,7 @@ public:
     /*override*/ std::streampos getPos() const { return m_pos; }
     /*override*/ std::streamoff getSize() const { return m_nSize; }
 
-    struct NotNullStream {};
+    DEFINE_CB_EXCP(NotNullStream);
 
 private:
     friend class boost::serialization::access;
@@ -324,7 +324,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int nVersion)
     {
-        if (nVersion > 0) { throw std::runtime_error("invalid version of serialized file"); }
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
         ar & boost::serialization::base_object<DataStream>(*this);
 
@@ -334,11 +334,43 @@ private:
 };
 
 
+
+class UnreadableDataStream : public DataStream
+{
+    std::streampos m_pos;
+    std::string m_strInfo;
+public:
+    UnreadableDataStream(int nIndex, std::streampos pos, const std::string& strInfo);
+
+    /*override*/ void copy(std::istream&, std::ostream&) {}
+    DECL_NAME(QT_TRANSLATE_NOOP("DataStream", "Unreadable"))
+    /*override*/ std::string getInfo() const { return m_strInfo; }
+
+    /*override*/ std::streampos getPos() const { return m_pos; }
+    /*override*/ std::streamoff getSize() const { return 0; }
+
+private:
+    friend class boost::serialization::access;
+    UnreadableDataStream() {} // serialization-only constructor
+
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int nVersion)
+    {
+        if (nVersion > 0) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
+
+        ar & boost::serialization::base_object<DataStream>(*this);
+
+        ar & m_pos;
+        ar & m_strInfo;
+    }
+};
+
+
 //==========================================================================
 //==========================================================================
 
 
-struct NotSupportedOp {}; // operation is not currently supported
+DEFINE_CB_EXCP(NotSupportedOp); // operation is not currently supported
 
 
 /* While building a stream, by reading from a file, several situations can be encountered:
@@ -351,10 +383,11 @@ StreamIsBroken is for the 3rd case. It should be thrown when it is pretty likely
 Given that the reason a stream can't be read may actually be that the code is buggy or incomplete, it is possible for a StreamIsBroken to be thrown when an StreamIsUnsupported should have been thrown instead.
 
 */
-struct StreamIsBroken
+struct StreamIsBroken : public CbException
 {
     // doesn't own the pointer; param is supposed to be string literal
-    StreamIsBroken(const char* szStreamName, const QString& qstrInfo) : m_szStreamName(szStreamName), m_strInfo(convStr(qstrInfo)) {}
+    StreamIsBroken(const char* szStreamName, const QString& qstrInfo, const char* szFile, int nLine) : CbException("StreamIsBroken", szFile, nLine), m_szStreamName(szStreamName), m_strInfo(convStr(qstrInfo)) {}
+    /*override*/ ~StreamIsBroken() throw() {}
     const char* getStreamName() const { return m_szStreamName; }
     const std::string& getInfo() const { return m_strInfo; }
 private:
@@ -364,10 +397,11 @@ private:
 
 
 // to be thrown from the constructor of a stream when it looks like an unsupported version of the stream was found in the input file.
-struct StreamIsUnsupported
+struct StreamIsUnsupported : public CbException
 {
     // doesn't own the pointers; params are supposed to be string literals
-    StreamIsUnsupported(const char* szStreamName, const QString& qstrInfo) : m_szStreamName(szStreamName), m_strInfo(convStr(qstrInfo)) {}
+    StreamIsUnsupported(const char* szStreamName, const QString& qstrInfo, const char* szFile, int nLine) : CbException("StreamIsUnsupported", szFile, nLine), m_szStreamName(szStreamName), m_strInfo(convStr(qstrInfo)) {}
+    /*override*/ ~StreamIsUnsupported() throw() {}
     const char* getStreamName() const { return m_szStreamName; }
     const std::string& getInfo() const { return m_strInfo; }
 private:
@@ -425,7 +459,7 @@ public:
 
     void init(std::string strVal); // if strVal is invalid it clears m_strVal, m_strYear and m_strDayMonth and throws InvalidTime; the constructors call this too and let the exceptions propagate
 
-    struct InvalidTime {};
+    DEFINE_CB_EXCP(InvalidTime);
 };
 
 
@@ -441,29 +475,29 @@ public:
 
     enum SuportLevel { NOT_SUPPORTED, READ_ONLY/*, READ_WRITE*/ };
 
-    struct FieldNotFound {}; // for variable field lists, to allow for the distinction between an empty field and a missing field
+    DEFINE_CB_EXCP(FieldNotFound); // for variable field lists, to allow for the distinction between an empty field and a missing field
 
-    virtual std::string getTitle(bool* /*pbFrameExists*/ = 0) const { throw NotSupportedOp(); } // UTF8
+    virtual std::string getTitle(bool* /*pbFrameExists*/ = 0) const { CB_THROW(NotSupportedOp); } // UTF8
 
-    virtual std::string getArtist(bool* /*pbFrameExists*/ = 0) const { throw NotSupportedOp(); } // UTF8
+    virtual std::string getArtist(bool* /*pbFrameExists*/ = 0) const { CB_THROW(NotSupportedOp); } // UTF8
 
-    virtual std::string getTrackNumber(bool* /*pbFrameExists*/ = 0) const { throw NotSupportedOp(); } // this is string (and not int) because in ID3V2 it's not necessarily a (single) number; it can be 2/12
+    virtual std::string getTrackNumber(bool* /*pbFrameExists*/ = 0) const { CB_THROW(NotSupportedOp); } // this is string (and not int) because in ID3V2 it's not necessarily a (single) number; it can be 2/12
 
-    virtual TagTimestamp getTime(bool* /*pbFrameExists*/ = 0) const { throw NotSupportedOp(); }
+    virtual TagTimestamp getTime(bool* /*pbFrameExists*/ = 0) const { CB_THROW(NotSupportedOp); }
 
-    virtual std::string getGenre(bool* /*pbFrameExists*/ = 0) const { throw NotSupportedOp(); } // UTF8
+    virtual std::string getGenre(bool* /*pbFrameExists*/ = 0) const { CB_THROW(NotSupportedOp); } // UTF8
 
-    virtual ImageInfo getImage(bool* /*pbFrameExists*/ = 0) const { throw NotSupportedOp(); } // !!! this must not be called from a non-GUI thread (see comment in Id3V2Stream<Frame>::preparePictureHlp); if there's a need to do so, perhaps switch from QPixmap to QImage
+    virtual ImageInfo getImage(bool* /*pbFrameExists*/ = 0) const { CB_THROW(NotSupportedOp); } // !!! this must not be called from a non-GUI thread (see comment in Id3V2Stream<Frame>::preparePictureHlp); if there's a need to do so, perhaps switch from QPixmap to QImage
 
-    virtual std::string getAlbumName(bool* /*pbFrameExists*/ = 0) const { throw NotSupportedOp(); } // UTF8
+    virtual std::string getAlbumName(bool* /*pbFrameExists*/ = 0) const { CB_THROW(NotSupportedOp); } // UTF8
 
-    virtual double getRating(bool* /*pbFrameExists*/ = 0) const { throw NotSupportedOp(); } // 0 to 5 (5 for best); negative for unknown
+    virtual double getRating(bool* /*pbFrameExists*/ = 0) const { CB_THROW(NotSupportedOp); } // 0 to 5 (5 for best); negative for unknown
 
-    virtual std::string getComposer(bool* /*pbFrameExists*/ = 0) const { throw NotSupportedOp(); } // UTF8
+    virtual std::string getComposer(bool* /*pbFrameExists*/ = 0) const { CB_THROW(NotSupportedOp); } // UTF8
 
     enum VariousArtists { VA_NONE = 0, VA_ITUNES = 1, VA_WMP = 2 };
 
-    virtual int getVariousArtists(bool* /*pbFrameExists*/ = 0) const { throw NotSupportedOp(); } // combination of VariousArtists flags; since several frames might be involved, *pbFrameExists is set to "true" if at least a frame exists
+    virtual int getVariousArtists(bool* /*pbFrameExists*/ = 0) const { CB_THROW(NotSupportedOp); } // combination of VariousArtists flags; since several frames might be involved, *pbFrameExists is set to "true" if at least a frame exists
 
     virtual std::string getOtherInfo() const { return ""; } // non-editable tags  // this is shown in the main window in the "Tag details" tab, in the big text box at the bottom
 

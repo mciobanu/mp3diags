@@ -104,7 +104,7 @@ const deque<const Mp3Handler*> HndlrListModel::getHandlerList() const
 
 /*override*/ QVariant HndlrListModel::data(const QModelIndex& index, int nRole) const
 {
-LAST_STEP("HndlrListModel::data()");
+//LAST_STEP("HndlrListModel::data()");
     if (!index.isValid()) { return QVariant(); }
     int i (index.row());
     int j (index.column());
@@ -188,7 +188,7 @@ LAST_STEP("HndlrListModel::data()");
 
 /*override*/ QVariant HndlrListModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /* = Qt::DisplayRole*/) const
 {
-LAST_STEP("HndlrListModel::headerData");
+//LAST_STEP("HndlrListModel::headerData");
     if (nRole != Qt::DisplayRole) { return QVariant(); }
 
     if (Qt::Horizontal == eOrientation)
@@ -586,9 +586,13 @@ bool RenameThread::proc()
                 m_qstrErr = FileRenamerDlgImpl::tr("Cannot create folder %1").arg(convStr(ex.m_strDir));
             }
             catch (const std::bad_alloc&) { throw; }
-            catch (const IncorrectDirName&)
+            catch (const IncorrectDirName& ex)
             {
-                CB_ASSERT (false);
+                CB_ASSERT1 (false, ex.what());
+            }
+            catch (const exception& ex)
+            {
+                m_qstrErr = ex.what();
             }
             catch (...)
             {
@@ -1080,24 +1084,24 @@ Renamer::Renamer(const std::string& strPattern, const CommonData* pCommonData, b
     const char* p (strPattern.c_str());
 
     SequencePattern* pSeq (m_pRoot); // pSeq is either m_pRoot or a new sequence, for optional elements
-    if (0 == *p) { throw InvalidPattern(strPattern, tr("A pattern cannot be empty")); } // add pattern str on constr, to always have access to the pattern
+    if (0 == *p) { CB_THROW2(InvalidPattern, strPattern, tr("A pattern cannot be empty")); } // add pattern str on constr, to always have access to the pattern //ttt1 replace these tests followed by CB_THROW with CB_CHECK
 
     if (!m_bSameDir)
     {
 
 #ifndef WIN32
 
-        if (getPathSep() != *p) { throw InvalidPattern(strPattern, tr("A pattern must either begin with '%1' or contain no '%1' at all").arg(getPathSep())); }
+        if (getPathSep() != *p) { CB_THROW2(InvalidPattern, strPattern, tr("A pattern must either begin with '%1' or contain no '%1' at all").arg(getPathSep())); }
 
 #else
 
         if (cSize(strPattern) < 3 || ((p[0] < 'a' || p[0] > 'z') && (p[0] < 'A' || p[0] > 'Z')) || p[1] != ':') // ttt2 allow network drives as well
         {
-            throw InvalidPattern(strPattern, tr("A pattern must either begin with \"<drive>:\\\" or contain no '\\' at all"));
+            CB_THROW2(InvalidPattern, strPattern, tr("A pattern must either begin with \"<drive>:\\\" or contain no '\\' at all"));
         }
         p += 2;
         m_pRoot->addPattern(new StaticPattern(strPattern.substr(0, 2), m_pInvalidCharsReplacer.get()));
-        if (getPathSep() != *p) { throw InvalidPattern(strPattern, tr("A pattern must either begin with \"<drive>:\\\" or contain no '\\' at all")); }
+        if (getPathSep() != *p) { CB_THROW2(InvalidPattern, strPattern, tr("A pattern must either begin with \"<drive>:\\\" or contain no '\\' at all")); }
 
 #endif
 
@@ -1155,7 +1159,7 @@ Renamer::Renamer(const std::string& strPattern, const CommonData* pCommonData, b
 
                 default:
                     {
-                        throw InvalidPattern(strPattern, tr("Error in column %1.").arg(p - strPattern.c_str())); // ttt2 more details, perhaps make tag edt errors more similar to this
+                        CB_THROW2(InvalidPattern, strPattern, tr("Error in column %1.").arg(p - strPattern.c_str())); // ttt2 more details, perhaps make tag edt errors more similar to this
                     }
                 }
             }
@@ -1164,7 +1168,7 @@ Renamer::Renamer(const std::string& strPattern, const CommonData* pCommonData, b
         case '[':
             {
                 if (!strStatic.empty()) { pSeq->addPattern(new StaticPattern(strStatic, m_pInvalidCharsReplacer.get())); strStatic.clear(); }
-                if (pSeq != m_pRoot) { throw InvalidPattern(strPattern, tr("Nested optional elements are not allowed")); } //ttt2 column
+                if (pSeq != m_pRoot) { CB_THROW2(InvalidPattern, strPattern, tr("Nested optional elements are not allowed")); } //ttt2 column
                 pSeq = new SequencePattern(m_pInvalidCharsReplacer.get());
                 optAp.reset(pSeq);
                 break;
@@ -1173,7 +1177,7 @@ Renamer::Renamer(const std::string& strPattern, const CommonData* pCommonData, b
         case ']':
             {
                 if (!strStatic.empty()) { pSeq->addPattern(new StaticPattern(strStatic, m_pInvalidCharsReplacer.get())); strStatic.clear(); }
-                if (pSeq == m_pRoot) { throw InvalidPattern(strPattern, tr("Trying to close and optional element although none is open")); } //ttt2 column
+                if (pSeq == m_pRoot) { CB_THROW2(InvalidPattern, strPattern, tr("Trying to close and optional element although none is open")); } //ttt2 column
                 m_pRoot->addPattern(new OptionalPattern(pSeq, m_pInvalidCharsReplacer.get()));
                 pSeq = m_pRoot;
                 optAp.release();
@@ -1187,9 +1191,9 @@ Renamer::Renamer(const std::string& strPattern, const CommonData* pCommonData, b
 
     if (!strStatic.empty()) { pSeq->addPattern(new StaticPattern(strStatic, m_pInvalidCharsReplacer.get())); strStatic.clear(); }
 
-    if (pSeq != m_pRoot) { throw InvalidPattern(strPattern, tr("Optional element must be closed")); } //ttt2 column
+    if (pSeq != m_pRoot) { CB_THROW2(InvalidPattern, strPattern, tr("Optional element must be closed")); } //ttt2 column
 
-    if (!bTitleFound) { throw InvalidPattern(strPattern, tr("Title entry (%t) must be present")); }
+    if (!bTitleFound) { CB_THROW2(InvalidPattern, strPattern, tr("Title entry (%t) must be present")); }
 
     ap.release();
 }

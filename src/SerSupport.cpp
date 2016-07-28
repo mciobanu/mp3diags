@@ -249,6 +249,7 @@ void qwrqwrqsrq()
     ar.register_type<TruncatedMpegDataStream>(); \
     ar.register_type<UnknownDataStream>(); \
     ar.register_type<UnsupportedDataStream>(); \
+    ar.register_type<UnreadableDataStream>(); \
  \
     ar.register_type<Mp3Handler>(); \
 }
@@ -275,7 +276,7 @@ void qwrqwrqsrq()
 
 template<class Archive> void CommonData::save(Archive& ar, const unsigned int nVersion) const
 {
-    if (nVersion > 1) { throw std::runtime_error("invalid version of serialized file"); }
+    if (nVersion > 1) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
     int n1 (10);
     ar << n1;
@@ -291,7 +292,7 @@ template<class Archive> void CommonData::save(Archive& ar, const unsigned int nV
 
 template<class Archive> void CommonData::load(Archive& ar, const unsigned int nVersion)
 {
-    if (nVersion > 1) { throw std::runtime_error("invalid version of serialized file"); }
+    if (nVersion > 1) { CB_THROW1(CbRuntimeError, "invalid version of serialized file"); }
 
     int n1 (100);
     ar >> n1;

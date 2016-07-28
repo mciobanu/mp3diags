@@ -21,6 +21,7 @@
 
 #if defined(__GNUC__) && !defined(__llvm__)
 
+#include  <stdexcept>
 
 #include  "fstream_unicode.h"
 
@@ -71,7 +72,7 @@ int getOpenFlags(std::ios_base::openmode __mode)
     }
     else
     {
-        throw 1; // ttt2
+        throw std::runtime_error("getOpenFlags() err"); // ttt2
     }
 
     #ifdef O_LARGEFILE
@@ -181,7 +182,7 @@ int unicodeOpenHlp(const QString& s, std::ios_base::openmode __mode)
         template<>
         int unicodeOpenHlp(const wchar_t* const& /*wszUtf16Name*/, std::ios_base::openmode /*__mode*/)
         {
-            throw 1; //ttt2 add if needed
+    .        throw 1; //ttt2 add if needed
         }
     #endif
 

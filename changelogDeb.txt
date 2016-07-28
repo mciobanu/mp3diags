@@ -1,3 +1,13 @@
+mp3diags (1.3.04) testing; urgency=low
+
+  * made code compile with GCC 6
+  * retries on file read failure
+  * fix for UTF8 output in calls to mp3gain (Linux only)
+  * new transformation: "Remove Xing or LAME streams from CBR files"
+  * always show sessions button if there are more than 1 sessions
+
+ -- Marian Ciobanu <ciobi@inbox.com>  Fri, 29 Jul 2016 22:00:00 +0200
+
 mp3diags (1.3.03) testing; urgency=low
 
   * improved error reporting

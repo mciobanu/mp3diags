@@ -3665,3 +3665,12 @@ Note the use of QLibraryInfo::location() to locate the Qt translations. Develope
 //ttt1 https://sourceforge.net/p/mp3diags/discussion/947206/thread/cb3417ae/?limit=25#ef4c/6e05
 
 //ttt0 blind accessible - https://sourceforge.net/p/mp3diags/tickets/3099/
+
+//ttt0 symlinks not handled correctly when choosing dirs: select something on /d and /video gets used; the issue is worse when you want to unselect: there is nothing checked
+//ttt0 https://sourceforge.net/p/mp3diags/tickets/3102/
+
+//ttt0 simulate crash in opening the session dialog at startup to se what and where gets logged; see mail on 2017.02.14
+
+//ttt0 make patterns accept "-" (see "/d/test_mp3/1/tmp2/crt_test/PatternTest/artist1 - 2000 - alb1" and https://sourceforge.net/p/mp3diags/discussion/947206/thread/3ca2d0f8/?limit=25#a622
+
+//ttt1 <li><a href="https://tecnoarena.net/come-riparare-file-mp3-danneggiati-con-mp3-diags/">tecnoarena.net</a></li>

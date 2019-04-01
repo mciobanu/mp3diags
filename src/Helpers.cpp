@@ -1823,7 +1823,7 @@ Timer::~Timer() {
     char a [25];
     //sprintf(a, "%f", double(nTime)); //
     //sprintf(a, "%lld", nTime);
-    sprintf(a, "%ld", nTime);
+    sprintf(a, "%ld", nTime);//ttt00 warning in Ubuntu 9.04 due to type mismatch
     int n ((int)strlen(a));
     std::string strRes;
     for (int i = 0; i < n; ++i)

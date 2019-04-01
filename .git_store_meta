@@ -288,7 +288,7 @@ src/fstream_unicode.cpp	f	2014-11-12T16:10:31Z
 src/fstream_unicode.h	f	2014-01-16T13:37:36Z
 src/FullSizeImgDlg.cpp	f	2012-03-03T20:13:54Z
 src/FullSizeImgDlg.h	f	2009-11-28T07:25:00Z
-src/Helpers.cpp	f	2015-05-17T18:13:49Z
+src/Helpers.cpp	f	2016-07-29T21:24:44Z
 src/Helpers.h	f	2016-07-14T06:19:56Z
 src/Id3Transf.cpp	f	2012-03-03T20:24:37Z
 src/Id3Transf.h	f	2012-03-03T14:27:44Z
@@ -296,7 +296,7 @@ src/Id3V230Stream.cpp	f	2016-06-14T19:54:39Z
 src/Id3V230Stream.h	f	2014-11-12T16:53:17Z
 src/Id3V240Stream.cpp	f	2015-04-15T08:11:11Z
 src/Id3V240Stream.h	f	2014-11-12T16:53:17Z
-src/Id3V2Stream.cpp	f	2014-11-12T17:36:59Z
+src/Id3V2Stream.cpp	f	2017-07-09T17:47:20Z
 src/Id3V2Stream.h	f	2014-11-12T16:53:17Z
 src/ImageInfoPanel.ui	f	2012-01-02T15:18:09Z
 src/ImageInfoPanelWdgImpl.cpp	f	2012-02-18T12:55:28Z
@@ -368,11 +368,11 @@ src/LogModel.h	f	2009-05-06T07:30:16Z
 src/LyricsStream.cpp	f	2014-11-12T17:36:59Z
 src/LyricsStream.h	f	2014-11-12T16:53:17Z
 src/main.cpp	f	2016-07-04T21:16:43Z
-src/MainFormDlgImpl.cpp	f	2016-07-04T21:17:32Z
+src/MainFormDlgImpl.cpp	f	2018-04-29T13:29:24Z
 src/MainFormDlgImpl.h	f	2012-02-29T20:07:21Z
 src/MainForm.ui	f	2011-07-30T12:34:43Z
 src/Mp3Diags.qrc	f	2012-02-05T19:46:04Z
-src/Mp3Manip.cpp	f	2016-07-14T07:44:26Z
+src/Mp3Manip.cpp	f	2016-09-19T17:28:06Z
 src/Mp3Manip.h	f	2016-07-04T21:18:43Z
 src/Mp3TransformThread.cpp	f	2016-07-04T21:20:45Z
 src/Mp3TransformThread.h	f	2014-09-24T08:48:58Z
@@ -408,7 +408,7 @@ src/SerSupport.h	f	2009-05-06T07:27:31Z
 src/SessionEditorDlgImpl.cpp	f	2016-06-22T05:56:09Z
 src/SessionEditorDlgImpl.h	f	2012-02-12T11:32:26Z
 src/SessionEditor.ui	f	2012-02-06T22:59:54Z
-src/SessionsDlgImpl.cpp	f	2014-11-13T15:57:59Z
+src/SessionsDlgImpl.cpp	f	2016-07-14T09:07:55Z
 src/SessionsDlgImpl.h	f	2012-02-12T11:51:14Z
 src/Sessions.ui	f	2012-02-12T11:48:31Z
 src/SimpleSaxHandler.h	f	2014-11-12T15:53:13Z

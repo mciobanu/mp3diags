@@ -588,7 +588,7 @@ Id3V2FrameDataLoader::Id3V2FrameDataLoader(const Id3V2Frame& frame) : m_frame(fr
         //qDebug("nRead %d ; m_frame.m_nMemDataSize %d ; nContentBytesSkipped %d ", nRead, m_frame.m_nMemDataSize, nContentBytesSkipped);
         if (cSize(m_vcOwnData) != nRead)
         {
-            CB_THROW(LoadFailure);
+            CB_THROW(LoadFailure); // triggered on 2017.01.12 in XP, but there were no files on the disk (was a user's data, with logs turned off)
         }
 
         m_pData = &m_vcOwnData[0];

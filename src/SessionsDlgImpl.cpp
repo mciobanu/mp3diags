@@ -489,6 +489,7 @@ void SessionsDlgImpl::on_m_pHideB_clicked()
 
 void SessionsDlgImpl::on_m_pLoadB_clicked()
 {
+    //ttt0 doesn't open in the "right" place; should be either (localized) Documents or the the dir of the last session, but opens in parent dirs; perhaps related to changelist 831
     QFileDialog dlg (this, tr("Choose a session file"), convStr(getCrtSessionDir()), SessionEditorDlgImpl::tr("MP3 Diags session files (*%1)").arg(SessionEditorDlgImpl::SESS_EXT)); //ttt0 add ".ini", for import from older versions
     dlg.setAcceptMode(QFileDialog::AcceptOpen);
 

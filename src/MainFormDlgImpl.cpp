@@ -437,7 +437,7 @@ static bool s_bMainAssertOut;
 
 static QString g_qstrCrashMail ("<a href=\"mailto:mp3diags@gmail.com?subject=000 MP3 Diags crash/\">mp3diags@gmail.com</a>");
 static QString g_qstrSupportMail ("<a href=\"mailto:mp3diags@gmail.com?subject=000 MP3 Diags support note/\">mp3diags@gmail.com</a>");
-static QString g_qstrBugReport ("<a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a>");
+static QString g_qstrBugReport ("<a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a>");//ttt0 replace mantis references
 
 
 static void showAssertMsg(QWidget* pParent)
@@ -3351,7 +3351,7 @@ void MainFormDlgImpl::showExternalTools()
         //qDebug("pressed %d", nIndex);
         if (0 == nIndex)
         {
-            CB_ASSERT (0 != m_pCommonData->getCrtMp3Handler()); //ttt0 triggered according to mail on 2015.03.07
+            CB_ASSERT (0 != m_pCommonData->getCrtMp3Handler()); //ttt0 triggered according to mail on 2015.03.07 // ttt0 2018.04.29 one way to toggle this is be in an empty folder (e.g. by starting from CLI)
             QString qstrDir (convStr(m_pCommonData->getCrtMp3Handler()->getDir()));
 #if defined(WIN32) || defined(__OS2__)
             //qstrDir = QDir::toNativeSeparators(qstrDir);

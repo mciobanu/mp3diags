@@ -153,6 +153,7 @@ static const char* s_szPlaceholderDescr (QT_TRANSLATE_NOOP("Notes", "<Placeholde
     addNote(&Notes::id3v2UnsupApicTextEnc()); //s
     addNote(&Notes::id3v2LinkInApic()); //s
     addNote(&Notes::id3v2PictDescrIgnored()); //s
+    addNote(&Notes::id3v2ProgressiveJpeg()); //w
 
     // id3 v2.3.0
     addNote(&Notes::noId3V230()); // w

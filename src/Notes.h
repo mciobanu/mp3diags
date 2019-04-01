@@ -247,6 +247,7 @@ public:
     DECL_NOTE_INFO(id3v2UnsupApicTextEnc, SUPPORT, APIC, QT_TR_NOOP("Unsupported text encoding for APIC frame in ID3V2 tag."), true) // h
     DECL_NOTE_INFO(id3v2LinkInApic, SUPPORT, APIC, QT_TR_NOOP("APIC frame uses a link to a file as a MIME Type, which is not supported."), true) // i
     DECL_NOTE_INFO(id3v2PictDescrIgnored, SUPPORT, APIC, QT_TR_NOOP("Picture description is ignored in the current version."), true) // j
+    DECL_NOTE_INFO(id3v2ProgressiveJpeg, WARNING, APIC, QT_TR_NOOP("Found image encoded as progressive JPEG. Some players might be incompatible with it."), true) // j
 
     // id3 v2.3.0 // f
     DECL_NOTE_INFO(noId3V230, WARNING, ID3V230, QT_TR_NOOP("No ID3V2.3.0 tag found, although this is the most popular tag for storing song information."), false) // a

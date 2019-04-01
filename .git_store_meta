@@ -387,8 +387,8 @@ src/MusicBrainzDownloader.h	f	2009-09-11T14:47:51Z
 src/NoteFilterDlgImpl.cpp	f	2014-11-13T15:57:59Z
 src/NoteFilterDlgImpl.h	f	2009-09-11T14:47:51Z
 src/NoteFilter.ui	f	2012-01-02T15:21:05Z
-src/Notes.cpp	f	2014-11-14T12:32:50Z
-src/Notes.h	f	2014-11-14T12:28:36Z
+src/Notes.cpp	f	2017-07-09T10:50:07Z
+src/Notes.h	f	2017-07-09T10:49:50Z
 src/NotesModel.cpp	f	2014-11-13T15:57:59Z
 src/NotesModel.h	f	2009-05-06T07:31:33Z
 src/OsFile.cpp	f	2014-11-12T16:54:52Z

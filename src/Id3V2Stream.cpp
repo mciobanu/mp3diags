@@ -1045,6 +1045,27 @@ void Id3V2StreamBase::preparePictureHlp(NoteColl& notes, Id3V2Frame* pFrame, con
         if (0 == strcmp("image/jpeg", szMimeType) || 0 == strcmp("image/jpg", szMimeType))
         {
             pFrame->m_eCompr = ImageInfo::JPG;
+            const unsigned char* p (pBinData);
+            for (int i = 0; i < nSize - 1; i++)
+            {
+                unsigned char c1 (*(p + i));
+                if (c1 != 0xff)
+                {
+                    continue;
+                }
+                unsigned char c2 (*(p + i + 1));
+                if (c2 == 0xc0)
+                {
+                    // baseline (i.e. non-progressive)
+                    break;
+                }
+                if (c2 == 0xc2)
+                {
+                    // progressive
+                    MP3_NOTE (pFrame->m_pos, id3v2ProgressiveJpeg);
+                    break;
+                }
+            }
         }
         else if (0 == strcmp("image/png", szMimeType))
         {

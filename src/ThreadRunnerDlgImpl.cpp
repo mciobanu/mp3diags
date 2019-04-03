@@ -22,6 +22,7 @@
 
 #include  <QCloseEvent>
 #include  <QLocale>
+#include <QAction>
 
 #include  <ctime>
 
@@ -87,7 +88,7 @@ void PausableThread::checkPause() // if m_bPaused is set, it waits until resume(
 
 
 
-ThreadRunnerDlgImpl::ThreadRunnerDlgImpl(QWidget* pParent, Qt::WFlags flags, PausableThread* pThread, bool bShowCounter, TruncatePos eTruncatePos, bool bShowPauseAbort /* = true*/) :
+ThreadRunnerDlgImpl::ThreadRunnerDlgImpl(QWidget* pParent, Qt::WindowFlags flags, PausableThread* pThread, bool bShowCounter, TruncatePos eTruncatePos, bool bShowPauseAbort /* = true*/) :
     QDialog(pParent, flags),
     Ui::ThreadRunnerDlg(),
 

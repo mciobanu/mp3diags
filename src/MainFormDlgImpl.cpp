@@ -443,7 +443,7 @@ static QString g_qstrBugReport ("<a href=\"http://sourceforge.net/apps/mantisbt/
 static void showAssertMsg(QWidget* pParent)
 {
     HtmlMsg::msg(pParent, 0, 0, 0, HtmlMsg::SHOW_SYS_INFO, MainFormDlgImpl::tr("Assertion failure"),
-        Qt::escape(s_qstrErrorMsg) +
+        s_qstrErrorMsg.toHtmlEscaped() +
             "<p style=\"margin-bottom:1px; margin-top:12px; \">" +
             (
                 s_fileTracer.getStepFiles().empty() ?
@@ -852,7 +852,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
                                 .arg("</b>")
                                 .arg(g_qstrCrashMail)
                                 .arg(g_qstrBugReport)
-                                .arg(Qt::escape(toNativeSeparators(convStr(v[0]))));
+                                .arg(toNativeSeparators(convStr(v[0])).toHtmlEscaped());
                         break;
                     case 2:
                         qstrFiles += tr("Information in the files %1%5%2 and %1%6%2 may help identify the cause of the crash so please make them available to the developer by mailing them to %3, by reporting an issue to the project's Issue Tracker at %4 and attaching the files to the report, or by some other means (like putting them on a file sharing site.)", "%1 and %2 are HTML elements")
@@ -860,8 +860,8 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
                                 .arg("</b>")
                                 .arg(g_qstrCrashMail)
                                 .arg(g_qstrBugReport)
-                                .arg(Qt::escape(toNativeSeparators(convStr(v[0]))))
-                                .arg(Qt::escape(toNativeSeparators(convStr(v[1]))));
+                                .arg(toNativeSeparators(convStr(v[0])).toHtmlEscaped())
+                                .arg(toNativeSeparators(convStr(v[1])).toHtmlEscaped());
                         break;
                     case 3:
                         qstrFiles += tr("Information in the files %1%5%2, %1%6%2, and %1%7%2 may help identify the cause of the crash so please make them available to the developer by mailing them to %3, by reporting an issue to the project's Issue Tracker at %4 and attaching the files to the report, or by some other means (like putting them on a file sharing site.)", "%1 and %2 are HTML elements")
@@ -869,9 +869,9 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
                                 .arg("</b>")
                                 .arg(g_qstrCrashMail)
                                 .arg(g_qstrBugReport)
-                                .arg(Qt::escape(toNativeSeparators(convStr(v[0]))))
-                                .arg(Qt::escape(toNativeSeparators(convStr(v[1]))))
-                                .arg(Qt::escape(toNativeSeparators(convStr(v[2]))));
+                                .arg(toNativeSeparators(convStr(v[0])).toHtmlEscaped())
+                                .arg(toNativeSeparators(convStr(v[1])).toHtmlEscaped())
+                                .arg(toNativeSeparators(convStr(v[2])).toHtmlEscaped());
                         break;
                     }
                     qstrFiles += " </p>";
@@ -883,7 +883,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
                                              "<p style=\"margin-bottom:8px; margin-top:1px; \">" + tr("Note that these files <b>will be removed</b> when you close this window.") + "</p>" +
 
                                              (m_pCommonData->isTraceToFileEnabled() ?
-                                                  "<p style=\"margin-bottom:8px; margin-top:1px; \">" + tr("If there is a name of an MP3 file at the end of <b>%1</b>, that might be a file that consistently causes a crash. Please check if it is so. Then, if confirmed, please make that file available by mailing it to %2 or by putting it on a file sharing site.").arg(Qt::escape(toNativeSeparators(convStr(v[0])))).arg(g_qstrCrashMail) + "</p>" :
+                                                  "<p style=\"margin-bottom:8px; margin-top:1px; \">" + tr("If there is a name of an MP3 file at the end of <b>%1</b>, that might be a file that consistently causes a crash. Please check if it is so. Then, if confirmed, please make that file available by mailing it to %2 or by putting it on a file sharing site.").arg(toNativeSeparators(convStr(v[0]))).toHtmlEscaped().arg(g_qstrCrashMail) + "</p>" :
                                                   "<p style=\"margin-bottom:8px; margin-top:1px; \">" + tr("Please also try to <b>repeat the steps that led to the crash</b> before reporting the crash, which will probably result in a new set of files being generated; these files are more likely to contain relevant information than the current set of files, because they will also have information on what happened before the crash, while the current files only tell where the crash occured.") + "</p>"
                                              )
 
@@ -891,7 +891,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
                 }
                 else
                 {
-                    showRestartAfterCrashMsg("<p style=\"margin-bottom:8px; margin-top:1px; \">" + tr("MP3 Diags is restarting after a crash. There was supposed to be some information about what led to the crash in the file <b>%1</b>, but that file cannot be found. Please report this issue to the project's Issue Tracker at %2.").arg(Qt::escape(toNativeSeparators(convStr(s_fileTracer.getTraceFile())))).arg(g_qstrBugReport) + "</p>"
+                    showRestartAfterCrashMsg("<p style=\"margin-bottom:8px; margin-top:1px; \">" + tr("MP3 Diags is restarting after a crash. There was supposed to be some information about what led to the crash in the file <b>%1</b>, but that file cannot be found. Please report this issue to the project's Issue Tracker at %2.").arg(toNativeSeparators(convStr(s_fileTracer.getTraceFile())).toHtmlEscaped()).arg(g_qstrBugReport) + "</p>"
                                              + "<p style=\"margin-bottom:8px; margin-top:1px; \">" + tr("The developer will probably want to contact you for more details, so please check back on the status of your report.</p><p style=\"margin-bottom:8px; margin-top:1px; \">Make sure to include the data below, as well as any other detail that seems relevant (what might have caused the failure, steps to reproduce it, ...)") + "</p>", "OK");
                 }
             }
@@ -1234,8 +1234,8 @@ void MainFormDlgImpl::initializeUi()
 
         m_pNotesG->horizontalHeader()->resizeSection(0, nNotesGW0); // ttt2 apparently a call to resizeColumnsToContents() in NotesModel::updateCurrentNotes() should make columns 0 and 2 have the right size, but that's not the case at all; (see further notes there)
         m_pNotesG->horizontalHeader()->resizeSection(2, nNotesGW2);
-        m_pNotesG->horizontalHeader()->setResizeMode(1, QHeaderView::Stretch);
-        //m_pNotesG->horizontalHeader()->setResizeMode(2, QHeaderView::Stretch);
+        m_pNotesG->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+        //m_pNotesG->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
     }
 
     {
@@ -1248,14 +1248,14 @@ void MainFormDlgImpl::initializeUi()
         m_pStreamsG->horizontalHeader()->resizeSection(1, nStrmsGW1);
         m_pStreamsG->horizontalHeader()->resizeSection(2, nStrmsGW2);
         m_pStreamsG->horizontalHeader()->resizeSection(3, nStrmsGW3);
-        m_pStreamsG->horizontalHeader()->setResizeMode(4, QHeaderView::Stretch);
+        m_pStreamsG->horizontalHeader()->setSectionResizeMode(4, QHeaderView::Stretch);
     }
 
     {
         if (nUnotesGW0 < CELL_WIDTH + 8) { nUnotesGW0 = CELL_WIDTH + 8; } // ttt2 replace CELL_WIDTH
 
         m_pUniqueNotesG->horizontalHeader()->resizeSection(0, nUnotesGW0);
-        m_pUniqueNotesG->horizontalHeader()->setResizeMode(1, QHeaderView::Stretch);
+        m_pUniqueNotesG->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
     }
 
 

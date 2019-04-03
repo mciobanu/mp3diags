@@ -249,11 +249,11 @@ void ExternalToolDlgImpl::addText(QString s)
 #if !defined(WIN32) && !defined(__OS2__) //ttt1 not clear what should happen on Windows, where the main client (mp3gain) cannot even process non-ASCII file names
     {
         // convert to UTF8: the input is really UTF8 but it was considered as Latin1 when creating the QString, so we need to rebuild the string as UTF8; see https://sourceforge.net/p/mp3diags/tickets/3087/
-        //s = QString::fromUtf8(s.toAscii().data()); // simplest way but we cannot check for errors
+        //s = QString::fromUtf8(s.toLatin1().data()); // simplest way but we cannot check for errors
 
         QTextCodec::ConverterState state;
         QTextCodec* pCodec = QTextCodec::codecForName("UTF-8");
-        QByteArray byteArray (s.toAscii());
+        QByteArray byteArray (s.toLatin1());
         const QString s1 = pCodec->toUnicode(byteArray.constData(), byteArray.size(), &state);
         if (state.invalidChars == 0)
         {

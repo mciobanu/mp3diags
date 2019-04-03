@@ -22,6 +22,7 @@
 
 #include  <QColorDialog>
 #include  <QPainter>
+#include  <QAction>
 
 #include  "PaletteDlgImpl.h"
 

@@ -21,6 +21,8 @@
 
 #include  <algorithm>
 
+#include  <QAction>
+
 #include  "NoteFilterDlgImpl.h"
 
 #include  "Helpers.h"

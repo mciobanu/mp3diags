@@ -79,11 +79,11 @@ DebugDlgImpl::DebugDlgImpl(QWidget* pParent, CommonData* pCommonData) : QDialog(
         m_pLogG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         m_pLogG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
 
-        m_pLogG->horizontalHeader()->setResizeMode(0, QHeaderView::Stretch);
+        m_pLogG->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
         m_pLogG->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
-        //m_pLogG->verticalHeader()->setResizeMode(QHeaderView::Fixed);
-        m_pLogG->verticalHeader()->setResizeMode(QHeaderView::Interactive);
+        //m_pLogG->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+        m_pLogG->verticalHeader()->setSectionResizeMode(QHeaderView::Interactive);
     }
 
     m_pUseAllNotesCkB->setToolTip(

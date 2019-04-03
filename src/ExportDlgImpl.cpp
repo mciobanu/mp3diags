@@ -220,7 +220,7 @@ void ExportDlgImpl::on_m_pChooseFileB_clicked()
 
     QString s (fileNames.first());
 
-    QString flt (dlg.selectedFilter());
+    QString flt (dlg.selectedNameFilter()); //ttt9 make sure this is OK on Windows (it works on Linux)
     if (flt.endsWith("xml)") && !s.endsWith(".xml"))
     {
         s += ".xml";
@@ -434,7 +434,7 @@ namespace {
 
 string escapeXml(const string& s)
 {
-    QString qs (Qt::escape(convStr(s)));
+    QString qs (convStr(s).toHtmlEscaped());
     qs.replace(QString("\""), "&quot;");
     qs.replace(QString("#"), "&#35;");
     return convStr(qs);

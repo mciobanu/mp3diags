@@ -306,7 +306,7 @@ DoubleList::DoubleList(
         SelectionMode eSelectionMode,
         const std::string& strAvailableLabel,
         const std::string& strSelLabel,
-        QWidget* pParent, Qt::WFlags fl /* =0*/) :
+        QWidget* pParent, Qt::WindowFlags fl /* =0*/) :
 
         QWidget(pParent, fl), Ui::DoubleListWdg(),
 
@@ -366,7 +366,7 @@ DoubleList::DoubleList(
 
     if (SINGLE_UNSORTABLE != m_eSelectionMode)
     {
-        m_pSelectedG->verticalHeader()->setMovable(true);
+        m_pSelectedG->verticalHeader()->setSectionsMovable(true);
     }
 
     connect(m_pSelectedG->verticalHeader(), SIGNAL(sectionMoved(int, int, int)), this, SLOT(onSelSectionMoved(int, int, int)));
@@ -465,7 +465,7 @@ void DoubleList::setUpGrid(QTableView* pGrid)
     pGrid->verticalHeader()->setMinimumSectionSize(m_listPainter.getHdrHeight());
 
     pGrid->verticalHeader()->setDefaultSectionSize(m_listPainter.getHdrHeight());
-    pGrid->verticalHeader()->setResizeMode(QHeaderView::Interactive);
+    pGrid->verticalHeader()->setSectionResizeMode(QHeaderView::Interactive);
     pGrid->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
     resizeColumns(pGrid);
@@ -475,7 +475,7 @@ void DoubleList::resizeColumns(QTableView* pGrid)
 {
     if (1 == pGrid->horizontalHeader()->count())
     {
-        pGrid->horizontalHeader()->setResizeMode(0, QHeaderView::Stretch);
+        pGrid->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     }
     else
     {
@@ -484,12 +484,12 @@ void DoubleList::resizeColumns(QTableView* pGrid)
             int w (m_listPainter.getColWidth(i));
             if (w >= 0)
             {
-                pGrid->horizontalHeader()->setResizeMode(i, QHeaderView::Interactive);
+                pGrid->horizontalHeader()->setSectionResizeMode(i, QHeaderView::Interactive);
                 pGrid->horizontalHeader()->resizeSection(i, w);
             }
             else
             {
-                pGrid->horizontalHeader()->setResizeMode(i, QHeaderView::Stretch);
+                pGrid->horizontalHeader()->setSectionResizeMode(i, QHeaderView::Stretch);
             }
         }
     }

@@ -25,6 +25,7 @@
 #include  <QTimer>
 #include  <QPainter>
 #include  <QHeaderView>
+#include  <QButtonGroup>
 
 #include  "FileRenamerDlgImpl.h"
 
@@ -269,7 +270,7 @@ FileRenamerDlgImpl::FileRenamerDlgImpl(QWidget* pParent, CommonData* pCommonData
     m_pHndlrListModel = new HndlrListModel(m_pCommonData, this, bUseCurrentView);
 
     {
-        m_pCurrentAlbumG->verticalHeader()->setResizeMode(QHeaderView::Interactive);
+        m_pCurrentAlbumG->verticalHeader()->setSectionResizeMode(QHeaderView::Interactive);
         m_pCurrentAlbumG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT + 1);
         m_pCurrentAlbumG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT + 1);//*/
 

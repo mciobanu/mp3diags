@@ -347,6 +347,10 @@ void SessionSettings::loadMiscConfigSettings(CommonData* p, bool bInitGui) const
         if (bInitGui)
         {
             QFontInfo inf1 (QFont(m_pSettings->value("main/generalFontName", "SansSerif").toString(), m_pSettings->value("main/generalFontSize", fnt.pointSize()).toInt())); // ttt2 try and get the system defaults
+            auto strDefaultFontName = m_pSettings->value("main/generalFontName", ""); //ttt1 review this; most likely generalFontName is always set when execution gets here, so the defaults don't matter
+            if (strDefaultFontName == "") {
+                inf1 = QFontInfo(fnt);
+            }
             QFontInfo inf2 (QFont(m_pSettings->value("main/fixedFontName", "Courier").toString(), m_pSettings->value("main/fixedFontSize", fnt.pointSize()).toInt()));
             p->setFontInfo(convStr(inf1.family()), inf1.pointSize(), m_pSettings->value("main/labelFontSizeDecr", 0).toInt(), convStr(inf2.family()), inf2.pointSize());
         }
@@ -551,7 +555,11 @@ void CommonData::setFontInfo(const std::string& strGenName, int nGenSize, int nL
 QFont CommonData::getNewGeneralFont() const
 {
     QFont f;
-    f.setFamily(convStr(m_strGenFontName));
+    if (m_strGenFontName != "")
+    {
+        f.setFamily(convStr(m_strGenFontName));
+    }
+
     f.setPointSize(m_nGenFontSize);
     QFontInfo info (f);
     return QFont (info.family(), info.pointSize());
@@ -2064,7 +2072,7 @@ void CommonData::resizeFilesGCols()
 {
     QHeaderView* p (m_pFilesG->horizontalHeader());
 
-    p->setResizeMode(0, QHeaderView::Stretch);
+    p->setSectionResizeMode(0, QHeaderView::Stretch);
     int n (p->sectionSize(0));
     if (n < MIN_FILE_WIDTH)
     {
@@ -2073,7 +2081,7 @@ void CommonData::resizeFilesGCols()
         //n = m_pFilesG->width()
     }
 
-    p->setResizeMode(0, QHeaderView::Interactive);
+    p->setSectionResizeMode(0, QHeaderView::Interactive);
     p->resizeSection(0, n);
 
     /*if (nSection >= 1 + 26*2) // ttt3 this is needed to handle more than 52 notes // ttt3 keep in mind that bold fonts need more space

@@ -54,7 +54,7 @@ void SessionEditorDlgImpl::commonConstr() // common code for both constructors
     m_pDirectoriesT->setModel(m_pDirModel);
     m_pDirectoriesT->expand(m_pDirModel->index("/"));
     m_pDirectoriesT->header()->hide();
-    m_pDirectoriesT->header()->setStretchLastSection(false); m_pDirectoriesT->header()->setResizeMode(0, QHeaderView::ResizeToContents);
+    m_pDirectoriesT->header()->setStretchLastSection(false); m_pDirectoriesT->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
 
     m_bOpenLastSession = true;
 
@@ -86,7 +86,8 @@ void SessionEditorDlgImpl::commonConstr() // common code for both constructors
 static QString getDocDir() //ttt1 maybe move to Helpers
 {
 #if QT_VERSION >= 0x040400
-    QString qs = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
+    //QString qs = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
+    QString qs = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation); //ttt9 make sure this is OK
     //ttt1 note that QStandardPaths should be used in Qt5: https://forum.qt.io/topic/28658/differences-qdesktopservices-vs-qstandardpaths
 #else
   #ifndef WIN32

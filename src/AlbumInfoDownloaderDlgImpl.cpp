@@ -38,6 +38,7 @@
 #include  <QScrollBar>
 #include  <QHeaderView>
 #include  <QTime>
+#include  <QPixmap>
 
 #include  "AlbumInfoDownloaderDlgImpl.h"
 
@@ -178,7 +179,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::search");
     m_pResultNoL->setText("");
     updateTrackList();
     m_pVolumeCbB->clear();
-    m_pImageL->setPixmap(0);
+    m_pImageL->setPixmap(QPixmap());
     m_pImageL->setText("");
     m_pImgSizeL->setText("\n");
     m_pViewAtAmazonL->setText(tr(NOT_FOUND_AT_AMAZON));
@@ -905,7 +906,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::reloadGui");
 
     if (-1 == m_nCrtImage || 0 == albumInfo.m_vpImages[m_nCrtImage])
     {
-        m_pImageL->setPixmap(0);
+        m_pImageL->setPixmap(QPixmap());
         m_pImageL->setText("");
         m_pImgSizeL->setText(tr("No image\n"));
     }

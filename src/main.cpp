@@ -608,7 +608,7 @@ class CmdLineProcessor
         {
             mp3Handler = Mp3Handler::create(strFullName, false, m_qualThresholds);
         }
-        catch (Mp3Handler::FileNotFound)
+        catch (const Mp3Handler::FileNotFound&)
         {
             cout << "File not found: " + toNativeSeparators(strFullName) << endl << endl;
             return false;
@@ -869,7 +869,7 @@ public:
 
 
 
-void noMessageOutput(QtMsgType, const char*) { }
+void noMessageOutput(QtMsgType, const QMessageLogContext&, const QString&) { }
 
 
 int cmdlineMain(const po::variables_map& options)
@@ -906,7 +906,7 @@ int cmdlineMain(const po::variables_map& options)
     // In cmdline mode, we want to make sure the user only sees our
     // carefully crafted messages, and no debug stuff from arbitrary
     // places in the program.
-    qInstallMsgHandler(noMessageOutput);
+    qInstallMessageHandler(noMessageOutput); //ttt9 make sure this still works
 
     string strSessFile;
 

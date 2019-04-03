@@ -9,11 +9,11 @@
 
 ./AdjustMt.sh $MP3_DIAGS_STATIC
 
-QMake=qmake
+QMake=qmake-qt5
 
-if [ -f /etc/fedora-release ] ; then
-    QMake=qmake-qt4
-fi
+# if [ -f /etc/fedora-release ] ; then
+#     QMake=qmake-qt4
+# fi
 
 if [[ "$1" != "" ]] ; then
     $QMake "$1"
@@ -25,6 +25,21 @@ if [ $? -ne 0 ] ; then exit 1 ; fi
 
 make
 if [ $? -ne 0 ] ; then exit 1 ; fi
+
+
+
+
+
+
+exit 1
+#ttt0 remove line above
+
+
+
+
+
+
+
 
 ./MakeTranslations.sh
 cp src/translations/*.qm bin

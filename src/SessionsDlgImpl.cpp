@@ -105,12 +105,12 @@ SessionsDlgImpl::SessionsDlgImpl(QWidget* pParent) : QDialog(pParent, getMainWnd
     st.loadSessions(m_vstrSessions, strLast, bOpenLast, m_strTempSessTempl, m_strDirSessTempl, m_strTranslation);
     m_pOpenLastCkB->setChecked(bOpenLast);
 
-    m_pSessionsG->verticalHeader()->setResizeMode(QHeaderView::Interactive);
+    m_pSessionsG->verticalHeader()->setSectionResizeMode(QHeaderView::Interactive);
     m_pSessionsG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT + 1); // ttt0 is this initialized before creating sessions? should it be?
     m_pSessionsG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT + 1);//*/
     m_pSessionsG->setModel(&m_sessionsModel);
-    m_pSessionsG->horizontalHeader()->setResizeMode(0, QHeaderView::Stretch);
-    m_pSessionsG->horizontalHeader()->setResizeMode(0, QHeaderView::Stretch);
+    m_pSessionsG->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    m_pSessionsG->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     m_pSessionsG->horizontalHeader()->hide();
 
     m_pCheckedDirModel = new CheckedDirModel(this, CheckedDirModel::NOT_USER_CHECKABLE);
@@ -118,7 +118,7 @@ SessionsDlgImpl::SessionsDlgImpl(QWidget* pParent) : QDialog(pParent, getMainWnd
     m_pDirectoriesT->setModel(m_pCheckedDirModel);
     m_pCheckedDirModel->setFilter(QDir::AllDirs | QDir::NoDotAndDotDot | QDir::Hidden | QDir::Drives);
     m_pCheckedDirModel->setSorting(QDir::IgnoreCase);
-    m_pDirectoriesT->header()->setStretchLastSection(false); m_pDirectoriesT->header()->setResizeMode(0, QHeaderView::ResizeToContents);
+    m_pDirectoriesT->header()->setStretchLastSection(false); m_pDirectoriesT->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
 
     QPalette grayPalette (m_pDirectoriesT->palette());
     grayPalette.setColor(QPalette::Base, grayPalette.color(QPalette::Disabled, QPalette::Window));

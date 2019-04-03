@@ -180,8 +180,8 @@ private:
 public:
     enum { HIDE_COUNTER, SHOW_COUNTER };
     enum { HIDE_PAUSE_ABORT, SHOW_PAUSE_ABORT };
-    //ThreadRunnerDlgImpl(PausableThread* pThread, bool bShowCounter, QWidget* pParent = 0, Qt::WFlags fl = 0);
-    ThreadRunnerDlgImpl(QWidget* pParent, Qt::WFlags flags, PausableThread* pThread, bool bShowCounter, TruncatePos eTruncatePos, bool bShowPauseAbort = true);
+    //ThreadRunnerDlgImpl(PausableThread* pThread, bool bShowCounter, QWidget* pParent = 0, Qt::WindowFlags fl = 0);
+    ThreadRunnerDlgImpl(QWidget* pParent, Qt::WindowFlags flags, PausableThread* pThread, bool bShowCounter, TruncatePos eTruncatePos, bool bShowPauseAbort = true);
     ~ThreadRunnerDlgImpl();
     /*$PUBLIC_FUNCTIONS$*/
 

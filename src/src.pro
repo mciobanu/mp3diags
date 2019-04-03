@@ -69,7 +69,9 @@ TARGET = MP3Diags-unstable
 DESTDIR = ../bin
 
 QT += xml \
-network
+network \
+widgets
+
 
 RESOURCES += Mp3Diags.qrc
 
@@ -133,7 +135,11 @@ Widgets.h \
  FullSizeImgDlg.h \
  Version.h \
     Translation.h \
-    CbException.h
+    CbException.h \
+    QHttp \
+    QHttpRequestHeader \
+    QHttpResponseHeader
+
 FORMS += About.ui \
 AlbumInfoDownloader.ui \
 Config.ui \
@@ -160,7 +166,7 @@ UI_DIR = ui-forms
 
 # !!! One thing to keep in mind is that when using BuildMp3Diags.hta the file src.pro shouldn't be changed. At the first build attempt a copy src.pro1 is created in the "package" dir, and that is where changes for the actual location of the libs
 
-QMAKE_CXXFLAGS_DEBUG += -DOUTPUT_TRACE_TO_CONSOLE
+QMAKE_CXXFLAGS_DEBUG += -DOUTPUT_TRACE_TO_CONSOLE -Wno-unused-parameter -Wno-deprecated-declarations -Wno-zero-as-null-pointer-constant -Wno-sign-conversion -Wno-weak-vtables -Wno-sign-conversion
 
 #DEFINES += DISABLE_CHECK_FOR_UPDATES
 #DEFINES += OS2
@@ -172,8 +178,8 @@ QMAKE_CXXFLAGS_DEBUG += -DOUTPUT_TRACE_TO_CONSOLE
 #QMAKE_CXXFLAGS += -DGAPLESS_SUPPORT
 
 LIBS += -lz \
-  -lboost_serialization-mt \
-  -lboost_program_options-mt
+  -lboost_serialization\
+  -lboost_program_options
 
 #LIBS += -lmp3lame
 
@@ -205,6 +211,7 @@ LIBS += -lz \
 TRANSLATIONS = translations/mp3diags_cs.ts \
     translations/mp3diags_de_DE.ts \
     translations/mp3diags_fr_FR.ts
+
 
 
 

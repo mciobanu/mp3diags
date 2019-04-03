@@ -1,0 +1,11 @@
+#ifndef Q_HttpRequestHeader
+#define Q_HttpRequestHeader
+
+#include <QString>
+
+struct QHttpRequestHeader {
+    QHttpRequestHeader(const QString & method, const QString & path, int majorVer = 1, int minorVer = 1) {}
+    void setValue(const QString & key, const QString & value) {}
+};
+
+#endif

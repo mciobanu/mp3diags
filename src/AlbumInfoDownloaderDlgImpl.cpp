@@ -68,6 +68,7 @@ AlbumInfoDownloaderDlgImpl::AlbumInfoDownloaderDlgImpl(QWidget* pParent, Session
 
     m_pTrackListG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
     m_pTrackListG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
+	decreaseRowHeaderFont(*m_pTrackListG);
 
     { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
 }

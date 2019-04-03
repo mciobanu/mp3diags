@@ -3,7 +3,8 @@
 
 #include <QString>
 
-struct QHttpRequestHeader {
+class QHttpRequestHeader {
+public:
     QHttpRequestHeader(const QString & method, const QString & path, int majorVer = 1, int minorVer = 1) {}
     void setValue(const QString & key, const QString & value) {}
 };

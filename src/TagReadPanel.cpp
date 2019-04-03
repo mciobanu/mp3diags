@@ -83,6 +83,8 @@ TagReadPanel::TagReadPanel(QWidget* pParent, TagReader* pTagReader) : QFrame(pPa
         pTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
         pTable->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         pTable->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
+		decreaseRowHeaderFont(*pTable);
+
         pTable->horizontalHeader()->setStretchLastSection(true);
         const int ROW_CNT (9);
         pTable->setRowCount(ROW_CNT);

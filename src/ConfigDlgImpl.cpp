@@ -326,6 +326,7 @@ ConfigDlgImpl::ConfigDlgImpl(TransfConfig& transfCfg, CommonData* pCommonData, Q
         m_pExternalToolsG->setModel(m_pExternalToolsModel);
         m_pExternalToolsG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         m_pExternalToolsG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
+		decreaseRowHeaderFont(*m_pExternalToolsG);
 
         connect(m_pExternalToolsG->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), this, SLOT(onExternalToolsGCurrentChanged()));
         connect(m_pExternalToolsG->selectionModel(), SIGNAL(currentChanged(const QModelIndex&, const QModelIndex &)), this, SLOT(onExternalToolsGCurrentChanged()));

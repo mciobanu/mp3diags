@@ -939,6 +939,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
         m_pFilesG->horizontalHeader()->setMinimumSectionSize(CELL_WIDTH);
         m_pFilesG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         m_pFilesG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
+		decreaseRowHeaderFont(*m_pFilesG);
 
         connect(m_pFilesG->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), m_pCommonData->m_pFilesModel, SLOT(onFilesGSelChanged()));
         connect(m_pFilesG, SIGNAL(clicked(const QModelIndex &)), m_pCommonData->m_pFilesModel, SLOT(onFilesGSelChanged()));
@@ -960,8 +961,16 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
         m_pNotesG->setItemDelegate(pNotesGDelegate);
 
         m_pNotesG->horizontalHeader()->setMinimumSectionSize(CELL_WIDTH + 10);
-        m_pNotesG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
-        m_pNotesG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
+		
+		/*QFont font (m_pNotesG->verticalHeader()->font());
+		auto sz(font.pointSizeF());
+		font.setPointSizeF(sz * 0.85);
+		m_pNotesG->verticalHeader()->setFont(font);*/
+        //m_pNotesG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT + 10);
+        //m_pNotesG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT + 10);
+		m_pNotesG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
+		m_pNotesG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
+		decreaseRowHeaderFont(*m_pNotesG);
 
         m_pNotesG->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
@@ -981,6 +990,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
         m_pStreamsG->horizontalHeader()->setMinimumSectionSize(CELL_WIDTH + 10);
         m_pStreamsG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         m_pStreamsG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
+		decreaseRowHeaderFont(*m_pStreamsG);
 
         m_pStreamsG->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
@@ -1000,6 +1010,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
         m_pUniqueNotesG->horizontalHeader()->setMinimumSectionSize(CELL_WIDTH + 10);
         m_pUniqueNotesG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         m_pUniqueNotesG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
+		decreaseRowHeaderFont(*m_pUniqueNotesG);
 
         m_pUniqueNotesG->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
 

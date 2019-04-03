@@ -35,6 +35,7 @@
 //#include  <QString>
 #include  <QStringList>  // ttt2 what we really want is QString; however, by including QString directly, lots of warnings get displayed; perhaps some defines are needed but don't know which; so we just include QStringList to avoid the warnings
 
+class QTableView;
 
 #include  "CbException.h"
 
@@ -432,6 +433,10 @@ public:
 
     static std::string getLongFmt(int64_t dur);
 };
+
+
+// On Windows with QT5 there is a big padding and the headers are truncated. This resizes the font, so things fit
+void decreaseRowHeaderFont(QTableView&);
 
 #endif // ifndef HelpersH
 

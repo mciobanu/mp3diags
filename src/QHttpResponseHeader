@@ -1,7 +1,9 @@
 #ifndef QHTTPRESPONSEHEADER_H
 #define QHTTPRESPONSEHEADER_H
 
-struct QHttpResponseHeader {
+class QHttpResponseHeader {
+public:
+
     int statusCode() const {
         return 0;
     }

@@ -212,10 +212,12 @@ public:
 };
 
 #ifdef MSVC_QMAKE
-void visStudioMessageOutput(QtMsgType, const char* szMsg)
+//void visStudioMessageOutput(QtMsgType, const char* szMsg)
+void visStudioMessageOutput(QtMsgType, const QMessageLogContext&, const QString& qstrMsg)
 {
     OutputDebugStringA("    "); // to stand out from the other messages that get printed
-    OutputDebugStringA(szMsg);
+	const string& strMsg (convStr(qstrMsg));
+	OutputDebugStringA(strMsg.data());
     OutputDebugStringA("\r\n");
     //cerr << szMsg << endl;
     //showInfo(0, "Debug message", szMsg, QMessageBox::Ok);
@@ -1011,7 +1013,7 @@ int main(int argc, char *argv[])
     //for (int i = 0; i < 200; ++i) { new char[1000000]; }
 
 #ifdef MSVC_QMAKE
-    qInstallMsgHandler(visStudioMessageOutput);
+	qInstallMessageHandler(visStudioMessageOutput);
     // see http://lists.trolltech.com/qt-interest/2006-10/msg00829.html
     //OutputDebugStringA("\n\ntest output\n\n\n"); // !!! this only works if actually debugging (started with F5);
 #endif

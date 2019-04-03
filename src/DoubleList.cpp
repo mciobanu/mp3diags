@@ -373,6 +373,9 @@ DoubleList::DoubleList(
 
     connect(m_pAvailableG, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(onAvlDoubleClicked(const QModelIndex&)));
 
+	decreaseRowHeaderFont(*m_pSelectedG);
+	decreaseRowHeaderFont(*m_pAvailableG);
+
     //ttt2 perhaps use QAction::shortcutContext(Qt::WidgetShortcut) to set up shortcuts, if it works well enough
 }
 

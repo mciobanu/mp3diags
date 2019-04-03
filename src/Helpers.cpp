@@ -29,6 +29,7 @@
 #include  <boost/version.hpp>
 
 #include  <QDesktopServices>
+#include  <QTableView>
 
 #ifndef WIN32
     #include  <QDir>
@@ -831,7 +832,7 @@ DesktopDetector::DesktopDetector() : m_eDesktop(Unknown)
                     // for i in `ls /proc | grep '^[0-9]'` ; do a=`cat /proc/$i/cmdline 2>/dev/null` ; echo $a | grep kde4/libexec ; done
                     if (string::npos != strBfr.find("kde4/libexec/start")) // ttt2 probably works only on Suse and only in some cases
                     {
-                        bIsKde4 = true;
+                        bIsKde4 = true; //ttt9 update
                     }
                 }//*/
 
@@ -925,9 +926,11 @@ Ideally a modal dialog should minimize its parent. If that's not possible, it sh
 #endif
     Qt::WindowFlags getNoResizeWndFlags() { return Qt::WindowTitleHint; }
 #else
-    Qt::WindowFlags getMainWndFlags() { return Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowMinimizeButtonHint; } // minimize, maximize, no "what's this"
-    Qt::WindowFlags getDialogWndFlags() { return Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint; } // minimize, no "what's this"
-    Qt::WindowFlags getNoResizeWndFlags() { return Qt::WindowTitleHint; } // no "what's this"
+    Qt::WindowFlags getMainWndFlags() { 
+		return Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint;
+	} // minimize, maximize, no "what's this"
+    Qt::WindowFlags getDialogWndFlags() { return Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint; } // minimize, no "what's this"
+    Qt::WindowFlags getNoResizeWndFlags() { return Qt::WindowTitleHint; } // no "what's this" // ttt2 review if we want Qt::WindowCloseButtonHint
 #endif
 
 
@@ -1848,6 +1851,16 @@ Timer::~Timer() {
 //=============================================================================================
 //=============================================================================================
 //=============================================================================================
+
+void decreaseRowHeaderFont(QTableView& qtableView)
+{
+#ifdef WIN32
+	QFont font(qtableView.verticalHeader()->font());
+	auto sz(font.pointSizeF());
+	font.setPointSizeF(sz * 0.85);
+	qtableView.verticalHeader()->setFont(font);
+#endif
+}
 
 
 //ttt2 F1 help was very slow on XP once, not sure why; later it was OK

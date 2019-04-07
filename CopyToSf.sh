@@ -7,11 +7,11 @@ BranchDash=`echo "$BranchSlash" | sed 's#/#-#'`
 rm -rf mp3diags
 
 
-mkdir -p mp3diags"$BranchSlash"/mp3diags-linux-bin/x86_64
-cp -p MP3Diags"$BranchDash"-Linux-x86_64-*.tar.bz2 mp3diags"$BranchSlash"/mp3diags-linux-bin/x86_64/MP3Diags"$BranchDash"-Linux-x86_64.tar.bz2 ; cp -p MP3Diags"$BranchDash"-Linux-x86_64-*.tar.bz2 mp3diags"$BranchSlash"/mp3diags-linux-bin/x86_64/
+#disabled until linux binary available# mkdir -p mp3diags"$BranchSlash"/mp3diags-linux-bin/x86_64
+#disabled until linux binary available# cp -p MP3Diags"$BranchDash"-Linux-x86_64-*.tar.bz2 mp3diags"$BranchSlash"/mp3diags-linux-bin/x86_64/MP3Diags"$BranchDash"-Linux-x86_64.tar.bz2 ; cp -p MP3Diags"$BranchDash"-Linux-x86_64-*.tar.bz2 mp3diags"$BranchSlash"/mp3diags-linux-bin/x86_64/
 
-mkdir -p mp3diags"$BranchSlash"/mp3diags-linux-bin/i686
-cp -p MP3Diags"$BranchDash"-Linux-i686-*.tar.bz2 mp3diags"$BranchSlash"/mp3diags-linux-bin/i686/MP3Diags"$BranchDash"-Linux-i686.tar.bz2 ; cp -p MP3Diags"$BranchDash"-Linux-i686-*.tar.bz2 mp3diags"$BranchSlash"/mp3diags-linux-bin/i686/
+#disabled until linux binary available# mkdir -p mp3diags"$BranchSlash"/mp3diags-linux-bin/i686
+#disabled until linux binary available# cp -p MP3Diags"$BranchDash"-Linux-i686-*.tar.bz2 mp3diags"$BranchSlash"/mp3diags-linux-bin/i686/MP3Diags"$BranchDash"-Linux-i686.tar.bz2 ; cp -p MP3Diags"$BranchDash"-Linux-i686-*.tar.bz2 mp3diags"$BranchSlash"/mp3diags-linux-bin/i686/
 
 mkdir -p mp3diags"$BranchSlash"/mp3diags-doc
 cp -p MP3DiagsDoc"$BranchDash"-*.tar.gz mp3diags"$BranchSlash"/mp3diags-doc/MP3DiagsDoc"$BranchDash".tar.gz ; cp -p MP3DiagsDoc"$BranchDash"-*.tar.gz mp3diags"$BranchSlash"/mp3diags-doc/
@@ -30,7 +30,7 @@ cp -p MP3DiagsSetup"$BranchDash"-*.exe mp3diags"$BranchSlash"/mp3diags-windows-s
 # at the top level of the "unstable" or of "linux-bin" there's no indication that newer versions are available
 
 # !!! touch creates empty files, which aren't shown at SF, so we need some content
-date > mp3diags"$BranchSlash"/mp3diags-linux-bin/t
+#disabled until linux binary available# date > mp3diags"$BranchSlash"/mp3diags-linux-bin/t
 date > mp3diags"$BranchSlash"/t
 
 
@@ -41,9 +41,9 @@ rsync -avP -e ssh mp3diags/ ciobi07,mp3diags@frs.sourceforge.net:/home/frs/proje
 echo 'sleeping 20 seconds ...'
 sleep 20
 
-rm mp3diags"$BranchSlash"/mp3diags-linux-bin/t
+#disabled until linux binary available# rm mp3diags"$BranchSlash"/mp3diags-linux-bin/t
 rm mp3diags"$BranchSlash"/t
-rsync -avP --delete -e ssh mp3diags"$BranchSlash"/mp3diags-linux-bin/ --include=t --exclude='*' ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags"$BranchSlash"/mp3diags-linux-bin
+#disabled until linux binary available# rsync -avP --delete -e ssh mp3diags"$BranchSlash"/mp3diags-linux-bin/ --include=t --exclude='*' ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags"$BranchSlash"/mp3diags-linux-bin
 rsync -avP --delete -e ssh mp3diags"$BranchSlash"/ --include=t --exclude='*' ciobi07,mp3diags@frs.sourceforge.net:/home/frs/project/m/mp/mp3diags"$BranchSlash"
 
 

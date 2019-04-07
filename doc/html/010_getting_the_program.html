@@ -86,41 +86,51 @@
 </div>
 
 
+<div class="FreeNormalText RegFnt MildWarnCol">
+    The build / install instructions are terribly outdated, but they are not so important, as most users want the Windows install, which works. Those that compile the source code
+    on Linux would need to play a bit with dependencies, which shouldn't be a big deal (but harder than before, when you could just run an .sh to get everything working).
+    For Windows, compiling works as well, as long as the dependencies are downloaded / built.
+</div>
 
+<div class="FreeNormalText RegFnt MildWarnCol">
+    The instructions will be updated at some point in time, based also on requests. Until then, the old ones will still be kept, as they might still be useful as starting points.
+</div>
+
+<strike>
 <div class="FreeNormalText RegFnt ChpCol2">
 There are both source files and binaries, for several Linux platforms, as well as for 32bit Windows. On this page there are all the links to the current packages. If you need some older version, you can go to the <a href="http://sourceforge.net/projects/mp3diags/filesQQQBRANCH_SLQQQ/" onClick="javascript: pageTracker._trackPageview('/files');">main download page</a> at SourceForge. The packaged Linux binaries that I provide are built and hosted by the <a href="https://build.opensuse.org/" onClick="javascript: pageTracker._trackPageview('/obs');">openSUSE Build Service</a>. There are also "generic Linux binaries", which I build on my own computer.
 </div>
 
-
+</strike>
 <div class="NormalText RegFnt ChpCol2">
 <table border="0" cellpadding="0" cellspacing="0" class="NormalText RegFnt ChpCol2">
-    <tr> <td> <a href="#notes">Platform-specific notes</a> </td> </tr>
+    <tr> <td> <strike><a href="#notes">Platform-specific notes</a> </strike></td> </tr>
     <tr> <td>
         <table border="0" cellpadding="0" cellspacing="0" class="NoBrdTableText RegFnt ChpCol2 SubtableSpace">
-            <tr> <td> <a href="#linuxNotes">Linux</a> </td> </tr>
-            <tr> <td> <a href="#windowsNotes">Windows</a> </td> </tr>
-            <tr> <td> <a href="#othersNotes">Others</a> </td> </tr>
+            <tr> <td> <strike><a href="#linuxNotes">Linux</a> </strike></td> </tr>
+            <tr> <td> <strike><a href="#windowsNotes">Windows</a> </strike></td> </tr>
+            <tr> <td> <strike><a href="#othersNotes">Others</a> </strike></td> </tr>
         </table>
     </td> </tr>
     <tr> <td> <a href="#code">Source code</a> </td> </tr>
     <tr> <td>
         <table border="0" cellpadding="0" cellspacing="0" class="NoBrdTableText RegFnt ChpCol2 SubtableSpace">
-            <tr> <td> <a href="#sourceGeneric">Generic / Linux</a> </td> </tr>
+            <tr> <td> <strike><a href="#sourceGeneric">Generic / Linux</a> </strike></td> </tr>
             <tr> <td> <a href="#sourceWindows">Windows</a> </td> </tr>
-            <tr> <td> <a href="#sourceSubversion">Subversion repository</a> </td> </tr>
+            <tr> <td> <a href="#sourceGit">Git repository</a> </td> </tr>
         </table>
     </td> </tr>
     <tr> <td> <a href="#binaries">Binaries and packages</a> </td> </tr>
     <tr> <td>
         <table border="0" cellpadding="0" cellspacing="0" class="NoBrdTableText RegFnt ChpCol2 SubtableSpace">
             <tr> <td> <a href="#binWindows">Windows</a> </td> </tr>
-            <tr> <td> <a href="#binLinux">Linux generic</a> </td> </tr>
-            <tr> <td> <a href="#binOpenSUSE">openSUSE</a> </td> </tr>
-            <tr> <td> <a href="#binFedora">Fedora</a> </td> </tr>
-            <tr> <td> <a href="#binUbuntu">Ubuntu</a> </td> </tr>
-            <tr> <td> <a href="#binDebian">Debian</a> </td> </tr>
-            <tr> <td> <a href="#binGentoo">Gentoo</a> </td> </tr>
-            <tr> <td> <a href="#binOthers">Others</a> </td> </tr>
+            <tr> <td> <strike><a href="#binLinux">Linux generic</a> </strike></td> </tr>
+            <tr> <td> <strike><a href="#binOpenSUSE">openSUSE</a> </strike></td> </tr>
+            <tr> <td> <strike><a href="#binFedora">Fedora</a> </strike></td> </tr>
+            <tr> <td> <strike><a href="#binUbuntu">Ubuntu</a> </strike></td> </tr>
+            <tr> <td> <strike><a href="#binDebian">Debian</a> </strike></td> </tr>
+            <tr> <td> <strike><a href="#binGentoo">Gentoo</a> </strike></td> </tr>
+            <tr> <td> <strike><a href="#binOthers">Others</a> </strike></td> </tr>
         </table>
     </td> </tr>
     <tr> <td> <a href="#uninstall">Uninstallation</a> </td> </tr>
@@ -128,6 +138,7 @@ There are both source files and binaries, for several Linux platforms, as well a
 </table>
 </div>
 
+<strike>
 
 <!-- ========================================================================================================== -->
 <!-- ========================================================================================================== -->
@@ -263,6 +274,7 @@ To install the program, unpack the surce to some directory and just run <span cl
 <div class="NormalText RegFnt ChpCol2">
 To uninstall the program, see the corresponding section at the <a href="#uninstall">bottom of the page</a>.
 </div>
+</strike>
 
 
 
@@ -274,17 +286,33 @@ To uninstall the program, see the corresponding section at the <a href="#uninsta
 <a name="sourceWindows">Windows</a>
 </div>
 
-
 <div class="NormalText RegFnt ChpCol1">
 Since there are <a href="#binWindows">binaries</a> available (both setup.exe and zip archive), it's more convenient to just use them. However, if you really want to build the project yourself, it's not that hard. You should run <span class="Reference">BuildMp3Diags.hta</span>, an HTML / JScript application that allows you to do these:
 <ul>
-    <li>Build the project using MinGW</li>
+    <strike><li>Build the project using MinGW</li></strike>
     <li>Build the project using Visual C++</li>
-    <li>Create a .pro file that can be open from Qt Creator</li>
+    <strike><li>Create a .pro file that can be open from Qt Creator</li></strike>
     <li>Create a .sln file that can be open from Visual C++</li>
 </ul>
 
-First you need to download and perhaps compile the required libraries: zlib, Qt, Boost Program Options, and Boost Serialization. In case it's not obvious, you cannot mix C++ libraries created by / for different compilers. While downloadable binary Qt libraries existed for MinGW for some time, for Visual C++ 2008 they have been introduced in Qt 4.6.
+    (MinGW used to work out-of-the-box, but currently it's Visual Studio that's the primary target. MinGW "should work" but after some tweaks.)
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+    So, several notes for Visual Studio
+    <ul>
+        <li>Used Visual C++ Community 2017</li>
+        <li>Due to MusicBrainz / Discogs integration being disabled, zlib is not really needed right now, but it's part of the process, so it should be there. To make it more annoying, it no longer seems to be available as a binary, but only as source, which needed CMake to build.</li>
+        <li>Qt 5.12.1.0 was used to build version 1.5.01, and it had all binaries included, so Qt itself didn't have to be built</li>
+        <li>Boost (1.69) was built using instructions on the Boost site (serialization and program_options)</li>
+        <li>BuildMp3Diags.hta used to work fine on previous Windows versions, but it's quite a pain on Windows 10 (forgets settings, has to be told several times what to do, ...)</li>
+    </ul>
+</div>
+
+
+<strike>
+<div class="NormalText RegFnt ChpCol1">
+    First you need to download and perhaps compile the required libraries: zlib, Qt, Boost Program Options, and Boost Serialization. In case it's not obvious, you cannot mix C++ libraries created by / for different compilers. While downloadable binary Qt libraries existed for MinGW for some time, for Visual C++ 2008 they have been introduced in Qt 4.6.
 </div>
 
 
@@ -299,7 +327,7 @@ Well, you need binary zlib, Qt, and Boost for either MinGW or Visual C++. If you
         <td>zlib for MinGW and Visual C++</td>
         <td>
             <ul>
-                <li>Go to <a href="http://www.zlib.net/" onClick="javascript: pageTracker._trackPageview('/zlib');">http://www.zlib.net/</a> and get the "zlib compiled DLL". Unpack it somewhere and you're done. (This is a C DLL, not a C++ one, so it works with all the compilers)</td></li>
+                <li>Go to <a href="http://www.zlib.net/" onClick="javascript: pageTracker._trackPageview('/zlib');">http://www.zlib.net/</a> and get the "zlib compiled DLL". Unpack it somewhere and you're done. (This is a C DLL, not a C++ one, so it works with all the compilers)</li>
             </ul>
         </td>
     </tr>
@@ -319,7 +347,7 @@ Well, you need binary zlib, Qt, and Boost for either MinGW or Visual C++. If you
             <ul>
                 <li>Go to <a href="http://www.boost.org/users/download/" onClick="javascript: pageTracker._trackPageview('/boost/mingw');">http://www.boost.org/users/download/</a> and click on "Download". Unpack the archive in the folder where you want Boost to be located</li>
                 <li>Open a <b>Qt Command Prompt</b> and go to the Boost root folder</li>
-                <li>run <span class="Reference">bootstrap</span>
+                <li>run <span class="Reference">bootstrap</span></li>
                 <li>run <span class="Reference">b2 toolset=gcc serialization program_options threading=multi release</span> . This will only build the <i>Serialization</i> and <i>Program Options</i> libraries, and put them inside a "bin.v2" folder</li>
             </ul>
         </td>
@@ -353,7 +381,7 @@ Well, you need binary zlib, Qt, and Boost for either MinGW or Visual C++. If you
             <ul>
                 <li>Go to <a href="http://qt-project.org/downloads" onClick="javascript: pageTracker._trackPageview('/qt-project.org/downloads');">http://qt-project.org/downloads</a>, and get the archive</li>
                 <li>Unpack the zip file in the folder where you want Qt to be located</li>
-                <li>Install <a href="http://www.activestate.com/downloads">Active Pearl</a>
+                <li>Install <a href="http://www.activestate.com/downloads">Active Pearl</a></li>
                 <li>Open a <b>Visual C++ Command Prompt</b> and go to the root folder of the unpacked Qt</li>
                 <li>run <span class="Reference">configure.exe</span> (which may take a while)</li>
                 <li>run <span class="Reference">nmake</span> (which will take much longer than configure.exe)</li>
@@ -377,7 +405,7 @@ Well, you need binary zlib, Qt, and Boost for either MinGW or Visual C++. If you
             <ul>
                 <li>Go to <a href="http://www.boost.org/users/download/" onClick="javascript: pageTracker._trackPageview('/boost/msvc');">http://www.boost.org/users/download/</a> and click on "Download". Unpack the archive in the folder where you want Boost to be located</li>
                 <li>Open a <b>Visual C++ Command Prompt</b> and go to the Boost root folder</li>
-                <li>run <span class="Reference">bootstrap</span>
+                <li>run <span class="Reference">bootstrap</span></li>
                 <li>run <span class="Reference">b2 toolset=msvc serialization program_options threading=multi release debug</span> . This will only build the <i>Serialization</i> and <i>Program Options</i> libraries, and put them inside a "bin.v2" folder</li>
             </ul>
         </td>
@@ -421,13 +449,25 @@ To uninstall the program, see the corresponding section at the <a href="#uninsta
 
 
 <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
+</strike>
 
 <div class="NormalText TitleText RegFnt ChpCol2">
-<a name="sourceSubversion">Subversion repository</a>
+<a name="sourceGit">Git repository</a>
 </div>
 
+<div class="NormalText RegFnt ChpCol2 GenericSpace">
+    The source code used to be in Subversion, but now it's in git. There are now 2 public repositories, one at SourceForge and one at GitHub.
+    <ul>
+        <li><a href="https://sourceforge.net/p/mp3diags/code-git/ci/master/tree/">Sourceforge page</a> or run <span class="Reference">git clone git://git.code.sf.net/p/mp3diags/code-git mp3diags-code-git</span> </li>
+        <li><a href="https://github.com/mciobanu/mp3diags">GitHub page</a> or run <span class="Reference">git clone https://github.com/mciobanu/mp3diags.git</span> </li>
+    </ul>
+</div>
 
+<div class="NormalText RegFnt ChpCol2 GenericSpace">
+    (Note that the Subversion repository wasn't imported to git. Rather, a private Perforce repository was used as the source for what's in git.)
+</div>
+
+<strike>
 <div class="NormalText RegFnt ChpCol2">
 The source code may also be downloaded from the Subversion server provided by SourceForge, by going to the <a href="https://sourceforge.net/p/mp3diags/code/HEAD/tree/" onClick="javascript: pageTracker._trackPageview('/svn_trunk');">SVN Browser</a> and clicking on <a href="http://mp3diags.svn.sourceforge.net/viewvc/mp3diags/trunk/mp3diags/?view=tar" onClick="javascript: pageTracker._trackPageview('/svn_trunk/tgz');">Download snapshot</a> in the top-right corner of the page. Or you can check out the trunk using this command:
 </div>
@@ -470,11 +510,12 @@ To uninstall the program, see the corresponding section at the <a href="#uninsta
 <!-- ========================================================================================================== -->
 <!-- ========================================================================================================== -->
 
-
+</strike>
 <div class="SubChapterText RegFnt ChpCol1">
 <a name="binaries">Binaries and packages</a>
 </div>
 
+<strike>
 <div class="NormalText RegFnt ChpCol1">
 There are 2 main choices: binaries that I build and those built by others. Since this is my first attempt at creating distributable binaries, I'm not very confident that they are of good quality, so using binaries built by others might be a better idea. One known issue is that they are not signed.
 </div>
@@ -501,7 +542,7 @@ If you can't find a pre-packaged binary for your Linux distribution, or if what 
 
 
 <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
+</strike>
 <div class="NormalText TitleText RegFnt ChpCol2">
 <a name="binWindows">Windows</a>
 </div>
@@ -514,7 +555,7 @@ There is a pretty standard Windows installer, as well as a zip archive with the 
 </ul>
 </div>
 
-
+<strike>
 
 <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
 
@@ -734,6 +775,7 @@ If you can't find a pre-packaged binary for your Linux distribution / version, a
 If you want to build binaries for other platforms, please let me know, so I can add the links here.
 </div>
 
+</strike>
 
 
 

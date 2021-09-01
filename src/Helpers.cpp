@@ -915,7 +915,7 @@ Ideally a modal dialog should minimize its parent. If that's not possible, it sh
 //ttt0 look at Qt::CustomizeWindowHint
 #ifndef WIN32
     //Qt::WindowFlags getMainWndFlags() { return isRunningOnGnome() ? Qt::Window : Qt::WindowTitleHint; } // !!! these are incorrect, but seem the best option; the values used for Windows are supposed to be OK; they work as expected with KDE but not with Gnome (asking for maximize button not only fails to show it, but causes the "Close" button to disappear as well); Since in KDE min/max buttons are shown when needed anyway, it's sort of OK // ttt2 see if there is workaround/fix
-    Qt::WindowFlags getMainWndFlags() { const DesktopDetector& dd = getDesktopDetector(); return dd.onDesktop(DesktopDetector::Kde) ? Qt::WindowTitleHint : Qt::Window; }
+    Qt::WindowFlags getMainWndFlags() { /*const DesktopDetector& dd = getDesktopDetector();*/ return /*dd.onDesktop(DesktopDetector::Kde) ? Qt::WindowTitleHint | Qt::WindowCloseButtonHint :*/ Qt::Window; }
 #if QT_VERSION >= 0x040500
     //Qt::WindowFlags getDialogWndFlags() { const DesktopDetector& dd = getDesktopDetector(); return dd.onDesktop(DesktopDetector::Kde) ? Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint : (dd.onDesktop(DesktopDetector::Gnome3) ? Qt::Window : Qt::WindowTitleHint); }
     Qt::WindowFlags getDialogWndFlags() { const DesktopDetector& dd = getDesktopDetector(); return dd.onDesktop(DesktopDetector::Kde) ? Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint : (/*dd.onDesktop(DesktopDetector::Gnome3) ? Qt::Window :*/ Qt::WindowTitleHint); }

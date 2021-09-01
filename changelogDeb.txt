@@ -1,3 +1,10 @@
+mp3diags (1.5.02) testing; urgency=low
+
+  * Made "close" button visible in KDE
+  * Added some compile-time checks to make project build on Arch
+
+ -- Marian Ciobanu <ciobi07@users.sourceforge.net>  Wed, 1 Sep 2021 22:00:00 +0200
+
 mp3diags (1.5.01) testing; urgency=low
 
   * Qt5 port

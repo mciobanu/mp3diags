@@ -676,7 +676,7 @@ bool Mp3Transformer::transform()
     {
         qDebug("Caught std::exception in Mp3TransformThread::transform()");
         traceToFile("Caught std::exception in Mp3TransformThread::transform()", 0);
-        qDebug(ex.what());
+        qDebug("%s", ex.what());
         traceToFile(ex.what(), 0);
         throw; // !!! needed to restore "erased" files when errors occur, because when an exception is thrown the destructors only get called if that exception is caught; so catching and rethrowing is not a "no-op"
     }

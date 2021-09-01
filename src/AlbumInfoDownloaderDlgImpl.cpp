@@ -106,7 +106,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::getInfo");
             {
                 if (m_pVolumeCbB->currentIndex() == m_pVolumeCbB->count() - 1)
                 { // just give sequential numbers when "<All>" in a multivolume is used - see https://sourceforge.net/projects/mp3diags/forums/forum/947206/topic/4503061/index/page/1 - perhaps can be improved
-                    char a [10];
+                    char a [15];
                     for (int i = 0; i < cSize(pAlbumInfo->m_vTracks); ++i)
                     {
                         sprintf(a, "%02d", i + 1);

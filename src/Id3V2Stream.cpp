@@ -996,8 +996,14 @@ e1:
 
 /*static*/ const char* Id3V2StreamBase::decodeApic(NoteColl& notes, int nDataSize, streampos pos, const char* const pData, const char*& szMimeType, int& nPictureType, const char*& szDescription)
 {
-    MP3_CHECK (0 == pData[0] || 3 == pData[0], pos, id3v2UnsupApicTextEnc, CB_EXCP(NotSupTextEnc)); // !!! there's no need for StreamIsUnsupported here, because this error is not fatal, and it isn't allowed to propagate, therefore doesn't cause a stream to be Unsupported; //ttt2 review, support
-    szMimeType = pData + 1; // ttt3 type 0 is Latin1, while type 3 is UTF8, so this isn't quite right; however, MIME types should probably be plain ASCII, so it's the same; and anyway, we only recognize JPEG and PNG, which are ASCII
+    // It looks like types are always ASCII (and we only recognize JPEG and PNG), while descriptions can be in any of the 4 encodings. So the encoding byte is about the description.
+    // https://sourceforge.net/p/mp3diags/discussion/947207/thread/f9c69e006c/?limit=25#5677  //ttt2 Perhaps implement image descriptions, but then perhaps support multiple images, etc., so it looks like too much work
+    MP3_CHECK (0 == pData[0] || 1 == pData[0] || 2 == pData[0] || 3 == pData[0], pos, id3v2UnsupApicTextEnc, CB_EXCP(NotSupTextEnc)); // 2023.05.18 - The text encoding is about the description.
+    // The error is misleading, as it is based on the assumption that the encoding is for the MIME type, when we chose to not support all encodings.
+    //   With the understanding that it is about the description, we support all 4 encodings. If we get an encoding of 5, it's not that it's not
+    //   supported. Rather, it's wrong. //ttt0 So add new error and deprecate the old one, remembering to catch the exception, like id3v2UnsupApicTextEnc is caught
+    // !!! there's no need for StreamIsUnsupported here, because this error is not fatal, and it isn't allowed to propagate, therefore doesn't cause a stream to be Unsupported; //ttt2 review, support
+    szMimeType = pData + 1; // 2023.05.18 - wrong comment based on the assumption that the text encoding is about the MIME type.
     //int nMimeSize (strnlen(pData, nDataSize));
 
     const char* p (pData + 1);
@@ -1009,11 +1015,30 @@ e1:
     nPictureType = *p++;
 
     szDescription = p;
-    for (; p < pData + nDataSize; ++p)
-    {
-        if (0 == *p)
+    if (1 == pData[0] || 2 == pData[0])
+    { // 16-bit, with or without BOM
+        szDescription = "ignored"; // This is wrong but it doesn't matter. We'd need to allocate dynamically something for szDescription
+        // that contains the content converted from UTF-16 to UTF-8, but the param szMimeType doesn't allow this, so we use a static string.
+        // However, as we only use the description to generate a note stating that MP3 Diags ignores descriptions, there's little point
+        // in doing anything until that is changed //ttt2 Change param type and allocate memory, perhaps using something that can
+        // take an existing pointer as a param, for use with Latin1 or UTF-8. Or, well, Latin1 should be converted as well. // See "Possible encodings" in https://mutagen-specs.readthedocs.io/en/latest/id3/id3v2.4.0-structure.html
+        for (; p < pData + nDataSize; p += 2)
         {
-            return p + 1;
+            if (0 == *p && 0 == *(p + 1))
+            {
+//CB_THROW(ErrorDecodingApic);
+                return p + 2;
+            }
+        }
+    }
+    else
+    {
+        for (; p < pData + nDataSize; ++p)
+        {
+            if (0 == *p)
+            {
+                return p + 1;
+            }
         }
     }
 

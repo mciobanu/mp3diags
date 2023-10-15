@@ -22,7 +22,7 @@
 
 #include  <map>
 
-#include  <QHttp>
+#include  "QHttp"
 
 #include  "DiscogsDownloader.h"
 

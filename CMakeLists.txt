@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(mp3diags-cmake VERSION 0.1 LANGUAGES CXX)
+#set(project_name "MP3Diags")
+set(project_name "mp3diags-cmake")
+
+project("${project_name}" VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -9,24 +12,19 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# file:///r/ciobi/cpp/mp3diags-cmake/build/build-mp3diags-cmake-Desktop-Debug/CMakeFiles/mp3diags-cmake.dir/build.make had at the
-# end /usr/lib64/libQt5Widgets.so.5.15.11 but no /usr/lib64/libQt5Xml.so.5.15.11, but that was fixed by adding to target_link_libraries,
-# which fixed the includes as well
-
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools Xml Network)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools Xml Network)
+#find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools Xml Network) # If 5 or 6 are found, QT_VERSION_MAJOR will be defined
+#  to either 5 or 6 - https://doc.qt.io/qt-6/cmake-qt5-and-qt6-compatibility.html, and QT_VERSION will be defined as well, which is also needed. Well, currently we don't support 6, so we only accept 5
+find_package(QT NAMES Qt5 REQUIRED COMPONENTS Widgets LinguistTools Xml Network)
+find_package(Qt5 REQUIRED COMPONENTS Widgets LinguistTools Xml Network)
 find_package(ZLIB REQUIRED)
 
 find_package(Boost REQUIRED COMPONENTS program_options serialization)
-include_directories(${Boost_INCLUDE_DIRS})  # ttt0 maybe do the same for zlib (on Linux, GCC seems to have some sort of built-in zlib: "--with-system-zlib")
+include_directories(${Boost_INCLUDE_DIRS})  # ttt1 maybe do the same for zlib (on Linux, GCC seems to have some sort of built-in zlib: "--with-system-zlib")
 link_directories(${Boost_LIBRARY_DIRS})
 
 
-set(TS_FILES
-        src/translations/mp3diags_cs.ts
-        src/translations/mp3diags_de_DE.ts
-        src/translations/mp3diags_fr_FR.ts
-)
+file(GLOB TS_FILES "src/translations/*.ts")
+message(STATUS "Translations: ${TS_FILES}")
 
 set(PROJECT_SOURCE_FILES
         src/About.ui
@@ -183,44 +181,57 @@ set(PROJECT_RESOURCE_FILES
 qt5_add_resources(PROJECT_RESOURCES ${PROJECT_RESOURCE_FILES})
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(mp3diags-cmake
+    qt_add_executable(${project_name}
         MANUAL_FINALIZATION
         ${PROJECT_SOURCE_FILES}
     )
 # Define target properties for Android with Qt 6 as:
-#    set_property(TARGET mp3diags-cmake APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
+#    set_property(TARGET ${project_name} APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
 # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 
-    qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+    #qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 else()
+    set(qt_output_location "translations_qm")
+    message(STATUS "Creating dir ${qt_output_location}")
+    file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${qt_output_location}")
+    set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION "${qt_output_location}")
+    #qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES}) # !!! We don't want qt5_create_translation, which has a tendency to delete the .ts files due
+    # to them "being generated from sources". Instead, we update them manually as needed, via lupdate-qt5 and treat them here as sources
+    #qt5_add_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+    qt5_add_translation(QM_FILES ${TS_FILES})
+
     if(ANDROID)
-        add_library(mp3diags-cmake SHARED
+        add_library(${project_name} SHARED
             ${PROJECT_SOURCE_FILES}
         )
 # Define properties for Android with Qt 5 after find_package() calls as:
 #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
-        add_executable(mp3diags-cmake
+        add_executable(${project_name}
             ${PROJECT_SOURCE_FILES}
             ${PROJECT_RESOURCES}
+            ${QM_FILES}
         )
     endif()
 
-    qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-target_link_libraries(mp3diags-cmake PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Xml Qt${QT_VERSION_MAJOR}::Network ZLIB::ZLIB ${Boost_LIBRARIES})
-#target_link_libraries(mp3diags-cmake ${Boost_LIBRARIES})
-#
+target_link_libraries(${project_name} PRIVATE
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Xml
+    Qt${QT_VERSION_MAJOR}::Network
+    ZLIB::ZLIB
+    ${Boost_LIBRARIES})
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
 if(${QT_VERSION} VERSION_LESS 6.1.0)
-  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.mp3diags-cmake)
+  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.${project_name})
 endif()
-set_target_properties(mp3diags-cmake PROPERTIES
+
+set_target_properties(${project_name} PROPERTIES
     ${BUNDLE_ID_OPTION}
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -229,12 +240,23 @@ set_target_properties(mp3diags-cmake PROPERTIES
 )
 
 include(GNUInstallDirs)
-install(TARGETS mp3diags-cmake
+install(TARGETS ${project_name}
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
 if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(mp3diags-cmake)
+    qt_finalize_executable(${project_name})
+endif()
+
+if(WIN32) # ttt0 review these
+    # We want to use the Unicode Windows API, dynamically link against Boost and suppress deprecation / security warnings.
+    add_definitions(-D_UNICODE -DUNICODE -DBOOST_ALL_DYN_LINK -D_CRT_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS)
+
+    # Do not treat wchar_t as a built-in type (for compatibility with Qt).
+    set_target_properties(${project_name} PROPERTIES COMPILE_FLAGS "/Zc:wchar_t-")
+
+    # For "GetProcessMemoryInfo()".
+    target_link_libraries(${project_name} psapi.lib)
 endif()

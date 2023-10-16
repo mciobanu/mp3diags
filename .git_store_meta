@@ -3,13 +3,14 @@
 AdjustMt.sh	f	2011-06-15T19:46:19Z
 branch.txt	f	2011-05-30T18:19:22Z
 BuildBz2.sh	f	2014-01-19T14:46:02Z
+Build-CMake-VS2022.cmd	f	2023-10-16T18:09:53Z
 BuildMp3Diags.hta	f	2019-04-03T21:53:10Z
 Build.sh	f	2019-04-06T08:36:24Z
 changelogDeb.txt	f	2021-09-01T16:31:19Z
 changelogRpm.txt	f	2021-09-01T16:34:25Z
 changelog.txt	f	2021-09-01T16:34:25Z
 CMakeLists.2009.txt	f	2009-09-25T14:27:54Z
-CMakeLists.txt	f	2023-10-14T21:48:43Z
+CMakeLists.txt	f	2023-10-16T18:14:14Z
 CMake-VS2008-Win32.cmd	f	2009-09-23T16:55:34Z
 COPYING	f	2016-08-06T13:23:08Z
 CopyToSf.sh	f	2019-04-07T14:22:05Z
@@ -256,7 +257,7 @@ src/CommonData.cpp	f	2019-02-12T21:03:41Z
 src/CommonData.h	f	2016-06-16T13:38:41Z
 src/CommonTypes.cpp	f	2014-11-12T10:27:06Z
 src/CommonTypes.h	f	2014-11-12T10:30:51Z
-src/ConfigDlgImpl.cpp	f	2019-02-16T22:15:57Z
+src/ConfigDlgImpl.cpp	f	2023-10-16T18:28:17Z
 src/ConfigDlgImpl.h	f	2012-02-06T22:36:06Z
 src/Config.ui	f	2012-02-12T20:13:49Z
 src/DataStream.cpp	f	2014-11-13T11:43:27Z

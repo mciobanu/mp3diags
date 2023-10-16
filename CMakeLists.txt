@@ -1,7 +1,8 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.12) # What 3.12 does is make cmake figure out a package's location based on an
+# environment variable's name and a "_ROOT" suffix, e.g. Boost_ROOT. See https://cmake.org/cmake/help/latest/policy/CMP0074.html
+# and see what happens when building on Windows with a smaller min version, like 3.5
 
-#set(project_name "MP3Diags")
-set(project_name "mp3diags-cmake")
+set(project_name "MP3Diags-unstable")
 
 project("${project_name}" VERSION 0.1 LANGUAGES CXX)
 
@@ -9,8 +10,26 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 17)
+#set(CMAKE_CXX_STANDARD 17) # We don't really use anything from 17, and MSVC doesn't compile with it due to removal of auto_ptr and stream changes
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+if(WIN32)
+    if(NOT DEFINED ENV{Boost_ROOT})
+        message(FATAL_ERROR "You must set Boost_ROOT environment variable")
+    endif()
+    #include_directories("$ENV{Boost_ROOT}/include")
+    if(NOT DEFINED ENV{ZLIB_ROOT})
+        message(FATAL_ERROR "You must set ZLIB_ROOT environment variable")
+    endif()
+    #include_directories("$ENV{ZLIB_ROOT}/include")
+    #set(QT_BIN_DIR "$ENV{QT_BIN_DIR}")
+    #string(REGEX REPLACE "\\" / QT_BIN_DIR "$ENV{QT_BIN_DIR}")
+    string(REGEX REPLACE "\\\\" "/" QT_BIN_DIR "$ENV{QT_BIN_DIR}") #ttt1 This isn't quite right, it's an artefact of
+    #  the .cmd file. OTOH Qt5_INCLUDE_DIRS and Qt5_LIBRARY_DIRS are empty (even after running find_package)
+    string(REGEX REPLACE "/bin$" "/" QT_ROOT ${QT_BIN_DIR})
+endif()
+
 
 #find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools Xml Network) # If 5 or 6 are found, QT_VERSION_MAJOR will be defined
 #  to either 5 or 6 - https://doc.qt.io/qt-6/cmake-qt5-and-qt6-compatibility.html, and QT_VERSION will be defined as well, which is also needed. Well, currently we don't support 6, so we only accept 5
@@ -19,12 +38,37 @@ find_package(Qt5 REQUIRED COMPONENTS Widgets LinguistTools Xml Network)
 find_package(ZLIB REQUIRED)
 
 find_package(Boost REQUIRED COMPONENTS program_options serialization)
-include_directories(${Boost_INCLUDE_DIRS})  # ttt1 maybe do the same for zlib (on Linux, GCC seems to have some sort of built-in zlib: "--with-system-zlib")
+include_directories(${Boost_INCLUDE_DIRS})  # These are not needed on Linux # ttt1 maybe do the same for zlib (on Linux, GCC seems to have some sort of built-in zlib: "--with-system-zlib")
 link_directories(${Boost_LIBRARY_DIRS})
 
 
 file(GLOB TS_FILES "src/translations/*.ts")
 message(STATUS "Translations: ${TS_FILES}")
+
+
+#-----------------
+# In languages we have both things like "fr" and "fr_FR", as Qt might have one or the other
+set(LANGUAGES1 ${TS_FILES})
+# The point of using WWW is that list replacement is run repeatedly as long as there are matches, so you cannot stop for an earlier "_"
+list(TRANSFORM LANGUAGES1 REPLACE "[^_]*_([a-z][a-z])_([A-Z]+).ts" "\\1WWW\\2")
+list(TRANSFORM LANGUAGES1 REPLACE "[^_]*_(.*)\.ts" "\\1")
+list(TRANSFORM LANGUAGES1 REPLACE "WWW" "_")
+
+set(LANGUAGES2 ${LANGUAGES1})
+list(TRANSFORM LANGUAGES2 REPLACE "_.*" "")
+
+set(LANGUAGES ${LANGUAGES1} ${LANGUAGES2})
+list(REMOVE_DUPLICATES LANGUAGES)
+
+#message(STATUS "LANGUAGES1: ${LANGUAGES1}")
+#message(STATUS "LANGUAGES2: ${LANGUAGES2}")
+message(STATUS "LANGUAGES: ${LANGUAGES}")
+#-----------------
+
+set(BUILD_TYPE Release) # ttt0 this is wrong, but it doesn't seem possible to do it right, and other areas assume Release anyway
+# https://stackoverflow.com/questions/39282430/how-to-get-current-configuration-release-debug-in-cmake-for-visual-studio
+# https://stackoverflow.com/questions/24460486/cmake-build-type-is-not-being-used-in-cmakelists-txt
+# https://stackoverflow.com/questions/68839452/cmake-determine-the-build-configuration-name
 
 set(PROJECT_SOURCE_FILES
         src/About.ui
@@ -250,13 +294,88 @@ if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(${project_name})
 endif()
 
-if(WIN32) # ttt0 review these
+if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
     # We want to use the Unicode Windows API, dynamically link against Boost and suppress deprecation / security warnings.
-    add_definitions(-D_UNICODE -DUNICODE -DBOOST_ALL_DYN_LINK -D_CRT_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS)
+#    add_definitions(-D_UNICODE -DUNICODE -DBOOST_ALL_DYN_LINK -D_CRT_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS)
+    add_definitions(-D_UNICODE -DUNICODE -DBOOST_ALL_DYN_LINK -D_CRT_SECURE_NO_WARNINGS) # ttt1 fix warnings, not hide them
 
     # Do not treat wchar_t as a built-in type (for compatibility with Qt).
-    set_target_properties(${project_name} PROPERTIES COMPILE_FLAGS "/Zc:wchar_t-")
+#    set_target_properties(${project_name} PROPERTIES COMPILE_FLAGS "/Zc:wchar_t-")
 
     # For "GetProcessMemoryInfo()".
-    target_link_libraries(${project_name} psapi.lib)
+#    target_link_libraries(${project_name} PRIVATE psapi.lib)
+
+#    add_custom_command(TARGET "${project_name}" POST_BUILD
+#        #COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:test_base> ${PROJECT_BINARY_DIR}/test_base.exe
+#        COMMAND ${CMAKE_COMMAND} -E copy C:\Mp3Diags\MP3Diags-unstable-1.5.02\build\Release\dist\translations\qt_help_zh_CN.qm C:\Mp3Diags\MP3Diags-unstable-1.5.02\build\Release\dist\styles
+#        #COMMENT "Created ${PROJECT_BINARY_DIR}/test_base.exe"
+#    )
+
+    #add_custom_command(TARGET "${project_name}" POST_BUILD
+    #    COMMAND ${CMAKE_COMMAND} -E copy C:/Mp3Diags/MP3Diags-unstable-1.5.02/build/Release/dist/translations/qt_help_zh_CN.qm C:/Mp3Diags/MP3Diags-unstable-1.5.02/build/Release/dist/styles
+    #)
+
+    add_custom_command(TARGET "${project_name}" POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${qt_output_location} ${BUILD_TYPE}/dist
+        COMMAND ${CMAKE_COMMAND} -E copy "${BUILD_TYPE}/${project_name}.exe" ${BUILD_TYPE}/dist
+    )
+    #install(TARGETS "${project_name}" DESTINATION ${BUILD_TYPE}/dist) #ttt1 see if this can be used to copy the exe
+
+    file(GLOB BOOST_SER_DLL "${Boost_LIBRARY_DIRS}/boost_serialization*-mt-x64-*.dll")
+    message(STATUS "BOOST_SER_DLL: ${BOOST_SER_DLL}")
+    file(COPY "${BOOST_SER_DLL}" DESTINATION ${BUILD_TYPE}/dist)
+
+    file(GLOB BOOST_PROG_OPT_DLL "${Boost_LIBRARY_DIRS}/boost_program_options*-mt-x64-*.dll")
+    message(STATUS "BOOST_PROG_OPT_DLL: ${BOOST_PROG_OPT_DLL}")
+    #add_custom_command(TARGET "${project_name}" POST_BUILD
+    #    COMMAND ${CMAKE_COMMAND} -E copy "${BOOST_PROG_OPT_DLL}" ${BUILD_TYPE}/dist
+    #)
+    file(COPY "${BOOST_PROG_OPT_DLL}" DESTINATION ${BUILD_TYPE}/dist)
+
+    #message(STATUS "languages=${LANGUAGES}")
+    foreach(language IN LISTS LANGUAGES)
+        #message(STATUS "language=${language}")
+        #file(GLOB langFiles "${QT_ROOT}/translations/*_${language}\\.qm")
+        #message(STATUS "searching: ${QT_ROOT}translations/*_${language}.qm")
+        file(GLOB langFiles "${QT_ROOT}translations/*_${language}.qm")
+        #message(STATUS "langFiles: ${langFiles}")
+        foreach(f IN LISTS langFiles)
+            file(COPY "${f}" DESTINATION "${BUILD_TYPE}/dist/translations")
+        endforeach()
+    endforeach()
+# boost_program_options-vc143-mt-x64-1_83.dll
+# C:/local/boost_1_83_0/lib64-msvc-14.3
+# Boost_VERSION: 108300
+
+    message(STATUS "CMAKE_INSTALL_BINDIR: ${CMAKE_INSTALL_BINDIR}")
+    message(STATUS "CMAKE_CURRENT_BINARY_DIR: ${CMAKE_CURRENT_BINARY_DIR}")
+    message(STATUS "LANGUAGES: ${LANGUAGES}")
+    message(STATUS "Boost_LIBRARY_DIRS: ${Boost_LIBRARY_DIRS}")
+
+    message(STATUS "QT_VERSION_MAJOR: ${QT_VERSION_MAJOR}")
+    message(STATUS "QT_ROOT: ${QT_ROOT}")
+
+    # These are all empty
+    # message(STATUS "Qt5_INCLUDE_DIRS: ${Qt5_INCLUDE_DIRS}")
+    # message(STATUS "Qt5_LIBRARY_DIRS: ${Qt5_LIBRARY_DIRS}")
+    # message(STATUS "QT5_INCLUDE_DIRS: ${QT5_INCLUDE_DIRS}")
+    # message(STATUS "QT5_LIBRARY_DIRS: ${QT5_LIBRARY_DIRS}")
+    #
+    # message(STATUS "Qt_INCLUDE_DIRS: ${Qt_INCLUDE_DIRS}")
+    # message(STATUS "Qt_LIBRARY_DIRS: ${Qt_LIBRARY_DIRS}")
+    # message(STATUS "QT_INCLUDE_DIRS: ${QT_INCLUDE_DIRS}")
+    # message(STATUS "QT_LIBRARY_DIRS: ${QT_LIBRARY_DIRS}")
+
+    message(STATUS "QT_BIN_DIR: ${QT_BIN_DIR}")
+    #message(STATUS "QT_BIN_DIR: ENV{QT_BIN_DIR}")
+
+    message(STATUS "ZLIB_INCLUDE_DIRS: ${ZLIB_INCLUDE_DIRS}")
+    #message(STATUS "ZLIB_LIBRARY_DIRS: ${ZLIB_LIBRARY_DIRS}")
+
+    message(STATUS "Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
+    message(STATUS "Boost_LIBRARY_DIRS: ${Boost_LIBRARY_DIRS}")
+
+    message(STATUS "Boost_VERSION_MAJOR: ${Boost_VERSION_MAJOR}")
+    message(STATUS "Boost_VERSION: ${Boost_VERSION}")
+
 endif()

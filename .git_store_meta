@@ -110,7 +110,7 @@ doc/html/004_screenshot01.html	f	2009-10-13T09:01:29Z
 doc/html/005_screenshot02.html	f	2009-10-13T09:01:29Z
 doc/html/006_screenshot03.html	f	2009-10-13T09:01:29Z
 doc/html/008_licence.html	f	2014-01-16T09:57:38Z
-doc/html/010_getting_the_program.html	f	2019-04-07T09:54:25Z
+doc/html/010_getting_the_program.html	f	2023-10-17T12:04:49Z
 doc/html/010_getting_the_program_local.html	f	2011-07-22T19:21:40Z
 doc/html/015_changelog.html	f	2009-10-13T09:01:29Z
 doc/html/020_mp3_introduction.html	f	2009-11-28T13:34:48Z
@@ -236,6 +236,7 @@ package/pad_file.xml	f	2010-07-04T11:45:45Z
 package/rpm/MP3Diags-Mandriva_2009.1.spec	f	2012-03-11T08:40:59Z
 package/rpm/MP3Diags.spec	f	2012-03-11T16:00:37Z
 package/sourceforge/linux_downloads.html	f	2009-06-10T07:26:41Z
+README.md	f	2023-10-17T16:43:42Z
 README.TXT	f	2012-12-02T03:27:46Z
 Rebuild-Transl-_ts-Files.sh	f	2014-01-17T10:00:28Z
 Release.txt	f	2021-09-01T16:23:50Z

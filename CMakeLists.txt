@@ -377,5 +377,10 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
 
     message(STATUS "Boost_VERSION_MAJOR: ${Boost_VERSION_MAJOR}")
     message(STATUS "Boost_VERSION: ${Boost_VERSION}")
+else()
+    add_custom_command(TARGET "${project_name}" POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${qt_output_location} .
+        COMMAND ${CMAKE_COMMAND} -E rm -r ${qt_output_location}
+    )
 
 endif()

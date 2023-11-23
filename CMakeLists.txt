@@ -1,3 +1,12 @@
+# Expected file locations on Windows:
+#   All relevant files are gathered from different places (build, Boost libraries, Qt libraries, ZLib) and copied to
+#       build\Release\dist, such that build\Release\dist\MP3Diags-unstable.exe will just run
+#   Examples of intermediary file locations: build\translations_qm\mp3diags_cs.qm, build\Release\MP3Diags-unstable.exe
+#
+# Expected file locations on Linux
+#   The executable MP3Diags-unstable and the .qm files are right in the build folder
+
+
 cmake_minimum_required(VERSION 3.12) # What 3.12 does is make cmake figure out a package's location based on an
 # environment variable's name and a "_ROOT" suffix, e.g. Boost_ROOT. See https://cmake.org/cmake/help/latest/policy/CMP0074.html
 # and see what happens when building on Windows with a smaller min version, like 3.5
@@ -236,10 +245,15 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 
     #qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 else()
-    set(qt_output_location "translations_qm")
-    message(STATUS "Creating dir ${qt_output_location}")
-    file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${qt_output_location}")
-    set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION "${qt_output_location}")
+    if(WIN32)
+        set(qm_output_location "translations_qm")
+        message(STATUS "Creating dir ${qm_output_location}")
+        file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${qm_output_location}")
+    else()
+        set(qm_output_location ".")
+    endif()
+
+    set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION "${qm_output_location}")
     #qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES}) # !!! We don't want qt5_create_translation, which has a tendency to delete the .ts files due
     # to them "being generated from sources". Instead, we update them manually as needed, via lupdate-qt5 and treat them here as sources
     #qt5_add_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
@@ -316,7 +330,7 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
     #)
 
     add_custom_command(TARGET "${project_name}" POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${qt_output_location} ${BUILD_TYPE}/dist
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${qm_output_location} ${BUILD_TYPE}/dist  #ttt0 Replace the need for qm_output_location with a pattern-based file copy
         COMMAND ${CMAKE_COMMAND} -E copy "${BUILD_TYPE}/${project_name}.exe" ${BUILD_TYPE}/dist
     )
     #install(TARGETS "${project_name}" DESTINATION ${BUILD_TYPE}/dist) #ttt1 see if this can be used to copy the exe
@@ -377,10 +391,4 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
 
     message(STATUS "Boost_VERSION_MAJOR: ${Boost_VERSION_MAJOR}")
     message(STATUS "Boost_VERSION: ${Boost_VERSION}")
-else()
-    add_custom_command(TARGET "${project_name}" POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${qt_output_location} .
-        COMMAND ${CMAKE_COMMAND} -E rm -r ${qt_output_location}
-    )
-
 endif()

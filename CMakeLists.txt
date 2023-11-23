@@ -74,10 +74,17 @@ list(REMOVE_DUPLICATES LANGUAGES)
 message(STATUS "LANGUAGES: ${LANGUAGES}")
 #-----------------
 
-set(BUILD_TYPE Release) # ttt0 this is wrong, but it doesn't seem possible to do it right, and other areas assume Release anyway
-# https://stackoverflow.com/questions/39282430/how-to-get-current-configuration-release-debug-in-cmake-for-visual-studio
-# https://stackoverflow.com/questions/24460486/cmake-build-type-is-not-being-used-in-cmakelists-txt
-# https://stackoverflow.com/questions/68839452/cmake-determine-the-build-configuration-name
+if(WIN32)
+    message(STATUS "On Windows, BUILD_TYPE is forced to Release, which matters for debugging library code")
+    set(BUILD_TYPE Release) # ttt0 this is wrong, but it doesn't seem possible to do it right, and other areas assume Release anyway
+    # https://stackoverflow.com/questions/39282430/how-to-get-current-configuration-release-debug-in-cmake-for-visual-studio
+    # https://stackoverflow.com/questions/24460486/cmake-build-type-is-not-being-used-in-cmakelists-txt
+    # https://stackoverflow.com/questions/68839452/cmake-determine-the-build-configuration-name
+    # Note that there's also a CMAKE_BUILD_TYPE, which is what should normally be passed when calling CMake
+endif()
+
+message(STATUS "CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
+message(STATUS "BUILD_TYPE: ${BUILD_TYPE}")
 
 set(PROJECT_SOURCE_FILES
         src/About.ui
@@ -391,4 +398,14 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
 
     message(STATUS "Boost_VERSION_MAJOR: ${Boost_VERSION_MAJOR}")
     message(STATUS "Boost_VERSION: ${Boost_VERSION}")
+else()
+#    This is supposed to strip debug info in the Release target, but it's not portable and doesn't seem to work anyway
+#    if(CMAKE_BUILD_TYPE EQUAL Release)
+#        set_target_properties(TARGET_NAME PROPERTIES LINK_FLAGS_RELEASE -s)
+#    endif()
+    add_custom_command(TARGET "${project_name}" POST_BUILD
+            COMMENT "Stripping debug info ..."
+            #COMMAND sleep 10
+            COMMAND strip ${project_name}  # ttt1 Not too portable
+            )
 endif()

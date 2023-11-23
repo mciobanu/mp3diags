@@ -23,6 +23,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# WIN32 is used for both 32 and 64 bits - https://cmake.org/cmake/help/latest/variable/WIN32.html
 if(WIN32)
     if(NOT DEFINED ENV{Boost_ROOT})
         message(FATAL_ERROR "You must set Boost_ROOT environment variable")
@@ -60,7 +61,7 @@ message(STATUS "Translations: ${TS_FILES}")
 set(LANGUAGES1 ${TS_FILES})
 # The point of using WWW is that list replacement is run repeatedly as long as there are matches, so you cannot stop for an earlier "_"
 list(TRANSFORM LANGUAGES1 REPLACE "[^_]*_([a-z][a-z])_([A-Z]+).ts" "\\1WWW\\2")
-list(TRANSFORM LANGUAGES1 REPLACE "[^_]*_(.*)\.ts" "\\1")
+list(TRANSFORM LANGUAGES1 REPLACE "[^_]*_(.*)\\.ts" "\\1")
 list(TRANSFORM LANGUAGES1 REPLACE "WWW" "_")
 
 set(LANGUAGES2 ${LANGUAGES1})

@@ -400,13 +400,14 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
     message(STATUS "Boost_VERSION_MAJOR: ${Boost_VERSION_MAJOR}")
     message(STATUS "Boost_VERSION: ${Boost_VERSION}")
 else()
-#    This is supposed to strip debug info in the Release target, but it's not portable and doesn't seem to work anyway
-#    if(CMAKE_BUILD_TYPE EQUAL Release)
-#        set_target_properties(TARGET_NAME PROPERTIES LINK_FLAGS_RELEASE -s)
-#    endif()
-    add_custom_command(TARGET "${project_name}" POST_BUILD
-            COMMENT "Stripping debug info ..."
-            #COMMAND sleep 10
-            COMMAND strip ${project_name}  # ttt1 Not too portable
-            )
+    if(CMAKE_BUILD_TYPE EQUAL Release)
+        # This is supposed to strip debug info in the Release target, but it's not portable and doesn't seem to work anyway
+        # set_target_properties(TARGET_NAME PROPERTIES LINK_FLAGS_RELEASE -s)
+
+        add_custom_command(TARGET "${project_name}" POST_BUILD
+                COMMENT "Stripping debug info ..."
+                #COMMAND sleep 10
+                COMMAND strip ${project_name}  # ttt1 Not too portable
+                )
+    endif()
 endif()

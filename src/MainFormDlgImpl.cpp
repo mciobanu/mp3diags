@@ -961,7 +961,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
         m_pNotesG->setItemDelegate(pNotesGDelegate);
 
         m_pNotesG->horizontalHeader()->setMinimumSectionSize(CELL_WIDTH + 10);
-		
+
 		/*QFont font (m_pNotesG->verticalHeader()->font());
 		auto sz(font.pointSizeF());
 		font.setPointSizeF(sz * 0.85);
@@ -3685,3 +3685,17 @@ Note the use of QLibraryInfo::location() to locate the Qt translations. Develope
 //ttt0 make patterns accept "-" (see "/d/test_mp3/1/tmp2/crt_test/PatternTest/artist1 - 2000 - alb1" and https://sourceforge.net/p/mp3diags/discussion/947206/thread/3ca2d0f8/?limit=25#a622
 
 //ttt1 <li><a href="https://tecnoarena.net/come-riparare-file-mp3-danneggiati-con-mp3-diags/">tecnoarena.net</a></li>
+
+//ttt0 check out /d/test_mp3/1/tmp4/tmp2/vbr-not-fixed/SAMPLE-with-VBRFix0.3beta/  -  https://sourceforge.net/p/mp3diags/discussion/947206/thread/9d6f2dacec/?limit=25#20c9
+
+//ttt1 https://sourceforge.net/p/mp3diags/tickets/3106/   /d/test_mp3/1/tmp4/tmp2/NoImageInApe/
+
+//ttt1 https://sourceforge.net/p/mp3diags/discussion/947206/thread/42d8f51a/?limit=25#e8a5
+
+//ttt0 mail on 2023-11-20 - unable to deal with long file names on Windows, but it's probably the same on Linux, and there seem to be workarounds, perhaps using relative names; https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation?tabs=registry
+/*
+Example used:
+C:/Users/mahim/Documents/Myy Music/Audacity/Henry Mancini/Encore! More Of The Concert Sound Of Henry Mancini/Encore! More Of The Concert Sound Of Henry Mancini/01-A Hard Day's Night; And I Love Her; All My Loving; Norwegian Wood (This Bird Has Flown); Michelle; Yesterday.mp3
+ */
+
+

@@ -71,6 +71,9 @@ MpegFrameBase MpegFrameBase::getBigBps() const // returns a "similar" frame to "
 }
 #endif
 
+//ttt0: Fix https://sourceforge.net/p/mp3diags/tickets/3109/ Example file: /d/test_mp3/1/tmp4/tmp2/Too many streams found/a/
+// To detect these, we don't need to change a lot: It would seem that each time we don't find an expected audio frame we should go back 1 byte and retry. On success, we compare the audio attributes, and add a note about bad padding. One optimization is to not go back, but simply assume the previous byte is FF and try to build a frame header from an FF and the first 3 bytes we just read. This way there's less I/O and less mess. If we don't find a good audio even after adding the FF, we throw an exception as until now, without messing with the I/O. But as we do actually need to read the previous byte to make sure it's an FF when we find a match, perhaps there's not a lot of optimization in this. For one thing, in normal files there's a single time when there's an exception at the end of audio data, and going back 1 byte might not make any difference in performance. (Best test, though.)
+
 void MpegFrameBase::init(NoteColl& notes, const char* bfr) //ttt2 should have some means to enforce bfr being large enough (perhaps switch to a vector)
 {
     memcpy(m_header, bfr, 4);

@@ -60,7 +60,7 @@ TranslatorHandler::TranslatorHandler()
 #if defined(WIN32) || defined(__OS2__)
     m_qstrSystemTranslDir = QCoreApplication::instance()->applicationDirPath();
 #else
-    m_qstrSystemTranslDir = "/usr/share/qt4/translations"; //ttt1 maybe improve
+    m_qstrSystemTranslDir = "/usr/share/qt4/translations"; //ttt1 maybe improve //ttt0 see about "qt4"
 #endif
 }
 

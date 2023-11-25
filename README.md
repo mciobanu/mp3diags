@@ -13,16 +13,18 @@ Installation
 ------------
 
 In most cases it's easier to use pre-built binaries, which are available for
-Windows and for several major Linux distributions from the main download page 
-or from those distributions:
-    https://mp3diags.sourceforge.net/unstable/010_getting_the_program.html
+Windows and for several other operating systems, including major Linux distributions. More details can be found in the 
+[main download page](https://mp3diags.sourceforge.net/unstable/010_getting_the_program.html). 
+    
 
-For official releases, build instructions are outdated, but can be used as a starting point. They are at:
-  * https://mp3diags.sourceforge.net/unstable/010_getting_the_program.html#sourceWindows, for Windows 
-  * https://mp3diags.sourceforge.net/unstable/010_getting_the_program.html#sourceGeneric, for Linux / others
+When building from sources, the build instructions for official releases are outdated, but can be used as a starting point. They are:
+  * [Building on Windows](https://mp3diags.sourceforge.net/unstable/010_getting_the_program.html#sourceWindows) (see below 
+    about using `CMake`, though, as it works better, at least on Windows 10, where it works out of the box)
+  * [Building on Linux / others](https://mp3diags.sourceforge.net/unstable/010_getting_the_program.html#sourceGeneric) 
 
-Support for `CMake` was added, but it's not thoroughly tested, and not yet part of any official release. Instructions are at
-[htmlpreview.github.io](https://htmlpreview.github.io/?https://github.com/mciobanu/mp3diags/blob/master/doc/html/010_getting_the_program.html).
-but they will be moved back to SourceForge once a new official release is created.
+Support for `CMake` was added in October 2023, but it's not thoroughly tested, and not yet part of an official release,
+so it's only available when cloning the [github repository](https://github.com/mciobanu/mp3diags). Build instructions can be seen at
+[htmlpreview.github.io](https://htmlpreview.github.io/?https://github.com/mciobanu/mp3diags/blob/master/doc/html/010_getting_the_program.html)
+for now. They will be moved back to SourceForge once a new official release is created.
 
-For Windows 10 and 11, `CMake` is probably the better option to use, as the old build approach needs adjustments.
+**Note**: No build was attempted on Windows 11 yet, but `CMake` is expected to work.

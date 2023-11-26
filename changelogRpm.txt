@@ -1,5 +1,5 @@
 * Sun Nov 26 2023 Marian Ciobanu <mp3diags@gmail.com> 1.4.01
-- updated links to support pages
+- updated links to use https pages
 - integrated changes from 1.5.02:
 - made "close" button visible in KDE
 - added some compile-time checks to make project build on Arch

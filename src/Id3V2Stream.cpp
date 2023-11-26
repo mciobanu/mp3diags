@@ -588,7 +588,7 @@ Id3V2FrameDataLoader::Id3V2FrameDataLoader(const Id3V2Frame& frame) : m_frame(fr
         //qDebug("nRead %d ; m_frame.m_nMemDataSize %d ; nContentBytesSkipped %d ", nRead, m_frame.m_nMemDataSize, nContentBytesSkipped);
         if (cSize(m_vcOwnData) != nRead)
         {
-            CB_THROW(LoadFailure);
+            CB_THROW(LoadFailure); // triggered on 2017.01.12 in XP, but there were no files on the disk (was a user's data, with logs turned off)
         }
 
         m_pData = &m_vcOwnData[0];
@@ -1045,6 +1045,27 @@ void Id3V2StreamBase::preparePictureHlp(NoteColl& notes, Id3V2Frame* pFrame, con
         if (0 == strcmp("image/jpeg", szMimeType) || 0 == strcmp("image/jpg", szMimeType))
         {
             pFrame->m_eCompr = ImageInfo::JPG;
+            const unsigned char* p (pBinData);
+            for (int i = 0; i < nSize - 1; i++)
+            {
+                unsigned char c1 (*(p + i));
+                if (c1 != 0xff)
+                {
+                    continue;
+                }
+                unsigned char c2 (*(p + i + 1));
+                if (c2 == 0xc0)
+                {
+                    // baseline (i.e. non-progressive)
+                    break;
+                }
+                if (c2 == 0xc2)
+                {
+                    // progressive
+                    MP3_NOTE (pFrame->m_pos, id3v2ProgressiveJpeg);
+                    break;
+                }
+            }
         }
         else if (0 == strcmp("image/png", szMimeType))
         {

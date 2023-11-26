@@ -21,6 +21,7 @@
 
 
 #include  <QFile>
+#include  <QAction>
 
 #include  "AboutDlgImpl.h"
 

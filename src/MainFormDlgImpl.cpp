@@ -437,13 +437,13 @@ static bool s_bMainAssertOut;
 
 static QString g_qstrCrashMail ("<a href=\"mailto:mp3diags@gmail.com?subject=000 MP3 Diags crash/\">mp3diags@gmail.com</a>");
 static QString g_qstrSupportMail ("<a href=\"mailto:mp3diags@gmail.com?subject=000 MP3 Diags support note/\">mp3diags@gmail.com</a>");
-static QString g_qstrBugReport ("<a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a>");
+static QString g_qstrBugReport ("<a href=\"http://sourceforge.net/apps/mantisbt/mp3diags/\">http://sourceforge.net/apps/mantisbt/mp3diags/</a>");//ttt0 replace mantis references
 
 
 static void showAssertMsg(QWidget* pParent)
 {
     HtmlMsg::msg(pParent, 0, 0, 0, HtmlMsg::SHOW_SYS_INFO, MainFormDlgImpl::tr("Assertion failure"),
-        Qt::escape(s_qstrErrorMsg) +
+        s_qstrErrorMsg.toHtmlEscaped() +
             "<p style=\"margin-bottom:1px; margin-top:12px; \">" +
             (
                 s_fileTracer.getStepFiles().empty() ?
@@ -653,6 +653,8 @@ void MainFormDlgImpl::loadIgnored()
 
 
 static bool s_bToldAboutSupportInCrtRun (false); // to limit to 1 per run the number of times the user is told about support
+static bool s_bToldAboutXingRebuildInCrtRun (false);
+static bool s_bToldAboutXingRemoveInCrtRun (false);
 
 //=====================================================================================================================
 //=====================================================================================================================
@@ -850,7 +852,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
                                 .arg("</b>")
                                 .arg(g_qstrCrashMail)
                                 .arg(g_qstrBugReport)
-                                .arg(Qt::escape(toNativeSeparators(convStr(v[0]))));
+                                .arg(toNativeSeparators(convStr(v[0])).toHtmlEscaped());
                         break;
                     case 2:
                         qstrFiles += tr("Information in the files %1%5%2 and %1%6%2 may help identify the cause of the crash so please make them available to the developer by mailing them to %3, by reporting an issue to the project's Issue Tracker at %4 and attaching the files to the report, or by some other means (like putting them on a file sharing site.)", "%1 and %2 are HTML elements")
@@ -858,8 +860,8 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
                                 .arg("</b>")
                                 .arg(g_qstrCrashMail)
                                 .arg(g_qstrBugReport)
-                                .arg(Qt::escape(toNativeSeparators(convStr(v[0]))))
-                                .arg(Qt::escape(toNativeSeparators(convStr(v[1]))));
+                                .arg(toNativeSeparators(convStr(v[0])).toHtmlEscaped())
+                                .arg(toNativeSeparators(convStr(v[1])).toHtmlEscaped());
                         break;
                     case 3:
                         qstrFiles += tr("Information in the files %1%5%2, %1%6%2, and %1%7%2 may help identify the cause of the crash so please make them available to the developer by mailing them to %3, by reporting an issue to the project's Issue Tracker at %4 and attaching the files to the report, or by some other means (like putting them on a file sharing site.)", "%1 and %2 are HTML elements")
@@ -867,9 +869,9 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
                                 .arg("</b>")
                                 .arg(g_qstrCrashMail)
                                 .arg(g_qstrBugReport)
-                                .arg(Qt::escape(toNativeSeparators(convStr(v[0]))))
-                                .arg(Qt::escape(toNativeSeparators(convStr(v[1]))))
-                                .arg(Qt::escape(toNativeSeparators(convStr(v[2]))));
+                                .arg(toNativeSeparators(convStr(v[0])).toHtmlEscaped())
+                                .arg(toNativeSeparators(convStr(v[1])).toHtmlEscaped())
+                                .arg(toNativeSeparators(convStr(v[2])).toHtmlEscaped());
                         break;
                     }
                     qstrFiles += " </p>";
@@ -881,7 +883,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
                                              "<p style=\"margin-bottom:8px; margin-top:1px; \">" + tr("Note that these files <b>will be removed</b> when you close this window.") + "</p>" +
 
                                              (m_pCommonData->isTraceToFileEnabled() ?
-                                                  "<p style=\"margin-bottom:8px; margin-top:1px; \">" + tr("If there is a name of an MP3 file at the end of <b>%1</b>, that might be a file that consistently causes a crash. Please check if it is so. Then, if confirmed, please make that file available by mailing it to %2 or by putting it on a file sharing site.").arg(Qt::escape(toNativeSeparators(convStr(v[0])))).arg(g_qstrCrashMail) + "</p>" :
+                                                  "<p style=\"margin-bottom:8px; margin-top:1px; \">" + tr("If there is a name of an MP3 file at the end of <b>%1</b>, that might be a file that consistently causes a crash. Please check if it is so. Then, if confirmed, please make that file available by mailing it to %2 or by putting it on a file sharing site.").arg(toNativeSeparators(convStr(v[0]))).toHtmlEscaped().arg(g_qstrCrashMail) + "</p>" :
                                                   "<p style=\"margin-bottom:8px; margin-top:1px; \">" + tr("Please also try to <b>repeat the steps that led to the crash</b> before reporting the crash, which will probably result in a new set of files being generated; these files are more likely to contain relevant information than the current set of files, because they will also have information on what happened before the crash, while the current files only tell where the crash occured.") + "</p>"
                                              )
 
@@ -889,7 +891,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
                 }
                 else
                 {
-                    showRestartAfterCrashMsg("<p style=\"margin-bottom:8px; margin-top:1px; \">" + tr("MP3 Diags is restarting after a crash. There was supposed to be some information about what led to the crash in the file <b>%1</b>, but that file cannot be found. Please report this issue to the project's Issue Tracker at %2.").arg(Qt::escape(toNativeSeparators(convStr(s_fileTracer.getTraceFile())))).arg(g_qstrBugReport) + "</p>"
+                    showRestartAfterCrashMsg("<p style=\"margin-bottom:8px; margin-top:1px; \">" + tr("MP3 Diags is restarting after a crash. There was supposed to be some information about what led to the crash in the file <b>%1</b>, but that file cannot be found. Please report this issue to the project's Issue Tracker at %2.").arg(toNativeSeparators(convStr(s_fileTracer.getTraceFile())).toHtmlEscaped()).arg(g_qstrBugReport) + "</p>"
                                              + "<p style=\"margin-bottom:8px; margin-top:1px; \">" + tr("The developer will probably want to contact you for more details, so please check back on the status of your report.</p><p style=\"margin-bottom:8px; margin-top:1px; \">Make sure to include the data below, as well as any other detail that seems relevant (what might have caused the failure, steps to reproduce it, ...)") + "</p>", "OK");
                 }
             }
@@ -937,6 +939,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
         m_pFilesG->horizontalHeader()->setMinimumSectionSize(CELL_WIDTH);
         m_pFilesG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         m_pFilesG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
+		decreaseRowHeaderFont(*m_pFilesG);
 
         connect(m_pFilesG->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), m_pCommonData->m_pFilesModel, SLOT(onFilesGSelChanged()));
         connect(m_pFilesG, SIGNAL(clicked(const QModelIndex &)), m_pCommonData->m_pFilesModel, SLOT(onFilesGSelChanged()));
@@ -958,8 +961,16 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
         m_pNotesG->setItemDelegate(pNotesGDelegate);
 
         m_pNotesG->horizontalHeader()->setMinimumSectionSize(CELL_WIDTH + 10);
-        m_pNotesG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
-        m_pNotesG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
+		
+		/*QFont font (m_pNotesG->verticalHeader()->font());
+		auto sz(font.pointSizeF());
+		font.setPointSizeF(sz * 0.85);
+		m_pNotesG->verticalHeader()->setFont(font);*/
+        //m_pNotesG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT + 10);
+        //m_pNotesG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT + 10);
+		m_pNotesG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
+		m_pNotesG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
+		decreaseRowHeaderFont(*m_pNotesG);
 
         m_pNotesG->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
@@ -979,6 +990,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
         m_pStreamsG->horizontalHeader()->setMinimumSectionSize(CELL_WIDTH + 10);
         m_pStreamsG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         m_pStreamsG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
+		decreaseRowHeaderFont(*m_pStreamsG);
 
         m_pStreamsG->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
@@ -998,6 +1010,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
         m_pUniqueNotesG->horizontalHeader()->setMinimumSectionSize(CELL_WIDTH + 10);
         m_pUniqueNotesG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         m_pUniqueNotesG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
+		decreaseRowHeaderFont(*m_pUniqueNotesG);
 
         m_pUniqueNotesG->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
@@ -1232,8 +1245,8 @@ void MainFormDlgImpl::initializeUi()
 
         m_pNotesG->horizontalHeader()->resizeSection(0, nNotesGW0); // ttt2 apparently a call to resizeColumnsToContents() in NotesModel::updateCurrentNotes() should make columns 0 and 2 have the right size, but that's not the case at all; (see further notes there)
         m_pNotesG->horizontalHeader()->resizeSection(2, nNotesGW2);
-        m_pNotesG->horizontalHeader()->setResizeMode(1, QHeaderView::Stretch);
-        //m_pNotesG->horizontalHeader()->setResizeMode(2, QHeaderView::Stretch);
+        m_pNotesG->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+        //m_pNotesG->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
     }
 
     {
@@ -1246,14 +1259,14 @@ void MainFormDlgImpl::initializeUi()
         m_pStreamsG->horizontalHeader()->resizeSection(1, nStrmsGW1);
         m_pStreamsG->horizontalHeader()->resizeSection(2, nStrmsGW2);
         m_pStreamsG->horizontalHeader()->resizeSection(3, nStrmsGW3);
-        m_pStreamsG->horizontalHeader()->setResizeMode(4, QHeaderView::Stretch);
+        m_pStreamsG->horizontalHeader()->setSectionResizeMode(4, QHeaderView::Stretch);
     }
 
     {
         if (nUnotesGW0 < CELL_WIDTH + 8) { nUnotesGW0 = CELL_WIDTH + 8; } // ttt2 replace CELL_WIDTH
 
         m_pUniqueNotesG->horizontalHeader()->resizeSection(0, nUnotesGW0);
-        m_pUniqueNotesG->horizontalHeader()->setResizeMode(1, QHeaderView::Stretch);
+        m_pUniqueNotesG->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
     }
 
 
@@ -1283,7 +1296,13 @@ void MainFormDlgImpl::initializeUi()
         m_pDebugB->hide();
     }
 
-    if (!m_pCommonData->m_bShowSessions)
+    bool bShowSessions = m_pCommonData->m_bShowSessions;
+    if (!bShowSessions)
+    {
+        GlobalSettings st;
+        bShowSessions = st.getSessionCount() > 1;
+    }
+    if (!bShowSessions)
     {
         m_pSessionsB->hide();
         if (!m_pCommonData->m_bShowExport)
@@ -1655,7 +1674,7 @@ bool Mp3ProcThread::scan()
 
             try
             {
-                const Mp3Handler* p (new Mp3Handler(strName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds()));
+                const Mp3Handler* p (Mp3Handler::create(strName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds()));
                 m_vpAdd.push_back(p);
             }
             catch (const Mp3Handler::FileNotFound&) //ttt2 see if it should catch more
@@ -2257,6 +2276,52 @@ void MainFormDlgImpl::transform(std::vector<Transformation*>& vpTransf, Subset e
         CB_ASSERT (false);
     }
 
+
+    if (!m_pCommonData->m_bToldAboutXingRebuild && !s_bToldAboutXingRebuildInCrtRun)
+    {
+        for (int i = 0; i < cSize(vpTransf); ++i)
+        {
+            if (dynamic_cast<VbrRebuilder*>(vpTransf[i]) != 0)
+            {
+                s_bToldAboutXingRebuildInCrtRun = true;
+
+                int res = HtmlMsg::msg(this, 0, 1, &m_pCommonData->m_bToldAboutXingRebuild, HtmlMsg::DEFAULT, tr("Confirm"), tr("<p>Rebuilding VBR data in Xing / LAME headers can destroy gapless playing information, causing albums that are supposed to be gapless to be played with short gaps between tracks.</p><p>Note that this shouldn't matter for regular, non-gapless, albums.</p><p>Proceed?</p>"), 750, 300, tr("&Yes"), tr("&No"));
+
+                if (m_pCommonData->m_bToldAboutXingRebuild)
+                {
+                    m_settings.saveMiscConfigSettings(m_pCommonData);
+                }
+
+                if (res != 0) { return; }
+                break;
+            }
+        }
+    }
+    // ttt1 not sure about VbrRepairer, which also has the potential to destroy gapless info; probably better without it
+
+    if (!m_pCommonData->m_bToldAboutXingRemove && !s_bToldAboutXingRemoveInCrtRun)
+    {
+        for (int i = 0; i < cSize(vpTransf); ++i)
+        {
+            if (dynamic_cast<XingRemover*>(vpTransf[i]) != 0 || dynamic_cast<LameRemover*>(vpTransf[i]) != 0 || dynamic_cast<MismatchedXingRemover*>(vpTransf[i]) != 0 || dynamic_cast<XingLameCbrRemover*>(vpTransf[i]) != 0)
+            {
+                s_bToldAboutXingRemoveInCrtRun = true;
+
+                int res = HtmlMsg::msg(this, 0, 1, &m_pCommonData->m_bToldAboutXingRemove, HtmlMsg::DEFAULT, tr("Confirm"), tr("<p>Removing Xing / LAME headers destroys gapless playing information, causing albums that are supposed to be gapless to be played with short gaps between tracks.</p><p>Note that this shouldn't matter for regular, non-gapless, albums.</p><p>Proceed?</p>"), 750, 300, tr("&Yes"), tr("&No"));
+
+                if (m_pCommonData->m_bToldAboutXingRemove)
+                {
+                    m_settings.saveMiscConfigSettings(m_pCommonData);
+                }
+
+                if (res != 0) { return; }
+                break;
+            }
+        }
+    }
+
+
+
     QString qstrConf;
     if (vpTransf.empty())
     {
@@ -2469,8 +2534,14 @@ void MainFormDlgImpl::updateUi(const string& strCrt) // strCrt may be empty
 
     saveVisibleTransf();
     saveExternalTools();
+    bool bShowSessions = m_pCommonData->m_bShowSessions;
+    if (!bShowSessions)
+    {
+        GlobalSettings st;
+        bShowSessions = st.getSessionCount() > 1;
+    }
 
-    if (m_pCommonData->m_bShowExport || m_pCommonData->m_bShowSessions)
+    if (m_pCommonData->m_bShowExport || bShowSessions)
     {
         m_pOptBtn1W->show();
     }
@@ -2502,7 +2573,7 @@ void MainFormDlgImpl::updateUi(const string& strCrt) // strCrt may be empty
     }
 
 
-    if (m_pCommonData->m_bShowSessions)
+    if (bShowSessions)
     {
         m_pSessionsB->show();
         m_pSessionsB->parentWidget()->layout()->update(); // it is probably a Qt bug the fact that this is needed; should have been automatic;
@@ -3291,7 +3362,7 @@ void MainFormDlgImpl::showExternalTools()
         //qDebug("pressed %d", nIndex);
         if (0 == nIndex)
         {
-            CB_ASSERT (0 != m_pCommonData->getCrtMp3Handler()); //ttt0 triggered according to mail on 2015.03.07
+            CB_ASSERT (0 != m_pCommonData->getCrtMp3Handler()); //ttt0 triggered according to mail on 2015.03.07 // ttt0 2018.04.29 one way to toggle this is be in an empty folder (e.g. by starting from CLI)
             QString qstrDir (convStr(m_pCommonData->getCrtMp3Handler()->getDir()));
 #if defined(WIN32) || defined(__OS2__)
             //qstrDir = QDir::toNativeSeparators(qstrDir);
@@ -3570,8 +3641,6 @@ Note the use of QLibraryInfo::location() to locate the Qt translations. Develope
 
 //ttt0 update references based on traffic volume
 
-//ttt0 delete LAME for CBR - https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=117
-
 //ttt0 don't scan backup dir if it's inside the source
 //ttt0 compute bitrate in VBR headers //ttt0 see why the bitrate computed manually based on VBR data doesn't match exactly the one computed for the audio (see mail sent on 2012.10.14)
 
@@ -3587,20 +3656,32 @@ Note the use of QLibraryInfo::location() to locate the Qt translations. Develope
 
 //ttt0 screenshots for language selection
 
-//ttt0 once sessions have been enabled, all new sessions should have them; or better - this should be a global setting
-//ttt0 the warnings about changes, backing up, notifying about new versions, ... should also be global or at least copied; especially annoying when using shell integration
-
-//ttt0 the .deb installs translations for stable to unstable: for i in `dpkg -L mp3diags` ; do if [ -f $i ] ; then ls -l $i ; fi ; done
+//ttt2 the .deb installs translations for stable to unstable: for i in `dpkg -L mp3diags` ; do if [ -f $i ] ; then ls -l $i ; fi ; done
+//   2016.06.22 - not 100% sure, but probably fixed in changelist 781, while this bug entry wasn't checked in until 795; as the name of the package is lowercase, it is about the Ubuntu-built variant, which probably installed translations to /usr/...unstable...);
+//ttt00 better Ubuntu integration: the package is there in 16.04 but doesn't appear in "Ubuntu software", it's rather old, to install it you need Synaptic (which must be installed itself), doesn't have translations, then it doesn't show up in search, ...
+//   https://launchpad.net/ubuntu/xenial/+package/mp3diags
 
 //ttt2 https://sourceforge.net/p/mp3diags/discussion/947206/thread/1f7a776e/
 
-//ttt0 1x1 images from MusicBrainz, due to http://images.amazon.com/images/P/B00AD2IYNK.01.LZZZZZZZ.jpg no longer being there (this ASIN is .fr only)
+//ttt00 1x1 images from MusicBrainz, due to http://images.amazon.com/images/P/B00AD2IYNK.01.LZZZZZZZ.jpg no longer being there (this ASIN is .fr only)
 
 //ttt0 amarok fail in /d/test_mp3/1/tmp2/crt_test/Amarok-errors
-
-//ttt0 warning that rebuilding VBR info breaks gapless play
 
 //ttt2 individual color for each note
 //ttt2 copy ID3V2 to ID3V1
 
-//ttt0 utf in normalize dialog - https://sourceforge.net/p/mp3diags/tickets/3087/
+//ttt2 start an older version and it shows errors about transforms not found, then crashes; 2016.06.22: not sure anything can be done: the "transforms not found" are not relevant, and what matters is the ".dat" file, which causes a SIGSEGV rather than some (expected) serialization exception; since it's hard to tell what is messed up, it's probably better to not try to handle the signal, which causes the program to crash and in turn triggers a rescan next time it's started; since both versions were built with the same libraries, the cause is probably failure to account for extra fields in the newer version (but still, this should probably have been serialization exception rather than segfault)
+
+//ttt1 freedb.org
+//ttt1 https://sourceforge.net/p/mp3diags/discussion/947206/thread/cb3417ae/?limit=25#ef4c/6e05
+
+//ttt0 blind accessible - https://sourceforge.net/p/mp3diags/tickets/3099/
+
+//ttt0 symlinks not handled correctly when choosing dirs: select something on /d and /video gets used; the issue is worse when you want to unselect: there is nothing checked
+//ttt0 https://sourceforge.net/p/mp3diags/tickets/3102/
+
+//ttt0 simulate crash in opening the session dialog at startup to se what and where gets logged; see mail on 2017.02.14
+
+//ttt0 make patterns accept "-" (see "/d/test_mp3/1/tmp2/crt_test/PatternTest/artist1 - 2000 - alb1" and https://sourceforge.net/p/mp3diags/discussion/947206/thread/3ca2d0f8/?limit=25#a622
+
+//ttt1 <li><a href="https://tecnoarena.net/come-riparare-file-mp3-danneggiati-con-mp3-diags/">tecnoarena.net</a></li>

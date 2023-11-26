@@ -20,7 +20,7 @@
  ***************************************************************************/
 
 
-#include  <QHttp>
+#include  "QHttp"
 #include  <QDesktopServices>
 
 #ifndef WIN32

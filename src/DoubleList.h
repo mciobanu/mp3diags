@@ -277,7 +277,7 @@ public:
         SelectionMode eSelectionMode,
         const std::string& strAvailableLabel,
         const std::string& strSelLabel,
-        QWidget* pParent, Qt::WFlags fl = 0);
+        QWidget* pParent, Qt::WindowFlags fl = 0);
     ~DoubleList();
 
     void add(const std::set<int>&); // adds elements from the specified indexes

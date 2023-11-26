@@ -1,2 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea/
+package/out/
+*.iml
+z-publish/
+z-purpose.txt

@@ -22,6 +22,7 @@
 .WarnCol { background: #ff1818; color: #ffff00; font-weight: bold; }
 /*.WarnCol { background: #ff3838; }*/
 .NoteCol { background: #000040; color: #ffffff; font-size: small; }
+.MildWarnCol { background: #ecec40; }
 
 .InlineCode     { color: #000090; font-style: italic; font-weight: bold; }
 .NoBoldInlineCode     { color: #0000b0; font-style: italic; }

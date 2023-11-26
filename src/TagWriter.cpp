@@ -520,7 +520,7 @@ void Mp3HandlerTagData::setUp()
                     int k (m_pTagWriter->getIndex(imageInfo));
                     if (-1 != k)
                     {
-                        char a [10];
+                        char a [15];
                         sprintf(a, g_szImageFmt, k + 1);
                         inf.m_strValue = a;
 
@@ -677,7 +677,7 @@ std::string Mp3HandlerTagData::getData(int nField, int k) const
             {
                 int j (m_pTagWriter->getIndex(imageInfo));
                 // CB_ASSERT (j >= 0); // !!! no need to assert; m_pTagWriter already does it
-                char a [10];
+                char a [15];
                 sprintf(a, g_szImageFmt, j + 1);
 //cout << "   " << a << endl;
                 m_vstrImgCache[k] = a; return m_vstrImgCache[k];
@@ -1066,7 +1066,7 @@ void TagWriter::reloadAll(string strCrt, bool bClearData, bool bClearAssgn)
     int n (cSize(vpHndl));
     if (n > 500)
     {
-        //ttt0
+        //ttt1: these 500 tracks are all in one album; not sure how to deal with the case when there are many files in 1 dir; probably transformations should work as usual while tag editing shouldn't (and TagWriter is only used for tag editing); there should be at least some warning when opening the tag editor; regardless, this doesn't seem to be the place to show any warning
     }
     bool bFullReaderNotFound (false); // ID3V1 is not full, while the others are
 
@@ -1603,7 +1603,7 @@ void TagWriter::getAlbumInfo(std::string& strArtist, std::string& strAlbum)
 
 void TagWriter::onAssignImage(int nPos)
 {
-    char a [10];
+    char a [15];
     sprintf(a, g_szImageFmt, nPos + 1);
     set<int> snSelSongs;
     for (set<OrigValue>::iterator it = m_sSelOrigVal.begin(), end = m_sSelOrigVal.end(); it != end; ++it)

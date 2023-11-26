@@ -318,9 +318,10 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
     m_pCurrentFileModel = new CurrentFileModel(this);
 
     {
-        m_pCurrentAlbumG->verticalHeader()->setResizeMode(QHeaderView::Interactive);
+        m_pCurrentAlbumG->verticalHeader()->setSectionResizeMode(QHeaderView::Interactive);
         m_pCurrentAlbumG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         m_pCurrentAlbumG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);//*/
+		decreaseRowHeaderFont(*m_pCurrentAlbumG);
 
         m_pCurrentAlbumG->setModel(m_pCurrentAlbumModel);
 
@@ -336,9 +337,10 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
 
     {
         m_pCurrentFileG->setVerticalHeader(new NoCropHeaderView(m_pCurrentFileG));
-        m_pCurrentFileG->verticalHeader()->setResizeMode(QHeaderView::Interactive);
+        m_pCurrentFileG->verticalHeader()->setSectionResizeMode(QHeaderView::Interactive);
         m_pCurrentFileG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         m_pCurrentFileG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);//*/
+		decreaseRowHeaderFont(*m_pCurrentFileG);
 
         m_pCurrentFileG->setModel(m_pCurrentFileModel);
         CurrentFileDelegate* pDel (new CurrentFileDelegate(m_pCurrentFileG, m_pCommonData));
@@ -347,7 +349,7 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
 
         m_pCurrentFileG->setItemDelegate(pDel);
 
-        m_pCurrentFileG->horizontalHeader()->setMovable(true);
+        m_pCurrentFileG->horizontalHeader()->setSectionsMovable(true);
     }
 
 
@@ -1320,6 +1322,7 @@ void TagEditorDlgImpl::resizeIcons()
         p->setMaximumSize(w + 4, k);
         p->setMinimumSize(w + 4, k);
         p->setIconSize(QSize(w, h));
+        p->setEnabled(false);
     }
 }
 

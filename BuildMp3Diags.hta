@@ -53,7 +53,7 @@
 
         var isGcc = TOOLCHAIN_MINGW_QMAKE == crtFolderSettings[1];
 
-        var compChk = crtFolderSettings[2] + (isGcc ? "\\g++.exe" : "\\VC\\vcvarsall.bat");
+        var compChk = crtFolderSettings[2] + (isGcc ? "\\g++.exe" : "\\vcvarsall.bat");
         if (!fsObj.FileExists(compChk))
         {
             res += "Cannot open file " + compChk + "\r\n";
@@ -175,7 +175,7 @@
     {
         if (TOOLCHAIN_MINGW_QMAKE == crtFolderSettings[1])
         {
-            crtFolderSettings[2] = "? C:\\QtSDK\\mingw\\bin";
+            crtFolderSettings[2] = "? C:\\Qt\\Tools\\mingw730_64\\bin"; // C:\\QtSDK\\mingw\\bin
             crtFolderSettings[3] = "? C:\\QtSDK\\Desktop\\Qt\\4.7.3\\mingw";
             crtFolderSettings[4] = "? C:\\boost_1_46_1";
             crtFolderSettings[5] = "? C:\\boost_1_46_1\\bin.v2\\libs\\serialization\\build\\gcc-mingw-4.4.0\\release\\threading-multi\\libboost_serialization-mgw44-mt-1_46_1.dll.a";
@@ -401,7 +401,7 @@
 
         {
             var fOut = fsObj.CreateTextFile("findVer.bat", true);
-            fOut.writeLine("call \"" + crtFolderSettings[2] + "\\VC\\vcvarsall.bat\" x86");
+            fOut.writeLine("call \"" + crtFolderSettings[2] + "\\vcvarsall.bat\" x86");
             fOut.writeLine("cl 2> ver.txt");
             fOut.close();
 
@@ -441,7 +441,7 @@
 
         {
             var fOut = fsObj.CreateTextFile("generateVsProject.bat", true);
-            fOut.writeLine("call \"" + crtFolderSettings[2] + "\\VC\\vcvarsall.bat\" x86");
+            fOut.writeLine("call \"" + crtFolderSettings[2] + "\\vcvarsall.bat\" x86");
             fOut.writeLine("PATH=\"" + crtFolderSettings[3] + "\\bin\";%PATH%");
             fOut.writeLine();
 
@@ -490,7 +490,7 @@
 
         {
             var fOut = fsObj.CreateTextFile("build.bat", true);
-            fOut.writeLine("call \"" + crtFolderSettings[2] + "\\VC\\vcvarsall.bat\" x86");
+            fOut.writeLine("call \"" + crtFolderSettings[2] + "\\vcvarsall.bat\" x86");
             fOut.writeLine("PATH=\"" + crtFolderSettings[3] + "\\bin\";%PATH%");
             fOut.writeLine("");
             //fOut.writeLine("devenv /build release mp3diags.sln");
@@ -622,7 +622,7 @@
                 </td>
             </tr>
             <tr>
-                <script type="text/javascript">document.write(firstColTag);</script>Compiler binary folder</td>
+                <script type="text/javascript">document.write(firstColTag);</script>Compiler folder (location of g++.exe or vcvarsall.bat)</td>
                 <td><input type="text" style="width: 100%" name="compBinary" id="compBinary"/></td> <!-- apparently both name and id must be used; see http://www.w3.org/TR/html401/interact/forms.html#h-17.3 for use of name -->
             </tr>
             <tr>

@@ -35,6 +35,7 @@
 //#include  <QString>
 #include  <QStringList>  // ttt2 what we really want is QString; however, by including QString directly, lots of warnings get displayed; perhaps some defines are needed but don't know which; so we just include QStringList to avoid the warnings
 
+class QTableView;
 
 #include  "CbException.h"
 
@@ -408,8 +409,6 @@ class Timer
     int64_t m_nDurMul; // multiply by this to get a duration in nanoseconds from a duration in ticks
 #endif
 
-    int64_t CB_LIB_CALL getCrtTime() const; // returns time in nanoseconds
-
 public:
     CB_LIB_CALL Timer(bool bStart = true);
 
@@ -424,6 +423,8 @@ public:
 
     int64_t CB_LIB_CALL fromStart() const { return getCrtTime() - m_nStart; }
 
+    int64_t CB_LIB_CALL getCrtTime() const; // returns time in nanoseconds
+
     static std::string CB_LIB_CALL addThSep(int64_t nTime); // to be used when converting to milli- / micro- seconds
 
     std::string CB_LIB_CALL getFmtDuration() const { return addThSep(getDuration()); } // "formatted" duration, in nanoseconds using thousands separator
@@ -432,6 +433,10 @@ public:
 
     static std::string getLongFmt(int64_t dur);
 };
+
+
+// On Windows with QT5 there is a big padding and the headers are truncated. This resizes the font, so things fit
+void decreaseRowHeaderFont(QTableView&);
 
 #endif // ifndef HelpersH
 

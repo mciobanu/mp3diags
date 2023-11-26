@@ -38,6 +38,7 @@
 #include  <QScrollBar>
 #include  <QHeaderView>
 #include  <QTime>
+#include  <QPixmap>
 
 #include  "AlbumInfoDownloaderDlgImpl.h"
 
@@ -67,6 +68,7 @@ AlbumInfoDownloaderDlgImpl::AlbumInfoDownloaderDlgImpl(QWidget* pParent, Session
 
     m_pTrackListG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
     m_pTrackListG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
+	decreaseRowHeaderFont(*m_pTrackListG);
 
     { QAction* p (new QAction(this)); p->setShortcut(QKeySequence("F1")); connect(p, SIGNAL(triggered()), this, SLOT(onHelp())); addAction(p); }
 }
@@ -104,7 +106,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::getInfo");
             {
                 if (m_pVolumeCbB->currentIndex() == m_pVolumeCbB->count() - 1)
                 { // just give sequential numbers when "<All>" in a multivolume is used - see https://sourceforge.net/projects/mp3diags/forums/forum/947206/topic/4503061/index/page/1 - perhaps can be improved
-                    char a [10];
+                    char a [15];
                     for (int i = 0; i < cSize(pAlbumInfo->m_vTracks); ++i)
                     {
                         sprintf(a, "%02d", i + 1);
@@ -178,7 +180,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::search");
     m_pResultNoL->setText("");
     updateTrackList();
     m_pVolumeCbB->clear();
-    m_pImageL->setPixmap(0);
+    m_pImageL->setPixmap(QPixmap());
     m_pImageL->setText("");
     m_pImgSizeL->setText("\n");
     m_pViewAtAmazonL->setText(tr(NOT_FOUND_AT_AMAZON));
@@ -257,7 +259,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::on_m_pSaveAllB_clicked");
     }
 
     int nCnt (0);
-    CB_ASSERT (m_nCrtAlbum >= 0 && m_nCrtAlbum < getAlbumCount());
+    CB_ASSERT (m_nCrtAlbum >= 0 && m_nCrtAlbum < getAlbumCount());// ttt0 triggered according to mail on 2015.12.13
     const WebAlbumInfoBase& albumInfo (album(m_nCrtAlbum));
     if (m_pVolumeCbB->isEnabled() && m_pVolumeCbB->currentIndex() != m_pVolumeCbB->count() - 1)
     {
@@ -905,7 +907,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::reloadGui");
 
     if (-1 == m_nCrtImage || 0 == albumInfo.m_vpImages[m_nCrtImage])
     {
-        m_pImageL->setPixmap(0);
+        m_pImageL->setPixmap(QPixmap());
         m_pImageL->setText("");
         m_pImgSizeL->setText(tr("No image\n"));
     }

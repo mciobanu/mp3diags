@@ -1,0 +1,8 @@
+to get the same font, use the 10.3 virtual host
+
+no matching font seems to exist, because of:
+- size
+- antialiasing
+
+Probably playing with the DPI would help with the size
+

@@ -209,7 +209,52 @@ Id3V240Frame::Id3V240Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
     MP3_CHECK (0 == (m_cFlag1 & ~0x60), pos, id3v2UnsuppFlags1, CB_EXCP2(StreamIsUnsupported, Id3V240Stream::getClassDisplayName(), tr("ID3V2.4.0 tag containing a frame with an unsupported flag."))); // ignores "Tag alter preservation" and "File alter preservation" // ttt2 use them
     MP3_CHECK (0 == (m_cFlag2 & ~0x03), pos, id3v2UnsuppFlags2, CB_EXCP2(StreamIsUnsupported, Id3V240Stream::getClassDisplayName(), tr("ID3V2.4.0 tag containing a frame with an unsupported flag.")));
 
-    m_bHasUnsynch = (0 != (m_cFlag2 & ~0x02));
+
+/*
+
+Seems that if the header specifies unsync for all, it doesn't matter what a frame's flag says:
+
+
+http://id3.org/id3v2.4.0-structure
+
+3.1.   ID3v2 header
+
+    [...]
+    ID3v2 flags     %abcd0000
+    [...]
+
+    a - Unsynchronisation
+
+     Bit 7 in the 'ID3v2 flags' indicates whether or not
+     unsynchronisation is applied on all frames (see section 6.1 for
+     details); a set bit indicates usage.
+
+
+4.1.   Frame header flags
+
+    [...]
+
+    %0abc0000 %0h00kmnp
+
+    [...]
+
+    n - Unsynchronisation
+
+      This flag indicates whether or not unsynchronisation was applied
+      to this frame. See section 6 for details on unsynchronisation.
+      If this flag is set all data from the end of this header to the
+      end of this frame has been unsynchronised. Although desirable, the
+      presence of a 'Data Length Indicator' is not made mandatory by
+      unsynchronisation.
+
+      0     Frame has not been unsynchronised.
+      1     Frame has been unsyrchronised.
+
+ */
+    if (!m_bHasUnsynch)
+    {
+        m_bHasUnsynch = (0 != (m_cFlag2 & ~0x02));
+    }
 //m_bHasUnsynch = false;
 
 

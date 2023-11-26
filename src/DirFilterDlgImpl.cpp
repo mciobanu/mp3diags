@@ -23,6 +23,8 @@
 #include  <algorithm>
 #include  <map>
 
+#include  <QAction>
+
 #include  "DirFilterDlgImpl.h"
 
 #include  "CommonData.h"

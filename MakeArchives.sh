@@ -78,6 +78,7 @@ function createSrc
     chmod -R u+w $LongDestDir/src
     rm -rf $LongDestDir/src/translations/autoTransl
     fixVersion $LongDestDir/src/Helpers.cpp
+    fixVersion $LongDestDir/src/SessionEditorDlgImpl.cpp
     cp -p branch.txt $LongDestDir
 
     rm -f -r $LongDestDir/src/debug
@@ -95,7 +96,7 @@ function createSrc
     cp -p CMakeLists.txt $LongDestDir
     cp -p CMake-VS2008-Win32.cmd $LongDestDir
     cat BuildMp3Diags.hta | sed -e "s#MP3DiagsWindows#MP3DiagsWindows$BranchDash#g" > $LongDestDir/BuildMp3Diags.hta
-    cp -p README.TXT $LongDestDir
+    cp -p README.md $LongDestDir
     cp package/out/pad_file.xml $LongDestDir
     cat MP3DiagsCLI.cmd | sed -e "s#MP3DiagsWindows#MP3DiagsWindows$BranchDash#g" > $LongDestDir/MP3DiagsCLI$BranchDash.cmd
 

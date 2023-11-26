@@ -9,11 +9,11 @@
 
 ./AdjustMt.sh $MP3_DIAGS_STATIC
 
-QMake=qmake
+QMake=qmake-qt5
 
-if [ -f /etc/fedora-release ] ; then
-    QMake=qmake-qt4
-fi
+# if [ -f /etc/fedora-release ] ; then
+#     QMake=qmake-qt4
+# fi
 
 if [[ "$1" != "" ]] ; then
     $QMake "$1"

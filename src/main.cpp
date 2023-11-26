@@ -148,6 +148,18 @@ void GlobalSettings::loadSessions(vector<string>& vstrSess, string& strLast, boo
     strTranslation = convStr(m_pSettings->value("main/translation", "").toString());
 }
 
+int GlobalSettings::getSessionCount() const
+{
+    vector<string> vstrSess;
+    bool bOpenLast;
+    string strLast, strTempSessTempl, strDirSessTempl, strTranslation;
+
+    loadSessions(vstrSess, strLast, bOpenLast, strTempSessTempl, strDirSessTempl, strTranslation);
+    int nSessCnt (cSize(vstrSess));
+    return nSessCnt;
+}
+
+
 const QFont& getDefaultFont()
 {
     static QFont s_font;
@@ -200,10 +212,12 @@ public:
 };
 
 #ifdef MSVC_QMAKE
-void visStudioMessageOutput(QtMsgType, const char* szMsg)
+//void visStudioMessageOutput(QtMsgType, const char* szMsg)
+void visStudioMessageOutput(QtMsgType, const QMessageLogContext&, const QString& qstrMsg)
 {
     OutputDebugStringA("    "); // to stand out from the other messages that get printed
-    OutputDebugStringA(szMsg);
+	const string& strMsg (convStr(qstrMsg));
+	OutputDebugStringA(strMsg.data());
     OutputDebugStringA("\r\n");
     //cerr << szMsg << endl;
     //showInfo(0, "Debug message", szMsg, QMessageBox::Ok);
@@ -594,9 +608,9 @@ class CmdLineProcessor
         Mp3Handler* mp3Handler;
         try
         {
-            mp3Handler = new Mp3Handler(strFullName, false, m_qualThresholds);
+            mp3Handler = Mp3Handler::create(strFullName, false, m_qualThresholds);
         }
-        catch (Mp3Handler::FileNotFound)
+        catch (const Mp3Handler::FileNotFound&)
         {
             cout << "File not found: " + toNativeSeparators(strFullName) << endl << endl;
             return false;
@@ -857,7 +871,7 @@ public:
 
 
 
-void noMessageOutput(QtMsgType, const char*) { }
+void noMessageOutput(QtMsgType, const QMessageLogContext&, const QString&) { }
 
 
 int cmdlineMain(const po::variables_map& options)
@@ -894,7 +908,7 @@ int cmdlineMain(const po::variables_map& options)
     // In cmdline mode, we want to make sure the user only sees our
     // carefully crafted messages, and no debug stuff from arbitrary
     // places in the program.
-    qInstallMsgHandler(noMessageOutput);
+    qInstallMessageHandler(noMessageOutput); //ttt9 make sure this still works
 
     string strSessFile;
 
@@ -999,7 +1013,7 @@ int main(int argc, char *argv[])
     //for (int i = 0; i < 200; ++i) { new char[1000000]; }
 
 #ifdef MSVC_QMAKE
-    qInstallMsgHandler(visStudioMessageOutput);
+	qInstallMessageHandler(visStudioMessageOutput);
     // see http://lists.trolltech.com/qt-interest/2006-10/msg00829.html
     //OutputDebugStringA("\n\ntest output\n\n\n"); // !!! this only works if actually debugging (started with F5);
 #endif
@@ -1237,8 +1251,6 @@ Testing: the program looks for .qm files in 2 places:
 //ttt0 make clean doesn't remove the .qm file (or anything in "bin")
 
 //ttt0 make OSB builds build translations
-
-//ttt0 clear global settings, new sess gets started in home, rather than Documents
 
 //ttt0 see about adding DLLs MSVCR100.dll and MSVCP100.dll to the MSVC build. They might be needed e.g. on 64bit XP SP3 (see mail 2013.08.18)
 

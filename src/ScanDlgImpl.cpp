@@ -21,6 +21,7 @@
 
 
 #include  <QHeaderView>
+#include  <QAction>
 
 #include  "ScanDlgImpl.h"
 
@@ -44,7 +45,7 @@ ScanDlgImpl::ScanDlgImpl(QWidget* pParent, CommonData* pCommonData) : QDialog(pP
     m_pDirsT->setModel(m_pDirModel);
     m_pDirsT->expand(m_pDirModel->index("/"));
     m_pDirsT->header()->hide();
-    m_pDirsT->header()->setStretchLastSection(false); m_pDirsT->header()->setResizeMode(0, QHeaderView::ResizeToContents);
+    m_pDirsT->header()->setStretchLastSection(false); m_pDirsT->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
 
     //m_pDirModel->setDirs(pCommonData->getIncludeDirs(), pCommonData->getExcludeDirs(), m_pDirsT);
     //m_pDirModel->expandNodes(m_pDirsT);

@@ -26,6 +26,7 @@
 #include  <QScrollBar>
 #include  <QMessageBox>
 #include  <QCloseEvent>
+#include  <QTextCodec>
 
 #include  "ExternalToolDlgImpl.h"
 
@@ -244,6 +245,26 @@ void ExternalToolDlgImpl::addText(QString s)
         if (-1 == n) { break; }
         s.remove(n, 1);
     }
+
+#if !defined(WIN32) && !defined(__OS2__) //ttt1 not clear what should happen on Windows, where the main client (mp3gain) cannot even process non-ASCII file names
+    {
+        // convert to UTF8: the input is really UTF8 but it was considered as Latin1 when creating the QString, so we need to rebuild the string as UTF8; see https://sourceforge.net/p/mp3diags/tickets/3087/
+        //s = QString::fromUtf8(s.toLatin1().data()); // simplest way but we cannot check for errors
+
+        QTextCodec::ConverterState state;
+        QTextCodec* pCodec = QTextCodec::codecForName("UTF-8");
+        QByteArray byteArray (s.toLatin1());
+        const QString s1 = pCodec->toUnicode(byteArray.constData(), byteArray.size(), &state);
+        if (state.invalidChars == 0)
+        {
+            s = s1; //ttt1 not sure this is right in all cases, although seems fine for mp3gain in Linux; perhaps in other cases "s" is proper UTF8 and no conversion is needed
+        }
+        else
+        {
+            //qDebug() << "Not a valid UTF-8 sequence.";
+        }
+    }
+#endif
 
     m_qstrText = (m_qstrText.isEmpty() ? s : m_qstrText + "\n" + s);
 

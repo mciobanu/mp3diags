@@ -29,6 +29,7 @@
 #include  <boost/version.hpp>
 
 #include  <QDesktopServices>
+#include  <QTableView>
 
 #ifndef WIN32
     #include  <QDir>
@@ -831,7 +832,7 @@ DesktopDetector::DesktopDetector() : m_eDesktop(Unknown)
                     // for i in `ls /proc | grep '^[0-9]'` ; do a=`cat /proc/$i/cmdline 2>/dev/null` ; echo $a | grep kde4/libexec ; done
                     if (string::npos != strBfr.find("kde4/libexec/start")) // ttt2 probably works only on Suse and only in some cases
                     {
-                        bIsKde4 = true;
+                        bIsKde4 = true; //ttt9 update
                     }
                 }//*/
 
@@ -914,7 +915,7 @@ Ideally a modal dialog should minimize its parent. If that's not possible, it sh
 //ttt0 look at Qt::CustomizeWindowHint
 #ifndef WIN32
     //Qt::WindowFlags getMainWndFlags() { return isRunningOnGnome() ? Qt::Window : Qt::WindowTitleHint; } // !!! these are incorrect, but seem the best option; the values used for Windows are supposed to be OK; they work as expected with KDE but not with Gnome (asking for maximize button not only fails to show it, but causes the "Close" button to disappear as well); Since in KDE min/max buttons are shown when needed anyway, it's sort of OK // ttt2 see if there is workaround/fix
-    Qt::WindowFlags getMainWndFlags() { const DesktopDetector& dd = getDesktopDetector(); return dd.onDesktop(DesktopDetector::Kde) ? Qt::WindowTitleHint : Qt::Window; }
+    Qt::WindowFlags getMainWndFlags() { /*const DesktopDetector& dd = getDesktopDetector();*/ return /*dd.onDesktop(DesktopDetector::Kde) ? Qt::WindowTitleHint | Qt::WindowCloseButtonHint :*/ Qt::Window; }
 #if QT_VERSION >= 0x040500
     //Qt::WindowFlags getDialogWndFlags() { const DesktopDetector& dd = getDesktopDetector(); return dd.onDesktop(DesktopDetector::Kde) ? Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint : (dd.onDesktop(DesktopDetector::Gnome3) ? Qt::Window : Qt::WindowTitleHint); }
     Qt::WindowFlags getDialogWndFlags() { const DesktopDetector& dd = getDesktopDetector(); return dd.onDesktop(DesktopDetector::Kde) ? Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint : (/*dd.onDesktop(DesktopDetector::Gnome3) ? Qt::Window :*/ Qt::WindowTitleHint); }
@@ -925,9 +926,11 @@ Ideally a modal dialog should minimize its parent. If that's not possible, it sh
 #endif
     Qt::WindowFlags getNoResizeWndFlags() { return Qt::WindowTitleHint; }
 #else
-    Qt::WindowFlags getMainWndFlags() { return Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowMinimizeButtonHint; } // minimize, maximize, no "what's this"
-    Qt::WindowFlags getDialogWndFlags() { return Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint; } // minimize, no "what's this"
-    Qt::WindowFlags getNoResizeWndFlags() { return Qt::WindowTitleHint; } // no "what's this"
+    Qt::WindowFlags getMainWndFlags() { 
+		return Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint;
+	} // minimize, maximize, no "what's this"
+    Qt::WindowFlags getDialogWndFlags() { return Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint; } // minimize, no "what's this"
+    Qt::WindowFlags getNoResizeWndFlags() { return Qt::WindowTitleHint; } // no "what's this" // ttt2 review if we want Qt::WindowCloseButtonHint
 #endif
 
 
@@ -1739,7 +1742,26 @@ LastStepTracer::~LastStepTracer()
 //=============================================================================================
 //=============================================================================================
 
+// Patch by Elbert Pol, to make the linker work on OS/2. Not sure why adding "LIBS += -lrt" to src.pro didn't seem to work.
+# if defined OS2
+inline int
+clock_gettime(int clock_id, struct timespec *ts)
+{
+     struct timeval tv;
 
+#if 0
+     if (clock_id != CLOCK_REALTIME) {
+         errno = EINVAL;
+         return (-1);
+     }
+#endif
+     if (gettimeofday(&tv, NULL) < 0)
+         return (-1);
+     ts->tv_sec = tv.tv_sec;
+     ts->tv_nsec = tv.tv_usec * 1000;
+     return (0);
+}
+#endif
 
 int64_t CB_LIB_CALL Timer::getCrtTime() const // returns time in nanoseconds
 {
@@ -1804,7 +1826,7 @@ Timer::~Timer() {
     char a [25];
     //sprintf(a, "%f", double(nTime)); //
     //sprintf(a, "%lld", nTime);
-    sprintf(a, "%ld", nTime);
+    sprintf(a, "%ld", nTime);//ttt00 warning in Ubuntu 9.04 due to type mismatch
     int n ((int)strlen(a));
     std::string strRes;
     for (int i = 0; i < n; ++i)
@@ -1829,6 +1851,16 @@ Timer::~Timer() {
 //=============================================================================================
 //=============================================================================================
 //=============================================================================================
+
+void decreaseRowHeaderFont(QTableView& qtableView)
+{
+#ifdef WIN32
+	QFont font(qtableView.verticalHeader()->font());
+	auto sz(font.pointSizeF());
+	font.setPointSizeF(sz * 0.85);
+	qtableView.verticalHeader()->setFont(font);
+#endif
+}
 
 
 //ttt2 F1 help was very slow on XP once, not sure why; later it was OK

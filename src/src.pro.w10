@@ -1,3 +1,5 @@
+# this can be used as a starting point for building on Windows #ttt0 generate automatically what's different from Linux
+
 SOURCES +=  \
  Helpers.cpp \
  main.cpp \
@@ -62,10 +64,10 @@ SOURCES +=  \
     CbException.cpp
 TEMPLATE = app
 CONFIG += warn_on \
-	  thread \
+      thread \
           qt \
  debug_and_release
-TARGET = MP3Diags
+TARGET = MP3DiagsWindows-unstable
 DESTDIR = ../bin
 
 QT += xml \
@@ -166,9 +168,6 @@ UI_DIR = ui-forms
 
 # !!! One thing to keep in mind is that when using BuildMp3Diags.hta the file src.pro shouldn't be changed. At the first build attempt a copy src.pro1 is created in the "package" dir, and that is where changes for the actual location of the libs
 
-QMAKE_CXXFLAGS += -Werror=format-security
-QMAKE_CXXFLAGS += -Werror=format
-
 QMAKE_CXXFLAGS_DEBUG += -DOUTPUT_TRACE_TO_CONSOLE -Wno-unused-parameter -Wno-deprecated-declarations -Wno-zero-as-null-pointer-constant -Wno-sign-conversion -Wno-weak-vtables -Wno-sign-conversion
 
 #DEFINES += DISABLE_CHECK_FOR_UPDATES
@@ -180,9 +179,6 @@ QMAKE_CXXFLAGS_DEBUG += -DOUTPUT_TRACE_TO_CONSOLE -Wno-unused-parameter -Wno-dep
 #QMAKE_CXXFLAGS_DEBUG += -DGAPLESS_SUPPORT
 #QMAKE_CXXFLAGS += -DGAPLESS_SUPPORT
 
-LIBS += -lz \
-  -lboost_serialization\
-  -lboost_program_options
 
 #LIBS += -lmp3lame
 
@@ -217,4 +213,20 @@ TRANSLATIONS = translations/mp3diags_cs.ts \
 
 
 
+
+
+
+INCLUDEPATH += C:\\boost\\boost_1_69_0
+INCLUDEPATH += C:\\zlib\\zlib-1.2.11
+
+
+LIBS += C:\\boost\\boost_1_69_0\\bin.v2\\libs\\serialization\\build\\msvc-14.1\\release\\threading-multi\\boost_serialization-vc141-mt-x32-1_69.lib
+LIBS += C:\\boost\\boost_1_69_0\\bin.v2\\libs\\program_options\\build\\msvc-14.1\\release\\threading-multi\\boost_program_options-vc141-mt-x32-1_69.lib
+LIBS += C:\\zlib\\zlib-1.2.11\\build\\zlib.lib
+LIBS += -lpsapi
+
+DEFINES += BOOST_ALL_DYN_LINK
+DEFINES += _CRT_SECURE_NO_WARNINGS
+DEFINES += _SCL_SECURE_NO_WARNINGS
+DEFINES += MSVC_QMAKE
 

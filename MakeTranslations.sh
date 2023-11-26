@@ -8,11 +8,11 @@ if [[ "$#" != "0" ]]; then
     exit
 fi
 
-LRelease=lrelease
+LRelease=lrelease-qt5
 
-if [ -f /etc/fedora-release ] ; then
-    LRelease=lrelease-qt4
-fi
+# if [ -f /etc/fedora-release ] ; then
+#     LRelease=lrelease-qt4
+# fi
 
 
 #lupdate mp3diags.pro

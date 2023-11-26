@@ -1,3 +1,18 @@
+mp3diags (1.4.01) testing; urgency=low
+
+  * updated links to support pages
+  * integrated changes from 1.5.02:
+  * Made "close" button visible in KDE
+  * Added some compile-time checks to make project build on Arch
+  * Qt5 port
+  * made code compile with GCC 6
+  * retries on file read failure
+  * fix for UTF8 output in calls to mp3gain (Linux only)
+  * new transformation: "Remove Xing or LAME streams from CBR files"
+  * always show sessions button if there are more than 1 sessions
+
+ -- Marian Ciobanu <mp3diags@gmail.com>  Sun, 26 Nov 2023 22:00:00 +0200
+
 mp3diags (1.2.03) testing; urgency=low
 
   * fixed build for GCC 6

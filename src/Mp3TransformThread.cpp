@@ -121,7 +121,7 @@ struct Mp3TransformThread : public PausableThread
             TRACER1(ex.what(), 2);
             CB_ASSERT1 (false, ex.what());
         }
-        catch (...) //ttt0 catch other things too (at least std::exception, but not sure what to do, meaning probably should show a message and terminate anyway); see comment 3 lines below for a better approach
+        catch (...)
         {
             TRACER("Mp3TransformThread::run() - unknown exception");
             CB_ASSERT (false);
@@ -330,6 +330,8 @@ bool Mp3Transformer::transform()
                 long long nSize, nOrigTime;
                 getFileInfo(strOrigName, nOrigTime, nSize);
 
+                bool bErrorInTransform (false);
+
                 for (int j = 0, m = cSize(m_vpTransf); j < m; ++j)
                 {
                     //TRACER1A("transf ", 4);
@@ -418,7 +420,7 @@ bool Mp3Transformer::transform()
                     if (eTransf != Transformation::NOT_CHANGED)
                     {
                     //TRACER1A("transf ", 15);
-                        CB_ASSERT (!m_pCommonData->m_strTransfLog.empty()); //ttt0 triggered according to http://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=45 ; however, the code is quite simple and it doesn't seem to be a valid reason for m_strTransfLog to be empty (aside from corrupted memory) ; according to https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=49 removing the .dat file solved the issue
+                        CB_ASSERT (!m_pCommonData->m_strTransfLog.empty()); //ttt0 triggered according to https://sourceforge.net/p/mp3diags/tickets/45/ ; however, the code is quite simple and it doesn't seem to be a valid reason for m_strTransfLog to be empty (aside from corrupted memory) ; according to https://sourceforge.net/p/mp3diags/tickets/49/ removing the .dat file solved the issue
                         if (0 != m_pLog)
                         {
                             (*m_pLog) << "applied " << t.getActionName() << " to " << pNewHndl.get()->getName() << endl;
@@ -450,7 +452,17 @@ bool Mp3Transformer::transform()
                         }
 //TRACER1A("transf ", 21);
                         strPrevTempName = strTempName;
-                        pNewHndl.reset(new Mp3Handler(strTempName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds())); //ttt2 try..catch
+                        try
+                        {
+                            pNewHndl.reset(Mp3Handler::create(strTempName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds()));
+                        }
+                        catch (const Mp3Handler::FileNotFound&)
+                        {
+                            // this shouldn't really happen but apparently it did (email on 2016.03.05); it's probably caused by the same thing that makes external files unavailable sometimes
+                            bErrorInTransform = true; //ttt2 maybe need to catch other exceptions
+                            break;
+                        }
+
                         checkPause();
                         //TRACER1A("transf ", 22);
                         if (isAborted())
@@ -478,113 +490,115 @@ bool Mp3Transformer::transform()
                 string strNewOrigName;  // new name for the orig file; if this is empty, the original file wasn't changed; if it's "*", it was erased; if it's something else, it was renamed;
                 string strProcName;     // name for the proc file; if this is empty, a proc file doesn't exist; if it's something else, it's the file name;
 
-                bool bErrorInTransform (false);
-
                 FileEraser fileEraser;
                 //TRACER1A("transf ", 29);
 
-                try
+                if (!bErrorInTransform)
                 {
-                    //bool bChanged (true);
-                    if (pNewHndl.get() == pOrigHndl)
-                    { // nothing changed
-                    //TRACER1A("transf ", 30);
-                        pNewHndl.release();
-                        //TRACER1A("transf ", 31);
-                        switch (m_transfConfig.getUnprocOrigAction())
-                        {
-                        case TransfConfig::ORIG_DONT_CHANGE: break;
-                        case TransfConfig::ORIG_ERASE: { strNewOrigName = "*"; fileEraser.erase(strOrigName); } break; //ttt2 try ...
-                        case TransfConfig::ORIG_MOVE: { m_transfConfig.getUnprocOrigName(strOrigName, strNewOrigName); renameFile(strOrigName, strNewOrigName); } break;
-                        default: CB_ASSERT (false);
-                        }
-                        //TRACER1A("transf ", 32);
-                    }
-                    else
-                    { // at least a processed file exists
-                    //TRACER1A("transf ", 33);
-                        CB_ASSERT (!strTempName.empty());
-//TRACER1A("transf ", 34);
-                        TempFileEraser tmpEraser (strTempName);
-
-                        // first we have to handle the original file;
-//TRACER1A("transf ", 35);
-                        switch (m_transfConfig.getProcOrigAction())
-                        {
-                        case TransfConfig::ORIG_DONT_CHANGE: break;
-                        case TransfConfig::ORIG_ERASE: { strNewOrigName = "*"; fileEraser.erase(strOrigName); } break; //ttt2 try ...
-                        case TransfConfig::ORIG_MOVE: { m_transfConfig.getProcOrigName(strOrigName, strNewOrigName); renameFile(strOrigName, strNewOrigName); } break;
-                        case TransfConfig::ORIG_MOVE_OR_ERASE:
+                    try
+                    {
+                        //bool bChanged (true);
+                        if (pNewHndl.get() == pOrigHndl)
+                        { // nothing changed
+                        //TRACER1A("transf ", 30);
+                            pNewHndl.release();
+                            //TRACER1A("transf ", 31);
+                            switch (m_transfConfig.getUnprocOrigAction())
                             {
-                                m_transfConfig.getProcOrigName(strOrigName, strNewOrigName);
-                                if (fileExists(strNewOrigName))
-                                {
-                                    strNewOrigName = "*";
-                                    fileEraser.erase(strOrigName);
-                                }
-                                else
-                                {
-                                    renameFile(strOrigName, strNewOrigName);
-                                }
+                            case TransfConfig::ORIG_DONT_CHANGE: break;
+                            case TransfConfig::ORIG_ERASE: { strNewOrigName = "*"; fileEraser.erase(strOrigName); } break; //ttt2 try ...
+                            case TransfConfig::ORIG_MOVE: { m_transfConfig.getUnprocOrigName(strOrigName, strNewOrigName); renameFile(strOrigName, strNewOrigName); } break;
+                            default: CB_ASSERT (false);
                             }
-                            break;
-                        default: CB_ASSERT (false);
+                            //TRACER1A("transf ", 32);
                         }
-//TRACER1A("transf ", 36);
-                        // the last processed file exists (usualy in the same folder as the source), its name is in strTempName, and we have to see what to do with it (erase, rename, or copy);
-                        switch (m_transfConfig.getProcessedAction())
-                        {
-                        case TransfConfig::TRANSF_DONT_CREATE: deleteFile(strTempName); break;
-                        case TransfConfig::TRANSF_CREATE:
-                            {//TRACER1A("transf ", 37);
-                            //Tracer t1 (strOrigName);
-                                m_transfConfig.getProcessedName(strOrigName, strProcName);
-                                //Tracer t2 (strProcName);
-                                //TRACER1A("transf ", 371);
-                                switch (m_transfConfig.getTempAction())
+                        else
+                        { // at least a processed file exists
+                        //TRACER1A("transf ", 33);
+                            CB_ASSERT (!strTempName.empty());
+    //TRACER1A("transf ", 34);
+                            TempFileEraser tmpEraser (strTempName);
+
+                            // first we have to handle the original file;
+    //TRACER1A("transf ", 35);
+                            switch (m_transfConfig.getProcOrigAction())
+                            {
+                            case TransfConfig::ORIG_DONT_CHANGE: break;
+                            case TransfConfig::ORIG_ERASE: { strNewOrigName = "*"; fileEraser.erase(strOrigName); } break; //ttt2 try ...
+                            case TransfConfig::ORIG_MOVE: { m_transfConfig.getProcOrigName(strOrigName, strNewOrigName); renameFile(strOrigName, strNewOrigName); } break;
+                            case TransfConfig::ORIG_MOVE_OR_ERASE:
                                 {
-                                case TransfConfig::TRANSF_DONT_CREATE: { /*TRACER1A("transf ", 372);*/ renameFile(strTempName, strProcName); /*TRACER1A("transf ", 373);*/ break; }
-                                case TransfConfig::TRANSF_CREATE: { /*TRACER1A("transf ", 374);*/ copyFile(strTempName, strProcName); /*TRACER1A("transf ", 375);*/ break; }
-                                default: { /*TRACER1A("transf ", 376);*/ CB_ASSERT (false); }
+                                    m_transfConfig.getProcOrigName(strOrigName, strNewOrigName);
+                                    if (fileExists(strNewOrigName))
+                                    {
+                                        strNewOrigName = "*";
+                                        fileEraser.erase(strOrigName);
+                                    }
+                                    else
+                                    {
+                                        renameFile(strOrigName, strNewOrigName);
+                                    }
                                 }
-                                //TRACER1A("transf ", 377);
+                                break;
+                            default: CB_ASSERT (false);
                             }
-                            break;
+    //TRACER1A("transf ", 36);
+                            // the last processed file exists (usualy in the same folder as the source), its name is in strTempName, and we have to see what to do with it (erase, rename, or copy);
+                            switch (m_transfConfig.getProcessedAction())
+                            {
+                            case TransfConfig::TRANSF_DONT_CREATE: deleteFile(strTempName); break;
+                            case TransfConfig::TRANSF_CREATE:
+                                {//TRACER1A("transf ", 37);
+                                //Tracer t1 (strOrigName);
+                                    m_transfConfig.getProcessedName(strOrigName, strProcName);
+                                    //Tracer t2 (strProcName);
+                                    //TRACER1A("transf ", 371);
+                                    switch (m_transfConfig.getTempAction())
+                                    {
+                                    case TransfConfig::TRANSF_DONT_CREATE: { /*TRACER1A("transf ", 372);*/ renameFile(strTempName, strProcName); /*TRACER1A("transf ", 373);*/ break; }
+                                    case TransfConfig::TRANSF_CREATE: { /*TRACER1A("transf ", 374);*/ copyFile(strTempName, strProcName); /*TRACER1A("transf ", 375);*/ break; }
+                                    default: { /*TRACER1A("transf ", 376);*/ CB_ASSERT (false); }
+                                    }
+                                    //TRACER1A("transf ", 377);
+                                }
+                                break;
 
-                        default: CB_ASSERT (false);
+                            default: CB_ASSERT (false);
+                            }
+                            //TRACER1A("transf ", 38);
+
+                            tmpEraser.release();
+                            //TRACER1A("transf ", 39);
                         }
-                        //TRACER1A("transf ", 38);
-
-                        tmpEraser.release();
-                        //TRACER1A("transf ", 39);
+    //TRACER1A("transf ", 40);
+                        fileEraser.finalize();
+                        //TRACER1A("transf ", 41);
                     }
-//TRACER1A("transf ", 40);
-                    fileEraser.finalize();
-                    //TRACER1A("transf ", 41);
+                    catch (const CannotDeleteFile&)
+                    {
+                    //TRACER1A("transf ", 42);
+                        bErrorInTransform = true;
+                    }
+                    catch (const CannotRenameFile&) //ttt2 perhaps also NameNotFound, AlreadyExists, ...
+                    {
+                    //TRACER1A("transf ", 43);
+                        bErrorInTransform = true;
+                    }
+                    catch (const CannotCreateDir& ex)
+                    {
+                    //TRACER1A("transf ", 44);
+                        bErrorInTransform = true;
+                        m_strErrorDir = ex.m_strDir;
+                    }
+                    catch (const CannotCopyFile& ex)
+                    {
+                    //TRACER1A("transf ", 45);
+                        CB_ASSERT1(false, ex.what());
+                        //bErrorInTransform = true;
+                    }
+    //TRACER1A("transf ", 46);
                 }
-                catch (const CannotDeleteFile&)
-                {
-                //TRACER1A("transf ", 42);
-                    bErrorInTransform = true;
-                }
-                catch (const CannotRenameFile&) //ttt2 perhaps also NameNotFound, AlreadyExists, ...
-                {
-                //TRACER1A("transf ", 43);
-                    bErrorInTransform = true;
-                }
-                catch (const CannotCreateDir& ex)
-                {
-                //TRACER1A("transf ", 44);
-                    bErrorInTransform = true;
-                    m_strErrorDir = ex.m_strDir;
-                }
-                catch (const CannotCopyFile& ex)
-                {
-                //TRACER1A("transf ", 45);
-                    CB_ASSERT1(false, ex.what());
-                    //bErrorInTransform = true;
-                }
-//TRACER1A("transf ", 46);
+
                 if (bErrorInTransform)
                 {
                 //TRACER1A("transf ", 47);
@@ -620,7 +634,7 @@ bool Mp3Transformer::transform()
                     if ("*" != strNewOrigName && m_pCommonData->m_dirTreeEnum.isIncluded(strNewOrigName))
                     {
                     //TRACER1A("transf ", 54);
-                        m_vpAdd.push_back(new Mp3Handler(strNewOrigName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds()));
+                        m_vpAdd.push_back(Mp3Handler::create(strNewOrigName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds()));
                         //TRACER1A("transf ", 55);
                     }
                 }
@@ -638,7 +652,7 @@ bool Mp3Transformer::transform()
                     if (m_pCommonData->m_dirTreeEnum.isIncluded(strProcName))
                     {
                     //TRACER1A("transf ", 59);
-                        m_vpAdd.push_back(new Mp3Handler(strProcName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds())); // !!! a new Mp3Handler is needed, because pNewHndl has an incorrect file name (but otherwise they should be identical)
+                        m_vpAdd.push_back(Mp3Handler::create(strProcName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds())); // !!! a new Mp3Handler is needed, because pNewHndl has an incorrect file name (but otherwise they should be identical)
                         //TRACER1A("transf ", 60);
                     }
                     //TRACER1A("transf ", 61);
@@ -662,7 +676,7 @@ bool Mp3Transformer::transform()
     {
         qDebug("Caught std::exception in Mp3TransformThread::transform()");
         traceToFile("Caught std::exception in Mp3TransformThread::transform()", 0);
-        qDebug(ex.what());
+        qDebug("%s", ex.what());
         traceToFile(ex.what(), 0);
         throw; // !!! needed to restore "erased" files when errors occur, because when an exception is thrown the destructors only get called if that exception is caught; so catching and rethrowing is not a "no-op"
     }

@@ -50,6 +50,10 @@ function initialize
 }
 
 
+# This creates the file that ends up at http://mp3diags.sourceforge.net/pad_file.xml and is supposed to be used to
+# notify others of a new release - https://stackoverflow.com/questions/1030666/what-is-pad-submission
+# Created following a number of mails with webmaster@fiberdownload.com, probably not used anymore, but it doesn't hurt.
+# ttt3 Doesn't properly support "unstable", because it sets the version and time but the URLs remain for "stable".
 function createPad
 {
     echo Creating pad

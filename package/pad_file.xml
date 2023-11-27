@@ -13,19 +13,19 @@
                 <State_Province />
                 <Zip_Postal_Code />
                 <Country>Romania</Country>
-                <Company_WebSite_URL>http://sourceforge.net/users/ciobi07</Company_WebSite_URL>
+                <Company_WebSite_URL>https://sourceforge.net/users/ciobi07</Company_WebSite_URL>
                 <Contact_Info>
                         <Author_First_Name>Marian</Author_First_Name>
                         <Author_Last_Name>Ciobanu</Author_Last_Name>
-                        <Author_Email>ciobi@inbox.com</Author_Email>
+                        <Author_Email>mp3diags@gmail.com</Author_Email>
                         <Contact_First_Name>Marian</Contact_First_Name>
                         <Contact_Last_Name>Ciobanu</Contact_Last_Name>
-                        <Contact_Email>ciobi@inbox.com</Contact_Email>
+                        <Contact_Email>mp3diags@gmail.com</Contact_Email>
                 </Contact_Info>
                 <Support_Info>
                         <Sales_Email />
-                        <Support_Email>ciobi@inbox.com</Support_Email>
-                        <General_Email>ciobi@inbox.com</General_Email>
+                        <Support_Email>mp3diags@gmail.com</Support_Email>
+                        <General_Email>mp3diags@gmail.com</General_Email>
                         <Sales_Phone />
                         <Support_Phone />
                         <General_Phone />
@@ -78,21 +78,21 @@
         </Program_Descriptions>
         <Web_Info>
                 <Application_URLs>
-                        <Application_Info_URL>http://mp3diags.sourceforge.net/</Application_Info_URL>
-                        <Application_Order_URL>http://mp3diags.sourceforge.net/010_getting_the_program.html</Application_Order_URL>
-                        <Application_Screenshot_URL>http://mp3diags.sourceforge.net/004_screenshot01.html</Application_Screenshot_URL>
-                        <Application_Icon_URL>http://mp3diags.sourceforge.net/icon.png</Application_Icon_URL>
-                        <Application_XML_File_URL>http://mp3diags.sourceforge.net/pad_file.xml</Application_XML_File_URL>
+                        <Application_Info_URL>https://mp3diags.sourceforge.net/</Application_Info_URL>
+                        <Application_Order_URL>https://mp3diags.sourceforge.net/010_getting_the_program.html</Application_Order_URL>
+                        <Application_Screenshot_URL>https://mp3diags.sourceforge.net/004_screenshot01.html</Application_Screenshot_URL>
+                        <Application_Icon_URL>https://mp3diags.sourceforge.net/icon.png</Application_Icon_URL>
+                        <Application_XML_File_URL>https://mp3diags.sourceforge.net/pad_file.xml</Application_XML_File_URL>
                 </Application_URLs>
                 <Download_URLs>
-                        <Primary_Download_URL>http://sourceforge.net/projects/mp3diags/files/mp3diags-windows-setup/MP3DiagsSetup.exe</Primary_Download_URL>
+                        <Primary_Download_URL>https://sourceforge.net/projects/mp3diags/files/mp3diags-windows-setup/MP3DiagsSetup.exe</Primary_Download_URL>
                         <Secondary_Download_URL />
-                        <Additional_Download_URL_1>http://sourceforge.net/projects/mp3diags/files/mp3diags-src/MP3Diags.tar.gz</Additional_Download_URL_1>
+                        <Additional_Download_URL_1>https://sourceforge.net/projects/mp3diags/files/mp3diags-src/MP3Diags.tar.gz</Additional_Download_URL_1>
                         <Additional_Download_URL_2 />
                 </Download_URLs>
         </Web_Info>
         <Permissions>
-                <Distribution_Permissions>MP3 Diags can be freely distributed under the terms of the GNU General Public License Version 2 - http://www.gnu.org/licenses/gpl-2.0.html</Distribution_Permissions>
+                <Distribution_Permissions>MP3 Diags can be freely distributed under the terms of the GNU General Public License Version 2 - https://www.gnu.org/licenses/gpl-2.0.html</Distribution_Permissions>
                 <EULA />
         </Permissions>
 </XML_DIZ_INFO>

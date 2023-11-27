@@ -223,7 +223,7 @@ doc/z_lines.xcf	f	2009-05-12T09:38:40Z
 Doxyfile	f	2011-05-21T07:43:21Z
 .gitignore	f	2023-11-25T18:44:23Z
 Install.sh	f	2014-01-19T14:37:42Z
-MakeArchives.sh	f	2021-09-01T16:36:47Z
+MakeArchives.sh	f	2023-11-27T17:55:27Z
 MakeTranslations.sh	f	2019-04-06T08:34:05Z
 MP3DiagsCLI.cmd	f	2011-07-31T07:26:38Z
 mp3diags.pro	f	2019-04-03T21:39:13Z
@@ -232,7 +232,7 @@ package/deb/debian.changelog	f	2009-05-31T06:47:02Z
 package/deb/debian.control	f	2013-05-21T04:55:34Z
 package/deb/debian.rules	f	2014-02-13T22:35:13Z
 package/deb/MP3Diags.dsc	f	2013-05-21T04:55:47Z
-package/pad_file.xml	f	2010-07-04T11:45:45Z
+package/pad_file.xml	f	2023-11-27T17:50:09Z
 package/rpm/MP3Diags-Mandriva_2009.1.spec	f	2012-03-11T08:40:59Z
 package/rpm/MP3Diags.spec	f	2012-03-11T16:00:37Z
 package/sourceforge/linux_downloads.html	f	2009-06-10T07:26:41Z

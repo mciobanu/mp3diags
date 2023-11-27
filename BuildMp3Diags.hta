@@ -414,7 +414,7 @@
             var fOut = fsObj.CreateTextFile("findVer.bat", true);
             fOut.writeLine("call \"" + crtFolderSettings[2] + "\\vcvarsall.bat\" " + arch);
             fOut.writeLine("cl 2> ver.txt");
-            fOut.writeLine("pause");
+            //fOut.writeLine("pause");
             fOut.close();
 
             wsShell.run("findVer.bat", 1, true);
@@ -454,10 +454,10 @@
         {
             var fOut = fsObj.CreateTextFile("generateVsProject.bat", true);
             fOut.writeLine("echo on");
-            fOut.writeLine("echo qqqqqqqqqqqqqqqqqqqqqqq");
+            //fOut.writeLine("echo qqqqqqqqqqqqqqqqqqqqqqq");
             fOut.writeLine("call \"" + crtFolderSettings[2] + "\\vcvarsall.bat\" " + arch);
             fOut.writeLine("echo on");
-            fOut.writeLine("echo wwwwwwwwwwwwwwwwwwwwwww");
+            //fOut.writeLine("echo wwwwwwwwwwwwwwwwwwwwwww");
             //fOut.writeLine("PATH=\"" + crtFolderSettings[3] + "\\bin\";%PATH%");
             fOut.writeLine("PATH=" + crtFolderSettings[3] + "\\bin;%PATH%");
             fOut.writeLine();
@@ -467,8 +467,8 @@
             //fOut.writeLine("set QTDIR=" + crtFolderSettings[3]);
             fOut.writeLine();
             fOut.writeLine("qmake -tp vc -r mp3diags.pro");
-            fOut.writeLine("dir");
-            fOut.writeLine("pause");
+            //fOut.writeLine("dir");
+            //fOut.writeLine("pause");
 
             fOut.close();
         }
@@ -510,10 +510,11 @@
 
         {
             var fOut = fsObj.CreateTextFile("build.bat", true);
+            fOut.writeLine("echo on");
             fOut.writeLine("call \"" + crtFolderSettings[2] + "\\vcvarsall.bat\" " + arch);
             fOut.writeLine("echo on");
-            fOut.writeLine("echo bbbbbbbbbbbbbbbb");
-            fOut.writeLine("PATH=" + crtFolderSettings[3] + "\\bin;%PATH%");
+            //fOut.writeLine("echo bbbbbbbbbbbbbbbb");
+            fOut.writeLine("PATH=" + crtFolderSettings[3] + "\\bin;%PATH%"); //!!! Putting crtFolderSettings[3] between double quotes makes qmake crash
             fOut.writeLine("");
             //fOut.writeLine("devenv /build release mp3diags.sln");
             fOut.writeLine("msbuild src\\MP3DiagsWindows." + ext + " /p:Configuration=Release");

@@ -30,7 +30,7 @@
     #include  <ctime>
 #endif
 
-#include  <QHttp>
+#include  "QHttp"
 #include  <QMessageBox>
 #include  <QXmlSimpleReader>
 #include  <QBuffer>

@@ -142,6 +142,8 @@ function fixTitleBranch
 #}
 
 
+# The file this creates is copied to SourceForge and is available for download, alongside source, setup, and exe.
+# Meant mainly for packagers.
 function createDoc
 {
     echo Creating non-counted documentation

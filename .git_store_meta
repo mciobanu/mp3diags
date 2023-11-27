@@ -221,6 +221,7 @@ doc/share.png	f	2009-08-21T14:08:59Z
 doc/z_lines2.xcf	f	2009-05-12T09:51:15Z
 doc/z_lines.xcf	f	2009-05-12T09:38:40Z
 Doxyfile	f	2011-05-21T07:43:21Z
+.gitattributes	f	2023-11-27T09:51:41Z
 .gitignore	f	2023-11-25T18:44:23Z
 Install.sh	f	2014-01-19T14:37:42Z
 MakeArchives.sh	f	2023-11-27T18:14:00Z
@@ -457,5 +458,4 @@ src/Widgets.h	f	2012-03-02T21:17:30Z
 templates/cpp	f	2009-05-06T07:21:29Z
 templates/h	f	2009-05-06T07:21:39Z
 Uninstall.sh	f	2012-03-11T17:03:55Z
-Windows/MP3Diags.nsi	f	2014-01-17T12:31:45Z
-Windows/MP3DiagsUnstable.nsi	f	2019-04-07T07:47:53Z
+Windows/MP3DiagsUnstable.nsi	f	2023-11-27T20:19:11Z

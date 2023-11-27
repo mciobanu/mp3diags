@@ -66,6 +66,9 @@ SetCompressor /SOLID lzma
 
 
 
+
+
+
 !insertmacro MUI_LANGUAGE "English"
 
 Section "Main Application" !Required ;No components page, name is not important
@@ -81,6 +84,33 @@ Section "Main Application" !Required ;No components page, name is not important
   File *.qm
   File *.dll
   File *.txt
+
+  SetOutPath $INSTDIR\iconengines
+  File iconengines\qsvgicon.dll
+
+  SetOutPath $INSTDIR\imageformats
+  File imageformats\qgif.dll
+  File imageformats\qicns.dll
+  File imageformats\qico.dll
+  File imageformats\qjpeg.dll
+  File imageformats\qsvg.dll
+  File imageformats\qtga.dll
+  File imageformats\qtiff.dll
+  File imageformats\qwbmp.dll
+  File imageformats\qwebp.dll
+
+  SetOutPath $INSTDIR\platforms
+  File platforms\qwindows.dll
+
+  SetOutPath $INSTDIR\styles
+  File styles\qwindowsvistastyle.dll
+
+  SetOutPath $INSTDIR\translations
+  File translations\qt_cs.qm
+  File translations\qt_de.qm
+  File translations\qt_en.qm
+  File translations\qt_fr.qm
+
 
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
 
@@ -117,6 +147,44 @@ Section "un.Uninstall"
   Delete $INSTDIR\*.cmd
   Delete $INSTDIR\*.ico
 
+  Delete $INSTDIR\iconengines\*.dll
+  Delete $INSTDIR\imageformats\*.dll
+  Delete $INSTDIR\platforms\*.dll
+  Delete $INSTDIR\styles\*.dll
+  Delete $INSTDIR\translations\*.qm
+
+  ;Delete $INSTDIR\Uninstall.exe
+  ;Delete $INSTDIR\MP3DiagsWindows-unstable.exe
+  ;Delete $INSTDIR\favicon.ico
+
+  ;Delete $INSTDIR\boost.txt
+  ;Delete $INSTDIR\libboost_serialization-*.dll
+  ;Delete $INSTDIR\libboost_program_options-*.dll
+  ;; boost_serialization-*.dll might be there from an older version
+  ;Delete $INSTDIR\boost_serialization-*.dll
+  ;Delete $INSTDIR\changelog.txt
+  ;Delete $INSTDIR\gplv2.txt
+  ;Delete $INSTDIR\gplv3.txt
+  ;Delete $INSTDIR\lgpl-2.1.txt
+  ;Delete $INSTDIR\lgplv3.txt
+  ;Delete $INSTDIR\libgcc_s_dw2-1.dll
+  ;;Delete $INSTDIR\mingwm10.dll
+  ;Delete $INSTDIR\Qt*.dll
+  ;Delete $INSTDIR\zlib.txt
+  ;Delete $INSTDIR\zlib1.dll
+  ;Delete $INSTDIR\*.qm
+  ;Delete $INSTDIR\MP3DiagsCLI-unstable.cmd
+
+  ;Delete $INSTDIR\iconengines\qsvgicon4.dll
+  ;Delete $INSTDIR\imageformats\qsvg4.dll
+  ;Delete $INSTDIR\imageformats\qjpeg4.dll
+  ;Delete $INSTDIR\imageformats\qgif4.dll
+
+  RMDir $INSTDIR\iconengines
+  RMDir $INSTDIR\imageformats
+  RMDir $INSTDIR\platforms
+  RMDir $INSTDIR\styles
+  RMDir $INSTDIR\translations
   RMDir $INSTDIR
 
   DeleteRegKey HKEY_CLASSES_ROOT "Directory\shell\mp3diags_temp_dir"

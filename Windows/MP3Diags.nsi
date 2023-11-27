@@ -78,45 +78,44 @@ Section "Main Application" !Required ;No components page, name is not important
   SetOutPath $INSTDIR
 
   ; Put file there
-  File Mp3DiagsWindows.exe
+  File MP3DiagsWindows.exe
   File favicon.ico
 
-  File boost.txt
-  File libboost_serialization-mgw44-mt-1_46_1.dll
-  File libboost_program_options-mgw44-mt-1_46_1.dll
-  File changelog.txt
-  File gplv2.txt
-  File gplv3.txt
-  File lgpl-2.1.txt
-  File lgplv3.txt
-  File libgcc_s_dw2-1.dll
-  File mingwm10.dll
-  File QtCore4.dll
-  File QtGui4.dll
-  File QtNetwork4.dll
-  File QtSvg4.dll
-  File QtXml4.dll
-  File zlib.txt
-  File zlib1.dll
-  File qt_cs.qm
-  File qt_de.qm
-  File qt_fr.qm
-  File mp3diags_cs.qm
-  File mp3diags_de_DE.qm
-  File mp3diags_fr_FR.qm
+  File *.qm
+  File *.dll
+  File *.txt
 
   SetOutPath $INSTDIR\iconengines
-  File iconengines\qsvgicon4.dll
+  File iconengines\qsvgicon.dll
+
   SetOutPath $INSTDIR\imageformats
-  File imageformats\qsvg4.dll
-  File imageformats\qjpeg4.dll
-  File imageformats\qgif4.dll
+  File imageformats\qgif.dll
+  File imageformats\qicns.dll
+  File imageformats\qico.dll
+  File imageformats\qjpeg.dll
+  File imageformats\qsvg.dll
+  File imageformats\qtga.dll
+  File imageformats\qtiff.dll
+  File imageformats\qwbmp.dll
+  File imageformats\qwebp.dll
+
+  SetOutPath $INSTDIR\platforms
+  File platforms\qwindows.dll
+
+  SetOutPath $INSTDIR\styles
+  File styles\qwindowsvistastyle.dll
+
+  SetOutPath $INSTDIR\translations
+  File translations\qt_cs.qm
+  File translations\qt_de.qm
+  File translations\qt_en.qm
+  File translations\qt_fr.qm
 
 
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
 
     CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\MP3 Diags.lnk" "$INSTDIR\Mp3DiagsWindows.exe" \
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\MP3 Diags.lnk" "$INSTDIR\MP3DiagsWindows.exe" \
       "" "$INSTDIR\favicon.ico" 0 SW_SHOWNORMAL
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
   !insertmacro MUI_STARTMENU_WRITE_END
@@ -141,39 +140,51 @@ SectionEnd ; end the section
 ; The uninstall section
 Section "un.Uninstall"
 
-  Delete $INSTDIR\Uninstall.exe
-  Delete $INSTDIR\Mp3DiagsWindows.exe
-  Delete $INSTDIR\favicon.ico
-
-  Delete $INSTDIR\boost.txt
-  Delete $INSTDIR\libboost_serialization-*.dll
-  Delete $INSTDIR\libboost_program_options-*.dll
-  ; boost_serialization-*.dll might be there from an older version
-  Delete $INSTDIR\boost_serialization-*.dll
-  Delete $INSTDIR\changelog.txt
-  Delete $INSTDIR\gplv2.txt
-  Delete $INSTDIR\gplv3.txt
-  Delete $INSTDIR\lgpl-2.1.txt
-  Delete $INSTDIR\lgplv3.txt
-  Delete $INSTDIR\libgcc_s_dw2-1.dll
-  Delete $INSTDIR\mingwm10.dll
-  Delete $INSTDIR\QtCore4.dll
-  Delete $INSTDIR\QtGui4.dll
-  Delete $INSTDIR\QtNetwork4.dll
-  Delete $INSTDIR\QtSvg4.dll
-  Delete $INSTDIR\QtXml4.dll
-  Delete $INSTDIR\zlib.txt
-  Delete $INSTDIR\zlib1.dll
+  Delete $INSTDIR\*.exe
+  Delete $INSTDIR\*.txt
+  Delete $INSTDIR\*.dll
   Delete $INSTDIR\*.qm
-  Delete $INSTDIR\MP3DiagsCLI.cmd
+  Delete $INSTDIR\*.cmd
+  Delete $INSTDIR\*.ico
 
-  Delete $INSTDIR\iconengines\qsvgicon4.dll
-  Delete $INSTDIR\imageformats\qsvg4.dll
-  Delete $INSTDIR\imageformats\qjpeg4.dll
-  Delete $INSTDIR\imageformats\qgif4.dll
+  Delete $INSTDIR\iconengines\*.dll
+  Delete $INSTDIR\imageformats\*.dll
+  Delete $INSTDIR\platforms\*.dll
+  Delete $INSTDIR\styles\*.dll
+  Delete $INSTDIR\translations\*.qm
+
+  ;Delete $INSTDIR\Uninstall.exe
+  ;Delete $INSTDIR\MP3DiagsWindows.exe
+  ;Delete $INSTDIR\favicon.ico
+
+  ;Delete $INSTDIR\boost.txt
+  ;Delete $INSTDIR\libboost_serialization-*.dll
+  ;Delete $INSTDIR\libboost_program_options-*.dll
+  ;; boost_serialization-*.dll might be there from an older version
+  ;Delete $INSTDIR\boost_serialization-*.dll
+  ;Delete $INSTDIR\changelog.txt
+  ;Delete $INSTDIR\gplv2.txt
+  ;Delete $INSTDIR\gplv3.txt
+  ;Delete $INSTDIR\lgpl-2.1.txt
+  ;Delete $INSTDIR\lgplv3.txt
+  ;Delete $INSTDIR\libgcc_s_dw2-1.dll
+  ;;Delete $INSTDIR\mingwm10.dll
+  ;Delete $INSTDIR\Qt*.dll
+  ;Delete $INSTDIR\zlib.txt
+  ;Delete $INSTDIR\zlib1.dll
+  ;Delete $INSTDIR\*.qm
+  ;Delete $INSTDIR\MP3DiagsCLI.cmd
+
+  ;Delete $INSTDIR\iconengines\qsvgicon4.dll
+  ;Delete $INSTDIR\imageformats\qsvg4.dll
+  ;Delete $INSTDIR\imageformats\qjpeg4.dll
+  ;Delete $INSTDIR\imageformats\qgif4.dll
 
   RMDir $INSTDIR\iconengines
   RMDir $INSTDIR\imageformats
+  RMDir $INSTDIR\platforms
+  RMDir $INSTDIR\styles
+  RMDir $INSTDIR\translations
   RMDir $INSTDIR
 
   DeleteRegKey HKEY_CLASSES_ROOT "Directory\shell\mp3diags_temp_dir"
@@ -195,5 +206,5 @@ SectionEnd
 
 Function LaunchLink
 ;  ExecShell "" "$SMPROGRAMS\$StartMenuFolder\MP3 Diags.lnk"
-  ExecShell "" "$INSTDIR\Mp3DiagsWindows.exe"
+  ExecShell "" "$INSTDIR\MP3DiagsWindows.exe"
 FunctionEnd

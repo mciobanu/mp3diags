@@ -30,6 +30,12 @@
     var SETTINGS_FILE;
 
     var wsShell = new ActiveXObject("WScript.Shell");
+    var fullPath = window.location.pathname;
+    var parentPath = fullPath.substring(0, fullPath.lastIndexOf('\\'));
+    wsShell.CurrentDirectory = parentPath;
+
+    var arch = "x86"; // either x86 or x86_amd64 //ttt1 make param
+
     var fsObj = new ActiveXObject("Scripting.FileSystemObject");
 
     function printSett(title)
@@ -333,7 +339,12 @@
         while (!fIn.AtEndOfStream)
         {
             line = fIn.ReadLine();
-            if (-1 == line.indexOf("boost_serialization") && -1 == line.indexOf("boost_program_options") && -1 == line.indexOf("lz"))
+            if (-1 == line.indexOf("boost_serialization")
+                    && -1 == line.indexOf("boost_program_options")
+                    && -1 == line.indexOf("lz")
+                    && -1 == line.indexOf("-Werror=") // GCC-specific
+                    && -1 == line.indexOf("-Wno-unused-parameter") // GCC-specific
+            )
             {
                 if (0 == line.indexOf("TARGET = MP3Diags") && 0 != line.indexOf("TARGET = MP3DiagsWindows"))
                 {
@@ -401,8 +412,9 @@
 
         {
             var fOut = fsObj.CreateTextFile("findVer.bat", true);
-            fOut.writeLine("call \"" + crtFolderSettings[2] + "\\vcvarsall.bat\" x86");
+            fOut.writeLine("call \"" + crtFolderSettings[2] + "\\vcvarsall.bat\" " + arch);
             fOut.writeLine("cl 2> ver.txt");
+            fOut.writeLine("pause");
             fOut.close();
 
             wsShell.run("findVer.bat", 1, true);
@@ -441,14 +453,22 @@
 
         {
             var fOut = fsObj.CreateTextFile("generateVsProject.bat", true);
-            fOut.writeLine("call \"" + crtFolderSettings[2] + "\\vcvarsall.bat\" x86");
-            fOut.writeLine("PATH=\"" + crtFolderSettings[3] + "\\bin\";%PATH%");
+            fOut.writeLine("echo on");
+            fOut.writeLine("echo qqqqqqqqqqqqqqqqqqqqqqq");
+            fOut.writeLine("call \"" + crtFolderSettings[2] + "\\vcvarsall.bat\" " + arch);
+            fOut.writeLine("echo on");
+            fOut.writeLine("echo wwwwwwwwwwwwwwwwwwwwwww");
+            //fOut.writeLine("PATH=\"" + crtFolderSettings[3] + "\\bin\";%PATH%");
+            fOut.writeLine("PATH=" + crtFolderSettings[3] + "\\bin;%PATH%");
             fOut.writeLine();
 
             //fOut.writeLine("set QMAKESPEC=\"" + crtFolderSettings[3] + "\\mkspecs\\win32-msvc" + msVer + "\""); // commented out, because the "mkspecs/default" should be OK
-            fOut.writeLine("set QTDIR=\"" + crtFolderSettings[3] + "\"");
+            //fOut.writeLine("set QTDIR=\"" + crtFolderSettings[3] + "\"");
+            //fOut.writeLine("set QTDIR=" + crtFolderSettings[3]);
             fOut.writeLine();
             fOut.writeLine("qmake -tp vc -r mp3diags.pro");
+            fOut.writeLine("dir");
+            fOut.writeLine("pause");
 
             fOut.close();
         }
@@ -490,8 +510,10 @@
 
         {
             var fOut = fsObj.CreateTextFile("build.bat", true);
-            fOut.writeLine("call \"" + crtFolderSettings[2] + "\\vcvarsall.bat\" x86");
-            fOut.writeLine("PATH=\"" + crtFolderSettings[3] + "\\bin\";%PATH%");
+            fOut.writeLine("call \"" + crtFolderSettings[2] + "\\vcvarsall.bat\" " + arch);
+            fOut.writeLine("echo on");
+            fOut.writeLine("echo bbbbbbbbbbbbbbbb");
+            fOut.writeLine("PATH=" + crtFolderSettings[3] + "\\bin;%PATH%");
             fOut.writeLine("");
             //fOut.writeLine("devenv /build release mp3diags.sln");
             fOut.writeLine("msbuild src\\MP3DiagsWindows." + ext + " /p:Configuration=Release");

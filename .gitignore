@@ -4,3 +4,4 @@ package/out/
 *.iml
 z-publish/
 z-purpose.txt
+/cmake-build-debug/

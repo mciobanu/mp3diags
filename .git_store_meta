@@ -11,7 +11,7 @@ changelogRpm.txt	f	2021-09-01T16:34:25Z
 changelog.txt	f	2021-09-01T16:34:25Z
 CMakeLists.2009.txt	f	2009-09-25T14:27:54Z
 CMakeLists.txt	f	2023-11-27T07:41:21Z
-CMake-VS2008-Win32.cmd	f	2009-09-23T16:55:34Z
+CMake-VS2008-Win32.cmd	f	2023-11-28T13:53:05Z
 COPYING	f	2016-08-06T13:23:08Z
 CopyToSf.sh	f	2019-04-07T14:22:05Z
 desktop/MP3DiagsBckg.xcf	f	2009-05-19T15:31:08Z
@@ -226,7 +226,7 @@ Doxyfile	f	2011-05-21T07:43:21Z
 Install.sh	f	2014-01-19T14:37:42Z
 MakeArchives.sh	f	2023-11-28T13:25:46Z
 MakeTranslations.sh	f	2019-04-06T08:34:05Z
-MP3DiagsCLI.cmd	f	2011-07-31T07:26:38Z
+MP3DiagsCLI.cmd	f	2023-11-28T13:52:34Z
 mp3diags.pro	f	2019-04-03T21:39:13Z
 package/AddChangeLog.py	f	2023-11-26T08:55:18Z
 package/deb/debian.changelog	f	2009-05-31T06:47:02Z

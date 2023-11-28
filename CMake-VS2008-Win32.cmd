@@ -1,6 +1,5 @@
 @echo off
 
-
 : (Re-)create an empty output directory.
 rmdir /s /q VS2008-Win32 2> nul
 mkdir VS2008-Win32 2> nul

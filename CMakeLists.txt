@@ -79,7 +79,8 @@ if(WIN32)
     message(STATUS "On Windows, BUILD_TYPE is forced to Release, which matters for debugging library code")
     set(BUILD_TYPE Release) # ttt0 this is wrong, but it doesn't seem possible to do it right, and other areas assume Release anyway
     # https://stackoverflow.com/questions/39282430/how-to-get-current-configuration-release-debug-in-cmake-for-visual-studio
-    # https://stackoverflow.com/questions/24460486/cmake-build-type-is-not-being-used-in-cmakelists-txt
+    # https://stackoverflow.com/questions/24460486/cmake-build-type-is-not-being-used-in-cmakelists-txt  ttt0 Revisit this, in particular
+    #   make sure the "will have the same effect" is correct, as it doesn't seem so (at least the linker couldn't find Boost in Debug)
     # https://stackoverflow.com/questions/68839452/cmake-determine-the-build-configuration-name
     # Note that there's also a CMAKE_BUILD_TYPE, which is what should normally be passed when calling CMake
 endif()
@@ -411,3 +412,81 @@ else()
                 )
     endif()
 endif()
+
+
+
+#[[
+
+============================= multi-configuration ==============================
+
+ttt0 See if a debug/release item can be used to generate a proper VS project, with different libraries for
+    debug and release in the same project - https://cmake.org/cmake/help/v3.28/command/target_link_libraries.html
+According to https://github.com/conan-io/conan/issues/330 you can specify 'debug' or 'optimized' in front of the
+    library name
+
+
+ChatGPT recommends this:
+
+>>>>>>>>>>>>>>>>>>
+
+cmake_minimum_required(VERSION 3.12)
+project(YourProjectName)
+
+# Find Boost components
+find_package(Boost REQUIRED COMPONENTS <your_boost_libraries_here>)
+
+# Include Boost directories
+include_directories(${Boost_INCLUDE_DIRS})
+
+# Set compiler flags for Debug and Release builds
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DNDEBUG")
+
+# Add your source files here
+add_executable(your_target_name main.cpp)
+
+# Link with Boost libraries
+target_link_libraries(your_target_name ${Boost_LIBRARIES})
+
+<<<<<<<<<<<<<<<<<
+
+and then
+
+>>>>>>>>>>>>>>>>>
+
+mkdir build
+cd build
+
+cmake -G "Visual Studio <Version>" ..
+
+cmake -G "Visual Studio 16 2019" -A x64 ..
+
+<<<<<<<<<<<<<<<<
+
+and to build
+
+>>>>>>>>>>>>
+
+start YourProjectName.sln
+
+or
+msbuild YourProjectName.sln /p:Configuration=Debug
+
+or
+msbuild YourProjectName.sln /p:Configuration=Release
+
+
+
+So this "build" dir is sort of a strange place to keep the .sln in, but maybe it's not that bad.
+Perhaps there are other options
+
+------------------
+
+https://cmake.org/cmake/help/latest/module/FindBoost.html
+
+Perhaps https://stackoverflow.com/a/2224732/1889018, but boost has the same name in debug and release as far as CMake
+is concerned, e.g. "serialization". It gets translated to boost_serialization-vc143-mt-gd-x64-1_83.lib or
+boost_serialization-vc143-mt-x64-1_83.lib when creating the project
+
+
+]]

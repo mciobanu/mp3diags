@@ -1,3 +1,8 @@
+30.11.2023 - 1.5.03
+- Added CMake build
+
+---------------------------------------------------------------------------
+
 01.09.2021 - 1.5.02
 - Made "close" button visible in KDE
 - Added some compile-time checks to make project build on Arch

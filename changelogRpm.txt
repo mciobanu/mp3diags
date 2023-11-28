@@ -1,3 +1,7 @@
+* Fri Dec 01 2023 Marian Ciobanu <ciobi07@users.sourceforge.net> 1.5.03
+
+- Added CMake build
+
 * Wed Sep 01 2021 Marian Ciobanu <ciobi07@users.sourceforge.net> 1.5.02
 
 - Made "close" button visible in KDE

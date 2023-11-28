@@ -6,9 +6,9 @@ BuildBz2.sh	f	2014-01-19T14:46:02Z
 Build-CMake-VS2022.cmd	f	2023-10-16T18:09:53Z
 BuildMp3Diags.hta	f	2023-11-28T08:51:22Z
 Build.sh	f	2019-04-06T08:36:24Z
-changelogDeb.txt	f	2021-09-01T16:31:19Z
-changelogRpm.txt	f	2021-09-01T16:34:25Z
-changelog.txt	f	2021-09-01T16:34:25Z
+changelogDeb.txt	f	2023-11-28T14:52:05Z
+changelogRpm.txt	f	2023-11-28T14:53:47Z
+changelog.txt	f	2023-11-28T14:51:30Z
 CMakeLists.2009.txt	f	2009-09-25T14:27:54Z
 CMakeLists.txt	f	2023-11-27T07:41:21Z
 CMake-VS2008-Win32.cmd	f	2023-11-28T13:57:01Z
@@ -240,7 +240,7 @@ package/sourceforge/linux_downloads.html	f	2009-06-10T07:26:41Z
 README.md	f	2023-11-28T13:04:39Z
 README.TXT	f	2012-12-02T03:27:46Z
 Rebuild-Transl-_ts-Files.sh	f	2014-01-17T10:00:28Z
-Release.txt	f	2021-09-01T16:23:50Z
+Release.txt	f	2023-11-28T14:53:47Z
 src/AboutDlgImpl.cpp	f	2023-11-28T08:21:58Z
 src/AboutDlgImpl.h	f	2009-07-17T15:02:37Z
 src/About.ui	f	2011-06-15T19:56:47Z

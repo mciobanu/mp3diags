@@ -1,3 +1,9 @@
+mp3diags (1.5.03) testing; urgency=low
+
+  * Added CMake build
+
+ -- Marian Ciobanu <mp3diags@gmail.com>  Fri, 1 Dec 2023 22:00:00 +0200
+
 mp3diags (1.5.02) testing; urgency=low
 
   * Made "close" button visible in KDE

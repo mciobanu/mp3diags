@@ -378,9 +378,8 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
     # Tells Qt to build the redistributable files. This involves combining .qm files, and copying DLLs and
     # vc_redist.x64.exe, which contains Visual C++'s dependencies
     add_custom_command(TARGET "${project_name}" POST_BUILD
-            COMMENT "******************** windeployqt\n"
+            #COMMENT "******************** windeployqt\n"
             COMMAND windeployqt "Release/dist/${project_name}.exe"
-            #COMMAND
         )
 
     string(REPLACE "/" "\\" WND_TRANSL_DIR "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/translations")
@@ -388,18 +387,20 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
     foreach(language IN LISTS LANGUAGES)
         # Not all languages exist, as we try both "fr_FR" and just "fr", and that's fine
         add_custom_command(TARGET "${project_name}" POST_BUILD
-                COMMENT "******************** Copying translation for ${language} ...\n"
-                #COMMAND copy "${WND_TRANSL_DIR}\\qt_${language}.qm" "${WND_TRANSL_DIR}\\.." || echo "${language} not found"
-                #COMMAND echo trying "${language}"
-                #COMMAND copy "${WND_TRANSL_DIR}\\qt_${language}.qm" "${WND_TRANSL_DIR}\\.." || (exit 0)
-                COMMAND echo on
-                COMMAND cmd /c "if exist ${WND_TRANSL_DIR}\\qt_${language}.qm copy ${WND_TRANSL_DIR}\\qt_${language}.qm ${WND_TRANSL_DIR}\\.." #ttt0 support spaces in names
+                #COMMENT "******************** Copying translation for ${language} ...\n"
+                COMMAND echo "trying ${language} in ${WND_TRANSL_DIR}\\qt_${language}.qm"
+                #COMMAND cmd /c "if exist \"${WND_TRANSL_DIR}\\qt_${language}.qm\" copy \"${WND_TRANSL_DIR}\\qt_${language}.qm\" \"${WND_TRANSL_DIR}\\..\""
+                #COMMAND cmd /c "if exist ${WND_TRANSL_DIR}\\qt_${language}.qm copy ${WND_TRANSL_DIR}\\qt_${language}.qm ${WND_TRANSL_DIR}\\.."
+                #COMMAND echo "if exist \"${WND_TRANSL_DIR}\\qt_${language}.qm\" copy \"${WND_TRANSL_DIR}\\qt_${language}.qm\" \"${WND_TRANSL_DIR}\\..\""
+
+                #COMMAND echo ""
+                COMMAND cmd /c if exist "${WND_TRANSL_DIR}\\qt_${language}.qm" copy "${WND_TRANSL_DIR}\\qt_${language}.qm" "${WND_TRANSL_DIR}\\.."
                 VERBATIM
                 )
     endforeach()
 
     add_custom_command(TARGET "${project_name}" POST_BUILD
-            COMMENT "******************** Removing ${WND_TRANSL_DIR} ...\n"
+            #COMMENT "******************** Removing ${WND_TRANSL_DIR} ...\n"
             COMMAND rmdir /S /Q "${WND_TRANSL_DIR}"
             )
 

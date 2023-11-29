@@ -1,15 +1,25 @@
-rem @echo off
+@echo off
 
 rem Creates some dirs, calls cmake, copies some files, so in the end the executable in build\Release\dist
 rem should have all its dependencies and be able to run.
 rem
 rem Requirements:
 rem Visual Studio, Qt5, Boost, and ZLib need to be installed.
-rem Boost_ROOT and ZLIB_ROOT environment variables need to be defined.
+rem Boost_ROOT and ZLIB_ROOT environment variables should be defined and vcvarsall.bat should have been called, otherwise defaults are used.
 rem PATH must contain Qt5's binary location
 rem
 
+rem Couldn't get the following line to work if INCLUDE is not defined; https://stackoverflow.com/questions/39359457/sub-string-expansion-with-empty-string-causes-error-in-if-clause
+rem if x%INCLUDE:Microsoft Visual Studio=% == x%INCLUDE% (
 
+set MSVC_CALLED=false
+echo %INCLUDE% | findstr /i /c:"Microsoft Visual Studio" >nul 2>&1 && set MSVC_CALLED=true
+echo MSVC_CALLED=%MSVC_CALLED%
+if not "%MSVC_CALLED%" == "true" (
+    call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" amd64
+    set ZLIB_ROOT=C:\local\zlib_13
+    set BOOST_ROOT=C:\local\boost_1_83_0
+)
 
 rem ==================== begin ChatGPT generated ====================
 rem Figure out where Qt5 is installed

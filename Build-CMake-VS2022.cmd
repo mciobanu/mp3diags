@@ -74,44 +74,15 @@ mkdir build 2> nul
 rem Generate the project files in the output directory.
 pushd build
 
-mkdir Release 2> nul
-mkdir Release\dist 2> nul
-mkdir Release\dist\iconengines 2> nul
-mkdir Release\dist\imageformats 2> nul
-mkdir Release\dist\platforms 2> nul
-mkdir Release\dist\styles 2> nul
-mkdir Release\dist\translations 2> nul
-
+@REM mkdir Release 2> nul
 
 rem -A x64
 cmake -G "Visual Studio 17 2022" ../
 if errorlevel 1 popd & exit /B
-cmake --build . --config Release
+cmake --build . --config Release -j %NUMBER_OF_PROCESSORS%
 if errorlevel 1 popd & exit /B
 
 echo on
-
-del /q Release\dist\translations\assistant*
-del /q Release\dist\translations\designer*
-del /q Release\dist\translations\linguist*
-del /q Release\dist\translations\qtserialport*
-del /q Release\dist\translations\qtwebsockets*
-rem ttt1 review what else can be deleted
-
-xcopy "%QT_BIN_DIR%\..\plugins\iconengines\qsvgicon.dll" Release\dist\iconengines /q /y
-xcopy "%QT_BIN_DIR%\..\plugins\imageformats\*.dll" Release\dist\imageformats /q /y
-rem remove debug dlls
-del /q Release\dist\imageformats\*d.dll
-xcopy "%QT_BIN_DIR%\..\plugins\platforms\qwindows.dll" Release\dist\platforms /q /y
-xcopy "%QT_BIN_DIR%\..\plugins\styles\qwindowsvistastyle.dll" Release\dist\styles /q /y
-
-xcopy "%QT_BIN_DIR%\Qt5Core.dll" Release\dist /q /y
-xcopy "%QT_BIN_DIR%\Qt5Gui.dll" Release\dist /q /y
-xcopy "%QT_BIN_DIR%\Qt5Svg.dll" Release\dist /q /y
-xcopy "%QT_BIN_DIR%\Qt5Widgets.dll" Release\dist /q /y
-xcopy "%QT_BIN_DIR%\Qt5Xml.dll" Release\dist /q /y
-
-rem xcopy "%QT_BIN_DIR%\..\translations\qt_*.qm" Release\dist\translations /y
 
 popd
 

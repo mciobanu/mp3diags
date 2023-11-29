@@ -80,7 +80,7 @@ message(STATUS "LANGUAGES: ${LANGUAGES}")
 #-----------------
 
 if(WIN32)
-    message(STATUS "On Windows, BUILD_TYPE is forced to Release, which matters for debugging library code")
+    message(STATUS "On Windows, BUILD_TYPE is forced to Release, which matters for linking and debugging library code")
     set(BUILD_TYPE Release) # ttt0 this is wrong, but it doesn't seem possible to do it right, and other areas assume Release anyway
     # https://stackoverflow.com/questions/39282430/how-to-get-current-configuration-release-debug-in-cmake-for-visual-studio
     # https://stackoverflow.com/questions/24460486/cmake-build-type-is-not-being-used-in-cmakelists-txt  ttt0 Revisit this, in particular
@@ -359,20 +359,49 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
     #)
     file(COPY "${BOOST_PROG_OPT_DLL}" DESTINATION ${BUILD_TYPE}/dist)
 
-    #message(STATUS "languages=${LANGUAGES}")
-    foreach(language IN LISTS LANGUAGES)
-        #message(STATUS "language=${language}")
-        #file(GLOB langFiles "${QT_ROOT}/translations/*_${language}\\.qm")
-        #message(STATUS "searching: ${QT_ROOT}translations/*_${language}.qm")
-        file(GLOB langFiles "${QT_ROOT}translations/*_${language}.qm")
-        #message(STATUS "langFiles: ${langFiles}")
-        foreach(f IN LISTS langFiles)
-            file(COPY "${f}" DESTINATION "${BUILD_TYPE}/dist/translations")
-        endforeach()
+    SET(LICENSES boost gplv2 gplv3 "lgpl-2.1" lgplv3 zlib)
+    message(STATUS "BUILD_TYPE: ${BUILD_TYPE}")
+    message(STATUS "CMAKE_CURRENT_BINARY_DIR: ${CMAKE_CURRENT_BINARY_DIR}")
+    foreach(license IN LISTS LICENSES)
+        #configure_file("license.${license}.txt" ${BUILD_TYPE}/dist/zz.${license}.txt COPYONLY)
+        file(COPY "license.${license}.txt" DESTINATION ${BUILD_TYPE}/dist)
+        file(RENAME "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/license.${license}.txt" "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${license}.txt")
     endforeach()
-# boost_program_options-vc143-mt-x64-1_83.dll
-# C:/local/boost_1_83_0/lib64-msvc-14.3
-# Boost_VERSION: 108300
+
+    file(COPY changelog.txt DESTINATION ${BUILD_TYPE}/dist)
+
+    file(GLOB CLI_RUNNER "MP3DiagsCLI*.cmd")
+    file(COPY "${CLI_RUNNER}" DESTINATION ${BUILD_TYPE}/dist)
+
+    #message(STATUS "languages=${LANGUAGES}")
+
+    # Tells Qt to build the redistributable files. This involves combining .qm files, and copying DLLs and
+    # vc_redist.x64.exe, which contains Visual C++'s dependencies
+    add_custom_command(TARGET "${project_name}" POST_BUILD
+            COMMENT "******************** windeployqt\n"
+            COMMAND windeployqt "Release/dist/${project_name}.exe"
+            #COMMAND
+        )
+
+    string(REPLACE "/" "\\" WND_TRANSL_DIR "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/translations")
+
+    foreach(language IN LISTS LANGUAGES)
+        # Not all languages exist, as we try both "fr_FR" and just "fr", and that's fine
+        add_custom_command(TARGET "${project_name}" POST_BUILD
+                COMMENT "******************** Copying translation for ${language} ...\n"
+                #COMMAND copy "${WND_TRANSL_DIR}\\qt_${language}.qm" "${WND_TRANSL_DIR}\\.." || echo "${language} not found"
+                #COMMAND echo trying "${language}"
+                #COMMAND copy "${WND_TRANSL_DIR}\\qt_${language}.qm" "${WND_TRANSL_DIR}\\.." || (exit 0)
+                COMMAND echo on
+                COMMAND cmd /c "if exist ${WND_TRANSL_DIR}\\qt_${language}.qm copy ${WND_TRANSL_DIR}\\qt_${language}.qm ${WND_TRANSL_DIR}\\.." #ttt0 support spaces in names
+                VERBATIM
+                )
+    endforeach()
+
+    add_custom_command(TARGET "${project_name}" POST_BUILD
+            COMMENT "******************** Removing ${WND_TRANSL_DIR} ...\n"
+            COMMAND rmdir /S /Q "${WND_TRANSL_DIR}"
+            )
 
     message(STATUS "CMAKE_INSTALL_BINDIR: ${CMAKE_INSTALL_BINDIR}")
     message(STATUS "CMAKE_CURRENT_BINARY_DIR: ${CMAKE_CURRENT_BINARY_DIR}")

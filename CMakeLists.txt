@@ -404,6 +404,12 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
             COMMAND rmdir /S /Q "${WND_TRANSL_DIR}"
             )
 
+    set(VC_REDIST_EXE "vc_redist.x64.exe") #ttt0 assumes x64
+    add_custom_command(TARGET "${project_name}" POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}" "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/redist/${VC_REDIST_EXE}"
+            COMMAND ${CMAKE_COMMAND} -E remove "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}"
+            )
+
     message(STATUS "CMAKE_INSTALL_BINDIR: ${CMAKE_INSTALL_BINDIR}")
     message(STATUS "CMAKE_CURRENT_BINARY_DIR: ${CMAKE_CURRENT_BINARY_DIR}")
     message(STATUS "LANGUAGES: ${LANGUAGES}")

@@ -11,7 +11,11 @@ cmake_minimum_required(VERSION 3.12) # What 3.12 does is make cmake figure out a
 # environment variable's name and a "_ROOT" suffix, e.g. Boost_ROOT. See https://cmake.org/cmake/help/latest/policy/CMP0074.html
 # and see what happens when building on Windows with a smaller min version, like 3.5
 
-set(project_name "MP3Diags-unstable")
+if(WIN32)
+    set(project_name "MP3DiagsWindows-unstable")
+else()
+    set(project_name "MP3Diags-unstable")
+endif()
 
 project("${project_name}" VERSION 0.1 LANGUAGES CXX)
 

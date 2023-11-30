@@ -369,6 +369,7 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
     endforeach()
 
     file(COPY changelog.txt DESTINATION ${BUILD_TYPE}/dist)
+    file(COPY doc/favicon.ico DESTINATION ${BUILD_TYPE}/dist)
 
     file(GLOB CLI_RUNNER "MP3DiagsCLI*.cmd")
     file(COPY "${CLI_RUNNER}" DESTINATION ${BUILD_TYPE}/dist)

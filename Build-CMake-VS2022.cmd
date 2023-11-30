@@ -28,7 +28,7 @@ setlocal enabledelayedexpansion
 
 REM Create a temporary copy of PATH
 set tempPath=%PATH%
-rem set QT_BIN_DIR_TMP=""
+rem set QT_ROOT_TMP=""
 
 :loop
 REM Extract the portion of PATH up to the first semicolon
@@ -41,24 +41,23 @@ REM Check if the current path contains the desired substring
 echo !currentPath! | findstr /C:"\Qt\5" >nul
 if !errorlevel! == 0 (
     rem echo Entry that matches YourStringHere: !currentPath!
-	set QT_BIN_DIR_TMP=!currentPath!
+	set QT_ROOT_TMP=!currentPath!\..
 )
 
 REM Check if there's more to process in the temporary PATH
-rem if not "!tempPath!"=="" if "QT_BIN_DIR_TMP"=="" goto loop
 if not "!tempPath!"=="" goto loop
 
-rem echo found dir: %QT_BIN_DIR%
+rem echo found dir: %QT_ROOT_TMP%
 
-endlocal & set QT_BIN_DIR=%QT_BIN_DIR_TMP%
+endlocal & set QT_ROOT=%QT_ROOT_TMP%
 
 rem ==================== end ChatGPT generated ====================
 
 
 
-echo QT_BIN_DIR: %QT_BIN_DIR%
+echo QT_ROOT: %QT_ROOT%
 rem if "%PATH:\Qt\5=%" == "%PATH%"
-if "%QT_BIN_DIR%" == "" echo The build process must start from a "Qt 5 command prompt", which should generate a "\Qt\5" entry in PATH, which wasn't found & exit /B
+if "%QT_ROOT%" == "" echo The build process must start from a "Qt 5 command prompt", which should generate a "\Qt\5" entry in PATH, which wasn't found & exit /B
 echo VCToolsVersion: %VCToolsVersion%
 if not defined VCToolsVersion echo You must initialize the MSVC environment, by running something like 'call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" amd64' & exit /B
 echo ZLIB_ROOT: %ZLIB_ROOT%

@@ -36,12 +36,7 @@ if(WIN32)
     if(NOT DEFINED ENV{ZLIB_ROOT})
         message(FATAL_ERROR "You must set ZLIB_ROOT environment variable")
     endif()
-    #include_directories("$ENV{ZLIB_ROOT}/include")
-    #set(QT_BIN_DIR "$ENV{QT_BIN_DIR}")
-    #string(REGEX REPLACE "\\" / QT_BIN_DIR "$ENV{QT_BIN_DIR}")
-    string(REGEX REPLACE "\\\\" "/" QT_BIN_DIR "$ENV{QT_BIN_DIR}") #ttt1 This isn't quite right, it's an artefact of
-    #  the .cmd file. OTOH Qt5_INCLUDE_DIRS and Qt5_LIBRARY_DIRS are empty (even after running find_package)
-    string(REGEX REPLACE "/bin$" "/" QT_ROOT ${QT_BIN_DIR})
+    string(REGEX REPLACE "\\\\" "/" QT_ROOT "$ENV{QT_ROOT}")
 endif()
 
 
@@ -430,7 +425,6 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
     # message(STATUS "QT_INCLUDE_DIRS: ${QT_INCLUDE_DIRS}")
     # message(STATUS "QT_LIBRARY_DIRS: ${QT_LIBRARY_DIRS}")
 
-    message(STATUS "QT_BIN_DIR: ${QT_BIN_DIR}")
     #message(STATUS "QT_BIN_DIR: ENV{QT_BIN_DIR}")
 
     message(STATUS "ZLIB_INCLUDE_DIRS: ${ZLIB_INCLUDE_DIRS}")

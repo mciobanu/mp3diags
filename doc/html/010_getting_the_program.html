@@ -524,9 +524,23 @@ To uninstall the program, see the corresponding section at the <a href="#uninsta
 <div class="NormalText RegFnt ChpCol2">
 There is a pretty standard Windows installer, as well as a zip archive with the executable and the DLLs it needs. Either one of these should be OK:
 <ul>
-    <li> <a href="https://sourceforge.net/projects/mp3diags/filesQQQBRANCH_SLQQQ/mp3diags-windows-setup/MP3DiagsSetupQQQBRANCH_DQQQ.exe" onClick="javascript: pageTracker._trackPageview('/files/setup');">Windows 32bit installer</a> (if the link doesn't work, there's a copy at my ISP, <a href="http://web.clicknet.ro/mciobanu/mp3diagsQQQBRANCH_SLQQQ/MP3DiagsSetupQQQBRANCH_DQQQ-QQQVERQQQ.exe" onClick="javascript: pageTracker._trackPageview('/clicknet/setup');">here</a>) </li>
-    <li> <a href="https://sourceforge.net/projects/mp3diags/filesQQQBRANCH_SLQQQ/mp3diags-windows-exe/MP3DiagsExeQQQBRANCH_DQQQ.zip" onClick="javascript: pageTracker._trackPageview('/files/exe');">Zip archive with Windows 32bit executable and required DLLs</a></li>
+    <li> <a href="https://sourceforge.net/projects/mp3diags/filesQQQBRANCH_SLQQQ/mp3diags-windows-setup/MP3DiagsSetupQQQBRANCH_DQQQ.exe" onClick="javascript: pageTracker._trackPageview('/files/setup');">Windows 64bit installer</a> (if the link doesn't work, there's a copy at my ISP, <a href="http://web.clicknet.ro/mciobanu/mp3diagsQQQBRANCH_SLQQQ/MP3DiagsSetupQQQBRANCH_DQQQ-QQQVERQQQ.exe" onClick="javascript: pageTracker._trackPageview('/clicknet/setup');">here</a>) </li>
+    <li> <a href="https://sourceforge.net/projects/mp3diags/filesQQQBRANCH_SLQQQ/mp3diags-windows-exe/MP3DiagsExeQQQBRANCH_DQQQ.zip" onClick="javascript: pageTracker._trackPageview('/files/exe');">Zip archive with Windows 64bit executable and required DLLs</a></li>
 </ul>
+</div>
+
+<div class="NormalText RegFnt ChpCol2">
+    <b>Note</b>: More likely than not, you will get warnings from Windows about MP3 Diags being an unrecognized and
+    potentially harmful program. This is due to MP3 Diags not being registered with Microsoft (which seems to require
+    it being distributed by a company, among other things) and not having enough downloads to be considered OK
+    automatically. So far I don't have a good solution to this, so all you can do to get the program installed is
+    to ignore the warnings, as shown below. (There are a number of opinions on this subject, like <a href=
+        "https://stackoverflow.com/questions/48946680/how-to-avoid-the-windows-defender-smartscreen-prevented-an-unrecognized-app-fro">
+    this post</a> on StackOverflow.)
+</div>
+
+<div class="NormalText RegFnt ChpCol2 GenericSpace">
+    <img src="010_windows_warnings.png" />
 </div>
 
 
@@ -537,19 +551,19 @@ There is a pretty standard Windows installer, as well as a zip archive with the 
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-    Starting with version 0.99.06.043, "generic" Linux executables are provided. They are supposed to work on any recent
-    distribution on x86 or x86_64 CPUs but very limited testing was done, so some tweaks might be needed (or it may
-    prove impossible to make them work as intended.) The point of having them is to make it easier for more people to
-    run MP3 Diags. Please share your experience if you try them. Note that running these alternatively with
-    pre-packaged MP3 Diags might lead to the MP3 files being rescanned, due to a different serialization library.
+    Starting with version 0.99.06.043, "generic" Linux executables were provided. They were supposed to work on any
+    recent distribution on x86 or x86_64 CPUs but very limited testing was done. The point of having them is to make
+    it easier for more people to run MP3 Diags. Please share your experience if you try them. Note that running these
+    alternatively with pre-packaged MP3 Diags might lead to the MP3 files being rescanned, due to a different
+    serialization library.
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-This is what's available:
-<ul>
-    <li><a href="https://sourceforge.net/projects/mp3diags/filesQQQBRANCH_SLQQQ/mp3diags-linux-bin/i686/MP3DiagsQQQBRANCH_DQQQ-Linux-i686.tar.bz2" onClick="javascript: pageTracker._trackPageview('/files/linux/i686');">Linux i686 binary</a></li>
-    <li><a href="https://sourceforge.net/projects/mp3diags/filesQQQBRANCH_SLQQQ/mp3diags-linux-bin/x86_64/MP3DiagsQQQBRANCH_DQQQ-Linux-x86_64.tar.bz2" onClick="javascript: pageTracker._trackPageview('/files/linux/x86_64');">Linux x86-64 binary</a></li>
-</ul>
+    At some point in time I stopped provided them and nobody complained, so I never resumed building them. Older versions
+    can be found <a href="https://sourceforge.net/projects/mp3diags/filesQQQBRANCH_SLQQQ/mp3diags-linux-bin/">here</a>.
+
+    Even though they are quite old, it's not a huge deal provided that they get started, as there were no major features
+    or bad bug fixes after that.
 </div>
 
 <div class="NormalText RegFnt ChpCol1">

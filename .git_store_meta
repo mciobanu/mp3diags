@@ -30,6 +30,8 @@ desktop/MP3Diags-unstable40.png	f	2011-07-28T20:54:57Z
 desktop/MP3Diags-unstable40.xcf	f	2011-07-28T20:54:42Z
 desktop/MP3Diags-unstable48.png	f	2011-07-28T20:53:22Z
 desktop/MP3Diags-unstable48.xcf	f	2011-07-28T20:53:02Z
+doc/010_windows_warnings.png	f	2023-11-30T09:23:35Z
+doc/010_windows_warnings.xcf	f	2023-11-30T09:23:25Z
 doc/050_assert.png	f	2009-10-06T13:20:19Z
 doc/050_assert.xcf	f	2009-10-06T13:20:05Z
 doc/110_first_run.png	f	2013-04-22T15:49:49Z
@@ -110,8 +112,9 @@ doc/html/004_screenshot01.html	f	2009-10-13T09:01:29Z
 doc/html/005_screenshot02.html	f	2009-10-13T09:01:29Z
 doc/html/006_screenshot03.html	f	2009-10-13T09:01:29Z
 doc/html/008_licence.html	f	2014-01-16T09:57:38Z
-doc/html/010_getting_the_program.html	f	2023-11-23T08:23:09Z
+doc/html/010_getting_the_program.html	f	2023-11-30T10:00:52Z
 doc/html/010_getting_the_program_local.html	f	2023-11-26T11:30:00Z
+doc/html/010_windows_warnings.png	f	2023-11-30T09:23:35Z
 doc/html/015_changelog.html	f	2009-10-13T09:01:29Z
 doc/html/020_mp3_introduction.html	f	2009-11-28T13:34:48Z
 doc/html/030_users_guide.html	f	2012-01-28T07:21:56Z

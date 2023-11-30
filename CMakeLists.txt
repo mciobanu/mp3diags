@@ -359,8 +359,12 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
     message(STATUS "CMAKE_CURRENT_BINARY_DIR: ${CMAKE_CURRENT_BINARY_DIR}")
     foreach(license IN LISTS LICENSES)
         #configure_file("license.${license}.txt" ${BUILD_TYPE}/dist/zz.${license}.txt COPYONLY)
-        file(COPY "license.${license}.txt" DESTINATION ${BUILD_TYPE}/dist)
-        file(RENAME "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/license.${license}.txt" "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${license}.txt")
+        if(EXISTS "license.${license}.txt") #ttt0 Stop renaming licenses in MakeArchives.sh, so this test won't be needed
+            file(COPY "license.${license}.txt" DESTINATION ${BUILD_TYPE}/dist)
+            file(RENAME "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/license.${license}.txt" "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${license}.txt")
+        else()
+            file(COPY "src/licences/${license}.txt" DESTINATION ${BUILD_TYPE}/dist)
+        endif()
     endforeach()
 
     file(COPY changelog.txt DESTINATION ${BUILD_TYPE}/dist)

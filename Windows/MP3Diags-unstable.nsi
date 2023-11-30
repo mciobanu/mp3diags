@@ -2,7 +2,7 @@
 !include "MUI2.nsh"
 
 ; Some defines
-!define PRODUCT_NAME "MP3 Diags Unstable"
+!define PRODUCT_NAME "MP3 Diags Unstable" ; ttt0 isolate "Unstable" in dedicated variable
 !define PRODUCT_DIR "MP3Diags-unstable"
 !define PRODUCT_UNINSTALL "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_DIR}"
 
@@ -13,7 +13,7 @@ Name "${PRODUCT_NAME}"
 OutFile "MP3DiagsSetup-unstable.exe"
 
 ; The default installation directory
-InstallDir "$PROGRAMFILES\${PRODUCT_DIR}"
+InstallDir "$PROGRAMFILES64\${PRODUCT_DIR}"
 ;InstallDirRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MP3Diags" "UninstallString"
 InstallDirRegKey HKLM "${PRODUCT_UNINSTALL}" "UninstallString"
 
@@ -52,11 +52,17 @@ SetCompressor /SOLID lzma
 
   !insertmacro MUI_PAGE_INSTFILES
 
+    ; indented instructions define parameters for MUI_PAGE_FINISH
     !define MUI_FINISHPAGE_NOAUTOCLOSE
-    !define MUI_FINISHPAGE_RUN
-    !define MUI_FINISHPAGE_RUN_CHECKED
-    !define MUI_FINISHPAGE_RUN_TEXT "Run ${PRODUCT_NAME}"
-    !define MUI_FINISHPAGE_RUN_FUNCTION "LaunchLink"
+    ;!define MUI_FINISHPAGE_RUN
+    ;!define MUI_FINISHPAGE_RUN_CHECKED
+    ;!define MUI_FINISHPAGE_RUN_TEXT "Run ${PRODUCT_NAME}"
+    ;!define MUI_FINISHPAGE_RUN_FUNCTION "LaunchLink"
+    !define MUI_FINISHPAGE_TEXT "You can start MP3 Diags from the start menu or the desktop shortcut (if created)."
+    !define MUI_FINISHPAGE_SHOWREADME ""
+    #!define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
+    !define MUI_FINISHPAGE_SHOWREADME_TEXT "Create Desktop Shortcut"
+    !define MUI_FINISHPAGE_SHOWREADME_FUNCTION finishPageAction
   !insertmacro MUI_PAGE_FINISH
 
 
@@ -77,6 +83,9 @@ Section "Main Application" !Required ;No components page, name is not important
   ; Set output path to the installation directory.
   SetOutPath $INSTDIR
 
+  ;DetailPrint "NSIS=${NSIS_VERSION}"
+  ;DetailPrint "INSTDIR=$INSTDIR"
+
   ; Put file there
   File MP3DiagsWindows-unstable.exe
   File favicon.ico
@@ -86,40 +95,27 @@ Section "Main Application" !Required ;No components page, name is not important
   File *.txt
 
   SetOutPath $INSTDIR\iconengines
-  File iconengines\qsvgicon.dll
+  File iconengines\*.dll
 
   SetOutPath $INSTDIR\imageformats
-  File imageformats\qgif.dll
-  File imageformats\qicns.dll
-  File imageformats\qico.dll
-  File imageformats\qjpeg.dll
-  File imageformats\qsvg.dll
-  File imageformats\qtga.dll
-  File imageformats\qtiff.dll
-  File imageformats\qwbmp.dll
-  File imageformats\qwebp.dll
+  File imageformats\*.dll
 
   SetOutPath $INSTDIR\platforms
-  File platforms\qwindows.dll
+  File platforms\*.dll
 
   SetOutPath $INSTDIR\styles
-  File styles\qwindowsvistastyle.dll
-
-  SetOutPath $INSTDIR\translations
-  File translations\qt_cs.qm
-  File translations\qt_de.qm
-  File translations\qt_en.qm
-  File translations\qt_fr.qm
+  File styles\*.dll
 
 
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
 
-    CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
+    CreateDirectory "$SMPROGRAMS\$StartMenuFolder" ; !!! there's a checkbox to not create shortcuts, and it works fine
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\MP3 Diags Unstable.lnk" "$INSTDIR\MP3DiagsWindows-unstable.exe" \
       "" "$INSTDIR\favicon.ico" 0 SW_SHOWNORMAL
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe" ; ttt1 seems to no longer work; probably remove
   !insertmacro MUI_STARTMENU_WRITE_END
 
+  ; Create custom version for MP3DiagsCLI-unstable.cmd, to include the exe path ; ttt9 generate in MakeArchives.sh
   FileOpen $4 "$INSTDIR\MP3DiagsCLI-unstable.cmd" w
   FileWrite $4 "@echo off$\r$\n"
   FileWrite $4 "$\"$INSTDIR\MP3DiagsWindows-unstable.exe$\" %* > %TEMP%\Mp3DiagsOut.txt$\r$\n"
@@ -133,6 +129,9 @@ Section "Main Application" !Required ;No components page, name is not important
   WriteRegStr HKLM "${PRODUCT_UNINSTALL}" "DisplayName" "${PRODUCT_NAME}"
   WriteRegStr HKLM "${PRODUCT_UNINSTALL}" "UninstallString" "$\"$INSTDIR\uninstall.exe$\""
   ;WriteRegStr HKLM "${PRODUCT_UNINSTALL}" "QuietUninstallString" "$\"$INSTDIR\uninstall.exe$\" /S"
+  ;WriteRegStr ${PURK} "${PUK}" "Publisher" "${PRODUCT_PUBLISHER}"
+  WriteRegStr HKLM "${PRODUCT_UNINSTALL}" "Publisher" "Ciobi"
+  WriteRegStr HKLM "${PRODUCT_UNINSTALL}" "DisplayIcon" "$\"$INSTDIR\favicon.ico$\""
 
 SectionEnd ; end the section
 
@@ -151,40 +150,14 @@ Section "un.Uninstall"
   Delete $INSTDIR\imageformats\*.dll
   Delete $INSTDIR\platforms\*.dll
   Delete $INSTDIR\styles\*.dll
-  Delete $INSTDIR\translations\*.qm
 
-  ;Delete $INSTDIR\Uninstall.exe
-  ;Delete $INSTDIR\MP3DiagsWindows-unstable.exe
-  ;Delete $INSTDIR\favicon.ico
+  Delete "$desktop\MP3 Diags Unstable.lnk"
 
-  ;Delete $INSTDIR\boost.txt
-  ;Delete $INSTDIR\libboost_serialization-*.dll
-  ;Delete $INSTDIR\libboost_program_options-*.dll
-  ;; boost_serialization-*.dll might be there from an older version
-  ;Delete $INSTDIR\boost_serialization-*.dll
-  ;Delete $INSTDIR\changelog.txt
-  ;Delete $INSTDIR\gplv2.txt
-  ;Delete $INSTDIR\gplv3.txt
-  ;Delete $INSTDIR\lgpl-2.1.txt
-  ;Delete $INSTDIR\lgplv3.txt
-  ;Delete $INSTDIR\libgcc_s_dw2-1.dll
-  ;;Delete $INSTDIR\mingwm10.dll
-  ;Delete $INSTDIR\Qt*.dll
-  ;Delete $INSTDIR\zlib.txt
-  ;Delete $INSTDIR\zlib1.dll
-  ;Delete $INSTDIR\*.qm
-  ;Delete $INSTDIR\MP3DiagsCLI-unstable.cmd
-
-  ;Delete $INSTDIR\iconengines\qsvgicon4.dll
-  ;Delete $INSTDIR\imageformats\qsvg4.dll
-  ;Delete $INSTDIR\imageformats\qjpeg4.dll
-  ;Delete $INSTDIR\imageformats\qgif4.dll
 
   RMDir $INSTDIR\iconengines
   RMDir $INSTDIR\imageformats
   RMDir $INSTDIR\platforms
   RMDir $INSTDIR\styles
-  RMDir $INSTDIR\translations
   RMDir $INSTDIR
 
   DeleteRegKey HKEY_CLASSES_ROOT "Directory\shell\mp3diags_temp_dir"
@@ -204,7 +177,15 @@ Section "un.Uninstall"
 
 SectionEnd
 
-Function LaunchLink
-;  ExecShell "" "$SMPROGRAMS\$StartMenuFolder\MP3 Diags.lnk"
-  ExecShell "" "$INSTDIR\MP3DiagsWindows-unstable.exe"
+; ttt0 See about putting this back. The problem is that the program only sees the C: drive when starting from the setup. Something that may be related is that
+; when going to Desktop in FileExplorer, only MP3Digs' icon is there, while the others are not, probably because the others are installed for all users.
+; ttt9 test an older install, see if that is different
+;Function LaunchLink
+;;  ExecShell "" "$SMPROGRAMS\$StartMenuFolder\MP3 Diags.lnk"
+;  ExecShell "" "$INSTDIR\MP3DiagsWindows-unstable.exe"
+;FunctionEnd
+
+; https://stackoverflow.com/questions/1517471/how-to-add-a-desktop-shortcut-option-on-finish-page-in-nsis-installer
+Function finishPageAction
+  CreateShortcut "$desktop\MP3 Diags Unstable.lnk" "$INSTDIR\MP3DiagsWindows-unstable.exe" "" "$INSTDIR\favicon.ico" 0 SW_SHOWNORMAL ; ttt0 use a higher-res icon
 FunctionEnd

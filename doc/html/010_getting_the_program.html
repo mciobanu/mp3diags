@@ -298,7 +298,8 @@ If you find some other required package, please <a href="050_feedback.html">let 
                 <li><span class="Reference">cmake --build .</span></li>
             </ul>
         </li>
-        <li><b>Qt Creator</b> - open the <b>.pro</b> file.</li>
+        <li><b>Qt Creator</b> - open <b>mp3diags.pro</b></li>
+        <li><b>Qt Creator and other IDEs that support CMake</b> - open <b>CMakeLists.txt</b> </li>
     </ul>
 </div>
 
@@ -372,7 +373,7 @@ To uninstall the program, see the corresponding section at the <a href="#uninsta
                             onClick="javascript: pageTracker._trackPageview('/boost/msvc_bin');">sourceforge.net</a>.
                         The one with the largest number of downloads is usually the best bet. As of this writing,
                         that is <b>boost_1_83_0-msvc-14.3-64.exe</b>. If you get a warning that the file isn't commonly
-                        downloaded (with Edge), click on the 3 dots, choose "Keep", then "Show more", then "Keep anyway".
+                        downloaded (with Edge), click on the 3 dots, choose "Keep", then "More info", then "Keep anyway".
 
                     </li>
                     <li>Run it and keep the suggested location, probably under <b>C:\local\</b>. After install,
@@ -411,15 +412,25 @@ To uninstall the program, see the corresponding section at the <a href="#uninsta
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
+    Some steps are marked as optional, meaning that there are some reasonable defaults when using
+    <span class="Reference">Build-CMake-VS2022.cmd</span>, and running it might be all you need. (They are not optional
+    if you want to use CMake directly.)
     <ol>
         <li>Open a Qt command prompt: In the Windows Start Menu, under Qt, there is something like "Qt 5.15.2 (MSVC 2019 64-bit)"</li>
-        <li>Configure the Visual Studio environment, by running something like
+        <li>(Optional) Configure the Visual Studio environment, by running something like
             <span class="Reference">call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" amd64</span>
             (You may need to adjust the path pointing to <b>vcvarsall.bat</b>.)
         </li>
-        <li>Define the location of Zlib: <span class="Reference">set ZLIB_ROOT=C:\local\zlib_13</span></li>
-        <li>Define the location of Boost: <span class="Reference">set BOOST_ROOT=C:\local\boost_1_83_0</span> (the path may need adjusting)</li>
-        <li>Go to the root of MP3 Diags and run <span class="Reference">Build-CMake-VS2022.cmd</span></li>
+        <li>(Optional) Define the location of Zlib: <span class="Reference">set ZLIB_ROOT=C:\local\zlib_13</span></li>
+        <li>(Optional) Define the location of Boost: <span class="Reference">set BOOST_ROOT=C:\local\boost_1_83_0</span> (the path may need adjusting)</li>
+        <li>
+            Go to the root of MP3 Diags and do one of these:
+            <ul>
+                <li>Run <span class="Reference">Build-CMake-VS2022.cmd</span></li>
+                <li>Create a build folder, go there and build directly with CMake (commands are listed in the Linux section)</li>
+            </ul>
+
+        </li>
         <li>
             If everything went OK, the result should be in <b>build\Release\dist</b>, where translations, DLLs, and
             other dependencies are copied as well, so you should be able to just run the executable there.
@@ -440,8 +451,9 @@ To uninstall the program, see the corresponding section at the <a href="#uninsta
 
 <div class="NormalText RegFnt ChpCol1">
     Note: There is also an HTML / JScript application called <span class="Reference">BuildMp3Diags.hta</span>, which
-    used to support multiple compilers and build options from a simple UI interface, but it never worked great on
-    Windows 10, and things got worse with later updates to Windows 10. It will probably be removed in the future.
+    uses QMake and supports multiple compilers and build options from a simple UI interface. It became unusable with
+    newer versions of Windows 10 but was fixed in November 2023. Still, it's unclear if it will be kept long-term,
+    given that the build process now uses CMake in Linux and Windows.
 </div>
 
 

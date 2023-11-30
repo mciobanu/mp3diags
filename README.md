@@ -22,7 +22,7 @@ When building from sources, the build instructions for official releases are out
   about using `CMake`, though, as it works better, at least on Windows 10, where it works out of the box)
 * [Building on Linux / others](https://mp3diags.sourceforge.net/unstable/010_getting_the_program.html#sourceGeneric)
 
-Support for `CMake` was added in October 2023, but it's not thoroughly tested, and not yet part of an official release,
+Support for `CMake` was added in October 2023, and, while not thoroughly tested, it seems OK.and not yet part of an official release,
 so it's only available when cloning the repository at [GitHub](https://github.com/mciobanu/mp3diags/tree/master)
 or [SourceForge](https://sourceforge.net/p/mp3diags/code-git/ci/master/tree/).
 Build instructions can be seen at

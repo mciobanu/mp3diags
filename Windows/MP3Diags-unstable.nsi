@@ -76,6 +76,16 @@ Var StartMenuFolder
 
 !insertmacro MUI_LANGUAGE "English"
 
+; https://stackoverflow.com/questions/62092185/how-to-install-the-visual-c-redist-using-nsis
+Section "Visual Studio Runtime"
+  SetOutPath "$INSTDIR"
+  File ${sourceDir}\..\redist\vc_redist.x64.exe
+  ;ExecWait "$INSTDIR\vc_redist.x64.exe"
+  ExecWait '"$INSTDIR\vc_redist.x64.exe" /quiet' ; !!! The reason for "quiet" is that the dialog shown is confusing. The assumption is that it doesn't downgrade existing installs; ttt1 Make sure this is true
+  Delete "$INSTDIR\vc_redist.x64.exe"
+SectionEnd
+
+
 Section "Main Application" !Required ;No components page, name is not important
   SectionIn RO
 

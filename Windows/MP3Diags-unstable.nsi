@@ -22,7 +22,9 @@ RequestExecutionLevel admin
 
 SetCompressor /SOLID lzma
 
- Var StartMenuFolder
+!define sourceDir "build\Release\dist"
+
+Var StartMenuFolder
 
 !define MUI_ABORTWARNING
 
@@ -38,8 +40,8 @@ SetCompressor /SOLID lzma
 ; Display License
 ;LicenseData "gplv2.txt"
 
-
-  !insertmacro MUI_PAGE_LICENSE "gplv2.txt"
+;Section  ; !!! no Section - causes an error
+  !insertmacro MUI_PAGE_LICENSE "${sourceDir}\gplv2.txt"
 ;  !insertmacro MUI_PAGE_COMPONENTS
   !insertmacro MUI_PAGE_DIRECTORY
 
@@ -66,12 +68,9 @@ SetCompressor /SOLID lzma
   !insertmacro MUI_PAGE_FINISH
 
 
-
   !insertmacro MUI_UNPAGE_CONFIRM
   !insertmacro MUI_UNPAGE_INSTFILES
-
-
-
+;SectionEnd
 
 
 
@@ -87,24 +86,24 @@ Section "Main Application" !Required ;No components page, name is not important
   ;DetailPrint "INSTDIR=$INSTDIR"
 
   ; Put file there
-  File MP3DiagsWindows-unstable.exe
-  File favicon.ico
+  File ${sourceDir}\MP3DiagsWindows-unstable.exe
+  File ${sourceDir}\favicon.ico
 
-  File *.qm
-  File *.dll
-  File *.txt
+  File ${sourceDir}\*.qm
+  File ${sourceDir}\*.dll
+  File ${sourceDir}\*.txt
 
   SetOutPath $INSTDIR\iconengines
-  File iconengines\*.dll
+  File ${sourceDir}\iconengines\*.dll
 
   SetOutPath $INSTDIR\imageformats
-  File imageformats\*.dll
+  File ${sourceDir}\imageformats\*.dll
 
   SetOutPath $INSTDIR\platforms
-  File platforms\*.dll
+  File ${sourceDir}\platforms\*.dll
 
   SetOutPath $INSTDIR\styles
-  File styles\*.dll
+  File ${sourceDir}\styles\*.dll
 
 
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
@@ -133,7 +132,7 @@ Section "Main Application" !Required ;No components page, name is not important
   WriteRegStr HKLM "${PRODUCT_UNINSTALL}" "Publisher" "Ciobi"
   WriteRegStr HKLM "${PRODUCT_UNINSTALL}" "DisplayIcon" "$\"$INSTDIR\favicon.ico$\""
 
-SectionEnd ; end the section
+SectionEnd
 
 
 ; The uninstall section

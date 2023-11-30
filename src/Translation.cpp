@@ -57,10 +57,11 @@ TranslatorHandler::TranslatorHandler()
     }
     //ttt0 perhaps also look in "my documents", so users can easily add translations
 
+    // This is for things like the color selection dialog
 #if defined(WIN32) || defined(__OS2__)
     m_qstrSystemTranslDir = QCoreApplication::instance()->applicationDirPath();
 #else
-    m_qstrSystemTranslDir = "/usr/share/qt4/translations"; //ttt1 maybe improve //ttt0 see about "qt4"
+    m_qstrSystemTranslDir = "/usr/share/qt5/translations"; //ttt0 Maybe improve. For one thing, see what other distributions do
 #endif
 }
 

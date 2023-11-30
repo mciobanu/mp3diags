@@ -1,27 +1,64 @@
 @echo off
 
+rem Helper for CMake, making sure everything is properly setup.
+rem
 rem Creates some dirs, calls cmake, copies some files, so in the end the executable in build\Release\dist
-rem should have all its dependencies and be able to run.
+rem should have all its dependencies and be able to run, while the NSIS installer has the files it needs.
+rem Not strictly needed. You can run CMake by its own, as long as the environment variables are set.
 rem
 rem Requirements:
 rem Visual Studio, Qt5, Boost, and ZLib need to be installed.
-rem Boost_ROOT and ZLIB_ROOT environment variables should be defined and vcvarsall.bat should have been called, otherwise defaults are used.
-rem PATH must contain Qt5's binary location
+rem Must be started from a Qt "command prompt". PATH must contain Qt5's binary location.
 rem
+rem In simple settings, Boost_ROOT and ZLIB_ROOT environment variables can be determined automatically if they are
+rem not defined, and Visual Studio's vcvarsall.bat gets called. For Visual Studio other than 2022 Community, it must
+rem be called before running this. Also, ZLIB_ROOT should be set if ZLib is not installed in C:\local or there
+rem are multiple versions, and the same for BOOST_ROOT, but if it gets to this there's little point in running
+rem this script and CMake can be used directly.
+
+
+rem ----------------- MSVC -----------------
 
 rem Couldn't get the following line to work if INCLUDE is not defined; https://stackoverflow.com/questions/39359457/sub-string-expansion-with-empty-string-causes-error-in-if-clause
 rem if x%INCLUDE:Microsoft Visual Studio=% == x%INCLUDE% (
-
-set MSVC_CALLED=false
-echo %INCLUDE% | findstr /i /c:"Microsoft Visual Studio" >nul 2>&1 && set MSVC_CALLED=true
-echo MSVC_CALLED=%MSVC_CALLED%
-if not "%MSVC_CALLED%" == "true" (
+rem set MSVC_CALLED=false
+rem echo %INCLUDE% | findstr /i /c:"Microsoft Visual Studio" >nul 2>&1 && set MSVC_CALLED=true
+rem echo MSVC_CALLED=%MSVC_CALLED%
+rem if not "%MSVC_CALLED%" == "true" (
+rem     call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" amd64
+rem )
+if not defined VCToolsVersion (
     call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" amd64
-    set ZLIB_ROOT=C:\local\zlib_13
-    set BOOST_ROOT=C:\local\boost_1_83_0
 )
+echo VCToolsVersion: %VCToolsVersion%
+if not defined VCToolsVersion echo You must initialize the MSVC environment, by running something like 'call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" amd64' & exit /B
 
-rem ==================== begin ChatGPT generated ====================
+
+
+rem ----------------- ZLib -----------------
+if not defined ZLIB_ROOT (
+    rem set ZLIB_ROOT=C:\local\zlib_13
+    for /f %%i in ('dir /B /A:D "C:\local\zlib*"') do set ZLIB_ROOT=C:\local\%%i
+    rem ttt1 Add support for multiple versions
+)
+echo ZLIB_ROOT: %ZLIB_ROOT%
+if not defined ZLIB_ROOT echo ZLIB_ROOT must be defined & exit /B
+
+
+
+rem ----------------- Boost -----------------
+if not defined BOOST_ROOT (
+    rem set BOOST_ROOT=C:\local\boost_1_83_0
+    for /f %%i in ('dir /B /A:D "C:\local\boost*"') do set BOOST_ROOT=C:\local\%%i
+)
+echo BOOST_ROOT: %BOOST_ROOT%
+if not defined BOOST_ROOT echo BOOST_ROOT must be defined & exit /B
+
+
+
+rem ----------------- Qt -----------------
+
+rem ----- begin ChatGPT generated -----
 rem Figure out where Qt5 is installed
 
 setlocal enabledelayedexpansion
@@ -51,21 +88,18 @@ rem echo found dir: %QT_ROOT_TMP%
 
 endlocal & set QT_ROOT=%QT_ROOT_TMP%
 
-rem ==================== end ChatGPT generated ====================
+rem ----- end ChatGPT generated -----
 
 
 
 echo QT_ROOT: %QT_ROOT%
 rem if "%PATH:\Qt\5=%" == "%PATH%"
 if "%QT_ROOT%" == "" echo The build process must start from a "Qt 5 command prompt", which should generate a "\Qt\5" entry in PATH, which wasn't found & exit /B
-echo VCToolsVersion: %VCToolsVersion%
-if not defined VCToolsVersion echo You must initialize the MSVC environment, by running something like 'call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" amd64' & exit /B
-echo ZLIB_ROOT: %ZLIB_ROOT%
-if not defined ZLIB_ROOT echo ZLIB_ROOT must be defined & exit /B
-echo BOOST_ROOT: %BOOST_ROOT%
-if not defined BOOST_ROOT echo BOOST_ROOT must be defined & exit /B
 
 rem exit /B
+
+
+rem ----------------- Run the build process -----------------
 
 
 mkdir build 2> nul

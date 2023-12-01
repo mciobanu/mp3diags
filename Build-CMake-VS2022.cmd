@@ -17,6 +17,9 @@ rem are multiple versions, and the same for BOOST_ROOT, but if it gets to this t
 rem this script and CMake can be used directly.
 
 
+rem ttt1 Visual Studio version and architecture are hardcoded in some places
+
+
 rem ----------------- MSVC -----------------
 
 rem Couldn't get the following line to work if INCLUDE is not defined; https://stackoverflow.com/questions/39359457/sub-string-expansion-with-empty-string-causes-error-in-if-clause
@@ -27,9 +30,21 @@ rem echo MSVC_CALLED=%MSVC_CALLED%
 rem if not "%MSVC_CALLED%" == "true" (
 rem     call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" amd64
 rem )
+
+
+for /f "tokens=*" %%i in ('reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\devenv.exe"') do set MP3DIAGS_DEV_ENV=%%i
+rem echo MP3DIAGS_DEV_ENV: %MP3DIAGS_DEV_ENV%
+rem https://ss64.com/nt/syntax-substring.html
+set MP3DIAGS_VC_VARS=%MP3DIAGS_DEV_ENV:~24,-23%VC\Auxiliary\Build\vcvarsall.bat
+rem echo MP3DIAGS_VC_VARS: %MP3DIAGS_VC_VARS%
+rem ttt1 See about setlocal enabledelayedexpansion & endlocal. They don't seem to work well inside "if". Also, MSVC needs variables set
+
 if not defined VCToolsVersion (
-    call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" amd64
+    rem call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" amd64
+    call "%MP3DIAGS_VC_VARS%" amd64
+    if errorlevel 1 exit /B
 )
+
 echo VCToolsVersion: %VCToolsVersion%
 if not defined VCToolsVersion echo You must initialize the MSVC environment, by running something like 'call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" amd64' & exit /B
 

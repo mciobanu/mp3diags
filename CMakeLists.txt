@@ -378,8 +378,8 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
     # Tells Qt to build the redistributable files. This involves combining .qm files, and copying DLLs and
     # vc_redist.x64.exe, which contains Visual C++'s dependencies
     add_custom_command(TARGET "${project_name}" POST_BUILD
-            #COMMENT "******************** windeployqt\n"
-            COMMAND windeployqt "Release/dist/${project_name}.exe"
+            #COMMENT "******************** windeployqt ${RUNTIME_OUTPUT_DIRECTORY}\n"
+            COMMAND "${QT_ROOT}/bin/windeployqt" "${BUILD_TYPE}/dist/${project_name}.exe"
         )
 
     string(REPLACE "/" "\\" WND_TRANSL_DIR "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/translations")
@@ -405,9 +405,21 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
             )
 
     set(VC_REDIST_EXE "vc_redist.x64.exe") #ttt0 assumes x64
+
+    string(REPLACE "/" "\\" VC_REDIST_SRC ${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE})
+    string(REPLACE "/" "\\" VC_REDIST_DEST "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/redist")
+
     add_custom_command(TARGET "${project_name}" POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}" "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/redist/${VC_REDIST_EXE}"
-            COMMAND ${CMAKE_COMMAND} -E remove "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}"
+            #fails for debug or in Visual Studio: COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}" "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/redist/${VC_REDIST_EXE}"
+            #fails for debug or in Visual Studio: COMMAND ${CMAKE_COMMAND} -E remove "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}" || echo ""
+
+            # invalid syntax, "/" instead of "\": COMMAND cmd /c if exist "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}" copy "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}" "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/redist/${VC_REDIST_EXE}"
+            # invalid syntax, "/" instead of "\": COMMAND cmd /c if exist "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}" del "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}"
+
+            COMMAND cmd /c if exist "${VC_REDIST_SRC}" copy "${VC_REDIST_SRC}" "${VC_REDIST_DEST}"
+            COMMAND cmd /c if exist "${VC_REDIST_SRC}" del "${VC_REDIST_SRC}"
+
+            #VERBATIM
             )
 
     message(STATUS "CMAKE_INSTALL_BINDIR: ${CMAKE_INSTALL_BINDIR}")

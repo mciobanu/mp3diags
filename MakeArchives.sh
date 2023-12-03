@@ -98,6 +98,7 @@ function createSrc
     cp -p AdjustMt.sh $LongDestDir
     cp -p Build.sh $LongDestDir
     cp -p CMakeLists.txt $LongDestDir
+    cp -p CMakePresets.json $LongDestDir
     cp -p Windows/MP3Diags$BranchDash.nsi $LongDestDir
     cp -p Build-CMake-VS2022.cmd $LongDestDir
     cat BuildMp3Diags.hta | sed -e "s#MP3DiagsWindows#MP3DiagsWindows$BranchDash#g" > $LongDestDir/BuildMp3Diags.hta

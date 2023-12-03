@@ -415,21 +415,21 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
 
     set(VC_REDIST_EXE "vc_redist.x64.exe") #ttt0 assumes x64
 
-    string(REPLACE "/" "\\" VC_REDIST_SRC ${CMAKE_CURRENT_BINARY_DIR}/${VC_REDIST_EXE})
-    string(REPLACE "/" "\\" VC_REDIST_DEST "${CMAKE_CURRENT_BINARY_DIR}/redist")
-
-    add_custom_command(TARGET "${project_name}" POST_BUILD
-            #fails for debug or in Visual Studio: COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}" "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/redist/${VC_REDIST_EXE}"
-            #fails for debug or in Visual Studio: COMMAND ${CMAKE_COMMAND} -E remove "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}" || echo ""
-
-            # invalid syntax, "/" instead of "\": COMMAND cmd /c if exist "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}" copy "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}" "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/redist/${VC_REDIST_EXE}"
-            # invalid syntax, "/" instead of "\": COMMAND cmd /c if exist "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}" del "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}"
-
-            COMMAND cmd /c if exist "${VC_REDIST_SRC}" copy "${VC_REDIST_SRC}" "${VC_REDIST_DEST}"
-            COMMAND cmd /c if exist "${VC_REDIST_SRC}" del "${VC_REDIST_SRC}"
-
-            #VERBATIM
-            )
+#    string(REPLACE "/" "\\" VC_REDIST_SRC ${CMAKE_CURRENT_BINARY_DIR}/${VC_REDIST_EXE})
+#    string(REPLACE "/" "\\" VC_REDIST_DEST "${CMAKE_CURRENT_BINARY_DIR}/redist")
+#
+#    add_custom_command(TARGET "${project_name}" POST_BUILD
+#            #fails for debug or in Visual Studio: COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}" "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/redist/${VC_REDIST_EXE}"
+#            #fails for debug or in Visual Studio: COMMAND ${CMAKE_COMMAND} -E remove "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}" || echo ""
+#
+#            # invalid syntax, "/" instead of "\": COMMAND cmd /c if exist "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}" copy "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}" "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/redist/${VC_REDIST_EXE}"
+#            # invalid syntax, "/" instead of "\": COMMAND cmd /c if exist "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}" del "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}"
+#
+#            COMMAND cmd /c if exist "${VC_REDIST_SRC}" copy "${VC_REDIST_SRC}" "${VC_REDIST_DEST}"
+#            COMMAND cmd /c if exist "${VC_REDIST_SRC}" del "${VC_REDIST_SRC}"
+#
+#            #VERBATIM
+#            )
 
     message(STATUS "CMAKE_INSTALL_BINDIR: ${CMAKE_INSTALL_BINDIR}")
     message(STATUS "CMAKE_CURRENT_BINARY_DIR: ${CMAKE_CURRENT_BINARY_DIR}")

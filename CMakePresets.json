@@ -1,8 +1,5 @@
 {
   "version": 4,
-  "include": [
-    "CMakePresetsPaths.json"
-  ],
   "configurePresets": [
     {
       "name": "windows-base",

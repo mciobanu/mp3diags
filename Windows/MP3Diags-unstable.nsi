@@ -101,7 +101,7 @@ Section "Main Application" !Required ;No components page, name is not important
 
   File ${sourceDir}\*.qm
   File ${sourceDir}\*.dll
-  File ${sourceDir}\*.txt
+  File /x CMake* /x VS* ${sourceDir}\*.txt
 
   SetOutPath $INSTDIR\iconengines
   File ${sourceDir}\iconengines\*.dll

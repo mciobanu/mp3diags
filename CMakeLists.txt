@@ -31,8 +31,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # WIN32 is used for both 32 and 64 bits - https://cmake.org/cmake/help/latest/variable/WIN32.html
 if(WIN32)
-    if(NOT DEFINED ENV{Boost_ROOT}) #  ttt9 case
-        message(FATAL_ERROR "You must set Boost_ROOT environment variable")
+    if(NOT DEFINED ENV{Boost_ROOT}) #  !!! Boost_ROOT vs BOOST_ROOT: As find_package() is for Boost, it probably makes sense to keep Pascal case. See also: https://github.com/conan-io/conan/issues/4597
+        message(FATAL_ERROR "You must set the Boost_ROOT environment variable")
     endif()
     #include_directories("$ENV{Boost_ROOT}/include")
     if(NOT DEFINED ENV{ZLIB_ROOT})

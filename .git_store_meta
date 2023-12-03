@@ -10,7 +10,8 @@ changelogDeb.txt	f	2023-11-28T14:52:05Z
 changelogRpm.txt	f	2023-11-28T14:53:47Z
 changelog.txt	f	2023-11-28T14:51:30Z
 CMakeLists.2009.txt	f	2009-09-25T14:27:54Z
-CMakeLists.txt	f	2023-12-01T20:36:30Z
+CMakeLists.txt	f	2023-12-03T17:19:29Z
+CMakePresets.json	f	2023-12-03T17:23:17Z
 CMake-VS2008-Win32.cmd	f	2023-11-28T13:57:01Z
 COPYING	f	2016-08-06T13:23:08Z
 CopyToSf.sh	f	2019-04-07T14:22:05Z

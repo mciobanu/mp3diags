@@ -11,6 +11,8 @@ cmake_minimum_required(VERSION 3.12) # What 3.12 does is make cmake figure out a
 # environment variable's name and a "_ROOT" suffix, e.g. Boost_ROOT. See https://cmake.org/cmake/help/latest/policy/CMP0074.html
 # and see what happens when building on Windows with a smaller min version, like 3.5
 
+# ttt1 Normally there should be a CMakeLists.txt in the project root and another in src, included in the former
+
 if(WIN32)
     set(project_name "MP3DiagsWindows-unstable")
 else()
@@ -29,7 +31,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # WIN32 is used for both 32 and 64 bits - https://cmake.org/cmake/help/latest/variable/WIN32.html
 if(WIN32)
-    if(NOT DEFINED ENV{Boost_ROOT})
+    if(NOT DEFINED ENV{Boost_ROOT}) #  ttt9 case
         message(FATAL_ERROR "You must set Boost_ROOT environment variable")
     endif()
     #include_directories("$ENV{Boost_ROOT}/include")
@@ -77,6 +79,7 @@ message(STATUS "LANGUAGES: ${LANGUAGES}")
 if(WIN32)
     message(STATUS "On Windows, BUILD_TYPE is forced to Release, which matters for linking and debugging library code")
     set(BUILD_TYPE Release) # ttt0 this is wrong, but it doesn't seem possible to do it right, and other areas assume Release anyway
+    #set(BUILD_TYPE Debug)
     # https://stackoverflow.com/questions/39282430/how-to-get-current-configuration-release-debug-in-cmake-for-visual-studio
     # https://stackoverflow.com/questions/24460486/cmake-build-type-is-not-being-used-in-cmakelists-txt  ttt0 Revisit this, in particular
     #   make sure the "will have the same effect" is correct, as it doesn't seem so (at least the linker couldn't find Boost in Debug)
@@ -241,7 +244,7 @@ set(PROJECT_RESOURCE_FILES
 
 qt5_add_resources(PROJECT_RESOURCES ${PROJECT_RESOURCE_FILES})
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 6) # ttt9 Remove Qt6 and Android, which are not supported
     qt_add_executable(${project_name}
         MANUAL_FINALIZATION
         ${PROJECT_SOURCE_FILES}
@@ -343,11 +346,16 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
     )
     #install(TARGETS "${project_name}" DESTINATION ${BUILD_TYPE}/dist) #ttt1 see if this can be used to copy the exe
 
-    file(GLOB BOOST_SER_DLL "${Boost_LIBRARY_DIRS}/boost_serialization*-mt-x64-*.dll")
+    if ("${BUILD_TYPE}" STREQUAL "Debug")
+        set(DLL_NAME_EXTRA "-gd")
+    else()
+        set(DLL_NAME_EXTRA "")
+    endif()
+    file(GLOB BOOST_SER_DLL "${Boost_LIBRARY_DIRS}/boost_serialization*-mt${DLL_NAME_EXTRA}-x64-*.dll")
     message(STATUS "BOOST_SER_DLL: ${BOOST_SER_DLL}")
     file(COPY "${BOOST_SER_DLL}" DESTINATION ${BUILD_TYPE}/dist)
 
-    file(GLOB BOOST_PROG_OPT_DLL "${Boost_LIBRARY_DIRS}/boost_program_options*-mt-x64-*.dll")
+    file(GLOB BOOST_PROG_OPT_DLL "${Boost_LIBRARY_DIRS}/boost_program_options*-mt${DLL_NAME_EXTRA}-x64-*.dll")
     message(STATUS "BOOST_PROG_OPT_DLL: ${BOOST_PROG_OPT_DLL}")
     #add_custom_command(TARGET "${project_name}" POST_BUILD
     #    COMMAND ${CMAKE_COMMAND} -E copy "${BOOST_PROG_OPT_DLL}" ${BUILD_TYPE}/dist
@@ -429,6 +437,8 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
 
     message(STATUS "QT_VERSION_MAJOR: ${QT_VERSION_MAJOR}")
     message(STATUS "QT_ROOT: ${QT_ROOT}")
+
+    # ttt9 Review how the exe gets copied to dist. Perhaps the reason dirs didn't match sometimes and needed absolute path is that the relative path was in some variable and we can just use relative paths
 
     # These are all empty
     # message(STATUS "Qt5_INCLUDE_DIRS: ${Qt5_INCLUDE_DIRS}")

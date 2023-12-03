@@ -76,16 +76,16 @@ list(REMOVE_DUPLICATES LANGUAGES)
 message(STATUS "LANGUAGES: ${LANGUAGES}")
 #-----------------
 
-if(WIN32)
-    message(STATUS "On Windows, BUILD_TYPE is forced to Release, which matters for linking and debugging library code")
-    set(BUILD_TYPE Release) # ttt0 this is wrong, but it doesn't seem possible to do it right, and other areas assume Release anyway
-    #set(BUILD_TYPE Debug)
-    # https://stackoverflow.com/questions/39282430/how-to-get-current-configuration-release-debug-in-cmake-for-visual-studio
-    # https://stackoverflow.com/questions/24460486/cmake-build-type-is-not-being-used-in-cmakelists-txt  ttt0 Revisit this, in particular
-    #   make sure the "will have the same effect" is correct, as it doesn't seem so (at least the linker couldn't find Boost in Debug)
-    # https://stackoverflow.com/questions/68839452/cmake-determine-the-build-configuration-name
-    # Note that there's also a CMAKE_BUILD_TYPE, which is what should normally be passed when calling CMake
-endif()
+#if(WIN32)
+#    message(STATUS "On Windows, BUILD_TYPE is forced to Release, which matters for linking and debugging library code")
+#    set(BUILD_TYPE Release) # ttt0 this is wrong, but it doesn't seem possible to do it right, and other areas assume Release anyway
+#    #set(BUILD_TYPE Debug)
+#    # https://stackoverflow.com/questions/39282430/how-to-get-current-configuration-release-debug-in-cmake-for-visual-studio
+#    # https://stackoverflow.com/questions/24460486/cmake-build-type-is-not-being-used-in-cmakelists-txt  ttt0 Revisit this, in particular
+#    #   make sure the "will have the same effect" is correct, as it doesn't seem so (at least the linker couldn't find Boost in Debug)
+#    # https://stackoverflow.com/questions/68839452/cmake-determine-the-build-configuration-name
+#    # Note that there's also a CMAKE_BUILD_TYPE, which is what should normally be passed when calling CMake
+#endif()
 
 message(STATUS "CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 message(STATUS "BUILD_TYPE: ${BUILD_TYPE}")
@@ -257,9 +257,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6) # ttt9 Remove Qt6 and Android, which are
     #qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 else()
     if(WIN32)
-        set(qm_output_location "translations_qm")
-        message(STATUS "Creating dir ${qm_output_location}")
-        file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${qm_output_location}")
+#        set(qm_output_location "translations_qm")
+#        message(STATUS "Creating dir ${qm_output_location}")
+#        file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${qm_output_location}")
     else()
         set(qm_output_location ".")
     endif()
@@ -340,46 +340,47 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
     #    COMMAND ${CMAKE_COMMAND} -E copy C:/Mp3Diags/MP3Diags-unstable-1.5.02/build/Release/dist/translations/qt_help_zh_CN.qm C:/Mp3Diags/MP3Diags-unstable-1.5.02/build/Release/dist/styles
     #)
 
-    add_custom_command(TARGET "${project_name}" POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${qm_output_location} ${BUILD_TYPE}/dist  #ttt0 Replace the need for qm_output_location with a pattern-based file copy
-        COMMAND ${CMAKE_COMMAND} -E copy "${BUILD_TYPE}/${project_name}.exe" ${BUILD_TYPE}/dist
-    )
+#    add_custom_command(TARGET "${project_name}" POST_BUILD
+#        COMMAND ${CMAKE_COMMAND} -E copy_directory ${qm_output_location} ${BUILD_TYPE}/dist  #ttt0 Replace the need for qm_output_location with a pattern-based file copy
+#        COMMAND ${CMAKE_COMMAND} -E copy "${BUILD_TYPE}/${project_name}.exe" ${BUILD_TYPE}/dist
+#    )
     #install(TARGETS "${project_name}" DESTINATION ${BUILD_TYPE}/dist) #ttt1 see if this can be used to copy the exe
 
-    if ("${BUILD_TYPE}" STREQUAL "Debug")
+    if ("${CMAKE_BUILD_TYPE}" MATCHES "Debug")
         set(DLL_NAME_EXTRA "-gd")
+        message(STATUS "Debug build")
     else()
         set(DLL_NAME_EXTRA "")
+        message(STATUS "Release build")
     endif()
     file(GLOB BOOST_SER_DLL "${Boost_LIBRARY_DIRS}/boost_serialization*-mt${DLL_NAME_EXTRA}-x64-*.dll")
     message(STATUS "BOOST_SER_DLL: ${BOOST_SER_DLL}")
-    file(COPY "${BOOST_SER_DLL}" DESTINATION ${BUILD_TYPE}/dist)
+    file(COPY "${BOOST_SER_DLL}" DESTINATION .)
 
     file(GLOB BOOST_PROG_OPT_DLL "${Boost_LIBRARY_DIRS}/boost_program_options*-mt${DLL_NAME_EXTRA}-x64-*.dll")
     message(STATUS "BOOST_PROG_OPT_DLL: ${BOOST_PROG_OPT_DLL}")
     #add_custom_command(TARGET "${project_name}" POST_BUILD
     #    COMMAND ${CMAKE_COMMAND} -E copy "${BOOST_PROG_OPT_DLL}" ${BUILD_TYPE}/dist
     #)
-    file(COPY "${BOOST_PROG_OPT_DLL}" DESTINATION ${BUILD_TYPE}/dist)
+    file(COPY "${BOOST_PROG_OPT_DLL}" DESTINATION .)
 
     SET(LICENSES boost gplv2 gplv3 "lgpl-2.1" lgplv3 zlib)
-    message(STATUS "BUILD_TYPE: ${BUILD_TYPE}")
     message(STATUS "CMAKE_CURRENT_BINARY_DIR: ${CMAKE_CURRENT_BINARY_DIR}")
     foreach(license IN LISTS LICENSES)
         #configure_file("license.${license}.txt" ${BUILD_TYPE}/dist/zz.${license}.txt COPYONLY)
         if(EXISTS "license.${license}.txt") #ttt0 Stop renaming licenses in MakeArchives.sh, so this test won't be needed
-            file(COPY "license.${license}.txt" DESTINATION ${BUILD_TYPE}/dist)
-            file(RENAME "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/license.${license}.txt" "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${license}.txt")
+            file(COPY "license.${license}.txt" DESTINATION .)
+            file(RENAME "${CMAKE_CURRENT_BINARY_DIR}/license.${license}.txt" "${CMAKE_CURRENT_BINARY_DIR}/${license}.txt")
         else()
-            file(COPY "src/licences/${license}.txt" DESTINATION ${BUILD_TYPE}/dist)
+            file(COPY "src/licences/${license}.txt" DESTINATION .)
         endif()
     endforeach()
 
-    file(COPY changelog.txt DESTINATION ${BUILD_TYPE}/dist)
-    file(COPY doc/favicon.ico DESTINATION ${BUILD_TYPE}/dist)
+    file(COPY changelog.txt DESTINATION .)
+    file(COPY doc/favicon.ico DESTINATION .)
 
     file(GLOB CLI_RUNNER "MP3DiagsCLI*.cmd")
-    file(COPY "${CLI_RUNNER}" DESTINATION ${BUILD_TYPE}/dist)
+    file(COPY "${CLI_RUNNER}" DESTINATION .)
 
     #message(STATUS "languages=${LANGUAGES}")
 
@@ -387,10 +388,10 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
     # vc_redist.x64.exe, which contains Visual C++'s dependencies
     add_custom_command(TARGET "${project_name}" POST_BUILD
             #COMMENT "******************** windeployqt ${RUNTIME_OUTPUT_DIRECTORY}\n"
-            COMMAND "${QT_ROOT}/bin/windeployqt" "${BUILD_TYPE}/dist/${project_name}.exe"
+            COMMAND "${QT_ROOT}/bin/windeployqt" "./${project_name}.exe"
         )
 
-    string(REPLACE "/" "\\" WND_TRANSL_DIR "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/translations")
+    string(REPLACE "/" "\\" WND_TRANSL_DIR "${CMAKE_CURRENT_BINARY_DIR}/translations")
 
     foreach(language IN LISTS LANGUAGES)
         # Not all languages exist, as we try both "fr_FR" and just "fr", and that's fine
@@ -414,8 +415,8 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
 
     set(VC_REDIST_EXE "vc_redist.x64.exe") #ttt0 assumes x64
 
-    string(REPLACE "/" "\\" VC_REDIST_SRC ${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE})
-    string(REPLACE "/" "\\" VC_REDIST_DEST "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/redist")
+    string(REPLACE "/" "\\" VC_REDIST_SRC ${CMAKE_CURRENT_BINARY_DIR}/${VC_REDIST_EXE})
+    string(REPLACE "/" "\\" VC_REDIST_DEST "${CMAKE_CURRENT_BINARY_DIR}/redist")
 
     add_custom_command(TARGET "${project_name}" POST_BUILD
             #fails for debug or in Visual Studio: COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}" "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/redist/${VC_REDIST_EXE}"

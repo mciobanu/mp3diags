@@ -22,7 +22,7 @@ RequestExecutionLevel admin
 
 SetCompressor /SOLID lzma
 
-!define sourceDir "build\Release\dist"
+!define sourceDir "out\build\x64-release"
 
 Var StartMenuFolder
 
@@ -79,7 +79,7 @@ Var StartMenuFolder
 ; https://stackoverflow.com/questions/62092185/how-to-install-the-visual-c-redist-using-nsis
 Section "Visual Studio Runtime"
   SetOutPath "$INSTDIR"
-  File ${sourceDir}\..\redist\vc_redist.x64.exe
+  File ${sourceDir}\vc_redist.x64.exe
   ;ExecWait "$INSTDIR\vc_redist.x64.exe"
   ExecWait '"$INSTDIR\vc_redist.x64.exe" /quiet' ; !!! The reason for "quiet" is that the dialog shown is confusing. The assumption is that it doesn't downgrade existing installs; ttt1 Make sure this is true
   Delete "$INSTDIR\vc_redist.x64.exe"
@@ -124,7 +124,7 @@ Section "Main Application" !Required ;No components page, name is not important
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe" ; ttt1 seems to no longer work; probably remove
   !insertmacro MUI_STARTMENU_WRITE_END
 
-  ; Create custom version for MP3DiagsCLI-unstable.cmd, to include the exe path ; ttt9 generate in MakeArchives.sh
+  ; Create custom version for MP3DiagsCLI-unstable.cmd, to include the exe path ; ttt0 generate in MakeArchives.sh
   FileOpen $4 "$INSTDIR\MP3DiagsCLI-unstable.cmd" w
   FileWrite $4 "@echo off$\r$\n"
   FileWrite $4 "$\"$INSTDIR\MP3DiagsWindows-unstable.exe$\" %* > %TEMP%\Mp3DiagsOut.txt$\r$\n"
@@ -188,7 +188,6 @@ SectionEnd
 
 ; ttt0 See about putting this back. The problem is that the program only sees the C: drive when starting from the setup. Something that may be related is that
 ; when going to Desktop in FileExplorer, only MP3Digs' icon is there, while the others are not, probably because the others are installed for all users.
-; ttt9 test an older install, see if that is different
 ;Function LaunchLink
 ;;  ExecShell "" "$SMPROGRAMS\$StartMenuFolder\MP3 Diags.lnk"
 ;  ExecShell "" "$INSTDIR\MP3DiagsWindows-unstable.exe"

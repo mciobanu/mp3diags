@@ -1,4 +1,5 @@
 ; Based on several NSIS examples, including http://nsis.sourceforge.net/Run_an_application_shortcut_after_an_install
+; Newer documentation: https://nsis.sourceforge.io/Docs/Modern%20UI/Readme.html
 !include "MUI2.nsh"
 
 ; Some defines
@@ -135,6 +136,7 @@ Section "Main Application" !Required ;No components page, name is not important
   ; Tell the compiler to write an uninstaller and to look for a "Uninstall" section
   WriteUninstaller $INSTDIR\Uninstall.exe
 
+  ; Computer\HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\MP3Diags-unstable (different for 32 vs. 64 bit)
   WriteRegStr HKLM "${PRODUCT_UNINSTALL}" "DisplayName" "${PRODUCT_NAME}"
   WriteRegStr HKLM "${PRODUCT_UNINSTALL}" "UninstallString" "$\"$INSTDIR\uninstall.exe$\""
   ;WriteRegStr HKLM "${PRODUCT_UNINSTALL}" "QuietUninstallString" "$\"$INSTDIR\uninstall.exe$\" /S"

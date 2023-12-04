@@ -94,7 +94,7 @@ list(REMOVE_DUPLICATES LANGUAGES)
 #message(STATUS "LANGUAGES2: ${LANGUAGES2}")
 message(STATUS "LANGUAGES: ${LANGUAGES}")
 
-# For the executable's icon
+# For the executable's icon - https://stackoverflow.com/questions/68517552/how-to-add-icon-to-a-qt-application-on-windows-using-a-rc-file-on-a-cmake-proje
 if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     enable_language("RC")
     set (WIN32_RESOURCES ${CMAKE_CURRENT_SOURCE_DIR}/MP3DiagsIcon.rc)
@@ -332,7 +332,7 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
         set(DLL_NAME_EXTRA "")
         message(STATUS "Release build")
     endif()
-    file(GLOB BOOST_SER_DLL "${Boost_LIBRARY_DIRS}/boost_serialization*-mt${DLL_NAME_EXTRA}-x64-*.dll")
+    file(GLOB BOOST_SER_DLL "${Boost_LIBRARY_DIRS}/boost_serialization*-mt${DLL_NAME_EXTRA}-x64-*.dll") # ttt1 Extract "x64" from CMakePresets.json (if possible)
     message(STATUS "BOOST_SER_DLL: ${BOOST_SER_DLL}")
     file(COPY "${BOOST_SER_DLL}" DESTINATION .)
 

@@ -10,7 +10,7 @@ changelogDeb.txt	f	2023-11-28T14:52:05Z
 changelogRpm.txt	f	2023-11-28T14:53:47Z
 changelog.txt	f	2023-11-28T14:51:30Z
 CMakeLists.2009.txt	f	2009-09-25T14:27:54Z
-CMakeLists.txt	f	2023-12-04T13:45:39Z
+CMakeLists.txt	f	2023-12-04T18:41:15Z
 CMakePresets.json	f	2023-12-04T07:15:16Z
 CMake-VS2008-Win32.cmd	f	2023-11-28T13:57:01Z
 COPYING	f	2016-08-06T13:23:08Z
@@ -463,4 +463,4 @@ src/Widgets.h	f	2012-03-02T21:17:30Z
 templates/cpp	f	2009-05-06T07:21:29Z
 templates/h	f	2009-05-06T07:21:39Z
 Uninstall.sh	f	2012-03-11T17:03:55Z
-Windows/MP3Diags-unstable.nsi	f	2023-12-03T19:29:15Z
+Windows/MP3Diags-unstable.nsi	f	2023-12-04T18:40:03Z

@@ -740,7 +740,7 @@ vector<QString> convStr(const vector<string>& v)
 namespace {
 
 struct DesktopDetector {
-    enum Desktop { Unknown, Gnome2 = 1, Gnome3 = 2, Kde3 = 4, Kde4 = 8, Gnome = Gnome2 | Gnome3, Kde = Kde3 | Kde4 };
+    enum Desktop { Unknown, Gnome2 = 1, Gnome3 = 2, Kde3 = 4, Kde4 = 8, Kde5 = 16, Gnome = Gnome2 | Gnome3, Kde = Kde3 | Kde4 | Kde5 };
     DesktopDetector();
     Desktop m_eDesktop;
     const char* m_szDesktop;
@@ -760,6 +760,7 @@ DesktopDetector::DesktopDetector() : m_eDesktop(Unknown)
 
     bool bIsKde (false);
     bool bIsKde4 (false);
+    bool bIsKde5 (false);
 
     while (fs)
     {
@@ -767,7 +768,7 @@ DesktopDetector::DesktopDetector() : m_eDesktop(Unknown)
         {
             string strCmdLineName (fs.getName());
 
-            if (isdigit(strCmdLineName[6]))
+            if (isdigit(strCmdLineName[6])) // strCmdLineName is "/proc/xyz"; usually xyz is a number, which is a process id, but there are also files, whose names start with letters
             {
 
 #if 0
@@ -808,7 +809,7 @@ DesktopDetector::DesktopDetector() : m_eDesktop(Unknown)
                 //szBfr[0] = 0;
 
 
-                strCmdLineName += "/cmdline";
+                strCmdLineName += "/cmdline"; // we usually get something like "/proc/156/cmdline", which is the command line of process 156
                 //cout << strCmdLineName << endl;
                 ifstream in (strCmdLineName.c_str());
                 if (in)
@@ -832,7 +833,12 @@ DesktopDetector::DesktopDetector() : m_eDesktop(Unknown)
                     // for i in `ls /proc | grep '^[0-9]'` ; do a=`cat /proc/$i/cmdline 2>/dev/null` ; echo $a | grep kde4/libexec ; done
                     if (string::npos != strBfr.find("kde4/libexec/start")) // ttt2 probably works only on Suse and only in some cases
                     {
-                        bIsKde4 = true; //ttt9 update
+                        bIsKde4 = true;
+                    }
+
+                    if (string::npos != strBfr.find("/kded5")) // ttt2 probably works only on Suse and only in some cases
+                    {
+                        bIsKde5 = true; //ttt9 update for KDE 6 (Jan 2024)
                     }
                 }//*/
 
@@ -845,7 +851,11 @@ DesktopDetector::DesktopDetector() : m_eDesktop(Unknown)
 
     if (m_eDesktop == Unknown)
     {
-        if (bIsKde4)
+        if (bIsKde5)
+        {
+            m_eDesktop = Kde5;
+        }
+        else if (bIsKde4)
         {
             m_eDesktop = Kde4;
         }
@@ -870,6 +880,7 @@ DesktopDetector::DesktopDetector() : m_eDesktop(Unknown)
     case Gnome3: m_szDesktop = "Gnome 3"; break;
     case Kde3: m_szDesktop = "KDE 3"; break;
     case Kde4: m_szDesktop = "KDE 4"; break;
+    case Kde5: m_szDesktop = "KDE 5"; break;
     default: m_szDesktop = "Unknown";
     }
     //cout << "desktop: " << m_eDesktop << endl;
@@ -926,7 +937,7 @@ Ideally a modal dialog should minimize its parent. If that's not possible, it sh
 #endif
     Qt::WindowFlags getNoResizeWndFlags() { return Qt::WindowTitleHint; }
 #else
-    Qt::WindowFlags getMainWndFlags() { 
+    Qt::WindowFlags getMainWndFlags() {
 		return Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint;
 	} // minimize, maximize, no "what's this"
     Qt::WindowFlags getDialogWndFlags() { return Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint; } // minimize, no "what's this"

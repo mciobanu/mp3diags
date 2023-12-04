@@ -10,7 +10,7 @@ changelogDeb.txt	f	2023-11-28T14:52:05Z
 changelogRpm.txt	f	2023-11-28T14:53:47Z
 changelog.txt	f	2023-11-28T14:51:30Z
 CMakeLists.2009.txt	f	2009-09-25T14:27:54Z
-CMakeLists.txt	f	2023-12-04T13:12:12Z
+CMakeLists.txt	f	2023-12-04T13:45:39Z
 CMakePresets.json	f	2023-12-04T07:15:16Z
 CMake-VS2008-Win32.cmd	f	2023-11-28T13:57:01Z
 COPYING	f	2016-08-06T13:23:08Z
@@ -225,12 +225,13 @@ doc/share.png	f	2009-08-21T14:08:59Z
 doc/z_lines2.xcf	f	2009-05-12T09:51:15Z
 doc/z_lines.xcf	f	2009-05-12T09:38:40Z
 Doxyfile	f	2011-05-21T07:43:21Z
-.gitattributes	f	2023-11-28T13:28:29Z
+.gitattributes	f	2023-12-04T13:43:26Z
 .gitignore	f	2023-11-25T18:44:23Z
 Install.sh	f	2014-01-19T14:37:42Z
 MakeArchives.sh	f	2023-12-03T18:59:59Z
 MakeTranslations.sh	f	2019-04-06T08:34:05Z
 MP3DiagsCLI.cmd	f	2023-11-28T13:57:01Z
+MP3DiagsIcon.rc	f	2023-12-04T13:44:01Z
 mp3diags.pro	f	2019-04-03T21:39:13Z
 package/AddChangeLog.py	f	2023-11-26T08:55:18Z
 package/deb/debian.changelog	f	2009-05-31T06:47:02Z

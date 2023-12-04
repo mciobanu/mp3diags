@@ -93,6 +93,13 @@ list(REMOVE_DUPLICATES LANGUAGES)
 #message(STATUS "LANGUAGES1: ${LANGUAGES1}")
 #message(STATUS "LANGUAGES2: ${LANGUAGES2}")
 message(STATUS "LANGUAGES: ${LANGUAGES}")
+
+# For the executable's icon
+if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    enable_language("RC")
+    set (WIN32_RESOURCES ${CMAKE_CURRENT_SOURCE_DIR}/MP3DiagsIcon.rc)
+endif()
+
 #-----------------
 
 message(STATUS "CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
@@ -270,6 +277,7 @@ add_executable(${project_name}
     ${PROJECT_SOURCE_FILES}
     ${PROJECT_RESOURCES}
     ${QM_FILES}
+    ${WIN32_RESOURCES} # this not being defined on Linux seems OK
 )
 
 target_link_libraries(${project_name} PRIVATE

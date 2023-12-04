@@ -43,6 +43,9 @@
 
 using namespace std;
 
+//ttt1: Not as nice as possible. Regardless of what format is selected, when clicking on "..." to choose a file,
+// the selected filter is XML
+
 ExportDlgImpl::ExportDlgImpl(QWidget* pParent) : QDialog(pParent, getDialogWndFlags()), Ui::ExportDlg()
 {
     setupUi(this);
@@ -220,7 +223,7 @@ void ExportDlgImpl::on_m_pChooseFileB_clicked()
 
     QString s (fileNames.first());
 
-    QString flt (dlg.selectedNameFilter()); //ttt9 make sure this is OK on Windows (it works on Linux)
+    QString flt (dlg.selectedNameFilter());
     if (flt.endsWith("xml)") && !s.endsWith(".xml"))
     {
         s += ".xml";

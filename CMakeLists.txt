@@ -10,15 +10,16 @@
 # Then the easiest is to open the project in Visual Studio. Use the menu File / Open / CMake
 #
 # To build from the command line:
-#   open a Visual Studio command prompt, called something like "x64 Native Tools Command Prompt for VS 2022
+#   open a Visual Studio command prompt (called something like "x64 Native Tools Command Prompt for VS 2022")
 #   run this (or perhaps make adjustments for other architectures or configurations):
 #       cmake -S . -B out\build\x64-release --preset x64-release && cmake --build out\build\x64-release --config x64-release
 #   If all went OK, the output is located in out\build\x64-release, including required dependencies
 #
 # --------------- Linux ---------------
 #
-# After installing the dependencies (cmake, g++, dev libraries for Qt5, Boost Program Options, Boost Serialization, ZLib), run:
-#   CPU_COUNT=12 cmake -S . -B build && cmake --build build -j $CPU_COUNT
+# After installing the dependencies (cmake, g++, dev libraries for Qt5, Boost Program Options, Boost Serialization, ZLib), run one of these:
+#   CPU_COUNT=12 cmake -S . -B build/release -DCMAKE_BUILD_TYPE=Release && cmake --build build/release -j $CPU_COUNT
+#   CPU_COUNT=12 cmake -S . -B build/debug -DCMAKE_BUILD_TYPE=Debug && cmake --build build/debug -j $CPU_COUNT
 # (Change the value of CPU_COUNT to whatever you want to use.)
 #
 #   The executable and the .qm files (used for translation) are in the build folder
@@ -62,9 +63,7 @@ if(WIN32)
 endif()
 
 
-#find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools Xml Network) # If 5 or 6 are found, QT_VERSION_MAJOR will be defined
-#  to either 5 or 6 - https://doc.qt.io/qt-6/cmake-qt5-and-qt6-compatibility.html, and QT_VERSION will be defined as well, which is also needed. Well, currently we don't support 6, so we only accept 5
-#find_package(QT NAMES Qt5 REQUIRED COMPONENTS Widgets LinguistTools Xml Network)
+# https://doc.qt.io/qt-6/cmake-qt5-and-qt6-compatibility.html
 find_package(Qt5 REQUIRED COMPONENTS Widgets LinguistTools Xml Network)
 find_package(ZLIB REQUIRED)
 
@@ -95,17 +94,6 @@ list(REMOVE_DUPLICATES LANGUAGES)
 #message(STATUS "LANGUAGES2: ${LANGUAGES2}")
 message(STATUS "LANGUAGES: ${LANGUAGES}")
 #-----------------
-
-#if(WIN32)
-#    message(STATUS "On Windows, BUILD_TYPE is forced to Release, which matters for linking and debugging library code")
-#    set(BUILD_TYPE Release) # ttt0 this is wrong, but it doesn't seem possible to do it right, and other areas assume Release anyway
-#    #set(BUILD_TYPE Debug)
-#    # https://stackoverflow.com/questions/39282430/how-to-get-current-configuration-release-debug-in-cmake-for-visual-studio
-#    # https://stackoverflow.com/questions/24460486/cmake-build-type-is-not-being-used-in-cmakelists-txt  ttt0 Revisit this, in particular
-#    #   make sure the "will have the same effect" is correct, as it doesn't seem so (at least the linker couldn't find Boost in Debug)
-#    # https://stackoverflow.com/questions/68839452/cmake-determine-the-build-configuration-name
-#    # Note that there's also a CMAKE_BUILD_TYPE, which is what should normally be passed when calling CMake
-#endif()
 
 message(STATUS "CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 message(STATUS "BUILD_TYPE: ${BUILD_TYPE}")
@@ -329,22 +317,6 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
     # For "GetProcessMemoryInfo()".
 #    target_link_libraries(${project_name} PRIVATE psapi.lib)
 
-#    add_custom_command(TARGET "${project_name}" POST_BUILD
-#        #COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:test_base> ${PROJECT_BINARY_DIR}/test_base.exe
-#        COMMAND ${CMAKE_COMMAND} -E copy C:\Mp3Diags\MP3Diags-unstable-1.5.02\build\Release\dist\translations\qt_help_zh_CN.qm C:\Mp3Diags\MP3Diags-unstable-1.5.02\build\Release\dist\styles
-#        #COMMENT "Created ${PROJECT_BINARY_DIR}/test_base.exe"
-#    )
-
-    #add_custom_command(TARGET "${project_name}" POST_BUILD
-    #    COMMAND ${CMAKE_COMMAND} -E copy C:/Mp3Diags/MP3Diags-unstable-1.5.02/build/Release/dist/translations/qt_help_zh_CN.qm C:/Mp3Diags/MP3Diags-unstable-1.5.02/build/Release/dist/styles
-    #)
-
-#    add_custom_command(TARGET "${project_name}" POST_BUILD
-#        COMMAND ${CMAKE_COMMAND} -E copy_directory ${qm_output_location} ${BUILD_TYPE}/dist  #ttt0 Replace the need for qm_output_location with a pattern-based file copy
-#        COMMAND ${CMAKE_COMMAND} -E copy "${BUILD_TYPE}/${project_name}.exe" ${BUILD_TYPE}/dist
-#    )
-    #install(TARGETS "${project_name}" DESTINATION ${BUILD_TYPE}/dist) #ttt1 see if this can be used to copy the exe
-
     if ("${CMAKE_BUILD_TYPE}" MATCHES "Debug")
         set(DLL_NAME_EXTRA "-gd")
         message(STATUS "Debug build")
@@ -391,6 +363,9 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
         )
 
     string(REPLACE "/" "\\" WND_TRANSL_DIR "${CMAKE_CURRENT_BINARY_DIR}/translations")
+    # windeployqt copies to ${WND_TRANSL_DIR} all the translations it knows about; we keep the ones that we want and
+    # then delete the rest; (and "copy" is not a good word, as it combines multiple files to create a single one,
+    # e.g. qt_fr.qm, qtbase_fr.qm, qtmultimedia_fr.qm, and others, are combined into a larger qt_fr.qm)
 
     foreach(language IN LISTS LANGUAGES)
         # Not all languages exist, as we try both "fr_FR" and just "fr", and that's fine
@@ -412,24 +387,6 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
             COMMAND rmdir /S /Q "${WND_TRANSL_DIR}"
             )
 
-    set(VC_REDIST_EXE "vc_redist.x64.exe") #ttt0 assumes x64
-
-#    string(REPLACE "/" "\\" VC_REDIST_SRC ${CMAKE_CURRENT_BINARY_DIR}/${VC_REDIST_EXE})
-#    string(REPLACE "/" "\\" VC_REDIST_DEST "${CMAKE_CURRENT_BINARY_DIR}/redist")
-#
-#    add_custom_command(TARGET "${project_name}" POST_BUILD
-#            #fails for debug or in Visual Studio: COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}" "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/redist/${VC_REDIST_EXE}"
-#            #fails for debug or in Visual Studio: COMMAND ${CMAKE_COMMAND} -E remove "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}" || echo ""
-#
-#            # invalid syntax, "/" instead of "\": COMMAND cmd /c if exist "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}" copy "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}" "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/redist/${VC_REDIST_EXE}"
-#            # invalid syntax, "/" instead of "\": COMMAND cmd /c if exist "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}" del "${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TYPE}/dist/${VC_REDIST_EXE}"
-#
-#            COMMAND cmd /c if exist "${VC_REDIST_SRC}" copy "${VC_REDIST_SRC}" "${VC_REDIST_DEST}"
-#            COMMAND cmd /c if exist "${VC_REDIST_SRC}" del "${VC_REDIST_SRC}"
-#
-#            #VERBATIM
-#            )
-
     message(STATUS "CMAKE_INSTALL_BINDIR: ${CMAKE_INSTALL_BINDIR}")
     message(STATUS "CMAKE_CURRENT_BINARY_DIR: ${CMAKE_CURRENT_BINARY_DIR}")
     message(STATUS "LANGUAGES: ${LANGUAGES}")
@@ -437,8 +394,6 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
 
     message(STATUS "QT_VERSION_MAJOR: ${QT_VERSION_MAJOR}")
     message(STATUS "Qt5_ROOT: ${Qt5_ROOT}")
-
-    # ttt9 Review how the exe gets copied to dist. Perhaps the reason dirs didn't match sometimes and needed absolute path is that the relative path was in some variable and we can just use relative paths
 
     # These are all empty
     # message(STATUS "Qt5_INCLUDE_DIRS: ${Qt5_INCLUDE_DIRS}")
@@ -462,7 +417,7 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
     message(STATUS "Boost_VERSION_MAJOR: ${Boost_VERSION_MAJOR}")
     message(STATUS "Boost_VERSION: ${Boost_VERSION}")
 else()
-    if(CMAKE_BUILD_TYPE EQUAL Release)
+    if(CMAKE_BUILD_TYPE STREQUAL Release)
         # This is supposed to strip debug info in the Release target, but it's not portable and doesn't seem to work anyway
         # set_target_properties(TARGET_NAME PROPERTIES LINK_FLAGS_RELEASE -s)
 
@@ -473,81 +428,3 @@ else()
                 )
     endif()
 endif()
-
-
-
-#[[
-
-============================= multi-configuration ==============================
-
-ttt0 See if a debug/release item can be used to generate a proper VS project, with different libraries for
-    debug and release in the same project - https://cmake.org/cmake/help/v3.28/command/target_link_libraries.html
-According to https://github.com/conan-io/conan/issues/330 you can specify 'debug' or 'optimized' in front of the
-    library name
-
-
-ChatGPT recommends this:
-
->>>>>>>>>>>>>>>>>>
-
-cmake_minimum_required(VERSION 3.12)
-project(YourProjectName)
-
-# Find Boost components
-find_package(Boost REQUIRED COMPONENTS <your_boost_libraries_here>)
-
-# Include Boost directories
-include_directories(${Boost_INCLUDE_DIRS})
-
-# Set compiler flags for Debug and Release builds
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DNDEBUG")
-
-# Add your source files here
-add_executable(your_target_name main.cpp)
-
-# Link with Boost libraries
-target_link_libraries(your_target_name ${Boost_LIBRARIES})
-
-<<<<<<<<<<<<<<<<<
-
-and then
-
->>>>>>>>>>>>>>>>>
-
-mkdir build
-cd build
-
-cmake -G "Visual Studio <Version>" ..
-
-cmake -G "Visual Studio 16 2019" -A x64 ..
-
-<<<<<<<<<<<<<<<<
-
-and to build
-
->>>>>>>>>>>>
-
-start YourProjectName.sln
-
-or
-msbuild YourProjectName.sln /p:Configuration=Debug
-
-or
-msbuild YourProjectName.sln /p:Configuration=Release
-
-
-
-So this "build" dir is sort of a strange place to keep the .sln in, but maybe it's not that bad.
-Perhaps there are other options
-
-------------------
-
-https://cmake.org/cmake/help/latest/module/FindBoost.html
-
-Perhaps https://stackoverflow.com/a/2224732/1889018, but boost has the same name in debug and release as far as CMake
-is concerned, e.g. "serialization". It gets translated to boost_serialization-vc143-mt-gd-x64-1_83.lib or
-boost_serialization-vc143-mt-x64-1_83.lib when creating the project
-
-
-]]

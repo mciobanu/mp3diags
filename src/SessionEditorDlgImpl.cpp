@@ -82,12 +82,12 @@ void SessionEditorDlgImpl::commonConstr() // common code for both constructors
     }
 }
 
-// returns the OS's "Documents" location
+// returns the OS's "Documents" location ("/home/<user>/Documents" on Linux and C:/Users/<user>/OneDrive/Documents" in Windows
 static QString getDocDir() //ttt1 maybe move to Helpers
 {
 #if QT_VERSION >= 0x040400
     //QString qs = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
-    QString qs = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation); //ttt9 make sure this is OK
+    QString qs = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     //ttt1 note that QStandardPaths should be used in Qt5: https://forum.qt.io/topic/28658/differences-qdesktopservices-vs-qstandardpaths
 #else
   #ifndef WIN32

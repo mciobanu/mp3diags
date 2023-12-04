@@ -1,5 +1,23 @@
 @echo off
 
+
+echo "Program no longer in use. See CMakeLists.txt or the documentation for build instructions."
+
+exit /B
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 rem Helper for CMake, making sure everything is properly setup.
 rem
 rem Creates some dirs, calls cmake, copies some files, so in the end the executable in build\Release\dist

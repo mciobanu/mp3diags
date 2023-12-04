@@ -1,10 +1,27 @@
-# Expected file locations on Windows:
-#   All relevant files are gathered from different places (build, Boost libraries, Qt libraries, ZLib) and copied to
-#       build\Release\dist, such that build\Release\dist\MP3Diags-unstable.exe will just run
-#   Examples of intermediary file locations: build\translations_qm\mp3diags_cs.qm, build\Release\MP3Diags-unstable.exe
+# =============== Usage ===============
 #
-# Expected file locations on Linux
-#   The executable MP3Diags-unstable and the .qm files are right in the build folder
+# -------------- Windows --------------
+#
+# The only unusual thing is adjusting environment variables in CMakePresets.json. There are some values there, but
+#   they might need to be changed to match your current installation. Make sure you don't use a subfolder:
+#       Boost_ROOT - Contains files "boostcpp.jam" or "boost-build.jam"
+#       ZLIB_ROOT - Contains folders "include" and "lib"
+#       Qt5_ROOT - Contains folders "include", "lib", "mkspecs", "translations", ...
+# Then the easiest is to open the project in Visual Studio. Use the menu File / Open / CMake
+#
+# To build from the command line:
+#   open a Visual Studio command prompt, called something like "x64 Native Tools Command Prompt for VS 2022
+#   run this (or perhaps make adjustments for other architectures or configurations):
+#       cmake -S . -B out\build\x64-release --preset x64-release && cmake --build out\build\x64-release --config x64-release
+#   If all went OK, the output is located in out\build\x64-release, including required dependencies
+#
+# --------------- Linux ---------------
+#
+# After installing the dependencies (cmake, g++, dev libraries for Qt5, Boost Program Options, Boost Serialization, ZLib), run:
+#   CPU_COUNT=12 cmake -S . -B build && cmake --build build -j $CPU_COUNT
+# (Change the value of CPU_COUNT to whatever you want to use.)
+#
+#   The executable and the .qm files (used for translation) are in the build folder
 
 
 cmake_minimum_required(VERSION 3.12) # What 3.12 does is make cmake figure out a package's location based on an
@@ -36,15 +53,18 @@ if(WIN32)
     endif()
     #include_directories("$ENV{Boost_ROOT}/include")
     if(NOT DEFINED ENV{ZLIB_ROOT})
-        message(FATAL_ERROR "You must set ZLIB_ROOT environment variable")
+        message(FATAL_ERROR "You must set the ZLIB_ROOT environment variable")
     endif()
-    string(REGEX REPLACE "\\\\" "/" QT_ROOT "$ENV{QT_ROOT}")
+    if(NOT DEFINED ENV{Qt5_ROOT})
+        message(FATAL_ERROR "You must set the Qt5_ROOT environment variable")
+    endif()
+    string(REGEX REPLACE "\\\\" "/" Qt5_ROOT "$ENV{Qt5_ROOT}") # extract environment variable to a proper variable to use later to call windeployqt
 endif()
 
 
 #find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools Xml Network) # If 5 or 6 are found, QT_VERSION_MAJOR will be defined
 #  to either 5 or 6 - https://doc.qt.io/qt-6/cmake-qt5-and-qt6-compatibility.html, and QT_VERSION will be defined as well, which is also needed. Well, currently we don't support 6, so we only accept 5
-find_package(QT NAMES Qt5 REQUIRED COMPONENTS Widgets LinguistTools Xml Network)
+#find_package(QT NAMES Qt5 REQUIRED COMPONENTS Widgets LinguistTools Xml Network)
 find_package(Qt5 REQUIRED COMPONENTS Widgets LinguistTools Xml Network)
 find_package(ZLIB REQUIRED)
 
@@ -244,61 +264,40 @@ set(PROJECT_RESOURCE_FILES
 
 qt5_add_resources(PROJECT_RESOURCES ${PROJECT_RESOURCE_FILES})
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6) # ttt9 Remove Qt6 and Android, which are not supported
-    qt_add_executable(${project_name}
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCE_FILES}
-    )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET ${project_name} APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
-
-    #qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
-else()
-    if(WIN32)
+if(WIN32)
 #        set(qm_output_location "translations_qm")
 #        message(STATUS "Creating dir ${qm_output_location}")
 #        file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${qm_output_location}")
-    else()
-        set(qm_output_location ".")
-    endif()
-
-    set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION "${qm_output_location}")
-    #qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES}) # !!! We don't want qt5_create_translation, which has a tendency to delete the .ts files due
-    # to them "being generated from sources". Instead, we update them manually as needed, via lupdate-qt5 and treat them here as sources
-    #qt5_add_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
-    qt5_add_translation(QM_FILES ${TS_FILES})
-
-    if(ANDROID)
-        add_library(${project_name} SHARED
-            ${PROJECT_SOURCE_FILES}
-        )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-    else()
-        add_executable(${project_name}
-            ${PROJECT_SOURCE_FILES}
-            ${PROJECT_RESOURCES}
-            ${QM_FILES}
-        )
-    endif()
-
+else()
+    set(qm_output_location ".")
 endif()
 
+set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION "${qm_output_location}")
+#qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES}) # !!! We don't want qt5_create_translation, which has a tendency to delete the .ts files due
+# to them "being generated from sources". Instead, we update them manually as needed, via lupdate-qt5 and treat them here as sources
+#qt5_add_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+qt5_add_translation(QM_FILES ${TS_FILES})
+
+add_executable(${project_name}
+    ${PROJECT_SOURCE_FILES}
+    ${PROJECT_RESOURCES}
+    ${QM_FILES}
+)
+
 target_link_libraries(${project_name} PRIVATE
-    Qt${QT_VERSION_MAJOR}::Widgets
-    Qt${QT_VERSION_MAJOR}::Xml
-    Qt${QT_VERSION_MAJOR}::Network
+    Qt5::Widgets
+    Qt5::Xml
+    Qt5::Network
     ZLIB::ZLIB
     ${Boost_LIBRARIES})
+
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
-if(${QT_VERSION} VERSION_LESS 6.1.0)
-  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.${project_name})
-endif()
+#if(${QT_VERSION} VERSION_LESS 6.1.0)
+    set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.${project_name})
+#endif()
 
 set_target_properties(${project_name} PROPERTIES
     ${BUNDLE_ID_OPTION}
@@ -388,7 +387,7 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
     # vc_redist.x64.exe, which contains Visual C++'s dependencies
     add_custom_command(TARGET "${project_name}" POST_BUILD
             #COMMENT "******************** windeployqt ${RUNTIME_OUTPUT_DIRECTORY}\n"
-            COMMAND "${QT_ROOT}/bin/windeployqt" "./${project_name}.exe"
+            COMMAND "${Qt5_ROOT}/bin/windeployqt" "./${project_name}.exe"
         )
 
     string(REPLACE "/" "\\" WND_TRANSL_DIR "${CMAKE_CURRENT_BINARY_DIR}/translations")
@@ -437,7 +436,7 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
     message(STATUS "Boost_LIBRARY_DIRS: ${Boost_LIBRARY_DIRS}")
 
     message(STATUS "QT_VERSION_MAJOR: ${QT_VERSION_MAJOR}")
-    message(STATUS "QT_ROOT: ${QT_ROOT}")
+    message(STATUS "Qt5_ROOT: ${Qt5_ROOT}")
 
     # ttt9 Review how the exe gets copied to dist. Perhaps the reason dirs didn't match sometimes and needed absolute path is that the relative path was in some variable and we can just use relative paths
 

@@ -19,9 +19,7 @@
             "environment": {
                 "Boost_ROOT": "C:\\local\\boost_1_83_0",
                 "ZLIB_ROOT": "C:\\local\\zlib_13",
-                "QT_ROOT": "C:\\Qt\\5.15.2\\msvc2019_64\\bin\\..",
-                "CMAKE_PREFIX_PATH": "C:\\Qt\\5.15.2\\msvc2019_64\\bin\\..",
-                "PATH1": "$penv{PATH}:C:\\Qt\\5.15.2\\msvc2019_64\\bin"
+                "Qt5_ROOT": "C:\\Qt\\5.15.2\\msvc2019_64"
             }
         },
         {

@@ -3686,7 +3686,6 @@ Note the use of QLibraryInfo::location() to locate the Qt translations. Develope
 
 //ttt1 <li><a href="https://tecnoarena.net/come-riparare-file-mp3-danneggiati-con-mp3-diags/">tecnoarena.net</a></li>
 
-//ttt0 check out /d/test_mp3/1/tmp4/tmp2/vbr-not-fixed/SAMPLE-with-VBRFix0.3beta/  -  https://sourceforge.net/p/mp3diags/discussion/947206/thread/9d6f2dacec/?limit=25#20c9
 
 //ttt1 https://sourceforge.net/p/mp3diags/tickets/3106/   /d/test_mp3/1/tmp4/tmp2/NoImageInApe/
 

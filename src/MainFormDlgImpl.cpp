@@ -561,7 +561,7 @@ void MainFormDlgImpl::showSelWarn()
 {
     if (m_pCommonData->m_bWarnedAboutSel) { return; }
 
-    HtmlMsg::msg(this, 0, 0, &m_pCommonData->m_bWarnedAboutSel, HtmlMsg::DEFAULT, tr("Note"), tr("If you simply left-click, all the visible files get processed. However, it is possible to process only the selected files. To do that, either keep SHIFT pressed down while clicking or use the right button, as described at %1").arg("<a href=\"http://mp3diags.sourceforge.net" + QString(getWebBranch()) + "/140_main_window_tools.html\">http://mp3diags.sourceforge.net" + QString(getWebBranch()) + "/140_main_window_tools.html</a>"), 520, 300, tr("O&K"));
+    HtmlMsg::msg(this, 0, 0, &m_pCommonData->m_bWarnedAboutSel, HtmlMsg::DEFAULT, tr("Note"), tr("If you simply left-click, all the visible files get processed. However, it is possible to process only the selected files. To do that, either keep SHIFT pressed down while clicking or use the right button, as described at %1").arg("<a href=\"https://mp3diags.sourceforge.net" + QString(getWebBranch()) + "/140_main_window_tools.html\">https://mp3diags.sourceforge.net" + QString(getWebBranch()) + "/140_main_window_tools.html</a>"), 520, 300, tr("O&K"));
 
     if (!m_pCommonData->m_bWarnedAboutSel) { return; }
 
@@ -2912,11 +2912,11 @@ void MainFormDlgImpl::onNewVersionQueryFinished2()
             .arg(getAppVer())
             .arg(
                 tr("the %1MP3 Diags blog%2", "arguments are HTML elements")
-                .arg("<a href=\"http://mp3diags.blogspot.com/\">")
+                .arg("<a href=\"https://mp3diags.blogspot.com/\">")
                 .arg("</a>"))
             .arg(
                 tr("the %1change log%2", "arguments are HTML elements")
-                .arg("<a href=\"http://mp3diags.sourceforge.net" + QString(getWebBranch()) + "/015_changelog.html\">")
+                .arg("<a href=\"https://mp3diags.sourceforge.net" + QString(getWebBranch()) + "/015_changelog.html\">")
                 .arg("</a>"))
             + "</p>";
 

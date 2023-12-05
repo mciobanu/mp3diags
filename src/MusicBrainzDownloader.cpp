@@ -174,7 +174,7 @@ private:
             else if ("CoverArtLink" == qstrType)
             {
                 string strUrl (convStr(attrs.value("target")));
-                if (beginsWith(strUrl, "http://"))
+                if (beginsWith(strUrl, "https://"))
                 {
                     m_albumInfo.m_vstrImageNames.push_back(strUrl);
                 }
@@ -193,7 +193,7 @@ private:
         m_albumInfo.m_vstrImageInfo.resize(m_albumInfo.m_vstrImageNames.size());
         if (m_albumInfo.m_strAmazonLink.empty() && !m_albumInfo.m_strAsin.empty())
         {
-            m_albumInfo.m_strAmazonLink = "http://www.amazon.com/gp/product/" + m_albumInfo.m_strAsin;
+            m_albumInfo.m_strAmazonLink = "https://www.amazon.com/gp/product/" + m_albumInfo.m_strAsin;
         }
 
         for (int i = 0, n = cSize(m_albumInfo.m_vTracks); i < n; ++i)
@@ -211,7 +211,7 @@ private:
     void onAsinChar(const string& s)
     {
         m_albumInfo.m_strAsin = s;
-        m_albumInfo.m_vstrImageNames.push_back("http://images.amazon.com/images/P/" + s + ".01.LZZZZZZZ.jpg"); // ttt2 "01" is country code for US, perhaps try others //ttt2 perhaps check for duplicates
+        m_albumInfo.m_vstrImageNames.push_back("https://images.amazon.com/images/P/" + s + ".01.LZZZZZZZ.jpg"); // ttt2 "01" is country code for US, perhaps try others //ttt2 perhaps check for duplicates
     }
 
     void onAlbArtistNameChar(const string& s)

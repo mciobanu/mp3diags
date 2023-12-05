@@ -1203,7 +1203,7 @@ void openHelp(const string& strFileName)
     QString qs (strDir);
     if (qs.isEmpty())
     {
-        qs = "http://mp3diags.sourceforge.net" + QString(getWebBranch()) + "/";
+        qs = "https://mp3diags.sourceforge.net" + QString(getWebBranch()) + "/";
     }
     else
     {

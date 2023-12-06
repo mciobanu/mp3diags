@@ -3716,11 +3716,3 @@ Note the use of QLibraryInfo::location() to locate the Qt translations. Develope
 //ttt1 https://sourceforge.net/p/mp3diags/tickets/3106/   /d/test_mp3/1/tmp4/tmp2/NoImageInApe/
 
 //ttt1 https://sourceforge.net/p/mp3diags/discussion/947206/thread/42d8f51a/?limit=25#e8a5
-
-//ttt0 mail on 2023-11-20 - unable to deal with long file names on Windows, but it's probably the same on Linux, and there seem to be workarounds, perhaps using relative names; https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation?tabs=registry
-/*
-Example used:
-C:/Users/mahim/Documents/Myy Music/Audacity/Henry Mancini/Encore! More Of The Concert Sound Of Henry Mancini/Encore! More Of The Concert Sound Of Henry Mancini/01-A Hard Day's Night; And I Love Her; All My Loving; Norwegian Wood (This Bird Has Flown); Michelle; Yesterday.mp3
- */
-
-

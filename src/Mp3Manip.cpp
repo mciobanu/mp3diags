@@ -83,6 +83,10 @@ string getGlobalMp3HandlerName() // a hack to get the name of the current file f
 
 Mp3Handler* Mp3Handler::create(const string& strFileName, bool bStoreTraceNotes, const QualThresholds& qualThresholds)
 {
+    /*if (strFileName.size() >= 260) {
+        //ttt0: Do something on Windows, to let the user know. A new exception FileNameTooLong might work
+    }*/
+
     static Timer timer; //ttt2 not multi-threaded, but doesn't matter
     static int64_t WAIT_AFTER_FAIL (30 * 1000000000L);
     static int64_t nLastFail (timer.getCrtTime() - WAIT_AFTER_FAIL);
@@ -176,6 +180,11 @@ Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const Q
     //TRACER1A("Mp3Handler constr ", 1);
 
     TRACER("Mp3Handler constr: " + strFileName);
+    //if (m_pFileName->s.size() >= 260) {
+    /*if (m_pFileName->s.find("qqqqq") != string::npos) {
+        CB_TRACE_AND_THROW1(FileNotFound, strFileName);
+    }*/
+
     ifstream_utf8 in (m_pFileName->s.c_str(), ios::binary);
     //ifstream_utf8 in (endsWith(m_pFileName->s, ".mp3") ? m_pFileName->s.c_str() : "/a/b/c", ios::binary);
 
@@ -209,13 +218,14 @@ Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const Q
         }
 
         bfr.str(string());
-        const int READ_SIZE (1 << 19);
-        char a [READ_SIZE];
+        const int READ_SIZE (1024 * 1024); // 1MB
+        //char a [READ_SIZE];
+        vector<char> a (READ_SIZE);
         streamsize nTotalRead (0);
         for (;;)
         {
-            streamsize nCrtRead (read(in, a, READ_SIZE));
-            bfr.write(a, nCrtRead);
+            streamsize nCrtRead (read(in, &(a[0]), READ_SIZE));
+            bfr.write(&(a[0]), nCrtRead);
             nTotalRead += nCrtRead;
             if (nCrtRead < READ_SIZE)
             {

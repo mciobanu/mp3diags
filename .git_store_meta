@@ -381,7 +381,7 @@ src/MainFormDlgImpl.cpp	f	2023-12-05T08:57:15Z
 src/MainFormDlgImpl.h	f	2012-02-29T20:07:21Z
 src/MainForm.ui	f	2011-07-30T12:34:43Z
 src/Mp3Diags.qrc	f	2012-02-05T19:46:04Z
-src/Mp3Manip.cpp	f	2016-09-19T17:28:06Z
+src/Mp3Manip.cpp	f	2023-12-06T13:26:31Z
 src/Mp3Manip.h	f	2016-07-04T21:18:43Z
 src/Mp3TransformThread.cpp	f	2021-09-01T09:36:18Z
 src/Mp3TransformThread.h	f	2014-09-24T08:48:58Z

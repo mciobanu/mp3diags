@@ -3088,7 +3088,7 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
         <source>An unknown note was found in the configuration. This note is unknown:
 
 %1</source>
-        <translation>Une note inconnue a été trouvée dans la configuration. Cette note est inconnue : 
+        <translation>Une note inconnue a été trouvée dans la configuration. Cette note est inconnue :
 
 %1</translation>
     </message>
@@ -3097,7 +3097,7 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
         <source>Unknown notes were found in the configuration. These notes are unknown:
 
 %1</source>
-        <translation>Des notes inconnues ont été trouvées dans la configuration. Ces notes sont inconnues : 
+        <translation>Des notes inconnues ont été trouvées dans la configuration. Ces notes sont inconnues :
 
 %1</translation>
     </message>
@@ -3682,7 +3682,7 @@ Processing aborted.</source>
 Make sure that you have write permissions and that there is enough space on the disk.
 
 Processing aborted.</source>
-        <translation>Une erreur est survenue lors de l&apos;écriture du fichier suivant : 
+        <translation>Une erreur est survenue lors de l&apos;écriture du fichier suivant :
 
 %1
 
@@ -3710,7 +3710,7 @@ Probably the file was deleted or modified since the last scan, in which case you
 This may also be caused by access restrictions or a full disk.
 
 Processing aborted.</source>
-        <translation>Une erreur est survenue lors du traitement du fichier suivant : 
+        <translation>Une erreur est survenue lors du traitement du fichier suivant :
 
 %1
 
@@ -3730,10 +3730,10 @@ The following folder couldn&apos;t be created:
 %2
 
 Processing aborted.</source>
-        <translation>Une erreur est survenue lors du traitement du fichier : 
+        <translation>Une erreur est survenue lors du traitement du fichier :
 %1
 
-Le dossier suivant n&apos;a pas pu être créé : 
+Le dossier suivant n&apos;a pas pu être créé :
 %2
 
 Traitement annulé.</translation>
@@ -4722,7 +4722,7 @@ the button at the right to change it.</source>
         <comment>this is a multiline tooltip</comment>
         <translation>Ceci est le nom du &quot;fichier de configuration&quot;.
 
-Ceci est supposé être un fichier qui n&apos;existe pas encore. Vous n&apos;avez pas besoin de le créer. 
+Ceci est supposé être un fichier qui n&apos;existe pas encore. Vous n&apos;avez pas besoin de le créer.
 MP3 Diags stockera ses réglages dans ce fichier.
 
 Le nom a été généré automatiquement. Si vous souhaitez choisir un autre nom, cliquez
@@ -4739,7 +4739,7 @@ To change it, simply click on the button at the right to choose the name of the 
         <comment>this is a multiline tooltip</comment>
         <translation>Ici vous devez spécifier le nom d&apos;un &quot;fichier de configuration&quot;.
 
-Ceci est supposé être un fichier qui n&apos;existe pas encore. Vous n&apos;avez pas besoin de le créer. 
+Ceci est supposé être un fichier qui n&apos;existe pas encore. Vous n&apos;avez pas besoin de le créer.
 MP3 Diags stockera ses réglages dans ce fichier.
 
 Pour le modifier, cliquez simplement sur le bouton à droite pour choisir le nom du fichier de configuration.</translation>
@@ -5416,7 +5416,7 @@ correspondante(s) de l&apos;onglet &quot;Autres&quot;</translation>
 %c	composer
 %i	ignored
 
-To include the special characters &quot;%&quot;, &quot;[&quot;, &quot;]&quot; and &quot;%1&quot;, preced them by a &quot;%&quot;: &quot;%%&quot;, &quot;%[&quot;, &quot;%]&quot; and &quot;%%1&quot;
+To include the special characters &quot;%&quot;, &quot;[&quot;, &quot;]&quot; and &quot;%1&quot;, precede them by a &quot;%&quot;: &quot;%%&quot;, &quot;%[&quot;, &quot;%]&quot; and &quot;%%1&quot;
 
 For a pattern to be considered a &quot;file pattern&quot; (as opposed to a &quot;table pattern&quot;), it must contain at least a &quot;%1&quot;, even if you don&apos;t care about what&apos;s in the file&apos;s parent directory (see the fourth predefined pattern for an example.)
 

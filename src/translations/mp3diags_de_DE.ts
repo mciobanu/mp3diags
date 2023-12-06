@@ -5436,7 +5436,7 @@ die ensprechenden Boxen markieren</translation>
 %c	composer
 %i	ignored
 
-To include the special characters &quot;%&quot;, &quot;[&quot;, &quot;]&quot; and &quot;%1&quot;, preced them by a &quot;%&quot;: &quot;%%&quot;, &quot;%[&quot;, &quot;%]&quot; and &quot;%%1&quot;
+To include the special characters &quot;%&quot;, &quot;[&quot;, &quot;]&quot; and &quot;%1&quot;, precede them by a &quot;%&quot;: &quot;%%&quot;, &quot;%[&quot;, &quot;%]&quot; and &quot;%%1&quot;
 
 For a pattern to be considered a &quot;file pattern&quot; (as opposed to a &quot;table pattern&quot;), it must contain at least a &quot;%1&quot;, even if you don&apos;t care about what&apos;s in the file&apos;s parent directory (see the fourth predefined pattern for an example.)
 

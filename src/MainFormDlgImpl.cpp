@@ -1599,6 +1599,7 @@ struct Mp3ProcThread : public PausableThread
     vector<const Mp3Handler*> m_vpAdd, m_vpDel;
     deque<const Mp3Handler*> m_vpExisting; // some (or all) of these will may get copied to m_vpDel
     vector<const Mp3Handler*> m_vpKeep; // subset of m_vpExisting
+    vector<QString> m_vQstrErrors;
 
     Mp3ProcThread(FileEnumerator& fileEnum, bool bForce, CommonData* pCommonData, deque<const Mp3Handler*> vpExisting) : m_fileEnum(fileEnum), m_bForce(bForce), m_pCommonData(pCommonData), m_vpExisting(vpExisting) {}
 
@@ -1677,8 +1678,17 @@ bool Mp3ProcThread::scan()
                 const Mp3Handler* p (Mp3Handler::create(strName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds()));
                 m_vpAdd.push_back(p);
             }
-            catch (const Mp3Handler::FileNotFound&) //ttt2 see if it should catch more
+            catch (const Mp3Handler::FileNotFound&)
             {
+                m_vQstrErrors.push_back(tr("File not found: %1").arg(convStr(strName)));
+            }
+            catch (const Mp3Handler::FileNameTooLong&) //ttt2 see if it should catch more
+            {
+                m_vQstrErrors.push_back(tr("File name too long: %1").arg(convStr(strName)));
+            }
+            catch (const exception& ex) //ttt2 see if it should catch more
+            {
+                m_vQstrErrors.push_back(tr("Scan exception for file: %1: %2").arg(convStr(strName), ex.what()));
             }
         }
     }
@@ -1710,6 +1720,22 @@ void MainFormDlgImpl::scan(FileEnumerator& fileEnum, bool bForce, deque<const Mp
         m_nScanWidth = dlg.width();
         vpAdd = p->m_vpAdd;
         vpDel = p->m_vpDel;
+        if (!p->m_vQstrErrors.empty()) {
+
+            QString qstrMsg = "";
+            const int maxErrCnt = 100;
+            if (cSize(p->m_vQstrErrors) > maxErrCnt) {
+                p->m_vQstrErrors.resize(maxErrCnt);
+                p->m_vQstrErrors[maxErrCnt - 1] = "...";
+            }
+            for (const auto& qstrName : p->m_vQstrErrors) {
+                qstrMsg += "\n<p style=\"margin-bottom:7px; margin-top:1px; \">" + qstrName.toHtmlEscaped() + "</p>";
+            }
+
+            HtmlMsg::msg(this, 0, 0, 0, 0, tr("Issues encountered while processing the files").toHtmlEscaped(), qstrMsg, QWidget::width() - 100, QWidget::height() - 100, tr("OK"));
+
+            //ttt1: Maybe create dedicated dialog, load/save settings like in loadRenamerSettings, ...
+        }
     }
 
     m_pCommonData->mergeHandlerChanges(vpAdd, vpDel, nKeepWhenUpdate);

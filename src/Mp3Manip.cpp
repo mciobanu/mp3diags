@@ -83,8 +83,17 @@ string getGlobalMp3HandlerName() // a hack to get the name of the current file f
 
 Mp3Handler* Mp3Handler::create(const string& strFileName, bool bStoreTraceNotes, const QualThresholds& qualThresholds)
 {
-    /*if (strFileName.size() >= 260) {
-        //ttt0: Do something on Windows, to let the user know. A new exception FileNameTooLong might work
+#ifdef WIN32
+    const int maxFileSize (259);
+    if (strFileName.size() > maxFileSize) {
+        CB_TRACE_AND_THROW1(FileNameTooLong, strFileName);
+    }
+#endif
+    /*if (strFileName.find("qqqqq") != string::npos) {
+        CB_TRACE_AND_THROW1(FileNotFound, strFileName);
+    }*/
+    /*if (strFileName.find("qqqqq") != string::npos) {
+        throw logic_error("logic_error");
     }*/
 
     static Timer timer; //ttt2 not multi-threaded, but doesn't matter

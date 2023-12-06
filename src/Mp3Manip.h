@@ -157,6 +157,7 @@ public:
     enum { DONT_USE_FAST_SAVE, USE_FAST_SAVE };
 
     DEFINE_CB_EXCP(FileNotFound);
+    DEFINE_CB_EXCP(FileNameTooLong);
 
 private:
     friend class boost::serialization::access;

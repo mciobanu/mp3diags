@@ -88,7 +88,9 @@ SimpleQTableViewWidthInterface::SimpleQTableViewWidthInterface(QTableView& tbl) 
     QFontMetrics fontMetrics (font);
 
     QString qstrVal (m_pModel->data(m_pModel->index(nRow, nCol)).toString());
-    int nWidth (fontMetrics.width(qstrVal));
+    int nWidth (fontMetrics.width(qstrVal + "a"));  //ttt0: Adding an "a" is wrong, but it's a workaround for
+    // a bug noticed in Tumbleweed, when not enough space was used for "Don't Tell Me That It's Over" and others.
+    // Note that horizontalAdvance didn't make any difference.
     return nWidth + 2*nMargin + 1; // the "+1" is for the width of the line separating columns
 }
 

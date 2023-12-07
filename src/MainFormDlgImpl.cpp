@@ -1682,15 +1682,15 @@ bool Mp3ProcThread::scan()
             }
             catch (const Mp3Handler::FileNotFound&)
             {
-                m_vQstrErrors.push_back(tr("File not found: %1").arg(convStr(strName)));
+                m_vQstrErrors.push_back(tr("File not found: %1").arg(convStr(toNativeSeparators(strName))));
             }
             catch (const Mp3Handler::FileNameTooLong&) //ttt2 see if it should catch more
             {
-                m_vQstrErrors.push_back(tr("File name too long: %1").arg(convStr(strName)));
+                m_vQstrErrors.push_back(tr("File name too long: %1").arg(convStr(toNativeSeparators(strName))));
             }
             catch (const exception& ex) //ttt2 see if it should catch more
             {
-                m_vQstrErrors.push_back(tr("Scan exception for file: %1: %2").arg(convStr(strName), ex.what()));
+                m_vQstrErrors.push_back(tr("Scan exception for file: %1: %2").arg(convStr(toNativeSeparators(strName)), ex.what()));
             }
         }
     }

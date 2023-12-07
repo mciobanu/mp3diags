@@ -514,6 +514,9 @@ struct RenameThread : public PausableThread
 
 bool RenameThread::proc()
 {
+    const int READ_SIZE (1024 * 1024); // 1MB
+    vector<char> readBuffer (READ_SIZE);
+
     for (int i = 0, n = cSize(m_vpHndl); i < n; ++i)
     {
         if (isAborted()) { return false; }
@@ -555,7 +558,7 @@ bool RenameThread::proc()
                 {
                     try
                     {
-                        m_vpAdd.push_back(Mp3Handler::create(strDest, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds()));
+                        m_vpAdd.push_back(Mp3Handler::create(strDest, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds(), readBuffer));
                     }
                     catch (const Mp3Handler::FileNotFound&)
                     {

@@ -81,7 +81,7 @@ string getGlobalMp3HandlerName() // a hack to get the name of the current file f
 }
 
 
-Mp3Handler* Mp3Handler::create(const string& strFileName, bool bStoreTraceNotes, const QualThresholds& qualThresholds)
+Mp3Handler* Mp3Handler::create(const string& strFileName, bool bStoreTraceNotes, const QualThresholds& qualThresholds, vector<char>& readBuffer)
 {
 #ifdef WIN32
     const int maxFileNameSize (259); // (260 including NULL terminator) https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation?tabs=registry
@@ -103,7 +103,7 @@ Mp3Handler* Mp3Handler::create(const string& strFileName, bool bStoreTraceNotes,
     static int64_t nLastOkAfterRetry (nLastFail);
     try
     {
-        Mp3Handler* res = new Mp3Handler(strFileName, bStoreTraceNotes, qualThresholds);
+        Mp3Handler* res = new Mp3Handler(strFileName, bStoreTraceNotes, qualThresholds, readBuffer);
         nLastOkFirstAttempt = timer.getCrtTime();
         return res;
     }
@@ -129,7 +129,7 @@ Mp3Handler* Mp3Handler::create(const string& strFileName, bool bStoreTraceNotes,
             PausableThread::msleep(nSlp);
             try
             {
-                Mp3Handler* res = new Mp3Handler(strFileName, bStoreTraceNotes, qualThresholds);
+                Mp3Handler* res = new Mp3Handler(strFileName, bStoreTraceNotes, qualThresholds, readBuffer);
                 nLastOkAfterRetry = timer.getCrtTime();
                 return res;
             }
@@ -153,7 +153,7 @@ Mp3Handler* Mp3Handler::create(const string& strFileName, bool bStoreTraceNotes,
 }
 
 
-Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const QualThresholds& qualThresholds) :
+Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const QualThresholds& qualThresholds, vector<char>& readBuffer) :
         m_pFileName(new StringWrp(strFileName)),
 
         m_pId3V230Stream(0),
@@ -227,14 +227,12 @@ Mp3Handler::Mp3Handler(const string& strFileName, bool bStoreTraceNotes, const Q
         }
 
         bfr.str(string());
-        const int READ_SIZE (1024 * 1024); // 1MB
-        //char a [READ_SIZE];
-        vector<char> a (READ_SIZE);
+        const int READ_SIZE (cSize(readBuffer));
         streamsize nTotalRead (0);
         for (;;)
         {
-            streamsize nCrtRead (read(in, &(a[0]), READ_SIZE));
-            bfr.write(&(a[0]), nCrtRead);
+            streamsize nCrtRead (read(in, &(readBuffer[0]), READ_SIZE));
+            bfr.write(&(readBuffer[0]), nCrtRead);
             nTotalRead += nCrtRead;
             if (nCrtRead < READ_SIZE)
             {

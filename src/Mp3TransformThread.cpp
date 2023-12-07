@@ -290,6 +290,8 @@ bool Mp3Transformer::transform()
             break;
         }
     }
+    const int READ_SIZE (1024 * 1024); // 1MB
+    vector<char> readBuffer (READ_SIZE);
 
     try
     {
@@ -454,7 +456,7 @@ bool Mp3Transformer::transform()
                         strPrevTempName = strTempName;
                         try
                         {
-                            pNewHndl.reset(Mp3Handler::create(strTempName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds()));
+                            pNewHndl.reset(Mp3Handler::create(strTempName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds(), readBuffer));
                         }
                         catch (const Mp3Handler::FileNotFound&)
                         {
@@ -634,7 +636,7 @@ bool Mp3Transformer::transform()
                     if ("*" != strNewOrigName && m_pCommonData->m_dirTreeEnum.isIncluded(strNewOrigName))
                     {
                     //TRACER1A("transf ", 54);
-                        m_vpAdd.push_back(Mp3Handler::create(strNewOrigName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds()));
+                        m_vpAdd.push_back(Mp3Handler::create(strNewOrigName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds(), readBuffer));
                         //TRACER1A("transf ", 55);
                     }
                 }
@@ -652,7 +654,7 @@ bool Mp3Transformer::transform()
                     if (m_pCommonData->m_dirTreeEnum.isIncluded(strProcName))
                     {
                     //TRACER1A("transf ", 59);
-                        m_vpAdd.push_back(Mp3Handler::create(strProcName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds())); // !!! a new Mp3Handler is needed, because pNewHndl has an incorrect file name (but otherwise they should be identical)
+                        m_vpAdd.push_back(Mp3Handler::create(strProcName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds(), readBuffer)); // !!! a new Mp3Handler is needed, because pNewHndl has an incorrect file name (but otherwise they should be identical)
                         //TRACER1A("transf ", 60);
                     }
                     //TRACER1A("transf ", 61);

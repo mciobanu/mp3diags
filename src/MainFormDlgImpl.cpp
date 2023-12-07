@@ -1644,6 +1644,8 @@ bool Mp3ProcThread::scan()
     //cout << "################### procRec(" << strDir << ")\n";
     //FileSearcher fs ((strDir + "/*").c_str());
     m_fileEnum.reset();
+    const int READ_SIZE (1024 * 1024); // 1MB
+    vector<char> readBuffer (READ_SIZE);
 
     for (;;)
     {
@@ -1675,7 +1677,7 @@ bool Mp3ProcThread::scan()
 
             try
             {
-                const Mp3Handler* p (Mp3Handler::create(strName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds()));
+                const Mp3Handler* p (Mp3Handler::create(strName, m_pCommonData->m_bUseAllNotes, m_pCommonData->getQualThresholds(), readBuffer));
                 m_vpAdd.push_back(p);
             }
             catch (const Mp3Handler::FileNotFound&)

@@ -608,7 +608,10 @@ class CmdLineProcessor
         Mp3Handler* mp3Handler;
         try
         {
-            mp3Handler = Mp3Handler::create(strFullName, false, m_qualThresholds);
+            const int READ_SIZE (1024 * 1024); // 1MB
+            vector<char> readBuffer (READ_SIZE);
+
+            mp3Handler = Mp3Handler::create(strFullName, false, m_qualThresholds, readBuffer);
         }
         catch (const Mp3Handler::FileNotFound&)
         {

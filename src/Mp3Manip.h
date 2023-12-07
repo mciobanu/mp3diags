@@ -122,9 +122,9 @@ class Mp3Handler
 
     void reloadId3V2Hlp();
 
-    Mp3Handler(const std::string& strFileName, bool bStoreTraceNotes, const QualThresholds& qualThresholds);
+    Mp3Handler(const std::string& strFileName, bool bStoreTraceNotes, const QualThresholds& qualThresholds, std::vector<char>& readBuffer);
 public:
-    static Mp3Handler* create(const std::string& strFileName, bool bStoreTraceNotes, const QualThresholds& qualThresholds);
+    static Mp3Handler* create(const std::string& strFileName, bool bStoreTraceNotes, const QualThresholds& qualThresholds, std::vector<char>& readBuffer);
     ~Mp3Handler();
 
     //void copyMpeg(std::istream& in, std::ostream& out);

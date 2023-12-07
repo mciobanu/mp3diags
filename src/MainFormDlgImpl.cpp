@@ -1682,7 +1682,16 @@ bool Mp3ProcThread::scan()
             }
             catch (const Mp3Handler::FileNotFound&)
             {
-                m_vQstrErrors.push_back(tr("File not found: %1").arg(convStr(toNativeSeparators(strName))));
+                QString err;
+                err = tr("File not found: %1").arg(convStr(toNativeSeparators(strName)));
+#ifdef WIN32
+                if (strName.find(".lnk/") != string::npos) {
+                    err = tr("Cannot open file: %1, which seems to be under a folder that is a shortcut. "
+                             "Note that folder shortcuts are not supported, but you can use symbolic links instead.")
+                                     .arg(convStr(toNativeSeparators(strName)));  //ttt2: Add support for shortcuts
+                }
+#endif
+                m_vQstrErrors.push_back(err);
             }
             catch (const Mp3Handler::FileNameTooLong&) //ttt2 see if it should catch more
             {
@@ -1734,7 +1743,7 @@ void MainFormDlgImpl::scan(FileEnumerator& fileEnum, bool bForce, deque<const Mp
                 qstrMsg += "\n<p style=\"margin-bottom:7px; margin-top:1px; \">" + qstrName.toHtmlEscaped() + "</p>";
             }
 
-            HtmlMsg::msg(this, 0, 0, 0, 0, tr("Issues encountered while processing the files").toHtmlEscaped(), qstrMsg, QWidget::width() - 100, QWidget::height() - 100, tr("OK"));
+            HtmlMsg::msg(this, 0, 0, 0, 0, tr("Issues encountered while scanning the requested folders").toHtmlEscaped(), qstrMsg, QWidget::width() - 100, QWidget::height() - 100, tr("OK"));
 
             //ttt1: Maybe create dedicated dialog, load/save settings like in loadRenamerSettings, ...
         }

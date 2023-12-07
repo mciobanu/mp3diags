@@ -1257,5 +1257,3 @@ Testing: the program looks for .qm files in 2 places:
 
 //ttt0 see about adding DLLs MSVCR100.dll and MSVCP100.dll to the MSVC build. They might be needed e.g. on 64bit XP SP3 (see mail 2013.08.18)
 
-//ttt0 try .lnk files in Windows - see mails around 2021.04.12
-

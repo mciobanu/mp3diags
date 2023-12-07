@@ -3719,7 +3719,7 @@ Note the use of QLibraryInfo::location() to locate the Qt translations. Develope
 
 //ttt0 simulate crash in opening the session dialog at startup to se what and where gets logged; see mail on 2017.02.14
 
-//ttt0 make patterns accept "-" (see "/d/test_mp3/1/tmp2/crt_test/PatternTest/artist1 - 2000 - alb1" and https://sourceforge.net/p/mp3diags/discussion/947206/thread/3ca2d0f8/?limit=25#a622
+//ttt2 See why in 2017 patterns didn't seem to accept "-", but in 2023 this worked (see "/d/test_mp3/1/tmp2/crt_test/PatternTest/artist1 - 2000 - alb1" and https://sourceforge.net/p/mp3diags/discussion/947206/thread/3ca2d0f8/?limit=25#a622
 
 //ttt1 <li><a href="https://tecnoarena.net/come-riparare-file-mp3-danneggiati-con-mp3-diags/">tecnoarena.net</a></li>
 

@@ -911,7 +911,7 @@ int cmdlineMain(const po::variables_map& options)
     // In cmdline mode, we want to make sure the user only sees our
     // carefully crafted messages, and no debug stuff from arbitrary
     // places in the program.
-    qInstallMessageHandler(noMessageOutput); //ttt9 make sure this still works
+    qInstallMessageHandler(noMessageOutput);
 
     string strSessFile;
 
@@ -1251,7 +1251,6 @@ Testing: the program looks for .qm files in 2 places:
 
 
 
-//ttt0 make clean doesn't remove the .qm file (or anything in "bin")
 
 //ttt0 make OSB builds build translations
 

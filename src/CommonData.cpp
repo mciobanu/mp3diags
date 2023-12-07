@@ -1449,8 +1449,10 @@ const QColor& SUPPORT_PEN_COLOR()
     return col;
 }
 
-
-
+//#define bug1 //2023: Not sure what this was about, but probably different from the "vpNoteSet.empty()" assert. IIRC, there was a mail exchange, possibly including executables ...
+#ifdef bug1
+static int cntCol (0);
+#endif
 
 //ttt2 inconsistency: note is ref while vpNoteSet has vectors; OTOH comparison is not done by address; perhaps just document this;
 // color is normally the category color, but for support notes it's a "support" color; if the note isn't found in vpNoteSet, dGradStart and dGradEnd are set to -1, but normally they get a segment obtained by dividing [0, 1] in equal parts;
@@ -1473,9 +1475,54 @@ void CommonData::getNoteColor(const Note& note, const vector<const Note*>& vpNot
 
     vector<const Note*>::const_iterator it (lower_bound(vpNoteSet.begin(), vpNoteSet.end(), &note, CmpNotePtrById()));
 
+#ifdef bug1
+    if (cntCol++ % 10 == 1) // commented out on 2023.05.19
+    {
+        color = QColor::fromRgb(255, 255, 64);
+        dGradStart = 0.1;
+        dGradEnd = 0.9;
+        return;
+    }
+#endif
+
+# if 0 // 2023.12.07 - something to help with the assert below
+    if (cSize(vpNoteSet) > 3)
+    {
+        string s;
+        s += note.getDescription();
+        s += ":";
+        for (int i = 0; i < cSize(vpNoteSet); ++i)
+        {
+            s += " <";
+            s += vpNoteSet[i]->getDescription();
+            s += ">";
+        }
+        CB_ASSERT1 (false, s);
+    }
+#endif
+
+    // CB_ASSERT (vpNoteSet.empty()); //Triggered:
+    //  - Mail on 2016.12.08: (mp3@gmail) 1.3.04, Windows 7 Professional, CommonData.cpp, line 1470: vpNoteSet.empty()
+    //  - Mail on 2019.09.20: (mp3@gmail) 1.2.03, Linux Mint, CommonData.cpp, line 1465: vpNoteSet.empty()
+    //
+    // 2023.12.07: As no reason could be found in either case, finally committed the older idea to try and get
+    // additional info before asserting. (This was probably mailed to some users)
     if (vpNoteSet.end() == it)
     {
-        CB_ASSERT (vpNoteSet.empty());
+        if (!vpNoteSet.empty())
+        {
+            string s;
+            s += note.getDescription();
+            s += ":";
+            for (int i = 0; i < cSize(vpNoteSet); ++i)
+            {
+                s += " <";
+                s += vpNoteSet[i]->getDescription();
+                s += ">";
+            }
+            //ttt0 add a "caller" param
+            CB_ASSERT1 (false, s);
+        }
         return;
     }
 

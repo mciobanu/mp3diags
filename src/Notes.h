@@ -257,6 +257,8 @@ public:
     DECL_NOTE_INFO(id3v230UsesUtf8, WARNING, ID3V230, QT_TR_NOOP("ID3V2.3.0 tag contains a text frame encoded as UTF-8, which is valid in ID3V2.4.0 but not in ID3V2.3.0."), true) // e
     DECL_NOTE_INFO(id3v230UnsuppText, SUPPORT, ID3V230, QT_TR_NOOP("Unsupported value of text frame while reading an Id3V2 Stream."), true) // f
     DECL_NOTE_INFO(id3v230CantReadFrame, ERR, ID3V230, QT_TR_NOOP("Invalid ID3V2.3.0 frame. Incorrect frame size or file too short."), true) // g
+    DECL_NOTE_INFO(id3v230FrameTooLong, ERR, ID3V230, QT_TR_NOOP("Invalid ID3V2.3.0 frame. Maximum supported size is 64 MB."), true) // h
+    DECL_NOTE_INFO(id3v230LargeFrame, WARNING, ID3V230, QT_TR_NOOP("ID3V2.3.0 frame is larger than usual, possibly wasting space."), true) // i
 
     // id3 v2.4.0 // g
     DECL_NOTE_INFO(twoId3V240, ERR, ID3V240, QT_TR_NOOP("Two ID3V2.4.0 tags found, but a file should have at most one of them."), true) // a

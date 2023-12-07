@@ -68,7 +68,14 @@ Id3V230Frame::Id3V230Frame(NoteColl& notes, istream& in, streampos pos, bool bHa
     m_szName[4] = 0;
     m_nMemDataSize = (p[4] << 24) + (p[5] << 16) + (p[6] << 8) + (p[7] << 0);
 
-    MP3_CHECK (m_nMemDataSize >= 0 && m_nMemDataSize < (16 * 1024 * 1024), pos, id3v230CantReadFrame, CB_EXCP2(StreamIsBroken, Id3V230Stream::getClassDisplayName(), tr("Broken ID3V2.3.0 tag.")));
+    const int MAX_SIZE (64 * 1024 * 1024);
+    const int LARGE_SIZE (2 * 1024 * 1024);
+    if (m_nMemDataSize >= LARGE_SIZE && m_nMemDataSize < MAX_SIZE)
+    {
+        MP3_NOTE (pos, id3v230LargeFrame);
+    }
+
+    MP3_CHECK (m_nMemDataSize >= 0 && m_nMemDataSize < MAX_SIZE, pos, id3v230FrameTooLong, CB_EXCP2(StreamIsBroken, Id3V230Stream::getClassDisplayName(), tr("ID3V2.3.0 tag too long.")));
 
     {
         char c (m_szName[0]);

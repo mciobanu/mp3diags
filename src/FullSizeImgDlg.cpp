@@ -27,6 +27,8 @@
 #include  <QClipboard>
 #include  <QApplication>
 #include  <QMimeData>
+#include  <QDesktopWidget>
+#include  <QScreen>
 
 #include  "FullSizeImgDlg.h"
 
@@ -40,7 +42,18 @@ FullSizeImgDlg::FullSizeImgDlg(QWidget* pParent, const ImageInfo& imageInfo) : Q
     QVBoxLayout* pLayout (new QVBoxLayout(this));
     //dlg.setLayout(pGridLayout);
     QLabel* p (new QLabel(this));
-    p->setPixmap(QPixmap::fromImage(imageInfo.getImage())); //ttt2 see if it should limit size (IIRC QLabel scaled down once a big image)
+    const QImage& image = imageInfo.getImage();
+    int screen = QApplication::desktop()->screenNumber(pParent); //ttt1: Test on multiscreen
+    const QRect& qScreenRect = QGuiApplication::screens()[screen]->availableGeometry();
+    //const QRect& qRect2 = QGuiApplication::screens()[0]->geometry();
+    const int maxWidth (qScreenRect.width() * 9 / 10);
+    const int maxHeight (qScreenRect.height() * 9 / 10);
+    if (image.width() > maxWidth || image.height() > maxHeight) {
+        QImage scaledPic = image.scaled(maxWidth, maxHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        p->setPixmap(QPixmap::fromImage(scaledPic));
+    } else {
+        p->setPixmap(QPixmap::fromImage(image));
+    }
     pLayout->addWidget(p, 0, Qt::AlignHCenter);
 
 
@@ -53,6 +66,7 @@ FullSizeImgDlg::FullSizeImgDlg(QWidget* pParent, const ImageInfo& imageInfo) : Q
     pLayout->addWidget(p, 0, Qt::AlignHCenter);
 
     { QAction* pAct (new QAction(this)); pAct->setShortcut(QKeySequence("Ctrl+C")); connect(pAct, SIGNAL(triggered()), this, SLOT(onCopy())); addAction(pAct); }
+    //ttt1: Maximization looks like it can be improved
 }
 
 

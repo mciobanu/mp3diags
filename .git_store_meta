@@ -295,7 +295,7 @@ src/FilesModel.cpp	f	2014-11-13T15:57:59Z
 src/FilesModel.h	f	2009-10-01T09:28:15Z
 src/fstream_unicode.cpp	f	2014-11-12T16:10:31Z
 src/fstream_unicode.h	f	2014-01-16T13:37:36Z
-src/FullSizeImgDlg.cpp	f	2012-03-03T20:13:54Z
+src/FullSizeImgDlg.cpp	f	2023-12-07T19:18:03Z
 src/FullSizeImgDlg.h	f	2009-11-28T07:25:00Z
 src/Helpers.cpp	f	2023-12-05T08:02:19Z
 src/Helpers.h	f	2019-02-16T21:59:06Z

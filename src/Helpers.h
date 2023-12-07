@@ -333,6 +333,8 @@ void configureGradient(QGradient& grad, const QColor& col, double dStart, double
 // first looks in several places on the local computer; if the file can't be found there, it goes to SourceForge
 void openHelp(const std::string& strFileName);
 
+std::string getWebHelpUrl();
+
 
 // meant for displaying tooltips; converts some spaces to \n, so the tooltips have several short lines instead of a single wide line
 QString makeMultiline(const QString& qstrDescr);

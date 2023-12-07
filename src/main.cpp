@@ -254,7 +254,7 @@ public:
 
 
 OptionInfo s_helpOpt ("help", "h", "Show this help message");
-OptionInfo s_uninstOpt ("uninstall", "u", "Uninstall (remove settings)");
+OptionInfo s_uninstOpt ("uninstall", "u", "Uninstall (just remove settings)");
 OptionInfo s_severityOpt ("severity", "s", "Minimum severity to show (one of error, warning, support); default: warning");
 OptionInfo s_inputFileOpt ("input-file", "", "Input file");
 OptionInfo s_hiddenFolderSessOpt ("hidden-session", "f", "Creates a new session for the specified folder and stores it inside that folder. The session will be hidden when the program exits.");
@@ -1090,8 +1090,9 @@ int main(int argc, char *argv[])
 
     if (err || options.count(s_helpOpt.m_szLongOpt) > 0) //ttt1 options "u" and "s" are incompatible; "s" without a file is wrong as well; these should trigger the "usage" message, then exit as well;
     {
-        cout << "Usage: " << argv[0] << " [OPTION]... [FILE]...\n";
+        cout << "Usage: " << argv[0] << " [OPTION]... [FILE or FOLDER]..." << endl;
         cout << visibleDesc << endl;
+        cout << "Some more details at: " << getWebHelpUrl() << "310_advanced.html" << endl;
         return 1;
     }
 

@@ -1184,6 +1184,11 @@ vector<QString> getLocalHelpDirs()
     return s_v;
 }
 
+string getWebHelpUrl()
+{
+    return string("https://mp3diags.sourceforge.net") + getWebBranch() + "/";
+}
+
 
 // opens a web page from the documentation in the default browser;
 // first looks in several places on the local computer; if the file can't be found there, it goes to SourceForge
@@ -1203,7 +1208,7 @@ void openHelp(const string& strFileName)
     QString qs (strDir);
     if (qs.isEmpty())
     {
-        qs = "https://mp3diags.sourceforge.net" + QString(getWebBranch()) + "/";
+        qs = convStr(getWebHelpUrl());
     }
     else
     {

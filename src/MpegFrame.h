@@ -74,8 +74,9 @@ public:
     //MpegFrame(std::istream& in, std::streampos pos);
     MpegFrameBase(NoteColl& notes, std::istream& in);
 
-    MpegFrameBase();
+    MpegFrameBase();  // serialization-only constructor (probably)
     MpegFrameBase(NoteColl& notes, std::streampos pos, const char* bfr);
+    MpegFrameBase(NoteColl& notes, const char* bfr);
 
     std::ostream& write(std::ostream& out) const;
 
@@ -85,6 +86,7 @@ public:
     ChannelMode getChannelMode() const { return m_eChannelMode; }
     int getBitrate() const { return m_nBitrate; }
     int getFrequency() const { return m_nFrequency; }
+    int getPadding() const { return m_nPadding; }
     int getSize() const { return m_nSize; } // total size, including the header
     bool getCrcUsage() const { return m_bCrc; }
     std::streampos getPos() const { return m_pos; }

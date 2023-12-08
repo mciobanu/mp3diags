@@ -268,6 +268,10 @@ std::string utf8FromLatin1(const std::string&);
 // the total memory currently used by the current process, in kB
 long getMemUsage();
 
+/*
+ * These are barely used, e.g. decodeMpegFrameAsXml() is used in XML export only for TruncatedMpegDataStream .
+ * Mp3Manip uses decodeMpegFrame(char*...) to check for an MPEG frame start
+ */
 std::string decodeMpegFrame(unsigned int n, const char* szSep, bool* pbIsValid = 0); // on error doesn't throw, but returns an error string; szSep is used as separator for the output string
 std::string decodeMpegFrame(const char* bfr, const char* szSep, bool* pbIsValid = 0);
 std::string decodeMpegFrameAsXml(const char* bfr, bool* pbIsValid = 0);

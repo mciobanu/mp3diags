@@ -54,6 +54,7 @@
 #include  "OsFile.h"
 
 #include  "DataStream.h" // for translation
+#include  "MpegFrame.h"
 
 
 using namespace std;
@@ -361,14 +362,14 @@ void logToGlobalFile(const string& s) //tttc make sure it is disabled in public 
 
 
 
-
+# if 0  //ttt9: remove after commit
 
 #define DECODE_CHECK(COND, MSG) { if (!(COND)) { bRes = false; return MSG; } }
 
 namespace
 {
 
-    struct Decoder
+    struct Decoder1
     {
         enum Version { MPEG1, MPEG2 };
         enum Layer { LAYER1, LAYER2, LAYER3 };
@@ -393,26 +394,31 @@ namespace
         string decodeMpegFrameAsXml(const unsigned char* bfr, bool* pbIsValid);
     };
 
-    const char* Decoder::getSzVersion() const
+    const char* Decoder1::getSzVersion() const
     {
         static const char* s_versionName[] = { QT_TRANSLATE_NOOP("DataStream", "MPEG-1"), QT_TRANSLATE_NOOP("DataStream", "MPEG-2") };
         return s_versionName[m_eVersion];
     }
 
-    const char* Decoder::getSzLayer() const
+    const char* Decoder1::getSzLayer() const
     {
         static const char* s_layerName[] = { QT_TRANSLATE_NOOP("DataStream", "Layer I"), QT_TRANSLATE_NOOP("DataStream", "Layer II"), QT_TRANSLATE_NOOP("DataStream", "Layer III") };
         return s_layerName[m_eLayer];
     }
 
-    const char* Decoder::getSzChannelMode() const
+    const char* Decoder1::getSzChannelMode() const
     {
         static const char* s_channelModeName[] = { QT_TRANSLATE_NOOP("DataStream", "Stereo"), QT_TRANSLATE_NOOP("DataStream", "Joint stereo"), QT_TRANSLATE_NOOP("DataStream", "Dual channel"), QT_TRANSLATE_NOOP("DataStream", "Single channel") };
         return s_channelModeName[m_eChannelMode];
     }
 
 
-    QString Decoder::initialize(const unsigned char* bfr, bool* pbIsValid) //ttt2 perhaps unify with MpegFrameBase::MpegFrameBase(), using the char* constructor; note that they also share translations
+    /**
+     * @param bfr MPEG header candidate; must have at least 4 bytes
+     * @param pbIsValid optional; if present,
+     * @return error, as a translated string, if bfr is invalid; empty string if buffer is valid
+     */
+    QString Decoder1::initialize(const unsigned char* bfr, bool* pbIsValid) //ttt2 perhaps unify with MpegFrameBase::MpegFrameBase(), using the char* constructor; note that they also share translations
     {
         bool b;
         bool& bRes (0 == pbIsValid ? b : *pbIsValid);
@@ -539,7 +545,7 @@ namespace
     }
 
 
-    QString Decoder::decodeMpegFrame(const unsigned char* bfr, const char* szSep, bool* pbIsValid) //ttt2 perhaps unify with MpegFrameBase::MpegFrameBase(), using the char* constructor
+    QString Decoder1::decodeMpegFrame(const unsigned char* bfr, const char* szSep, bool* pbIsValid) //ttt2 perhaps unify with MpegFrameBase::MpegFrameBase(), using the char* constructor
     {
         QString s (initialize(bfr, pbIsValid));
         if (!s.isEmpty()) { return s; }
@@ -588,7 +594,7 @@ namespace
     }
 
 
-    string Decoder::decodeMpegFrameAsXml(const unsigned char* bfr, bool* pbIsValid) //ttt2 perhaps unify with MpegFrameBase::MpegFrameBase(), using the char* constructor
+    string Decoder1::decodeMpegFrameAsXml(const unsigned char* bfr, bool* pbIsValid) //ttt2 perhaps unify with MpegFrameBase::MpegFrameBase(), using the char* constructor
     {
         QString s (initialize(bfr, pbIsValid)); // !!! XML is not translated
         if (!s.isEmpty()) { return convStr(s); }
@@ -607,7 +613,119 @@ namespace
         return out.str();
     }
 } // namespace
+#endif
 
+
+
+
+
+
+
+
+
+
+namespace {
+
+struct Decoder {
+    QString decodeMpegFrame(const unsigned char* bfr, const char* szSep, bool* pbIsValid);
+    string decodeMpegFrameAsXml(const unsigned char* bfr, bool* pbIsValid);
+};
+
+
+/**
+ * @param bfr MPEG header candidate; must have at least 4 bytes
+ * @param pbIsValid optional; if present,
+ * @return error, as a translated string, if bfr is invalid; empty string if buffer is valid
+ */
+QString Decoder::decodeMpegFrame(const unsigned char* bfr, const char* szSep, bool* pbIsValid)
+{
+    NoteColl noteColl;
+    bool b;
+    bool& bRes (0 == pbIsValid ? b : *pbIsValid);
+    bRes = true;
+    try {
+        MpegFrameBase frame(noteColl, reinterpret_cast<const char*>(bfr));
+        return DataStream::tr("%1 %2%3%4%5%6Hz%7%8bps%9CRC=%10%11length %12 (0x%13)%14padding=%15")
+                .arg(DataStream::tr(frame.getSzVersion()))
+                .arg(DataStream::tr(frame.getSzLayer()))
+                .arg(szSep)
+                .arg(DataStream::tr(frame.getSzChannelMode()))
+                .arg(szSep)
+                .arg(frame.getFrequency())
+                .arg(szSep)
+                .arg(frame.getBitrate())
+                .arg(szSep)
+                .arg(GlobalTranslHlp::tr(boolAsYesNo(frame.getCrcUsage())))
+                .arg(szSep)
+                .arg(frame.getSize())
+                .arg(frame.getSize(), 0, 16)
+                .arg(szSep)
+                .arg(GlobalTranslHlp::tr(boolAsYesNo(frame.getPadding() != 0)));
+    } catch (const exception& ex) {
+        bRes = false;
+        const vector<Note*>& notes = noteColl.getList();
+        if (!notes.empty()) {
+            return notes[0]->getDescription();
+        }
+        return "err";
+    }
+
+    //ostringstream out;
+    /*out << getSzVersion() << " " << getSzLayer() << ", " << m_nBitrate/1000 << "kbps, " << m_nFrequency << "Hz, " << getSzChannelMode() << ", padding=" << (m_nPadding ? "true" : "false") << ", length " <<
+            m_nSize << " (0x" << hex << m_nSize << dec << ")";*/
+
+
+    /*out << boolalpha <<
+           getSzVersion() << " " <<
+           getSzLayer() <<
+           szSep <<
+           getSzChannelMode()/ *4* / <<
+            szSep <<
+           m_nFrequency << "Hz" <<
+           szSep <<
+           m_nBitrate / *8* / << "bps" <<
+           szSep << "CRC=" <<
+           boolAsYesNo(m_bCrc) <<
+           szSep / *11* /<< "length " <<
+           m_nSize <<
+           " (0x" << hex << m_nSize << dec << ")" <<
+           szSep / *14* /<< "padding=" <<
+           (m_nPadding ? "true" : "false");*/
+}
+
+
+// Used only for TruncatedMpegDataStream
+string Decoder::decodeMpegFrameAsXml(const unsigned char* bfr, bool* pbIsValid) //ttt2 perhaps unify with MpegFrameBase::MpegFrameBase(), using the char* constructor
+{
+    NoteColl noteColl;
+    bool b;
+    bool& bRes (0 == pbIsValid ? b : *pbIsValid);
+    bRes = true;
+    try {
+        MpegFrameBase frame(noteColl, reinterpret_cast<const char*>(bfr));
+        ostringstream out;
+        out << " version=\"" << frame.getSzVersion() << "\""
+            << " layer=\"" << frame.getSzLayer() << "\""
+            << " channelMode=\"" << frame.getSzChannelMode() << "\""
+            << " frequency=\"" << frame.getFrequency() << "\""
+            << " bps=\"" << frame.getBitrate() << "\""
+            << " crc=\"" << boolAsYesNo(frame.getCrcUsage()) << "\""
+
+            << " mpegSize=\"" << frame.getSize() << "\""
+            << " padding=\"" << boolAsYesNo(frame.getPadding() != 0) << "\""; // !!! XML isn't translated
+
+        return out.str();
+    } catch (const exception& ex) {
+        bRes = false;
+        const vector<Note*>& notes = noteColl.getList();
+        if (!notes.empty()) {
+            return notes[0]->getDescription();
+        }
+        return "err";
+    }
+}
+
+}  // namespace
 
 
 string decodeMpegFrame(unsigned int x, const char* szSep, bool* pbIsValid /* = 0*/)
@@ -625,7 +743,9 @@ string decodeMpegFrame(const char* bfr, const char* szSep, bool* pbIsValid /* = 
 {
     Decoder d;
     const unsigned char* q (reinterpret_cast<const unsigned char*>(bfr));
-    return convStr(d.decodeMpegFrame(q, szSep, pbIsValid));
+    //Decoder1().decodeMpegFrame(q, szSep, pbIsValid);
+    const string& res = convStr(d.decodeMpegFrame(q, szSep, pbIsValid));
+    return res;
 }
 
 

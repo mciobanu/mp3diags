@@ -56,6 +56,12 @@ MpegFrameBase::MpegFrameBase(NoteColl& notes, streampos pos, const char* bfr)
 }
 
 
+MpegFrameBase::MpegFrameBase(NoteColl& notes, const char* bfr)
+{
+    init(notes, bfr);
+}
+
+
 #ifdef GENERATE_TOC
 MpegFrameBase MpegFrameBase::getBigBps() const // returns a "similar" frame to "this" but with a bigger bps, so it can hold a Xing TOC
 {

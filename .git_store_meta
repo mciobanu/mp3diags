@@ -122,10 +122,10 @@ doc/html/030_users_guide.html	f	2012-01-28T07:21:56Z
 doc/html/035_suggested_usage.html	f	2009-11-28T13:45:44Z
 doc/html/040_limitations.html	f	2009-11-29T10:25:07Z
 doc/html/050_assert.png	f	2009-10-06T13:20:19Z
-doc/html/050_feedback.html	f	2014-06-06T15:39:46Z
+doc/html/050_feedback.html	f	2023-12-08T07:34:01Z
 doc/html/060_notes_for_programmers.html	f	2009-08-21T13:28:50Z
 doc/html/070_miscellaneous.html	f	2014-01-16T09:21:35Z
-doc/html/110_first_run.html	f	2014-06-06T15:39:40Z
+doc/html/110_first_run.html	f	2023-12-08T07:37:23Z
 doc/html/110_first_run.png	f	2013-04-22T15:49:49Z
 doc/html/120_first_scan.html	f	2009-08-21T13:28:49Z
 doc/html/120_first_scan.png	f	2009-10-06T13:51:59Z
@@ -256,7 +256,7 @@ src/ApeStream.cpp	f	2014-11-12T17:36:59Z
 src/ApeStream.h	f	2014-11-12T16:53:17Z
 src/CbException.cpp	f	2014-11-12T10:16:37Z
 src/CbException.h	f	2014-11-14T12:55:39Z
-src/CheckedDir.cpp	f	2012-02-16T22:31:11Z
+src/CheckedDir.cpp	f	2023-12-08T07:38:15Z
 src/CheckedDir.h	f	2012-02-16T22:30:59Z
 src/ColumnResizer.cpp	f	2023-12-07T08:29:43Z
 src/ColumnResizer.h	f	2009-05-06T07:28:19Z
@@ -377,7 +377,7 @@ src/LogModel.h	f	2009-05-06T07:30:16Z
 src/LyricsStream.cpp	f	2014-11-12T17:36:59Z
 src/LyricsStream.h	f	2014-11-12T16:53:17Z
 src/main.cpp	f	2023-12-07T20:40:00Z
-src/MainFormDlgImpl.cpp	f	2023-12-07T18:09:04Z
+src/MainFormDlgImpl.cpp	f	2023-12-08T07:40:31Z
 src/MainFormDlgImpl.h	f	2012-02-29T20:07:21Z
 src/MainForm.ui	f	2011-07-30T12:34:43Z
 src/Mp3Diags.qrc	f	2012-02-05T19:46:04Z
@@ -391,7 +391,7 @@ src/MpegStream.cpp	f	2023-12-05T09:02:51Z
 src/MpegStream.h	f	2014-11-14T12:06:08Z
 src/MultiLineTvDelegate.cpp	f	2014-11-12T11:01:23Z
 src/MultiLineTvDelegate.h	f	2009-10-13T11:33:20Z
-src/MusicBrainzDownloader.cpp	f	2023-12-05T08:02:19Z
+src/MusicBrainzDownloader.cpp	f	2023-12-08T07:40:31Z
 src/MusicBrainzDownloader.h	f	2009-09-11T14:47:51Z
 src/NoteFilterDlgImpl.cpp	f	2019-02-10T22:56:54Z
 src/NoteFilterDlgImpl.h	f	2009-09-11T14:47:51Z

@@ -1629,7 +1629,7 @@ struct Mp3ProcThread : public PausableThread
         catch (...)
         {
             TRACER("Mp3ProcThread::run() - unknown exception");
-            CB_ASSERT (false); //ttt0 triggered according to https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=50 and https://sourceforge.net/apps/mantisbt/mp3diags/view.php?id=54  2014.11.13 - one way to get here was disabled, by catching some exceptions
+            CB_ASSERT (false); //ttt0 triggered according to https://sourceforge.net/p/mp3diags/tickets/50/ and https://sourceforge.net/p/mp3diags/tickets/54/  2014.11.13 - one way to get here was disabled, by catching some exceptions
         }
         TRACER("Scanning took " + Timer::addThSep(timer.stop() / 1000000) + " milliseconds");
     }

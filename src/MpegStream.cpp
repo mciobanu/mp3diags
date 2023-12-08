@@ -292,10 +292,10 @@ bool MpegStream::findNextCompatFrame(std::istream& in, std::streampos posMax)
 }
 
 
-#ifdef GENERATE_TOC //ttt2 maybe improve and use
+#ifdef GENERATE_TOC //ttt2 maybe improve and use; (search for GENERATE_TOC, as it is in multiple files)
 //ttt0 This impacts WinAmp
 // https://sourceforge.net/p/mp3diags/discussion/947206/thread/9d6f2dacec/?limit=25#20c9
-//  /d/test_mp3/1/tmp4/tmp2/vbr-not-fixed/SAMPLE-with-VBRFix0.3beta/
+//  /d/test_mp3/1/tmp4/tmp2/2020.08.23 no TOC/SAMPLE-with-VBRFix0.3beta/
 // By seeking to 40 seconds, VLC is sort of OK, but WinAmp will play the right part only when it gets to around 55
 // (The wav version should be compared against the original MP3 the one fixed by VBRFix, and the one fixed by MP3 Diags
 

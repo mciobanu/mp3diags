@@ -163,6 +163,7 @@ static const char* s_szPlaceholderDescr (QT_TRANSLATE_NOOP("Notes", "<Placeholde
     addNote(&Notes::id3v230UsesUtf8()); // w
     addNote(&Notes::id3v230UnsuppText()); // s
     addNote(&Notes::id3v230CantReadFrame()); // e
+    addNote(&Notes::id3v230NegativeFrameSize()); // e
     addNote(&Notes::id3v230FrameTooLong()); // e
     addNote(&Notes::id3v230LargeFrame()); // w
 

@@ -234,7 +234,9 @@ private:
 std::streampos getNextStream(std::istream& in, std::streampos pos);
 
 
-
+// minSeverity is from 0 for "error" to 3 for "trace"; less important notes aren't logged
+// qstrSeverity is a 4-character string containing the initials for the error levels
+bool exportMp3HandlersAsText(std::ostream& out, std::vector<const Mp3Handler*>& v, Note::Severity minSeverity, bool bUseAllNotes, const QString& qstrSeverity = "EWST");
 
 #endif // #ifndef Mp3HandlerH
 

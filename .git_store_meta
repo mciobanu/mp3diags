@@ -280,7 +280,7 @@ src/DiscogsDownloader.h	f	2012-10-20T09:48:04Z
 src/DoubleList.cpp	f	2019-02-16T22:22:20Z
 src/DoubleList.h	f	2019-02-10T21:28:43Z
 src/DoubleListWdg.ui	f	2012-01-02T15:16:59Z
-src/ExportDlgImpl.cpp	f	2023-12-04T19:17:10Z
+src/ExportDlgImpl.cpp	f	2023-12-09T17:51:01Z
 src/ExportDlgImpl.h	f	2009-10-01T07:49:02Z
 src/Export.ui	f	2012-01-02T15:17:30Z
 src/ExternalToolDlgImpl.cpp	f	2019-02-11T21:53:34Z
@@ -376,13 +376,13 @@ src/LogModel.cpp	f	2014-11-13T15:57:59Z
 src/LogModel.h	f	2009-05-06T07:30:16Z
 src/LyricsStream.cpp	f	2014-11-12T17:36:59Z
 src/LyricsStream.h	f	2014-11-12T16:53:17Z
-src/main.cpp	f	2023-12-09T18:45:27Z
+src/main.cpp	f	2023-12-09T18:50:06Z
 src/MainFormDlgImpl.cpp	f	2023-12-08T07:40:31Z
 src/MainFormDlgImpl.h	f	2012-02-29T20:07:21Z
 src/MainForm.ui	f	2011-07-30T12:34:43Z
 src/Mp3Diags.qrc	f	2012-02-05T19:46:04Z
 src/Mp3Manip.cpp	f	2023-12-07T08:42:40Z
-src/Mp3Manip.h	f	2023-12-07T08:33:28Z
+src/Mp3Manip.h	f	2023-12-09T17:51:01Z
 src/Mp3TransformThread.cpp	f	2023-12-07T08:40:32Z
 src/Mp3TransformThread.h	f	2014-09-24T08:48:58Z
 src/MpegFrame.cpp	f	2023-12-08T21:00:03Z

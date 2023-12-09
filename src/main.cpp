@@ -252,16 +252,16 @@ public:
     const char* const m_szDescr;
 };
 
-
-OptionInfo s_helpOpt ("help", "h", "Show this help message");
-OptionInfo s_uninstOpt ("uninstall", "u", "Uninstall (just remove settings)");
-OptionInfo s_severityOpt ("severity", "s", "Minimum severity to show (one of error, warning, support); default: warning");
-OptionInfo s_inputFileOpt ("input-file", "", "Input file");
+OptionInfo s_helpOpt ("help", "h", "For CLI only. Show this help message");
+OptionInfo s_transfListOpt ("transf-list", "l", "For CLI only. A number between 1 and 4. Applies the specified custom transformation list to the files and/or folders passed"); //ttt1 use CUSTOM_TRANSF_CNT instead of 4
+OptionInfo s_severityOpt ("severity", "s", "For CLI only. Minimum severity to show (one of error, warning, support); default: warning");
+OptionInfo s_formatOpt ("format", "f", "For CLI only. How to format the output (either short or long); default: short");
+OptionInfo s_sessionOpt ("session", "w", "Session file name");
 OptionInfo s_hiddenFolderSessOpt ("hidden-session", "f", "Creates a new session for the specified folder and stores it inside that folder. The session will be hidden when the program exits.");
 OptionInfo s_loadedFolderSessOpt ("visible-session", "v", "Creates a new session for the specified folder and stores it inside that folder. The session will be visible in the session list after the program is restarted.");
 OptionInfo s_tempSessOpt ("temp-session", "t", "Creates a temporary session for the specified folder, which will be deleted when the program exits");
-OptionInfo s_transfListOpt ("transf-list", "l", "A number between 1 and 4. Applies the specified custom transformation list to the files and/or folders passed"); //ttt1 use CUSTOM_TRANSF_CNT instead of 4
-OptionInfo s_sessionOpt ("session", "w", "Session file name");
+OptionInfo s_uninstOpt ("uninstall", "u", "For CLI only. Uninstall user settings");
+OptionInfo s_inputFileOpt ("input-file", "", "Input file(s) and / or folder(s)");
 
 OptionInfo s_overrideSess ("", "", ""); // ttt1 maybe implement - for s_folderSessOpt and s_tempSessOpt (and s_inputFileOpt) - session with settings to use instead of the template
 
@@ -576,7 +576,7 @@ int guiMain(const po::variables_map& options) {
     return app.exec();*/
 }
 
-
+enum CliOutputFormat { SHORT, LONG }; //!!! This needs to be global. Putting in inside namespace causes compilation to fail
 
 
 namespace {
@@ -675,7 +675,7 @@ class CmdLineProcessor
 
 protected:
     void setQualThresholds(const QualThresholds& qualThresholds) { m_qualThresholds = qualThresholds; }
-    string getRelativeName(const string& strFullName)
+    string getRelativeName(const string& strFullName) // "relative" to the start folder; if that is absolute, m_nCut is 0 and this returns its parameter
     {
         return strFullName.substr(m_nCut);
     }
@@ -704,9 +704,16 @@ public:
 class CmdLineAnalyzer : public CmdLineProcessor
 {
     Note::Severity m_minLevel;
+    CliOutputFormat outputFormat;
 
     /*override*/ bool processFile(const string& strFullName, Mp3Handler* pmp3Handler)
     {
+        if (outputFormat == CliOutputFormat::LONG) {
+            vector<const Mp3Handler*> v;
+            v.push_back(pmp3Handler);
+            exportMp3HandlersAsText(cout, v, m_minLevel, true, QString("EWST"));
+            return pmp3Handler->getNotes().getList().empty();
+        }
         bool bThisFileHasProblems = false;
         vector<Note*> vpNotes (pmp3Handler->getNotes().getList());
         // sort by position rather than note ID (notes come sorted by ID from Mp3Handler)
@@ -741,7 +748,7 @@ class CmdLineAnalyzer : public CmdLineProcessor
     }
 
 public:
-    CmdLineAnalyzer(Note::Severity minLevel, const QualThresholds& qualThresholds, const vector<string>& vstrNames) : CmdLineProcessor(vstrNames), m_minLevel(minLevel)
+    CmdLineAnalyzer(Note::Severity minLevel, CliOutputFormat outputFormat, const QualThresholds& qualThresholds, const vector<string>& vstrNames) : CmdLineProcessor(vstrNames), m_minLevel(minLevel), outputFormat(outputFormat)
     {
         setQualThresholds(qualThresholds);
     }
@@ -910,6 +917,18 @@ int cmdlineMain(const po::variables_map& options)
         }
     }
 
+    CliOutputFormat outputFormat (CliOutputFormat::SHORT);
+    if (options.count(s_formatOpt.m_szLongOpt) > 0)
+    {
+        try
+        {
+            outputFormat = options[s_formatOpt.m_szLongOpt].as<CliOutputFormat>(); //ttt2 see how to use default params in cmdlineDesc.add_options()
+        }
+        catch (...)
+        { // nothing
+        }
+    }
+
     // In cmdline mode, we want to make sure the user only sees our
     // carefully crafted messages, and no debug stuff from arbitrary
     // places in the program.
@@ -947,7 +966,7 @@ int cmdlineMain(const po::variables_map& options)
     //settings.loadTransfConfig(transfConfig);
     //commonData.m_strTransfLog = SessionEditorDlgImpl::getLogFileName(strSessFile);
 
-    CmdLineAnalyzer cmdLineAnalyzer (minLevel, commonData.getQualThresholds(), inputFiles);
+    CmdLineAnalyzer cmdLineAnalyzer (minLevel, outputFormat, commonData.getQualThresholds(), inputFiles);
 
     return cmdLineAnalyzer.run() ? 0 : 1;
 }
@@ -969,7 +988,9 @@ ttt1 CLI-friendly function restructuring:
 } // namespace
 
 
-// To parse a Note::Severity value from the command line using boost::program_options.
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
+// To parse a Note::Severity value from the command line using boost::program_options. This is needed despite CLion not finding usages
 static void validate(boost::any& v, vector<string> const& values, Note::Severity*, int) {
     po::validators::check_first_occurrence(v);
     const string& s = po::validators::get_single_string(values);
@@ -980,6 +1001,20 @@ static void validate(boost::any& v, vector<string> const& values, Note::Severity
     //else throw po::validation_error("invalid option value");
     else CB_THROW1(CbRuntimeError, "invalid option value");
 }
+#pragma clang diagnostic pop
+
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
+// To parse an OutputFormat value from the command line using boost::program_options. This is needed despite CLion not finding usages
+static void validate(boost::any& v, vector<string> const& values, CliOutputFormat*, int) {
+    po::validators::check_first_occurrence(v);
+    const string& s = po::validators::get_single_string(values);
+    if (s.compare("short") == 0) v = CliOutputFormat::SHORT; //ttt1 maybe translate
+    else if (s.compare("long") == 0) v = CliOutputFormat::LONG;
+    else CB_THROW1(CbRuntimeError, "invalid option value");
+}
+
 
 
 int main(int argc, char *argv[])
@@ -1036,6 +1071,7 @@ int main(int argc, char *argv[])
         //("severity,s", po::value<Note::Severity>()->default_value(Note::WARNING), "minimum severity to show (one of error, warning, support); default: warning") //ttt1 see if this can be made to work; it sort of does, but when invoked with "--help" it prints "arg (=1)" rather than "arg (=warning)"
         (s_severityOpt.m_szFullOpt, po::value<Note::Severity>(), s_severityOpt.m_szDescr)
         //("severity,s", "minimum severity to show (one of error, warning, support")
+        (s_formatOpt.m_szFullOpt, po::value<CliOutputFormat>(), s_formatOpt.m_szDescr)
         (s_transfListOpt.m_szFullOpt, po::value<int>(), s_transfListOpt.m_szDescr)
     ;
 

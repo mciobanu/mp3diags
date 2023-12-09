@@ -318,12 +318,17 @@ void ExportDlgImpl::getHandlers(vector<const Mp3Handler*>& v)
 
 bool ExportDlgImpl::exportAsText(const string& strFileName)
 {
+    ofstream_utf8 out (strFileName.c_str());
     vector<const Mp3Handler*> v;
     getHandlers(v);
-
-    ofstream_utf8 out (strFileName.c_str());
     //const char* aSeverity = "EWST";
     QString qstrSeverity = tr("EWST", "the letters are the initials of the 4 severity levels: Error, Warning, Support, Trace");
+    return ::exportMp3HandlersAsText(out, v, Note::Severity::TRACE, getCommonData()->m_bUseAllNotes, qstrSeverity);
+}
+
+
+bool exportMp3HandlersAsText(ostream& out, vector<const Mp3Handler*>& v, Note::Severity minSeverity, bool bUseAllNotes, const QString& qstrSeverity /*= "EWST"*/)
+{  //ttt1: Perhaps replace qstrSeverity with a vector<QString>, to allow more characters
     for (int i = 0, n = cSize(v); i < n; ++i)
     {
         const Mp3Handler* p (v[i]);
@@ -350,7 +355,10 @@ bool ExportDlgImpl::exportAsText(const string& strFileName)
         for (int i = 0, n = cSize(vpNotes); i < n; ++i)
         {
             const Note* p (vpNotes[i]);
-            if (getCommonData()->m_bUseAllNotes || getCommonData()->findPos(p) >= 0) // !!! "ignored" notes shouldn't be exported unless UseAllNotes is checked, so there is consistency between what is shown on the screen and what is saved
+            if (p->getSeverity() > minSeverity) {
+                continue;
+            }
+            if (bUseAllNotes || getCommonData()->findPos(p) >= 0) // !!! "ignored" notes shouldn't be exported unless UseAllNotes is checked, so there is consistency between what is shown on the screen and what is saved  //ttt1: Strange that m_bUseAllNotes is controlled from the Debug dialog, which isn't even shown by default
             {
                 out << "  " << convStr(QString(qstrSeverity[p->getSeverity()])) << " ";
                 const string& q (p->getPosHex());

@@ -625,7 +625,7 @@ class CmdLineProcessor
     }
 
     // returns "true" if there are no problems
-    bool processFullName(const string& strFullName) //ttt1 make FileSearcher take wildcards; then this function could take files, directories, and wildcard names (which might match both files and directories); in particular, a FileSearcher might take the name of a specific file, and then it should list it
+    bool processDir(const string& strFullName) //ttt1 make FileSearcher take wildcards; then this function could take files, directories, and wildcard names (which might match both files and directories); in particular, a FileSearcher might take the name of a specific file, and then it should list it
     {
         bool bRes (true);
         FileSearcher fs (strFullName);
@@ -638,7 +638,7 @@ class CmdLineProcessor
             }
             else if (fs.isDir())
             {
-                bRes = processFullName(fs.getName()) && bRes;
+                bRes = processDir(fs.getName()) && bRes;
             }
             else
             {
@@ -663,7 +663,7 @@ class CmdLineProcessor
         }
         else if (dirExists(strFullName))
         {
-            return processFullName(strFullName);
+            return processDir(strFullName);
         }
         else
         {

@@ -605,13 +605,13 @@ class CmdLineProcessor
             return true;
         }
 
-        Mp3Handler* mp3Handler;
+        Mp3Handler* pmp3Handler;
         try
         {
             const int READ_SIZE (1024 * 1024); // 1MB
             vector<char> readBuffer (READ_SIZE);
 
-            mp3Handler = Mp3Handler::create(strFullName, false, m_qualThresholds, readBuffer);
+            pmp3Handler = Mp3Handler::create(strFullName, false, m_qualThresholds, readBuffer);
         }
         catch (const Mp3Handler::FileNotFound&)
         {
@@ -619,7 +619,9 @@ class CmdLineProcessor
             return false;
         }
 
-        return processFile(strFullName, mp3Handler);
+        bool res = processFile(strFullName, pmp3Handler);
+        delete pmp3Handler;
+        return res;
     }
 
     // returns "true" if there are no problems

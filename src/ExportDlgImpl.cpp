@@ -369,7 +369,7 @@ bool exportMp3HandlersAsText(ostream& out, vector<const Mp3Handler*>& v, Note::S
                 const string& s (p->getDetail());
                 if (s.empty()) // ttt2 perhaps show descr anyway
                 {
-                    out << p->getDescription();
+                    out << convStr(Notes::tr(p->getDescription()));
                 }
                 else
                 {
@@ -385,6 +385,25 @@ bool exportMp3HandlersAsText(ostream& out, vector<const Mp3Handler*>& v, Note::S
     return (bool)out;
 }
 
+/*
+Issue: When changing languages, some streams may still display data in the language that was used at scanning.
+
+Reason: When implementing getInfo(), some descendants of DataStream have multiple fields that store relevant data,
+and run those fields and a translatable string through the translation, producing a string in the correct language.
+An example is MpegStream::getInfo()
+
+By contrast, UnsupportedDataStream, only knows what's not supported, which is translatable, and also has a "blob"
+string field with some relevant details, but with the issue that it is not translatable after the fact even if it was
+translatable when it was created, because the data that was used to create it is not saved and all we have is the
+final string.
+
+In order to address this, an option is to have dedicated classes for various Unsupported streams. Another is to use
+something like a vector of "variant" and a string instead of strInfo. If this is hard, we can perhaps use several typed
+vectors, or even a fixed number of typed arguments.
+
+ttt1 Maybe implement, but it's not trivial, the value is rather small, and there is a workaround (rescan the files
+after changing the language).
+*/
 
 
 bool ExportDlgImpl::exportAsM3u(const std::string& strFileName)

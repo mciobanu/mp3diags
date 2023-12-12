@@ -599,8 +599,13 @@ void MainFormDlgImpl::loadIgnored()
 
     int n (cSize(v));
     if (0 == n)
-    { // use default
-        vnIgnored = Notes::getDefaultIgnoredNoteIds();
+    { // use default if it's the first time and let this be empty if that's what the user wants
+        if (!m_pCommonData->m_bConfiguredDefaultIgnored)
+        {
+            vnIgnored = Notes::getDefaultIgnoredNoteIds();
+            m_pCommonData->m_bConfiguredDefaultIgnored = true;
+            m_settings.saveMiscConfigSettings(m_pCommonData);
+        }
     }
     else
     {

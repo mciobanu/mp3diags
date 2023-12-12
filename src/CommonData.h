@@ -467,6 +467,7 @@ public:
     bool m_bToldAboutSupport; // see also s_bToldAboutSupportInCrtRun
     bool m_bToldAboutXingRebuild;
     bool m_bToldAboutXingRemove;
+    bool m_bConfiguredDefaultIgnored;
 
     std::string m_strCheckForNewVersions; // really an enum with 3 values
     QDateTime m_timeLastNewVerCheck;

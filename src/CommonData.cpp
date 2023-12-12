@@ -234,6 +234,7 @@ void SessionSettings::saveMiscConfigSettings(const CommonData* p)
         m_pSettings->setValue("main/toldAboutSupport", p->m_bToldAboutSupport);
         m_pSettings->setValue("main/toldAboutXingRebuild", p->m_bToldAboutXingRebuild);
         m_pSettings->setValue("main/toldAboutXingRemove", p->m_bToldAboutXingRemove);
+        m_pSettings->setValue("main/configuredDefaultIgnored", p->m_bConfiguredDefaultIgnored);
 
         m_pSettings->setValue("fileRenamer/invalidChars", convStr(p->m_strRenamerInvalidChars));
         m_pSettings->setValue("fileRenamer/replacementForInvalid", convStr(p->m_strRenamerReplacementString));
@@ -361,6 +362,7 @@ void SessionSettings::loadMiscConfigSettings(CommonData* p, bool bInitGui) const
         p->m_bToldAboutSupport = m_pSettings->value("main/toldAboutSupport", false).toBool();
         p->m_bToldAboutXingRebuild = m_pSettings->value("main/toldAboutXingRebuild", false).toBool();
         p->m_bToldAboutXingRemove = m_pSettings->value("main/toldAboutXingRemove", false).toBool();
+        p->m_bConfiguredDefaultIgnored = m_pSettings->value("main/configuredDefaultIgnored", false).toBool();
 
 #ifndef WIN32
         const char* DEFAULT_INVALID ("/\"\\*?<>|"); //ttt2 even in Unix, it might be a good idea to not allow ":" as well in some cases, depending on the file system

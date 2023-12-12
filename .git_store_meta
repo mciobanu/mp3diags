@@ -260,8 +260,8 @@ src/CheckedDir.cpp	f	2023-12-08T07:38:15Z
 src/CheckedDir.h	f	2012-02-16T22:30:59Z
 src/ColumnResizer.cpp	f	2023-12-07T08:29:43Z
 src/ColumnResizer.h	f	2009-05-06T07:28:19Z
-src/CommonData.cpp	f	2023-12-07T20:16:54Z
-src/CommonData.h	f	2016-06-16T13:38:41Z
+src/CommonData.cpp	f	2023-12-12T19:34:15Z
+src/CommonData.h	f	2023-12-12T19:30:42Z
 src/CommonTypes.cpp	f	2014-11-12T10:27:06Z
 src/CommonTypes.h	f	2014-11-12T10:30:51Z
 src/ConfigDlgImpl.cpp	f	2023-10-16T18:28:17Z
@@ -377,7 +377,7 @@ src/LogModel.h	f	2009-05-06T07:30:16Z
 src/LyricsStream.cpp	f	2014-11-12T17:36:59Z
 src/LyricsStream.h	f	2014-11-12T16:53:17Z
 src/main.cpp	f	2023-12-09T18:50:06Z
-src/MainFormDlgImpl.cpp	f	2023-12-08T07:40:31Z
+src/MainFormDlgImpl.cpp	f	2023-12-12T19:35:05Z
 src/MainFormDlgImpl.h	f	2012-02-29T20:07:21Z
 src/MainForm.ui	f	2011-07-30T12:34:43Z
 src/Mp3Diags.qrc	f	2012-02-05T19:46:04Z

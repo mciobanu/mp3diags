@@ -462,5 +462,9 @@ src/Widgets.cpp	f	2014-11-13T15:57:59Z
 src/Widgets.h	f	2012-03-02T21:17:30Z
 templates/cpp	f	2009-05-06T07:21:29Z
 templates/h	f	2009-05-06T07:21:39Z
+tests/ConvertWindowsExport.sh	f	2023-12-11T18:35:23Z
+tests/.gitignore	f	2023-12-12T08:46:32Z
+tests/RunTests.sh	f	2023-12-12T08:42:43Z
+tests/SortGuiExport.sh	f	2023-12-11T08:58:19Z
 Uninstall.sh	f	2012-03-11T17:03:55Z
 Windows/MP3Diags-unstable.nsi	f	2023-12-04T18:40:03Z

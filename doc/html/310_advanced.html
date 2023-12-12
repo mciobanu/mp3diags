@@ -122,24 +122,28 @@ You can use these options to:
 <div class="FreeNormalText RegFnt ChpCol1">
 <table border="1" cellpadding="3" cellspacing="1" class="TableText RegFnt ChpCol1">
     <tr>
-        <th> Parameter </td>
+        <th> Parameter </th>
         <th> Functionality </th>
     </tr>
     <tr>
         <td> <b>--help</b> </td>
-        <td> Shows the list of valid parameters and exits. See below the Windows-specific notes about seeing the console output. </td>
+        <td> For CLI only. Shows the list of valid parameters and exits. See below the Windows-specific notes about seeing the console output. </td>
     </tr>
     <tr>
         <td> <b>--transf-list</b> &lt;number&gt; </td>
-        <td> Runs the specified transformation list (1 to 4) on the files and/or directories passed.</td>
+        <td> For CLI only. Runs the specified transformation list (1 to 4) on the files and/or directories passed.</td>
+    </tr>
+    <tr>
+        <td> <b>--severity</b> &lt;level&gt; </td>
+        <td> For CLI only. Minimum severity to show when analyzing file or folder names; one of <i>error</i>, <i>warning</i>, <i>support</i>; default: <i>warning</i>. </td>
+    </tr>
+    <tr>
+        <td> <b>--format</b> &lt;fmt&gt; </td>
+        <td> For CLI only. Format to use for the output; either <i>short</i> or <i>long</i>; default: <i>short</i>. </td>
     </tr>
     <tr>
         <td> <b>--session</b> &lt;session_file&gt; </td>
         <td> Uses a specific session given by its session file (currently with an ".ini" extension). It is used in both GUI and CLI modes. If this parameter is not provided, MP3 Diags reopens the last open session in GUI mode or uses the settings in that session for CLI functionality.</td>
-    </tr>
-    <tr>
-        <td> <b>--severity</b> &lt;folder_name&gt; </td>
-        <td> Minimum severity to show when analyzing file or folder names; one of <i>error</i>, <i>warning</i>, <i>support</i>; default: <i>warning</i>. </td>
     </tr>
     <tr>
         <td> <b>--hidden-session</b> &lt;folder_name&gt; </td>
@@ -155,11 +159,11 @@ You can use these options to:
     </tr>
     <tr>
         <td> <b>--uninstall</b> </td>
-        <td> Clears the session list and the global settings and removes the shell integration. </td>
+        <td> For CLI only. Clears the session list and the global settings and removes the shell integration. </td>
     </tr>
     <tr>
         <td> file and/or folder names </td>
-        <td> The program doesn't enter the GUI mode but either analyzes the files it was passed and prints the result to the console or applies a transformation list. It does the former if the <b>--transf-list</b> parameter is not passed and the latter if it is. See below the Windows-specific notes about seeing the console output. </td>
+        <td> If files or folders are passed, the program doesn't enter the GUI mode but either analyzes the files it was passed and prints the result to the console or applies a transformation list, based on the <b>--transf-list</b> parameter being passed or not. See below the Windows-specific notes about seeing the console output. </td>
     </tr>
 </table>
 </div>

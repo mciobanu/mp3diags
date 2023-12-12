@@ -179,7 +179,8 @@ Since this really is a Linux program, there might be some Windows-specific crash
 
 <div class="NormalText RegFnt ChpCol1">
     Another known issue is with having the files on external or network drives, including USB sticks. This has been
-    reported a number of times, but I was never able to find what the cause is or a potential workaround.
+    reported a number of times, but puzzled me over the years. Finally, in December 2023 I was able to identify
+    the likely cause, and future releases should have the corresponding fix.
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
@@ -217,7 +218,7 @@ Since this really is a Linux program, there might be some Windows-specific crash
 <!-- ========================================================================================================== -->
 <!-- ========================================================================================================== -->
 <!-- ========================================================================================================== -->
-
+<!-- ttt1 64 bit hardcoded-->
 
 <div class="SubChapterText RegFnt ChpCol1">
 <a name="code">Source code</a>
@@ -284,22 +285,19 @@ If you find some other required package, please <a href="050_feedback.html">let 
     For the actual build, there are several options:
     <ul>
         <li>
+            <b>CMake</b>.
+            <ul>
+                <li><span class="Code">cmake -S . -B build/release -DCMAKE_BUILD_TYPE=Release</span></li>
+                <li><span class="Code">cmake --build build/release</span></li>
+            </ul>
+        </li>
+        <li><b>Qt Creator and other IDEs that support CMake</b> - open <b>CMakeLists.txt</b> </li>
+        <li><b>Qt Creator</b> - open <b>mp3diags.pro</b></li>
+        <li>
             <span class="Reference">Build.sh</span>, which relies on <b>QMake</b> and is how MP3 Diags was traditionally
             built for Linux. A wrapper for it is <span class="Reference">Install.sh</span>, which copies the files to
             <span class="Reference">/usr/local</span> (and thus needs admin permissions).
         </li>
-        <li>
-            <span class="Reference">CMake</span>, which is not comprehensively tested. Using it on Windows is described
-            below, while for Linux these should work:
-            <ul>
-                <li><span class="Reference">mkdir build</span></li>
-                <li><span class="Reference">cd build</span></li>
-                <li><span class="Reference">cmake ..</span></li>
-                <li><span class="Reference">cmake --build .</span></li>
-            </ul>
-        </li>
-        <li><b>Qt Creator</b> - open <b>mp3diags.pro</b></li>
-        <li><b>Qt Creator and other IDEs that support CMake</b> - open <b>CMakeLists.txt</b> </li>
     </ul>
 </div>
 
@@ -322,13 +320,12 @@ To uninstall the program, see the corresponding section at the <a href="#uninsta
 
 <div class="NormalText RegFnt ChpCol1">
     Since there are <a href="#binWindows">binaries</a> available (both setup.exe and zip archive), it's more convenient
-    to just use them. However, if you really want to build the project yourself, it's not that hard, but some
-    adjustments might be needed.
+    to just use them. However, if you really want to build the project yourself, it's not that hard.
 </div>
 
 
 <div class="NormalText RegFnt ChpCol1">
-    The build used to use <b>qmake</b> everywhere, but now on Windows it uses <b>CMake</b> and Visual Studio.
+    The build used to use <b>qmake</b> everywhere, but now it uses <b>CMake</b> and <b>Visual Studio</b>.
     (MinGW used to work, but I didn't test it after the switch to <b>CMake</b>. I expect it not to need big tweaks.
     Anyway, the following steps are for Visual Studio.)
 </div>
@@ -343,10 +340,10 @@ To uninstall the program, see the corresponding section at the <a href="#uninsta
         <tr>
             <td>Visual Studio</td>
             <td>
-                <ul>
+                <ol>
                     <li>Get Visual Studio 2022 if you don't have it already ("Community" is fine, 2019 should work as
                         well.) Make sure you include <i>Desktop development with C++ when choosing which parts to install.</i></li>
-                </ul>
+                </ol>
             </td>
         </tr>
 
@@ -357,7 +354,7 @@ To uninstall the program, see the corresponding section at the <a href="#uninsta
                     <li>Get the sources from <a href="https://zlib.net/zlib13.zip"
                         onClick="javascript: pageTracker._trackPageview('/zlib');">zlib.net</a> and unpack them under some folder.</li>
                     <li>In the Windows Start Menu, under Visual Studio, choose "x64 Native Tools Command Prompt for Visual Studio"</li>
-                    <li>Go to the ZLib folder and run <span class="Reference">nmake /f win32/Makefile.msc</span> and
+                    <li>Go to the ZLib folder, run <span class="Code">nmake /f win32/Makefile.msc</span> and
                         wait for the build to finish</li>
                     <li>Create <b>C:\local\zlib_13\include\</b> and copy there <b>zconf.h</b> and <b>zlib.h</b></li>
                     <li>Create <b>C:\local\zlib_13\lib\</b> and copy there <b>zdll.lib</b>, <b>zlib.lib</b> and <b>zlib1.dll</b></li>
@@ -411,36 +408,42 @@ To uninstall the program, see the corresponding section at the <a href="#uninsta
     <b>Building the project</b>
 </div>
 
-<div class="NormalText RegFnt ChpCol1">
-    Some steps are marked as optional, meaning that there are some reasonable defaults when using
-    <span class="Reference">Build-CMake-VS2022.cmd</span>, and running it might be all you need. (They are not optional
-    if you want to use CMake directly.)
-    <ol>
-        <li>Open a Qt command prompt: In the Windows Start Menu, under Qt, there is something like "Qt 5.15.2 (MSVC 2019 64-bit)"</li>
-        <li>(Optional) Configure the Visual Studio environment, by running something like
-            <span class="Reference">call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" amd64</span>
-            (You may need to adjust the path pointing to <b>vcvarsall.bat</b>.)
-        </li>
-        <li>(Optional) Define the location of Zlib: <span class="Reference">set ZLIB_ROOT=C:\local\zlib_13</span></li>
-        <li>(Optional) Define the location of Boost: <span class="Reference">set BOOST_ROOT=C:\local\boost_1_83_0</span> (the path may need adjusting)</li>
-        <li>
-            Go to the root of MP3 Diags and do one of these:
-            <ul>
-                <li>Run <span class="Reference">Build-CMake-VS2022.cmd</span></li>
-                <li>Create a build folder, go there and build directly with CMake (commands are listed in the Linux section)</li>
-            </ul>
 
-        </li>
-        <li>
-            If everything went OK, the result should be in <b>build\Release\dist</b>, where translations, DLLs, and
-            other dependencies are copied as well, so you should be able to just run the executable there.
+<div class="NormalText RegFnt ChpCol1">
+    Get the code ready:
+    <ol>
+        <li>Get the code and unpack it if needed</li>
+        <li>Open the file CMakePresets.json in a text editor and make whatever adjustments are needed to the values under
+            the <span class="Code">environment</span> key, such that:
+            <ul>
+                <li><span class="Code">Boost_ROOT</span> contains the files <span class="Code">boostcpp.jam</span> or <span class="Code">boost-build.jam</span></li>
+                <li><span class="Code">ZLIB_ROOT</span> contains the folders <span class="Code">include</span> and <span class="Code">lib</span></li>
+                <li><span class="Code">Qt5_ROOT</span> contains the folders <span class="Code">include</span>,
+                    <span class="Code">lib</span>, <span class="Code">mkspecs</span>, <span class="Code">translations</span>, ...</li>
+            </ul>
         </li>
     </ol>
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-    Note that this process also creates a solution that you can open in Visual Studio, but debugging might need
-    adjustments, as the links to the external libraries use the Release version.
+    Then you can build from the command line or from within Visual Studio.
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+    To build from the command line, open a <i>"x64 Native Tools Command Prompt for Visual Studio"</i>, go to the project's root and run:
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+    <span class="Code GenericSpace">cmake -S . -B out\build\x64-release --preset x64-release && cmake --build out\build\x64-release --config x64-release</span>
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+    To build from Visual Studio, start Visual Studio and open <i>CMakeLists.txt</i> from the menu <i>File / Open / CMake ...</i>, then press F7.
+</div>
+
+<div class="NormalText RegFnt ChpCol1">
+    If the build went OK, the executable in <b>out\build\x64-release</b> (or <b>out\build\x64-debug</b>), together with
+    translations, DLLs, and other dependencies, so you should be able to just run the executable there.
 </div>
 
 
@@ -465,10 +468,13 @@ To uninstall the program, see the corresponding section at the <a href="#uninsta
 </div>
 
 <div class="NormalText RegFnt ChpCol2 GenericSpace">
-    There are 2 public repositories, one at SourceForge and one at GitHub. They are supposed to contain the same files.
+    There are 2 public repositories, one at SourceForge and one at GitHub. They are supposed to contain the same files,
+    but it is possible for the code at SourceForge to lag behind.
+    <!-- ttt0 There is some mirroring feature, so maybe try to use it. This seems for new projects, where you just
+    import everything, including issues, not for syncing existing repos -->
     <ul>
-        <li><a href="https://sourceforge.net/p/mp3diags/code-git/ci/master/tree/">Sourceforge page</a>: <span class="Reference">git clone git://git.code.sf.net/p/mp3diags/code-git mp3diags-code-git</span> </li>
-        <li><a href="https://github.com/mciobanu/mp3diags">GitHub page</a>: <span class="Reference">git clone https://github.com/mciobanu/mp3diags.git</span> </li>
+        <li><a href="https://sourceforge.net/p/mp3diags/code-git/ci/master/tree/">Sourceforge</a>: <span class="Code">git clone git://git.code.sf.net/p/mp3diags/code-git mp3diags</span> </li>
+        <li><a href="https://github.com/mciobanu/mp3diags">GitHub</a>: <span class="Code">git clone https://github.com/mciobanu/mp3diags.git</span> </li>
     </ul>
 </div>
 
@@ -485,15 +491,15 @@ To uninstall the program, see the corresponding section at the <a href="#uninsta
     This script is Linux-specific; there is no Windows equivalent or plan for it (but there are options for running
     it on Windows).
     <span class="Reference">MakeArchives.sh</span> is used to set the correct branch and version number in a number
-    of places, mainly the build tools and the documentation, but also several C++ files. It also renames some of the
+    of places, mainly the documentation, but also several C++ files. It also renames some of the
     files, so they have the branch as part of their name, and moves the documentation files up one folder.
-    Or, well, it doesn't do any of these, but it creates a directory called <span class="Reference">package/out</span>
-    where it makes a copy of the project that includes these changes.
+    Actually, it doesn't do any of these, but it creates a directory called <span class="Reference">package/out</span>
+    where it makes a copy of the project that includes these changes.)
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
     The build scripts can be
-    used as a starting point for creating binary packages for other .rpm- or Debian- based distributions. It used to be
+    used as a starting point for creating binary packages for .rpm- or Debian- based distributions. It used to be
     necessary to run <span class="Reference">AdjustMt.sh</span> in order
     to account for how dependencies were packaged, but that is probably no longer the case.
 </div>
@@ -510,9 +516,9 @@ To uninstall the program, see the corresponding section at the <a href="#uninsta
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-    There are 2 main choices: binaries that I build and those built by others. I'm not aware of anybody else besides me
+    There are 2 main choices: binaries that I build, and those built by others. I'm not aware of anybody else besides me
     releasing Windows builds, while MP3 Diags is included in some well-known repositories and official distributions
-    for non-Windows systems; as far as I know, you can get it for Gentoo, Ubuntu, Debian, Mac OS X, openSUSE, and
+    for non-Windows systems; as far as I know, you can get it for Gentoo, Ubuntu, Mint, Debian, Mac OS X, openSUSE, and
     Arch Linux.
 </div>
 
@@ -525,7 +531,8 @@ To uninstall the program, see the corresponding section at the <a href="#uninsta
 
 <div class="NormalText RegFnt ChpCol1">
     If you can't find a pre-packaged binary for your Linux distribution, or if what you can find is out-of-date, you
-    may want to try the <a href="#binLinux">generic Linux binaries</a>.
+    may want to <!--try the <a href="#binLinux">generic Linux binaries</a> ttt1 put back if binaries become available -->
+    <a href="#sourceGeneric">build from sources</a>.
 </div>
 
 

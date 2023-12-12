@@ -139,7 +139,10 @@ bool CB_LIB_CALL FileSearcher::findFirst(const string& strDirName)
         m_strDir = strDirName + getPathSepAsStr();
     }
 
-    m_pImpl->m_vFileInfos = QDir(convStr(m_strDir)).entryInfoList(QDir::NoDotAndDotDot | QDir::Files | QDir::AllDirs);
+    const QDir& qDir = QDir(convStr(m_strDir));
+    //qDir.setSorting(xyz) // default is "Name|IgnoreCase"  //ttt2: Perhaps allow custom, including DirsFirst ...
+    const QDir::SortFlags& flags = qDir.sorting();
+    m_pImpl->m_vFileInfos = qDir.entryInfoList(QDir::NoDotAndDotDot | QDir::Files | QDir::AllDirs);
     m_pImpl->m_nCrtEntry = 0;
     return goToNextValidEntry();
 }

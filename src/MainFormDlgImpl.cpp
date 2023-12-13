@@ -649,7 +649,7 @@ void MainFormDlgImpl::loadIgnored()
                 s = tr("Unknown notes were found in the configuration. These notes are unknown:\n\n%1").arg(s1);
             }
 
-            showWarning(this, tr("Error setting up the \"ignored notes\" list"), s + tr("\n\nYou may want to check again the list and add any notes that you want to ignore.\n\n(If you didn't change the settings file manually, this is probably due to a code enhanement that makes some notes no longer needed, and you can safely ignore this message.)")); //ttt2 use MP3 Diags icon
+            showWarning(this, tr("Error setting up the \"ignored notes\" list"), s + tr("\n\nYou may want to check again the list and add any notes that you want to ignore.\n\n(If you didn't change the settings file manually, this is probably due to a code enhancement that makes some notes no longer needed, and you can safely ignore this message.)")); //ttt2 use MP3 Diags icon
 
             saveIgnored();
         }

@@ -3122,7 +3122,7 @@ Dies ist dafür gedacht um die Erstellung von M3U Dateien mit relativen Pfaden z
 
 You may want to check again the list and add any notes that you want to ignore.
 
-(If you didn&apos;t change the settings file manually, this is probably due to a code enhanement that makes some notes no longer needed, and you can safely ignore this message.)</source>
+(If you didn&apos;t change the settings file manually, this is probably due to a code enhancement that makes some notes no longer needed, and you can safely ignore this message.)</source>
         <translation>
 
 Sie sollten die Liste überprüfen und alle Hinweise hinzufügen welche ignoriert werden sollen.

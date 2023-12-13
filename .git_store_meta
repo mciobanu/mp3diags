@@ -376,7 +376,7 @@ src/LogModel.cpp	f	2014-11-13T15:57:59Z
 src/LogModel.h	f	2009-05-06T07:30:16Z
 src/LyricsStream.cpp	f	2014-11-12T17:36:59Z
 src/LyricsStream.h	f	2014-11-12T16:53:17Z
-src/main.cpp	f	2023-12-09T18:50:06Z
+src/main.cpp	f	2023-12-13T19:50:04Z
 src/MainFormDlgImpl.cpp	f	2023-12-13T06:37:57Z
 src/MainFormDlgImpl.h	f	2012-02-29T20:07:21Z
 src/MainForm.ui	f	2011-07-30T12:34:43Z

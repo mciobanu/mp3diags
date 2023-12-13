@@ -546,7 +546,7 @@ int guiMain(const po::variables_map& options) {
 
             if (bDefaultForVisibleSessBtn)
             {
-                mainDlg.setWindowTitle(QString(getAppName()) + " - " + convStr(SessionEditorDlgImpl::getTitleName(strStartSession)));
+                mainDlg.setWindowTitle(QString(getAppName()) + " " + getAppVer() + " - " + convStr(SessionEditorDlgImpl::getTitleName(strStartSession)));
             }
             else
             {

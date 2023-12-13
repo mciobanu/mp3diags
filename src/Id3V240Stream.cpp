@@ -253,6 +253,10 @@ http://id3.org/id3v2.4.0-structure
  */
     if (!m_bHasUnsynch)
     {
+        // The addition of this test is what led to differences in reported size between 1.2.03 and 1.5.01 for
+        //      /d/test_mp3/tests-work/2023.12.10/unsupported/lev/dh.mp3
+        //      /d/test_mp3/tests-work/2023.12.10/crt_test/Samuele Battarra/others/01 - Rain - processed.mp3
+        //      /d/test_mp3/tests-work/2023.12.10/crt_test/Samuele Battarra/06 - Innocent.mp3
         m_bHasUnsynch = (0 != (m_cFlag2 & ~0x02));
     }
 //m_bHasUnsynch = false;

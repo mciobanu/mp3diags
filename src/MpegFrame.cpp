@@ -93,9 +93,7 @@ void MpegFrameBase::init(NoteColl& notes, const char* bfr) //ttt2 should have so
         int nVer ((*pHeader & 0x18) >> 3);
         switch (nVer)
         {//TRACE
-        case 0x00: MP3_THROW_T (m_pos, "Not an MPEG frame. Unsupported version (2.5).", CB_EXCP(NotMpegFrame)); //ttt2 see about supporting this: search for MPEG1 to find other places
-            // ttt2 in a way it would make more sense to warn that it's not supported, with "MP3_THROW(SUPPORT, ...)", but before warn, make sure it's a valid 2.5 frame, followed by another frame ...
-
+        case 0x00: m_eVersion = MPEG2_5; break;
         case 0x02: m_eVersion = MPEG2; break;
         case 0x03: m_eVersion = MPEG1; break;
 
@@ -140,8 +138,19 @@ void MpegFrameBase::init(NoteColl& notes, const char* bfr) //ttt2 should have so
             };
         int nRateIndex ((*pHeader & 0xf0) >> 4);
         MP3_CHECK_T (nRateIndex >= 1 && nRateIndex <= 14, m_pos, "Not an MPEG frame. Invalid bitrate.", CB_EXCP(NotMpegFrame)/*"invalid bitrate"*/); //ttt3 add tests for invalid combinations of channel mode and bitrate (MPEG 1 Layer II only)
-        int nTypeIndex (m_eVersion*3 + m_eLayer);
-        if (nTypeIndex == 5) { nTypeIndex = 4; }
+        int nTypeIndex;
+        switch (m_eVersion)
+        {
+        case MPEG1:
+            nTypeIndex = static_cast<int>(m_eLayer);
+            break;
+        case MPEG2:
+        case MPEG2_5:
+            nTypeIndex = 3 + static_cast<int>(m_eLayer);
+            if (nTypeIndex == 5) { nTypeIndex = 4; }
+            break;
+        }
+
         m_nBitrate = s_bitrates[nRateIndex - 1][nTypeIndex]*1000;
     }
 
@@ -168,6 +177,17 @@ void MpegFrameBase::init(NoteColl& notes, const char* bfr) //ttt2 should have so
             case 0x02: m_nFrequency = 16000; break;
 
             default: MP3_THROW_T (m_pos, "Not an MPEG frame. Invalid frequency for MPEG2.", CB_EXCP(NotMpegFrame));
+            }
+            break;
+
+        case MPEG2_5:
+            switch (nSmpl)
+            {
+            case 0x00: m_nFrequency = 11025; break;
+            case 0x01: m_nFrequency = 12000; break;
+            case 0x02: m_nFrequency = 8000; break;
+
+            default: MP3_THROW_T (m_pos, "Not an MPEG frame. Invalid frequency for MPEG2.5.", CB_EXCP(NotMpegFrame));
             }
             break;
 
@@ -205,6 +225,8 @@ void MpegFrameBase::init(NoteColl& notes, const char* bfr) //ttt2 should have so
 
     default: CB_ASSERT(false); // it should have thrown before getting here
     }
+
+    CB_ASSERT(m_nSize > 0);
 }
 
 
@@ -213,7 +235,7 @@ MpegFrameBase::MpegFrameBase() : m_eVersion(MPEG1), m_eLayer(LAYER1), m_nBitrate
 
 const char* MpegFrameBase::getSzVersion() const
 {
-    static const char* s_versionName[] = { QT_TRANSLATE_NOOP("DataStream", "MPEG-1"), QT_TRANSLATE_NOOP("DataStream", "MPEG-2") };
+    static const char* s_versionName[] = { QT_TRANSLATE_NOOP("DataStream", "MPEG-1"), QT_TRANSLATE_NOOP("DataStream", "MPEG-2"), QT_TRANSLATE_NOOP("DataStream", "MPEG-2.5") };
     return s_versionName[m_eVersion];
 }
 

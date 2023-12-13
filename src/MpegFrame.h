@@ -37,7 +37,7 @@ class NoteColl;
 // based on http://mpgedit.org/mpgedit/mpeg_format/mpeghdr.htm
 struct MpegFrameBase
 {
-    enum Version { MPEG1, MPEG2 };
+    enum Version { MPEG1, MPEG2, MPEG2_5 };
     enum Layer { LAYER1, LAYER2, LAYER3 };
     enum ChannelMode { STEREO, JOINT_STEREO, DUAL_CHANNEL, SINGLE_CHANNEL };
 

@@ -435,8 +435,8 @@ void traceLastStep(const string& s, int nLevelChange)
 static QString s_qstrErrorMsg;
 static bool s_bMainAssertOut;
 
-static QString g_qstrCrashMail ("<a href=\"mailto:mp3diags@gmail.com?subject=000 MP3 Diags crash/\">mp3diags@gmail.com</a>");
-static QString g_qstrSupportMail ("<a href=\"mailto:mp3diags@gmail.com?subject=000 MP3 Diags support note/\">mp3diags@gmail.com</a>");
+static QString g_qstrCrashMail ("<a href=\"mailto:mp3diags@gmail.com?subject=MP3 Diags crash/\">mp3diags@gmail.com</a>");
+static QString g_qstrSupportMail ("<a href=\"mailto:mp3diags@gmail.com?subject=MP3 Diags support note/\">mp3diags@gmail.com</a>");
 static QString g_qstrBugReport ("<a href=\"https://sourceforge.net/p/mp3diags/tickets/\">https://sourceforge.net/p/mp3diags/tickets/</a>");
 
 

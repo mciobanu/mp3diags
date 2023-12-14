@@ -54,7 +54,7 @@ AboutDlgImpl::AboutDlgImpl(QWidget* pParent /* = 0*/) : QDialog(pParent, getDial
 <a href=\"DDDDDDDDDDDDD\">NNNNNNNNNNNNNN</a>
 */
     m_pMainTextM->setHtml(
-        "<p style=\"margin-bottom:8px; margin-top:1px; \">" + AboutDlgImpl::tr("Written by %1, %2").arg("<a href=\"mailto:mp3diags@gmail.com?subject=000 MP3 Diags\">Marian Ciobanu (Ciobi)</a>").arg("2008 - 2023") + "</p>"
+        "<p style=\"margin-bottom:8px; margin-top:1px; \">" + AboutDlgImpl::tr("Written by %1, %2").arg("<a href=\"mailto:mp3diags@gmail.com?subject=MP3 Diags\">Marian Ciobanu (Ciobi)</a>").arg("2008 - 2023") + "</p>"
         "<p style=\"margin-bottom:8px; margin-top:1px; \">" + AboutDlgImpl::tr("Command-line mode by %1, %2").arg("Michael Elsd&#xf6;rfer").arg("2011") + "</p>"
         "<p style=\"margin-bottom:8px; margin-top:1px; \">" + AboutDlgImpl::tr("%1 translation by %2, %3").arg(AboutDlgImpl::tr("Czech")).arg("<a href=\"https://fripohled.blogspot.com/\">Pavel Fric</a>").arg("2012") + "</p>"
         "<p style=\"margin-bottom:8px; margin-top:1px; \">" + AboutDlgImpl::tr("%1 translation by %2, %3").arg(AboutDlgImpl::tr("German")).arg("<a href=\"mailto:2711271+translate@gmail.com?subject=MP3 Diags translation\">Marco Krause</a>").arg("2012") + "</p>"

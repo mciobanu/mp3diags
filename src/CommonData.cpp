@@ -495,14 +495,15 @@ void CommonData::setFontInfo(const std::string& strGenName, int nGenSize, int nL
         showWarning(m_pFilesG, tr("Info"), tr("The font changes will only be used after restarting the application.")); //ttt2 try to get this work, probably needs to call QHeaderView::resizeSection(), as well as review all setMinimumSectionSize() and setDefaultSectionSize() calls;
         return;
     }
+    QFont generalFont;
 
-    m_generalFont.setFamily(convStr(strGenName));
-    m_generalFont.setPointSize(nGenSize);
-    QApplication::setFont(m_generalFont);
+    generalFont.setFamily(convStr(strGenName));
+    generalFont.setPointSize(nGenSize);
+    QApplication::setFont(generalFont);
 
-    fixAppFont(m_generalFont, m_strGenFontName, m_nGenFontSize);
+    fixAppFont(generalFont, m_strGenFontName, m_nGenFontSize);
 
-    m_labelFont = m_generalFont;
+    m_labelFont = generalFont;
     m_labelFont.setPointSize(nGenSize - nLabelFontSizeDecr);
 
     m_fixedFont.setFamily(convStr(strFixedName));

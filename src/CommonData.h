@@ -394,7 +394,7 @@ public:
 
     void setFontInfo(const std::string& strGenName, int nGenSize, int nLabelFontSizeDecr, const std::string& strFixedName, int nFixedSize);
 
-    const QFont& getGeneralFont() const { CB_ASSERT (!m_strGenFontName.empty()); return m_generalFont; }
+    //const QFont& getGeneralFont() const { CB_ASSERT (!m_strGenFontName.empty()); return m_generalFont; }
     const QFont& getLabelFont() const { CB_ASSERT (!m_strFixedFontName.empty()); return m_labelFont; }
     const QFont& getFixedFont() const { CB_ASSERT (!m_strGenFontName.empty()); return m_fixedFont; }
     int getLabelFontSizeDecr() const { return m_nLabelFontSizeDecr; }
@@ -536,7 +536,7 @@ private:
     int m_nLabelFontSizeDecr;
     std::string m_strFixedFontName;
     int m_nFixedFontSize;
-    QFont m_generalFont;
+    //QFont m_generalFont;
     QFont m_fixedFont;
     QFont m_labelFont;
 

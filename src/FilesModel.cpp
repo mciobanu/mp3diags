@@ -589,3 +589,75 @@ int getHeaderDrawOffset() { return s_nCut; }
 }
 
 
+
+
+/*override*/ QVariant SimpleModel::data(const QModelIndex& index, int nRole) const {
+//LAST_STEP("SimpleModel::headerData");
+    if (!index.isValid()) { return QVariant(); }
+    int j(index.column());
+    return QString("%1x%2").arg(index.row()).arg(index.column());
+}
+
+/*override*/ QVariant SimpleModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /* = Qt::DisplayRole*/) const {
+//LAST_STEP("SimpleModel::headerData");
+    if (nRole != Qt::DisplayRole) { return {}; }
+    return nSection + (eOrientation == Qt::Horizontal ? 110 : 220);
+}
+
+
+
+
+/*override*/ void SimpleDelegate::paint(QPainter* pPainter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+{
+    int nRow (index.row());
+//f1();
+    pPainter->save();
+
+    QStyleOptionViewItemV2 myOption (option);
+
+    /*//myOption.palette.setColor(QPalette::Base, pal.color(QPalette::Disabled, QPalette::Window)); // !!! the palette doesn't matter; fillRect() should be called
+    QColor col;
+    double d1, d2;
+    m_pCommonData->getNoteColor(*pNote, vector<const Note*>(), col, d1, d2);
+    pPainter->fillRect(myOption.rect, QBrush(col));
+
+    if (0 == index.column())
+    {
+        myOption.displayAlignment |= Qt::AlignHCenter;
+        //myOption.font = m_pCommonData->getGeneralFont();
+        //myOption.font.setPixelSize(9);
+        if (Note::ERR == pNote->getSeverity())
+        {
+            myOption.palette.setColor(QPalette::Text, ERROR_PEN_COLOR());
+        }
+        else if (Note::SUPPORT == pNote->getSeverity())
+        {
+            myOption.palette.setColor(QPalette::Text, SUPPORT_PEN_COLOR());
+        }
+    }
+
+    if (2 == index.column())
+    {
+        myOption.displayAlignment |= Qt::AlignRight;
+        myOption.font = m_pCommonData->getFixedFont();
+    }*/
+
+    //myOption.displayAlignment = Qt::AlignRight | Qt::AlignVCenter;
+#if 0
+
+    //myOption.palette.setColor(QPalette::Base, pal.color(QPalette::Disabled, QPalette::Window));
+
+    QString qstrText (index.model()->data(index, Qt::DisplayRole).toString());
+    //qstrText = "QQQ";
+
+    drawDisplay(pPainter, myOption, myOption.rect, qstrText); // ttt3 see why selecting cells in column 0 or 1 doesn't make column 2 selected unless there's an address for the note;
+    drawFocus(pPainter, myOption, myOption.rect);
+#else
+
+    QItemDelegate::paint(pPainter, myOption, index);
+#endif
+
+    pPainter->restore();
+}
+
+

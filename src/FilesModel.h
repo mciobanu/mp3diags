@@ -102,5 +102,61 @@ public:
 
 
 
+//=====================================================================================================================
+//=====================================================================================================================
+//=====================================================================================================================
+
+/**
+ * A model meant for debugging, to help figure out why grids aren't displayed correctly
+ */
+class SimpleModel : public QAbstractTableModel
+{
+Q_OBJECT
+
+    //int m_nPrevCurrentRow; // the "previous current" while processing the "current changed" event; used to determine if the current notes (m_vpCrtNotes) and streams need to be updated
+public:
+    SimpleModel(CommonData* pCommonData) {}
+    /*override*/ int rowCount(const QModelIndex&) const {return 4;}
+    /*override*/ int columnCount(const QModelIndex&) const {return 4;}
+    /*override*/ QVariant data(const QModelIndex&, int nRole) const;
+
+    /*override*/ QVariant headerData(int nSection, Qt::Orientation eOrientation, int nRole = Qt::DisplayRole) const;
+
+    //CommonData* m_pCommonData;
+
+
+    //void selectTopLeft(); // makes current and selects the element in the top-left corner and emits a change signal regardless of the element that was selected before; makes current the default invalid index (-1,-1) if the table is empty
+    void selectRow(int nCrtRow, const std::vector<int>& vnSel = std::vector<int>()) {} // makes current and selects the specified row and emits a change signal regardless of the element that was selected before; makes current the default invalid index (-1,-1) if the table is empty
+
+    //void matchSelToStreams();
+    void matchSelToNotes() {}
+
+    void fixSelection() {} // deselects cells that are selected but are on a different row from the "current" cell and selects the file name
+
+    void emitLayoutChanged() { emit layoutChanged(); }
+signals:
+    void layoutChanged();
+//signals:
+//    void currentFileChanged() {};
+
+public slots:
+    void onFilesGSelChanged() {};
+};
+
+
+class SimpleDelegate : public QItemDelegate
+{
+Q_OBJECT
+public:
+    SimpleDelegate() : QItemDelegate()
+    {
+    }
+
+    /*override*/ void paint(QPainter* pPainter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
+};
+
+
+
+
 #endif // #ifndef FilesModelH
 

@@ -275,6 +275,13 @@ class SessionSettings;
 class Transformation;
 class QTableView;
 
+#if 0
+class SimpleModel;
+
+#define NOTES_MODEL SimpleModel
+#else
+#define NOTES_MODEL NotesModel
+#endif
 
 // doesn't own the QTableView pointers;
 // doesn't own the model pointers
@@ -305,6 +312,7 @@ public:
 
     FilesModel* m_pFilesModel;
     NotesModel* m_pNotesModel;
+    //NOTES_MODEL* m_pNotesModel;
     StreamsModel* m_pStreamsModel;
     UniqueNotesModel* m_pUniqueNotesModel;
 

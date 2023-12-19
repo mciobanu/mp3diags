@@ -550,7 +550,7 @@ int guiMain(const po::variables_map& options) {
             }
             else
             {
-                mainDlg.setWindowTitle(QString(getAppName()));
+                mainDlg.setWindowTitle(QString(getAppName()) + " " + getAppVer());
             }
 
             if (MainFormDlgImpl::OPEN_SESS_DLG != mainDlg.run())

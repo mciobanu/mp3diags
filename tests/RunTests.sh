@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Prints and checks whether a variable whose name is the first param exists and has a non-empty value
 function checkAndPrintVar {
     local v
     eval v='$'"$1"
@@ -19,13 +20,16 @@ Usage: $(basename "$0") [-h] [-f]
     -h help
     -f just copy the files, without running exports or transformations
 
-    Runs tests. Currently this is a partially manual process, which consists in:
+    Runs tests. Currently this is a mostly automated process, with a manual step of comparing the results of the current
+    run with previous results. Steps:
         - Copying a "source folder" containing MP3 files to a "work folder"
         - Scanning the work folder and exporting the results to a text file inside mp3diags/tests/results
         - Applying the 4th custom transformation list with the default settings
         - Scanning the work folder again and exporting the results to another text file inside mp3diags/tests/results
         - Manually comparing the exported text files with older versions and drawing conclusions from the this
-        - Manually deleting the processed files (this is not automatic in order to allow files to be examined)
+        - Perhaps manually deleting the processed files (this is not automatic in order to allow files to be examined.
+            Also, it's sort of pointless if many files don't change, as at the next run rsync will have less work
+            if unchanged files are kept)
 
     A file named SetPaths.sh must be created in the same folder as $(basename "$0") ("$SCRIPT_DIR")
     and it must define these environment variables:

@@ -1714,10 +1714,10 @@ void decreaseRowHeaderFont(QTableView& qtableView)
 {
 #ifdef WIN32
     // still needed on 2023.12.19
-	QFont font(qtableView.verticalHeader()->font());
-	auto sz(font.pointSizeF());
-	font.setPointSizeF(sz * 0.85);
-	qtableView.verticalHeader()->setFont(font);
+    QFont font(qtableView.verticalHeader()->font());
+    auto sz(font.pointSizeF());
+    font.setPointSizeF(sz * 0.85);
+    qtableView.verticalHeader()->setFont(font);
 #endif
 }
 
@@ -1726,7 +1726,7 @@ void setHeaderColor(QTableView* pTableView)
 {
 #ifdef WIN32   //ttt0: Review where is this actually needed. As of 2023.12.19, on Windows the header is white and the
     // cells are also white.
-    pTableView->setStyleSheet("QHeaderView::section { background-color:red }");
+    pTableView->setStyleSheet("QHeaderView::section { background-color:#f8f8f8 }");
 #endif
 }
 

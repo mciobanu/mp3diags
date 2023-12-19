@@ -1716,7 +1716,7 @@ ExternalToolsModel::ExternalToolsModel(const ConfigDlgImpl* pConfigDlgImpl) : m_
         case 0: return tr("Name");
         case 1: return tr("Command");
         case 2: return tr("Wait");
-        case 3: return tr("Confirm launch");
+        case 3: return tr("Confirm launch"); //ttt9: Not enough space when there are no tools, but if you add and remove a tool, these take all the space
         default: CB_ASSERT (false);
         }
     }

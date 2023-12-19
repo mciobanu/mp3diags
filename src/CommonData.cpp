@@ -1289,8 +1289,8 @@ void CommonData::setDirectories(const std::vector<std::string>& vstrIncludeDirs,
 //=====================================================================================================================
 
 
-// For the vertical header of a QTableView whose labels are the current row number, it determines the width necessary to accomodate any of those labels.
-// Currently it uses a hard-coded value to add to the width. //ttt2 fix
+// For the vertical header of a QTableView whose labels are the current row number, it determines the width necessary to accommodate any of those labels.
+// Currently, it uses a hard-coded value to add to the width. //ttt2 fix
 // It makes 2 assumptions:
 //   - the TableView uses the same FontMetrics as the ones returned by QApplication::fontMetrics() (this is intended to be called from a TableModel's headerData(), for which finding the table is not easy; and anyway, a model can be connected to several tables)
 //   - digits in the font have the same size, or at least there is no digit with a size larger than that of '9'; (in many fonts all the digits do have the same size, so it should be OK most of the time)
@@ -1300,7 +1300,7 @@ void CommonData::setDirectories(const std::vector<std::string>& vstrIncludeDirs,
 //
 // Returns QVariant() for horizontal headers.
 //
-// The real reason this is needed: Qt can easily resize the header to accomodate all the header labels, and that's enough for fixed-height rows, whose height is set with verticalHeader()->setDefaultSectionSize(). However, if resizeRowsToContents() gets called (and it seems that it must be called to get variable-height working, and some flag to enable this doesn't seem to exist) the height of each row's header becomes too big. Using getNumVertHdrSize() we force the height to be 1, thus allowing the data cells to tell the height (the final height is the maximum between data cells and the header cell for each row). //ttt2 At some point it seemed that rows would get larger even without calling getNumVertHdrSize(). This should be looked at again.
+// The real reason this is needed: Qt can easily resize the header to accommodate all the header labels, and that's enough for fixed-height rows, whose height is set with verticalHeader()->setDefaultSectionSize(). However, if resizeRowsToContents() gets called (and it seems that it must be called to get variable-height working, and some flag to enable this doesn't seem to exist) the height of each row's header becomes too big. Using getNumVertHdrSize() we force the height to be 1, thus allowing the data cells to tell the height (the final height is the maximum between data cells and the header cell for each row). //ttt2 At some point it seemed that rows would get larger even without calling getNumVertHdrSize(). This should be looked at again.
 QVariant getNumVertHdrSize(int nRowCount, Qt::Orientation eOrientation) // ttt2 add optional param QTableView to take the metrics from
 {
     if (eOrientation == Qt::Vertical)
@@ -1313,7 +1313,7 @@ QVariant getNumVertHdrSize(int nRowCount, Qt::Orientation eOrientation) // ttt2 
         double d (1.01 + log10(double(nRowCount)));
         QString s (int(d), QChar('9'));
         int nWidth (fm.width(s));
-        return QSize(nWidth + 10, 1); //ttt2 hard-coded "10"
+        return QSize(nWidth + 14, 1); //ttt2 hard-coded "14"
     }
     return QVariant();
 }

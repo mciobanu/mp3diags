@@ -318,7 +318,7 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
     m_pCurrentFileModel = new CurrentFileModel(this);
 
     {
-        m_pCurrentAlbumG->verticalHeader()->setSectionResizeMode(QHeaderView::Interactive);
+        m_pCurrentAlbumG->verticalHeader()->setSectionResizeMode(QHeaderView::Interactive);  //ttt0: Review why is this Interactive. Also for file
         m_pCurrentAlbumG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         m_pCurrentAlbumG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);//*/
 		decreaseRowHeaderFont(*m_pCurrentAlbumG);

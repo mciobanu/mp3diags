@@ -246,7 +246,7 @@ README.md	f	2023-12-13T07:38:48Z
 README.TXT	f	2012-12-02T03:27:46Z
 Rebuild-Transl-_ts-Files.sh	f	2014-01-17T10:00:28Z
 Release.txt	f	2023-11-28T14:53:47Z
-src/aaa-info.txt	f	2023-12-19T10:20:58Z
+src/aaa-info.txt	f	2023-12-19T15:45:38Z
 src/AboutDlgImpl.cpp	f	2023-12-12T19:20:41Z
 src/AboutDlgImpl.h	f	2009-07-17T15:02:37Z
 src/About.ui	f	2011-06-15T19:56:47Z
@@ -260,7 +260,7 @@ src/CbException.h	f	2014-11-14T12:55:39Z
 src/CheckedDir.cpp	f	2023-12-08T07:38:15Z
 src/CheckedDir.h	f	2012-02-16T22:30:59Z
 src/ColumnResizer.cpp	f	2023-12-07T08:29:43Z
-src/ColumnResizer.h	f	2009-05-06T07:28:19Z
+src/ColumnResizer.h	f	2023-12-19T15:28:03Z
 src/CommonData.cpp	f	2023-12-19T08:34:26Z
 src/CommonData.h	f	2023-12-19T09:24:42Z
 src/CommonTypes.cpp	f	2014-11-12T10:27:06Z
@@ -435,12 +435,12 @@ src/StreamsModel.cpp	f	2023-12-19T09:15:25Z
 src/StreamsModel.h	f	2009-05-06T07:32:41Z
 src/StructuralTransformation.cpp	f	2016-07-04T20:39:49Z
 src/StructuralTransformation.h	f	2016-06-16T14:07:50Z
-src/TagEditorDlgImpl.cpp	f	2023-12-05T08:02:19Z
+src/TagEditorDlgImpl.cpp	f	2023-12-19T15:57:06Z
 src/TagEditorDlgImpl.h	f	2012-03-03T06:59:47Z
 src/TagEditor.ui	f	2012-01-02T10:05:18Z
 src/TagEdtPatternsDlgImpl.cpp	f	2023-12-06T21:47:36Z
 src/TagEdtPatternsDlgImpl.h	f	2009-07-28T07:25:59Z
-src/TagReadPanel.cpp	f	2019-02-16T22:16:07Z
+src/TagReadPanel.cpp	f	2023-12-19T15:09:44Z
 src/TagReadPanel.h	f	2009-09-30T11:53:40Z
 src/TagWriter.cpp	f	2021-09-01T08:56:13Z
 src/TagWriter.h	f	2014-11-12T11:53:36Z

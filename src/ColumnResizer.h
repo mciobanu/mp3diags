@@ -87,7 +87,7 @@ public:
     void setFixedWidth(int nCol, int nLim) { m_vbFixedWidth.at(nCol) = true; m_vnMinWidth.at(nCol) = nLim; }
     bool hasFixedWidth(int nCol) const { return m_vbFixedWidth.at(nCol); }
 
-    int getMinWidthDataHdr(int nCol) const // the minimum width required by the header or set explicitely
+    int getMinWidthDataHdr(int nCol) const // the minimum width required by the header or set explicitly
     {
         return std::max(m_vnMinWidth.at(nCol), m_vnHdrWidth.at(nCol));
     }

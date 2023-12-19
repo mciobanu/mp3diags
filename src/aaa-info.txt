@@ -19,9 +19,12 @@ CELL_HEIGHT is for the height of cells, such that single-row text is shown prope
 
 Global variable MIN_FILE_WIDTH is for the minimum size a cell showing file names should take. It is based on generalFont
 
-Finally, there is decreaseRowHeaderFont(), which was introduced because Qt5 on Windows added some padding causing
+Then there is decreaseRowHeaderFont(), which was introduced because Qt5 on Windows added some padding causing
 header text to no longer fit.
 
+Finally, NoCropHeaderView is used in some grids, and it takes its font from getCommonData(), ignoring whatever was set
+for the grid. This happens in TagReadPanel, which also uses decreaseRowHeaderFont(), and, as a result, the call
+to decreaseRowHeaderFont() changes the space the header takes but not the font.
 
 ===================
 
@@ -41,3 +44,6 @@ Alignment:
     - For headers: verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
 Some sizeHint() functions don't get called or don't matter, like FilesGDelegate::sizeHint(). This needs to be reviewed
+
+For the "current file" grid in the tag editor, the right thing to do is to fix CurrentFileDelegate::sizeHint(),
+but a hack is used instead

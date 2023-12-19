@@ -83,7 +83,8 @@ TagReadPanel::TagReadPanel(QWidget* pParent, TagReader* pTagReader) : QFrame(pPa
         pTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
         pTable->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         pTable->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
-		decreaseRowHeaderFont(*pTable);
+		decreaseRowHeaderFont(*pTable); // controls the space used by the frame name in "Tag details" ("Track#",
+        // "Artist", ...) but not the font itself, which comes from NoCropHeaderView
 
         pTable->horizontalHeader()->setStretchLastSection(true);
         const int ROW_CNT (9);

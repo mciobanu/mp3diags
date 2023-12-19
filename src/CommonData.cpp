@@ -38,6 +38,7 @@
 #include  <QHeaderView>
 #include  <QMessageBox>
 #include  <QPainter>
+#include  <QFontDatabase>
 
 #include  "CommonData.h"
 
@@ -558,25 +559,38 @@ void CommonData::setFontInfo(const std::string& strGenName, int nGenSize, int nL
 QFont CommonData::getNewGeneralFont() const
 {
     QFont f;
-    if (m_strGenFontName != "")
+    if (m_strGenFontName == "")
     {
-        f.setFamily(convStr(m_strGenFontName));
+        const QFont& res = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
+        //qDebug("getNewGeneralFont(): %s, %d", res.family().toStdString().c_str(), res.pointSize());
+        return res;
     }
 
+    f.setFamily(convStr(m_strGenFontName));
     f.setPointSize(m_nGenFontSize);
     QFontInfo info (f);
-    return QFont (info.family(), info.pointSize());
+    const QFont& res = QFont(info.family(), info.pointSize());
+    //qDebug("getNewGeneralFont(): %s, %d", res.family().toStdString().c_str(), res.pointSize());
+    return res;
 }
 
 QFont CommonData::getNewFixedFont() const
 {
     QFont f;
+    if (m_strFixedFontName == "")
+    {
+        const QFont& res = QFontDatabase::systemFont(QFontDatabase::FixedFont);
+        //qDebug("getNewFixedFont(): %s, %d", res.family().toStdString().c_str(), res.pointSize());
+        return res;
+    }
     f.setFamily(convStr(m_strFixedFontName));
     f.setPointSize(m_nFixedFontSize);
-    f.setStyleHint(QFont::Courier);
-    f.setFixedPitch(true);
+    //f.setStyleHint(QFont::Courier);
+    //f.setFixedPitch(true);
     QFontInfo info (f);
-    return QFont (info.family(), info.pointSize());
+    const QFont& res = QFont(info.family(), info.pointSize());
+    //qDebug("getNewFixedFont(): %s, %d", res.family().toStdString().c_str(), res.pointSize());
+    return res;
 }
 
 
@@ -641,6 +655,10 @@ CommonData::CommonData(
         //m_bDirty(false),
 
         m_nLabelFontSizeDecr(0),
+
+        m_nGenFontSize(10),  //ttt2: Review this 10, make sure it's OK on high-res displays. OTOH we really just use the system fonts to initialize these
+        m_nFixedFontSize(10),
+
         m_bDefaultForVisibleSessBtn(bDefaultForVisibleSessBtn),
         m_bFastSave(false),
 

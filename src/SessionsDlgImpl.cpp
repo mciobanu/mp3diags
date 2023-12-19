@@ -112,6 +112,7 @@ SessionsDlgImpl::SessionsDlgImpl(QWidget* pParent) : QDialog(pParent, getMainWnd
     m_pSessionsG->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     m_pSessionsG->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     m_pSessionsG->horizontalHeader()->hide();
+    decreaseRowHeaderFont(*m_pSessionsG);
     setHeaderColor(m_pSessionsG);
 
     m_pCheckedDirModel = new CheckedDirModel(this, CheckedDirModel::NOT_USER_CHECKABLE);

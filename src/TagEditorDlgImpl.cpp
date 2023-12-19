@@ -322,14 +322,14 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
         m_pCurrentAlbumG->verticalHeader()->setSectionResizeMode(QHeaderView::Interactive);  //ttt0: Review why is this Interactive. Also for file
         m_pCurrentAlbumG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         m_pCurrentAlbumG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);//*/
-		decreaseRowHeaderFont(*m_pCurrentAlbumG);
+        decreaseRowHeaderFont(*m_pCurrentAlbumG);
+        setHeaderColor(m_pCurrentAlbumG);
 
         m_pCurrentAlbumG->setModel(m_pCurrentAlbumModel);
 
         m_pAlbumDel = new CurrentAlbumDelegate(m_pCurrentAlbumG, this);
         m_pCurrentAlbumG->setItemDelegate(m_pAlbumDel);
 
-        setHeaderColor(m_pCurrentAlbumG);
 
         //connect(m_pCurrentAlbumG, SIGNAL(clicked(const QModelIndex &)), this, SLOT(onAlbSelChanged())); // ttt2 see if both this and next are needed (next seems enough)
         connect(m_pCurrentAlbumG->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), this, SLOT(onAlbSelChanged()));
@@ -342,11 +342,11 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
         m_pCurrentFileG->verticalHeader()->setSectionResizeMode(QHeaderView::Interactive);
         m_pCurrentFileG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         m_pCurrentFileG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);//*/
-		decreaseRowHeaderFont(*m_pCurrentFileG);
+        decreaseRowHeaderFont(*m_pCurrentFileG);
+        setHeaderColor(m_pCurrentFileG);
 
         m_pCurrentFileG->setModel(m_pCurrentFileModel);
         CurrentFileDelegate* pDel (new CurrentFileDelegate(m_pCurrentFileG, m_pCommonData));
-        setHeaderColor(m_pCurrentFileG);
 
         connect(m_pCurrentFileG->horizontalHeader(), SIGNAL(sectionMoved(int, int, int)), this, SLOT(onFileSelSectionMoved(int, int, int)));
 

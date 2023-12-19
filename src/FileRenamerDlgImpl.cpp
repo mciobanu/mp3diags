@@ -281,6 +281,7 @@ FileRenamerDlgImpl::FileRenamerDlgImpl(QWidget* pParent, CommonData* pCommonData
 
         m_pCurrentAlbumG->viewport()->installEventFilter(this);
 
+        decreaseRowHeaderFont(*m_pCurrentAlbumG);
         setHeaderColor(m_pCurrentAlbumG);
     }
 

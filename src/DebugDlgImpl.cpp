@@ -78,7 +78,8 @@ DebugDlgImpl::DebugDlgImpl(QWidget* pParent, CommonData* pCommonData) : QDialog(
 
         m_pLogG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         m_pLogG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
-		decreaseRowHeaderFont(*m_pLogG);
+        decreaseRowHeaderFont(*m_pLogG);
+        setHeaderColor(m_pLogG);
 
         m_pLogG->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
         m_pLogG->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);

@@ -298,7 +298,7 @@ MusicBrainzDownloader::MusicBrainzDownloader(QWidget* pParent, SessionSettings& 
     m_pImageQHttp = new QHttp (this);
 
     m_pModel = new WebDwnldModel(*this, *m_pTrackListG); // !!! in a way these would make sense to be in the base constructor, but that would cause calls to pure virtual methods
-    m_pTrackListG->setModel(m_pModel);
+    m_pTrackListG->setModel(m_pModel); //ttt9 Make sure to call decreaseRowHeaderFont() and setHeaderColor(). Same for Discogs
 
     connect(m_pImageQHttp, SIGNAL(requestFinished(int, bool)), this, SLOT(onRequestFinished(int, bool)));
 

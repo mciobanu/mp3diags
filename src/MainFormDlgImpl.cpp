@@ -945,13 +945,13 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
         m_pFilesG->horizontalHeader()->setDefaultSectionSize(CELL_WIDTH);
         m_pFilesG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         m_pFilesG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
-		decreaseRowHeaderFont(*m_pFilesG);
+        decreaseRowHeaderFont(*m_pFilesG);
+        setHeaderColor(m_pFilesG);
 
         connect(m_pFilesG->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), m_pCommonData->m_pFilesModel, SLOT(onFilesGSelChanged()));
         connect(m_pFilesG, SIGNAL(clicked(const QModelIndex &)), m_pCommonData->m_pFilesModel, SLOT(onFilesGSelChanged()));
 
         m_pFilesG->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
-        setHeaderColor(m_pFilesG);
 
         connect(m_pCommonData->m_pFilesModel, SIGNAL(currentFileChanged()), this, SLOT(onCrtFileChanged()));
         connect(m_pCommonData->m_pFilesModel, SIGNAL(currentFileChanged()), m_pCommonData, SLOT(onCrtFileChanged()));
@@ -966,18 +966,18 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
 
         m_pNotesG->horizontalHeader()->setMinimumSectionSize(CELL_WIDTH + 10);
 
-		/*QFont font (m_pNotesG->verticalHeader()->font());
-		auto sz(font.pointSizeF());
-		font.setPointSizeF(sz * 0.85);
-		m_pNotesG->verticalHeader()->setFont(font);*/
+        /*QFont font (m_pNotesG->verticalHeader()->font());
+        auto sz(font.pointSizeF());
+        font.setPointSizeF(sz * 0.85);
+        m_pNotesG->verticalHeader()->setFont(font);*/
         //m_pNotesG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT + 10);
         //m_pNotesG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT + 10);
-		m_pNotesG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
-		m_pNotesG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
-		decreaseRowHeaderFont(*m_pNotesG);
+        m_pNotesG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
+        m_pNotesG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
+        decreaseRowHeaderFont(*m_pNotesG);
+        setHeaderColor(m_pNotesG);
 
         m_pNotesG->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
-        setHeaderColor(m_pNotesG);
 
         connect(m_pNotesG->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), m_pCommonData->m_pNotesModel, SLOT(onNotesGSelChanged()));
         connect(m_pNotesG, SIGNAL(clicked(const QModelIndex &)), m_pCommonData->m_pNotesModel, SLOT(onNotesGSelChanged()));
@@ -995,11 +995,10 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
         m_pStreamsG->horizontalHeader()->setMinimumSectionSize(CELL_WIDTH + 10);
         m_pStreamsG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         m_pStreamsG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
-		decreaseRowHeaderFont(*m_pStreamsG);
+        decreaseRowHeaderFont(*m_pStreamsG);
+        setHeaderColor(m_pStreamsG);
 
         m_pStreamsG->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
-
-        setHeaderColor(m_pStreamsG);
 
         connect(m_pStreamsG->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), m_pCommonData->m_pStreamsModel, SLOT(onStreamsGSelChanged()));
         connect(m_pStreamsG, SIGNAL(clicked(const QModelIndex &)), m_pCommonData->m_pStreamsModel, SLOT(onStreamsGSelChanged()));
@@ -1017,10 +1016,10 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
         m_pUniqueNotesG->horizontalHeader()->setMinimumSectionSize(CELL_WIDTH + 10);
         m_pUniqueNotesG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         m_pUniqueNotesG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
-		decreaseRowHeaderFont(*m_pUniqueNotesG);
+        decreaseRowHeaderFont(*m_pUniqueNotesG);
+        setHeaderColor(m_pUniqueNotesG);
 
         m_pUniqueNotesG->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
-        setHeaderColor(m_pUniqueNotesG);
 
         connect(m_pUniqueNotesG->horizontalHeader(), SIGNAL(sectionResized(int, int, int)), m_pUniqueNotesG, SLOT(resizeRowsToContents()));
     }

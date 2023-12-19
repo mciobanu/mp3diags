@@ -352,8 +352,6 @@ DoubleList::DoubleList(
     setUpGrid(m_pAvailableG);
     setUpGrid(m_pSelectedG);
 
-    setHeaderColor(m_pAvailableG);
-    setHeaderColor(m_pSelectedG);
 
     {
         string s;
@@ -376,8 +374,12 @@ DoubleList::DoubleList(
 
     connect(m_pAvailableG, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(onAvlDoubleClicked(const QModelIndex&)));
 
-	decreaseRowHeaderFont(*m_pSelectedG);
-	decreaseRowHeaderFont(*m_pAvailableG);
+//    setHeaderColor(m_pAvailableG);
+//    setHeaderColor(m_pSelectedG);
+    decreaseRowHeaderFont(*m_pSelectedG);
+    decreaseRowHeaderFont(*m_pAvailableG);
+    setHeaderColor(m_pAvailableG);   //!!! If these are moved above decreaseRowHeaderFont(), the font won't change //ttt0: see why
+    setHeaderColor(m_pSelectedG);
 
     //ttt2 perhaps use QAction::shortcutContext(Qt::WidgetShortcut) to set up shortcuts, if it works well enough
 }

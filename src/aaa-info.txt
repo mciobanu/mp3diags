@@ -26,6 +26,8 @@ Finally, NoCropHeaderView is used in some grids, and it takes its font from getC
 for the grid. This happens in TagReadPanel, which also uses decreaseRowHeaderFont(), and, as a result, the call
 to decreaseRowHeaderFont() changes the space the header takes but not the font.
 
+DoubleList uses decreaseRowHeaderFont().
+
 ===================
 
 About grids
@@ -47,3 +49,8 @@ Some sizeHint() functions don't get called or don't matter, like FilesGDelegate:
 
 For the "current file" grid in the tag editor, the right thing to do is to fix CurrentFileDelegate::sizeHint(),
 but a hack is used instead
+
+In Windows, as of 2023.12.19 the headers and the cells are both white and there's no line between header and body, so
+things are confusing. As such, function setHeaderColor() was added. Its relation with decreaseRowHeaderFont() and
+is not clear, as documented in DoubleList::DoubleList(), where order is essential (not 100% sure the same is true
+everywhere).

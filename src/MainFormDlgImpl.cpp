@@ -951,6 +951,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
         connect(m_pFilesG, SIGNAL(clicked(const QModelIndex &)), m_pCommonData->m_pFilesModel, SLOT(onFilesGSelChanged()));
 
         m_pFilesG->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        setHeaderColor(m_pFilesG);
 
         connect(m_pCommonData->m_pFilesModel, SIGNAL(currentFileChanged()), this, SLOT(onCrtFileChanged()));
         connect(m_pCommonData->m_pFilesModel, SIGNAL(currentFileChanged()), m_pCommonData, SLOT(onCrtFileChanged()));
@@ -976,6 +977,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
 		decreaseRowHeaderFont(*m_pNotesG);
 
         m_pNotesG->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        setHeaderColor(m_pNotesG);
 
         connect(m_pNotesG->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), m_pCommonData->m_pNotesModel, SLOT(onNotesGSelChanged()));
         connect(m_pNotesG, SIGNAL(clicked(const QModelIndex &)), m_pCommonData->m_pNotesModel, SLOT(onNotesGSelChanged()));
@@ -997,6 +999,8 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
 
         m_pStreamsG->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
+        setHeaderColor(m_pStreamsG);
+
         connect(m_pStreamsG->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), m_pCommonData->m_pStreamsModel, SLOT(onStreamsGSelChanged()));
         connect(m_pStreamsG, SIGNAL(clicked(const QModelIndex &)), m_pCommonData->m_pStreamsModel, SLOT(onStreamsGSelChanged()));
 
@@ -1016,6 +1020,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
 		decreaseRowHeaderFont(*m_pUniqueNotesG);
 
         m_pUniqueNotesG->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        setHeaderColor(m_pUniqueNotesG);
 
         connect(m_pUniqueNotesG->horizontalHeader(), SIGNAL(sectionResized(int, int, int)), m_pUniqueNotesG, SLOT(resizeRowsToContents()));
     }

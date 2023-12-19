@@ -264,7 +264,7 @@ src/CommonData.cpp	f	2023-12-19T17:21:27Z
 src/CommonData.h	f	2023-12-19T09:24:42Z
 src/CommonTypes.cpp	f	2014-11-12T10:27:06Z
 src/CommonTypes.h	f	2014-11-12T10:30:51Z
-src/ConfigDlgImpl.cpp	f	2023-10-16T18:28:17Z
+src/ConfigDlgImpl.cpp	f	2023-12-19T19:34:04Z
 src/ConfigDlgImpl.h	f	2012-02-06T22:36:06Z
 src/Config.ui	f	2012-02-12T20:13:49Z
 src/DataStream.cpp	f	2014-11-13T11:43:27Z
@@ -277,7 +277,7 @@ src/DirFilterDlgImpl.h	f	2012-02-19T08:22:58Z
 src/DirFilter.ui	f	2012-01-02T15:16:36Z
 src/DiscogsDownloader.cpp	f	2023-10-15T06:15:03Z
 src/DiscogsDownloader.h	f	2012-10-20T09:48:04Z
-src/DoubleList.cpp	f	2019-02-16T22:22:20Z
+src/DoubleList.cpp	f	2023-12-19T19:35:25Z
 src/DoubleList.h	f	2023-12-17T20:48:08Z
 src/DoubleListWdg.ui	f	2012-01-02T15:16:59Z
 src/ExportDlgImpl.cpp	f	2023-12-12T21:02:59Z
@@ -288,7 +288,7 @@ src/ExternalToolDlgImpl.h	f	2012-01-17T22:23:05Z
 src/ExternalTool.ui	f	2012-02-05T09:37:37Z
 src/FileEnum.cpp	f	2016-07-04T19:30:09Z
 src/FileEnum.h	f	2014-11-12T08:57:34Z
-src/FileRenamerDlgImpl.cpp	f	2023-12-07T08:43:20Z
+src/FileRenamerDlgImpl.cpp	f	2023-12-19T19:38:49Z
 src/FileRenamerDlgImpl.h	f	2014-11-12T15:55:29Z
 src/FileRenamer.ui	f	2012-01-02T09:53:58Z
 src/FilesModel.cpp	f	2023-12-19T09:22:55Z
@@ -297,8 +297,8 @@ src/fstream_unicode.cpp	f	2014-11-12T16:10:31Z
 src/fstream_unicode.h	f	2014-01-16T13:37:36Z
 src/FullSizeImgDlg.cpp	f	2023-12-07T19:18:03Z
 src/FullSizeImgDlg.h	f	2009-11-28T07:25:00Z
-src/Helpers.cpp	f	2023-12-09T15:51:15Z
-src/Helpers.h	f	2023-12-08T20:44:36Z
+src/Helpers.cpp	f	2023-12-19T19:47:33Z
+src/Helpers.h	f	2023-12-19T19:23:32Z
 src/Id3Transf.cpp	f	2012-03-03T20:24:37Z
 src/Id3Transf.h	f	2012-03-03T14:27:44Z
 src/Id3V230Stream.cpp	f	2023-12-08T20:25:14Z
@@ -377,7 +377,7 @@ src/LogModel.h	f	2009-05-06T07:30:16Z
 src/LyricsStream.cpp	f	2014-11-12T17:36:59Z
 src/LyricsStream.h	f	2014-11-12T16:53:17Z
 src/main.cpp	f	2023-12-19T18:34:13Z
-src/MainFormDlgImpl.cpp	f	2023-12-19T16:06:18Z
+src/MainFormDlgImpl.cpp	f	2023-12-19T19:26:31Z
 src/MainFormDlgImpl.h	f	2012-02-29T20:07:21Z
 src/MainForm.ui	f	2011-07-30T12:34:43Z
 src/Mp3Diags.qrc	f	2012-02-05T19:46:04Z
@@ -420,7 +420,7 @@ src/SerSupport.h	f	2009-05-06T07:27:31Z
 src/SessionEditorDlgImpl.cpp	f	2023-12-03T17:51:27Z
 src/SessionEditorDlgImpl.h	f	2012-02-12T11:32:26Z
 src/SessionEditor.ui	f	2012-02-06T22:59:54Z
-src/SessionsDlgImpl.cpp	f	2019-02-10T22:19:53Z
+src/SessionsDlgImpl.cpp	f	2023-12-19T19:43:24Z
 src/SessionsDlgImpl.h	f	2012-02-12T11:51:14Z
 src/Sessions.ui	f	2012-02-12T11:48:31Z
 src/SimpleSaxHandler.h	f	2014-11-12T15:53:13Z
@@ -434,12 +434,12 @@ src/StreamsModel.cpp	f	2023-12-19T09:15:25Z
 src/StreamsModel.h	f	2009-05-06T07:32:41Z
 src/StructuralTransformation.cpp	f	2016-07-04T20:39:49Z
 src/StructuralTransformation.h	f	2016-06-16T14:07:50Z
-src/TagEditorDlgImpl.cpp	f	2023-12-19T16:00:44Z
+src/TagEditorDlgImpl.cpp	f	2023-12-19T19:26:31Z
 src/TagEditorDlgImpl.h	f	2012-03-03T06:59:47Z
 src/TagEditor.ui	f	2012-01-02T10:05:18Z
 src/TagEdtPatternsDlgImpl.cpp	f	2023-12-06T21:47:36Z
 src/TagEdtPatternsDlgImpl.h	f	2009-07-28T07:25:59Z
-src/TagReadPanel.cpp	f	2023-12-19T15:09:44Z
+src/TagReadPanel.cpp	f	2023-12-19T19:36:16Z
 src/TagReadPanel.h	f	2009-09-30T11:53:40Z
 src/TagWriter.cpp	f	2021-09-01T08:56:13Z
 src/TagWriter.h	f	2014-11-12T11:53:36Z

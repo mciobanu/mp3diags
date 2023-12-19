@@ -329,6 +329,7 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
         m_pAlbumDel = new CurrentAlbumDelegate(m_pCurrentAlbumG, this);
         m_pCurrentAlbumG->setItemDelegate(m_pAlbumDel);
 
+        setHeaderColor(m_pCurrentAlbumG);
 
         //connect(m_pCurrentAlbumG, SIGNAL(clicked(const QModelIndex &)), this, SLOT(onAlbSelChanged())); // ttt2 see if both this and next are needed (next seems enough)
         connect(m_pCurrentAlbumG->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), this, SLOT(onAlbSelChanged()));
@@ -345,6 +346,7 @@ TagEditorDlgImpl::TagEditorDlgImpl(QWidget* pParent, CommonData* pCommonData, Tr
 
         m_pCurrentFileG->setModel(m_pCurrentFileModel);
         CurrentFileDelegate* pDel (new CurrentFileDelegate(m_pCurrentFileG, m_pCommonData));
+        setHeaderColor(m_pCurrentFileG);
 
         connect(m_pCurrentFileG->horizontalHeader(), SIGNAL(sectionMoved(int, int, int)), this, SLOT(onFileSelSectionMoved(int, int, int)));
 

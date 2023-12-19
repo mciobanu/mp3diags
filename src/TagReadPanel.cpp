@@ -188,6 +188,8 @@ TagReadPanel::TagReadPanel(QWidget* pParent, TagReader* pTagReader) : QFrame(pPa
         }
         pTable->setItem(8, 0, pItem);
 
+        setHeaderColor(pTable);
+
         pLayout->addWidget(pTable);
 
         //ttt2 Oxygen shows regular cells under mouse with diferent background color

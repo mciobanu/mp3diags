@@ -280,6 +280,8 @@ FileRenamerDlgImpl::FileRenamerDlgImpl(QWidget* pParent, CommonData* pCommonData
         m_pCurrentAlbumG->setItemDelegate(pDel);
 
         m_pCurrentAlbumG->viewport()->installEventFilter(this);
+
+        setHeaderColor(m_pCurrentAlbumG);
     }
 
     m_pButtonGroup = new QButtonGroup(this);

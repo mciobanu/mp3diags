@@ -444,5 +444,11 @@ public:
 // On Windows with QT5 there is a big padding and the headers are truncated. This resizes the font, so things fit
 void decreaseRowHeaderFont(QTableView&);
 
+/**
+ * On Windows with QT5 both the normal cells and the headers' background is white, and there isn't even a line
+ * separating them, so it doesn't look good
+ */
+void setHeaderColor(QTableView* pTableView);
+
 #endif // ifndef HelpersH
 

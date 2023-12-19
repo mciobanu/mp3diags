@@ -352,6 +352,9 @@ DoubleList::DoubleList(
     setUpGrid(m_pAvailableG);
     setUpGrid(m_pSelectedG);
 
+    setHeaderColor(m_pAvailableG);
+    setHeaderColor(m_pSelectedG);
+
     {
         string s;
         s = m_listPainter.getTooltip(ListPainter::SELECTED_G); if (!s.empty()) { m_pSelectedG->setToolTip(convStr(s)); }

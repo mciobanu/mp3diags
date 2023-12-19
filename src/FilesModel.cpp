@@ -446,7 +446,8 @@ case 3:
 
 /*override*/ QSize FilesGDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-    if (!index.isValid()) { return QSize(); }
+    //qDebug("qqq");
+    if (!index.isValid()) { return QSize(); }  //ttt0:  This doesn't get called. Review if it should and delete if not
     if (index.column() > 0) { return QItemDelegate::sizeHint(option, index); }
 
     int nMargin (QApplication::style()->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1);
@@ -455,7 +456,9 @@ case 3:
     int nColWidth (((const QTableView*)parent())->horizontalHeader()->sectionSize(j));
     QRect r (0, 0, nColWidth - 2*nMargin - 1, 10000);
 
-    QSize res (option.fontMetrics.boundingRect(r, Qt::AlignTop | Qt::TextWordWrap, index.data(Qt::DisplayRole).toString()).size());
+    const QString& text = index.data(Qt::DisplayRole).toString();
+    //qDebug("FilesGDelegate::sizeHint: %s", text.toStdString().c_str());
+    QSize res (option.fontMetrics.boundingRect(r, Qt::AlignTop | Qt::TextWordWrap, text).size());
 
     res.setWidth(nColWidth);
 

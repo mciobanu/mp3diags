@@ -1,0 +1,43 @@
+About fonts
+
+
+
+There are 3 fonts: generalFont, m_labelFont, m_fixedFont. Of them, generalFont isn't read by other classes, so it's
+just a local variable that gets initialized based on m_strGenFontName and m_nGenFontSize in CommonData::setFontInfo()
+and then used as param to QApplication::setFont(), which sets the default font for the app.
+
+OTOH, m_labelFont and m_fixedFont are used when specific parts of text need to be displayed with a different font,
+which is not very common:
+    - m_fixedFont is used in several columns for streams and notes in the main window
+    - m_labelFont is based on generalFont, but it may be smaller; it is used for the note headers and for the
+        row labels for frames in Main Window/Tag Details and in the Tag editor
+
+Then there are the global variables CELL_WIDTH and CELL_HEIGHT. CELL_WIDTH is actually a minimum that cells should
+have, computed using generalFont, such that a note label (2 letters) should fit there.
+
+CELL_HEIGHT is for the height of cells, such that single-row text is shown properly
+
+Global variable MIN_FILE_WIDTH is for the minimum size a cell showing file names should take. It is based on generalFont
+
+Finally, there is decreaseRowHeaderFont(), which was introduced because Qt5 on Windows added some padding causing
+header text to no longer fit.
+
+
+===================
+
+About grids
+
+The value of the vertical headers is given in 2 ways, depending on the actual grid widget:
+    - Via QTableView's model, in QAbstractTableModel::headerData(), e.g. in NotesModel::headerData(), where there is
+        a "nSection+1" (or in CurrentFileModel::headerData(), where there's a string)
+    - Via QTableWidget::setVerticalHeaderLabels(), like in TagReadPanel
+
+The width of the vertical headers is generally computed via getNumVertHdrSize(), for reasons explained there. In short,
+the issue seems to be that the rows change dynamically but Qt keeps using whatever it found first; apparently this
+doesn't matter for m_pFilesG (files and notes in the main window) due to the way data is refreshed there.
+
+Alignment:
+    - For regular cells: myOption.displayAlignment |= Qt::AlignRight;
+    - For headers: verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
+
+Some sizeHint() functions don't get called or don't matter, like FilesGDelegate::sizeHint(). This needs to be reviewed

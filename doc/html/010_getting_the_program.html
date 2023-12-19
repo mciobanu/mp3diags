@@ -288,7 +288,7 @@ If you find some other required package, please <a href="050_feedback.html">let 
             <b>CMake</b>.
             <ul>
                 <li><span class="Code">cmake -S . -B build/release -DCMAKE_BUILD_TYPE=Release</span></li>
-                <li><span class="Code">cmake --build build/release</span></li>
+                <li><span class="Code">cmake --build build/release -j $(getconf _NPROCESSORS_ONLN)</span></li>
             </ul>
         </li>
         <li><b>Qt Creator and other IDEs that support CMake</b> - open <b>CMakeLists.txt</b> </li>
@@ -434,7 +434,14 @@ To uninstall the program, see the corresponding section at the <a href="#uninsta
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-    <span class="Code GenericSpace">cmake -S . -B out\build\x64-release --preset x64-release && cmake --build out\build\x64-release --config x64-release</span>
+    <ul>
+        <li>
+            <span class="Code GenericSpace">cmake -S . -B out\build\x64-release --preset x64-release</span>
+        </li>
+        <li>
+            <span class="Code GenericSpace">cmake --build out\build\x64-release --config x64-release -j %NUMBER_OF_PROCESSORS%</span>
+        </li>
+    </ul>
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
@@ -442,7 +449,7 @@ To uninstall the program, see the corresponding section at the <a href="#uninsta
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-    If the build went OK, the executable in <b>out\build\x64-release</b> (or <b>out\build\x64-debug</b>), together with
+    If the build went OK, the executable will be in <b>out\build\x64-release</b> (or <b>out\build\x64-debug</b>), together with
     translations, DLLs, and other dependencies, so you should be able to just run the executable there.
 </div>
 

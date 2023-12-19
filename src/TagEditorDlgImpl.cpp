@@ -282,7 +282,8 @@ CurrentFileModel::CurrentFileModel(const TagEditorDlgImpl* pTagEditorDlgImpl) : 
         {
             s = QString("%1 %2").arg(TagReader::tr(inf.m_strName.c_str())).arg(inf.m_nPos + 1) + sSuff; // !!! the "tr()" won't do anything in most cases; the argument can be "Pattern", "Web", "ID3V2.3.0", "ID3V2.4.0", "ID3V1", ... ; only the first 2 are translatable
         }
-        return s;
+        return " " + s + " ";  //ttt0: Make CurrentFileDelegate::sizeHint() work rather than adding spaces here to have
+        // enough room for the header. Keep in mind that SimpleQTableViewWidthInterface is used to set the width
     }
 
     return TagReader::tr(TagReader::getLabel(TagReader::FEATURE_ON_POS[nSection]));

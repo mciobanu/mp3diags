@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <chrono>
 
 #include  <QTableView>
 #include  <QHeaderView>
@@ -30,11 +31,12 @@
 
 #include  "Helpers.h"
 
+
 //=====================================================================================================================
 //=====================================================================================================================
 //=====================================================================================================================
 
-MultiLineTvDelegate::MultiLineTvDelegate(QTableView* pTableView/*, QObject* pParent = 0*/) : QItemDelegate(pTableView), m_pTableView(pTableView), m_nLineHeight(0), m_nAddPerLine(0)
+MultiLineTvDelegate::MultiLineTvDelegate(QTableView* pTableView/*, QObject* pParent = 0*/, const char* szName) : QItemDelegate(pTableView), m_pTableView(pTableView), m_nLineHeight(0), m_nAddPerLine(0), m_szName(szName)
 {
     CB_CHECK_MSG (0 != pTableView, CbRuntimeError, "NULL QTableView not allowed");
     connect(pTableView->horizontalHeader(), SIGNAL(sectionResized(int, int, int)), pTableView, SLOT(resizeRowsToContents()));
@@ -44,6 +46,11 @@ MultiLineTvDelegate::MultiLineTvDelegate(QTableView* pTableView/*, QObject* pPar
 
 QSize MultiLineTvDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
+#if 0
+    auto curr_time = std::chrono::system_clock::now();
+    std::time_t pcurr_time = std::chrono::system_clock::to_time_t(curr_time);
+    qDebug("%ld: MultiLineTvDelegate::sizeHint(): %d x %d", pcurr_time,  index.row(), index.column());
+#endif
     if (!index.isValid()) { return QSize(); }
     if (0 == m_nLineHeight) { calibrate(option.fontMetrics, option.font); }
     //cout << option.rect.width() << "x" << option.rect.height() << " ";
@@ -58,7 +65,7 @@ QSize MultiLineTvDelegate::sizeHint(const QStyleOptionViewItem& option, const QM
     }
     QRect r (0, 0, nColWidth - 2*nMargin - 1, 10000); // !!! this "-1" is what's different from Qt's implementation (4.3); it is for the vertical line that delimitates the cells //ttt2 do a screen capture to be sure //ttt2 see if this is fixed in 4.4 2008.30.06 - apparently it's not fixed and the workaround no longer works
 */
-    // !!! 2009.04.17 - while working in most cases, the "1" above has this issue: Qt may toggle between showing a scrollbar and hiding it, doing this as many times per second as the CPU can handle; while the app is not frozen, what happens is quite annoying; so we'll just assume there's a scrollbar, until a proper solution is found; (it looks like Qt bug, though, because it can't make up its mind about showing a scrollbar; what Qt should do is try first to remove the scrollbar, see if it can fit everything and if not put back the scrollbar and don't try anything more); the downside is that in some cases more lines are requested than actually needed, but that happened before too (but to a lesser extent); //ttt2 perhaps at least don't do the same for all columns, normally only one is stretcheable
+    // !!! 2009.04.17 - while working in most cases, the "1" above has this issue: Qt may toggle between showing a scrollbar and hiding it, doing this as many times per second as the CPU can handle; while the app is not frozen, what happens is quite annoying; so we'll just assume there's a scrollbar, until a proper solution is found; (it looks like Qt bug, though, because it can't make up its mind about showing a scrollbar; what Qt should do is try first to remove the scrollbar, see if it can fit everything and if not put back the scrollbar and don't try anything more); the downside is that in some cases more lines are requested than actually needed, but that happened before too (but to a lesser extent); //ttt2 perhaps at least don't do the same for all columns, normally only one is stretchable
     int nSpace (1);
     //if (m_pTableView->verticalScrollBar()->isVisible())
     if (1 == m_pTableView->verticalScrollBar()->maximum()) // the scrollbar gets 1 up for each line; the issues are around switching between no scrollbar and a scrollbar for 1 line, so hopefully this should take care of the issue;
@@ -108,6 +115,15 @@ QSize MultiLineTvDelegate::sizeHint(const QStyleOptionViewItem& option, const QM
     //cout << " => " << res.width() << "x" << res.height() << endl;
 
     //QSize res (fontMetrics().size(0, text()));
+#if 0
+    //if (strcmp("NotesGDelegate", m_szName) == 0)
+    {
+        res.setWidth(98);  //ttt0: Review this function, as it doesn't seem to matter much, at least for existing
+        // sessions. Hard-coding the width here doesn't seem to change the appearance
+    }
+    qDebug("%ld: MultiLineTvDelegate::sizeHint(%s, [%d, %d]: %d x %d", pcurr_time, m_szName, index.row(), index.column(), res.width(), res.height());
+#endif
+
     return res;
 }//*/
 

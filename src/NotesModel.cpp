@@ -206,7 +206,7 @@ void NotesModel::matchSelToStreams()
 //=====================================================================================================================
 
 
-NotesGDelegate::NotesGDelegate(CommonData* pCommonData) : MultiLineTvDelegate(pCommonData->m_pNotesG), m_pCommonData(pCommonData)
+NotesGDelegate::NotesGDelegate(CommonData* pCommonData) : MultiLineTvDelegate(pCommonData->m_pNotesG, "NotesGDelegate"), m_pCommonData(pCommonData)
 {
 }
 

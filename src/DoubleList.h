@@ -100,7 +100,7 @@ class AvailableModelDelegate : public MultiLineTvDelegate
 public:
     //AvailableModelDelegate(AvailableModel* pAvailableModel, QObject* pParent) : QItemDelegate(pParent), m_pAvailableModel(pAvailableModel) {}
     //AvailableModelDelegate(AvailableModel* pAvailableModel, QTableView* pTableView) : MultiLineTvDelegate(pTableView), m_pAvailableModel(pAvailableModel) {}
-    AvailableModelDelegate(ListPainter& listPainter, QTableView* pTableView) : MultiLineTvDelegate(pTableView), m_listPainter(listPainter) {}
+    AvailableModelDelegate(ListPainter& listPainter, QTableView* pTableView) : MultiLineTvDelegate(pTableView, "AvailableModelDelegate"), m_listPainter(listPainter) {}
 
     /*override*/ void paint(QPainter* pPainter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
 
@@ -114,7 +114,7 @@ class SelectedModelDelegate : public MultiLineTvDelegate
 
     const ListPainter& m_listPainter;
 public:
-    SelectedModelDelegate(ListPainter& listPainter, QTableView* pTableView) : MultiLineTvDelegate(pTableView), m_listPainter(listPainter) {}
+    SelectedModelDelegate(ListPainter& listPainter, QTableView* pTableView) : MultiLineTvDelegate(pTableView, "SelectedModelDelegate"), m_listPainter(listPainter) {}
 
     /*override*/ void paint(QPainter* pPainter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
 

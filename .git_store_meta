@@ -278,7 +278,7 @@ src/DirFilter.ui	f	2012-01-02T15:16:36Z
 src/DiscogsDownloader.cpp	f	2023-10-15T06:15:03Z
 src/DiscogsDownloader.h	f	2012-10-20T09:48:04Z
 src/DoubleList.cpp	f	2019-02-16T22:22:20Z
-src/DoubleList.h	f	2019-02-10T21:28:43Z
+src/DoubleList.h	f	2023-12-17T20:48:08Z
 src/DoubleListWdg.ui	f	2012-01-02T15:16:59Z
 src/ExportDlgImpl.cpp	f	2023-12-12T21:02:59Z
 src/ExportDlgImpl.h	f	2009-10-01T07:49:02Z
@@ -389,8 +389,8 @@ src/MpegFrame.cpp	f	2023-12-13T15:45:59Z
 src/MpegFrame.h	f	2023-12-12T17:29:39Z
 src/MpegStream.cpp	f	2023-12-08T07:54:25Z
 src/MpegStream.h	f	2014-11-14T12:06:08Z
-src/MultiLineTvDelegate.cpp	f	2014-11-12T11:01:23Z
-src/MultiLineTvDelegate.h	f	2009-10-13T11:33:20Z
+src/MultiLineTvDelegate.cpp	f	2023-12-19T08:55:00Z
+src/MultiLineTvDelegate.h	f	2023-12-17T20:47:11Z
 src/MusicBrainzDownloader.cpp	f	2023-12-08T07:40:31Z
 src/MusicBrainzDownloader.h	f	2009-09-11T14:47:51Z
 src/NoteFilterDlgImpl.cpp	f	2019-02-10T22:56:54Z
@@ -398,7 +398,7 @@ src/NoteFilterDlgImpl.h	f	2009-09-11T14:47:51Z
 src/NoteFilter.ui	f	2012-01-02T15:21:05Z
 src/Notes.cpp	f	2023-12-08T20:21:44Z
 src/Notes.h	f	2023-12-08T20:21:44Z
-src/NotesModel.cpp	f	2014-11-13T15:57:59Z
+src/NotesModel.cpp	f	2023-12-19T09:18:38Z
 src/NotesModel.h	f	2009-05-06T07:31:33Z
 src/OsFile.cpp	f	2023-12-12T17:29:39Z
 src/OsFile.h	f	2014-11-13T17:35:21Z
@@ -430,7 +430,7 @@ src/src.pro	f	2021-09-01T09:36:34Z
 src/src.pro.w10	f	2019-04-03T22:17:29Z
 src/StoredSettings.cpp	f	2012-01-25T22:17:31Z
 src/StoredSettings.h	f	2016-06-21T12:16:07Z
-src/StreamsModel.cpp	f	2014-11-13T15:57:59Z
+src/StreamsModel.cpp	f	2023-12-19T09:15:25Z
 src/StreamsModel.h	f	2009-05-06T07:32:41Z
 src/StructuralTransformation.cpp	f	2016-07-04T20:39:49Z
 src/StructuralTransformation.h	f	2016-06-16T14:07:50Z
@@ -454,7 +454,7 @@ src/translations/autoTransl/MixedCase.cpp	f	2012-02-29T21:51:40Z
 src/translations/mp3diags_cs.ts	f	2023-12-13T06:37:24Z
 src/translations/mp3diags_de_DE.ts	f	2023-12-13T06:37:09Z
 src/translations/mp3diags_fr_FR.ts	f	2023-12-13T06:36:23Z
-src/UniqueNotesModel.cpp	f	2014-11-13T15:57:59Z
+src/UniqueNotesModel.cpp	f	2023-12-17T20:49:25Z
 src/UniqueNotesModel.h	f	2009-05-06T07:33:22Z
 src/Version.cpp	f	2013-03-31T22:31:45Z
 src/Version.h	f	2013-03-31T22:20:59Z

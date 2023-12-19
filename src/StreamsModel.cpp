@@ -215,7 +215,7 @@ void StreamsModel::onStreamsGSelChanged()
 //=====================================================================================================================
 
 
-StreamsGDelegate::StreamsGDelegate(CommonData* pCommonData) : MultiLineTvDelegate(pCommonData->m_pStreamsG), m_pCommonData(pCommonData)
+StreamsGDelegate::StreamsGDelegate(CommonData* pCommonData) : MultiLineTvDelegate(pCommonData->m_pStreamsG, "StreamsGDelegate"), m_pCommonData(pCommonData)
 {
 }
 

@@ -114,7 +114,7 @@ void UniqueNotesModel::selectTopLeft()
 //=====================================================================================================================
 
 
-UniqueNotesGDelegate::UniqueNotesGDelegate(CommonData* pCommonData) : MultiLineTvDelegate(pCommonData->m_pUniqueNotesG), m_pCommonData(pCommonData)
+UniqueNotesGDelegate::UniqueNotesGDelegate(CommonData* pCommonData) : MultiLineTvDelegate(pCommonData->m_pUniqueNotesG, "UniqueNotesGDelegate"), m_pCommonData(pCommonData)
 {
 }
 

@@ -941,16 +941,14 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
 
         m_pFilesG->setHorizontalHeader(new FileHeaderView(m_pCommonData, m_pFilesG));
 
-        m_pFilesG->horizontalHeader()->setMinimumSectionSize(CELL_WIDTH);
+        m_pFilesG->horizontalHeader()->setMinimumSectionSize(CELL_WIDTH); //ttt9: Review if this rearrangement of setting the sizes on 2023.12.19 had any negative impact
+        m_pFilesG->horizontalHeader()->setDefaultSectionSize(CELL_WIDTH);
         m_pFilesG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         m_pFilesG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
 		decreaseRowHeaderFont(*m_pFilesG);
 
         connect(m_pFilesG->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), m_pCommonData->m_pFilesModel, SLOT(onFilesGSelChanged()));
         connect(m_pFilesG, SIGNAL(clicked(const QModelIndex &)), m_pCommonData->m_pFilesModel, SLOT(onFilesGSelChanged()));
-
-        m_pFilesG->horizontalHeader()->setDefaultSectionSize(CELL_WIDTH);
-        m_pFilesG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
 
         m_pFilesG->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
 

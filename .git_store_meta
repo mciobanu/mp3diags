@@ -243,7 +243,6 @@ package/rpm/MP3Diags-Mandriva_2009.1.spec	f	2012-03-11T08:40:59Z
 package/rpm/MP3Diags.spec	f	2012-03-11T16:00:37Z
 package/sourceforge/linux_downloads.html	f	2009-06-10T07:26:41Z
 README.md	f	2023-12-13T07:38:48Z
-README.TXT	f	2012-12-02T03:27:46Z
 Rebuild-Transl-_ts-Files.sh	f	2014-01-17T10:00:28Z
 Release.txt	f	2023-11-28T14:53:47Z
 src/aaa-info.txt	f	2023-12-19T15:45:38Z
@@ -377,7 +376,7 @@ src/LogModel.cpp	f	2014-11-13T15:57:59Z
 src/LogModel.h	f	2009-05-06T07:30:16Z
 src/LyricsStream.cpp	f	2014-11-12T17:36:59Z
 src/LyricsStream.h	f	2014-11-12T16:53:17Z
-src/main.cpp	f	2023-12-13T19:50:04Z
+src/main.cpp	f	2023-12-19T18:34:13Z
 src/MainFormDlgImpl.cpp	f	2023-12-19T16:06:18Z
 src/MainFormDlgImpl.h	f	2012-02-29T20:07:21Z
 src/MainForm.ui	f	2011-07-30T12:34:43Z

@@ -576,7 +576,7 @@ int guiMain(const po::variables_map& options) {
     return app.exec();*/
 }
 
-enum CliOutputFormat { SHORT, LONG }; //!!! This needs to be global. Putting in inside namespace causes compilation to fail
+enum CliOutputFormat { SHORT_FMT, LONG_FMT }; //!!! This needs to be global. Putting in inside namespace causes compilation to fail
 
 
 namespace {
@@ -708,7 +708,7 @@ class CmdLineAnalyzer : public CmdLineProcessor
 
     /*override*/ bool processFile(const string& strFullName, Mp3Handler* pmp3Handler)
     {
-        if (outputFormat == CliOutputFormat::LONG) {
+        if (outputFormat == CliOutputFormat::LONG_FMT) {
             vector<const Mp3Handler*> v;
             v.push_back(pmp3Handler);
             exportMp3HandlersAsText(cout, v, m_minLevel, true, QString("EWST"));
@@ -917,7 +917,7 @@ int cmdlineMain(const po::variables_map& options)
         }
     }
 
-    CliOutputFormat outputFormat (CliOutputFormat::SHORT);
+    CliOutputFormat outputFormat (CliOutputFormat::SHORT_FMT);
     if (options.count(s_formatOpt.m_szLongOpt) > 0)
     {
         try
@@ -1010,8 +1010,8 @@ static void validate(boost::any& v, vector<string> const& values, Note::Severity
 static void validate(boost::any& v, vector<string> const& values, CliOutputFormat*, int) {
     po::validators::check_first_occurrence(v);
     const string& s = po::validators::get_single_string(values);
-    if (s.compare("short") == 0) v = CliOutputFormat::SHORT; //ttt1 maybe translate
-    else if (s.compare("long") == 0) v = CliOutputFormat::LONG;
+    if (s.compare("short") == 0) v = CliOutputFormat::SHORT_FMT; //ttt1 maybe translate
+    else if (s.compare("long") == 0) v = CliOutputFormat::LONG_FMT;
     else CB_THROW1(CbRuntimeError, "invalid option value");
 }
 

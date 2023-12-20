@@ -73,7 +73,8 @@ class MusicBrainzDownloader : public AlbumInfoDownloaderDlgImpl
     /*override*/ void reloadGui();
 
     /*override*/ QHttp* getWaitingHttp();
-    /*override*/ void resetNavigation();
+    /*override*/ void resetNavigation() { resetNavigationImpl(); }
+    void resetNavigationImpl(); // To avoid calling virtual method in destructor
 
     /*override*/ WebAlbumInfoBase& album(int i);
     /*override*/ int getAlbumCount() const;

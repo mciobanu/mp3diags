@@ -310,7 +310,7 @@ MusicBrainzDownloader::MusicBrainzDownloader(QWidget* pParent, SessionSettings& 
 
 MusicBrainzDownloader::~MusicBrainzDownloader()
 {
-    resetNavigation(); // !!! not in base class, because it calls virtual method resetNavigation()
+    resetNavigationImpl();
     clear();
 }
 

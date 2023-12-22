@@ -391,7 +391,7 @@ src/MpegStream.cpp	f	2023-12-08T07:54:25Z
 src/MpegStream.h	f	2014-11-14T12:06:08Z
 src/MultiLineTvDelegate.cpp	f	2023-12-19T08:55:00Z
 src/MultiLineTvDelegate.h	f	2023-12-17T20:47:11Z
-src/MusicBrainzDownloader.cpp	f	2023-12-20T21:11:47Z
+src/MusicBrainzDownloader.cpp	f	2023-12-22T21:14:41Z
 src/MusicBrainzDownloader.h	f	2023-12-20T21:11:47Z
 src/NoteFilterDlgImpl.cpp	f	2019-02-10T22:56:54Z
 src/NoteFilterDlgImpl.h	f	2009-09-11T14:47:51Z
@@ -451,9 +451,9 @@ src/Transformation.h	f	2014-11-12T11:16:17Z
 src/Translation.cpp	f	2023-11-30T20:31:37Z
 src/Translation.h	f	2012-03-04T06:52:32Z
 src/translations/autoTransl/MixedCase.cpp	f	2012-02-29T21:51:40Z
-src/translations/mp3diags_cs.ts	f	2023-12-13T06:37:24Z
-src/translations/mp3diags_de_DE.ts	f	2023-12-13T06:37:09Z
-src/translations/mp3diags_fr_FR.ts	f	2023-12-13T06:36:23Z
+src/translations/mp3diags_cs.ts	f	2023-12-22T21:06:48Z
+src/translations/mp3diags_de_DE.ts	f	2023-12-22T21:07:46Z
+src/translations/mp3diags_fr_FR.ts	f	2023-12-22T21:07:16Z
 src/UniqueNotesModel.cpp	f	2023-12-17T20:49:25Z
 src/UniqueNotesModel.h	f	2009-05-06T07:33:22Z
 src/Version.cpp	f	2013-03-31T22:31:45Z

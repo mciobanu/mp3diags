@@ -471,7 +471,33 @@ LAST_STEP("MusicBrainzDownloader::getAmazonText");
     }
     else
     {
-        return tr("<a href=\"%1\">view at amazon.com</a>").arg(album.m_strAmazonLink.c_str());
+        const string& s = album.m_strAmazonLink;
+        string domain = "amazon.com";
+        unsigned long k = s.find("amazon.");
+        bool err = false;
+        if (k != string::npos)
+        {
+            unsigned long h = s.find('/', k);
+            if (h != string::npos)
+            {
+                domain = s.substr(k, h - k);
+            }
+            else
+            {
+                err = true;
+            }
+        }
+        else
+        {
+            err = true;
+        }
+        if (err)
+        {
+            qDebug("Error processing Amazon URL %s", s.c_str());
+            //ttt1: Do more
+        }
+
+        return tr("<a href=\"%1\">view at %2</a>").arg(s.c_str(), domain.c_str());
     }
 }
 

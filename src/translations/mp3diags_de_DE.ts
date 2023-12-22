@@ -3769,8 +3769,8 @@ Verarbeitung abgebrochen.</translation>
     </message>
     <message>
         <location filename="../MusicBrainzDownloader.cpp" line="474"/>
-        <source>&lt;a href=&quot;%1&quot;&gt;view at amazon.com&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;%1&quot;&gt;anschauen auf amazon.com&lt;/a&gt;</translation>
+        <source>&lt;a href=&quot;%1&quot;&gt;view at %2&lt;/a&gt;</source>
+        <translation>&lt;a href=&quot;%1&quot;&gt;anschauen auf %2&lt;/a&gt;</translation>
     </message>
 </context>
 <context>

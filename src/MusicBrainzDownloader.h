@@ -27,7 +27,8 @@
 
 namespace MusicBrainz
 {
-    struct SearchXmlHandler;
+    class SearchJsonHandler;
+    class AlbumJsonHandler;
 
     struct MusicBrainzAlbumInfo : public WebAlbumInfoBase
     {
@@ -54,15 +55,14 @@ class MusicBrainzDownloader : public AlbumInfoDownloaderDlgImpl
 
     std::vector<MusicBrainz::MusicBrainzAlbumInfo> m_vAlbums;
 
-    friend struct MusicBrainz::SearchXmlHandler;
+    friend struct MusicBrainz::SearchJsonHandler;
+    friend struct MusicBrainz::AlbumJsonHandler;
 
     void delay();
     long long getTime(); // time in milliseconds
     long long m_nLastReqTime;
 
     void clear();
-
-    QHttp* m_pImageQHttp;
 
     /*override*/ bool initSearch(const std::string& strArtist, const std::string& strAlbum);
     /*override*/ std::string createQuery();
@@ -72,15 +72,11 @@ class MusicBrainzDownloader : public AlbumInfoDownloaderDlgImpl
     /*override*/ void requestImage(int nAlbum, int nImage);
     /*override*/ void reloadGui();
 
-    /*override*/ QHttp* getWaitingHttp();
-    /*override*/ void resetNavigation() { resetNavigationImpl(); }
-    void resetNavigationImpl(); // To avoid calling virtual method in destructor
-
     /*override*/ WebAlbumInfoBase& album(int i);
     /*override*/ int getAlbumCount() const;
 
-    /*override*/ QXmlDefaultHandler* getSearchXmlHandler();
-    /*override*/ QXmlDefaultHandler* getAlbumXmlHandler(int nAlbum);
+    /*override*/ JsonHandler* getSearchJsonHandler();
+    /*override*/ JsonHandler* getAlbumJsonHandler(int nAlbum);
 
     /*override*/ const WebAlbumInfoBase* getCrtAlbum() const; // returns 0 if there's no album
     /*override*/ int getColumnCount() const { return 3; }

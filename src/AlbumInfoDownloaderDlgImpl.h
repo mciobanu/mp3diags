@@ -25,16 +25,19 @@
 
 #include  <string>
 #include  <vector>
+#include  <unordered_set>
 
 #include  <QDialog>
+#include  <QNetworkReply>
+#include  <QNetworkAccessManager>
 
 #include  "ui_AlbumInfoDownloader.h"
 
 #include  "CommonTypes.h"
 
 
-class QHttp;
 class QPixmap;
+//class QNetworkAccessManager;
 
 class SessionSettings;
 
@@ -61,7 +64,15 @@ struct WebAlbumInfoBase
 };
 
 
-class QXmlDefaultHandler;
+//class QXmlDefaultHandler;
+
+class JsonHandler
+{
+public:
+    virtual ~JsonHandler() {}
+    virtual bool handle(const QString& qstrJson) = 0;
+    virtual QString getError() = 0;
+};
 
 class WebDwnldModel;
 
@@ -86,16 +97,17 @@ class AlbumInfoDownloaderDlgImpl : public QDialog, protected Ui::AlbumInfoDownlo
 protected:
     bool m_bSaveImageOnly;
 
-    // for Discogs: pages have 20 entries (except for the last page), but among the entries there are artists, which should be ignored;
-    // for MusicBrainz there's only 1 page;
-    int m_nTotalPages, m_nLastLoadedPage;
+    // Normally there are equally-sized pages, but we don't care about that, only how far we got in the list, which is
+    //   used to determine when to ask for the next entries and as a visual cue that there are more entries.
+    // For Discogs, among the entries there are artists, which should be ignored.
+    int m_nTotalEntryCnt;
+    int m_nLastLoadedEntry;
     std::vector<ImageInfo*> m_vpImages; // owns the pointers
 
     int m_nLoadingAlbum, m_nLoadingImage;
     ImageInfo::Compr m_eLoadingImageCompr;
 
-    // for Discogs: e.g. http://www.discogs.com/search?type=all&q=beatles&f=xml, without page number; to be used by loadNextPage();
-    // for MusicBrainz it's a fixed, full, query;
+    // Without page number; to be used by loadNextPage();
     std::string m_strQuery;
 
     int m_nCrtAlbum, m_nCrtImage;
@@ -118,8 +130,8 @@ protected:
     virtual void requestImage(int nAlbum, int nImage) = 0;
     virtual void reloadGui();
 
-    void onSearchLoaded(const QString& qstrXml);
-    void onAlbumLoaded(const QString& qstrXml);
+    void onSearchLoaded(const QString& qstrJson);
+    void onAlbumLoaded(const QString& qstrJson);
     void onImageLoaded(const QByteArray& comprImg, int nWidth, int nHeight, const QString& qstrInfo); // pPixmap may not be 0
 
     void retryNavigation();
@@ -130,14 +142,13 @@ protected:
 
     void addNote(const QString& qstrNote);
     void setImageType(const std::string& strName);
-    virtual QHttp* getWaitingHttp() = 0; // the one QHttp object waiting for a reply;
-    virtual void resetNavigation(); // clears pending HTTP requests, m_eNavigDir and m_eWaiting; restores the cursor if needed;
+    void resetNavigation(); // clears pending HTTP requests, m_eNavigDir and m_eWaiting; restores the cursor if needed;
 
     virtual WebAlbumInfoBase& album(int i) = 0;
     virtual int getAlbumCount() const = 0;
 
-    virtual QXmlDefaultHandler* getSearchXmlHandler() = 0;
-    virtual QXmlDefaultHandler* getAlbumXmlHandler(int nAlbum) = 0;
+    virtual JsonHandler* getSearchJsonHandler() = 0;
+    virtual JsonHandler* getAlbumJsonHandler(int nAlbum) = 0;
 
     void updateTrackList();
 
@@ -150,7 +161,8 @@ protected:
     SessionSettings& m_settings;
 
 protected:
-    QHttp* m_pQHttp;
+    QNetworkAccessManager m_networkAccessManager;
+    std::unordered_set<QNetworkReply*> m_spNetworkReplies;
 
     int m_nExpectedTracks;
 
@@ -191,7 +203,7 @@ protected slots:
     void on_m_pCancelB_clicked();
 
     //void onDone(bool bError);
-    void onRequestFinished(int nId, bool bError);
+    void onRequestFinished(QNetworkReply*);
 
     void onHelp();
 

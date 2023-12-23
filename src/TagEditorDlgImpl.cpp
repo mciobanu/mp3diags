@@ -1325,7 +1325,7 @@ void TagEditorDlgImpl::resizeIcons()
         p->setMaximumSize(w + 4, k);
         p->setMinimumSize(w + 4, k);
         p->setIconSize(QSize(w, h));
-        p->setEnabled(false);
+        //p->setEnabled(false);
     }
 }
 

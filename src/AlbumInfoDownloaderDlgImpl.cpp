@@ -32,7 +32,6 @@
 
 #include  "QHttp"
 #include  <QMessageBox>
-#include  <QXmlSimpleReader>
 #include  <QBuffer>
 #include  <QPainter>
 #include  <QScrollBar>
@@ -62,9 +61,7 @@ AlbumInfoDownloaderDlgImpl::AlbumInfoDownloaderDlgImpl(QWidget* pParent, Session
 {
     setupUi(this);
 
-    m_pQHttp = new QHttp (this);
-
-    connect(m_pQHttp, SIGNAL(requestFinished(int, bool)), this, SLOT(onRequestFinished(int, bool)));
+    connect(&m_networkAccessManager, &QNetworkAccessManager::finished, this, &AlbumInfoDownloaderDlgImpl::onRequestFinished);
 
     m_pTrackListG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
     m_pTrackListG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
@@ -142,14 +139,19 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::getInfo");
 
 
 // clears pending HTTP requests, m_eNavigDir and m_eWaiting; restores the cursor if needed;
-/*virtual*/ void AlbumInfoDownloaderDlgImpl::resetNavigation()
+void AlbumInfoDownloaderDlgImpl::resetNavigation()
 {
 LAST_STEP("AlbumInfoDownloaderDlgImpl::resetNavigation");
-    m_pQHttp->clearPendingRequests();
+    for (QNetworkReply* pReply : m_spNetworkReplies)
+    {
+        pReply->abort();
+        pReply->deleteLater();
+    }
+    m_spNetworkReplies.clear();
     setWaiting(NOTHING);
     m_eNavigDir = NONE;
 }
-
+//ttt9: See about thread synchronization
 
 
 string AlbumInfoDownloaderDlgImpl::replaceSymbols(string s) // replaces everything besides letters and digits with getReplacementChar()
@@ -186,8 +188,9 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::search");
     m_pImgSizeL->setText("\n");
     m_pViewAtAmazonL->setText(tr(NOT_FOUND_AT_AMAZON));
 
-    m_strQuery = escapeHttp(createQuery()); // e.g. http://www.discogs.com/search?type=all&q=beatles&f=xml&api_key=f51e9c8f6c, without page number; to be used by loadNextPage();
-    m_nTotalPages = 1; m_nLastLoadedPage = -1;
+    m_strQuery = createQuery(); // e.g. ws/2/release/?query=release:Help AND artist:Beatles&fmt=json, without page number, site, protocol; to be used by loadNextPage();
+    m_nTotalEntryCnt = 1; //!!! This is set to 1 so "next()" thinks there are additional entries
+    m_nLastLoadedEntry = -1;
     m_nCrtAlbum = -1; m_nCrtImage = -1;
     resetNavigation();
     //m_eNavigDir = NEXT;
@@ -377,7 +380,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::next");
         }
         else
         { // nothing left in m_vAlbums
-            if (m_nLastLoadedPage == m_nTotalPages - 1)
+            if (m_nLastLoadedEntry == m_nTotalEntryCnt - 1)
             { // !!! there's no "next" at all; just exit;
                 setWaiting(NOTHING);
             }
@@ -502,23 +505,28 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::setImageType");
 
 
 
-void AlbumInfoDownloaderDlgImpl::onRequestFinished(int /*nId*/, bool bError)
+void AlbumInfoDownloaderDlgImpl::onRequestFinished(QNetworkReply* pReply)
 {
 LAST_STEP("AlbumInfoDownloaderDlgImpl::onRequestFinished");
+    qDebug("%d, AlbumInfoDownloaderDlgImpl::onRequestFinished(%p)", __LINE__, pReply);
+
+    CB_ASSERT (m_spNetworkReplies.count(pReply) == 1); //ttt9: Probably delete after a while, or make sure it is really correct. (There could be an issue around aborting, but it's probably OK.)
+    pReply->deleteLater();
+    m_spNetworkReplies.erase(pReply);
 //cout << "received ID = " << nId << endl;
 //if (1 == nId) { return; } // some automatically generated request, which should be ignored
-    if (bError)
+    if (pReply->error() != QNetworkReply::NetworkError::NoError)
     {
-        addNote(tr("request error"));
+        const string& err = convStr(pReply->errorString());
+        addNote(tr("request error") + ": " + pReply->errorString());
         resetNavigation();
         return;
     }
 
-    QHttp* pQHttp (getWaitingHttp());
-
-    qint64 nAv (pQHttp->bytesAvailable());
+    qint64 nAv (pReply->bytesAvailable());
     if (0 == nAv)
     {
+        addNote("QQQ empty rsp");
         //addNote("received empty response");
         //cout << "empty request returned\n";
 
@@ -530,9 +538,9 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onRequestFinished");
 
     { QString qstrMsg (tr("received %1 bytes").arg(nAv)); addNote(qstrMsg); }
 
-    QString qstrXml;
+    QString qstrJson;
 
-    QByteArray b (pQHttp->readAll());
+    QByteArray b (pReply->readAll());
     CB_ASSERT (b.size() == nAv);
 
     if (nAv < 10)
@@ -633,7 +641,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onRequestFinished");
             int nUncomprSize (reinterpret_cast<char*>(strm.next_out) - &v[0]);
             v.resize(nUncomprSize + 1);
             v[nUncomprSize] = 0;
-            qstrXml = &v[0];
+            qstrJson = &v[0];
         }
 
     e2:
@@ -641,30 +649,32 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onRequestFinished");
     }
     else
     { // it's not gzip, so perhaps it is ASCII; //ttt2 check that it's ASCII
-        qstrXml = b;
+        qstrJson = b;
     }
 
-    if (qstrXml.isEmpty())
+    if (qstrJson.isEmpty())
     {
         addNote(tr("empty string received"));
     }
     else
     {
+        //addNote("QQQ rsp: " + qstrJson);
+        addNote(QString("QQQ got response of size %1").arg(qstrJson.size()));
         if (m_bSaveResults)
         {
-            QByteArray b1 (qstrXml.toUtf8());
-            saveDownloadedData(b1.constData(), b1.size(), "xml");
+            QByteArray b1 (qstrJson.toUtf8());
+            saveDownloadedData(b1.constData(), b1.size(), "json");
         }
     }
 
     switch (m_eWaiting)
     {
     case ALBUM:
-        onAlbumLoaded(qstrXml);
+        onAlbumLoaded(qstrJson);
         break;
 
     case SEARCH:
-        onSearchLoaded(qstrXml);
+        onSearchLoaded(qstrJson);
         break;
 
     default:
@@ -731,34 +741,27 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::retryNavigation");
 }
 
 
-void AlbumInfoDownloaderDlgImpl::onSearchLoaded(const QString& qstrXml)
+void AlbumInfoDownloaderDlgImpl::onSearchLoaded(const QString& qstrJson)
 {
 LAST_STEP("AlbumInfoDownloaderDlgImpl::onSearchLoaded");
     addNote(tr("search results received"));
-    QByteArray b (qstrXml.toLatin1());
-    QBuffer bfr (&b);
-    //SearchXmlHandler hndl (*this);
-    auto_ptr<QXmlDefaultHandler> pHndl (getSearchXmlHandler());
-    QXmlDefaultHandler& hndl (*pHndl);
-    QXmlSimpleReader rdr;
+    unique_ptr<JsonHandler> pHndl (getSearchJsonHandler());
 
-    rdr.setContentHandler(&hndl);
-    rdr.setErrorHandler(&hndl);
-    QXmlInputSource src (&bfr);
-    if (!rdr.parse(src))
+    if (!pHndl->handle(qstrJson))
     {
-        showCritical(this, tr("Error"), tr("Couldn't process the search result. (Usually this means that the server is busy, so trying later might work.)"));
+        showCritical(this, tr("Error"), tr("Couldn't process the search result. (Usually this means that the server is busy, so trying later might work.)")); //ttt9: use error from handler
         if (0 == getAlbumCount())
         {
-            m_nTotalPages = 0;
-            m_nLastLoadedPage = -1;
+            m_nTotalEntryCnt = 0;
+            m_nLastLoadedEntry = -1;
         }
         resetNavigation();
         return;
     }
 
-    if (0 == getAlbumCount() && m_nLastLoadedPage == m_nTotalPages - 1)
+    if (0 == getAlbumCount() && m_nLastLoadedEntry == m_nTotalEntryCnt - 1)
     {
+        // With Discogs, it is possible to have 0 albums so far but more to load, if all entries until now were artists
         showCritical(this, tr("Error"), tr("No results found"));
     }
 
@@ -766,24 +769,15 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onSearchLoaded");
 }
 
 
-void AlbumInfoDownloaderDlgImpl::onAlbumLoaded(const QString& qstrXml)
+void AlbumInfoDownloaderDlgImpl::onAlbumLoaded(const QString& qstrJson)
 {
 LAST_STEP("AlbumInfoDownloaderDlgImpl::onAlbumLoaded");
     addNote(tr("album info received"));
-    QByteArray b (qstrXml.toLatin1());
-    QBuffer bfr (&b);
-    //AlbumXmlHandler hndl (album(m_nLoadingAlbum));
-    auto_ptr<QXmlDefaultHandler> pHndl (getAlbumXmlHandler(m_nLoadingAlbum));
-    QXmlDefaultHandler& hndl (*pHndl);
-    QXmlSimpleReader rdr;
-
-    rdr.setContentHandler(&hndl);
-    rdr.setErrorHandler(&hndl);
-    QXmlInputSource src (&bfr);
-    if (!rdr.parse(src))
+    unique_ptr<JsonHandler> pHndl (getAlbumJsonHandler(m_nLoadingAlbum));
+    if (!pHndl->handle(qstrJson))
     {
         //CB_ASSERT (false);
-        showCritical(this, tr("Error"), tr("Couldn't process the album information. (Usually this means that the server is busy, so trying later might work.)"));
+        showCritical(this, tr("Error"), tr("Couldn't process the album information. (Usually this means that the server is busy, so trying later might work.)")); //ttt9: use error from handler
         /*if (0 == getAlbumCount())
         {
             m_nTotalPages = 0;
@@ -899,7 +893,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::reloadGui");
     }
 
 
-    QString q1 (m_nTotalPages == m_nLastLoadedPage + 1 ? "" : "+");
+    QString q1 (m_nTotalEntryCnt == m_nLastLoadedEntry + 1 ? "" : "+");
     QString s (tr("Album %1/%2%3, image %4/%5").arg(m_nCrtAlbum + 1).arg(getAlbumCount()).arg(q1).arg(m_nCrtImage + 1).arg(albumInfo.m_vpImages.size()));
     m_pResultNoL->setText(s);
 

@@ -30,6 +30,11 @@
 #endif
 
 #include  <QDateTime>
+#include  <QJsonParseError>
+#include  <QJsonDocument>
+#include  <QJsonArray>
+#include  <QJsonObject>
+#include  <QJsonValue>
 
 #include  "MusicBrainzDownloader.h"
 
@@ -56,6 +61,7 @@ namespace MusicBrainz
 */
 struct SearchXmlHandler : public SimpleSaxHandler<SearchXmlHandler>
 {
+#if 0
     SearchXmlHandler(MusicBrainzDownloader& dlg) : SimpleSaxHandler<SearchXmlHandler>("metadata"), m_dlg(dlg)
     {
         Node& meta (getRoot()); meta.onStart = &SearchXmlHandler::onMetaStart;
@@ -82,8 +88,64 @@ private:
     {
         m_dlg.m_vAlbums.back().m_nTrackCount = attrs.value("count").toInt();
     }
+#endif
 };
 
+
+class SearchJsonHandler : public JsonHandler
+{
+    MusicBrainzDownloader& m_dlg;
+    QString m_qstrError;
+public:
+    explicit SearchJsonHandler(MusicBrainzDownloader& dlg) : m_dlg(dlg) {}
+
+    bool handle(const QString& qstrJson) override
+    {
+        m_qstrError.clear();
+
+        QByteArray arr = qstrJson.toUtf8();
+
+        QJsonParseError parseError {};
+        QJsonObject jsonObj;
+        try
+        {
+            QJsonDocument jsonDoc;
+            jsonDoc = QJsonDocument::fromJson(arr, &parseError);
+            jsonObj = jsonDoc.object();
+        }
+        catch (const exception& ex)
+        {
+            m_qstrError = MusicBrainzDownloader::tr("JSON parse error: %1").arg(ex.what()); //ttt9: cause error to test this
+            return false;
+        }
+
+        try
+        {
+            const QJsonArray& relArr = jsonObj.value("releases").toArray(); //!!!: If no entry is found, we get an empty array, which is fine
+            for (const auto& rel : relArr)
+            {
+                m_dlg.m_vAlbums.emplace_back();
+                const QJsonObject& relObj = rel.toObject();
+                m_dlg.m_vAlbums.back().m_strId = convStr(relObj.value("id").toString());
+                m_dlg.m_vAlbums.back().m_nTrackCount = relObj.value("track-count").toInt();
+            }
+            m_dlg.m_nTotalEntryCnt = jsonObj.value("count").toInt();
+            m_dlg.m_nLastLoadedEntry = jsonObj.value("offset").toInt() + relArr.size() - 1;
+        }
+        catch (const exception& ex)
+        {
+            m_qstrError = MusicBrainzDownloader::tr("JSON expected field not found: %1").arg(ex.what()); //ttt9: cause error to test this
+            return false;
+        }
+
+        return true;
+    }
+
+    QString getError() override
+    {
+        return m_qstrError;
+    }
+};
 
 /*
     metadata
@@ -104,6 +166,7 @@ private:
 */
 struct AlbumXmlHandler : public SimpleSaxHandler<AlbumXmlHandler>
 {
+#if 0
     AlbumXmlHandler(MusicBrainzAlbumInfo& albumInfo) : SimpleSaxHandler<AlbumXmlHandler>("metadata"), m_albumInfo(albumInfo), m_bTargetIsUrl(false)
     {
         Node& meta (getRoot()); meta.onEnd = &AlbumXmlHandler::onMetaEnd;
@@ -130,12 +193,12 @@ private:
     bool m_bTargetIsUrl;
 
     void onRelStart(const QXmlAttributes& attrs)
-    {
+    {//copied
         CB_ASSERT (m_albumInfo.m_strId == convStr(attrs.value("id")));
     }
 
     void onAlbEventStart(const QXmlAttributes& attrs)
-    {
+    {//copied
         string strDate (convStr(attrs.value("date")));
         if (!strDate.empty())
         {
@@ -150,7 +213,7 @@ private:
     }
 
     void onTrackStart(const QXmlAttributes&)
-    {
+    {// not needed
         m_albumInfo.m_vTracks.push_back(TrackInfo());
         char a [10];
         sprintf(a, "%d", cSize(m_albumInfo.m_vTracks));
@@ -163,7 +226,7 @@ private:
     }
 
     void onRelationStart(const QXmlAttributes& attrs)
-    {
+    {// copied
         if (m_bTargetIsUrl)
         {
             QString qstrType (attrs.value("type"));
@@ -188,7 +251,7 @@ private:
 
 
     void onMetaEnd()
-    {
+    {// copied
         m_albumInfo.m_vpImages.resize(m_albumInfo.m_vstrImageNames.size());
         m_albumInfo.m_vstrImageInfo.resize(m_albumInfo.m_vstrImageNames.size());
         if (m_albumInfo.m_strAmazonLink.empty() && !m_albumInfo.m_strAsin.empty())
@@ -204,18 +267,18 @@ private:
     }
 
     void onAlbTitleChar(const string& s)
-    {
+    {// copied
         m_albumInfo.m_strTitle = s;
     }
 
     void onAsinChar(const string& s)
-    {
+    {// copied
         m_albumInfo.m_strAsin = s;
         m_albumInfo.m_vstrImageNames.push_back("https://images.amazon.com/images/P/" + s + ".01.LZZZZZZZ.jpg"); // ttt2 "01" is country code for US, perhaps try others //ttt2 perhaps check for duplicates
     }
 
     void onAlbArtistNameChar(const string& s)
-    {
+    {// copied
         if (0 == convStr(s).compare("VaRiOuS Artists", Qt::CaseInsensitive))
         {
             m_albumInfo.m_eVarArtists = AlbumInfo::VA_VARIOUS;
@@ -227,16 +290,212 @@ private:
     }
 
     void onTrackTitleChar(const string& s)
-    {
+    {// copied
         m_albumInfo.m_vTracks.back().m_strTitle = s;
     }
 
     void onTrackArtistName(const string& s)
-    {
+    {// copied
         m_albumInfo.m_vTracks.back().m_strArtist = s;
     }
+#endif
 };
 
+
+// A pretty inclusive URL, with 7 areas of information: http://musicbrainz.org/ws/2/release/b4da1c5b-8d99-3289-b919-cb62fe412eff?fmt=json&inc=artist-credits+recordings+labels+recording-level-rels+work-rels+work-level-rels+artist-rels
+//      - artist-credits
+//      - recordings
+//      - labels
+//      - recording-level-rels
+//      - work-rels
+//      - work-level-rels
+//      - artist-rels
+//
+// According to https://musicbrainz.org/doc/MusicBrainz_API, the additional info you can request for
+//      an /ws/2/release consists of:
+//      - artists
+//      - collections
+//      - labels
+//      - recordings
+//      - release-groups
+//
+// The only overlap is "labels", so these either mean something else, or they are obsolete, or there is
+//      some mapping from the latter to the former
+//
+// Anyway, further down https://musicbrainz.org/doc/MusicBrainz_API talks about url-rels and other relationships, so the relevant information is there
+
+// https://musicbrainz.org/doc/MusicBrainz_Database/Schema
+// https://musicbrainz.org/doc/MusicBrainz_API
+// https://musicbrainz.org/doc/Style/Relationships/URLs
+// https://musicbrainz.org/doc/XML_Web_Service/Rate_Limiting
+// https://musicbrainz.org/relationship/4f2e710d-166c-480c-a293-2e2c8d658d87
+
+// http://musicbrainz.org/ws/2/release/b4da1c5b-8d99-3289-b919-cb62fe412eff?fmt=json&inc=artist-credits+recordings+url-rels
+
+
+class AlbumJsonHandler : public JsonHandler
+{
+    MusicBrainzAlbumInfo& m_albumInfo;
+    bool m_bTargetIsUrl;
+    QString m_qstrError;
+public:
+    explicit AlbumJsonHandler(MusicBrainzAlbumInfo& albumInfo) : m_albumInfo(albumInfo), m_bTargetIsUrl(false) {}
+
+    bool handle(const QString& qstrJson) override
+    {
+        m_qstrError.clear();
+
+        QByteArray arr = qstrJson.toUtf8();
+
+        QJsonParseError parseError {};
+        QJsonObject jsonObj;
+        try
+        {
+            QJsonDocument jsonDoc;
+            jsonDoc = QJsonDocument::fromJson(arr, &parseError);
+            jsonObj = jsonDoc.object();
+        }
+        catch (const exception& ex)
+        {
+            m_qstrError = MusicBrainzDownloader::tr("JSON parse error: %1").arg(ex.what()); //ttt9: cause error to test this
+            return false;
+        }
+
+        try
+        {
+            const string& id = convStr(jsonObj.value("id").toString());
+            CB_ASSERT (m_albumInfo.m_strId == id);
+
+            {
+                const QString& qstrAsin = jsonObj.value("asin").toString();
+                if (!qstrAsin.isNull()) {
+                    m_albumInfo.m_strAsin = convStr(qstrAsin);
+                    m_albumInfo.m_vstrImageNames.push_back(
+                            "https://images.amazon.com/images/P/" + m_albumInfo.m_strAsin +
+                            ".01.LZZZZZZZ.jpg"); // ttt2 "01" is country code for US, perhaps try others //ttt2 perhaps check for duplicates
+                }
+            }
+
+            {
+                const QString& qstrTitle = jsonObj.value("title").toString();
+                if (!qstrTitle.isNull()) {
+                    m_albumInfo.m_strTitle = convStr(qstrTitle);
+                }
+            }
+
+            {
+                const QJsonArray& artistsArr = jsonObj.value("artist-credit").toArray();
+                artistsArr.size();
+                if (!artistsArr.empty()) {
+                    const QString& s = artistsArr[0].toObject().value("artist").toObject().value(
+                            "name").toString(); //ttt9: Review [0] here and elsewhere, where we just look at the first entry
+                    if (0 == s.compare("VaRiOuS Artists", Qt::CaseInsensitive)) {
+                        m_albumInfo.m_eVarArtists = AlbumInfo::VA_VARIOUS;  //ttt9: test this
+                    } else {
+                        m_albumInfo.m_strArtist = convStr(s);
+                    }
+                }
+            }
+
+            {
+                const QJsonArray& releasesArr = jsonObj.value("release-events").toArray();
+                for (const auto& rel: releasesArr) {
+                    const string& strDate = convStr(rel.toObject().value("date").toString());
+                    if (!strDate.empty()) {
+                        m_albumInfo.m_strReleased = m_albumInfo.m_strReleased.empty() ? strDate : min(
+                                m_albumInfo.m_strReleased, strDate);
+                    }
+                }
+            }
+
+            {
+                const QJsonArray& mediaArr = jsonObj.value("media").toArray();
+                for (const auto& media: mediaArr) {
+                    const QJsonObject& mediaObj = media.toObject();
+                    const string& strFormat = convStr(mediaObj.value("format").toString());
+                    if (!strFormat.empty() && string::npos == m_albumInfo.m_strFormat.find(strFormat)) {
+                        addIfMissing(m_albumInfo.m_strFormat, strFormat);
+                    }
+
+                    // What we do here is add all tracks from a volume to an album, which isn't quite right, but not
+                    // sure how this worked in the past. //ttt9 Check git log; this was handled for Discogs. Also, AlbumInfoDownloaderDlgImpl
+                    // treats the subject. (Looks like the old interface didn't have multi-volume)
+                    const QJsonArray& trackArr = mediaObj.value("tracks").toArray();
+                    for (const auto& track: trackArr) {
+                        TrackInfo inf;
+                        const QJsonObject& trackObj = track.toObject();
+                        inf.m_strTitle = convStr(trackObj.value("title").toString());
+                        inf.m_strPos = convStr(trackObj.value(
+                                "number").toString());  //ttt9: There's also "position". TBD if any is optional / which to use
+                        const QJsonArray& artistCreditsArr = trackObj.value("artist-credit").toArray();
+                        if (!artistCreditsArr.empty()) {
+                            inf.m_strArtist = convStr(artistCreditsArr[0].toObject().value("name").toString());
+                        }
+
+                        m_albumInfo.m_vTracks.emplace_back(inf);
+                    }
+                }
+            }
+
+            {
+                const QJsonArray& relationsArr = jsonObj.value("relations").toArray();
+                for (const auto& rel: relationsArr) {
+
+                    const QJsonObject& relObj = rel.toObject();
+                    const string& tgtType = convStr(relObj.value("target-type").toString());
+                    if (tgtType == "url")
+                    {
+                        const string& type = convStr(relObj.value("type").toString());
+                        const string& url = convStr(relObj.value("url").toObject().value("resource").toString());
+                        if (type == "amazon asin")
+                        {
+                            m_albumInfo.m_strAmazonLink = url;
+                        }
+                        else if (type == "cover art link") //ttt9: This is a guess based on how other fields changed from v1. Needs validation
+                        {
+                            if (beginsWith(url, "https://") || beginsWith(url, "http://"))
+                            {
+                                m_albumInfo.m_vstrImageNames.push_back(url);
+                            }
+                            else
+                            { //ttt2 perhaps tell the user
+                                qDebug("Unsupported image link: %s", url.c_str());
+                            }
+                        }
+                    }
+                }
+            }
+
+            {
+                m_albumInfo.m_vpImages.resize(m_albumInfo.m_vstrImageNames.size());
+                m_albumInfo.m_vstrImageInfo.resize(m_albumInfo.m_vstrImageNames.size());
+                if (m_albumInfo.m_strAmazonLink.empty() && !m_albumInfo.m_strAsin.empty())
+                {
+                    m_albumInfo.m_strAmazonLink = "https://www.amazon.com/gp/product/" + m_albumInfo.m_strAsin; //ttt9: Not always right. Not all ASINs are US. OTOH if the dedicated link is filled in, we don't get here
+                }
+            }
+
+            // Add artist info to each track, to the extent that it doesn't already have the album's artists
+            for (int i = 0, n = cSize(m_albumInfo.m_vTracks); i < n; ++i)
+            {
+                TrackInfo& t (m_albumInfo.m_vTracks[i]);
+                addList(t.m_strArtist, m_albumInfo.m_strArtist);
+            }
+        }
+        catch (const exception& ex)
+        {
+            m_qstrError = MusicBrainzDownloader::tr("JSON expected field not found: %1").arg(ex.what()); //ttt9: cause error to test this
+            return false;
+        }
+
+        return true;
+    }
+
+    QString getError() override
+    {
+        return m_qstrError;
+    }
+};
 
 /*override*/ void MusicBrainzAlbumInfo::copyTo(AlbumInfo& dest)
 {
@@ -255,10 +514,11 @@ private:
     //dest.m_imageInfo; // !!! not set
 }
 
+const char* HOST = "musicbrainz.org";
 
 } // namespace MusicBrainz
 
-
+//ttt9: See why MusicBrainzDownloader gets its own icon in task manager
 
 //=============================================================================================================================
 //=============================================================================================================================
@@ -294,13 +554,8 @@ MusicBrainzDownloader::MusicBrainzDownloader(QWidget* pParent, SessionSettings& 
 
     m_pImgSizeL->setMinimumHeight(m_pImgSizeL->height()*2);
 
-    m_pQHttp->setHost("musicbrainz.org");
-    m_pImageQHttp = new QHttp (this);
-
     m_pModel = new WebDwnldModel(*this, *m_pTrackListG); // !!! in a way these would make sense to be in the base constructor, but that would cause calls to pure virtual methods
     m_pTrackListG->setModel(m_pModel); //ttt9 Make sure to call decreaseRowHeaderFont() and setHeaderColor(). Same for Discogs
-
-    connect(m_pImageQHttp, SIGNAL(requestFinished(int, bool)), this, SLOT(onRequestFinished(int, bool)));
 
     connect(m_pSearchB, SIGNAL(clicked()), this, SLOT(on_m_pSearchB_clicked()));
 
@@ -310,7 +565,7 @@ MusicBrainzDownloader::MusicBrainzDownloader(QWidget* pParent, SessionSettings& 
 
 MusicBrainzDownloader::~MusicBrainzDownloader()
 {
-    resetNavigationImpl();
+    resetNavigation();
     clear();
 }
 
@@ -338,11 +593,16 @@ LAST_STEP("MusicBrainzDownloader::initSearch");
 /*override*/ std::string MusicBrainzDownloader::createQuery()
 {
 LAST_STEP("MusicBrainzDownloader::createQuery");
-    string s ("/ws/1/release/?type=xml&artist=" + replaceSymbols(convStr(m_pSrchArtistE->text())) + "&title=" + replaceSymbols(convStr(m_pSrchAlbumE->text())));
+    string s ("/ws/2/release/?query=artist:" + replaceSymbols(convStr(m_pSrchArtistE->text())) + " AND release=" + replaceSymbols(convStr(m_pSrchAlbumE->text()))); //ttt9: See if these are allowed to be empty and change as needed
+    // https://musicbrainz.org/ws/1/release/?type=xml&artist=Keane&title=Hopes%20and%20Fears
+    // https://musicbrainz.org/ws/2/release/?query=release:Hopes%20and%20fears%20AND%20artist:Keane
+    // https://musicbrainz.org/ws/2/release/?query=release:Hopes%20and%20fears%20AND%20artist:Keane&fmt=json
+    // https://musicbrainz.org/ws/2/release/?query=release:Follow%20Your%20Own%20Heart%20AND%20artist:Maria%20Sangiolo&fmt=json&limit=3
+
     //qDebug("qry: %s", s.c_str());
     if (m_pMatchCountCkB->isChecked())
     {
-        s += convStr(QString("&count=%1").arg(m_nExpectedTracks));
+        s += convStr(QString("&count=%1").arg(m_nExpectedTracks)); //ttt9: This very likely no longer works
     }
     /*for (string::size_type i = 0; i < s.size(); ++i)
     {
@@ -360,7 +620,7 @@ void MusicBrainzDownloader::delay()
 {
     long long t (getTime());
     long long nDiff (t - m_nLastReqTime);
-    //qDebug("crt: %lld, prev: %lld, diff: %lld", t, m_nLastReqTime, t - m_nLastReqTime);
+    //qDebug("crt: %lld, prev: %lld, diff: %lld", t, m_nLastReqTime, nDiff);
     if (nDiff < 1000)
     {
         if (nDiff < 0) { nDiff = 0; }
@@ -379,7 +639,12 @@ void MusicBrainzDownloader::delay()
 #else
         Sleep(nWait + 100);
 #endif
+        addNote(tr("QQQ done waiting %1ms").arg(nWait + 100));
         //qDebug("waiting %d", nWait);
+    }
+    else
+    {
+        addNote(tr("QQQ won't wait: crt: %1, prev: %2, diff: %3").arg(t).arg(m_nLastReqTime).arg(nDiff));
     }
 
     m_nLastReqTime = t;
@@ -426,15 +691,29 @@ LAST_STEP("MusicBrainzDownloader::on_m_pSearchB_clicked");
 //==========================================================================================================================
 //==========================================================================================================================
 
+namespace
+{
+
+void setUserAgent(QNetworkRequest& request)
+{
+    request.setRawHeader("User-Agent", "Mp3Diags/1.5 ( https://mp3diags.sourceforge.net/ )");
+    //header.setValue("User-Agent", "Firefox 52");
+}
+
+QString buildUrl(const string& strPathAndQuery)
+{
+    return QString("http://") + HOST + convStr(strPathAndQuery); // no good reason to use https
+}
+}
+
+
 
 void MusicBrainzDownloader::loadNextPage()
 {
 LAST_STEP("MusicBrainzDownloader::loadNextPage");
-    CB_ASSERT (!m_pQHttp->hasPendingRequests());
-    CB_ASSERT (!m_pImageQHttp->hasPendingRequests());
+    CB_ASSERT (m_spNetworkReplies.empty()); //ttt9: Review if this is really correct
 
-    ++m_nLastLoadedPage;
-    CB_ASSERT (m_nLastLoadedPage <= m_nTotalPages - 1);
+    CB_ASSERT (m_nLastLoadedEntry < m_nTotalEntryCnt - 1);
 
     //m_eState = NEXT;
     setWaiting(SEARCH);
@@ -442,15 +721,24 @@ LAST_STEP("MusicBrainzDownloader::loadNextPage");
     //sprintf(a, "&page=%d", m_nLastLoadedPage + 1);
     //string s (m_strQuery + a);
 
-    QHttpRequestHeader header ("GET", convStr(m_strQuery));
-    //header.setValue("Host", "www.musicbrainz.org");
-    header.setValue("Host", "musicbrainz.org");
     //header.setValue("Accept-Encoding", "gzip");
+    //ttt9: Make sure compression is accepted
+    const int LIMIT = 20;
+    QUrl url (buildUrl(m_strQuery) + QString("&fmt=json&limit=%1&offset=%2").arg(LIMIT).arg(m_nLastLoadedEntry + 1));
+
+    QNetworkRequest req (url);
+    setUserAgent(req);
+
     delay();
     //qDebug("--------------\npath %s", header.path().toUtf8().constData());
     //qDebug("qry %s", m_strQuery.c_str());
-    m_pQHttp->request(header);
+
+    QNetworkReply* pReply = m_networkAccessManager.get(req);
+    m_spNetworkReplies.insert(pReply);
+    qDebug("%d, MusicBrainzDownloader::loadNextPage: added request %p", __LINE__, pReply);
+
     //cout << "sent search " << m_pQHttp->request(header) << " for page " << (m_nLastLoadedPage + 1) << endl;
+    addNote("QQQ req " + url.toString()); //ttt9: Comment out QQQ addNote()
 }
 
 
@@ -524,21 +812,26 @@ void MusicBrainzDownloader::requestAlbum(int nAlbum)
 {
 LAST_STEP("MusicBrainzDownloader::requestAlbum");
     //CB_ASSERT (!m_pQHttp->hasPendingRequests() && !m_pImageQHttp->hasPendingRequests());  // ttt1 triggered: https://sourceforge.net/p/mp3diags/tickets/36/ ?? perhaps might happen when MB returns errors ; see also DiscogsDownloader::requestAlbum
-    CB_ASSERT (!m_pQHttp->hasPendingRequests());
-    CB_ASSERT (!m_pImageQHttp->hasPendingRequests());
+    CB_ASSERT (m_spNetworkReplies.empty());
 
     m_nLoadingAlbum = nAlbum;
     setWaiting(ALBUM);
     //string s ("/release/" + m_vAlbums[nAlbum].m_strId + "?f=xml&api_key=f51e9c8f6c");
-    string s ("/ws/1/release/" + m_vAlbums[nAlbum].m_strId + "?type=xml&inc=tracks+artist+release-events+url-rels");
+    string s ("/ws/2/release/" + m_vAlbums[nAlbum].m_strId + "?fmt=json&inc=artist-credits+recordings+url-rels");
 
-    QHttpRequestHeader header ("GET", convStr(s));
-    header.setValue("Host", "musicbrainz.org");
+    QUrl url (buildUrl(s));
+    QNetworkRequest req (url);
+    setUserAgent(req);
     //header.setValue("Accept-Encoding", "gzip");
+    //ttt9: Make sure compression is accepted
+
     delay();
-    m_pQHttp->request(header);
+    QNetworkReply* pReply = m_networkAccessManager.get(req);
+    m_spNetworkReplies.insert(pReply);
+    qDebug("%d, MusicBrainzDownloader::requestAlbum: added request %p", __LINE__, pReply);
     //cout << "sent album " << m_vAlbums[nAlbum].m_strId << " - " << m_pQHttp->request(header) << endl;
     addNote(AlbumInfoDownloaderDlgImpl::tr("getting album info ..."));
+    addNote("QQQ req " + convStr(s));
 }
 
 
@@ -546,8 +839,7 @@ LAST_STEP("MusicBrainzDownloader::requestAlbum");
 void MusicBrainzDownloader::requestImage(int nAlbum, int nImage)
 {
 LAST_STEP("MusicBrainzDownloader::requestImage");
-    CB_ASSERT (!m_pQHttp->hasPendingRequests());
-    CB_ASSERT (!m_pImageQHttp->hasPendingRequests());
+    CB_ASSERT (m_spNetworkReplies.empty());
 
     m_nLoadingAlbum = nAlbum;
     m_nLoadingImage = nImage;
@@ -556,35 +848,28 @@ LAST_STEP("MusicBrainzDownloader::requestImage");
     setImageType(strUrl);
 
     QUrl url (convStr(strUrl));
-    m_pImageQHttp->setHost(url.host());
+    QNetworkRequest req (url);
+    //setUserAgent(req);
+    //req.setRawHeader("User-Agent", "Mp3Diags/1.5 ( https://mp3diags.sourceforge.net/ )");
+    req.setRawHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0"); //ttt9: review
 
     delay(); // probably not needed, because doesn't seem that MusicBrainz would want to store images
     //connect(m_pImageQHttp, SIGNAL(requestFinished(int, bool)), this, SLOT(onRequestFinished(int, bool)));
     //qDebug("host: %s, path: %s", url.host().toLatin1().constData(), url.path().toLatin1().constData());
     //qDebug("%s", strUrl.c_str());
-    m_pImageQHttp->get(url.path());
+    QNetworkReply* pReply = m_networkAccessManager.get(req);
+    m_spNetworkReplies.insert(pReply);
+    qDebug("%d, MusicBrainzDownloader::requestImage: added request %p", __LINE__, pReply);
 
     addNote(AlbumInfoDownloaderDlgImpl::tr("getting image ..."));
+    addNote("getting image " + convStr(strUrl));
+    //ttt9: Send an invalid URL, after it fails track info isn't shown
 }
 
 
 //==========================================================================================================================
 //==========================================================================================================================
 //==========================================================================================================================
-
-
-/*override*/ QHttp* MusicBrainzDownloader::getWaitingHttp()
-{
-LAST_STEP("MusicBrainzDownloader::getWaitingHttp");
-    return IMAGE == m_eWaiting ? m_pImageQHttp : m_pQHttp;
-}
-
-/*override*/ void MusicBrainzDownloader::resetNavigation()
-{
-LAST_STEP("MusicBrainzDownloader::resetNavigation");
-    m_pImageQHttp->clearPendingRequests();
-    AlbumInfoDownloaderDlgImpl::resetNavigation();
-}
 
 
 /*override*/ WebAlbumInfoBase& MusicBrainzDownloader::album(int i)
@@ -598,15 +883,14 @@ LAST_STEP("MusicBrainzDownloader::resetNavigation");
 }
 
 
-/*override*/ QXmlDefaultHandler* MusicBrainzDownloader::getSearchXmlHandler()
+/*override*/ JsonHandler* MusicBrainzDownloader::getSearchJsonHandler()
 {
-    return new SearchXmlHandler(*this);
+    return new SearchJsonHandler(*this);
 }
 
-/*override*/ QXmlDefaultHandler* MusicBrainzDownloader::getAlbumXmlHandler(int nAlbum)
+/*override*/ JsonHandler* MusicBrainzDownloader::getAlbumJsonHandler(int nAlbum)
 {
-    //return new AlbumXmlHandler(m_vAlbums.at(nAlbum));
-    return new AlbumXmlHandler(m_vAlbums.at(nAlbum));
+    return new AlbumJsonHandler(m_vAlbums.at(nAlbum));
 }
 
 

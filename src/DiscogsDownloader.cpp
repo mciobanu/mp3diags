@@ -76,7 +76,7 @@ ostream& operator<<(ostream& out, const DiscogsAlbumInfo& inf)
 }
 
 
-
+#if 1
 namespace Discogs
 {
 
@@ -91,6 +91,7 @@ namespace Discogs
 */
 struct SearchXmlHandler : public SimpleSaxHandler<SearchXmlHandler>
 {
+#if 0
     SearchXmlHandler(DiscogsDownloader& dlg) : SimpleSaxHandler<SearchXmlHandler>("resp"), m_dlg(dlg), m_bIsRelease(false)
     {
         Node& resp (getRoot());
@@ -147,9 +148,21 @@ private:
             //cout << s << endl;
         }
     }
+#endif
 };
 
+struct SearchJsonHandler : public JsonHandler
+{
+    bool handle(const QString& qstrJson) override
+    {
+        return false;
+    }
 
+    QString getError() override
+    {
+        return "ttt9";
+    }
+};
 
 
 /*
@@ -188,6 +201,7 @@ private:
 */
 struct AlbumXmlHandler : public SimpleSaxHandler<AlbumXmlHandler>
 {
+#if 0
     AlbumXmlHandler(DiscogsAlbumInfo& albumInfo) : SimpleSaxHandler<AlbumXmlHandler>("resp"), m_albumInfo(albumInfo)
     {
         Node& resp (getRoot()); resp.onEnd = &AlbumXmlHandler::onRespEnd;
@@ -469,8 +483,21 @@ private:
     {
         m_albumInfo.m_vTracks.back().m_strTitle = s;
     }
+#endif
 };
 
+struct AlbumJsonHandler : public JsonHandler
+{
+    bool handle(const QString& qstrJson) override
+    {
+        return false;
+    }
+
+    QString getError() override
+    {
+        return "ttt9";
+    }
+};
 
 /*override*/ void DiscogsAlbumInfo::copyTo(AlbumInfo& dest)
 {
@@ -509,7 +536,7 @@ std::string DiscogsAlbumInfo::getGenre() const // combination of m_strGenre and 
 }
 
 }; // namespace Discogs
-
+#endif
 
 //=============================================================================================================================
 //=============================================================================================================================
@@ -555,7 +582,7 @@ DiscogsDownloader::DiscogsDownloader(QWidget* pParent, SessionSettings& settings
         m_pStyleCbB->setCurrentIndex(nStyleOption);
     }
 
-    m_pQHttp->setHost("api.discogs.com");
+    //ttt8 m_pQHttp->setHost("api.discogs.com");
 
     m_pModel = new WebDwnldModel(*this, *m_pTrackListG); // !!! in a way these would make sense to be in the base constructor, but that would cause calls to pure virtual methods
     m_pTrackListG->setModel(m_pModel);
@@ -567,7 +594,7 @@ DiscogsDownloader::DiscogsDownloader(QWidget* pParent, SessionSettings& settings
 
 DiscogsDownloader::~DiscogsDownloader()
 {
-    resetNavigation(); // !!! not in base class, because it calls virtual method resetNavigation()
+    resetNavigation();
     clear();
 }
 
@@ -629,8 +656,9 @@ LAST_STEP("DiscogsDownloader::on_m_pSearchB_clicked");
 
 void DiscogsDownloader::loadNextPage()
 {
+#if 0
 LAST_STEP("DiscogsDownloader::loadNextPage");
-    CB_ASSERT (!m_pQHttp->hasPendingRequests()); //ttt0 2010/05/08 - reported again in 0.99.05.033 for Ubuntu 9.10
+    //ttt8 CB_ASSERT (!m_pQHttp->hasPendingRequests()); //ttt0 2010/05/08 - reported again in 0.99.05.033 for Ubuntu 9.10
     ++m_nLastLoadedPage;
     CB_ASSERT (m_nLastLoadedPage <= m_nTotalPages - 1);
 
@@ -647,8 +675,9 @@ LAST_STEP("DiscogsDownloader::loadNextPage");
     //header.setValue("User-Agent" , "Mozilla Firefox");
     header.setValue("User-Agent" , "Mp3Diags");
 
-    m_pQHttp->request(header);
+    //ttt8 m_pQHttp->request(header);
     //cout << "sent search " << m_pQHttp->request(header) << " for page " << (m_nLastLoadedPage + 1) << endl;
+#endif
 }
 
 /*
@@ -690,7 +719,7 @@ LAST_STEP("DiscogsDownloader::reloadGui");
 void DiscogsDownloader::requestAlbum(int nAlbum)
 {
 LAST_STEP("DiscogsDownloader::requestAlbum");
-    CB_ASSERT (!m_pQHttp->hasPendingRequests()); //ttt1 triggered according to mail (Nov 2, 2009, 2:31 PM - Qt 4.5.2; there is something in the 4.5.3 change log at http://qt.nokia.com/developer/changes/changes-4.5.3 about duplicate HTTP requests, but according to http://www.qtcentre.org/forum/f-qt-programming-2/t-qhttp-response-content-25255-post121265.html it only affected QNetworkAccessManager, which is a replacement for QHttp, so this is probably not related)
+    //ttt8 CB_ASSERT (!m_pQHttp->hasPendingRequests()); //ttt1 triggered according to mail (Nov 2, 2009, 2:31 PM - Qt 4.5.2; there is something in the 4.5.3 change log at http://qt.nokia.com/developer/changes/changes-4.5.3 about duplicate HTTP requests, but according to http://www.qtcentre.org/forum/f-qt-programming-2/t-qhttp-response-content-25255-post121265.html it only affected QNetworkAccessManager, which is a replacement for QHttp, so this is probably not related)
 
     m_nLoadingAlbum = nAlbum;
     setWaiting(ALBUM);
@@ -700,7 +729,7 @@ LAST_STEP("DiscogsDownloader::requestAlbum");
     header.setValue("Host", "api.discogs.com");
     header.setValue("Accept-Encoding", "gzip");
     header.setValue("User-Agent" , "Mp3Diags");
-    m_pQHttp->request(header);
+    //ttt8 m_pQHttp->request(header);
     //cout << "sent album " << m_vAlbums[nAlbum].m_strId << " - " << m_pQHttp->request(header) << endl;
     addNote(AlbumInfoDownloaderDlgImpl::tr("getting album info ..."));
 }
@@ -709,7 +738,7 @@ LAST_STEP("DiscogsDownloader::requestAlbum");
 void DiscogsDownloader::requestImage(int nAlbum, int nImage)
 {
 LAST_STEP("DiscogsDownloader::requestImage");
-    CB_ASSERT (!m_pQHttp->hasPendingRequests());
+    //ttt8 CB_ASSERT (!m_pQHttp->hasPendingRequests());
     m_nLoadingAlbum = nAlbum;
     m_nLoadingImage = nImage;
     setWaiting(IMAGE);
@@ -723,7 +752,7 @@ LAST_STEP("DiscogsDownloader::requestImage");
     header.setValue("Host", "api.discogs.com");
     //header.setValue("Accept-Encoding", "gzip");
     header.setValue("User-Agent" , "Mp3Diags");
-    m_pQHttp->request(header);
+    //ttt8 m_pQHttp->request(header);
     //cout << "sent img " <<  m_vAlbums[nAlbum].m_vstrImageNames[nImage] << " - " << m_pQHttp->request(header) << endl;
     addNote(AlbumInfoDownloaderDlgImpl::tr("getting image ..."));
 }
@@ -745,11 +774,11 @@ LAST_STEP("DiscogsDownloader::on_m_pStyleCbB_currentIndexChanged");
 
 
 
-/*override*/ QHttp* DiscogsDownloader::getWaitingHttp()
+/*override*/ /*QNetworkReply** DiscogsDownloader::getWaitingReply()
 {
-LAST_STEP("DiscogsDownloader::getWaitingHttp");
-    return m_pQHttp;
-}
+LAST_STEP("DiscogsDownloader::getWaitingReply");
+    return &m_pMainNetworkReply;
+}*/
 
 /*override*/ WebAlbumInfoBase& DiscogsDownloader::album(int i)
 {
@@ -761,14 +790,14 @@ LAST_STEP("DiscogsDownloader::getWaitingHttp");
     return cSize(m_vAlbums);
 }
 
-/*override*/ QXmlDefaultHandler* DiscogsDownloader::getSearchXmlHandler()
+/*override*/ JsonHandler* DiscogsDownloader::getSearchJsonHandler()
 {
-    return new SearchXmlHandler(*this);
+    return new SearchJsonHandler(/**this*/);
 }
 
-/*override*/ QXmlDefaultHandler* DiscogsDownloader::getAlbumXmlHandler(int nAlbum)
+/*override*/ JsonHandler* DiscogsDownloader::getAlbumJsonHandler(int nAlbum)
 {
-    return new AlbumXmlHandler(m_vAlbums.at(nAlbum));
+    return new AlbumJsonHandler(/*m_vAlbums.at(nAlbum)*/);
 }
 
 
@@ -778,5 +807,8 @@ LAST_STEP("DiscogsDownloader::getWaitingHttp");
     return &m_vAlbums[m_nCrtAlbum];
 }
 
-
+//ttt9: Review is user agent matters.
+//
+//ttt9 Idea: Have users register, go to https://www.discogs.com/settings/developers, and generate a Personal access token.
+// Store the token in the settings. There is some way for it to not expire. OTOH API key seems to have been in the code before
 

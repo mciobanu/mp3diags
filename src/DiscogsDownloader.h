@@ -27,7 +27,7 @@
 
 namespace Discogs
 {
-    struct SearchXmlHandler;
+    struct SearchJsonHandler;
 
     struct DiscogsAlbumInfo : public WebAlbumInfoBase
     {
@@ -57,7 +57,7 @@ class DiscogsDownloader : public AlbumInfoDownloaderDlgImpl
     std::vector<Discogs::DiscogsAlbumInfo> m_vAlbums;
     Discogs::DiscogsAlbumInfo::StyleOption m_eStyleOption;
 
-    friend struct Discogs::SearchXmlHandler;
+    friend struct Discogs::SearchJsonHandler;
 
     void clear();
 
@@ -69,13 +69,11 @@ class DiscogsDownloader : public AlbumInfoDownloaderDlgImpl
     /*override*/ void requestImage(int nAlbum, int nImage);
     /*override*/ void reloadGui();
 
-    /*override*/ QHttp* getWaitingHttp();
-
     /*override*/ WebAlbumInfoBase& album(int i);
     /*override*/ int getAlbumCount() const;
 
-    /*override*/ QXmlDefaultHandler* getSearchXmlHandler();
-    /*override*/ QXmlDefaultHandler* getAlbumXmlHandler(int nAlbum);
+    /*override*/ JsonHandler* getSearchJsonHandler();
+    /*override*/ JsonHandler* getAlbumJsonHandler(int nAlbum);
 
     /*override*/ const WebAlbumInfoBase* getCrtAlbum() const; // returns 0 if there's no album
     /*override*/ int getColumnCount() const { return 4; }

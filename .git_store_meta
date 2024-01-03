@@ -297,8 +297,8 @@ src/fstream_unicode.cpp	f	2014-11-12T16:10:31Z
 src/fstream_unicode.h	f	2014-01-16T13:37:36Z
 src/FullSizeImgDlg.cpp	f	2023-12-07T19:18:03Z
 src/FullSizeImgDlg.h	f	2009-11-28T07:25:00Z
-src/Helpers.cpp	f	2023-12-19T21:19:12Z
-src/Helpers.h	f	2023-12-19T19:23:32Z
+src/Helpers.cpp	f	2023-12-30T08:57:08Z
+src/Helpers.h	f	2023-12-30T08:57:08Z
 src/Id3Transf.cpp	f	2012-03-03T20:24:37Z
 src/Id3Transf.h	f	2012-03-03T14:27:44Z
 src/Id3V230Stream.cpp	f	2023-12-08T20:25:14Z

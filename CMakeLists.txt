@@ -219,7 +219,6 @@ set(PROJECT_SOURCE_FILES
         src/Sessions.ui
         src/SessionsDlgImpl.cpp
         src/SessionsDlgImpl.h
-        src/SimpleSaxHandler.h
         src/SongInfoParser.cpp
         src/SongInfoParser.h
         src/StoredSettings.cpp

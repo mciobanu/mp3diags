@@ -10,7 +10,7 @@ changelogDeb.txt	f	2023-11-28T14:52:05Z
 changelogRpm.txt	f	2023-11-28T14:53:47Z
 changelog.txt	f	2023-11-28T14:51:30Z
 CMakeLists.2009.txt	f	2009-09-25T14:27:54Z
-CMakeLists.txt	f	2023-12-04T18:41:15Z
+CMakeLists.txt	f	2024-01-04T19:31:38Z
 CMakePresets.json	f	2023-12-04T07:15:16Z
 CMake-VS2008-Win32.cmd	f	2023-11-28T13:57:01Z
 COPYING	f	2016-08-06T13:23:08Z
@@ -249,8 +249,8 @@ src/aaa-info.txt	f	2023-12-19T20:49:49Z
 src/AboutDlgImpl.cpp	f	2023-12-12T19:20:41Z
 src/AboutDlgImpl.h	f	2009-07-17T15:02:37Z
 src/About.ui	f	2011-06-15T19:56:47Z
-src/AlbumInfoDownloaderDlgImpl.cpp	f	2024-01-04T18:55:55Z
-src/AlbumInfoDownloaderDlgImpl.h	f	2024-01-03T21:09:25Z
+src/AlbumInfoDownloaderDlgImpl.cpp	f	2024-01-04T19:14:39Z
+src/AlbumInfoDownloaderDlgImpl.h	f	2024-01-04T19:14:39Z
 src/AlbumInfoDownloader.ui	f	2012-01-02T15:14:52Z
 src/ApeStream.cpp	f	2014-11-12T17:36:59Z
 src/ApeStream.h	f	2014-11-12T16:53:17Z
@@ -423,11 +423,10 @@ src/SessionEditor.ui	f	2012-02-06T22:59:54Z
 src/SessionsDlgImpl.cpp	f	2023-12-19T20:30:51Z
 src/SessionsDlgImpl.h	f	2012-02-12T11:51:14Z
 src/Sessions.ui	f	2012-02-12T11:48:31Z
-src/SimpleSaxHandler.h	f	2014-11-12T15:53:13Z
 src/SongInfoParser.cpp	f	2014-11-12T16:53:17Z
 src/SongInfoParser.h	f	2014-11-13T17:42:16Z
-src/src.pro	f	2021-09-01T09:36:34Z
-src/src.pro.w10	f	2019-04-03T22:17:29Z
+src/src.pro	f	2024-01-04T19:31:38Z
+src/src.pro.w10	f	2024-01-04T19:31:38Z
 src/StoredSettings.cpp	f	2012-01-25T22:17:31Z
 src/StoredSettings.h	f	2016-06-21T12:16:07Z
 src/StreamsModel.cpp	f	2023-12-19T09:15:25Z

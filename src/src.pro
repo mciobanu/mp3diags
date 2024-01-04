@@ -117,7 +117,6 @@ ScanDlgImpl.h \
 SerSupport.h \
 SessionEditorDlgImpl.h \
 SessionsDlgImpl.h \
-SimpleSaxHandler.h \
 SongInfoParser.h \
 StoredSettings.h \
 StreamsModel.h \

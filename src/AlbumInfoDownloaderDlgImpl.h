@@ -71,7 +71,7 @@ class JsonHandler
 public:
     virtual ~JsonHandler() {}
     virtual bool handle(const QString& qstrJson) = 0;
-    virtual QString getError() = 0; //ttt9: Use
+    virtual QString getError() = 0;
 };
 
 class WebDwnldModel;

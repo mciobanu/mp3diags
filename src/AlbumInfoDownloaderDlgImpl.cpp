@@ -783,7 +783,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onSearchLoaded");
 
     if (!pHndl->handle(qstrJson))
     {
-        showCritical(this, tr("Error"), tr("Couldn't process the search result. (Usually this means that the server is busy, so trying later might work.)\n\nError: %1").arg(pHndl->getError())); //ttt9: use error from handler
+        showCritical(this, tr("Error"), tr("Couldn't process the search result. (Usually this means that the server is busy, so trying later might work.)\n\nError: %1").arg(pHndl->getError()));
         if (0 == getAlbumCount())
         {
             m_nTotalEntryCnt = 0;

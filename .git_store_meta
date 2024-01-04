@@ -264,7 +264,7 @@ src/CommonData.cpp	f	2023-12-19T17:21:27Z
 src/CommonData.h	f	2023-12-19T09:24:42Z
 src/CommonTypes.cpp	f	2014-11-12T10:27:06Z
 src/CommonTypes.h	f	2014-11-12T10:30:51Z
-src/ConfigDlgImpl.cpp	f	2023-12-19T21:24:40Z
+src/ConfigDlgImpl.cpp	f	2024-01-04T14:45:50Z
 src/ConfigDlgImpl.h	f	2012-02-06T22:36:06Z
 src/Config.ui	f	2012-02-12T20:13:49Z
 src/DataStream.cpp	f	2014-11-13T11:43:27Z
@@ -272,8 +272,8 @@ src/DataStream.h	f	2014-11-13T11:34:42Z
 src/DebugDlgImpl.cpp	f	2023-12-19T20:59:30Z
 src/DebugDlgImpl.h	f	2009-09-27T12:45:07Z
 src/Debug.ui	f	2012-01-02T15:03:56Z
-src/DirFilterDlgImpl.cpp	f	2019-02-10T22:59:36Z
-src/DirFilterDlgImpl.h	f	2012-02-19T08:22:58Z
+src/DirFilterDlgImpl.cpp	f	2024-01-04T15:07:01Z
+src/DirFilterDlgImpl.h	f	2024-01-04T15:17:29Z
 src/DirFilter.ui	f	2012-01-02T15:16:36Z
 src/DiscogsDownloader.cpp	f	2023-12-23T06:39:50Z
 src/DiscogsDownloader.h	f	2023-12-23T07:50:04Z
@@ -377,7 +377,7 @@ src/LogModel.h	f	2009-05-06T07:30:16Z
 src/LyricsStream.cpp	f	2014-11-12T17:36:59Z
 src/LyricsStream.h	f	2014-11-12T16:53:17Z
 src/main.cpp	f	2023-12-19T19:06:28Z
-src/MainFormDlgImpl.cpp	f	2023-12-19T20:59:30Z
+src/MainFormDlgImpl.cpp	f	2024-01-04T14:42:18Z
 src/MainFormDlgImpl.h	f	2012-02-29T20:07:21Z
 src/MainForm.ui	f	2011-07-30T12:34:43Z
 src/Mp3Diags.qrc	f	2012-02-05T19:46:04Z
@@ -451,9 +451,9 @@ src/Transformation.h	f	2014-11-12T11:16:17Z
 src/Translation.cpp	f	2023-11-30T20:31:37Z
 src/Translation.h	f	2012-03-04T06:52:32Z
 src/translations/autoTransl/MixedCase.cpp	f	2012-02-29T21:51:40Z
-src/translations/mp3diags_cs.ts	f	2023-12-22T21:06:48Z
-src/translations/mp3diags_de_DE.ts	f	2023-12-22T21:07:46Z
-src/translations/mp3diags_fr_FR.ts	f	2023-12-22T21:07:16Z
+src/translations/mp3diags_cs.ts	f	2024-01-04T15:09:40Z
+src/translations/mp3diags_de_DE.ts	f	2024-01-04T15:09:40Z
+src/translations/mp3diags_fr_FR.ts	f	2024-01-04T15:09:40Z
 src/UniqueNotesModel.cpp	f	2023-12-17T20:49:25Z
 src/UniqueNotesModel.h	f	2009-05-06T07:33:22Z
 src/Version.cpp	f	2013-03-31T22:31:45Z

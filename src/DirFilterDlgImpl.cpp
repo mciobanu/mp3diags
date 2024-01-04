@@ -87,6 +87,10 @@ static string removeSepFromRoot(const string& s)
 #endif
 
 
+string DirFilterDlgImpl::getColTitle(int nCol) const
+{
+    return convStr(tr("Folder"));
+}
 
 void DirFilterDlgImpl::populateLists()
 {

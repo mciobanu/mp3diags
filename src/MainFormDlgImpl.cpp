@@ -1600,6 +1600,8 @@ namespace {
 
 struct Mp3ProcThread : public PausableThread
 {
+    Q_DECLARE_TR_FUNCTIONS(Mp3ProcThread)
+public:
     FileEnumerator& m_fileEnum;
     bool m_bForce;
     CommonData* m_pCommonData;
@@ -1711,6 +1713,7 @@ bool Mp3ProcThread::scan()
         }
     }
 }
+
 
 } // namespace
 

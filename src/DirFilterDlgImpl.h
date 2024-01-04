@@ -48,7 +48,7 @@ Q_OBJECT
     void populateLists();
 
     /*override*/ int getColCount() const { return 1; }
-    /*override*/ std::string getColTitle(int /*nCol*/) const { return convStr(tr("Folder")); }
+    /*override*/ std::string getColTitle(int /*nCol*/) const;// { return convStr(tr("Folder")); } // !!! For whatever reason, using std:: makes the translation not work, so the implementation wsa moved to cpp
     /*override*/ void getColor(int /*nIndex*/, int /*nColumn*/, bool /*bSubList*/, QColor& /*bckgColor*/, QColor& /*penColor*/, double& /*dGradStart*/, double& /*dGradEnd*/) const { }
     /*override*/ int getColWidth(int /*nCol*/) const { return -1; } // positive values are used for fixed widths, while negative ones are for "stretched"
     /*override*/ int getHdrHeight() const;

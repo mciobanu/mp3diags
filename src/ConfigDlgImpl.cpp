@@ -78,7 +78,7 @@ class CustomTransfListPainter : public ListPainter
 {
     Q_DECLARE_TR_FUNCTIONS(CustomTransfListPainter)
     /*override*/ int getColCount() const { return 2; }
-    /*override*/ std::string getColTitle(int nCol) const { return 0 == nCol ? convStr(tr("Action")) : convStr(tr("Description")); }
+    /*override*/ string getColTitle(int nCol) const { return 0 == nCol ? convStr(tr("Action")) : convStr(tr("Description")); }
     /*override*/ void getColor(int /*nIndex*/, int /*nColumn*/, bool /*bSubList*/, QColor& /*bckgColor*/, QColor& /*penColor*/, double& /*dGradStart*/, double& /*dGradEnd*/) const { }
     /*override*/ int getColWidth(int /*nCol*/) const { return -1; } // positive values are used for fixed widths, while negative ones are for "stretched"
     /*override*/ int getHdrHeight() const { return CELL_HEIGHT; }
@@ -144,7 +144,7 @@ class VisibleTransfPainter : public ListPainter
 {
     Q_DECLARE_TR_FUNCTIONS(VisibleTransfPainter)
     /*override*/ int getColCount() const { return 2; }
-    /*override*/ std::string getColTitle(int nCol) const { return 0 == nCol ? convStr(tr("Action")) : convStr(tr("Description")); }
+    /*override*/ string getColTitle(int nCol) const { return 0 == nCol ? convStr(tr("Action")) : convStr(tr("Description")); }
     /*override*/ void getColor(int /*nIndex*/, int /*nColumn*/, bool /*bSubList*/, QColor& /*bckgColor*/, QColor& /*penColor*/, double& /*dGradStart*/, double& /*dGradEnd*/) const { }
     /*override*/ int getColWidth(int /*nCol*/) const { return -1; } // positive values are used for fixed widths, while negative ones are for "stretched"
     /*override*/ int getHdrHeight() const { return CELL_HEIGHT; }

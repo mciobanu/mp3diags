@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="fr_FR">
+<TS version="2.1" language="fr_FR">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -62,86 +62,91 @@
 <context>
     <name>AboutDlgImpl</name>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="56"/>
+        <location filename="../AboutDlgImpl.cpp" line="57"/>
         <source>Written by %1, %2</source>
         <translation>Ecrit par %1, %2</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="57"/>
+        <location filename="../AboutDlgImpl.cpp" line="58"/>
         <source>Command-line mode by %1, %2</source>
         <translation>Mode console par %1, %2</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="58"/>
         <location filename="../AboutDlgImpl.cpp" line="59"/>
         <location filename="../AboutDlgImpl.cpp" line="60"/>
+        <location filename="../AboutDlgImpl.cpp" line="61"/>
         <source>%1 translation by %2, %3</source>
         <translation>Traduction %1 par %2, %3</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="58"/>
+        <location filename="../AboutDlgImpl.cpp" line="59"/>
         <source>Czech</source>
         <translation>tchèque</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="59"/>
+        <location filename="../AboutDlgImpl.cpp" line="60"/>
         <source>German</source>
         <translation>allemande</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="60"/>
+        <location filename="../AboutDlgImpl.cpp" line="61"/>
         <source>French</source>
         <translation>française</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="61"/>
+        <location filename="../AboutDlgImpl.cpp" line="62"/>
         <source>Distributed under %1</source>
         <translation>Distribué sous licence %1</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="62"/>
+        <location filename="../AboutDlgImpl.cpp" line="63"/>
         <source>Using %1, released under %2</source>
         <translation>Ce logiciel utilise %1, publié sous licence %2</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="63"/>
+        <location filename="../AboutDlgImpl.cpp" line="64"/>
         <source>Using %1, released under the %2zlib License%3</source>
         <translation>Ce logiciel utilise %1, publié sous %2licence zlib%3</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="64"/>
+        <location filename="../AboutDlgImpl.cpp" line="65"/>
         <source>Using %1 and %2, distributed under the %3Boost Software License%4</source>
         <translatorcomment>I am not sure if license names should really be translated...</translatorcomment>
         <translation type="unfinished">Ce logiciel utilise %1 et %2, publié sous %3licence logiciel Boost%4</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="65"/>
+        <location filename="../AboutDlgImpl.cpp" line="66"/>
         <source>Using original and modified icons from the %1 for %2, distributed under %3LGPL V3%4</source>
         <translation>Ce logiciel utilise des icônes originaux et modifiés du %1 pour %2, distribué sous %3LGPL V3%4</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="66"/>
         <location filename="../AboutDlgImpl.cpp" line="67"/>
+        <location filename="../AboutDlgImpl.cpp" line="68"/>
         <source>Using web services provided by %1 to retrieve album data</source>
         <translation>Ce logiciel utilise les services web fournis par %1 pour récupérer les informations d&apos;album</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="68"/>
+        <location filename="../AboutDlgImpl.cpp" line="70"/>
+        <source>Built with %1 and using %2 libraries</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AboutDlgImpl.cpp" line="72"/>
         <source>Home page and documentation: %1</source>
         <translation>Site web et documentation: %1</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="69"/>
+        <location filename="../AboutDlgImpl.cpp" line="73"/>
         <source>Feedback and support: %1 or %2 at SourceForge</source>
         <translation>Impressions et support technique : %1 ou %2 sur SourceForge</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="70"/>
+        <location filename="../AboutDlgImpl.cpp" line="74"/>
         <source>Bug reports and feature requests: %1 at SourceForge</source>
         <translation>Rapports de bogues et nouvelles fonctionnalités : %1 sur SourceForge</translation>
     </message>
     <message>
-        <location filename="../AboutDlgImpl.cpp" line="71"/>
+        <location filename="../AboutDlgImpl.cpp" line="75"/>
         <source>Change log for the latest version: %1</source>
         <translation>Journal des modifications de la dernière version : %1</translation>
     </message>
@@ -297,41 +302,47 @@
 <context>
     <name>AlbumInfoDownloaderDlgImpl</name>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="167"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="178"/>
         <source>not found at amazon.com</source>
         <translation>non trouvé sur amazon.com</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="193"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="212"/>
         <source>searching ...</source>
         <translation>recherche en cours...</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="249"/>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="255"/>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="310"/>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="316"/>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="574"/>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="580"/>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="747"/>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="759"/>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="783"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="201"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="268"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="274"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="329"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="335"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="704"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="710"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="786"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="799"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="814"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="249"/>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="310"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="201"/>
+        <source>You must specify at least an artist or an album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="268"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="329"/>
         <source>You cannot save the results now, because a request is still pending</source>
         <translation>Impossible de sauvegarder les résultats maintenant car une requête est encore en attente</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="255"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="274"/>
         <source>You cannot save the results now, because no album is loaded</source>
         <translation>Impossible de sauvegarder les résultats maintenant car aucun album n&apos;est chargé</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="287"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="306"/>
         <source>You may want to use a different volume selection on this multi-volume release.
 
 </source>
@@ -340,7 +351,7 @@
 </translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="291"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="310"/>
         <source>A number of %1 tracks were expected, but your selection contains %2. Additional tracks will be discarded.
 
 %3Save anyway?</source>
@@ -349,7 +360,7 @@
 %3Sauvegarder quand même ?</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="295"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="314"/>
         <source>A number of %1 tracks were expected, but your selection only contains %2. Remaining tracks will get null values.
 
 %3Save anyway?</source>
@@ -358,141 +369,149 @@
 %3Sauvegarder quand même ?</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="298"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="317"/>
         <source>Count inconsistency</source>
         <translation>Incohérence du comptage</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="298"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="317"/>
         <source>&amp;Save</source>
         <translation>&amp;Sauvegarder</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="298"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="317"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="316"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="335"/>
         <source>You cannot save any image now, because there is no image loaded</source>
         <translation>Impossible de sauvegarder une image maintenant car aucune image n&apos;est chargée</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="509"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="539"/>
         <source>request error</source>
         <translation>erreur de requête</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="528"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="563"/>
         <source>received %1 bytes</source>
         <translation>%1 octets reçus</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="537"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="572"/>
         <source>received very short response; aborting request ...</source>
         <translation>réponse anormalement courte reçue, annulation de la requête...</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="551"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="587"/>
         <source>Original: %1kB, %2x%3</source>
         <translation>Original: %1ko, %2x%3</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="564"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="600"/>
         <source>
 Recompressed to: %1kB, %2x%3</source>
         <translation>Recompressé à : %1 ko, %2x%3</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="568"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="604"/>
         <source>
 Not recompressed</source>
         <translation>
 Non recompressé</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="574"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="704"/>
         <source>Failed to load the image</source>
         <translation>Le chargement de l&apos;image a échoué</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="581"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="712"/>
         <source>Error loading image
 </source>
         <translation>Erreur lors du chargement de l&apos;image
 </translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="607"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="786"/>
+        <source>Couldn&apos;t process the search result. (Usually this means that the server is busy, so trying later might work.)
+
+Error: %1</source>
+        <translation>Impossible de traiter le résultat de la recherche. (Ceci veut généralement dire que le serveur est saturé, donc réessayer plus tard peut fonctionner.)
+
+Erreur: %1</translation>
+    </message>
+    <message>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="814"/>
+        <source>Couldn&apos;t process the album information. (Usually this means that the server is busy, so trying later might work.)
+
+Error: %1</source>
+        <translation>Impossible de traiter les informations d&apos;album. (Ceci veut généralement dire que le serveur est saturé, donc réessayer plus tard peut fonctionner.)
+
+Erreur: %1</translation>
+    </message>
+    <message>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="631"/>
         <source>init error</source>
         <translation>erreur d&apos;initialisation</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="626"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="650"/>
         <source>unexpected result</source>
         <translation>résultat inattendu</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="646"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="670"/>
         <source>empty string received</source>
         <translation>chaîne vide reçue</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="734"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="781"/>
         <source>search results received</source>
         <translation>résultats de la recherche reçus</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="747"/>
-        <source>Couldn&apos;t process the search result. (Usually this means that the server is busy, so trying later might work.)</source>
-        <translation>Impossible de traiter le résultat de la recherche. (Ceci veut généralement dire que le serveur est saturé, donc réessayer plus tard peut fonctionner.)</translation>
-    </message>
-    <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="759"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="799"/>
         <source>No results found</source>
         <translation>Aucun résultat</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="769"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="809"/>
         <source>album info received</source>
         <translation>informations d&apos;album reçues</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="783"/>
-        <source>Couldn&apos;t process the album information. (Usually this means that the server is busy, so trying later might work.)</source>
-        <translation>Impossible de traiter les informations d&apos;album. (Ceci veut généralement dire que le serveur est saturé, donc réessayer plus tard peut fonctionner.)</translation>
-    </message>
-    <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="801"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="832"/>
         <source>image received</source>
         <translation>image reçue</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="895"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="926"/>
         <source>&lt;All&gt;</source>
         <translation>&lt;Tout&gt;</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="900"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="931"/>
         <source>Album %1/%2%3, image %4/%5</source>
         <translation>Album %1/%2%3, image %4/%5</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="910"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="941"/>
         <source>No image
 </source>
         <translation>Pas d&apos;image
 </translation>
     </message>
     <message>
-        <location filename="../DiscogsDownloader.cpp" line="705"/>
-        <location filename="../MusicBrainzDownloader.cpp" line="515"/>
+        <location filename="../DiscogsDownloader.cpp" line="740"/>
+        <location filename="../MusicBrainzDownloader.cpp" line="875"/>
         <source>getting album info ...</source>
         <translation>obtention des informations d&apos;album...</translation>
     </message>
     <message>
-        <location filename="../DiscogsDownloader.cpp" line="728"/>
-        <location filename="../MusicBrainzDownloader.cpp" line="541"/>
+        <location filename="../DiscogsDownloader.cpp" line="763"/>
+        <location filename="../MusicBrainzDownloader.cpp" line="911"/>
         <source>getting image ...</source>
         <translation>obtention de l&apos;image...</translation>
     </message>
@@ -521,22 +540,22 @@ Non recompressé</translation>
 <context>
     <name>CommonData</name>
     <message>
-        <location filename="../CommonData.cpp" line="485"/>
+        <location filename="../CommonData.cpp" line="496"/>
         <source>Info</source>
         <translation>Information</translation>
     </message>
     <message>
-        <location filename="../CommonData.cpp" line="485"/>
+        <location filename="../CommonData.cpp" line="496"/>
         <source>The font changes will only be used after restarting the application.</source>
         <translation>La nouvelle police ne sera utilisée qu&apos;après avoir redémarré l&apos;application.</translation>
     </message>
     <message>
-        <location filename="../CommonData.cpp" line="691"/>
+        <location filename="../CommonData.cpp" line="727"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../CommonData.cpp" line="691"/>
+        <location filename="../CommonData.cpp" line="727"/>
         <source>There was an error setting up the directories containing MP3 files. You will have to define them again.</source>
         <translation>Une erreur est survenue lors du paramétrage des dossiers contenant les fichiers MP3. Veuillez les définir à nouveau.</translation>
     </message>
@@ -1238,52 +1257,52 @@ Non recompressé</translation>
         <translation>&lt;toutes les notes&gt;</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="407"/>
+        <location filename="../ConfigDlgImpl.cpp" line="409"/>
         <source>If you don&apos;t know exactly what codepage you want, it&apos;s better to make current a file having an ID3V2 tag that contains text frames using the Latin-1 encoding and having non-ASCII characters. Then the content of those frames will replace this text, allowing you to decide which codepage is a match for your file. ID3V1 tags are supported as well, if you want to copy data from them to ID3V2.</source>
         <translation>Si vous ne savez pas quelle page de code vous désirez, il est préférable de rendre courant un fichier avec un tag ID3V2 contenant des trames de texte encodées en Latin-1 et comportant des caractères non ASCII. Le contenu de ces trames remplacera ce texte, vous permettant ainsi de décider quelle page de code convient à votre fichier. Les tags ID3V1 sont aussi supportés si vous souhaitez en copier les données vers des tags ID3V2.</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="486"/>
+        <location filename="../ConfigDlgImpl.cpp" line="488"/>
         <source>Other notes</source>
         <translation>Autres notes</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="487"/>
+        <location filename="../ConfigDlgImpl.cpp" line="489"/>
         <source>Ignore notes</source>
         <translation>Ignorer les notes</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="569"/>
+        <location filename="../ConfigDlgImpl.cpp" line="571"/>
         <source>lower case</source>
         <translation>minuscules</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="570"/>
+        <location filename="../ConfigDlgImpl.cpp" line="572"/>
         <source>UPPER CASE</source>
         <translation>MAJUSCULES</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="571"/>
+        <location filename="../ConfigDlgImpl.cpp" line="573"/>
         <source>Title Case</source>
         <translation>Casse Des Titres</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="572"/>
+        <location filename="../ConfigDlgImpl.cpp" line="574"/>
         <source>Sentence case</source>
         <translation>Casse normale</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="680"/>
+        <location filename="../ConfigDlgImpl.cpp" line="689"/>
         <source>Invisible transformations</source>
         <translation>Transformations invisibles</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="681"/>
+        <location filename="../ConfigDlgImpl.cpp" line="690"/>
         <source>Visible transformations</source>
         <translation>Transformations visibles</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="694"/>
+        <location filename="../ConfigDlgImpl.cpp" line="703"/>
         <source>Characters in this list get replaced with the string below, in &quot;Replace with&quot;
 
 An underlined font is used to allow spaces to be seen</source>
@@ -1292,7 +1311,7 @@ An underlined font is used to allow spaces to be seen</source>
 Une police soulignée est utilisée afin de pouvoir voir les espaces</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="696"/>
+        <location filename="../ConfigDlgImpl.cpp" line="705"/>
         <source>This string replaces invalid characters in the file renamer&quot;
 
 An underlined font is used to allow spaces to be seen</source>
@@ -1301,103 +1320,103 @@ An underlined font is used to allow spaces to be seen</source>
 Une police soulignée est utilisée afin de pouvoir voir les espaces</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="968"/>
+        <location filename="../ConfigDlgImpl.cpp" line="982"/>
         <source>All transformations</source>
         <translation>Toutes les transformations</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="969"/>
+        <location filename="../ConfigDlgImpl.cpp" line="983"/>
         <source>Used transformations</source>
         <translation>Transformations utilisées</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1013"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1027"/>
         <source>Confirm</source>
         <translation>Confirmer</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1013"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1027"/>
         <source>You modified the external tool information but you didn&apos;t save your changes. Discard the changes or cancel closing of the options window?</source>
         <translation>Vous avez modifié les informations d&apos;outil externe sans sauvegarder vos changements. Ignorer les changements, ou annuler la fermeture de la fenêtre des options ?</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1013"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1027"/>
         <source>&amp;Discard</source>
         <translation>&amp;Ignorer</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1013"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1027"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Annuler</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1028"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1042"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1028"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1042"/>
         <source>You can&apos;t have &apos;%1&apos; in both the list of invalid characters and the string that invalid characters are replaced with.</source>
         <translation>&apos;%1&apos; ne peut pas se trouver à la fois dans la liste de caractères non valides et dans la chaîne qui les remplace.</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1129"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1143"/>
         <source>Info</source>
         <translation>Information</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1129"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1143"/>
         <source>You need to restart the program to use the new language.</source>
         <translatorcomment>perhaps &quot;langue&quot; would be better</translatorcomment>
         <translation>Vous devez redémarrer le programme pour utiliser le nouveau langage.</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1147"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1161"/>
         <source>Invalid folder name</source>
         <translation>Nom de dossier non valide</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1147"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1161"/>
         <source>A folder name is incorrect.</source>
         <translation>Un nom de dossier est incorrect.</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1213"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1227"/>
         <source>Add selected note(s)</source>
         <translation>Ajouter la(les) note(s) sélectionné(es)</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1214"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1228"/>
         <source>Remove selected note(s)</source>
         <translation>Enlever la(les) note(s) sélectionné(es)</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1215"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1229"/>
         <source>Add all notes</source>
         <translation>Ajouter toutes les notes</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1216"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1230"/>
         <source>Remove all notes</source>
         <translation>Supprimer toutes les notes</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1217"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1231"/>
         <source>Restore lists to their default value</source>
         <translation>Restaurer les listes à leur valeur par défaut</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1218"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1232"/>
         <source>Restore lists to the configuration they had when the window was open</source>
         <translation>Restaurer les listes à leur configuration à l&apos;ouverture de la fenêtre</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1245"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1259"/>
         <source>Select folder</source>
         <translation>Sélectionnez le dossier</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1245"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1259"/>
         <source>All files</source>
         <translation>Tous les fichiers</translation>
     </message>
@@ -1407,12 +1426,12 @@ Une police soulignée est utilisée afin de pouvoir voir les espaces</translatio
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="81"/>
         <source>Action</source>
-        <translation>Action</translation>
+        <translation type="unfinished">Action</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="81"/>
         <source>Description</source>
-        <translation>Description</translation>
+        <translation type="unfinished">Description</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="122"/>
@@ -1473,103 +1492,64 @@ Une police soulignée est utilisée afin de pouvoir voir les espaces</translatio
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="397"/>
-        <location filename="../MpegFrame.cpp" line="207"/>
+        <location filename="../MpegFrame.cpp" line="238"/>
         <source>MPEG-1</source>
         <translation>MPEG-1</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="397"/>
-        <location filename="../MpegFrame.cpp" line="207"/>
+        <location filename="../MpegFrame.cpp" line="238"/>
         <source>MPEG-2</source>
         <translation>MPEG-2</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="403"/>
-        <location filename="../MpegFrame.cpp" line="213"/>
+        <location filename="../MpegFrame.cpp" line="238"/>
+        <source>MPEG-2.5</source>
+        <translation>MPEG-2.5</translation>
+    </message>
+    <message>
+        <location filename="../MpegFrame.cpp" line="244"/>
         <source>Layer I</source>
         <translation>Layer I</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="403"/>
-        <location filename="../MpegFrame.cpp" line="213"/>
+        <location filename="../MpegFrame.cpp" line="244"/>
         <source>Layer II</source>
         <translation>Layer II</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="403"/>
-        <location filename="../MpegFrame.cpp" line="213"/>
+        <location filename="../MpegFrame.cpp" line="244"/>
         <source>Layer III</source>
         <translation>Layer III</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="409"/>
-        <location filename="../MpegFrame.cpp" line="219"/>
+        <location filename="../MpegFrame.cpp" line="250"/>
         <source>Stereo</source>
         <translation>Stéréo</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="409"/>
-        <location filename="../MpegFrame.cpp" line="219"/>
+        <location filename="../MpegFrame.cpp" line="250"/>
         <source>Joint stereo</source>
         <translation>Joint stereo</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="409"/>
-        <location filename="../MpegFrame.cpp" line="219"/>
+        <location filename="../MpegFrame.cpp" line="250"/>
         <source>Dual channel</source>
         <translatorcomment>I have a doubt if this is the correct translation...</translatorcomment>
         <translation>Canal double</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="409"/>
-        <location filename="../MpegFrame.cpp" line="219"/>
+        <location filename="../MpegFrame.cpp" line="250"/>
         <source>Single channel</source>
         <translation>Canal simple</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="421"/>
-        <source>Not an MPEG frame. Synch missing.</source>
-        <translation>N&apos;est pas une trame MPEG. Informations de synchronisation manquantes.</translation>
-    </message>
-    <message>
-        <location filename="../Helpers.cpp" line="428"/>
-        <source>Not an MPEG frame. Unsupported version (2.5).</source>
-        <translation>N&apos;est pas une trame MPEG. Version non supportée (2.5).</translation>
-    </message>
-    <message>
-        <location filename="../Helpers.cpp" line="434"/>
-        <source>Not an MPEG frame. Invalid version.</source>
-        <translation>N&apos;est pas une trame MPEG. Version non valide.</translation>
-    </message>
-    <message>
-        <location filename="../Helpers.cpp" line="446"/>
-        <source>Not an MPEG frame. Invalid layer.</source>
-        <translation>N&apos;est pas une trame MPEG. Couche (layer) non valide.</translation>
-    </message>
-    <message>
-        <location filename="../Helpers.cpp" line="474"/>
-        <source>Not an MPEG frame. Invalid bitrate.</source>
-        <translation>N&apos;est pas une trame MPEG. Débit non valide.</translation>
-    </message>
-    <message>
-        <location filename="../Helpers.cpp" line="491"/>
-        <source>Not an MPEG frame. Invalid frequency for MPEG1.</source>
-        <translation>N&apos;est pas une trame MPEG. Fréquence non valide pour le MPEG1.</translation>
-    </message>
-    <message>
-        <location filename="../Helpers.cpp" line="502"/>
-        <source>Not an MPEG frame. Invalid frequency for MPEG2.</source>
-        <translation>N&apos;est pas une trame MPEG. Fréquence non valide pour le MPEG2.</translation>
-    </message>
-    <message>
-        <location filename="../Helpers.cpp" line="571"/>
+        <location filename="../Helpers.cpp" line="371"/>
         <source>%1 %2%3%4%5%6Hz%7%8bps%9CRC=%10%11length %12 (0x%13)%14padding=%15</source>
         <translation>%1 %2%3%4%5%6Hz%7%8bps%9CRC=%10%11longueur %12 (0x%13)%14bourrage=%15</translation>
     </message>
     <message>
         <location filename="../Id3V2Stream.cpp" line="700"/>
-        <location filename="../MpegFrame.cpp" line="227"/>
+        <location filename="../MpegFrame.cpp" line="258"/>
         <source>padding=</source>
         <translation>bourrage=</translation>
     </message>
@@ -1584,7 +1564,7 @@ Une police soulignée est utilisée afin de pouvoir voir les espaces</translatio
         <translation>trames</translation>
     </message>
     <message>
-        <location filename="../MpegFrame.cpp" line="226"/>
+        <location filename="../MpegFrame.cpp" line="257"/>
         <source>length=</source>
         <translation>longueur=</translation>
     </message>
@@ -1604,27 +1584,27 @@ Une police soulignée est utilisée afin de pouvoir voir les espaces</translatio
         <translation>dernière trame située en 0x%1</translation>
     </message>
     <message>
-        <location filename="../MpegStream.cpp" line="892"/>
+        <location filename="../MpegStream.cpp" line="898"/>
         <source>Xing header info:</source>
         <translation>Infos en-tête Xing :</translation>
     </message>
     <message>
-        <location filename="../MpegStream.cpp" line="894"/>
+        <location filename="../MpegStream.cpp" line="900"/>
         <source> frame count=</source>
         <translation>nb trames=</translation>
     </message>
     <message>
-        <location filename="../MpegStream.cpp" line="895"/>
+        <location filename="../MpegStream.cpp" line="901"/>
         <source> byte count=</source>
         <translation>nb octets=</translation>
     </message>
     <message>
-        <location filename="../MpegStream.cpp" line="896"/>
+        <location filename="../MpegStream.cpp" line="902"/>
         <source> TOC present</source>
         <translation>TOC présente</translation>
     </message>
     <message>
-        <location filename="../MpegStream.cpp" line="897"/>
+        <location filename="../MpegStream.cpp" line="903"/>
         <source> quality=</source>
         <translation>qualité=</translation>
     </message>
@@ -1726,7 +1706,7 @@ Une police soulignée est utilisée afin de pouvoir voir les espaces</translatio
 <context>
     <name>DebugDlgImpl</name>
     <message>
-        <location filename="../DebugDlgImpl.cpp" line="90"/>
+        <location filename="../DebugDlgImpl.cpp" line="92"/>
         <source>If this is checked, ignored notes and trace notes
 are shown in the note list and exported, regardless
 of the &quot;Ignored&quot; settings.
@@ -1746,17 +1726,17 @@ cocher ensuite cette case ne les fera pas réapparaître.
 Un nouveau scan sera nécessaire.</translation>
     </message>
     <message>
-        <location filename="../DebugDlgImpl.cpp" line="148"/>
+        <location filename="../DebugDlgImpl.cpp" line="150"/>
         <source>Choose destination file</source>
         <translation>Choisir le fichier de destination</translation>
     </message>
     <message>
-        <location filename="../DebugDlgImpl.cpp" line="148"/>
+        <location filename="../DebugDlgImpl.cpp" line="150"/>
         <source>Text files (*.txt)</source>
         <translation>Fichiers texte (*.txt)</translation>
     </message>
     <message>
-        <location filename="../DebugDlgImpl.cpp" line="167"/>
+        <location filename="../DebugDlgImpl.cpp" line="169"/>
         <source>Decoded MPEG frame header</source>
         <translation>En-tête de trame MPEG décodé</translation>
     </message>
@@ -1782,65 +1762,65 @@ Un nouveau scan sera nécessaire.</translation>
 <context>
     <name>DirFilterDlgImpl</name>
     <message>
-        <location filename="../DirFilterDlgImpl.cpp" line="192"/>
+        <location filename="../DirFilterDlgImpl.cpp" line="92"/>
+        <source>Folder</source>
+        <translation type="unfinished">Dossier</translation>
+    </message>
+    <message>
+        <location filename="../DirFilterDlgImpl.cpp" line="198"/>
         <source>&lt;all folders&gt;</source>
         <translation>&lt;tous les dossiers&gt;</translation>
     </message>
     <message>
-        <location filename="../DirFilterDlgImpl.cpp" line="206"/>
+        <location filename="../DirFilterDlgImpl.cpp" line="212"/>
         <source>Available folders</source>
         <translation>Dossiers disponibles</translation>
     </message>
     <message>
-        <location filename="../DirFilterDlgImpl.cpp" line="207"/>
+        <location filename="../DirFilterDlgImpl.cpp" line="213"/>
         <source>Include folders</source>
         <translation>Dossiers inclus</translation>
     </message>
     <message>
-        <location filename="../DirFilterDlgImpl.cpp" line="294"/>
+        <location filename="../DirFilterDlgImpl.cpp" line="300"/>
         <source>Add selected folders</source>
         <translation>Ajouter les dossiers sélectionnés</translation>
     </message>
     <message>
-        <location filename="../DirFilterDlgImpl.cpp" line="295"/>
+        <location filename="../DirFilterDlgImpl.cpp" line="301"/>
         <source>Remove selected folders</source>
         <translation>Enlever les dossiers sélectionnés</translation>
     </message>
     <message>
-        <location filename="../DirFilterDlgImpl.cpp" line="299"/>
+        <location filename="../DirFilterDlgImpl.cpp" line="305"/>
         <source>Restore lists to the configuration they had when the window was open</source>
         <translation>Restaurer les listes à leur configuration à l&apos;ouverture de la fenêtre</translation>
-    </message>
-    <message>
-        <location filename="../DirFilterDlgImpl.h" line="51"/>
-        <source>Folder</source>
-        <translation>Dossier</translation>
     </message>
 </context>
 <context>
     <name>DiscogsDownloader</name>
     <message>
-        <location filename="../DiscogsDownloader.cpp" line="530"/>
+        <location filename="../DiscogsDownloader.cpp" line="563"/>
         <source>Download album data from Discogs.com</source>
         <translation>Télécharger les informations d&apos;album depuis Discogs.com</translation>
     </message>
     <message>
-        <location filename="../DiscogsDownloader.cpp" line="553"/>
+        <location filename="../DiscogsDownloader.cpp" line="586"/>
         <source>Genres</source>
         <translation>Genres</translation>
     </message>
     <message>
-        <location filename="../DiscogsDownloader.cpp" line="553"/>
+        <location filename="../DiscogsDownloader.cpp" line="586"/>
         <source>Genres, Styles</source>
         <translation>Genres, Styles</translation>
     </message>
     <message>
-        <location filename="../DiscogsDownloader.cpp" line="553"/>
+        <location filename="../DiscogsDownloader.cpp" line="586"/>
         <source>Genres (Styles)</source>
         <translation>Genres (Styles)</translation>
     </message>
     <message>
-        <location filename="../DiscogsDownloader.cpp" line="553"/>
+        <location filename="../DiscogsDownloader.cpp" line="586"/>
         <source>Styles</source>
         <translation>Styles</translation>
     </message>
@@ -1968,107 +1948,107 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
 <context>
     <name>ExportDlgImpl</name>
     <message>
-        <location filename="../ExportDlgImpl.cpp" line="118"/>
-        <location filename="../ExportDlgImpl.cpp" line="126"/>
-        <location filename="../ExportDlgImpl.cpp" line="133"/>
-        <location filename="../ExportDlgImpl.cpp" line="139"/>
-        <location filename="../ExportDlgImpl.cpp" line="150"/>
-        <location filename="../ExportDlgImpl.cpp" line="201"/>
-        <location filename="../ExportDlgImpl.cpp" line="411"/>
-        <location filename="../ExportDlgImpl.cpp" line="420"/>
+        <location filename="../ExportDlgImpl.cpp" line="121"/>
+        <location filename="../ExportDlgImpl.cpp" line="129"/>
+        <location filename="../ExportDlgImpl.cpp" line="136"/>
+        <location filename="../ExportDlgImpl.cpp" line="142"/>
+        <location filename="../ExportDlgImpl.cpp" line="153"/>
+        <location filename="../ExportDlgImpl.cpp" line="204"/>
+        <location filename="../ExportDlgImpl.cpp" line="441"/>
+        <location filename="../ExportDlgImpl.cpp" line="450"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../ExportDlgImpl.cpp" line="118"/>
+        <location filename="../ExportDlgImpl.cpp" line="121"/>
         <source>The file name cannot be empty. Exiting ...</source>
         <translation>Le nom de fichier ne peut être vide. Arrêt...</translation>
     </message>
     <message>
-        <location filename="../ExportDlgImpl.cpp" line="126"/>
+        <location filename="../ExportDlgImpl.cpp" line="129"/>
         <source>You need to specify an absolute file name when exporting to formats other than .m3u. Exiting ...</source>
         <translation>Vous devez spécifier un nom de fichier absolu lors de l&apos;exportation aux formats autres que .m3u. Arrêt...</translation>
     </message>
     <message>
-        <location filename="../ExportDlgImpl.cpp" line="133"/>
+        <location filename="../ExportDlgImpl.cpp" line="136"/>
         <source>The root cannot be empty if the file name is relative. Exiting ...</source>
         <translation>La racine ne doit pas être vide si le nom de fichier est relatif. Arrêt...</translation>
     </message>
     <message>
-        <location filename="../ExportDlgImpl.cpp" line="139"/>
+        <location filename="../ExportDlgImpl.cpp" line="142"/>
         <source>The root must be an absolute directory name. Exiting ...</source>
         <translation>La racine doit être un nom de répertoire absolu. Arrêt...</translation>
     </message>
     <message>
-        <location filename="../ExportDlgImpl.cpp" line="150"/>
+        <location filename="../ExportDlgImpl.cpp" line="153"/>
         <source>The root doesn&apos;t exist. Exiting ...</source>
         <translation>La racine n&apos;existe pas. Arrêt...</translation>
     </message>
     <message>
-        <location filename="../ExportDlgImpl.cpp" line="166"/>
+        <location filename="../ExportDlgImpl.cpp" line="169"/>
         <source>Warning</source>
         <translation>Avertissement</translation>
     </message>
     <message>
-        <location filename="../ExportDlgImpl.cpp" line="166"/>
+        <location filename="../ExportDlgImpl.cpp" line="169"/>
         <source>A file called &quot;%1&quot; already exists. Do you want to overwrite it?</source>
         <translation>Un fichier nommé &quot;%1&quot; existe déjà. Voulez-vous l&apos;écraser ?</translation>
     </message>
     <message>
-        <location filename="../ExportDlgImpl.cpp" line="166"/>
+        <location filename="../ExportDlgImpl.cpp" line="169"/>
         <source>&amp;Overwrite</source>
         <translation>&amp;Ecraser</translation>
     </message>
     <message>
-        <location filename="../ExportDlgImpl.cpp" line="166"/>
+        <location filename="../ExportDlgImpl.cpp" line="169"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../ExportDlgImpl.cpp" line="197"/>
+        <location filename="../ExportDlgImpl.cpp" line="200"/>
         <source>Info</source>
         <translation>Information</translation>
     </message>
     <message>
-        <location filename="../ExportDlgImpl.cpp" line="197"/>
+        <location filename="../ExportDlgImpl.cpp" line="200"/>
         <source>Successfully created file &quot;%1&quot;</source>
         <translation>Fichier &quot;%1&quot; créé avec succès</translation>
     </message>
     <message>
-        <location filename="../ExportDlgImpl.cpp" line="197"/>
-        <location filename="../ExportDlgImpl.cpp" line="201"/>
+        <location filename="../ExportDlgImpl.cpp" line="200"/>
+        <location filename="../ExportDlgImpl.cpp" line="204"/>
         <source>O&amp;K</source>
         <translation>O&amp;K</translation>
     </message>
     <message>
-        <location filename="../ExportDlgImpl.cpp" line="201"/>
+        <location filename="../ExportDlgImpl.cpp" line="204"/>
         <source>There was an error writing to the file &quot;%1&quot;</source>
         <translation>Erreur lors de l&apos;écriture du fichier &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../ExportDlgImpl.cpp" line="209"/>
+        <location filename="../ExportDlgImpl.cpp" line="212"/>
         <source>Choose destination file</source>
         <translation>Choisir le dossier de destination</translation>
     </message>
     <message>
-        <location filename="../ExportDlgImpl.cpp" line="209"/>
+        <location filename="../ExportDlgImpl.cpp" line="212"/>
         <source>XML files (*.xml);;Text files (*.txt);;M3U files (*.m3u)</source>
         <translation>Fichiers XML (*.xml);;Fichiers texte (*.txt);;Fichiers M3U (*.m3u)</translation>
     </message>
     <message>
-        <location filename="../ExportDlgImpl.cpp" line="323"/>
+        <location filename="../ExportDlgImpl.cpp" line="325"/>
         <source>EWST</source>
         <comment>the letters are the initials of the 4 severity levels: Error, Warning, Support, Trace</comment>
         <translatorcomment>ces lettres sont les initiales des 4 niveaux de garvité : Erreur, Avertissement, Support, Trace</translatorcomment>
         <translation>EAST</translation>
     </message>
     <message>
-        <location filename="../ExportDlgImpl.cpp" line="411"/>
+        <location filename="../ExportDlgImpl.cpp" line="441"/>
         <source>The file named &quot;%1&quot; isn&apos;t inside the specified root. Exiting ...</source>
         <translation>Le fichier &quot;%1&quot; n&apos;est pas dans la racine spécifiée. Arrêt...</translation>
     </message>
     <message>
-        <location filename="../ExportDlgImpl.cpp" line="420"/>
+        <location filename="../ExportDlgImpl.cpp" line="450"/>
         <source>The file named &quot;%1&quot; cannot be encoded in the selected locale. Exiting ...</source>
         <translation>Le fichier &quot;%1&quot; ne peut être encodé avec l&apos;encodage sélectionné. Arrêt...</translation>
     </message>
@@ -2099,47 +2079,47 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
 <context>
     <name>ExternalToolDlgImpl</name>
     <message>
-        <location filename="../ExternalToolDlgImpl.cpp" line="188"/>
+        <location filename="../ExternalToolDlgImpl.cpp" line="189"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../ExternalToolDlgImpl.cpp" line="188"/>
+        <location filename="../ExternalToolDlgImpl.cpp" line="189"/>
         <source>Cannot start process. Check that the executable name and the parameters are correct.</source>
         <translation>Impossible de démarrer le processus. Vérifiez que le nom du programme et les paramètres sont corrects.</translation>
     </message>
     <message>
-        <location filename="../ExternalToolDlgImpl.cpp" line="268"/>
+        <location filename="../ExternalToolDlgImpl.cpp" line="289"/>
         <source>Finished</source>
         <translation>Terminé</translation>
     </message>
     <message>
-        <location filename="../ExternalToolDlgImpl.cpp" line="281"/>
+        <location filename="../ExternalToolDlgImpl.cpp" line="302"/>
         <source>Warning</source>
         <translation>Avertissement</translation>
     </message>
     <message>
-        <location filename="../ExternalToolDlgImpl.cpp" line="281"/>
+        <location filename="../ExternalToolDlgImpl.cpp" line="302"/>
         <source>Cannot close while &quot;%1&quot; is running.</source>
         <translation>Impossible de fermer tant que &quot;%1&quot; s&apos;exécute.</translation>
     </message>
     <message>
-        <location filename="../ExternalToolDlgImpl.cpp" line="297"/>
+        <location filename="../ExternalToolDlgImpl.cpp" line="318"/>
         <source>Confirm</source>
         <translation>Confirmer</translation>
     </message>
     <message>
-        <location filename="../ExternalToolDlgImpl.cpp" line="297"/>
+        <location filename="../ExternalToolDlgImpl.cpp" line="318"/>
         <source>Stopping &quot;%1&quot; may leave the files in an inconsistent state or may prevent temporary files from being deleted. Are you sure you want to abort &quot;%1&quot;?</source>
         <translation>Arrêter &quot;%1&quot; peut laisser les fichiers dans un état inexploitable ou empêcher la suppression de fichiers temporaires. Etes-vous sûr de vouloir interrompre &quot;%1&quot; ?</translation>
     </message>
     <message>
-        <location filename="../ExternalToolDlgImpl.cpp" line="297"/>
+        <location filename="../ExternalToolDlgImpl.cpp" line="318"/>
         <source>Yes, abort</source>
         <translation>Oui, interrompre</translation>
     </message>
     <message>
-        <location filename="../ExternalToolDlgImpl.cpp" line="297"/>
+        <location filename="../ExternalToolDlgImpl.cpp" line="318"/>
         <source>Don&apos;t abort</source>
         <translation>Ne pas interrompre</translation>
     </message>
@@ -2147,22 +2127,22 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
 <context>
     <name>ExternalToolsModel</name>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1702"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1716"/>
         <source>Name</source>
         <translation>Nom</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1703"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1717"/>
         <source>Command</source>
         <translation>Commande</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1704"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1718"/>
         <source>Wait</source>
         <translation>Attendre</translation>
     </message>
     <message>
-        <location filename="../ConfigDlgImpl.cpp" line="1705"/>
+        <location filename="../ConfigDlgImpl.cpp" line="1719"/>
         <source>Confirm launch</source>
         <translation>Confirmer le lancement</translation>
     </message>
@@ -2170,27 +2150,27 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
 <context>
     <name>FileRenamer::HndlrListModel</name>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="126"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="127"/>
         <source>&lt;&lt; missing ID3V2 &gt;&gt;</source>
         <translation>&lt;&lt; ID3V2 manquant &gt;&gt;</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="134"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="135"/>
         <source>&lt;&lt; no pattern defined &gt;&gt;</source>
         <translation>&lt;&lt; aucun motif défini &gt;&gt;</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="142"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="143"/>
         <source>&lt;&lt; missing fields &gt;&gt;</source>
         <translation>&lt;&lt; champs manquants &gt;&gt;</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="196"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="197"/>
         <source>File name</source>
         <translation>Nom du fichier</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="197"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="198"/>
         <source>New file name</source>
         <translation>Nouveau nom de fichier</translation>
     </message>
@@ -2284,151 +2264,151 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
 <context>
     <name>FileRenamerDlgImpl</name>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="566"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="573"/>
         <source>Source or destination is a directory</source>
         <translation>La source ou la destination est un dossier</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="570"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="577"/>
         <source>Error during copying</source>
         <translation>Erreur pendant la copie</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="574"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="581"/>
         <source>Error during renaming</source>
         <translation>Erreur pendant le renommage</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="578"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="585"/>
         <source>Destination already exists</source>
         <translation>La destination existe déjà</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="582"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="589"/>
         <source>Source not found</source>
         <translation>Source non trouvée</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="586"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="593"/>
         <source>Cannot create folder %1</source>
         <translation>Impossible de créer le dossier %1</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="599"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="606"/>
         <source>Unknown error</source>
         <translation>Erreur inconnue</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="626"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="633"/>
         <source>No patterns exist</source>
         <translation>Aucun motif n&apos;existe</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="626"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="633"/>
         <source>You must create at least a pattern before you can start renaming files.</source>
         <translation>Vous devez créer au moins un motif avant de pouvoir renommer des fichiers.</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="661"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="668"/>
         <source>Confirm</source>
         <translation>Confirmer</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="661"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="668"/>
         <source>Copy all the files?</source>
         <translation>Copier tous les fichiers ?</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="661"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="668"/>
         <source>Copy the selected files?</source>
         <translation>Copier les fichiers sélectionnés ?</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="661"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="668"/>
         <source>Rename all the files?</source>
         <translation>Renommer tous les fichiers ?</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="661"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="668"/>
         <source>Rename the selected files?</source>
         <translation>Renommer tous les fichiers sélectionnés ?</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="661"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="668"/>
         <source>&amp;Yes</source>
         <translation>&amp;Oui</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="661"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="668"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="670"/>
         <location filename="../FileRenamerDlgImpl.cpp" line="677"/>
-        <location filename="../FileRenamerDlgImpl.cpp" line="683"/>
-        <location filename="../FileRenamerDlgImpl.cpp" line="689"/>
-        <location filename="../FileRenamerDlgImpl.cpp" line="708"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="684"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="690"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="696"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="715"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="670"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="677"/>
         <source>Operation aborted because file &quot;%1&quot; doesn&apos;t have an ID3V2 tag.</source>
         <translation>Opération annulée car le fichier &quot;%1&quot; n&apos;a pas de tag ID3V2.</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="677"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="684"/>
         <source>Operation aborted because file &quot;%1&quot; is missing some required fields in its ID3V2 tag.</source>
         <translation>Opération annulée car il manque des champs requis dans le tag ID3V2 du fichier &quot;%1&quot;.</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="683"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="690"/>
         <source>Operation aborted because it would create 2 copies of a file called &quot;%1&quot;</source>
         <translation>Opération annulée car elle créerait 2 copies d&apos;un fichier nommé &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="689"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="696"/>
         <source>Operation aborted because a file called &quot;%1&quot; already exists.</source>
         <translation>Opération annulée car un fichier nommé &quot;%1&quot; existe déjà.</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="703"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="710"/>
         <source>Copying all the files in the current album</source>
         <translation>Copie de tous les fichiers de l&apos;album courant</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="703"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="710"/>
         <source>Copying the selected files in the current album</source>
         <translation>Copie des fichiers sélectionnés de l&apos;album courant</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="703"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="710"/>
         <source>Renaming all the files in the current album</source>
         <translation>Renommage de tous les fichiers de l&apos;album courant</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="703"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="710"/>
         <source>Renaming the selected files in the current album</source>
         <translation>Renommage des fichiers sélectionnés de l&apos;album courant</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="821"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="828"/>
         <source>Single artist</source>
         <translation>Artiste unique</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="821"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="828"/>
         <source>Various artists</source>
         <translation>Various artists</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="857"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="864"/>
         <source>Error setting up patterns</source>
         <translation>Erreur lors de la configuration des motifs</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="857"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="864"/>
         <source>An invalid value was found in the configuration file. You&apos;ll have to set up the patterns manually.</source>
         <translation>Une valeur non valide a été rencontrée dans le fichier de configuration. Vous devrez configurer les motifs manuellement.</translation>
     </message>
@@ -2444,7 +2424,7 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
 <context>
     <name>FixedAddrRemover</name>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2915"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3033"/>
         <source>Remove stream %1 at address 0x%2</source>
         <translation>Supprime le flux %1 à l&apos;adresse 0x%2</translation>
     </message>
@@ -2467,22 +2447,22 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
         <translation>Attendre la fin de l&apos;outil externe, garder la fenêtre ouverte</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1593"/>
+        <location filename="../Helpers.cpp" line="1468"/>
         <source>These settings cannot currently be changed. In order to make changes you should probably run the program as an administrator.</source>
         <translation>Ces paramètres ne peuvent pas être modifiés actuellement. Pour effectuer des modifications, vous devez lancer le programme en tant qu&apos;administrateur.</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1670"/>
+        <location filename="../Helpers.cpp" line="1545"/>
         <source>Platform not supported</source>
         <translation>Plate-forme non supportée</translation>
     </message>
     <message>
-        <location filename="../Helpers.h" line="275"/>
+        <location filename="../Helpers.h" line="280"/>
         <source>yes</source>
         <translation>oui</translation>
     </message>
     <message>
-        <location filename="../Helpers.h" line="275"/>
+        <location filename="../Helpers.h" line="280"/>
         <source>no</source>
         <translation>non</translation>
     </message>
@@ -2506,45 +2486,50 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
     <name>Id3V230Frame</name>
     <message>
         <location filename="../Id3V230Stream.cpp" line="57"/>
-        <location filename="../Id3V230Stream.cpp" line="101"/>
+        <location filename="../Id3V230Stream.cpp" line="109"/>
         <source>Truncated ID3V2.3.0 tag.</source>
         <translation>Tag ID3V2.3.0 tronqué.</translation>
     </message>
     <message>
-        <location filename="../Id3V230Stream.cpp" line="71"/>
-        <source>Broken ID3V2.3.0 tag.</source>
-        <translation>Tag ID3V2.3.0 endommagé.</translation>
+        <location filename="../Id3V230Stream.cpp" line="78"/>
+        <source>ID3V2.3.0 frame with negative size.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Id3V230Stream.cpp" line="75"/>
         <location filename="../Id3V230Stream.cpp" line="79"/>
+        <source>ID3V2.3.0 frame too long.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Id3V230Stream.cpp" line="83"/>
+        <location filename="../Id3V230Stream.cpp" line="87"/>
         <source>ID3V2.3.0 tag containing a frame with an invalid name: %1.</source>
         <translation>Tag ID3V2.3.0 contenant une trame avec un nom non valide : %1.</translation>
     </message>
     <message>
-        <location filename="../Id3V230Stream.cpp" line="87"/>
+        <location filename="../Id3V230Stream.cpp" line="95"/>
         <source>ID3V2.3.0 tag containing a frame with an unsupported flag.</source>
         <translation>Tag ID3V2.3.0 contenant une trame avec un drapeau non supporté.</translation>
     </message>
     <message>
-        <location filename="../Id3V230Stream.cpp" line="123"/>
-        <location filename="../Id3V230Stream.cpp" line="135"/>
-        <location filename="../Id3V230Stream.cpp" line="142"/>
+        <location filename="../Id3V230Stream.cpp" line="131"/>
+        <location filename="../Id3V230Stream.cpp" line="143"/>
+        <location filename="../Id3V230Stream.cpp" line="150"/>
         <source>%1 (Frame: %2)</source>
         <translation>%1 (Trame: %2)</translation>
     </message>
     <message>
-        <location filename="../Id3V230Stream.cpp" line="128"/>
+        <location filename="../Id3V230Stream.cpp" line="136"/>
         <source>INVALID</source>
         <translation>NON VALIDE</translation>
     </message>
     <message>
-        <location filename="../Id3V230Stream.cpp" line="150"/>
+        <location filename="../Id3V230Stream.cpp" line="158"/>
         <source>ID3V2.3.0 tag containing a broken text frame named %1.</source>
         <translation>Tag ID3V2.3.0 contenant une trame de texte endommagée nommée : %1.</translation>
     </message>
     <message>
-        <location filename="../Id3V230Stream.cpp" line="154"/>
+        <location filename="../Id3V230Stream.cpp" line="162"/>
         <source>ID3V2.3.0 tag containing a text frame named %1 using unsupported characters.</source>
         <translation>Tag ID3V2.3.0 contenant une trame de texte nommée %1 utilisant des caractères non supportés.</translation>
     </message>
@@ -2552,12 +2537,12 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
 <context>
     <name>Id3V230Stream</name>
     <message>
-        <location filename="../Id3V230Stream.cpp" line="277"/>
+        <location filename="../Id3V230Stream.cpp" line="285"/>
         <source>Unsupported version of ID3V2 tag%1</source>
         <translation>Version non supportée de l&apos;étiquette ID3V2%1</translation>
     </message>
     <message>
-        <location filename="../Id3V230Stream.cpp" line="281"/>
+        <location filename="../Id3V230Stream.cpp" line="289"/>
         <source>ID3V2 tag with unsupported flag.</source>
         <translation>Tag ID3V2 comportant un drapeau non supporté.</translation>
     </message>
@@ -2582,28 +2567,28 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
         <translation>Tag ID3V2.4.0 contenant une trame avec un drapeau non supporté.</translation>
     </message>
     <message>
-        <location filename="../Id3V240Stream.cpp" line="233"/>
+        <location filename="../Id3V240Stream.cpp" line="282"/>
         <source>Broken ID3V2.4.0 tag.</source>
         <translation>Tag ID3V2.4.0 endommagé.</translation>
     </message>
     <message>
-        <location filename="../Id3V240Stream.cpp" line="254"/>
-        <location filename="../Id3V240Stream.cpp" line="266"/>
+        <location filename="../Id3V240Stream.cpp" line="303"/>
+        <location filename="../Id3V240Stream.cpp" line="315"/>
         <source>%1 (Frame: %2)</source>
         <translation>%1 (Trame: %2)</translation>
     </message>
     <message>
-        <location filename="../Id3V240Stream.cpp" line="259"/>
+        <location filename="../Id3V240Stream.cpp" line="308"/>
         <source>INVALID</source>
         <translation>NON VALIDE</translation>
     </message>
     <message>
-        <location filename="../Id3V240Stream.cpp" line="273"/>
+        <location filename="../Id3V240Stream.cpp" line="322"/>
         <source>ID3V2.4.0 tag containing a broken text frame named %1.</source>
         <translation>Tag ID3V2.4.0 contenant une trame de texte endommagée nommée : %1.</translation>
     </message>
     <message>
-        <location filename="../Id3V240Stream.cpp" line="277"/>
+        <location filename="../Id3V240Stream.cpp" line="326"/>
         <source>ID3V2.4.0 tag containing a text frame named %1 using unsupported characters or unsupported text encoding.</source>
         <translation>Tag ID3V2.4.0 contenant une trame de texte nommée %1 utilisant des caractères ou un encodage non supportés.</translation>
     </message>
@@ -2611,7 +2596,7 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
 <context>
     <name>Id3V240Stream</name>
     <message>
-        <location filename="../Id3V240Stream.cpp" line="408"/>
+        <location filename="../Id3V240Stream.cpp" line="457"/>
         <source>ID3V2 tag with unsupported flag.</source>
         <translatorcomment>Translation of flag is uncertain.</translatorcomment>
         <translation>Tag ID3V2 comportant un drapeau non supporté.</translation>
@@ -2700,7 +2685,7 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
 <context>
     <name>Id3V2StreamBase</name>
     <message>
-        <location filename="../Id3V2Stream.cpp" line="1408"/>
+        <location filename="../Id3V2Stream.cpp" line="1459"/>
         <source>%1 (Frame: %2)</source>
         <translation>%1 (Trame: %2)</translation>
     </message>
@@ -2708,12 +2693,12 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
 <context>
     <name>ImageInfoPanel</name>
     <message>
-        <location filename="../TagReadPanel.cpp" line="282"/>
+        <location filename="../TagReadPanel.cpp" line="286"/>
         <source>&lt;error&gt;</source>
         <translation>&lt;erreur&gt;</translation>
     </message>
     <message>
-        <location filename="../TagReadPanel.cpp" line="310"/>
+        <location filename="../TagReadPanel.cpp" line="314"/>
         <source>Click to see larger image</source>
         <translation>Cliquer pour agrandir l&apos;image</translation>
     </message>
@@ -3042,11 +3027,11 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="551"/>
-        <location filename="../MainFormDlgImpl.cpp" line="1347"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2078"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2204"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2231"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2265"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1373"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2144"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2270"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2297"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2377"/>
         <source>Warning</source>
         <translation>Avertissement</translation>
     </message>
@@ -3068,8 +3053,8 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="551"/>
         <location filename="../MainFormDlgImpl.cpp" line="564"/>
-        <location filename="../main.cpp" line="411"/>
-        <location filename="../main.cpp" line="450"/>
+        <location filename="../main.cpp" line="425"/>
+        <location filename="../main.cpp" line="464"/>
         <source>O&amp;K</source>
         <translation>O&amp;K</translation>
     </message>
@@ -3084,7 +3069,7 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
         <translation>Si vous faites simplement un clic gauche, tous les fichiers visibles sont traités. Cependant, il est possible de ne traiter que les fichiers sélectionnés. Pour ce faire, maintenez MAJ enfoncé durnat le clic ou utilisez le bouton droit comme décrit dans %1</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="631"/>
+        <location filename="../MainFormDlgImpl.cpp" line="636"/>
         <source>An unknown note was found in the configuration. This note is unknown:
 
 %1</source>
@@ -3093,7 +3078,7 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
 %1</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="644"/>
+        <location filename="../MainFormDlgImpl.cpp" line="649"/>
         <source>Unknown notes were found in the configuration. These notes are unknown:
 
 %1</source>
@@ -3102,123 +3087,123 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
 %1</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="647"/>
+        <location filename="../MainFormDlgImpl.cpp" line="652"/>
         <source>Error setting up the &quot;ignored notes&quot; list</source>
         <translation>Erreur lors de la configuration de la liste des &quot;notes ignorées&quot;</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="647"/>
+        <location filename="../MainFormDlgImpl.cpp" line="652"/>
         <source>
 
 You may want to check again the list and add any notes that you want to ignore.
 
 (If you didn&apos;t change the settings file manually, this is probably due to a code enhancement that makes some notes no longer needed, and you can safely ignore this message.)</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="844"/>
+        <location filename="../MainFormDlgImpl.cpp" line="851"/>
         <source>MP3 Diags is restarting after a crash.</source>
         <translation>MP3 Diags redémarre après un plantage.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="848"/>
+        <location filename="../MainFormDlgImpl.cpp" line="855"/>
         <source>Information in the file %1%5%2 may help identify the cause of the crash so please make it available to the developer by mailing it to %3, by reporting an issue to the project&apos;s Issue Tracker at %4 and attaching the files to the report, or by some other means (like putting it on a file sharing site.)</source>
         <comment>%1 and %2 are HTML elements</comment>
         <translation>Les informations contenues dans le fichier %1%5%2 peuvent aider à l&apos;identification de la cause du plantage donc merci de bien vouloir les rendre accessibles au développeur en les envoyant à %3, en rapportant un problème dans le système de suivi d&apos;erreurs du projet sur %4 et en joignant les fichiers au rapport, ou par d&apos;autres moyens (comme l&apos;envoi sur un service de partage de fichiers)</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="856"/>
+        <location filename="../MainFormDlgImpl.cpp" line="863"/>
         <source>Information in the files %1%5%2 and %1%6%2 may help identify the cause of the crash so please make them available to the developer by mailing them to %3, by reporting an issue to the project&apos;s Issue Tracker at %4 and attaching the files to the report, or by some other means (like putting them on a file sharing site.)</source>
         <comment>%1 and %2 are HTML elements</comment>
         <translation>Les informations contenues dans les fichiers %1%5%2 et %1%6%2 peuvent aider à l&apos;identification de la cause du plantage donc merci de bien vouloir les rendre accessibles au développeur en les envoyant à %3, en rapportant un problème dans le système de suivi d&apos;erreurs du projet sur %4 et en joignant les fichiers au rapport, ou par d&apos;autres moyens (comme l&apos;envoi sur un service de partage de fichiers)</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="865"/>
+        <location filename="../MainFormDlgImpl.cpp" line="872"/>
         <source>Information in the files %1%5%2, %1%6%2, and %1%7%2 may help identify the cause of the crash so please make them available to the developer by mailing them to %3, by reporting an issue to the project&apos;s Issue Tracker at %4 and attaching the files to the report, or by some other means (like putting them on a file sharing site.)</source>
         <comment>%1 and %2 are HTML elements</comment>
         <translation>Les informations contenues dans les fichiers %1%5%2, %1%6%2 et %1%7%2 peuvent aider à l&apos;identification de la cause du plantage donc merci de bien vouloir les rendre accessibles au développeur en les envoyant à %3, en rapportant un problème dans le système de suivi d&apos;erreurs du projet sur %4 et en joignant les fichiers au rapport, ou par d&apos;autres moyens (comme l&apos;envoi sur un service de partage de fichiers)</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="879"/>
+        <location filename="../MainFormDlgImpl.cpp" line="886"/>
         <source>These are plain text files, which you can review before sending, if you have privacy concerns.</source>
         <translation>Ce sont des fichiers de texte brut, que vous pouvez consulter avant de les envoyer si vous avez des inquiétudes relatives à la confidentialité.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="880"/>
+        <location filename="../MainFormDlgImpl.cpp" line="887"/>
         <source>After getting the files, the developer will probably want to contact you for more details, so please check back on the status of your report.</source>
         <translation>Une fois les fichiers récupérés, le développeur souhaitera probablement vous contacter pour davantage de détails, donc merci de bien vouloir suivre le statut de votre rapport.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="881"/>
+        <location filename="../MainFormDlgImpl.cpp" line="888"/>
         <source>Note that these files &lt;b&gt;will be removed&lt;/b&gt; when you close this window.</source>
         <translation>Veuillez noter que ces fichiers &lt;b&gt;seront supprimés&lt;/b&gt; lorsque vous fermerez cette fenêtre.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="884"/>
+        <location filename="../MainFormDlgImpl.cpp" line="891"/>
         <source>If there is a name of an MP3 file at the end of &lt;b&gt;%1&lt;/b&gt;, that might be a file that consistently causes a crash. Please check if it is so. Then, if confirmed, please make that file available by mailing it to %2 or by putting it on a file sharing site.</source>
         <translation>Si un nom de fichier MP3 se trouve à la fin de &lt;b&gt;%1&lt;/b&gt;, ce peut être un fichier responsable d&apos;un plantage. Veuillez vérifier si c&apos;est le cas. Si oui, merci de rendre ce fichier disponible en l&apos;envoyant à %2 ou sur un site de partage de fichiers.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="885"/>
+        <location filename="../MainFormDlgImpl.cpp" line="892"/>
         <source>Please also try to &lt;b&gt;repeat the steps that led to the crash&lt;/b&gt; before reporting the crash, which will probably result in a new set of files being generated; these files are more likely to contain relevant information than the current set of files, because they will also have information on what happened before the crash, while the current files only tell where the crash occured.</source>
         <translation>Essayez si possible de &lt;b&gt;répéter les étapes qui ont conduit au plantage&lt;/b&gt; avant de rapporter le plantage, ce qui conduira probablement à la génération d&apos;un nouveau jeu de fichiers ; ceux-ci contiendront probablement davantage d&apos;informations que le jeu actuel, car ils comporteront des inforlations sur ce qui s&apos;est passé avant le plantage, alors que les fichiers actuels ne donnent que le moment où le plantage a eu lieu.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="888"/>
+        <location filename="../MainFormDlgImpl.cpp" line="895"/>
         <source>You should include in your report any other details that seem relevant (what might have caused the failure, steps to reproduce it, ...)</source>
         <translation>Vous devriez inclure dans votre rapport tous les détails qui semblent importants (causes possibles de l&apos;erreur, étapes pour la reproduire, ...)</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="888"/>
+        <location filename="../MainFormDlgImpl.cpp" line="895"/>
         <source>Remove these files and continue</source>
         <translation>Enlever ces fichiers et continuer</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="892"/>
+        <location filename="../MainFormDlgImpl.cpp" line="899"/>
         <source>MP3 Diags is restarting after a crash. There was supposed to be some information about what led to the crash in the file &lt;b&gt;%1&lt;/b&gt;, but that file cannot be found. Please report this issue to the project&apos;s Issue Tracker at %2.</source>
         <translation>MP3 Diags redémarre après un plantage. Il y aurait dû y avoir des informations sur les causes du plantage dans le fichier &lt;b&gt;%1&lt;/b&gt;, mais ce fichier est introuvable. Veuillez rapporter ce problème au système de suivi d&apos;erreurs du projet à %2.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="893"/>
+        <location filename="../MainFormDlgImpl.cpp" line="900"/>
         <source>The developer will probably want to contact you for more details, so please check back on the status of your report.&lt;/p&gt;&lt;p style=&quot;margin-bottom:8px; margin-top:1px; &quot;&gt;Make sure to include the data below, as well as any other detail that seems relevant (what might have caused the failure, steps to reproduce it, ...)</source>
         <translation>Le développeur souhaitera probablement vous recontacter pour plus de détails, donc suivez bien le statut de votre rapport.&lt;/p&gt;&lt;p style=&quot;margin-bottom:8px; margin-top:1px; &quot;&gt;Assurez-vous d&apos;inclure les données ci-dessous, ainsi que tous les autres détails qui semblent importants (causes possibles de l&apos;erreur, étapes pour la reproduire, ...)</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="900"/>
+        <location filename="../MainFormDlgImpl.cpp" line="907"/>
         <source>MP3 Diags is restarting after a crash. To help determine the reason for the crash, the &lt;i&gt;Log program state to _trace and _step files&lt;/i&gt; option has been activated. This logs to 3 files what the program is doing, which might make it slightly slower.</source>
         <translation>MP3 Diags redémarre après un plantage. Pour aider à déterminer les raisons du plantage, l&apos;option &lt;i&gt;Journaliser l&apos;état du programme dans des fichiers _trace et _step&lt;/i&gt; a été activée. Ceci journalise dans 3 fichiers les actions du programme, ce qui peut légèrement le ralentir.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="900"/>
+        <location filename="../MainFormDlgImpl.cpp" line="907"/>
         <source>It is recommended to not process more than several thousand MP3 files while this option is turned on. You can turn it off manually, in the configuration dialog, in the &lt;i&gt;Others&lt;/i&gt; tab, but keeping it turned on may provide very useful feedback to the developer, should the program crash again. With this feedback, future versions of MP3 Diags will get closer to being bug free.</source>
         <translation>Il est recommandé de ne pas traiter plus de quelques milliers de fichiers MP3 lorsque cette option est activée. Vous pouvez la désactiver manuellement dans la fenêtre de configuration, onglet &lt;i&gt;Autres&lt;/i&gt;, mais la garder activée peut fournir un retour très utile au développeur en cas de nouveau plantage. Avec ces retours utilisateur, les prochaines versions de MP3 Diags tendront davantage vers le zéro bogue.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1309"/>
-        <location filename="../MainFormDlgImpl.cpp" line="1332"/>
-        <location filename="../MainFormDlgImpl.cpp" line="1403"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2028"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2410"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2446"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2614"/>
-        <location filename="../MainFormDlgImpl.cpp" line="3347"/>
-        <location filename="../main.cpp" line="411"/>
-        <location filename="../main.cpp" line="450"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1335"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1358"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1429"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2094"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2522"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2558"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2732"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3465"/>
+        <location filename="../main.cpp" line="425"/>
+        <location filename="../main.cpp" line="464"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1309"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1335"/>
         <source>MP3 Diags crashed while reading song data from the disk. The whole collection will be rescanned.</source>
         <translation>MP3 Diags a planté pendant la lecture des données de titre depuis le disque. La collection va être intégralement scannée à nouveau.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1322"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1348"/>
         <source>Loading data</source>
         <translation>Chargement des données</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1347"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1373"/>
         <source>It seems that MP3 Diags is restarting after a crash. Your files will be rescanned.
 
 (Since this may take a long time for large collections, you may want to abort the full rescanning and apply a filter to include only the files that you changed since the last time the program closed correctly, then manually rescan only those files.)</source>
@@ -3227,12 +3212,12 @@ You may want to check again the list and add any notes that you want to ignore.
 (Cette opération pouvant prendre beaucoup de temps sur des collections étendues, vous souhaiterez peut-être annuler le scan complet et appliquer un filtre pour n&apos;inclure que les fichiers modifiés depuis la dernière fermeture correcte du programme, puis scanner manuellement ces fichiers.)</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1395"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1421"/>
         <source>Saving data</source>
         <translation>Sauvegarde des données</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1403"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1429"/>
         <source>An error occured while saving the MP3 information. You will have to scan your files again.
 
 %1</source>
@@ -3241,18 +3226,38 @@ You may want to check again the list and add any notes that you want to ignore.
 %1</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1689"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1739"/>
         <source>Scanning MP3 files</source>
         <translation>Scan des fichiers MP3</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2723"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2862"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1756"/>
+        <source>Issues encountered while scanning the requested folders</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../MainFormDlgImpl.cpp" line="1756"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <location filename="../MainFormDlgImpl.cpp" line="2335"/>
+        <source>&lt;p&gt;Rebuilding VBR data in Xing / LAME headers can destroy gapless playing information, causing albums that are supposed to be gapless to be played with short gaps between tracks.&lt;/p&gt;&lt;p&gt;Note that this shouldn&apos;t matter for regular, non-gapless, albums.&lt;/p&gt;&lt;p&gt;Proceed?&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../MainFormDlgImpl.cpp" line="2357"/>
+        <source>&lt;p&gt;Removing Xing / LAME headers destroys gapless playing information, causing albums that are supposed to be gapless to be played with short gaps between tracks.&lt;/p&gt;&lt;p&gt;Note that this shouldn&apos;t matter for regular, non-gapless, albums.&lt;/p&gt;&lt;p&gt;Proceed?&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../MainFormDlgImpl.cpp" line="2841"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2980"/>
         <source>Info</source>
         <translation>Information</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1332"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1358"/>
         <source>An error occured while loading the MP3 information. Your files will be rescanned.
 
 %1</source>
@@ -3261,107 +3266,109 @@ You may want to check again the list and add any notes that you want to ignore.
 %1</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1866"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1932"/>
         <source>Error setting up custom transformations</source>
         <translation>Erreur lors de la configuration des transformations personnalisées</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1866"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1932"/>
         <source>Couldn&apos;t find a transformation with the name &quot;%1&quot;. The program will proceed, but you should review the custom transformations lists.</source>
         <translation>Impossible de trouver une transformation nommée &quot;%1&quot;. Le programme va continuer, mais vous devriez vérifier la liste des transformations personnalisées.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1918"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1984"/>
         <source>Error setting up visible transformations</source>
         <translation>Erreur lors de la configuration des transformations visibles</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1918"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1984"/>
         <source>Couldn&apos;t find a transformation with the name &quot;%1&quot;. The program will proceed, but you should review the visible transformations list.</source>
         <translation>Impossible de trouver une transformation nommée &quot;%1&quot;. Le programme va continuer, mais vous devriez vérifier la liste des transformations visibles.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1951"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2017"/>
         <source>Error setting up external tools</source>
         <translation>Erreur lors de la configuration des outils externes</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1951"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2017"/>
         <source>Unable to parse &quot;%1&quot;. The program will proceed, but you should review the external tools list.</source>
         <translation>Impossible d&apos;évaluer &quot;%1&quot;. Le programme va continuer, mais vous devriez vérifier la liste des outils externes.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2028"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2094"/>
         <source>There are no files to normalize.</source>
         <translation>Aucun fichier à normaliser.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2037"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2103"/>
         <source>you are requesting to normalize only some of the files</source>
         <translation>vous ne demandez la normalisation que d&apos;une partie des fichiers</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2043"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2109"/>
         <source>the &quot;Album&quot; mode is not selected</source>
         <translation>le mode &quot;Album&quot; n&apos;est pas sélectionné</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2051"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2117"/>
         <source>filters are applied</source>
         <translation>plusieurs filtres sont appliqués</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2055"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2121"/>
         <source>a filter is applied</source>
         <translation>un filtre est appliqué</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2062"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2128"/>
         <source>the normalization will process more than 50 files, which is more than what an album usually has</source>
         <translation>la normalisation va traiter plus de 50 fichiers, ce qui est plus que le nombre habituel pour un album</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2071"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2137"/>
         <source>Normalization should process one whole album at a time, so it should only be run in &quot;Album&quot; mode, when no filters are active, and it should be applied to all the files in that album. But in the current case %1.</source>
         <translation>La normalisation ne devrait traiter qu&apos;un album complet à la fois, c&apos;est pourquoi elle ne devrait être lancée qu&apos;en mode &quot;Album&quot; sans aucun filtre actif, et elle devrait être appliquée à tous les fichiers de l&apos;album. Mais dans ce cas précis %1.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2075"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2141"/>
         <source>Normalization should process one whole album at a time, so it should only be run in &quot;Album&quot; mode, when no filters are active, and it should be applied to all the files in that album. But in the current case  there are some issues:
 %1</source>
         <translation>La normalisation ne devrait traiter qu&apos;un album complet à la fois, c&apos;est pourquoi elle ne devrait être lancée qu&apos;en mode &quot;Album&quot; sans aucun filtre actif, et elle devrait être appliquée à tous les fichiers de l&apos;album. Mais dans ce cas précis  il y a quelques problèmes : %1</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2078"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2144"/>
         <source>Normalize anyway?</source>
         <translation>Normaliser quand même ?</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2078"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2088"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2144"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2154"/>
         <source>Normalize</source>
         <translation>Normaliser</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2078"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2088"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2144"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2154"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2088"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2306"/>
-        <location filename="../MainFormDlgImpl.cpp" line="3394"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2154"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2335"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2357"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2418"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3512"/>
         <source>Confirm</source>
         <translation>Confirmer</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2088"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2154"/>
         <source>Normalize all the files in the current album? (Note that normalization is done &quot;in place&quot;, by an external program, so it doesn&apos;t care about the transformation settings for original and modified files.)</source>
         <translation>Normaliser tous les fichiers de l&apos;album courant ? (Veuillez noter que la normalisation se fait &quot;en place&quot;, à l&apos;aide d&apos;un programme externe, donc elle ne tient pas compte des réglages de transformation pour les fichiers originaux et modifiés.)</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2204"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2270"/>
         <source>The file list is empty, therefore no transformations can be applied.
 
 Exiting ...</source>
@@ -3370,17 +3377,17 @@ Exiting ...</source>
 Arrêt...</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2216"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2282"/>
         <source>all the files shown in the file list</source>
         <translation>tous les fichiers de la liste de fichiers</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2220"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2286"/>
         <source>all %1 files shown in the file list</source>
         <translation>les %1 fichiers de la liste de fichiers</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2231"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2297"/>
         <source>No file is selected, therefore no transformations can be applied.
 
 Exiting ...</source>
@@ -3389,17 +3396,17 @@ Exiting ...</source>
 Arrêt...</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2240"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2306"/>
         <source>and the other selected file</source>
         <translation>et l&apos;autre fichier sélectionné</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2244"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2310"/>
         <source>and the other %1 selected files</source>
         <translation>et les %1 autres fichiers sélectionnés</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2265"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2377"/>
         <source>The transformation list is empty.
 
 Based on the configuration, it is possible for changes to the files in the list to be performed, even in this case (the files may still be moved, renamed or erased). However, the current settings are to leave the original files unchanged, so currently there&apos;s no point in applying an empty transformation list.
@@ -3412,87 +3419,91 @@ Selon la configuration, il est possible que même dans ce cas des changements so
 Arrêt...</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2268"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2380"/>
         <source>Apply an empty transformation list to all the files shown in the file list? (Note that even if no transformations are performed, the files may still be moved, renamed or erased, based on the current settings.)</source>
         <translation>Appilquer une liste de transformations vide à tous les fichiers présents dans la liste ? (Veuillez noter que même si aucune transformation n&apos;est effectuée, les fichiers peuvent cependant être déplacés, renommés ou effacés selon les paramètres actuels.)</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2272"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2384"/>
         <source>Apply transformation &quot;%1&quot; to %2?</source>
         <translation>Appliquer la transformation &quot;%1&quot; à %2 ?</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2276"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2388"/>
         <source>Apply the following transformations to %1?</source>
         <translation>Appliquer les transformations suivantes à %1 ?</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2286"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2398"/>
         <source>don&apos;t change</source>
         <translation>ne pas modifier</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2287"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2399"/>
         <source>erase</source>
         <translation>effacer</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2288"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2289"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2400"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2401"/>
         <source>move</source>
         <translation>déplacer</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2290"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2402"/>
         <source>rename</source>
         <translation>renommer</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2291"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2403"/>
         <source>move if destination doesn&apos;t exist</source>
         <translation>déplacer si la destination n&apos;existe pas</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2295"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2407"/>
         <source>Actions to be taken:</source>
         <translation>Actions à effectuer :</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2299"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2411"/>
         <source>original file that has been transformed: %1</source>
         <translation>fichier original transformé : %1</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2302"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2414"/>
         <source>original file that has not been transformed: %1</source>
         <translation>fichier original non transformé : %1</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2306"/>
-        <location filename="../MainFormDlgImpl.cpp" line="3394"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2335"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2357"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2418"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3512"/>
         <source>&amp;Yes</source>
         <translation>&amp;Oui</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2306"/>
-        <location filename="../MainFormDlgImpl.cpp" line="3394"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2335"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2357"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2418"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3512"/>
         <source>&amp;No</source>
         <translation>&amp;Non</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2318"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2430"/>
         <source>Applying transformations to MP3 files</source>
         <translation>Application des transformations aux fichiers MP3</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2349"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2461"/>
         <source>Apply custom transformation list #%1
 </source>
         <translation>Appliquer la liste de transformations personnalisée #%1
 </translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2357"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2469"/>
         <source>   &lt;empty list&gt;
 
 (you can edit the list in the Settings dialog)</source>
@@ -3501,169 +3512,192 @@ Arrêt...</translation>
 (vous pouvez éditer la liste dans la fenêtre de configuration)</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2410"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2522"/>
         <source>The file list is empty. You need to populate it before opening the tag editor.</source>
         <translation>La liste de fichiers est vide. Vous devez la remplir avant d&apos;ouvrir l&apos;éditeur de tags.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2446"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2558"/>
         <source>The file list is empty. You need to populate it before opening the file rename tool.</source>
         <translation>La liste de fichiers est vide. Vous devez la remplir avant d&apos;ouvrir l&apos;outil de renommage de fichiers.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2604"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2722"/>
         <source>Delete %1?</source>
         <translation>Supprimer %1 ?</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2614"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2732"/>
         <source>Cannot delete file %1</source>
         <translation>Impossible de supprimer %1</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2724"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2842"/>
         <source>MP3 Diags can check at startup if a new version of the program has been released. Here&apos;s how this is supposed to work:</source>
         <translation>MP3 Diags peut vérifier au démarrage si une nouvelle version est disponible. Le fonctionnement est le suivant :</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2726"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2844"/>
         <source>The check is done in the background, when the program starts, so there should be no performance penalties</source>
         <translation>La vérification se fait en arrière-plan au démarrage, donc ceci ne devrait pas impacter les performances</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2727"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2845"/>
         <source>A notification message is displayed only if there&apos;s a new version available</source>
         <translation>Une notification n&apos;est affichée que si une nouvelle version est disponible</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2728"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2846"/>
         <source>The update is manual. You are told that there is a new version and are offered links to see what&apos;s new, but nothing gets downloaded and / or installed automatically</source>
         <translation>La mise à jour est manuelle. Vous êtes averti qu&apos;une nouvelle version existe avec des liens vers les nouveautés, mais rien n&apos;est téléchargé et/ou installé automatiquement</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2729"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2847"/>
         <source>There is no System Tray process checking periodically for updates</source>
         <translation>Il n&apos;y a pas de processus de barre des tâches qui vérifie périodiquement les mises à jour</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2730"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2848"/>
         <source>You can turn the notifications on and off from the configuration dialog</source>
         <translation>Vous pouvez activer et désactiver les notifications depuis la fenêtre de configuration</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2731"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2849"/>
         <source>If you restart the program within a day after a check, no new check is done</source>
         <translation>Si vous redémarrez le programme moins d&apos;un jour après une vérification, elle n&apos;est pas effectuée à nouveau</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2739"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2863"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2857"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2981"/>
         <source>Disable checking for new versions</source>
         <translation>Ne pas vérifier les nouvelles versions</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2739"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2857"/>
         <source>Enable checking for new versions</source>
         <translation>Vérifier les nouvelles versions</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2839"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2957"/>
         <source>Version %1 has been published. You are running %2. You can see what&apos;s new in %3. A more technical list with changes can be seen in %4.</source>
         <translation>La version %1 vient d&apos;être publiée. Vous exécutez %2. Vous pouvez consulter les nouveautés sur %3. Une liste plus technique avec les modifications se trouve dans %4.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2843"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2961"/>
         <source>the %1MP3 Diags blog%2</source>
         <comment>arguments are HTML elements</comment>
         <translation>le %1blog de MP3 Diags%2</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2847"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2965"/>
         <source>the %1change log%2</source>
         <comment>arguments are HTML elements</comment>
         <translation>le %1journal des modifications%2</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2854"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2972"/>
         <source>This notification is about the availability of the source code. Binaries may or may not be available at this time, depending on your particular platform.</source>
         <translation>Cette notification concerne la disponibilité du code source. Les versions compilées peuvent selon votre plate-forme ne pas être encore disponibles.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2857"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2975"/>
         <source>You should review the changes and decide if you want to upgrade or not.</source>
         <translation>Vous devriez regarder les modifications et décidez si vous souhaitez ou non mettre à jour.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2858"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2976"/>
         <source>Note: if you want to upgrade, you should %1close MP3 Diags%2 first.</source>
         <comment>arguments are HTML elements</comment>
         <translation>Note : si vous souhaitez mettre à jour, vous devez d&apos;abord %1fermer MP3 Diags%2.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2859"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2977"/>
         <source>Choose what do you want to do:</source>
         <translation>Choisissez ce que vous souhaitez faire :</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2863"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2981"/>
         <source>Just close this message</source>
         <translation>Fermer simplement ce message</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2863"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2981"/>
         <source>Don&apos;t tell me about version %1 again</source>
         <translation>Ne plus m&apos;informer concernant la version %1</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3272"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3390"/>
         <source>Open containing folder ...</source>
         <translation>Ouvrir le dossier contenant ...</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3318"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3436"/>
         <source>Run &quot;%1&quot; on %2?</source>
         <translation>Exécuter &quot;%1&quot; sur %2 ?</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3347"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3465"/>
         <source>Cannot start process. Check that the executable name and the parameters are correct.</source>
         <translation>Impossible de démarrer le processus. Vérifiez que le nom de l&apos;exécutable ainsi que les paramètres sont corrects.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3383"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3501"/>
         <source>%1 and %2</source>
         <translation>%1 et %2</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3387"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3505"/>
         <source>%1, %2 and %3</source>
         <translation>%1, %2 et %3</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3391"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3509"/>
         <source>%1, %2 and %3 other files</source>
         <translation>%1, %2 et %3 autres fichiers</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="411"/>
+        <location filename="../main.cpp" line="425"/>
         <source>Folder &quot;%1&quot; doesn&apos;t exist. The program will exit ...</source>
         <translation>Le fichier &quot;%1&quot; n&apos;existe pas. Le programme va s&apos;arrêter...</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="450"/>
+        <location filename="../main.cpp" line="464"/>
         <source>Cannot write to file &quot;%1&quot;. The program will exit ...</source>
         <translation>Impossible d&apos;écrire dans le fichier &quot;%1&quot;. Le programme va s&apos;arrêter...</translation>
     </message>
 </context>
 <context>
+    <name>Mp3ProcThread</name>
+    <message>
+        <location filename="../MainFormDlgImpl.cpp" line="1695"/>
+        <source>File not found: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../MainFormDlgImpl.cpp" line="1698"/>
+        <source>Cannot open file: %1, which seems to be under a folder that is a shortcut. Note that folder shortcuts are not supported, but you can use symbolic links instead.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../MainFormDlgImpl.cpp" line="1707"/>
+        <source>File name too long: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../MainFormDlgImpl.cpp" line="1711"/>
+        <source>Scan exception for file: %1: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Mp3Transformer</name>
     <message>
-        <location filename="../Mp3TransformThread.cpp" line="709"/>
+        <location filename="../Mp3TransformThread.cpp" line="725"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../Mp3TransformThread.cpp" line="721"/>
+        <location filename="../Mp3TransformThread.cpp" line="737"/>
         <source>There was an error processing the following file:
 
 %1
@@ -3674,7 +3708,7 @@ Processing aborted.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Mp3TransformThread.cpp" line="727"/>
+        <location filename="../Mp3TransformThread.cpp" line="743"/>
         <source>There was an error writing to the following file:
 
 %1
@@ -3691,7 +3725,7 @@ Assurez-vous d&apos;avoir les droits en écriture et qu&apos;il y a suffisamment
 Traitement annulé.</translation>
     </message>
     <message>
-        <location filename="../Mp3TransformThread.cpp" line="733"/>
+        <location filename="../Mp3TransformThread.cpp" line="749"/>
         <source>The file &quot;%1&quot; seems to have been modified since the last scan. You need to rescan it before continuing.
 
 Processing aborted.</source>
@@ -3700,7 +3734,7 @@ Processing aborted.</source>
 Traitement annulé.</translation>
     </message>
     <message>
-        <location filename="../Mp3TransformThread.cpp" line="739"/>
+        <location filename="../Mp3TransformThread.cpp" line="755"/>
         <source>There was an error processing the following file:
 
 %1
@@ -3721,7 +3755,7 @@ Ceci peut également être dû à des restrictions d&apos;accès ou un disque pl
 Traitement annulé.</translation>
     </message>
     <message>
-        <location filename="../Mp3TransformThread.cpp" line="743"/>
+        <location filename="../Mp3TransformThread.cpp" line="759"/>
         <source>There was an error processing the following file:
 %1
 
@@ -3742,19 +3776,598 @@ Traitement annulé.</translation>
 <context>
     <name>MusicBrainzDownloader</name>
     <message>
-        <location filename="../MusicBrainzDownloader.cpp" line="280"/>
+        <location filename="../MusicBrainzDownloader.cpp" line="123"/>
+        <location filename="../MusicBrainzDownloader.cpp" line="373"/>
+        <source>JSON parse error: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../MusicBrainzDownloader.cpp" line="554"/>
         <source>Download album data from MusicBrainz.org</source>
         <translation>Télécharger les informations d&apos;album depuis MusicBrainz.org</translation>
     </message>
     <message>
-        <location filename="../MusicBrainzDownloader.cpp" line="369"/>
+        <location filename="../MusicBrainzDownloader.cpp" line="666"/>
         <source>waiting %1ms</source>
         <translation>patiente %1ms</translation>
     </message>
     <message>
-        <location filename="../MusicBrainzDownloader.cpp" line="474"/>
+        <location filename="../MusicBrainzDownloader.cpp" line="830"/>
         <source>&lt;a href=&quot;%1&quot;&gt;view at %2&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;%1&quot;&gt;voir sur %2&lt;/a&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>Note</name>
+    <message>
+        <location filename="../Notes.h" line="192"/>
+        <source>Two MPEG audio streams found, but a file should have exactly one.</source>
+        <translation>Deux flux audio MPEG détectés, mais un fichier ne peut en avoir qu&apos;un seul.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="193"/>
+        <source>Low quality MPEG audio stream. (What is considered &quot;low quality&quot; can be changed in the configuration dialog, under &quot;Quality thresholds&quot;.)</source>
+        <translation>Flux audio MPEG de qualité médiocre (Ce qui est considéré comme &quot;qualité médiocre&quot; peut être modifié dans la configuration, onglet &quot;Seuils de qualité&quot;.)</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="194"/>
+        <source>No MPEG audio stream found.</source>
+        <translation>Aucun flux audio MPEG trouvé.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="195"/>
+        <source>VBR with audio streams other than MPEG1 Layer III might work incorrectly.</source>
+        <translation>Le VBR avec des flux audio autres que le MPEG1 Layer III peut ne pas fonctionner correctement.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="196"/>
+        <source>Incomplete MPEG frame at the end of an MPEG stream.</source>
+        <translation>Trame MPEG incomplète en fin d&apos;un flux MPEG.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="197"/>
+        <source>Valid frame with a different version found after an MPEG stream.</source>
+        <translation>Trame valide avec une version différente détectée après un flux MPEG.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="198"/>
+        <source>Valid frame with a different layer found after an MPEG stream.</source>
+        <translation>Trame valide avec une couche (layer) différente détectée après un flux MPEG.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="199"/>
+        <source>Valid frame with a different channel mode found after an MPEG stream.</source>
+        <translation>Trame valide avec un mode de canaux différent détectée après un flux MPEG.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="200"/>
+        <source>Valid frame with a different frequency found after an MPEG stream.</source>
+        <translation>Trame valide avec une fréquence différente détectée après un flux MPEG.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="201"/>
+        <source>Valid frame with a different CRC policy found after an MPEG stream.</source>
+        <translation>Trame valide avec une politique CRC différente détectée après un flux MPEG.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="202"/>
+        <source>Invalid MPEG stream. Stream has fewer than 10 frames.</source>
+        <translation>Flux MPEG non valide. Le flux comporte moins de 10 trames.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="203"/>
+        <source>Invalid MPEG stream. First frame has different bitrate than the rest.</source>
+        <translation>Flux MPEG non valide. La première trame a un débit différent du reste du fichier.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="204"/>
+        <source>No normalization undo information found. The song is probably not normalized by MP3Gain or a similar program. As a result, it may sound too loud or too quiet when compared to songs from other albums.</source>
+        <translation>Aucune donnée pour annuler la normalisation détectée. Le titre n&apos;a probablement pas été normalisé par un logiciel tel que MP3Gain. En conséquence, il peut sembler trop bas ou trop fort par rapport aux titres issus d&apos;autres albums.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="205"/>
+        <source>Found audio stream in an encoding other than &quot;MPEG-1 Layer 3&quot; or &quot;MPEG-2 Layer 3.&quot; While MP3 Diags understands such streams, very few tests were run on files containing them (because they are not supposed to be found inside files with the &quot;.mp3&quot; extension), so there is a bigger chance of something going wrong while processing them.</source>
+        <translation>Flux audio détecté utilisant un encodage autre que &quot;MPEG-1 Layer 3&quot; ou &quot;MPEG-2 Layer 3&quot;. Même si MP3 Diags reconnaît de tels flux, très peu de tests ont été effectués sur des fichiers les contenant (puisqu&apos;ils ne sont pas supposés se trouver dans des fichiers portant l&apos;extension &quot;.mp3&quot;), donc il y a de fortes chances que leur traitement échoue.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="208"/>
+        <source>Two Lame headers found, but a file should have at most one of them.</source>
+        <translation>Deux en-têtes Lame détectés, mais un fichier ne devrait en avoir qu&apos;un au plus.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="209"/>
+        <source>Xing header seems added by Mp3Fixer, which makes the first frame unusable and causes a 16-byte unknown or null stream to be detected next.</source>
+        <translation>L&apos;en-tête Xing semble avoir été ajouté par Mp3Fixer, qui rend la première trame inutilisable et entraîne la détection d&apos;un flux inconnu ou vide de 16 octets juste après.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="210"/>
+        <source>Frame count mismatch between the Xing header and the audio stream.</source>
+        <translation>Nombre de trames différent entre l&apos;en-tête Xing et le flux audio.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="211"/>
+        <source>Two Xing headers found, but a file should have at most one of them.</source>
+        <translation>Deux en-têtes Xing détectés, mais un fichier ne devrait en avoir qu&apos;un au plus.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="212"/>
+        <source>The Xing header should be located immediately before the MPEG audio stream.</source>
+        <translation>L&apos;en-tête Xing devrait se trouver juste après le flux audio MPEG.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="213"/>
+        <source>The Xing header should be compatible with the MPEG audio stream, meaning that their MPEG version, layer and frequency must be equal.</source>
+        <translation>L&apos;en-tête Xing devrait être compatible avec le flux audio MPEG, c&apos;est-à-dire que leur fréquence, version MPEG et couche doivent être identiques.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="214"/>
+        <source>The MPEG audio stream uses VBR but a Xing header wasn&apos;t found. This will confuse some players, which won&apos;t be able to display the song duration or to seek.</source>
+        <translation>Le flux audio MPEG utilise le VBR mais aucun en-tête Xing n&apos;a été trouvé. Ceci peut induire en erreur certains lecteurs, qui ne pourront pas afficher la durée du titre ou faire de recherche.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="215"/>
+        <source>Xing header included in audio frame count. This is probably best ignored, as most players are fine with it and the fix erases potentially important information, like gapless playing information or the table of contents.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="218"/>
+        <source>Two VBRI headers found, but a file should have at most one of them.</source>
+        <translation>Deux en-têtes VBRI détectés, mais un fichier ne devrait en avoir qu&apos;un au plus.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="219"/>
+        <source>VBRI headers aren&apos;t well supported by some players. They should be replaced by Xing headers.</source>
+        <translation>Les en-têtes VBRI sont mal supportés par certains lecteurs. Il est préférable de les remplacer par des en-têtes Xing.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="220"/>
+        <source>VBRI header found alongside Xing header. The VBRI header should probably be removed.</source>
+        <translation>En-têtes VBRI et Xing détectés. L&apos;en-tête VBRI devrait probablement être supprimé.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="223"/>
+        <source>Invalid ID3V2 frame. File too short.</source>
+        <translation>Trame ID3V2 non valide. Fichier trop court.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="224"/>
+        <source>Invalid frame name in ID3V2 tag.</source>
+        <translation>Nom de trame non valide dans le tag ID3V2.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="225"/>
+        <source>Flags in the first flag group that are supposed to always be 0 are set to 1. They will be ignored.</source>
+        <translation>Les drapeaux du premier groupe supposés être toujours à 0 sont à 1. Ils seront ignorés.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="226"/>
+        <source>Flags in the second flag group that are supposed to always be 0 are set to 1. They will be ignored.</source>
+        <translation>Les drapeaux du second groupe supposés être toujours à 0 sont à 1. Ils seront ignorés.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="227"/>
+        <source>Error decoding the value of a text frame while reading an Id3V2 Stream.</source>
+        <translation>Erreur lors du décodage de la valeur d&apos;une trame texte pendant la lecture d&apos;un flux ID3V2.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="228"/>
+        <source>ID3V2 tag has text frames using Latin-1 encoding that contain characters with a code above 127. While this is valid, those frames may have their content set or displayed incorrectly by software that uses the local code page instead of Latin-1. Conversion to Unicode (UTF16) is recommended.</source>
+        <translation>Le tag ID3V2 comporte des trames de texte utilisant l&apos;encodage Latin-1 avec des caractères possédant un code supérieur à 127. Même si cela est valide, ces trames peuvent voir leur contenu modifié ou affiché de façon incorrecte par des logiciels utilisant la page de code locale au lieu du Latin-1. La conversion en Unicode (UTF16) est recommandée.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="229"/>
+        <source>Empty genre frame (TCON) found.</source>
+        <translation>Trame de genre vide (TCON) détectée.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="230"/>
+        <source>Multiple frame instances found, but only the first one will be used.</source>
+        <translation>Plusieurs instances de trame détectées, mais seule la première sera utilisée.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="231"/>
+        <source>The padding in the ID3V2 tag is too large, wasting space. (Large padding improves the tag editor saving speed, if fast saving is enabled, so you may want to delay compacting the tag until after you&apos;re done with the tag editor.)</source>
+        <translation>Le bourrage du tag ID3V2 est trop important et gaspille de l&apos;espace. (Un bourrage important améliore la vitesse de sauvegarde de l&apos;éditeur de tags si la sauvegarde rapide est activée, donc vous souhaiterez peut-être retarder la compaction du tag une fois que vous aurez terminé avec l&apos;éditeur de tags.)</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="232"/>
+        <source>Unsupported ID3V2 version.</source>
+        <translation>Version ID3V2 non supportée.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="233"/>
+        <source>Unsupported ID3V2 tag. Unsupported flag.</source>
+        <translation>Tag ID3V2 non supporté. Drapeau non supporté.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="234"/>
+        <source>Unsupported value for Flags1 in ID3V2 frame. (This may also indicate that the file contains garbage where it was supposed to be zero.)</source>
+        <translation>Valeur non supportée pour Flags1 dans la trame ID3V2. (Ceci peut aussi indiquer que le fichier contient des données incorrectes là où il devrait y avoir des zéros.)</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="235"/>
+        <source>Unsupported value for Flags2 in ID3V2 frame. (This may also indicate that the file contains garbage where it was supposed to be zero.)</source>
+        <translation>Valeur non supportée pour Flags2 dans la trame ID3V2. (Ceci peut aussi indiquer que le fichier contient des données incorrectes là où il devrait y avoir des zéros.)</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="236"/>
+        <source>Multiple instances of the POPM frame found in ID3V2 tag. The current version discards all the instances except the first when processing this tag.</source>
+        <translation>Instances multiples d&apos;une trame POPM détectée dans le tag ID3V2. La version actuelle ignore toutes les instances sauf la première lorsqu&apos;elle traite ce tag.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="237"/>
+        <source>ID3V2 tag contains no frames, which is invalid. This note will disappear once you add track information in the tag editor.</source>
+        <translation>Le tag ID3V2 ne contient aucune trame, ce qui n&apos;est pas valide. Cette note disparaîtra dès que vous aurez ajouté des informations sur la piste dans l&apos;éditeur de tags.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="238"/>
+        <source>ID3V2 tag contains an empty text frame, which is invalid.</source>
+        <translation>Le tag ID3V2 contient une trame de texte vide, ce qui n&apos;est pas valide.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="241"/>
+        <source>ID3V2 tag doesn&apos;t have an APIC frame (which is used to store images).</source>
+        <translation>Le tag ID3V2 ne possède pas de trame APIC (utilisée pour stocker les images).</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="242"/>
+        <source>ID3V2 tag has an APIC frame (which is used to store images), but the image couldn&apos;t be loaded.</source>
+        <translation>Le tag ID3V2 possède une trame APIC (utilisée pour stocker les images), mais l&apos;image n&apos;a pas pu être chargée.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="243"/>
+        <source>ID3V2 tag has at least one valid APIC frame (which is used to store images), but no frame has a type that is associated with an album cover.</source>
+        <translation>Le tag ID3V2 a au moins une trame APIC (utilisée pour stocker les images) valide, mais aucune n&apos;a un type associé avec une pochette d&apos;album.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="244"/>
+        <source>Error loading image in APIC frame.</source>
+        <translation>Erreur lors du chargement de l&apos;image depuis la trame APIC.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="245"/>
+        <source>Error loading image in APIC frame. The frame is too short anyway to have space for an image.</source>
+        <translation>Erreur lors du chargement de l&apos;image depuis la trame APIC. Cette dernière est cependant bien trop courte pour contenir une image.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="246"/>
+        <source>ID3V2 tag has multiple APIC frames with the same picture type.</source>
+        <translation>Le tag ID3V2 a plusieurs trames APIC avec le même type d&apos;image.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="247"/>
+        <source>ID3V2 tag has multiple APIC frames. While this is valid, players usually use only one of them to display an image, discarding the others.</source>
+        <translation>Le tag ID3V2 a plusieurs trames APIC. Si cela est valide, les lecteurs n&apos;en utilisent généralement qu&apos;une pour afficher une image, en ignorant les autres.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="249"/>
+        <source>Unsupported text encoding for APIC frame in ID3V2 tag.</source>
+        <translation>Encodage de texte de la trame APIC non supporté dans le tag ID3V2.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="250"/>
+        <source>APIC frame uses a link to a file as a MIME Type, which is not supported.</source>
+        <translation>La trame APIC utilise un lien vers un fichier en tant que type MIME, ce qui n&apos;est pas supporté.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="251"/>
+        <source>Picture description is ignored in the current version.</source>
+        <translation>La description des images est ignorée dans la version actuelle.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="252"/>
+        <source>Found image encoded as progressive JPEG. Some players might be incompatible with it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="255"/>
+        <source>No ID3V2.3.0 tag found, although this is the most popular tag for storing song information.</source>
+        <translation>Aucun tag ID3V2.3.0 détecté, bien que ce soit le tag le plus populaire pour le stockage d&apos;informations sur les titres.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="256"/>
+        <source>Two ID3V2.3.0 tags found, but a file should have at most one of them.</source>
+        <translation>Deux tags ID3V2.3.0 détectés, mais un fichier ne devrait en avoir qu&apos;un au plus.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="257"/>
+        <source>Both ID3V2.3.0 and ID3V2.4.0 tags found, but there should be only one of them.</source>
+        <translation>Tags ID3V2.3.0 et ID3V2.4.0 détectés, mais il ne devrait y en avoir qu&apos;un des deux.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="258"/>
+        <source>The ID3V2.3.0 tag should be the first tag in a file.</source>
+        <translation>Le tag ID3V2.3.0 devrait être le premier tag du fichier.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="259"/>
+        <source>ID3V2.3.0 tag contains a text frame encoded as UTF-8, which is valid in ID3V2.4.0 but not in ID3V2.3.0.</source>
+        <translation>Tag ID3V2.3.0 contenant une trame de texte encodée en UTF-8, ce qui est valide en ID3V2.4.0 mais pas en ID3V2.3.0.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="260"/>
+        <source>Unsupported value of text frame while reading an Id3V2 Stream.</source>
+        <translation>Valeur de trame de texte non supportée lors de la lecture d&apos;un flux ID3V2.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="261"/>
+        <source>Invalid ID3V2.3.0 frame. Incorrect frame size or file too short.</source>
+        <translation>Trame ID3V2.3.0 non valide. Taille de trame incorrecte ou fichier trop court.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="262"/>
+        <source>Invalid ID3V2.3.0 frame. Frame size is negative.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="263"/>
+        <source>Invalid ID3V2.3.0 frame. Maximum supported size is 64 MB.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="264"/>
+        <source>ID3V2.3.0 frame is larger than usual, possibly wasting space.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="267"/>
+        <source>Two ID3V2.4.0 tags found, but a file should have at most one of them.</source>
+        <translation>Deux tags ID3V2.4.0 détectés, mais un fichier ne devrait en avoir qu&apos;un au plus.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="268"/>
+        <source>Invalid ID3V2.4.0 frame. Incorrect frame size or file too short.</source>
+        <translation>Trame ID3V2.4.0 non valide. Taille de trame incorrecte ou fichier trop court.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="269"/>
+        <source>Invalid ID3V2.4.0 frame. Frame size is supposed to be stored as a synchsafe integer, which uses only 7 bits in a byte, but the size uses all 8 bits, as in ID3V2.3.0. This will confuse some applications</source>
+        <translation>Frame ID3V2.4.0 non valide. La taille de trame devrait être stockée en tant qu&apos;entier &apos;synchsafe&apos;, qui n&apos;utilise que 7 bits de l&apos;octet, mais elle utilise la totalité des 8 bits, comme en ID3V2.3.0. Ceci risque d&apos;induire en erreur certaines applications</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="270"/>
+        <source>Deprecated TYER frame found in 2.4.0 tag alongside a TDRC frame.</source>
+        <translation>Trame TYER obsolète détectée dans le tag 2.4.0 avec une trame TDRC.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="271"/>
+        <source>Deprecated TYER frame found in 2.4.0 tag. It&apos;s supposed to be replaced by a TDRC frame.</source>
+        <translation>Trame TYER obsolète détectée dans un tag 2.4.0. Elle devrait être remplacée par une trame TDRC.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="272"/>
+        <source>Deprecated TDAT frame found in 2.4.0 tag alongside a TDRC frame.</source>
+        <translation>Trame TDAT obsolète détectée dans le tag 2.4.0 avec une trame TDRC.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="273"/>
+        <source>Deprecated TDAT frame found in 2.4.0 tag. It&apos;s supposed to be replaced by a TDRC frame.</source>
+        <translation>Trame TDAT obsolète détectée dans le tag 2.4.0. Elle devrait être remplacée par une trame TDRC.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="274"/>
+        <source>Invalid ID3V2.4.0 frame. Mismatched Data length indicator. Frame value is probably incorrect</source>
+        <translation>Trame ID3V2.4.0 non valide. L&apos;indicateur de longueur de données ne correspond pas. La valeur de la trame est sans doute incorrecte</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="275"/>
+        <source>Invalid ID3V2.4.0 frame. Incorrect unsynchronization bit.</source>
+        <translation>Trame ID3V2.4.0 non valide. Bit de désynchronisation incorrect.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="276"/>
+        <source>Unsupported value of text frame while reading an Id3V2.4.0 stream. It may be using an unsupported text encoding.</source>
+        <translation>Valeur de trame texte non supportée durant la lecture d&apos;un flux ID3V2.4.0. Cela provient peut-être d&apos;un encodage de texte non supporté.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="279"/>
+        <source>The only supported tag found that is capable of storing song information is ID3V1, which has pretty limited capabilities.</source>
+        <translation>Le seul tag supporté détcté qui soit capable de stocker des informations sur le titre est un ID3V1, dont les capacités sont relativement limitées.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="280"/>
+        <source>The ID3V1 tag should be located after the MPEG audio stream.</source>
+        <translation>Le tag ID3V1 devrait se trouver juste après le flux audio MPEG.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="281"/>
+        <source>Invalid ID3V1 tag. File too short.</source>
+        <translation>Tag ID3V1 non valide. Fichier trop court.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="282"/>
+        <source>Two ID3V1 tags found, but a file should have at most one of them.</source>
+        <translation>Deux tags ID3V1 détectés, mais un fichier ne devrait en avoir qu&apos;un au plus.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="284"/>
+        <source>ID3V1 tag contains fields padded with spaces alongside fields padded with zeroes. The standard only allows zeroes, but some tools use spaces. Even so, zero-padding and space-padding shouldn&apos;t be mixed.</source>
+        <translation>Le tag ID3V1 contient des champs bourrés avec des espaces et d&apos;autres champs bourrés avec des zéros. Le standard n&apos;autorise que des zéros, mais certains outils utilisent des espaces. Quoi qu&apos;il en soit, les deux types de bourrage ne devraient pas être mélangés.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="285"/>
+        <source>ID3V1 tag contains fields that are padded with spaces mixed with zeroes. The standard only allows zeroes, but some tools use spaces. Even so, one character should be used for padding for the whole tag.</source>
+        <translation>Le tag ID3V1 contient des champs bourrés avec des espaces et zéros mélangés. Le standard n&apos;autorise que des zéros, mais certains outils utilisent des espaces. Quoi qu&apos;il en soit, un unique caractère devrait être utilisé pour le bourrage du tag complet.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="286"/>
+        <source>Invalid ID3V1 tag. Invalid characters in Name field.</source>
+        <translation>Tag ID3V1 non valide. Caractères non valides dans le champ Nom.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="287"/>
+        <source>Invalid ID3V1 tag. Invalid characters in Artist field.</source>
+        <translation>Tag ID3V1 non valide. Caractères non valides dans le champ Artiste.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="288"/>
+        <source>Invalid ID3V1 tag. Invalid characters in Album field.</source>
+        <translation>Tag ID3V1 non valide. Caractères non valides dans le champ Album.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="289"/>
+        <source>Invalid ID3V1 tag. Invalid characters in Year field.</source>
+        <translation>Tag ID3V1 non valide. Caractères non valides dans le champ Année.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="290"/>
+        <source>Invalid ID3V1 tag. Invalid characters in Comment field.</source>
+        <translation>Tag ID3V1 non valide. Caractères non valides dans le champ Commentaire.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="293"/>
+        <source>Broken stream found.</source>
+        <translation>Flux endommagé détecté.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="294"/>
+        <source>Broken stream found. Since other streams follow, it is possible that players and tools will have problems using the file. Removing the stream is recommended.</source>
+        <translation>Flux endommagé détecté. Puisque d&apos;autres flux suivent, il se peut que certains outils ou lecteurs aient des problèmes pour utiliser ce fichier. Il est recommandé de supprimer le flux.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="297"/>
+        <source>Truncated MPEG stream found. The cause for this seems to be that the file was truncated.</source>
+        <translation>Flux MPEG tronqué détecté. La cause semble être la troncature du fichier.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="298"/>
+        <source>Truncated MPEG stream found. Since other streams follow, it is possible that players and tools will have problems using the file. Removing the stream or padding it with 0 to reach its declared size is strongly recommended.</source>
+        <translation>Flux MPEG tronqué détecté. Puisque d&apos;autres flux suivent, il se peut que certains outils ou lecteurs aient des problèmes pour utiliser ce fichier. Il est fortement recommandé de supprimer le flux ou de le bourrer avec des 0 pour atteindre sa taille déclarée.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="301"/>
+        <source>Not enough remaining bytes to create an UnknownDataStream.</source>
+        <translation>Nombre d&apos;octets restant insuffisant pour créer un flux de données inconnu (UnknownDataStream).</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="302"/>
+        <source>Unknown stream found.</source>
+        <translation>Flux inconnu détecté.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="303"/>
+        <source>Unknown stream found. Since other streams follow, it is possible that players and tools will have problems using the file. Removing the stream is recommended.</source>
+        <translation>Flux inconnu détecté. Puisque d&apos;autres flux suivent, il se peut que certains outils ou lecteurs aient des problèmes pour utiliser ce fichier. Il est recommandé de supprimer le flux.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="304"/>
+        <source>File contains null streams.</source>
+        <translation>Le fichier contient des flux nuls.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="307"/>
+        <source>Invalid Lyrics stream tag. File too short.</source>
+        <translation>Tag de flux Paroles non valide. Fichier trop court.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="308"/>
+        <source>Two Lyrics tags found, but only one is supported.</source>
+        <translation>Deux tags Paroles détectés, mais un seul est supporté.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="310"/>
+        <source>Invalid Lyrics stream tag. Unexpected characters found.</source>
+        <translation>Tag de flux Paroles non valide. Caractères inattendus trouvés.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="311"/>
+        <source>Multiple fields with the same name were found in a Lyrics tag, but only one is supported.</source>
+        <translation>Des champs multiples avec le même nom ont été détectés dans un tag Paroles, mais un seul est supporté.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="313"/>
+        <source>Currently INF fields in Lyrics tags are not fully supported.</source>
+        <translation>Les champs INF dans les tags Paroles ne sont pas totalement supportés actuellement.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="316"/>
+        <source>Invalid Ape Item. File too short.</source>
+        <translation>Element APE non valide. Fichier trop court.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="317"/>
+        <source>Ape Item seems too big. Although the size may be any 32-bit integer, 256 bytes should be enough in practice. If this note is determined to be incorrect, it will be removed in the future.</source>
+        <translation>L&apos;item Ape semble trop grand. Bien que la taille puisse être n&apos;importe quel entier sur 32 bits, 256 octets devraient suffire en pratique. Si cette note s&apos;avère incorrecte, elle sera supprimée.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="318"/>
+        <source>Invalid Ape Item. Terminator not found for item name.</source>
+        <translation>Elément APE non valide. Terminaison pour le nom d&apos;élément introuvable.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="319"/>
+        <source>Invalid Ape tag. Header expected but footer found.</source>
+        <translation>Tag APE non valide. En-tête attendu mais pied de page trouvé.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="320"/>
+        <source>Not an Ape tag. File too short.</source>
+        <translation>N&apos;est pas un tag APE. Fichier trop court.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="321"/>
+        <source>Invalid Ape tag. Footer expected but header found.</source>
+        <translation>Tag APE non valide. Pied de page attendu mais en-tête trouvé.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="322"/>
+        <source>Invalid Ape tag. Mismatch between header and footer.</source>
+        <translation>Tag APE non valide. Incohérence entre l&apos;en-tête et le pied de page.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="323"/>
+        <source>Two Ape tags found, but only one is supported.</source>
+        <translation>Deux tags APE détectés, mais un seul est supporté.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="324"/>
+        <source>Ape item flags not supported.</source>
+        <translation>Drapeaux de l&apos;élément APE non supportés.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="325"/>
+        <source>Unsupported Ape tag. Currently a missing header or footer are not supported.</source>
+        <translation>Tag APE non supporté. Actuellement un en-tête ou pied de page manquant n&apos;est pas supporté.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="328"/>
+        <source>The file seems to have been changed in the (short) time that passed between parsing it and the initial search for pictures. If you think that&apos;s not the case, report a bug.</source>
+        <translation>Le fichier semble avoir changé pendant le (court) laps de temps entre son analyse et la recherche initiale d&apos;images. Si vous pensez que ce n&apos;est pas le cas, veuillez signaler un bogue.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="329"/>
+        <source>No supported tag found that is capable of storing song information.</source>
+        <translation>Aucun tag supporté capable de stocker des informations sur le titre n&apos;a été détecté.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="330"/>
+        <source>Too many TRACE notes added. The rest will be discarded.</source>
+        <translation>Trop de notes TRACE ajoutées. Le reste sera ignoré.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="331"/>
+        <source>Too many notes added. The rest will be discarded.</source>
+        <translation>Trop de notes ajoutées. Le reste sera ignoré.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="332"/>
+        <source>Too many streams found. Aborting processing.</source>
+        <translation>Trop de flux détectés. Annulation du traitement.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="333"/>
+        <source>Unsupported stream found. It may be supported in the future if there&apos;s a real need for it.</source>
+        <translation>Flux non supporté détecté. Il pourrait être supporté ultérieurement si un réel besoin s&apos;en fait sentir.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="334"/>
+        <source>The file was saved using the &quot;fast&quot; option. While this improves the saving speed, it may leave the notes in an inconsistent state, so you should rescan the file.</source>
+        <translation>Le fichier a été sauvegardé en utilisant l&apos;option &quot;rapide&quot;. Si la vitesse de sauvegarde est améliorée, il se peut aussi que les notes soient laissées dans un état incohérent, c&apos;est pourquoi vous devriez scanner à nouveau le fichier.</translation>
+    </message>
+    <message>
+        <location filename="../Notes.h" line="335"/>
+        <source>An error occurred while reading the file, so it wasn&apos;t fully processed. This usually happens when reading from external drives or USB sticks, in which case a workaround might be to copy the files to an internal drive.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3778,52 +4391,52 @@ Traitement annulé.</translation>
 <context>
     <name>NoteFilterDlgImpl</name>
     <message>
-        <location filename="../NoteFilterDlgImpl.cpp" line="60"/>
+        <location filename="../NoteFilterDlgImpl.cpp" line="62"/>
         <source>&lt;all notes&gt;</source>
         <translation>&lt;toutes les notes&gt;</translation>
     </message>
     <message>
-        <location filename="../NoteFilterDlgImpl.cpp" line="87"/>
+        <location filename="../NoteFilterDlgImpl.cpp" line="89"/>
         <source>Available notes</source>
         <translation>Notes disponibles</translation>
     </message>
     <message>
-        <location filename="../NoteFilterDlgImpl.cpp" line="88"/>
+        <location filename="../NoteFilterDlgImpl.cpp" line="90"/>
         <source>Include notes</source>
         <translation>Notes incluses</translation>
     </message>
     <message>
-        <location filename="../NoteFilterDlgImpl.cpp" line="177"/>
+        <location filename="../NoteFilterDlgImpl.cpp" line="179"/>
         <source>Add selected note(s)</source>
         <translation>Ajouter la(les) note(s) sélectionné(es)</translation>
     </message>
     <message>
-        <location filename="../NoteFilterDlgImpl.cpp" line="178"/>
+        <location filename="../NoteFilterDlgImpl.cpp" line="180"/>
         <source>Remove selected note(s)</source>
         <translation>Enlever la(les) note(s) sélectionné(es)</translation>
     </message>
     <message>
-        <location filename="../NoteFilterDlgImpl.cpp" line="179"/>
+        <location filename="../NoteFilterDlgImpl.cpp" line="181"/>
         <source>Add all notes</source>
         <translation>Ajouter toutes les notes</translation>
     </message>
     <message>
-        <location filename="../NoteFilterDlgImpl.cpp" line="180"/>
+        <location filename="../NoteFilterDlgImpl.cpp" line="182"/>
         <source>Remove all notes</source>
         <translation>Supprimer toutes les notes</translation>
     </message>
     <message>
-        <location filename="../NoteFilterDlgImpl.cpp" line="182"/>
+        <location filename="../NoteFilterDlgImpl.cpp" line="184"/>
         <source>Restore lists to the configuration they had when the window was open</source>
         <translation>Restaurer les listes courantes à leur configuration à l&apos;ouverture de la fenêtre</translation>
     </message>
     <message>
-        <location filename="../NoteFilterDlgImpl.cpp" line="210"/>
+        <location filename="../NoteFilterDlgImpl.cpp" line="212"/>
         <source>L</source>
         <translation>L</translation>
     </message>
     <message>
-        <location filename="../NoteFilterDlgImpl.cpp" line="211"/>
+        <location filename="../NoteFilterDlgImpl.cpp" line="213"/>
         <source>Note</source>
         <translation>Note</translation>
     </message>
@@ -3836,569 +4449,19 @@ Traitement annulé.</translation>
         <translation>&lt;Emplacement pour une note introuvable, vraisemblablement après une mise à jour logicielle. Veuillez scanner le fichier à nouveau.&gt;</translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="382"/>
+        <location filename="../Notes.cpp" line="386"/>
         <source>ERROR</source>
         <translation>ERREUR</translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="383"/>
+        <location filename="../Notes.cpp" line="387"/>
         <source>WARNING</source>
         <translation>AVERTISSEMENT</translation>
     </message>
     <message>
-        <location filename="../Notes.cpp" line="384"/>
+        <location filename="../Notes.cpp" line="388"/>
         <source>SUPPORT</source>
         <translation>SUPPORT</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="190"/>
-        <source>Two MPEG audio streams found, but a file should have exactly one.</source>
-        <translation>Deux flux audio MPEG détectés, mais un fichier ne peut en avoir qu&apos;un seul.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="191"/>
-        <source>Low quality MPEG audio stream. (What is considered &quot;low quality&quot; can be changed in the configuration dialog, under &quot;Quality thresholds&quot;.)</source>
-        <translation>Flux audio MPEG de qualité médiocre (Ce qui est considéré comme &quot;qualité médiocre&quot; peut être modifié dans la configuration, onglet &quot;Seuils de qualité&quot;.)</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="192"/>
-        <source>No MPEG audio stream found.</source>
-        <translation>Aucun flux audio MPEG trouvé.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="193"/>
-        <source>VBR with audio streams other than MPEG1 Layer III might work incorrectly.</source>
-        <translation>Le VBR avec des flux audio autres que le MPEG1 Layer III peut ne pas fonctionner correctement.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="194"/>
-        <source>Incomplete MPEG frame at the end of an MPEG stream.</source>
-        <translation>Trame MPEG incomplète en fin d&apos;un flux MPEG.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="195"/>
-        <source>Valid frame with a different version found after an MPEG stream.</source>
-        <translation>Trame valide avec une version différente détectée après un flux MPEG.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="196"/>
-        <source>Valid frame with a different layer found after an MPEG stream.</source>
-        <translation>Trame valide avec une couche (layer) différente détectée après un flux MPEG.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="197"/>
-        <source>Valid frame with a different channel mode found after an MPEG stream.</source>
-        <translation>Trame valide avec un mode de canaux différent détectée après un flux MPEG.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="198"/>
-        <source>Valid frame with a different frequency found after an MPEG stream.</source>
-        <translation>Trame valide avec une fréquence différente détectée après un flux MPEG.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="199"/>
-        <source>Valid frame with a different CRC policy found after an MPEG stream.</source>
-        <translation>Trame valide avec une politique CRC différente détectée après un flux MPEG.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="200"/>
-        <source>Invalid MPEG stream. Stream has fewer than 10 frames.</source>
-        <translation>Flux MPEG non valide. Le flux comporte moins de 10 trames.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="201"/>
-        <source>Invalid MPEG stream. First frame has different bitrate than the rest.</source>
-        <translation>Flux MPEG non valide. La première trame a un débit différent du reste du fichier.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="202"/>
-        <source>No normalization undo information found. The song is probably not normalized by MP3Gain or a similar program. As a result, it may sound too loud or too quiet when compared to songs from other albums.</source>
-        <translation>Aucune donnée pour annuler la normalisation détectée. Le titre n&apos;a probablement pas été normalisé par un logiciel tel que MP3Gain. En conséquence, il peut sembler trop bas ou trop fort par rapport aux titres issus d&apos;autres albums.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="203"/>
-        <source>Found audio stream in an encoding other than &quot;MPEG-1 Layer 3&quot; or &quot;MPEG-2 Layer 3.&quot; While MP3 Diags understands such streams, very few tests were run on files containing them (because they are not supposed to be found inside files with the &quot;.mp3&quot; extension), so there is a bigger chance of something going wrong while processing them.</source>
-        <translation>Flux audio détecté utilisant un encodage autre que &quot;MPEG-1 Layer 3&quot; ou &quot;MPEG-2 Layer 3&quot;. Même si MP3 Diags reconnaît de tels flux, très peu de tests ont été effectués sur des fichiers les contenant (puisqu&apos;ils ne sont pas supposés se trouver dans des fichiers portant l&apos;extension &quot;.mp3&quot;), donc il y a de fortes chances que leur traitement échoue.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="206"/>
-        <source>Two Lame headers found, but a file should have at most one of them.</source>
-        <translation>Deux en-têtes Lame détectés, mais un fichier ne devrait en avoir qu&apos;un au plus.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="207"/>
-        <source>Xing header seems added by Mp3Fixer, which makes the first frame unusable and causes a 16-byte unknown or null stream to be detected next.</source>
-        <translation>L&apos;en-tête Xing semble avoir été ajouté par Mp3Fixer, qui rend la première trame inutilisable et entraîne la détection d&apos;un flux inconnu ou vide de 16 octets juste après.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="208"/>
-        <source>Frame count mismatch between the Xing header and the audio stream.</source>
-        <translation>Nombre de trames différent entre l&apos;en-tête Xing et le flux audio.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="209"/>
-        <source>Two Xing headers found, but a file should have at most one of them.</source>
-        <translation>Deux en-têtes Xing détectés, mais un fichier ne devrait en avoir qu&apos;un au plus.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="210"/>
-        <source>The Xing header should be located immediately before the MPEG audio stream.</source>
-        <translation>L&apos;en-tête Xing devrait se trouver juste après le flux audio MPEG.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="211"/>
-        <source>The Xing header should be compatible with the MPEG audio stream, meaning that their MPEG version, layer and frequency must be equal.</source>
-        <translation>L&apos;en-tête Xing devrait être compatible avec le flux audio MPEG, c&apos;est-à-dire que leur fréquence, version MPEG et couche doivent être identiques.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="212"/>
-        <source>The MPEG audio stream uses VBR but a Xing header wasn&apos;t found. This will confuse some players, which won&apos;t be able to display the song duration or to seek.</source>
-        <translation>Le flux audio MPEG utilise le VBR mais aucun en-tête Xing n&apos;a été trouvé. Ceci peut induire en erreur certains lecteurs, qui ne pourront pas afficher la durée du titre ou faire de recherche.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="213"/>
-        <source>Xing header included in audio frame count. This is probably best ignored, as most players are fine with it and the fix erases potentially important information, like gapless playing information or the table of contents.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="216"/>
-        <source>Two VBRI headers found, but a file should have at most one of them.</source>
-        <translation>Deux en-têtes VBRI détectés, mais un fichier ne devrait en avoir qu&apos;un au plus.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="217"/>
-        <source>VBRI headers aren&apos;t well supported by some players. They should be replaced by Xing headers.</source>
-        <translation>Les en-têtes VBRI sont mal supportés par certains lecteurs. Il est préférable de les remplacer par des en-têtes Xing.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="218"/>
-        <source>VBRI header found alongside Xing header. The VBRI header should probably be removed.</source>
-        <translation>En-têtes VBRI et Xing détectés. L&apos;en-tête VBRI devrait probablement être supprimé.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="221"/>
-        <source>Invalid ID3V2 frame. File too short.</source>
-        <translation>Trame ID3V2 non valide. Fichier trop court.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="222"/>
-        <source>Invalid frame name in ID3V2 tag.</source>
-        <translation>Nom de trame non valide dans le tag ID3V2.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="223"/>
-        <source>Flags in the first flag group that are supposed to always be 0 are set to 1. They will be ignored.</source>
-        <translation>Les drapeaux du premier groupe supposés être toujours à 0 sont à 1. Ils seront ignorés.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="224"/>
-        <source>Flags in the second flag group that are supposed to always be 0 are set to 1. They will be ignored.</source>
-        <translation>Les drapeaux du second groupe supposés être toujours à 0 sont à 1. Ils seront ignorés.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="225"/>
-        <source>Error decoding the value of a text frame while reading an Id3V2 Stream.</source>
-        <translation>Erreur lors du décodage de la valeur d&apos;une trame texte pendant la lecture d&apos;un flux ID3V2.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="226"/>
-        <source>ID3V2 tag has text frames using Latin-1 encoding that contain characters with a code above 127. While this is valid, those frames may have their content set or displayed incorrectly by software that uses the local code page instead of Latin-1. Conversion to Unicode (UTF16) is recommended.</source>
-        <translation>Le tag ID3V2 comporte des trames de texte utilisant l&apos;encodage Latin-1 avec des caractères possédant un code supérieur à 127. Même si cela est valide, ces trames peuvent voir leur contenu modifié ou affiché de façon incorrecte par des logiciels utilisant la page de code locale au lieu du Latin-1. La conversion en Unicode (UTF16) est recommandée.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="227"/>
-        <source>Empty genre frame (TCON) found.</source>
-        <translation>Trame de genre vide (TCON) détectée.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="228"/>
-        <source>Multiple frame instances found, but only the first one will be used.</source>
-        <translation>Plusieurs instances de trame détectées, mais seule la première sera utilisée.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="229"/>
-        <source>The padding in the ID3V2 tag is too large, wasting space. (Large padding improves the tag editor saving speed, if fast saving is enabled, so you may want to delay compacting the tag until after you&apos;re done with the tag editor.)</source>
-        <translation>Le bourrage du tag ID3V2 est trop important et gaspille de l&apos;espace. (Un bourrage important améliore la vitesse de sauvegarde de l&apos;éditeur de tags si la sauvegarde rapide est activée, donc vous souhaiterez peut-être retarder la compaction du tag une fois que vous aurez terminé avec l&apos;éditeur de tags.)</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="230"/>
-        <source>Unsupported ID3V2 version.</source>
-        <translation>Version ID3V2 non supportée.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="231"/>
-        <source>Unsupported ID3V2 tag. Unsupported flag.</source>
-        <translation>Tag ID3V2 non supporté. Drapeau non supporté.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="232"/>
-        <source>Unsupported value for Flags1 in ID3V2 frame. (This may also indicate that the file contains garbage where it was supposed to be zero.)</source>
-        <translation>Valeur non supportée pour Flags1 dans la trame ID3V2. (Ceci peut aussi indiquer que le fichier contient des données incorrectes là où il devrait y avoir des zéros.)</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="233"/>
-        <source>Unsupported value for Flags2 in ID3V2 frame. (This may also indicate that the file contains garbage where it was supposed to be zero.)</source>
-        <translation>Valeur non supportée pour Flags2 dans la trame ID3V2. (Ceci peut aussi indiquer que le fichier contient des données incorrectes là où il devrait y avoir des zéros.)</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="234"/>
-        <source>Multiple instances of the POPM frame found in ID3V2 tag. The current version discards all the instances except the first when processing this tag.</source>
-        <translation>Instances multiples d&apos;une trame POPM détectée dans le tag ID3V2. La version actuelle ignore toutes les instances sauf la première lorsqu&apos;elle traite ce tag.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="235"/>
-        <source>ID3V2 tag contains no frames, which is invalid. This note will disappear once you add track information in the tag editor.</source>
-        <translation>Le tag ID3V2 ne contient aucune trame, ce qui n&apos;est pas valide. Cette note disparaîtra dès que vous aurez ajouté des informations sur la piste dans l&apos;éditeur de tags.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="236"/>
-        <source>ID3V2 tag contains an empty text frame, which is invalid.</source>
-        <translation>Le tag ID3V2 contient une trame de texte vide, ce qui n&apos;est pas valide.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="239"/>
-        <source>ID3V2 tag doesn&apos;t have an APIC frame (which is used to store images).</source>
-        <translation>Le tag ID3V2 ne possède pas de trame APIC (utilisée pour stocker les images).</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="240"/>
-        <source>ID3V2 tag has an APIC frame (which is used to store images), but the image couldn&apos;t be loaded.</source>
-        <translation>Le tag ID3V2 possède une trame APIC (utilisée pour stocker les images), mais l&apos;image n&apos;a pas pu être chargée.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="241"/>
-        <source>ID3V2 tag has at least one valid APIC frame (which is used to store images), but no frame has a type that is associated with an album cover.</source>
-        <translation>Le tag ID3V2 a au moins une trame APIC (utilisée pour stocker les images) valide, mais aucune n&apos;a un type associé avec une pochette d&apos;album.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="242"/>
-        <source>Error loading image in APIC frame.</source>
-        <translation>Erreur lors du chargement de l&apos;image depuis la trame APIC.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="243"/>
-        <source>Error loading image in APIC frame. The frame is too short anyway to have space for an image.</source>
-        <translation>Erreur lors du chargement de l&apos;image depuis la trame APIC. Cette dernière est cependant bien trop courte pour contenir une image.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="244"/>
-        <source>ID3V2 tag has multiple APIC frames with the same picture type.</source>
-        <translation>Le tag ID3V2 a plusieurs trames APIC avec le même type d&apos;image.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="245"/>
-        <source>ID3V2 tag has multiple APIC frames. While this is valid, players usually use only one of them to display an image, discarding the others.</source>
-        <translation>Le tag ID3V2 a plusieurs trames APIC. Si cela est valide, les lecteurs n&apos;en utilisent généralement qu&apos;une pour afficher une image, en ignorant les autres.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="247"/>
-        <source>Unsupported text encoding for APIC frame in ID3V2 tag.</source>
-        <translation>Encodage de texte de la trame APIC non supporté dans le tag ID3V2.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="248"/>
-        <source>APIC frame uses a link to a file as a MIME Type, which is not supported.</source>
-        <translation>La trame APIC utilise un lien vers un fichier en tant que type MIME, ce qui n&apos;est pas supporté.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="249"/>
-        <source>Picture description is ignored in the current version.</source>
-        <translation>La description des images est ignorée dans la version actuelle.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="252"/>
-        <source>No ID3V2.3.0 tag found, although this is the most popular tag for storing song information.</source>
-        <translation>Aucun tag ID3V2.3.0 détecté, bien que ce soit le tag le plus populaire pour le stockage d&apos;informations sur les titres.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="253"/>
-        <source>Two ID3V2.3.0 tags found, but a file should have at most one of them.</source>
-        <translation>Deux tags ID3V2.3.0 détectés, mais un fichier ne devrait en avoir qu&apos;un au plus.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="254"/>
-        <source>Both ID3V2.3.0 and ID3V2.4.0 tags found, but there should be only one of them.</source>
-        <translation>Tags ID3V2.3.0 et ID3V2.4.0 détectés, mais il ne devrait y en avoir qu&apos;un des deux.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="255"/>
-        <source>The ID3V2.3.0 tag should be the first tag in a file.</source>
-        <translation>Le tag ID3V2.3.0 devrait être le premier tag du fichier.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="256"/>
-        <source>ID3V2.3.0 tag contains a text frame encoded as UTF-8, which is valid in ID3V2.4.0 but not in ID3V2.3.0.</source>
-        <translation>Tag ID3V2.3.0 contenant une trame de texte encodée en UTF-8, ce qui est valide en ID3V2.4.0 mais pas en ID3V2.3.0.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="257"/>
-        <source>Unsupported value of text frame while reading an Id3V2 Stream.</source>
-        <translation>Valeur de trame de texte non supportée lors de la lecture d&apos;un flux ID3V2.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="258"/>
-        <source>Invalid ID3V2.3.0 frame. Incorrect frame size or file too short.</source>
-        <translation>Trame ID3V2.3.0 non valide. Taille de trame incorrecte ou fichier trop court.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="261"/>
-        <source>Two ID3V2.4.0 tags found, but a file should have at most one of them.</source>
-        <translation>Deux tags ID3V2.4.0 détectés, mais un fichier ne devrait en avoir qu&apos;un au plus.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="262"/>
-        <source>Invalid ID3V2.4.0 frame. Incorrect frame size or file too short.</source>
-        <translation>Trame ID3V2.4.0 non valide. Taille de trame incorrecte ou fichier trop court.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="263"/>
-        <source>Invalid ID3V2.4.0 frame. Frame size is supposed to be stored as a synchsafe integer, which uses only 7 bits in a byte, but the size uses all 8 bits, as in ID3V2.3.0. This will confuse some applications</source>
-        <translation>Frame ID3V2.4.0 non valide. La taille de trame devrait être stockée en tant qu&apos;entier &apos;synchsafe&apos;, qui n&apos;utilise que 7 bits de l&apos;octet, mais elle utilise la totalité des 8 bits, comme en ID3V2.3.0. Ceci risque d&apos;induire en erreur certaines applications</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="264"/>
-        <source>Deprecated TYER frame found in 2.4.0 tag alongside a TDRC frame.</source>
-        <translation>Trame TYER obsolète détectée dans le tag 2.4.0 avec une trame TDRC.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="265"/>
-        <source>Deprecated TYER frame found in 2.4.0 tag. It&apos;s supposed to be replaced by a TDRC frame.</source>
-        <translation>Trame TYER obsolète détectée dans un tag 2.4.0. Elle devrait être remplacée par une trame TDRC.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="266"/>
-        <source>Deprecated TDAT frame found in 2.4.0 tag alongside a TDRC frame.</source>
-        <translation>Trame TDAT obsolète détectée dans le tag 2.4.0 avec une trame TDRC.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="267"/>
-        <source>Deprecated TDAT frame found in 2.4.0 tag. It&apos;s supposed to be replaced by a TDRC frame.</source>
-        <translation>Trame TDAT obsolète détectée dans le tag 2.4.0. Elle devrait être remplacée par une trame TDRC.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="268"/>
-        <source>Invalid ID3V2.4.0 frame. Mismatched Data length indicator. Frame value is probably incorrect</source>
-        <translation>Trame ID3V2.4.0 non valide. L&apos;indicateur de longueur de données ne correspond pas. La valeur de la trame est sans doute incorrecte</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="269"/>
-        <source>Invalid ID3V2.4.0 frame. Incorrect unsynchronization bit.</source>
-        <translation>Trame ID3V2.4.0 non valide. Bit de désynchronisation incorrect.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="270"/>
-        <source>Unsupported value of text frame while reading an Id3V2.4.0 stream. It may be using an unsupported text encoding.</source>
-        <translation>Valeur de trame texte non supportée durant la lecture d&apos;un flux ID3V2.4.0. Cela provient peut-être d&apos;un encodage de texte non supporté.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="273"/>
-        <source>The only supported tag found that is capable of storing song information is ID3V1, which has pretty limited capabilities.</source>
-        <translation>Le seul tag supporté détcté qui soit capable de stocker des informations sur le titre est un ID3V1, dont les capacités sont relativement limitées.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="274"/>
-        <source>The ID3V1 tag should be located after the MPEG audio stream.</source>
-        <translation>Le tag ID3V1 devrait se trouver juste après le flux audio MPEG.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="275"/>
-        <source>Invalid ID3V1 tag. File too short.</source>
-        <translation>Tag ID3V1 non valide. Fichier trop court.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="276"/>
-        <source>Two ID3V1 tags found, but a file should have at most one of them.</source>
-        <translation>Deux tags ID3V1 détectés, mais un fichier ne devrait en avoir qu&apos;un au plus.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="278"/>
-        <source>ID3V1 tag contains fields padded with spaces alongside fields padded with zeroes. The standard only allows zeroes, but some tools use spaces. Even so, zero-padding and space-padding shouldn&apos;t be mixed.</source>
-        <translation>Le tag ID3V1 contient des champs bourrés avec des espaces et d&apos;autres champs bourrés avec des zéros. Le standard n&apos;autorise que des zéros, mais certains outils utilisent des espaces. Quoi qu&apos;il en soit, les deux types de bourrage ne devraient pas être mélangés.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="279"/>
-        <source>ID3V1 tag contains fields that are padded with spaces mixed with zeroes. The standard only allows zeroes, but some tools use spaces. Even so, one character should be used for padding for the whole tag.</source>
-        <translation>Le tag ID3V1 contient des champs bourrés avec des espaces et zéros mélangés. Le standard n&apos;autorise que des zéros, mais certains outils utilisent des espaces. Quoi qu&apos;il en soit, un unique caractère devrait être utilisé pour le bourrage du tag complet.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="280"/>
-        <source>Invalid ID3V1 tag. Invalid characters in Name field.</source>
-        <translation>Tag ID3V1 non valide. Caractères non valides dans le champ Nom.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="281"/>
-        <source>Invalid ID3V1 tag. Invalid characters in Artist field.</source>
-        <translation>Tag ID3V1 non valide. Caractères non valides dans le champ Artiste.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="282"/>
-        <source>Invalid ID3V1 tag. Invalid characters in Album field.</source>
-        <translation>Tag ID3V1 non valide. Caractères non valides dans le champ Album.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="283"/>
-        <source>Invalid ID3V1 tag. Invalid characters in Year field.</source>
-        <translation>Tag ID3V1 non valide. Caractères non valides dans le champ Année.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="284"/>
-        <source>Invalid ID3V1 tag. Invalid characters in Comment field.</source>
-        <translation>Tag ID3V1 non valide. Caractères non valides dans le champ Commentaire.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="287"/>
-        <source>Broken stream found.</source>
-        <translation>Flux endommagé détecté.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="288"/>
-        <source>Broken stream found. Since other streams follow, it is possible that players and tools will have problems using the file. Removing the stream is recommended.</source>
-        <translation>Flux endommagé détecté. Puisque d&apos;autres flux suivent, il se peut que certains outils ou lecteurs aient des problèmes pour utiliser ce fichier. Il est recommandé de supprimer le flux.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="291"/>
-        <source>Truncated MPEG stream found. The cause for this seems to be that the file was truncated.</source>
-        <translation>Flux MPEG tronqué détecté. La cause semble être la troncature du fichier.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="292"/>
-        <source>Truncated MPEG stream found. Since other streams follow, it is possible that players and tools will have problems using the file. Removing the stream or padding it with 0 to reach its declared size is strongly recommended.</source>
-        <translation>Flux MPEG tronqué détecté. Puisque d&apos;autres flux suivent, il se peut que certains outils ou lecteurs aient des problèmes pour utiliser ce fichier. Il est fortement recommandé de supprimer le flux ou de le bourrer avec des 0 pour atteindre sa taille déclarée.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="295"/>
-        <source>Not enough remaining bytes to create an UnknownDataStream.</source>
-        <translation>Nombre d&apos;octets restant insuffisant pour créer un flux de données inconnu (UnknownDataStream).</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="296"/>
-        <source>Unknown stream found.</source>
-        <translation>Flux inconnu détecté.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="297"/>
-        <source>Unknown stream found. Since other streams follow, it is possible that players and tools will have problems using the file. Removing the stream is recommended.</source>
-        <translation>Flux inconnu détecté. Puisque d&apos;autres flux suivent, il se peut que certains outils ou lecteurs aient des problèmes pour utiliser ce fichier. Il est recommandé de supprimer le flux.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="298"/>
-        <source>File contains null streams.</source>
-        <translation>Le fichier contient des flux nuls.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="301"/>
-        <source>Invalid Lyrics stream tag. File too short.</source>
-        <translation>Tag de flux Paroles non valide. Fichier trop court.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="302"/>
-        <source>Two Lyrics tags found, but only one is supported.</source>
-        <translation>Deux tags Paroles détectés, mais un seul est supporté.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="304"/>
-        <source>Invalid Lyrics stream tag. Unexpected characters found.</source>
-        <translation>Tag de flux Paroles non valide. Caractères inattendus trouvés.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="305"/>
-        <source>Multiple fields with the same name were found in a Lyrics tag, but only one is supported.</source>
-        <translation>Des champs multiples avec le même nom ont été détectés dans un tag Paroles, mais un seul est supporté.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="307"/>
-        <source>Currently INF fields in Lyrics tags are not fully supported.</source>
-        <translation>Les champs INF dans les tags Paroles ne sont pas totalement supportés actuellement.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="310"/>
-        <source>Invalid Ape Item. File too short.</source>
-        <translation>Element APE non valide. Fichier trop court.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="311"/>
-        <source>Ape Item seems too big. Although the size may be any 32-bit integer, 256 bytes should be enough in practice. If this note is determined to be incorrect, it will be removed in the future.</source>
-        <translation>L&apos;item Ape semble trop grand. Bien que la taille puisse être n&apos;importe quel entier sur 32 bits, 256 octets devraient suffire en pratique. Si cette note s&apos;avère incorrecte, elle sera supprimée.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="312"/>
-        <source>Invalid Ape Item. Terminator not found for item name.</source>
-        <translation>Elément APE non valide. Terminaison pour le nom d&apos;élément introuvable.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="313"/>
-        <source>Invalid Ape tag. Header expected but footer found.</source>
-        <translation>Tag APE non valide. En-tête attendu mais pied de page trouvé.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="314"/>
-        <source>Not an Ape tag. File too short.</source>
-        <translation>N&apos;est pas un tag APE. Fichier trop court.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="315"/>
-        <source>Invalid Ape tag. Footer expected but header found.</source>
-        <translation>Tag APE non valide. Pied de page attendu mais en-tête trouvé.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="316"/>
-        <source>Invalid Ape tag. Mismatch between header and footer.</source>
-        <translation>Tag APE non valide. Incohérence entre l&apos;en-tête et le pied de page.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="317"/>
-        <source>Two Ape tags found, but only one is supported.</source>
-        <translation>Deux tags APE détectés, mais un seul est supporté.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="318"/>
-        <source>Ape item flags not supported.</source>
-        <translation>Drapeaux de l&apos;élément APE non supportés.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="319"/>
-        <source>Unsupported Ape tag. Currently a missing header or footer are not supported.</source>
-        <translation>Tag APE non supporté. Actuellement un en-tête ou pied de page manquant n&apos;est pas supporté.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="322"/>
-        <source>The file seems to have been changed in the (short) time that passed between parsing it and the initial search for pictures. If you think that&apos;s not the case, report a bug.</source>
-        <translation>Le fichier semble avoir changé pendant le (court) laps de temps entre son analyse et la recherche initiale d&apos;images. Si vous pensez que ce n&apos;est pas le cas, veuillez signaler un bogue.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="323"/>
-        <source>No supported tag found that is capable of storing song information.</source>
-        <translation>Aucun tag supporté capable de stocker des informations sur le titre n&apos;a été détecté.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="324"/>
-        <source>Too many TRACE notes added. The rest will be discarded.</source>
-        <translation>Trop de notes TRACE ajoutées. Le reste sera ignoré.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="325"/>
-        <source>Too many notes added. The rest will be discarded.</source>
-        <translation>Trop de notes ajoutées. Le reste sera ignoré.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="326"/>
-        <source>Too many streams found. Aborting processing.</source>
-        <translation>Trop de flux détectés. Annulation du traitement.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="327"/>
-        <source>Unsupported stream found. It may be supported in the future if there&apos;s a real need for it.</source>
-        <translation>Flux non supporté détecté. Il pourrait être supporté ultérieurement si un réel besoin s&apos;en fait sentir.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="328"/>
-        <source>The file was saved using the &quot;fast&quot; option. While this improves the saving speed, it may leave the notes in an inconsistent state, so you should rescan the file.</source>
-        <translation>Le fichier a été sauvegardé en utilisant l&apos;option &quot;rapide&quot;. Si la vitesse de sauvegarde est améliorée, il se peut aussi que les notes soient laissées dans un état incohérent, c&apos;est pourquoi vous devriez scanner à nouveau le fichier.</translation>
-    </message>
-    <message>
-        <location filename="../Notes.h" line="329"/>
-        <source>An error occurred while reading the file, so it wasn&apos;t fully processed. This usually happens when reading from external drives or USB sticks, in which case a workaround might be to copy the files to an internal drive.</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4508,43 +4571,43 @@ Traitement annulé.</translation>
 <context>
     <name>Renamer</name>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="1087"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="1094"/>
         <source>A pattern cannot be empty</source>
         <translation>Un motif ne peut être vide</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="1094"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="1101"/>
         <source>A pattern must either begin with &apos;%1&apos; or contain no &apos;%1&apos; at all</source>
         <translation>Un motif doit commencer par &apos;%1&apos; ou ne contenir aucun &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="1100"/>
-        <location filename="../FileRenamerDlgImpl.cpp" line="1104"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="1107"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="1111"/>
         <source>A pattern must either begin with &quot;&lt;drive&gt;:\&quot; or contain no &apos;\&apos; at all</source>
         <translation>Un motif doit commencer par &quot;&lt;lecteur&gt;:\&quot; ou ne contenir aucun &apos;\&apos;</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="1162"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="1169"/>
         <source>Error in column %1.</source>
         <translation>Erreur colonne %1.</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="1171"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="1178"/>
         <source>Nested optional elements are not allowed</source>
         <translation>Les éléments optionnels imbriqués ne sont pas autorisés</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="1180"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="1187"/>
         <source>Trying to close and optional element although none is open</source>
         <translation>Tentative de fermeture des éléments optionnels bien qu&apos;aucun ne soit ouvert</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="1194"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="1201"/>
         <source>Optional element must be closed</source>
         <translation>L&apos;élément optionnel doit être fermé</translation>
     </message>
     <message>
-        <location filename="../FileRenamerDlgImpl.cpp" line="1196"/>
+        <location filename="../FileRenamerDlgImpl.cpp" line="1203"/>
         <source>Title entry (%t) must be present</source>
         <translation>L&apos;entrée de titre (%t) doit être présente</translation>
     </message>
@@ -4711,7 +4774,7 @@ Le chemin d&apos;accès doit être soit un chemin complet, commençant par une l
 <context>
     <name>SessionEditorDlgImpl</name>
     <message>
-        <location filename="../SessionEditorDlgImpl.cpp" line="116"/>
+        <location filename="../SessionEditorDlgImpl.cpp" line="137"/>
         <source>This is the name of the &quot;settings file&quot;
 
 It is supposed to be a file that doesn&apos;t already exist. You don&apos;t need to set it up. MP3 Diags
@@ -4729,7 +4792,7 @@ Le nom a été généré automatiquement. Si vous souhaitez choisir un autre nom
 simplement sur le bouton à droite pour le changer.</translation>
     </message>
     <message>
-        <location filename="../SessionEditorDlgImpl.cpp" line="122"/>
+        <location filename="../SessionEditorDlgImpl.cpp" line="143"/>
         <source>Here you need to specify the name of a &quot;settings file&quot;
 
 This is supposed to be a file that doesn&apos;t already exist. You don&apos;t need to set it up. MP3 Diags
@@ -4745,25 +4808,25 @@ MP3 Diags stockera ses réglages dans ce fichier.
 Pour le modifier, cliquez simplement sur le bouton à droite pour choisir le nom du fichier de configuration.</translation>
     </message>
     <message>
-        <location filename="../SessionEditorDlgImpl.cpp" line="195"/>
+        <location filename="../SessionEditorDlgImpl.cpp" line="216"/>
         <source>MP3 Diags - Create new session</source>
         <translation>MP3 Diags - Créer une nouvelle session</translation>
     </message>
     <message>
-        <location filename="../SessionEditorDlgImpl.cpp" line="195"/>
+        <location filename="../SessionEditorDlgImpl.cpp" line="216"/>
         <source>MP3 Diags - Edit session</source>
         <translation>MP3 Diags - Modifier la session</translation>
     </message>
     <message>
-        <location filename="../SessionEditorDlgImpl.cpp" line="229"/>
-        <location filename="../SessionEditorDlgImpl.cpp" line="239"/>
-        <location filename="../SessionEditorDlgImpl.cpp" line="248"/>
-        <location filename="../SessionEditorDlgImpl.cpp" line="295"/>
+        <location filename="../SessionEditorDlgImpl.cpp" line="250"/>
+        <location filename="../SessionEditorDlgImpl.cpp" line="260"/>
+        <location filename="../SessionEditorDlgImpl.cpp" line="269"/>
+        <location filename="../SessionEditorDlgImpl.cpp" line="316"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../SessionEditorDlgImpl.cpp" line="229"/>
+        <location filename="../SessionEditorDlgImpl.cpp" line="250"/>
         <source>You need to specify the name of the settings file.
 
 This is supposed to be a file that doesn&apos;t already exist. You don&apos;t need to set it up, but just to pick a name for it. MP3 Diags will store its settings in this file.</source>
@@ -4772,39 +4835,41 @@ This is supposed to be a file that doesn&apos;t already exist. You don&apos;t ne
 Ceci est supposé être un fichier qui n&apos;existe pas encore. Vous n&apos;avez pas besoin de le créer, juste de lui donner un nom. MP3 Diags stockera ses réglages dans ce fichier.</translation>
     </message>
     <message>
-        <location filename="../SessionEditorDlgImpl.cpp" line="239"/>
+        <location filename="../SessionEditorDlgImpl.cpp" line="260"/>
         <source>You need to select at least a directory to be included in the session.</source>
         <translation>Vous devez sélectionner au moins un dossier à inclure dans la session.</translation>
     </message>
     <message>
-        <location filename="../SessionEditorDlgImpl.cpp" line="248"/>
+        <location filename="../SessionEditorDlgImpl.cpp" line="269"/>
         <source>If you want to create backups, you must select an existing directory to store them.</source>
         <translation>Si vous souhaitez faire des sauvegardes, vous devez sélectionner un répertoire existant pour les stocker.</translation>
     </message>
     <message>
-        <location filename="../SessionEditorDlgImpl.cpp" line="295"/>
+        <location filename="../SessionEditorDlgImpl.cpp" line="316"/>
         <source>Failed to write to file %1</source>
         <translation>L&apos;écriture dans le fichier %1 a échoué</translation>
     </message>
     <message>
-        <location filename="../SessionEditorDlgImpl.cpp" line="320"/>
+        <location filename="../SessionEditorDlgImpl.cpp" line="341"/>
         <source>Select folder</source>
         <translation>Sélectionnez le dossier</translation>
     </message>
     <message>
-        <location filename="../SessionEditorDlgImpl.cpp" line="320"/>
+        <location filename="../SessionEditorDlgImpl.cpp" line="341"/>
         <source>All files (*)</source>
         <translation>Tous les fichiers (*)</translation>
     </message>
     <message>
-        <location filename="../SessionEditorDlgImpl.cpp" line="356"/>
+        <location filename="../SessionEditorDlgImpl.cpp" line="381"/>
+        <location filename="../SessionEditorDlgImpl.cpp" line="386"/>
         <source>Enter configuration file</source>
         <translation>Sélectionnez le fichier de configuration</translation>
     </message>
     <message>
-        <location filename="../SessionEditorDlgImpl.cpp" line="356"/>
-        <location filename="../SessionsDlgImpl.cpp" line="451"/>
-        <location filename="../SessionsDlgImpl.cpp" line="492"/>
+        <location filename="../SessionEditorDlgImpl.cpp" line="381"/>
+        <location filename="../SessionEditorDlgImpl.cpp" line="386"/>
+        <location filename="../SessionsDlgImpl.cpp" line="453"/>
+        <location filename="../SessionsDlgImpl.cpp" line="495"/>
         <source>MP3 Diags session files (*%1)</source>
         <translation>Fichiers de session MP3 Diags (*%1)</translation>
     </message>
@@ -4880,72 +4945,72 @@ Ceci est supposé être un fichier qui n&apos;existe pas encore. Vous n&apos;ave
 <context>
     <name>SessionsDlgImpl</name>
     <message>
-        <location filename="../SessionsDlgImpl.cpp" line="201"/>
-        <location filename="../SessionsDlgImpl.cpp" line="202"/>
+        <location filename="../SessionsDlgImpl.cpp" line="203"/>
+        <location filename="../SessionsDlgImpl.cpp" line="204"/>
         <source>&lt;last session&gt;</source>
         <translation>&lt;dernière session&gt;</translation>
     </message>
     <message>
-        <location filename="../SessionsDlgImpl.cpp" line="422"/>
-        <location filename="../SessionsDlgImpl.cpp" line="485"/>
+        <location filename="../SessionsDlgImpl.cpp" line="424"/>
+        <location filename="../SessionsDlgImpl.cpp" line="487"/>
         <source>Confirm</source>
         <translation>Confirmer</translation>
     </message>
     <message>
-        <location filename="../SessionsDlgImpl.cpp" line="422"/>
+        <location filename="../SessionsDlgImpl.cpp" line="424"/>
         <source>Do you really want to erase the current session?</source>
         <translation>Voulez-vous vraiemnt effacer la session courante ?</translation>
     </message>
     <message>
-        <location filename="../SessionsDlgImpl.cpp" line="422"/>
+        <location filename="../SessionsDlgImpl.cpp" line="424"/>
         <source>Erase</source>
         <translation>Effacer</translation>
     </message>
     <message>
-        <location filename="../SessionsDlgImpl.cpp" line="422"/>
-        <location filename="../SessionsDlgImpl.cpp" line="485"/>
+        <location filename="../SessionsDlgImpl.cpp" line="424"/>
+        <location filename="../SessionsDlgImpl.cpp" line="487"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../SessionsDlgImpl.cpp" line="439"/>
-        <location filename="../SessionsDlgImpl.cpp" line="507"/>
-        <location filename="../SessionsDlgImpl.cpp" line="520"/>
+        <location filename="../SessionsDlgImpl.cpp" line="441"/>
+        <location filename="../SessionsDlgImpl.cpp" line="510"/>
+        <location filename="../SessionsDlgImpl.cpp" line="523"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../SessionsDlgImpl.cpp" line="439"/>
+        <location filename="../SessionsDlgImpl.cpp" line="441"/>
         <source>Failed to remove the data files associated with this session</source>
         <translation>Impossible de supprimer les fichiers de données associés à cette session</translation>
     </message>
     <message>
-        <location filename="../SessionsDlgImpl.cpp" line="451"/>
+        <location filename="../SessionsDlgImpl.cpp" line="453"/>
         <source>Save session as ...</source>
         <translation>Enregistrer la session sous...</translation>
     </message>
     <message>
-        <location filename="../SessionsDlgImpl.cpp" line="485"/>
+        <location filename="../SessionsDlgImpl.cpp" line="487"/>
         <source>Do you really want to hide the current session?</source>
         <translation>Voulez-vous vraiment masquer la session courante ?</translation>
     </message>
     <message>
-        <location filename="../SessionsDlgImpl.cpp" line="485"/>
+        <location filename="../SessionsDlgImpl.cpp" line="487"/>
         <source>Hide</source>
         <translation>Masquer</translation>
     </message>
     <message>
-        <location filename="../SessionsDlgImpl.cpp" line="492"/>
+        <location filename="../SessionsDlgImpl.cpp" line="495"/>
         <source>Choose a session file</source>
         <translation>Sélectionnez un fichier de session</translation>
     </message>
     <message>
-        <location filename="../SessionsDlgImpl.cpp" line="507"/>
+        <location filename="../SessionsDlgImpl.cpp" line="510"/>
         <source>The session named &quot;%1&quot; is already part of the session list</source>
         <translation>La session nommée &quot;%1&quot; fait déjà partie de la liste des sessions</translation>
     </message>
     <message>
-        <location filename="../SessionsDlgImpl.cpp" line="520"/>
+        <location filename="../SessionsDlgImpl.cpp" line="523"/>
         <source>The session list is empty. You must create a new session or load an existing one.</source>
         <translation>La liste de sessions est vide. Vous devez créer une nouvelle session ou charger une session existante.</translation>
     </message>
@@ -4961,42 +5026,42 @@ Ceci est supposé être un fichier qui n&apos;existe pas encore. Vous n&apos;ave
 <context>
     <name>ShellIntegrator</name>
     <message>
-        <location filename="../Helpers.cpp" line="1324"/>
+        <location filename="../Helpers.cpp" line="1199"/>
         <source>%1 - %2</source>
         <translation>%1 - %2</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1406"/>
+        <location filename="../Helpers.cpp" line="1281"/>
         <source>Error setting up shell integration</source>
         <translation>Erreur lors de la configuration de l&apos;intégration au shell</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1406"/>
+        <location filename="../Helpers.cpp" line="1281"/>
         <source>It appears that setting up shell integration didn&apos;t complete successfully. You might have to configure it manually.</source>
         <translation>Il semble que la configuration de l&apos;intégration au shell ne se soit pas terminée correctement. Vous aurez sans doute à la configurer manuellement.</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1407"/>
+        <location filename="../Helpers.cpp" line="1282"/>
         <source>This message will not be shown again until the program is restarted, even if more errors occur.</source>
         <translation>Ce message n&apos;apparaîtra plus jusqu&apos;au redémarrage du programme, même si d&apos;autres erreurs se produisent.</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1408"/>
+        <location filename="../Helpers.cpp" line="1283"/>
         <source>O&amp;K</source>
         <translation>O&amp;K</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1428"/>
+        <location filename="../Helpers.cpp" line="1303"/>
         <source>temporary folder</source>
         <translation>dossier temporaire</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1429"/>
+        <location filename="../Helpers.cpp" line="1304"/>
         <source>hidden folder</source>
         <translation>dossier caché</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1430"/>
+        <location filename="../Helpers.cpp" line="1305"/>
         <source>visible folder</source>
         <translation>dossier visible</translation>
     </message>
@@ -5032,22 +5097,22 @@ Ceci est supposé être un fichier qui n&apos;existe pas encore. Vous n&apos;ave
 <context>
     <name>TagEditor::CurrentAlbumDelegate</name>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="1943"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1949"/>
         <source>Warning</source>
         <translation>Avertissement</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="1943"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1949"/>
         <source>You are editing data in a cell. If you proceed that change will be lost. Proceed and lose the data?</source>
         <translation>Vous éditez les données d&apos;une cellule. Si vous continuez, vos changements seront perdus. Continuer et perdre les données entrées ?</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="1943"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1949"/>
         <source>Proceed</source>
         <translation>Continuer</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="1943"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1949"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
@@ -5256,12 +5321,12 @@ Ceci est supposé être un fichier qui n&apos;existe pas encore. Vous n&apos;ave
 <context>
     <name>TagEditorDlgImpl</name>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="508"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="513"/>
         <source>Toggle &quot;Various Artists&quot;</source>
         <translation>Afficher/masquer &quot;Various Artists&quot;</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="510"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="515"/>
         <source>To enable &quot;Various Artists&quot; you need to open the
 configuration dialog, go to the &quot;Others&quot; tab and
 check the corresponding checkbox(es)</source>
@@ -5271,133 +5336,133 @@ fenêtre de configuration, puis cocher la(les) case(s)
 correspondante(s) de l&apos;onglet &quot;Autres&quot;</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="893"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="898"/>
         <source>Error setting up the tag order</source>
         <translation>Erreur lors de la configuration de l&apos;ordre des tags</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="893"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="898"/>
         <source>An invalid value was found in the configuration file. You&apos;ll have to sort the tags again.</source>
         <translation>Une valeur non valide a été rencontrée dans le fichier de configuration. Vous devrez trier les tags à nouveau.</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="957"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="962"/>
         <source>Error setting up patterns</source>
         <translation>Erreur lors de la configuration des motifs</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="957"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="962"/>
         <source>An invalid value was found in the configuration file. You&apos;ll have to set up the patterns manually.</source>
         <translation>Une valeur non valide a été rencontrée dans le fichier de configuration. Vous devrez configurer les motifs manuellement.</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="1028"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1033"/>
         <source>Warning</source>
         <translation>Avertissement</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="1028"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1033"/>
         <source>Reloading the current album causes all unsaved changes to be lost. Really reload?</source>
         <translation>Recharger l&apos;album courant entraîne la perte de tous les changements non sauvegardés. Vraiment recharger ?</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="1028"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1033"/>
         <source>Reload</source>
         <translation>Recharger</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="1028"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1033"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="1063"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1068"/>
         <source>Artists - %1</source>
         <translation>Artistes - %1</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="1068"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1073"/>
         <source>Others - %1</source>
         <translation>Autres - %1</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="1692"/>
-        <location filename="../TagEditorDlgImpl.cpp" line="1713"/>
-        <location filename="../TagEditorDlgImpl.cpp" line="1717"/>
-        <location filename="../TagEditorDlgImpl.cpp" line="1721"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1698"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1719"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1723"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1727"/>
         <source>Confirm</source>
         <translation>Confirmer</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="1692"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1698"/>
         <source>You added %1 images but then you didn&apos;t assign them to any songs. What do you want to do?</source>
         <translation>Vous avez ajouté %1 images mais vous ne les avez assignées à aucun morceau. Que souhaitez-vous faire ?</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="1692"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1698"/>
         <source>You added an image but then you didn&apos;t assign it to any song. What do you want to do?</source>
         <translation>Vous avez ajouté une image mais vous ne l&apos;avez assignée à aucun morceau. Que souhaitez-vous faire ?</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="1692"/>
-        <location filename="../TagEditorDlgImpl.cpp" line="1713"/>
-        <location filename="../TagEditorDlgImpl.cpp" line="1717"/>
-        <location filename="../TagEditorDlgImpl.cpp" line="1721"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1698"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1719"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1723"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1727"/>
         <source>&amp;Discard</source>
         <translation>&amp;Ignorer</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="1692"/>
-        <location filename="../TagEditorDlgImpl.cpp" line="1713"/>
-        <location filename="../TagEditorDlgImpl.cpp" line="1717"/>
-        <location filename="../TagEditorDlgImpl.cpp" line="1721"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1698"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1719"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1723"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1727"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Annuler</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="1713"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1719"/>
         <source>There are unsaved fields that you assigned a value to, as well as fields whose value doesn&apos;t match the ID3V2 value. What do you want to do?</source>
         <translation>Il existe des champs non sauvegardés auxquels vous avez affecté une valeur, ainsi que des champs dont la valeur ne correspond pas à celle de l&apos;ID3V2. Que souhaitez-vous faire ?</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="1713"/>
-        <location filename="../TagEditorDlgImpl.cpp" line="1717"/>
-        <location filename="../TagEditorDlgImpl.cpp" line="1721"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1719"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1723"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1727"/>
         <source>&amp;Save</source>
         <translation>&amp;Sauvegarder</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="1717"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1723"/>
         <source>There are unsaved fields that you assigned a value to. What do you want to do?</source>
         <translation>Il existe des champs non sauvegardés auxquels vous avez affecté une valeur. Que souhaitez-vous faire ?</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="1721"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1727"/>
         <source>There are fields whose value doesn&apos;t match the ID3V2 value. What do you want to do?</source>
         <translation>Il existe des champs dont la valeur ne correspond pas à celle de l&apos;ID3V2. Que souhaitez-vous faire ?</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="1742"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1748"/>
         <source>Saving ID3V2.3.0 tags</source>
         <translation>Sauvegarde des tags ID3V2.3.0</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="1768"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1774"/>
         <source>Info</source>
         <translation>Information</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="1768"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1774"/>
         <source>Some fields are missing or may be incomplete. While this is usually solved by downloading correct information, there are a cases when this approach doesn&apos;t work, like custom compilations, rare albums, or missing tracks.</source>
         <translation>Certains champs manquent ou peuvent être incomplets. Si le téléchargement d&apos;informations correctes permet souvent de résoudre le problème, il existe des cas comme les compilations personnalisées, albums rares ou pistes manquantes où cette approche ne fonctionne pas.</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="1770"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1776"/>
         <source>If your current folder fits one of these cases or you simply have consistently named files that you would prefer to use as a source of track info, you may want to take a look at the tag editor&apos;s patterns, at %1</source>
         <translation>Si le dossier actuel est dans un tel cas ou si vous avez nommé de façon cohérente les fichiers pour les utiliser comme source d&apos;infos sur les pistes, les motifs de l&apos;éditeur de tags sur %1 peuvennt vous être utiles</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="1770"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1776"/>
         <source>O&amp;K</source>
         <translation>O&amp;K</translation>
     </message>
@@ -5451,47 +5516,47 @@ Les espaces de début et de fin sont automatiquement supprimés des champs non l
 <context>
     <name>TagReadPanel</name>
     <message>
-        <location filename="../TagReadPanel.cpp" line="92"/>
+        <location filename="../TagReadPanel.cpp" line="96"/>
         <source>Track#</source>
         <translation>Piste#</translation>
     </message>
     <message>
-        <location filename="../TagReadPanel.cpp" line="92"/>
+        <location filename="../TagReadPanel.cpp" line="96"/>
         <source>Artist</source>
         <translation>Artiste</translation>
     </message>
     <message>
-        <location filename="../TagReadPanel.cpp" line="92"/>
+        <location filename="../TagReadPanel.cpp" line="96"/>
         <source>Title</source>
         <translation>Titre</translation>
     </message>
     <message>
-        <location filename="../TagReadPanel.cpp" line="92"/>
+        <location filename="../TagReadPanel.cpp" line="96"/>
         <source>Album</source>
         <translation>Album</translation>
     </message>
     <message>
-        <location filename="../TagReadPanel.cpp" line="92"/>
+        <location filename="../TagReadPanel.cpp" line="96"/>
         <source>VA</source>
         <translation>VA</translation>
     </message>
     <message>
-        <location filename="../TagReadPanel.cpp" line="92"/>
+        <location filename="../TagReadPanel.cpp" line="96"/>
         <source>Time</source>
         <translation>Durée</translation>
     </message>
     <message>
-        <location filename="../TagReadPanel.cpp" line="92"/>
+        <location filename="../TagReadPanel.cpp" line="96"/>
         <source>Genre</source>
         <translation>Genre</translation>
     </message>
     <message>
-        <location filename="../TagReadPanel.cpp" line="92"/>
+        <location filename="../TagReadPanel.cpp" line="96"/>
         <source>Rating</source>
         <translation>Note</translation>
     </message>
     <message>
-        <location filename="../TagReadPanel.cpp" line="92"/>
+        <location filename="../TagReadPanel.cpp" line="96"/>
         <source>Composer</source>
         <translation>Compositeur</translation>
     </message>
@@ -5500,8 +5565,8 @@ Les espaces de début et de fin sont automatiquement supprimés des champs non l
     <name>TagReader</name>
     <message>
         <location filename="../ApeStream.cpp" line="161"/>
-        <location filename="../Id3V230Stream.cpp" line="205"/>
-        <location filename="../Id3V240Stream.cpp" line="299"/>
+        <location filename="../Id3V230Stream.cpp" line="213"/>
+        <location filename="../Id3V240Stream.cpp" line="348"/>
         <source>&lt;non-text value&gt;</source>
         <translation>&lt;valeur non texte&gt;</translation>
     </message>
@@ -5722,7 +5787,7 @@ Les espaces de début et de fin sont automatiquement supprimés des champs non l
         <translation>Champ %1 : %2</translation>
     </message>
     <message>
-        <location filename="../MpegStream.cpp" line="1306"/>
+        <location filename="../MpegStream.cpp" line="1312"/>
         <source>Comment: %1</source>
         <translation>Commentaire : %1</translation>
     </message>
@@ -5751,10 +5816,10 @@ Les espaces de début et de fin sont automatiquement supprimés des champs non l
     <name>TagWriter</name>
     <message>
         <location filename="../TagWriter.cpp" line="977"/>
-        <location filename="../TagWriter.cpp" line="1671"/>
-        <location filename="../TagWriter.cpp" line="1868"/>
-        <location filename="../TagWriter.cpp" line="1954"/>
-        <location filename="../TagWriter.cpp" line="1959"/>
+        <location filename="../TagWriter.cpp" line="1675"/>
+        <location filename="../TagWriter.cpp" line="1872"/>
+        <location filename="../TagWriter.cpp" line="1958"/>
+        <location filename="../TagWriter.cpp" line="1963"/>
         <source>Warning</source>
         <translation>Avertissement</translation>
     </message>
@@ -5765,10 +5830,10 @@ Les espaces de début et de fin sont automatiquement supprimés des champs non l
     </message>
     <message>
         <location filename="../TagWriter.cpp" line="1008"/>
-        <location filename="../TagWriter.cpp" line="1661"/>
-        <location filename="../TagWriter.cpp" line="1678"/>
-        <location filename="../TagWriter.cpp" line="1941"/>
-        <location filename="../TagWriter.cpp" line="1983"/>
+        <location filename="../TagWriter.cpp" line="1665"/>
+        <location filename="../TagWriter.cpp" line="1682"/>
+        <location filename="../TagWriter.cpp" line="1945"/>
+        <location filename="../TagWriter.cpp" line="1987"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
@@ -5778,88 +5843,88 @@ Les espaces de début et de fin sont automatiquement supprimés des champs non l
         <translation>Certains fichiers ont été modifiés par un outil externe après le dernier scan. Vous ne pourrez sauvegarder aucun changement sur ces fichers si vous ne les scannez pas à nouveau.</translation>
     </message>
     <message>
-        <location filename="../TagWriter.cpp" line="1646"/>
+        <location filename="../TagWriter.cpp" line="1650"/>
         <source>Do you want to erase these files?%1</source>
         <translation>Voulez-vous effacer ces fichiers ? %1</translation>
     </message>
     <message>
-        <location filename="../TagWriter.cpp" line="1651"/>
+        <location filename="../TagWriter.cpp" line="1655"/>
         <source>Do you want to erase %1?</source>
         <translation>Voulez-vous effacer %1 ?</translation>
     </message>
     <message>
-        <location filename="../TagWriter.cpp" line="1654"/>
+        <location filename="../TagWriter.cpp" line="1658"/>
         <source>Confirm</source>
         <translation>Confirmer</translation>
     </message>
     <message>
-        <location filename="../TagWriter.cpp" line="1654"/>
-        <location filename="../TagWriter.cpp" line="1671"/>
+        <location filename="../TagWriter.cpp" line="1658"/>
+        <location filename="../TagWriter.cpp" line="1675"/>
         <source>Erase</source>
         <translation>Effacer</translation>
     </message>
     <message>
-        <location filename="../TagWriter.cpp" line="1654"/>
-        <location filename="../TagWriter.cpp" line="1661"/>
-        <location filename="../TagWriter.cpp" line="1671"/>
-        <location filename="../TagWriter.cpp" line="1954"/>
-        <location filename="../TagWriter.cpp" line="1959"/>
+        <location filename="../TagWriter.cpp" line="1658"/>
+        <location filename="../TagWriter.cpp" line="1665"/>
+        <location filename="../TagWriter.cpp" line="1675"/>
+        <location filename="../TagWriter.cpp" line="1958"/>
+        <location filename="../TagWriter.cpp" line="1963"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../TagWriter.cpp" line="1661"/>
+        <location filename="../TagWriter.cpp" line="1665"/>
         <source>You cannot erase image files if there are unsaved values. Do you want to save?</source>
         <translation>Impossible de supprimer les fichiers image s&apos;il reste des valeurs non sauvegardées. Voulez-vous sauvegarder ?</translation>
     </message>
     <message>
-        <location filename="../TagWriter.cpp" line="1661"/>
+        <location filename="../TagWriter.cpp" line="1665"/>
         <source>Save, then erase file</source>
         <translation>Sauvegarder, puis effacer le fichier</translation>
     </message>
     <message>
-        <location filename="../TagWriter.cpp" line="1671"/>
+        <location filename="../TagWriter.cpp" line="1675"/>
         <source>Erasing image files triggers a full reload, which results in downloaded and pasted data being lost. Erase anyway?</source>
         <translation>L&apos;effacement de fichiers image entraîne un rechargement complet, qui entraîne la perte des données téléchargées et collées. Effacer quand même ?</translation>
     </message>
     <message>
-        <location filename="../TagWriter.cpp" line="1678"/>
+        <location filename="../TagWriter.cpp" line="1682"/>
         <source>Couldn&apos;t erase file &quot;%1&quot;</source>
         <translation>Impossible d&apos;effacer le fichier &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../TagWriter.cpp" line="1868"/>
+        <location filename="../TagWriter.cpp" line="1872"/>
         <source>Currently pasting multiple file names is not supported, so only the first one is considered.</source>
         <translation>Le collage de noms de fichiers multiples n&apos;est pas supporté actuellement, donc seul le premier sera pris en compte.</translation>
     </message>
     <message>
-        <location filename="../TagWriter.cpp" line="1941"/>
+        <location filename="../TagWriter.cpp" line="1945"/>
         <source>The pasted value couldn&apos;t be assigned to some fields</source>
         <translation>La valeur collée n&apos;a pu être assignée à certains champs</translation>
     </message>
     <message>
-        <location filename="../TagWriter.cpp" line="1941"/>
+        <location filename="../TagWriter.cpp" line="1945"/>
         <source>The pasted value couldn&apos;t be assigned to any field</source>
         <translation>La valeur collée n&apos;a pu être assignée à aucun champ</translation>
     </message>
     <message>
-        <location filename="../TagWriter.cpp" line="1954"/>
+        <location filename="../TagWriter.cpp" line="1958"/>
         <source>The number of lines in the clipboard is different from the number of files. Paste anyway?</source>
         <translation>Le nombre de lignes dans le presse-papiers diffère du nombre de fichiers. Coller quand même ?</translation>
     </message>
     <message>
-        <location filename="../TagWriter.cpp" line="1954"/>
-        <location filename="../TagWriter.cpp" line="1959"/>
+        <location filename="../TagWriter.cpp" line="1958"/>
+        <location filename="../TagWriter.cpp" line="1963"/>
         <source>Paste</source>
         <translation>Coller</translation>
     </message>
     <message>
-        <location filename="../TagWriter.cpp" line="1959"/>
+        <location filename="../TagWriter.cpp" line="1963"/>
         <source>The track numbers aren&apos;t consecutive numbers starting at 1, so the pasted track information might not match the tracks. Paste anyway?</source>
         <translation>Les numéros de pistes ne sont pas des nombres consécutifs commençant à 1, donc les informations de piste collées peuvent ne pas correspondre. Coller quand même ?</translation>
     </message>
     <message>
-        <location filename="../TagWriter.cpp" line="1983"/>
+        <location filename="../TagWriter.cpp" line="1987"/>
         <source>Unrecognized clipboard content</source>
         <translation>Contenu du presse-papiers non reconnu</translation>
     </message>
@@ -5890,22 +5955,22 @@ Les espaces de début et de fin sont automatiquement supprimés des champs non l
 <context>
     <name>ThreadRunnerDlgImpl</name>
     <message>
-        <location filename="../ThreadRunnerDlgImpl.cpp" line="141"/>
+        <location filename="../ThreadRunnerDlgImpl.cpp" line="142"/>
         <source>Completed</source>
         <translation>Terminé</translation>
     </message>
     <message>
-        <location filename="../ThreadRunnerDlgImpl.cpp" line="153"/>
+        <location filename="../ThreadRunnerDlgImpl.cpp" line="154"/>
         <source>&amp;Resume</source>
         <translation>&amp;Reprendre</translation>
     </message>
     <message>
-        <location filename="../ThreadRunnerDlgImpl.cpp" line="160"/>
+        <location filename="../ThreadRunnerDlgImpl.cpp" line="161"/>
         <source>&amp;Pause</source>
         <translation>&amp;Pause</translation>
     </message>
     <message>
-        <location filename="../ThreadRunnerDlgImpl.cpp" line="299"/>
+        <location filename="../ThreadRunnerDlgImpl.cpp" line="300"/>
         <source>
 
 Total time: %1
@@ -5916,7 +5981,7 @@ Durée totale : %1
 Durée d&apos;exécution : %2</translation>
     </message>
     <message>
-        <location filename="../ThreadRunnerDlgImpl.cpp" line="304"/>
+        <location filename="../ThreadRunnerDlgImpl.cpp" line="305"/>
         <source>Time: %1</source>
         <translation>Durée : %1</translation>
     </message>
@@ -6070,22 +6135,22 @@ Durée d&apos;exécution : %2</translation>
         <translation>Enlever l&apos;espace supplémentaire du tag ID3V2</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2558"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2676"/>
         <source>Removes selected streams.</source>
         <translation>Supprime les flux sélectionnés.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2560"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2678"/>
         <source>Remove selected stream(s)</source>
         <translation>Supprimer les flux sélectionnés</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2920"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3038"/>
         <source>Removes specified stream.</source>
         <translation>Supprime le flux spécifié.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2922"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3040"/>
         <source>Remove specified stream</source>
         <translation>Supprimer le flux spécifié</translation>
     </message>
@@ -6205,72 +6270,102 @@ Durée d&apos;exécution : %2</translation>
         <translation>Supprimer les en-têtes Xing inadéquats</translation>
     </message>
     <message>
-        <location filename="../StructuralTransformation.h" line="214"/>
+        <location filename="../StructuralTransformation.h" line="216"/>
+        <source>Removes Xing or LAME streams from files encoded using CBR.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../StructuralTransformation.h" line="218"/>
+        <source>Remove Xing or LAME streams from CBR files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../StructuralTransformation.h" line="233"/>
         <source>Removes all ID3V1 streams.</source>
         <translation>Supprime tous les flux ID3V1.</translation>
     </message>
     <message>
-        <location filename="../StructuralTransformation.h" line="216"/>
+        <location filename="../StructuralTransformation.h" line="235"/>
         <source>Remove all ID3V1 streams</source>
         <translation>Supprimer tous les flux ID3V1</translation>
     </message>
     <message>
-        <location filename="../StructuralTransformation.h" line="225"/>
+        <location filename="../StructuralTransformation.h" line="244"/>
         <source>Removes all APE streams.</source>
         <translation>Supprime tous les flux APE.</translation>
     </message>
     <message>
-        <location filename="../StructuralTransformation.h" line="227"/>
+        <location filename="../StructuralTransformation.h" line="246"/>
         <source>Remove all APE streams</source>
         <translation>Supprimer tous les flux APE</translation>
     </message>
     <message>
-        <location filename="../StructuralTransformation.h" line="236"/>
+        <location filename="../StructuralTransformation.h" line="255"/>
         <source>Removes all non-audio streams.</source>
         <translation>Supprime tous les flux non audio.</translation>
     </message>
     <message>
-        <location filename="../StructuralTransformation.h" line="238"/>
+        <location filename="../StructuralTransformation.h" line="257"/>
         <source>Remove all non-audio streams</source>
         <translation>Supprimer tous les flux non audio</translation>
     </message>
     <message>
-        <location filename="../StructuralTransformation.h" line="250"/>
+        <location filename="../StructuralTransformation.h" line="266"/>
+        <source>Removes all Xing streams.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../StructuralTransformation.h" line="268"/>
+        <source>Remove all Xing streams</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../StructuralTransformation.h" line="277"/>
+        <source>Removes all LAME streams.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../StructuralTransformation.h" line="279"/>
+        <source>Remove all LAME streams</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../StructuralTransformation.h" line="291"/>
         <source>Pads truncated audio frames with 0 to the right. Its usefulness hasn&apos;t been determined yet (it might be quite low.)</source>
         <translation>Bourre les trames audio tronquées avec des 0 vers la droite. Son utilité n&apos;a pas encore été déterminée (elle pourrait s&apos;avérer faible.)</translation>
     </message>
     <message>
-        <location filename="../StructuralTransformation.h" line="252"/>
+        <location filename="../StructuralTransformation.h" line="293"/>
         <source>Pad truncated audio</source>
         <translation>Bourrer l&apos;audio tronqué</translation>
     </message>
     <message>
-        <location filename="../StructuralTransformation.h" line="271"/>
+        <location filename="../StructuralTransformation.h" line="312"/>
         <source>If a file contains VBR audio but doesn&apos;t have a Xing header, one such header is added. If a VBRI header exists, it is removed. If a Xing header exists but is determined to be incorrect, it is corrected or replaced. Only the first audio stream is considered; if a file contains more than one audio stream, this should be fixed first.</source>
         <translation>Si un fichier contient de l&apos;audio VBR mais pas d&apos;en-tête Xing, un tel en-tête est alors ajouté. Si un en-tête VBRI existe, il est supprimé. Si un en-tête Xing existe mais est considéré incorrect, il est corrigé ou remplacé. Seul le premier flux audio est pris en compte ; si un fichier en contient davantage, ceci doit être corrigé en premier lieu.</translation>
     </message>
     <message>
-        <location filename="../StructuralTransformation.h" line="273"/>
+        <location filename="../StructuralTransformation.h" line="314"/>
         <source>Repair VBR data</source>
         <translation>Réparer les données VBR</translation>
     </message>
     <message>
-        <location filename="../StructuralTransformation.h" line="282"/>
+        <location filename="../StructuralTransformation.h" line="323"/>
         <source>If a file contains VBR audio, any existing VBRI or Xing headers are removed and a new Xing header is created. Only the first audio stream is considered; if a file contains more than one audio stream, this should be fixed first.</source>
         <translation>Si un fichier contient de l&apos;audio VBR, les éventuels en-têtes Xing ou VBRI existants sont supprimés et un nouvel en-tête Xing est créé. Seul le premier flux audio est pris en compte ; si un fichier en contient davantage, ceci doit être corrigé en premier lieu.</translation>
     </message>
     <message>
-        <location filename="../StructuralTransformation.h" line="284"/>
+        <location filename="../StructuralTransformation.h" line="325"/>
         <source>Rebuild VBR data</source>
         <translation>Reconstruire les données VBR</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="1471"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1477"/>
         <source>Saves user-edited ID3V2.3.0 tags.</source>
         <translation>Sauvegarde les tags ID3V2.3.0 édités par l&apos;utilisateur.</translation>
     </message>
     <message>
-        <location filename="../TagEditorDlgImpl.cpp" line="1474"/>
+        <location filename="../TagEditorDlgImpl.cpp" line="1480"/>
         <source>Save ID3V2.3.0 tags</source>
         <translation>Sauvegarder les tags ID3V2.3.0</translation>
     </message>
@@ -6303,12 +6398,12 @@ Durée d&apos;exécution : %2</translation>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="147"/>
         <source>Action</source>
-        <translation>Action</translation>
+        <translation type="unfinished">Action</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="147"/>
         <source>Description</source>
-        <translation>Description</translation>
+        <translation type="unfinished">Description</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="191"/>
@@ -6334,22 +6429,22 @@ Durée d&apos;exécution : %2</translation>
 <context>
     <name>WebDwnldModel</name>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="1138"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="1169"/>
         <source>Pos</source>
         <translation>Pos</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="1139"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="1170"/>
         <source>Title</source>
         <translation>Titre</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="1140"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="1171"/>
         <source>Artist</source>
         <translation>Artiste</translation>
     </message>
     <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="1141"/>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="1172"/>
         <source>Composer</source>
         <translation>Compositeur</translation>
     </message>

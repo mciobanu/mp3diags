@@ -71,7 +71,7 @@ class JsonHandler
 public:
     virtual ~JsonHandler() {}
     virtual bool handle(const QString& qstrJson) = 0;
-    virtual QString getError() = 0;
+    virtual QString getError() = 0; //ttt9: Use
 };
 
 class WebDwnldModel;
@@ -133,6 +133,7 @@ protected:
     void onSearchLoaded(const QString& qstrJson);
     void onAlbumLoaded(const QString& qstrJson);
     void onImageLoaded(const QByteArray& comprImg, int nWidth, int nHeight, const QString& qstrInfo); // pPixmap may not be 0
+    void handleImageError();
 
     void retryNavigation();
 

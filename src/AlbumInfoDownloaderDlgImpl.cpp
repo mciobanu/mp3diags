@@ -142,12 +142,18 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::getInfo");
 void AlbumInfoDownloaderDlgImpl::resetNavigation()
 {
 LAST_STEP("AlbumInfoDownloaderDlgImpl::resetNavigation");
-    for (QNetworkReply* pReply : m_spNetworkReplies)
-    {
-        pReply->abort();
-        pReply->deleteLater();
-    }
+    unordered_set<QNetworkReply*> spNetworkReplies (m_spNetworkReplies); // !!! Calling pReply->abort() triggers its own call to resetNavigation(), leading to changing a set that is being processed
     m_spNetworkReplies.clear();
+    // qDebug("%s, m_spNetworkReplies size: %zu", getCurrentThreadInfo().c_str(), spNetworkReplies.size());
+    for (QNetworkReply* pReply : spNetworkReplies)
+    {
+        qDebug("Aborting reply %p", pReply);
+        //const string& s1 = convStr(pReply->errorString());
+        //QNetworkReply::NetworkError error = pReply->error();
+        pReply->abort();
+        //pReply->deleteLater(); //!!! Don't call this, as the call to abort() triggers onRequestFinished(), which has its own call to deleteLater()
+    }
+
     setWaiting(NOTHING);
     m_eNavigDir = NONE;
 }
@@ -189,6 +195,13 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::search");
     m_pViewAtAmazonL->setText(tr(NOT_FOUND_AT_AMAZON));
 
     m_strQuery = createQuery(); // e.g. ws/2/release/?query=release:Help AND artist:Beatles&fmt=json, without page number, site, protocol; to be used by loadNextPage();
+
+    if (m_strQuery.empty())
+    {
+        showCritical(this, tr("Error"), tr("You must specify at least an artist or an album"));
+        return;
+    }
+
     m_nTotalEntryCnt = 1; //!!! This is set to 1 so "next()" thinks there are additional entries
     m_nLastLoadedEntry = -1;
     m_nCrtAlbum = -1; m_nCrtImage = -1;
@@ -363,6 +376,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::next");
     {
         if (nNextAlbum >= 0 && nNextImage < cSize(album(nNextAlbum).m_vstrImageNames) - 1 && (-1 == nNextImage || !m_bNavigateByAlbum))
         {
+            // Show an already loaded image
             ++nNextImage;
         }
         else if (nNextAlbum + 1 < getAlbumCount())
@@ -508,10 +522,14 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::setImageType");
 void AlbumInfoDownloaderDlgImpl::onRequestFinished(QNetworkReply* pReply)
 {
 LAST_STEP("AlbumInfoDownloaderDlgImpl::onRequestFinished");
-    qDebug("%d, AlbumInfoDownloaderDlgImpl::onRequestFinished(%p)", __LINE__, pReply);
+    const string& strUrl = pReply->request().url().toString().toStdString();
+    const string& strErr = pReply->error() != QNetworkReply::NetworkError::NoError ? pReply->errorString().toStdString() : "no error";
+    qDebug("%d, AlbumInfoDownloaderDlgImpl::onRequestFinished(%p): %s / %s", __LINE__, pReply, strUrl.c_str(), strErr.c_str());
+    // qDebug("%d, %s, AlbumInfoDownloaderDlgImpl::onRequestFinished(%p): %s / %s", __LINE__, getCurrentThreadInfo().c_str(), pReply, strUrl.c_str(), strErr.c_str());
 
-    CB_ASSERT (m_spNetworkReplies.count(pReply) == 1); //ttt9: Probably delete after a while, or make sure it is really correct. (There could be an issue around aborting, but it's probably OK.)
+    //CB_ASSERT (m_spNetworkReplies.count(pReply) == 1); //!!! Depending on how it got here, the assert might be wrong: resetNavigation() may call abort(), which calls here, but before that it erases m_spNetworkReplies in order to avoid recursive calls leading to crashes
     pReply->deleteLater();
+    //addNote(QString("QQQ Request to %1 finished with status: %2").arg(strUrl.c_str()).arg(strErr.c_str()));
     m_spNetworkReplies.erase(pReply);
 //cout << "received ID = " << nId << endl;
 //if (1 == nId) { return; } // some automatically generated request, which should be ignored
@@ -519,6 +537,12 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onRequestFinished");
     {
         const string& err = convStr(pReply->errorString());
         addNote(tr("request error") + ": " + pReply->errorString());
+        if (IMAGE == m_eWaiting)
+        {
+            handleImageError();
+            return;
+        }
+
         resetNavigation();
         return;
     }
@@ -554,6 +578,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onRequestFinished");
     {
         QString qstrInfo;
         QImage img;
+        //b[0] = 4; // This makes decompression not work, to test handleImageError()
         QByteArray comprImg (b);
         ImageInfo::Compr eOrigCompr (m_eLoadingImageCompr);
 
@@ -582,19 +607,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onRequestFinished");
         }
         else
         {
-            showCritical(this, tr("Error"), tr("Failed to load the image"));
-            const int SIZE (150);
-            QImage errImg (SIZE, SIZE, QImage::Format_ARGB32);
-            QPainter pntr (&errImg);
-            pntr.fillRect(0, 0, SIZE, SIZE, QColor(255, 128, 128));
-            pntr.drawRect(0, 0, SIZE - 1, SIZE - 1);
-            pntr.drawText(QRectF(0, 0, SIZE, SIZE), Qt::AlignCenter, tr("Error"));
-            qstrInfo = tr("Error loading image\n");
-            comprImg.clear();
-            QBuffer bfr (&comprImg);
-            errImg.save(&bfr, "png");
-            m_eLoadingImageCompr = ImageInfo::PNG;
-            onImageLoaded(comprImg, SIZE, SIZE, qstrInfo);
+            handleImageError();
         }
 
         if (m_bSaveResults) { saveDownloadedData(b.constData(), b.size(), (ImageInfo::JPG == eOrigCompr ? "jpg" : (ImageInfo::PNG == eOrigCompr ? "png" : "unkn"))); }
@@ -682,6 +695,27 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onRequestFinished");
     }
 }
 
+
+/**
+ * Generates an image that shows "Error", then continues the navigation, so the track info can be displayed even if the image is not OK
+ */
+void AlbumInfoDownloaderDlgImpl::handleImageError()
+{
+    showCritical(this, tr("Error"), tr("Failed to load the image"));
+    const int SIZE (150);
+    QImage errImg (SIZE, SIZE, QImage::Format_ARGB32);
+    QPainter pntr (&errImg);
+    pntr.fillRect(0, 0, SIZE, SIZE, QColor(255, 128, 128));
+    pntr.drawRect(0, 0, SIZE - 1, SIZE - 1);
+    pntr.drawText(QRectF(0, 0, SIZE, SIZE), Qt::AlignCenter, tr("Error"));
+    QString qstrInfo;
+    qstrInfo = tr("Error loading image\n");
+    QByteArray comprImg;
+    QBuffer bfr (&comprImg);
+    errImg.save(&bfr, "png");
+    m_eLoadingImageCompr = ImageInfo::PNG;
+    onImageLoaded(comprImg, SIZE, SIZE, qstrInfo);
+}
 
 string AlbumInfoDownloaderDlgImpl::getTempName() // time-based, with no extension; doesn't check for existing names, but uses a counter, so files shouldn't get removed (except during daylight saving time changes)
 {
@@ -795,7 +829,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onAlbumLoaded");
 void AlbumInfoDownloaderDlgImpl::onImageLoaded(const QByteArray& comprImg, int nWidth, int nHeight, const QString& qstrInfo)
 {
 LAST_STEP("AlbumInfoDownloaderDlgImpl::onImageLoaded");
-    addNote(tr("image received"));
+    addNote(tr("image received")); //ttt0: Try to distinguish between a real image and one generated in handleImageError()
     CB_ASSERT (0 == album(m_nLoadingAlbum).m_vpImages[m_nLoadingImage]);
     CB_ASSERT (ImageInfo::INVALID != m_eLoadingImageCompr);
     album(m_nLoadingAlbum).m_vpImages[m_nLoadingImage] = new ImageInfo(-1, ImageInfo::OK, m_eLoadingImageCompr, comprImg, nWidth, nHeight);

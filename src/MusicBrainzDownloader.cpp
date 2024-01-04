@@ -99,27 +99,33 @@ class SearchJsonHandler : public JsonHandler
 public:
     explicit SearchJsonHandler(MusicBrainzDownloader& dlg) : m_dlg(dlg) {}
 
-    bool handle(const QString& qstrJson) override
+    bool handle(const QString& qstrJson1) override
     {
+        const QString& qstrJson (qstrJson1 + ""); //ttt9: Cause error here and make use of getError() to show the user what's wrong
         m_qstrError.clear();
 
         QByteArray arr = qstrJson.toUtf8();
 
         QJsonParseError parseError {};
         QJsonObject jsonObj;
-        try
+        //try
         {
             QJsonDocument jsonDoc;
             jsonDoc = QJsonDocument::fromJson(arr, &parseError);
             jsonObj = jsonDoc.object();
         }
-        catch (const exception& ex)
+        /*catch (const exception& ex) //!!! It looks like no exceptions are thrown and parseError is set instead
         {
-            m_qstrError = MusicBrainzDownloader::tr("JSON parse error: %1").arg(ex.what()); //ttt9: cause error to test this
+            m_qstrError = MusicBrainzDownloader::tr("JSON parse error: %1").arg(ex.what());
+            return false;
+        }*/
+        if (parseError.error != QJsonParseError::ParseError::NoError)
+        {
+            m_qstrError = MusicBrainzDownloader::tr("JSON parse error: %1").arg(parseError.errorString());
             return false;
         }
 
-        try
+        //try
         {
             const QJsonArray& relArr = jsonObj.value("releases").toArray(); //!!!: If no entry is found, we get an empty array, which is fine
             for (const auto& rel : relArr)
@@ -132,11 +138,12 @@ public:
             m_dlg.m_nTotalEntryCnt = jsonObj.value("count").toInt();
             m_dlg.m_nLastLoadedEntry = jsonObj.value("offset").toInt() + relArr.size() - 1;
         }
-        catch (const exception& ex)
+        /*catch (const exception& ex) //!!! Looks like no exception is thrown on missing fields,  //ttt9: So store the retrieved
+        // fields in some variables and compare against QJsonValue::Undefined
         {
-            m_qstrError = MusicBrainzDownloader::tr("JSON expected field not found: %1").arg(ex.what()); //ttt9: cause error to test this
+            m_qstrError = MusicBrainzDownloader::tr("JSON expected field not found: %1").arg(ex.what());
             return false;
-        }
+        }*/
 
         return true;
     }
@@ -326,6 +333,7 @@ private:
 
 // https://musicbrainz.org/doc/MusicBrainz_Database/Schema
 // https://musicbrainz.org/doc/MusicBrainz_API
+// https://musicbrainz.org/doc/MusicBrainz_API/Search
 // https://musicbrainz.org/doc/Style/Relationships/URLs
 // https://musicbrainz.org/doc/XML_Web_Service/Rate_Limiting
 // https://musicbrainz.org/relationship/4f2e710d-166c-480c-a293-2e2c8d658d87
@@ -349,19 +357,24 @@ public:
 
         QJsonParseError parseError {};
         QJsonObject jsonObj;
-        try
+        //try
         {
             QJsonDocument jsonDoc;
             jsonDoc = QJsonDocument::fromJson(arr, &parseError);
             jsonObj = jsonDoc.object();
         }
-        catch (const exception& ex)
+        /*catch (const exception& ex)
         {
-            m_qstrError = MusicBrainzDownloader::tr("JSON parse error: %1").arg(ex.what()); //ttt9: cause error to test this
+            m_qstrError = MusicBrainzDownloader::tr("JSON parse error: %1").arg(ex.what());
+            return false;
+        }*/
+        if (parseError.error != QJsonParseError::ParseError::NoError)
+        {
+            m_qstrError = MusicBrainzDownloader::tr("JSON parse error: %1").arg(parseError.errorString());
             return false;
         }
 
-        try
+        //try  //ttt9: Store fields in variables and compare them to QJsonValue::Undefined
         {
             const string& id = convStr(jsonObj.value("id").toString());
             CB_ASSERT (m_albumInfo.m_strId == id);
@@ -371,6 +384,7 @@ public:
                 if (!qstrAsin.isNull()) {
                     m_albumInfo.m_strAsin = convStr(qstrAsin);
                     m_albumInfo.m_vstrImageNames.push_back(
+                            //"https://imagQQes.aQQmazon.com/images/P/" + m_albumInfo.m_strAsin +
                             "https://images.amazon.com/images/P/" + m_albumInfo.m_strAsin +
                             ".01.LZZZZZZZ.jpg"); // ttt2 "01" is country code for US, perhaps try others //ttt2 perhaps check for duplicates
                 }
@@ -482,11 +496,11 @@ public:
                 addList(t.m_strArtist, m_albumInfo.m_strArtist);
             }
         }
-        catch (const exception& ex)
+        /*catch (const exception& ex)
         {
-            m_qstrError = MusicBrainzDownloader::tr("JSON expected field not found: %1").arg(ex.what()); //ttt9: cause error to test this
+            m_qstrError = MusicBrainzDownloader::tr("JSON expected field not found: %1").arg(ex.what());
             return false;
-        }
+        }*/
 
         return true;
     }
@@ -593,16 +607,38 @@ LAST_STEP("MusicBrainzDownloader::initSearch");
 /*override*/ std::string MusicBrainzDownloader::createQuery()
 {
 LAST_STEP("MusicBrainzDownloader::createQuery");
-    string s ("/ws/2/release/?query=artist:" + replaceSymbols(convStr(m_pSrchArtistE->text())) + " AND release=" + replaceSymbols(convStr(m_pSrchAlbumE->text()))); //ttt9: See if these are allowed to be empty and change as needed
+    // https://musicbrainz.org/doc/MusicBrainz_API/Search - Uses Lucene. The relevant entry is near the end. To see details about available fields, search for "The Release index contains"
+
+    vector<string> vstrParams;
+
+    const QString& qstrArtist = m_pSrchArtistE->text().trimmed();
+    if (!qstrArtist.isEmpty())
+    {
+        vstrParams.emplace_back("artist:" + replaceSymbols(convStr(qstrArtist)));
+    }
+    const QString& qstrAlbum = m_pSrchAlbumE->text().trimmed();
+    if (!qstrAlbum.isEmpty())
+    {
+        vstrParams.emplace_back("release:" + replaceSymbols(convStr(qstrAlbum)));
+    }
+    //string s ("/ws/2/release/?query=artist:" + replaceSymbols(convStr(m_pSrchArtistE->text())) + " AND release=" + replaceSymbols(convStr(m_pSrchAlbumE->text())));
     // https://musicbrainz.org/ws/1/release/?type=xml&artist=Keane&title=Hopes%20and%20Fears
     // https://musicbrainz.org/ws/2/release/?query=release:Hopes%20and%20fears%20AND%20artist:Keane
     // https://musicbrainz.org/ws/2/release/?query=release:Hopes%20and%20fears%20AND%20artist:Keane&fmt=json
     // https://musicbrainz.org/ws/2/release/?query=release:Follow%20Your%20Own%20Heart%20AND%20artist:Maria%20Sangiolo&fmt=json&limit=3
 
-    //qDebug("qry: %s", s.c_str());
+
+    //ttt0: See why these have different results, given that just the order in an AND differs:
+    // https://musicbrainz.org/ws/2/release/?query=artist:Maria Sangiolo AND release:Follow Your Own Heart&fmt=json&limit=3&offset=0
+    // https://musicbrainz.org/ws/2/release/?query=release:Follow Your Own Heart AND artist:Maria Sangiolo&fmt=json&limit=3&offset=0
+
+    if (vstrParams.empty())
+    {
+        return "";
+    }
     if (m_pMatchCountCkB->isChecked())
     {
-        s += convStr(QString("&count=%1").arg(m_nExpectedTracks)); //ttt9: This very likely no longer works
+        vstrParams.emplace_back(convStr(QString("tracks:%1").arg(m_nExpectedTracks)));
     }
     /*for (string::size_type i = 0; i < s.size(); ++i)
     {
@@ -612,7 +648,8 @@ LAST_STEP("MusicBrainzDownloader::createQuery");
         }
     }*/
     //s = "/ws/1/release/?type=xml&artist=Beatles&title=Help";
-    return s;
+    const string& strQry = "/ws/2/release/?query=" + join(vstrParams, " AND ");
+    return strQry;
 }
 
 
@@ -735,7 +772,8 @@ LAST_STEP("MusicBrainzDownloader::loadNextPage");
 
     QNetworkReply* pReply = m_networkAccessManager.get(req);
     m_spNetworkReplies.insert(pReply);
-    qDebug("%d, MusicBrainzDownloader::loadNextPage: added request %p", __LINE__, pReply);
+    qDebug("%d, MusicBrainzDownloader::loadNextPage: added request and waiting reply for %p - %s", __LINE__, pReply, qPrintable(url.toString()));
+    //2023.12.30-13:00 qDebug("%d, %s, MusicBrainzDownloader::loadNextPage: added request and waiting reply for %p - %s", __LINE__, getCurrentThreadInfo().c_str(), pReply, qPrintable(url.toString()));
 
     //cout << "sent search " << m_pQHttp->request(header) << " for page " << (m_nLastLoadedPage + 1) << endl;
     addNote("QQQ req " + url.toString()); //ttt9: Comment out QQQ addNote()
@@ -828,7 +866,8 @@ LAST_STEP("MusicBrainzDownloader::requestAlbum");
     delay();
     QNetworkReply* pReply = m_networkAccessManager.get(req);
     m_spNetworkReplies.insert(pReply);
-    qDebug("%d, MusicBrainzDownloader::requestAlbum: added request %p", __LINE__, pReply);
+    qDebug("%d, MusicBrainzDownloader::requestAlbum: added request and waiting reply for %p - %s", __LINE__, pReply, qPrintable(url.toString()));
+    //qDebug("%d, %s, MusicBrainzDownloader::requestAlbum: added request and waiting reply for %p - %s", __LINE__, getCurrentThreadInfo().c_str(), pReply, qPrintable(url.toString()));
     //cout << "sent album " << m_vAlbums[nAlbum].m_strId << " - " << m_pQHttp->request(header) << endl;
     addNote(AlbumInfoDownloaderDlgImpl::tr("getting album info ..."));
     addNote("QQQ req " + convStr(s));
@@ -851,19 +890,23 @@ LAST_STEP("MusicBrainzDownloader::requestImage");
     QNetworkRequest req (url);
     //setUserAgent(req);
     //req.setRawHeader("User-Agent", "Mp3Diags/1.5 ( https://mp3diags.sourceforge.net/ )");
-    req.setRawHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0"); //ttt9: review
+    req.setRawHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0"); //ttt9: review. The thing is, some sites (e.g. Amazon) won't accept an unknown user agent
+    req.setTransferTimeout(5 * 1000); // 5 seconds //ttt0: try to get rid of this. It only exists because for unknown hosts the request usually doesn't return immediately, but gets stuck until it times out
 
     delay(); // probably not needed, because doesn't seem that MusicBrainz would want to store images
     //connect(m_pImageQHttp, SIGNAL(requestFinished(int, bool)), this, SLOT(onRequestFinished(int, bool)));
     //qDebug("host: %s, path: %s", url.host().toLatin1().constData(), url.path().toLatin1().constData());
     //qDebug("%s", strUrl.c_str());
     QNetworkReply* pReply = m_networkAccessManager.get(req);
+    //QNetworkReply::NetworkError error = pReply->error();
+    //const string& errStr = pReply->errorString().toStdString();
     m_spNetworkReplies.insert(pReply);
-    qDebug("%d, MusicBrainzDownloader::requestImage: added request %p", __LINE__, pReply);
+    // With a breakpoint here (or several lines above) and an incorrect URL, the request more often than not used to finish with a "Host imagqqes.aqqmazon.com not found", rather than hanging until timing out. Threading didn't seem to be the issue, as everything happens on the UI thread. However, after making some changes that shouldn't matter and reverting them on 2023.12.30-13:00, this is no longer the case. Other breakpoints maybe mattered as well, but they were restored too. Trying to reproduce the issue in a standalone program (TestNetworkAccessManager) led to "mostly timeout" behavior, but once it returned immediately with "host not found". The workaround was to add setTransferTimeout().  //ttt9: Try to understand what's going on, in particular try TestNetworkAccessManager with Qt6
+    qDebug("%d, MusicBrainzDownloader::requestImage: added request and waiting reply for %p - %s", __LINE__, pReply, qPrintable(url.toString()));
+    // qDebug("%d, %s, MusicBrainzDownloader::requestImage: added request and waiting reply for %p - %s", __LINE__, getCurrentThreadInfo().c_str(), pReply, qPrintable(url.toString()));
 
     addNote(AlbumInfoDownloaderDlgImpl::tr("getting image ..."));
     addNote("getting image " + convStr(strUrl));
-    //ttt9: Send an invalid URL, after it fails track info isn't shown
 }
 
 

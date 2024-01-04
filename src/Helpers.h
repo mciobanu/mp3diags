@@ -305,6 +305,8 @@ public:
 };
 
 
+std::string join(const std::vector<std::string>& vec, const char* szSep);
+
 class QWidget;
 void listWidget(QWidget* p, int nIndent = 0); //ttt2 move this elsewhere
 

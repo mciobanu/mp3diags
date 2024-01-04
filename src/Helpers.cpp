@@ -507,6 +507,19 @@ const string& getPathSepAsStr()
 }
 
 
+string join(const vector<string>& vec, const char* szSep)
+{
+    // https://iq.opengenus.org/convert-vector-to-string-in-cpp/
+    ostringstream stream;
+    if(!vec.empty())
+    {
+        copy(vec.begin(), vec.end() - 1, ostream_iterator<string>(stream, szSep));
+        stream << vec.back();
+    }
+    return stream.str();
+}
+
+
 
 
 streampos getSize(istream& in)

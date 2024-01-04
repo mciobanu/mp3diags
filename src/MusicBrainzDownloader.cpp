@@ -737,6 +737,11 @@ void setUserAgent(QNetworkRequest& request)
     //header.setValue("User-Agent", "Firefox 52");
 }
 
+void setAcceptGzip(QNetworkRequest& request)
+{
+    request.setRawHeader("Accept-Encoding", "gzip");
+}
+
 QString buildUrl(const string& strPathAndQuery)
 {
     return QString("http://") + HOST + convStr(strPathAndQuery); // no good reason to use https
@@ -758,13 +763,12 @@ LAST_STEP("MusicBrainzDownloader::loadNextPage");
     //sprintf(a, "&page=%d", m_nLastLoadedPage + 1);
     //string s (m_strQuery + a);
 
-    //header.setValue("Accept-Encoding", "gzip");
-    //ttt9: Make sure compression is accepted
     const int LIMIT = 20;
     QUrl url (buildUrl(m_strQuery) + QString("&fmt=json&limit=%1&offset=%2").arg(LIMIT).arg(m_nLastLoadedEntry + 1));
 
     QNetworkRequest req (url);
     setUserAgent(req);
+    setAcceptGzip(req);
 
     delay();
     //qDebug("--------------\npath %s", header.path().toUtf8().constData());
@@ -860,8 +864,7 @@ LAST_STEP("MusicBrainzDownloader::requestAlbum");
     QUrl url (buildUrl(s));
     QNetworkRequest req (url);
     setUserAgent(req);
-    //header.setValue("Accept-Encoding", "gzip");
-    //ttt9: Make sure compression is accepted
+    setAcceptGzip(req);
 
     delay();
     QNetworkReply* pReply = m_networkAccessManager.get(req);

@@ -383,9 +383,9 @@ string Note::getPosHex() const
 
 
 /*static*/ const std::string Note::severityToString(Severity s) {
-    if (s == ERR) return convStr(Notes::tr("ERROR"));
-    if (s == WARNING) return convStr(Notes::tr("WARNING"));
-    if (s == SUPPORT) return convStr(Notes::tr("SUPPORT"));
+    if (s == ERR) return convStr(Note::tr("ERROR"));
+    if (s == WARNING) return convStr(Note::tr("WARNING"));
+    if (s == SUPPORT) return convStr(Note::tr("SUPPORT"));
     CB_THROW1(CbInvalidArgument, boost::lexical_cast<std::string>((int)s));
 }
 

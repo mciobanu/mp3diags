@@ -46,7 +46,7 @@ using namespace pearl;
         //return m_pCommonData->getNoteLabel(m_pNote).toUtf8().constData();
         return convStr(getNoteLabel(m_pNote));
     }
-    return convStr(Notes::tr(m_pNote->getDescription()));
+    return convStr(Note::tr(m_pNote->getDescription()));
 }
 
 

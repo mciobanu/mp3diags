@@ -109,7 +109,7 @@ FilesModel::FilesModel(CommonData* pCommonData) : QAbstractTableModel(pCommonDat
         const Note* pNote (notes.getList()[i]);
         if (j - 1 == m_pCommonData->findPos(pNote))
         {
-            return nRole == Qt::ToolTipRole ? makeMultiline(Notes::tr(m_pCommonData->getUniqueNotes().getFlt(j - 1)->getDescription())) : "x";
+            return nRole == Qt::ToolTipRole ? makeMultiline(Note::tr(m_pCommonData->getUniqueNotes().getFlt(j - 1)->getDescription())) : "x";
         }
     }
 
@@ -485,7 +485,7 @@ FileHeaderView::FileHeaderView(CommonData* pCommonData, QWidget* pParent) : QHea
 
     if (k <= 0) { setToolTip(""); return; }
     --k;
-    setToolTip(makeMultiline(Notes::tr(m_pCommonData->getUniqueNotes().getFlt(k)->getDescription())));
+    setToolTip(makeMultiline(Note::tr(m_pCommonData->getUniqueNotes().getFlt(k)->getDescription())));
 }
 
 

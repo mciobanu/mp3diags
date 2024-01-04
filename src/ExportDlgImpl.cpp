@@ -369,7 +369,7 @@ bool exportMp3HandlersAsText(ostream& out, vector<const Mp3Handler*>& v, Note::S
                 const string& s (p->getDetail());
                 if (s.empty()) // ttt2 perhaps show descr anyway
                 {
-                    out << convStr(Notes::tr(p->getDescription()));
+                    out << convStr(Note::tr(p->getDescription()));
                 }
                 else
                 {

@@ -62,7 +62,7 @@ UniqueNotesModel::UniqueNotesModel(CommonData* pCommonData) : QAbstractTableMode
         return getNoteLabel(v[index.row()]);
     }
 
-    return Notes::tr(m_pCommonData->getUniqueNotes().getFlt(index.row())->getDescription());
+    return Note::tr(m_pCommonData->getUniqueNotes().getFlt(index.row())->getDescription());
 }
 
 /*override*/ QVariant UniqueNotesModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /* = Qt::DisplayRole*/) const

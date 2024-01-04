@@ -504,13 +504,13 @@ Chyba: %1</translation>
     </message>
     <message>
         <location filename="../DiscogsDownloader.cpp" line="740"/>
-        <location filename="../MusicBrainzDownloader.cpp" line="875"/>
+        <location filename="../MusicBrainzDownloader.cpp" line="876"/>
         <source>getting album info ...</source>
         <translation>Získávají se informace o albu...</translation>
     </message>
     <message>
         <location filename="../DiscogsDownloader.cpp" line="763"/>
-        <location filename="../MusicBrainzDownloader.cpp" line="911"/>
+        <location filename="../MusicBrainzDownloader.cpp" line="912"/>
         <source>getting image ...</source>
         <translation>Získává se obrázek...</translation>
     </message>
@@ -2418,7 +2418,7 @@ Zamýšleno pro používání při vytváření souborů M3U obsahujících rela
 <context>
     <name>FixedAddrRemover</name>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3033"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3035"/>
         <source>Remove stream %1 at address 0x%2</source>
         <translation>Odstranit proud %1 na adrese 0x%2</translation>
     </message>
@@ -3071,11 +3071,11 @@ Možná budete chtít prověřit seznam znovu a přidat všechny poznámky, kter
         <location filename="../MainFormDlgImpl.cpp" line="1335"/>
         <location filename="../MainFormDlgImpl.cpp" line="1358"/>
         <location filename="../MainFormDlgImpl.cpp" line="1429"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2094"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2522"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2558"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2732"/>
-        <location filename="../MainFormDlgImpl.cpp" line="3465"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2096"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2524"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2560"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2734"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3467"/>
         <location filename="../main.cpp" line="425"/>
         <location filename="../main.cpp" line="464"/>
         <source>Error</source>
@@ -3089,10 +3089,10 @@ Možná budete chtít prověřit seznam znovu a přidat všechny poznámky, kter
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="551"/>
         <location filename="../MainFormDlgImpl.cpp" line="1373"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2144"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2270"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2297"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2377"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2146"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2272"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2299"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2379"/>
         <source>Warning</source>
         <translation>Varování</translation>
     </message>
@@ -3222,131 +3222,131 @@ Možná budete chtít prověřit seznam znovu a přidat všechny poznámky, kter
 %1</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1739"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1741"/>
         <source>Scanning MP3 files</source>
         <translation>Prohledávání souborů MP3</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2841"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2980"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2843"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2982"/>
         <source>Info</source>
         <translation>Informace</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1932"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1934"/>
         <source>Error setting up custom transformations</source>
         <translation>Chyba při nastavování vlastních proměn</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1756"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1758"/>
         <source>Issues encountered while scanning the requested folders</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1756"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1758"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1932"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1934"/>
         <source>Couldn&apos;t find a transformation with the name &quot;%1&quot;. The program will proceed, but you should review the custom transformations lists.</source>
         <translation>Nepodařilo se najít žádnou proměnu s názvem &quot;%1&quot;. Program bude pokračovat, ale měl byste se podívat na seznam vlastních proměn.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1984"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1986"/>
         <source>Error setting up visible transformations</source>
         <translation>Chyba při nastavování viditelných proměn</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1984"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1986"/>
         <source>Couldn&apos;t find a transformation with the name &quot;%1&quot;. The program will proceed, but you should review the visible transformations list.</source>
         <translation>Nepodařilo se najít žádnou proměnu s názvem &quot;%1&quot;. Program bude pokračovat, ale měl byste se podívat na seznam viditelných proměn.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2017"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2019"/>
         <source>Error setting up external tools</source>
         <translation>Chyba při nastavování vnějších nástrojů</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2017"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2019"/>
         <source>Unable to parse &quot;%1&quot;. The program will proceed, but you should review the external tools list.</source>
         <translation>Nelze zpracovat &quot;%1&quot;. Program bude pokračovat, ale měl byste se podívat na seznam vnějších nástrojů.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2094"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2096"/>
         <source>There are no files to normalize.</source>
         <translation>Nejsou žádné soubory k normalizaci.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2103"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2105"/>
         <source>you are requesting to normalize only some of the files</source>
         <translation>Požadujete normalizaci jen některých ze souborů</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2109"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2111"/>
         <source>the &quot;Album&quot; mode is not selected</source>
         <translation>Režim Album není vybrán</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2117"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2119"/>
         <source>filters are applied</source>
         <translation>Filtry jsou použity</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2121"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2123"/>
         <source>a filter is applied</source>
         <translation>Filtr je použit</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2128"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2130"/>
         <source>the normalization will process more than 50 files, which is more than what an album usually has</source>
         <translation>Při normalizaci bude zpracováno více než 50 souborů, což je více, než album obvykle má</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2137"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2139"/>
         <source>Normalization should process one whole album at a time, so it should only be run in &quot;Album&quot; mode, when no filters are active, and it should be applied to all the files in that album. But in the current case %1.</source>
         <translation>Normalizace by měla najednou zpracovat jedno celé album, takže by měla běžet jen v režimu Album, kdy nejsou v činnosti žádné filtry, a měla by se použít na všechny soubory na tom albu. Ale v nynějším případě %1.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2141"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2143"/>
         <source>Normalization should process one whole album at a time, so it should only be run in &quot;Album&quot; mode, when no filters are active, and it should be applied to all the files in that album. But in the current case  there are some issues:
 %1</source>
         <translation>Normalizace by měla najednou zpracovat jedno celé album, takže by měla běžet jen v režimu Album, kdy nejsou v činnosti žádné filtry, a měla by se použít na všechny soubory na tom albu. Ale v nynějším případě jsou tu určité potíže:
 %1</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2144"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2154"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2146"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2156"/>
         <source>Normalize</source>
         <translation>Normalizovat</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2144"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2154"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2146"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2156"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2144"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2146"/>
         <source>Normalize anyway?</source>
         <translation>Přesto normalizovat?</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2154"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2335"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2357"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2418"/>
-        <location filename="../MainFormDlgImpl.cpp" line="3512"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2156"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2337"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2359"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2420"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3514"/>
         <source>Confirm</source>
         <translation>Potvrdit</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2154"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2156"/>
         <source>Normalize all the files in the current album? (Note that normalization is done &quot;in place&quot;, by an external program, so it doesn&apos;t care about the transformation settings for original and modified files.)</source>
         <translation>Normalizovat všechny soubory na nynějším albu? (Uvědomte si, že normalizace je dělána vnějším programem, takže se nestará o nastavení proměny pro původní a změněné soubory.)</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2270"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2272"/>
         <source>The file list is empty, therefore no transformations can be applied.
 
 Exiting ...</source>
@@ -3355,17 +3355,17 @@ Exiting ...</source>
 Ukončuje se...</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2282"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2284"/>
         <source>all the files shown in the file list</source>
         <translation>Všechny soubory ukázané v seznamu se soubory</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2286"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2288"/>
         <source>all %1 files shown in the file list</source>
         <translation>Všech %1 souborů ukázaných v seznamu se soubory</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2297"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2299"/>
         <source>No file is selected, therefore no transformations can be applied.
 
 Exiting ...</source>
@@ -3374,27 +3374,27 @@ Exiting ...</source>
 Ukončuje se...</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2306"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2308"/>
         <source>and the other selected file</source>
         <translation>A další vybrané soubory</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2310"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2312"/>
         <source>and the other %1 selected files</source>
         <translation>A další %1 vybrané soubory</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2335"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2337"/>
         <source>&lt;p&gt;Rebuilding VBR data in Xing / LAME headers can destroy gapless playing information, causing albums that are supposed to be gapless to be played with short gaps between tracks.&lt;/p&gt;&lt;p&gt;Note that this shouldn&apos;t matter for regular, non-gapless, albums.&lt;/p&gt;&lt;p&gt;Proceed?&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2357"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2359"/>
         <source>&lt;p&gt;Removing Xing / LAME headers destroys gapless playing information, causing albums that are supposed to be gapless to be played with short gaps between tracks.&lt;/p&gt;&lt;p&gt;Note that this shouldn&apos;t matter for regular, non-gapless, albums.&lt;/p&gt;&lt;p&gt;Proceed?&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2377"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2379"/>
         <source>The transformation list is empty.
 
 Based on the configuration, it is possible for changes to the files in the list to be performed, even in this case (the files may still be moved, renamed or erased). However, the current settings are to leave the original files unchanged, so currently there&apos;s no point in applying an empty transformation list.
@@ -3407,91 +3407,91 @@ V závislosti na nastavení je možné provést změny v souborech v seznamu, i 
 Ukončuje se...</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2380"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2382"/>
         <source>Apply an empty transformation list to all the files shown in the file list? (Note that even if no transformations are performed, the files may still be moved, renamed or erased, based on the current settings.)</source>
         <translation>Použít prázdný seznam proměn na všechny soubory ukázané v seznamu souborů? (Uvědomte si, že i když nebyly provedeny žádné proměny, soubory lze stále přesunout, přejmenovat nebo smazat, založeno na nynějších nastaveních.)</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2384"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2386"/>
         <source>Apply transformation &quot;%1&quot; to %2?</source>
         <translation>Použít proměnu &quot;%1&quot; na %2?</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2388"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2390"/>
         <source>Apply the following transformations to %1?</source>
         <translation>Použít následující proměnu na %1?</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2398"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2400"/>
         <source>don&apos;t change</source>
         <translation>Neměnit</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2399"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2401"/>
         <source>erase</source>
         <translation>Vymazat</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2400"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2401"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2402"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2403"/>
         <source>move</source>
         <translation>Přesunout</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2402"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2404"/>
         <source>rename</source>
         <translation>Přejmenovat</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2403"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2405"/>
         <source>move if destination doesn&apos;t exist</source>
         <translation>Přesunout, pokud cíl neexistuje</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2407"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2409"/>
         <source>Actions to be taken:</source>
         <translation>Činnosti k provedení:</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2411"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2413"/>
         <source>original file that has been transformed: %1</source>
         <translation>Původní soubor, který byl proměněn: %1</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2414"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2416"/>
         <source>original file that has not been transformed: %1</source>
         <translation>Původní soubor, který nebyl proměněn: %1</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2335"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2357"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2418"/>
-        <location filename="../MainFormDlgImpl.cpp" line="3512"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2337"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2359"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2420"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3514"/>
         <source>&amp;Yes</source>
         <translation>&amp;Ano</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2335"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2357"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2418"/>
-        <location filename="../MainFormDlgImpl.cpp" line="3512"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2337"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2359"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2420"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3514"/>
         <source>&amp;No</source>
         <translation>&amp;Ne</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2430"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2432"/>
         <source>Applying transformations to MP3 files</source>
         <translation>Použití proměn na soubory MP3</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2461"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2463"/>
         <source>Apply custom transformation list #%1
 </source>
         <translation>Použít vlastní seznam proměn #%1
 </translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2469"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2471"/>
         <source>   &lt;empty list&gt;
 
 (you can edit the list in the Settings dialog)</source>
@@ -3500,146 +3500,146 @@ Ukončuje se...</translation>
 (seznam můžete upravit v dialogu nastavení)</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2522"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2524"/>
         <source>The file list is empty. You need to populate it before opening the tag editor.</source>
         <translation>Seznam souborů je prázdný. Musíte jej zaplnit před otevřením v editoru značek.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2558"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2560"/>
         <source>The file list is empty. You need to populate it before opening the file rename tool.</source>
         <translation>Seznam souborů je prázdný. Musíte jej zaplnit před otevřením v nástroji na přejmenovávání.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2722"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2724"/>
         <source>Delete %1?</source>
         <translation>Smazat %1?</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2732"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2734"/>
         <source>Cannot delete file %1</source>
         <translation>Nelze smazat soubor %1</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2842"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2844"/>
         <source>MP3 Diags can check at startup if a new version of the program has been released. Here&apos;s how this is supposed to work:</source>
         <translation>MP3 Diags může při spuštění ověřit, zda byla vydána nová verze programu. Zde je, jak se počítá, že to bude pracovat:</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2844"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2846"/>
         <source>The check is done in the background, when the program starts, so there should be no performance penalties</source>
         <translation>Ověření je uděláno na pozadí, když se program spouští, takže by tu neměl být pokles výkonu</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2845"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2847"/>
         <source>A notification message is displayed only if there&apos;s a new version available</source>
         <translation>Zpráva s oznámením je zobrazena, pokud je dostupná nová verze</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2846"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2848"/>
         <source>The update is manual. You are told that there is a new version and are offered links to see what&apos;s new, but nothing gets downloaded and / or installed automatically</source>
         <translation>Aktualizace je ruční: Je vám sděleno, že je dostupná nová verze a poskytnut odkaz, abyste se podívali, co je nového, ale nic není staženo nebo nainstalováno automaticky</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2847"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2849"/>
         <source>There is no System Tray process checking periodically for updates</source>
         <translation>Není žádný proces v oznamovací oblasti panelu ověřující pravidelně dostupnost novější verze</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2848"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2850"/>
         <source>You can turn the notifications on and off from the configuration dialog</source>
         <translation>Můžete zapnout a vypnout oznamování v dialogu pro nastavení</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2849"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2851"/>
         <source>If you restart the program within a day after a check, no new check is done</source>
         <translation>Pokud program spustíte znovu během dne následujícího po ověření, nedělá se žádné nové ověření</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2857"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2981"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2859"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2983"/>
         <source>Disable checking for new versions</source>
         <translation>Zakázat ověřování dostupnosti nových verzí</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2857"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2859"/>
         <source>Enable checking for new versions</source>
         <translation>Povolit ověřování dostupnosti nových verzí</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2957"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2959"/>
         <source>Version %1 has been published. You are running %2. You can see what&apos;s new in %3. A more technical list with changes can be seen in %4.</source>
         <translation>Verze %1 byla vydána. Provozujete %2. Můžete se podívat, co je nového v %3. Techničtější seznam změn lze shlédnout na %4.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2961"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2963"/>
         <source>the %1MP3 Diags blog%2</source>
         <comment>arguments are HTML elements</comment>
         <translation>stránky %1MP3 Diags%2</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2965"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2967"/>
         <source>the %1change log%2</source>
         <comment>arguments are HTML elements</comment>
         <translation>%1seznam změn%2</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2972"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2974"/>
         <source>This notification is about the availability of the source code. Binaries may or may not be available at this time, depending on your particular platform.</source>
         <translation>Toto oznámení se týká dostupnosti zdrojového kódu. Spustitelné soubory tentokrát nemusí být dostupné, to v závislosti na systému, který používáte.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2975"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2977"/>
         <source>You should review the changes and decide if you want to upgrade or not.</source>
         <translation>Měl byste se podívat na změny a rozhodnout se, zda chcete provést povýšení verze nebo nikoli.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2976"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2978"/>
         <source>Note: if you want to upgrade, you should %1close MP3 Diags%2 first.</source>
         <comment>arguments are HTML elements</comment>
         <translation>Poznámka: Pokud hodláte provést povýšení verze, nejprve %1zavřete MP3 Diags%2.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2977"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2979"/>
         <source>Choose what do you want to do:</source>
         <translation>Vyberte, co chcete dělat:</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2981"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2983"/>
         <source>Just close this message</source>
         <translation>Pouze zavřít tuto zprávu</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2981"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2983"/>
         <source>Don&apos;t tell me about version %1 again</source>
         <translation>Znovu o verzi %1 neříkat</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3390"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3392"/>
         <source>Open containing folder ...</source>
         <translation>Otevřít obsahující složku...</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3436"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3438"/>
         <source>Run &quot;%1&quot; on %2?</source>
         <translation>Spustit &quot;%1&quot; na %2?</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3465"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3467"/>
         <source>Cannot start process. Check that the executable name and the parameters are correct.</source>
         <translation>Nelze spustit proces. Ověřte, zda jsou název spustitelného souboru a parametry správné.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3501"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3503"/>
         <source>%1 and %2</source>
         <translation>%1 a %2</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3505"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3507"/>
         <source>%1, %2 and %3</source>
         <translation>%1, %2 a %3</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3509"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3511"/>
         <source>%1, %2 and %3 other files</source>
         <translation>%1, %2 a %3 jiné soubory</translation>
     </message>
@@ -3665,22 +3665,22 @@ Ukončuje se...</translation>
 <context>
     <name>Mp3ProcThread</name>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1695"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1697"/>
         <source>File not found: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1698"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1700"/>
         <source>Cannot open file: %1, which seems to be under a folder that is a shortcut. Note that folder shortcuts are not supported, but you can use symbolic links instead.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1707"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1709"/>
         <source>File name too long: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1711"/>
+        <location filename="../MainFormDlgImpl.cpp" line="1713"/>
         <source>Scan exception for file: %1: %2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3775,22 +3775,22 @@ Zpracování zrušeno.</translation>
     <name>MusicBrainzDownloader</name>
     <message>
         <location filename="../MusicBrainzDownloader.cpp" line="123"/>
-        <location filename="../MusicBrainzDownloader.cpp" line="373"/>
+        <location filename="../MusicBrainzDownloader.cpp" line="372"/>
         <source>JSON parse error: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MusicBrainzDownloader.cpp" line="554"/>
+        <location filename="../MusicBrainzDownloader.cpp" line="555"/>
         <source>Download album data from MusicBrainz.org</source>
         <translation>Stáhnout data o albu z MusicBrainz.org</translation>
     </message>
     <message>
-        <location filename="../MusicBrainzDownloader.cpp" line="666"/>
+        <location filename="../MusicBrainzDownloader.cpp" line="667"/>
         <source>waiting %1ms</source>
         <translation>Čeká se %1ms</translation>
     </message>
     <message>
-        <location filename="../MusicBrainzDownloader.cpp" line="830"/>
+        <location filename="../MusicBrainzDownloader.cpp" line="831"/>
         <source>&lt;a href=&quot;%1&quot;&gt;view at %2&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;%1&quot;&gt;podívat se na %2&lt;/a&gt;</translation>
     </message>
@@ -4367,6 +4367,21 @@ Zpracování zrušeno.</translation>
         <source>An error occurred while reading the file, so it wasn&apos;t fully processed. This usually happens when reading from external drives or USB sticks, in which case a workaround might be to copy the files to an internal drive.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../Notes.cpp" line="386"/>
+        <source>ERROR</source>
+        <translation>Chyba</translation>
+    </message>
+    <message>
+        <location filename="../Notes.cpp" line="387"/>
+        <source>WARNING</source>
+        <translation>Varování</translation>
+    </message>
+    <message>
+        <location filename="../Notes.cpp" line="388"/>
+        <source>SUPPORT</source>
+        <translation>Podpora</translation>
+    </message>
 </context>
 <context>
     <name>NoteFilterDlg</name>
@@ -4445,21 +4460,6 @@ Zpracování zrušeno.</translation>
         <location filename="../Notes.cpp" line="42"/>
         <source>&lt;Placeholder for a note that can no longer be found, most likely as a result of a software upgrade. You should rescan the file.&gt;</source>
         <translation>&lt;Zástupný znak pro poznámku, kterou už nejde najít, nejpravděpodobněji jako výsledek povýšení programu. Měl byste prohlédnout soubor znovu.&gt;</translation>
-    </message>
-    <message>
-        <location filename="../Notes.cpp" line="386"/>
-        <source>ERROR</source>
-        <translation>Chyba</translation>
-    </message>
-    <message>
-        <location filename="../Notes.cpp" line="387"/>
-        <source>WARNING</source>
-        <translation>Varování</translation>
-    </message>
-    <message>
-        <location filename="../Notes.cpp" line="388"/>
-        <source>SUPPORT</source>
-        <translation>Podpora</translation>
     </message>
 </context>
 <context>
@@ -6132,22 +6132,22 @@ Celkový čas: %1
         <translation>Odstranit místo navíc z ID3V2</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2676"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2678"/>
         <source>Removes selected streams.</source>
         <translation>Odstraní vybrané proudy.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2678"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2680"/>
         <source>Remove selected stream(s)</source>
         <translation>Odstranit vybraný(é) proud(y)</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3038"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3040"/>
         <source>Removes specified stream.</source>
         <translation>Odstraní zadaný proud.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3040"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3042"/>
         <source>Remove specified stream</source>
         <translation>Odstranit zadaný proud</translation>
     </message>

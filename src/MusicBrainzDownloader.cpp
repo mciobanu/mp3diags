@@ -99,9 +99,8 @@ class SearchJsonHandler : public JsonHandler
 public:
     explicit SearchJsonHandler(MusicBrainzDownloader& dlg) : m_dlg(dlg) {}
 
-    bool handle(const QString& qstrJson1) override
+    bool handle(const QString& qstrJson) override
     {
-        const QString& qstrJson (qstrJson1 + ""); //ttt9: Cause error here and make use of getError() to show the user what's wrong
         m_qstrError.clear();
 
         QByteArray arr = qstrJson.toUtf8();
@@ -461,11 +460,13 @@ public:
                     {
                         const string& type = convStr(relObj.value("type").toString());
                         const string& url = convStr(relObj.value("url").toObject().value("resource").toString());
+                        //qDebug("URL %s has type %s", url.c_str(), type.c_str());
                         if (type == "amazon asin")
                         {
                             m_albumInfo.m_strAmazonLink = url;
                         }
-                        else if (type == "cover art link") //ttt9: This is a guess based on how other fields changed from v1. Needs validation
+                        else if (type == "cover art link") //ttt9: This is a guess based on how other fields changed from v1,
+                        // but it doesn't seem to work. There seems to be dedicated service and API: https://musicbrainz.org/doc/Cover_Art_Archive/API
                         {
                             if (beginsWith(url, "https://") || beginsWith(url, "http://"))
                             {
@@ -676,12 +677,12 @@ void MusicBrainzDownloader::delay()
 #else
         Sleep(nWait + 100);
 #endif
-        addNote(tr("QQQ done waiting %1ms").arg(nWait + 100));
+        //addNote(tr("QQQ done waiting %1ms").arg(nWait + 100));
         //qDebug("waiting %d", nWait);
     }
     else
     {
-        addNote(tr("QQQ won't wait: crt: %1, prev: %2, diff: %3").arg(t).arg(m_nLastReqTime).arg(nDiff));
+        //addNote(tr("QQQ won't wait: crt: %1, prev: %2, diff: %3").arg(t).arg(m_nLastReqTime).arg(nDiff));
     }
 
     m_nLastReqTime = t;
@@ -780,7 +781,7 @@ LAST_STEP("MusicBrainzDownloader::loadNextPage");
     //2023.12.30-13:00 qDebug("%d, %s, MusicBrainzDownloader::loadNextPage: added request and waiting reply for %p - %s", __LINE__, getCurrentThreadInfo().c_str(), pReply, qPrintable(url.toString()));
 
     //cout << "sent search " << m_pQHttp->request(header) << " for page " << (m_nLastLoadedPage + 1) << endl;
-    addNote("QQQ req " + url.toString()); //ttt9: Comment out QQQ addNote()
+    //addNote("QQQ req " + url.toString());
 }
 
 
@@ -869,11 +870,11 @@ LAST_STEP("MusicBrainzDownloader::requestAlbum");
     delay();
     QNetworkReply* pReply = m_networkAccessManager.get(req);
     m_spNetworkReplies.insert(pReply);
-    qDebug("%d, MusicBrainzDownloader::requestAlbum: added request and waiting reply for %p - %s", __LINE__, pReply, qPrintable(url.toString()));
+    //qDebug("%d, MusicBrainzDownloader::requestAlbum: added request and waiting reply for %p - %s", __LINE__, pReply, qPrintable(url.toString()));
     //qDebug("%d, %s, MusicBrainzDownloader::requestAlbum: added request and waiting reply for %p - %s", __LINE__, getCurrentThreadInfo().c_str(), pReply, qPrintable(url.toString()));
     //cout << "sent album " << m_vAlbums[nAlbum].m_strId << " - " << m_pQHttp->request(header) << endl;
     addNote(AlbumInfoDownloaderDlgImpl::tr("getting album info ..."));
-    addNote("QQQ req " + convStr(s));
+    //addNote("QQQ req " + convStr(s));
 }
 
 
@@ -905,11 +906,11 @@ LAST_STEP("MusicBrainzDownloader::requestImage");
     //const string& errStr = pReply->errorString().toStdString();
     m_spNetworkReplies.insert(pReply);
     // With a breakpoint here (or several lines above) and an incorrect URL, the request more often than not used to finish with a "Host imagqqes.aqqmazon.com not found", rather than hanging until timing out. Threading didn't seem to be the issue, as everything happens on the UI thread. However, after making some changes that shouldn't matter and reverting them on 2023.12.30-13:00, this is no longer the case. Other breakpoints maybe mattered as well, but they were restored too. Trying to reproduce the issue in a standalone program (TestNetworkAccessManager) led to "mostly timeout" behavior, but once it returned immediately with "host not found". The workaround was to add setTransferTimeout().  //ttt9: Try to understand what's going on, in particular try TestNetworkAccessManager with Qt6
-    qDebug("%d, MusicBrainzDownloader::requestImage: added request and waiting reply for %p - %s", __LINE__, pReply, qPrintable(url.toString()));
+    //qDebug("%d, MusicBrainzDownloader::requestImage: added request and waiting reply for %p - %s", __LINE__, pReply, qPrintable(url.toString()));
     // qDebug("%d, %s, MusicBrainzDownloader::requestImage: added request and waiting reply for %p - %s", __LINE__, getCurrentThreadInfo().c_str(), pReply, qPrintable(url.toString()));
 
     addNote(AlbumInfoDownloaderDlgImpl::tr("getting image ..."));
-    addNote("getting image " + convStr(strUrl));
+    //addNote("QQQ getting image " + convStr(strUrl));
 }
 
 

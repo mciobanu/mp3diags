@@ -524,7 +524,7 @@ void AlbumInfoDownloaderDlgImpl::onRequestFinished(QNetworkReply* pReply)
 LAST_STEP("AlbumInfoDownloaderDlgImpl::onRequestFinished");
     const string& strUrl = pReply->request().url().toString().toStdString();
     const string& strErr = pReply->error() != QNetworkReply::NetworkError::NoError ? pReply->errorString().toStdString() : "no error";
-    qDebug("%d, AlbumInfoDownloaderDlgImpl::onRequestFinished(%p): %s / %s", __LINE__, pReply, strUrl.c_str(), strErr.c_str());
+    //qDebug("%d, AlbumInfoDownloaderDlgImpl::onRequestFinished(%p): %s / %s", __LINE__, pReply, strUrl.c_str(), strErr.c_str());
     // qDebug("%d, %s, AlbumInfoDownloaderDlgImpl::onRequestFinished(%p): %s / %s", __LINE__, getCurrentThreadInfo().c_str(), pReply, strUrl.c_str(), strErr.c_str());
 
     //CB_ASSERT (m_spNetworkReplies.count(pReply) == 1); //!!! Depending on how it got here, the assert might be wrong: resetNavigation() may call abort(), which calls here, but before that it erases m_spNetworkReplies in order to avoid recursive calls leading to crashes
@@ -550,7 +550,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onRequestFinished");
     qint64 nAv (pReply->bytesAvailable());
     if (0 == nAv)
     {
-        addNote("QQQ empty rsp");
+        //addNote("QQQ empty rsp");
         //addNote("received empty response");
         //cout << "empty request returned\n";
 
@@ -672,7 +672,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::onRequestFinished");
     else
     {
         //addNote("QQQ rsp: " + qstrJson);
-        addNote(QString("QQQ got response of size %1").arg(qstrJson.size()));
+        //addNote(QString("QQQ got response of size %1").arg(qstrJson.size()));
         if (m_bSaveResults)
         {
             QByteArray b1 (qstrJson.toUtf8());

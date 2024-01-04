@@ -8,7 +8,7 @@ rm src/translations/mp3diags_en_UK.ts 2>/dev/null
 
 # update / create .ts files
 #lupdate src/src.pro 2>&1 | grep -v '^/usr/'
-lupdate -no-obsolete src/src.pro 2>&1 | grep -v '^/usr/'
+lupdate-qt5 -no-obsolete src/src.pro 2>&1 | grep -v '^/usr/'
 
 # create the fake en_UK file, for testing translations, but only if it's in src.pro
 echo -e '\n\n'
@@ -16,6 +16,9 @@ if [ -f src/translations/mp3diags_en_UK.ts ] ; then
     src/translations/autoTransl/MixedCase src/translations/mp3diags_en_UK.ts
     mv -f /tmp/MiXeDcAsE src/translations/mp3diags_en_UK.ts
 fi
+
+
+exit 0
 
 #create .qm files
 lrelease src/src.pro 2>&1 | grep -v '^/usr/'

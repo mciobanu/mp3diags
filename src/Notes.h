@@ -75,6 +75,8 @@ Reformulated: there are 2 situations for exceptions in constructors:
 */
 struct Note
 {
+    Q_DECLARE_TR_FUNCTIONS(Note)
+public:
     enum Severity { ERR, WARNING, SUPPORT, TRACE }; // !!! the reason "ERR" is used (and not "ERROR") is that "ERROR" is a macro in MSVC
     enum Category { AUDIO, XING, VBRI, ID3V2, APIC, ID3V230, ID3V240, ID3V1, BROKEN, TRUNCATED, UNKNOWN, LYRICS, APE, MISC, CUSTOM, CATEG_CNT }; // !!! CUSTOM must be just before CATEG_CNT (which is just a counter)
 

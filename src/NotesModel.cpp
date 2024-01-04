@@ -73,7 +73,7 @@ NotesModel::NotesModel(CommonData* pCommonData) : QAbstractTableModel(pCommonDat
     case 1:
         {
             const string& s (pNote->getDetail());
-            if (s.empty()) { return Notes::tr(pNote->getDescription()); }
+            if (s.empty()) { return Note::tr(pNote->getDescription()); }
             return convStr(s);
         }
     case 2: return convStr(pNote->getPosHex());

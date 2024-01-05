@@ -57,6 +57,22 @@ extern int CELL_HEIGHT;
 
 
 
+bool WebAlbumInfoBase::checkTrackCountMatch(int nExpected) const
+{
+    if (cSize(m_vVolumes[0].m_vTracks) == nExpected)
+    {
+        return true;
+    }
+    return getTotalTrackCount() == nExpected;
+}
+
+
+int WebAlbumInfoBase::getTotalTrackCount() const
+{
+    return cSize(m_vpTracks);
+}
+
+
 AlbumInfoDownloaderDlgImpl::AlbumInfoDownloaderDlgImpl(QWidget* pParent, SessionSettings& settings, bool bSaveResults) : QDialog(pParent, getDialogWndFlags()), Ui::AlbumInfoDownloaderDlg(), m_bSaveResults(bSaveResults), m_nLastCount(0), m_nLastTime(0), m_settings(settings)
 {
     setupUi(this);
@@ -103,28 +119,30 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::getInfo");
             if (m_pVolumeCbB->isEnabled())
             {
                 if (m_pVolumeCbB->currentIndex() == m_pVolumeCbB->count() - 1)
-                { // just give sequential numbers when "<All>" in a multivolume is used - see https://sourceforge.net/projects/mp3diags/forums/forum/947206/topic/4503061/index/page/1 - perhaps can be improved
+                { // just give sequential numbers when "<All>" in a multivolume is used - see https://sourceforge.net/projects/mp3diags/forums/forum/947206/topic/4503061/index/page/1 - //ttt0 perhaps can be improved, maybe have a checkbox to keep the numbers
                     char a [15];
-                    for (int i = 0; i < cSize(pAlbumInfo->m_vTracks); ++i)
+                    int crtPos = 1;
+                    for (auto& vol : pAlbumInfo->m_vVolumes)
                     {
-                        sprintf(a, "%02d", i + 1);
-                        pAlbumInfo->m_vTracks[i].m_strPos = a;
+                        for (auto& trk : vol.m_vTracks)
+                        {
+                            sprintf(a, "%02d", crtPos);
+                            crtPos++;
+                            trk.m_strPos = a;
+                        }
                     }
                 }
                 else
                 {
-                    vector<TrackInfo> vTracks;
-                    string s (convStr(m_pVolumeCbB->itemText(m_pVolumeCbB->currentIndex())));
-                    int k (cSize(s));
-                    for (int i = 0, n = cSize(pAlbumInfo->m_vTracks); i < n; ++i)
+                    // Just keep the current volume
+                    vector<VolumeInfo> v;
+                    v.emplace_back(pAlbumInfo->m_vVolumes[m_pVolumeCbB->currentIndex()]);
+                    pAlbumInfo->m_vVolumes.swap(v);
+                    pAlbumInfo->m_vpTracks.clear();
+                    for (auto& trk : pAlbumInfo->m_vVolumes[0].m_vTracks)
                     {
-                        if (beginsWith(pAlbumInfo->m_vTracks[i].m_strPos, s))
-                        {
-                            vTracks.push_back(pAlbumInfo->m_vTracks[i]);
-                            vTracks.back().m_strPos.erase(0, k);
-                        }
+                        pAlbumInfo->m_vpTracks.emplace_back(&trk);
                     }
-                    vTracks.swap(pAlbumInfo->m_vTracks);
                 }
             }
         }
@@ -278,20 +296,14 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::on_m_pSaveAllB_clicked");
     int nCnt (0);
     CB_ASSERT (m_nCrtAlbum >= 0 && m_nCrtAlbum < getAlbumCount());// ttt0 triggered according to mail on 2015.12.13
     const WebAlbumInfoBase& albumInfo (album(m_nCrtAlbum));
-    if (m_pVolumeCbB->isEnabled() && m_pVolumeCbB->currentIndex() != m_pVolumeCbB->count() - 1)
+    int crtVol = m_pVolumeCbB->currentIndex();
+    if (m_pVolumeCbB->isEnabled() && crtVol != m_pVolumeCbB->count() - 1)
     {
-        string s (convStr(m_pVolumeCbB->itemText(m_pVolumeCbB->currentIndex())));
-        for (int i = 0, n = cSize(albumInfo.m_vTracks); i < n; ++i)
-        {
-            if (beginsWith(albumInfo.m_vTracks[i].m_strPos, s))
-            {
-                ++nCnt;
-            }
-        }
+        nCnt = cSize(albumInfo.m_vVolumes[crtVol].m_vTracks);
     }
     else
     {
-        nCnt = cSize(albumInfo.m_vTracks);
+        nCnt = albumInfo.getTotalTrackCount();
     }
 
     if (nCnt != m_nExpectedTracks)
@@ -300,8 +312,8 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::on_m_pSaveAllB_clicked");
         const QString& qstrVolMsg (
             m_pVolumeCbB->isEnabled() &&
             (
-                (nCnt > m_nExpectedTracks && m_pVolumeCbB->currentIndex() == m_pVolumeCbB->count() - 1) ||
-                (nCnt < m_nExpectedTracks && m_pVolumeCbB->currentIndex() != m_pVolumeCbB->count() - 1)
+                (nCnt > m_nExpectedTracks && crtVol == m_pVolumeCbB->count() - 1) ||
+                (nCnt < m_nExpectedTracks && crtVol != m_pVolumeCbB->count() - 1)
             )
             ? tr("You may want to use a different volume selection on this multi-volume release.\n\n") : "");
 
@@ -409,7 +421,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::next");
 
         if ((m_pImageFltCkB->isChecked() && album(nNextAlbum).m_vpImages.empty()) ||
             (m_pCdFltCkB->isChecked() && string::npos == album(nNextAlbum).m_strFormat.find("CD")) ||
-            (m_pTrackCntFltCkB->isChecked() && m_nExpectedTracks != cSize(album(nNextAlbum).m_vTracks))) // ttt2 MusicBrainz could perform better here, because it knows how many tracks are in an album without actually loading it; ttt2 redo the whole next() / prev() thing in a more logical way; perhaps separate next() from nextAlbum();
+            (m_pTrackCntFltCkB->isChecked() && !album(nNextAlbum).checkTrackCountMatch(m_nExpectedTracks))) // ttt2 MusicBrainz could perform better here, because it knows how many tracks are on an album without actually loading it; ttt2 redo the whole next() / prev() thing in a more logical way; perhaps separate next() from nextAlbum();
         {
             continue;
         }
@@ -473,7 +485,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::previous");
 
         if ((m_pImageFltCkB->isChecked() && album(nPrevAlbum).m_vpImages.empty()) ||
             (m_pCdFltCkB->isChecked() && string::npos == album(nPrevAlbum).m_strFormat.find("CD")) || // Discogs has one format, but MusicBrainz may have several, so find() is used instead of "=="
-            (m_pTrackCntFltCkB->isChecked() && m_nExpectedTracks != cSize(album(nPrevAlbum).m_vTracks)))
+            (m_pTrackCntFltCkB->isChecked() && !album(nPrevAlbum).checkTrackCountMatch(m_nExpectedTracks)))
         {
             continue;
         }
@@ -896,21 +908,9 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::reloadGui");
     m_pRealeasedE->setText(convStr(albumInfo.m_strReleased));
     //m_pTrackListL->clear();
     updateTrackList();
-    set<string> sstrPrefixes;
-    for (int i = 0, n = cSize(albumInfo.m_vTracks); i < n; ++i)
-    {
-        const TrackInfo& trk (albumInfo.m_vTracks[i]);
-
-        const string& s1 (trk.m_strPos);
-        string::size_type k (s1.find_last_not_of("0123456789"));
-        if (string::npos != k && s1.size() - 1 != k)
-        {
-            sstrPrefixes.insert(s1.substr(0, k + 1));
-        }
-    }
 
     m_pVolumeCbB->clear();
-    if (sstrPrefixes.empty() || sstrPrefixes.size() == albumInfo.m_vTracks.size())
+    if (albumInfo.m_vVolumes.size() <= 1)
     {
         m_pVolumeCbB->setEnabled(false);
         m_pVolumeL->setEnabled(false);
@@ -919,9 +919,9 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::reloadGui");
     {
         m_pVolumeCbB->setEnabled(true);
         m_pVolumeL->setEnabled(true);
-        for (set<string>::iterator it = sstrPrefixes.begin(); it != sstrPrefixes.end(); ++it)
+        for (auto& vol : albumInfo.m_vVolumes)
         {
-            m_pVolumeCbB->addItem(convStr(*it));
+            m_pVolumeCbB->addItem(convStr(vol.m_strName));
         }
         m_pVolumeCbB->addItem(tr("<All>"));
     }
@@ -946,7 +946,8 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::reloadGui");
         m_pImgSizeL->setText(convStr(albumInfo.m_vstrImageInfo[m_nCrtImage]));
     }
 }
-
+//ttt9: Make the "volume" dropdown wider (load "the wall" to see how it looks like)
+//ttt9: Add the volume to the grid
 
 /*override*/ void AlbumInfoDownloaderDlgImpl::updateTrackList()
 {
@@ -1103,7 +1104,7 @@ WebDwnldModel::WebDwnldModel(AlbumInfoDownloaderDlgImpl& dwnld, QTableView& grid
 {
     const WebAlbumInfoBase* p (m_dwnld.getCrtAlbum());
     if (0 == p) { return 0; }
-    return cSize(p->m_vTracks);
+    return p->getTotalTrackCount();
 }
 
 /*override*/ int WebDwnldModel::columnCount(const QModelIndex&) const
@@ -1122,13 +1123,13 @@ WebDwnldModel::WebDwnldModel(AlbumInfoDownloaderDlgImpl& dwnld, QTableView& grid
     //if (nRole == Qt::CheckStateRole && j == 2) { return Qt::Checked; }
 
     const WebAlbumInfoBase* p (m_dwnld.getCrtAlbum());
-    if (0 == p || i >= cSize(p->m_vTracks))
+    if (0 == p || i >= cSize(p->m_vpTracks))
     {
         if (nRole == Qt::ToolTipRole) { return ""; }
         return QVariant();
     }
 
-    const TrackInfo& t (p->m_vTracks[i]);
+    const TrackInfo& t (*p->m_vpTracks[i]);
     string s;
     switch (j)
     {

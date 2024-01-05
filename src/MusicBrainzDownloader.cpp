@@ -147,6 +147,17 @@ public:
 // http://musicbrainz.org/ws/2/release/b4da1c5b-8d99-3289-b919-cb62fe412eff?fmt=json&inc=artist-credits+recordings+url-rels
 
 
+struct MbVolumeInfo
+{
+    string m_strName;
+    vector<TrackInfo> m_vTracks;
+
+    string m_strTitle;
+    string m_strFormat;
+    int m_nPosition;
+};
+
+
 class AlbumJsonHandler : public JsonHandler
 {
     MusicBrainzAlbumInfo& m_albumInfo;
@@ -229,6 +240,16 @@ public:
             }
 
             {
+                vector<MbVolumeInfo> volumes;
+
+                //check fields: format, position, format in order to come up with a volume name
+                // An example: http://musicbrainz.org/ws/2/release/4927920a-39ea-404d-a295-1daaf689c04a?fmt=json&inc=artist-credits+recordings+labels+recording-level-rels+work-rels+work-level-rels+artist-rels
+                /* Algorithm:
+                 * If the title is not empty and there is just 1 with that title, use it.
+                 * If there are more with a title (or title is empty), create combinations of title+format. If these are just 1, use them.
+                 * When there are multiple title+format, use "position" to sort, but start numbering from 1
+                 */
+
                 const QJsonArray& mediaArr = jsonObj.value("media").toArray();
                 for (const auto& media: mediaArr) {
                     const QJsonObject& mediaObj = media.toObject();
@@ -237,23 +258,98 @@ public:
                         addIfMissing(m_albumInfo.m_strFormat, strFormat);
                     }
 
-                    // What we do here is add all tracks from a volume to an album, which isn't quite right, but not
-                    // sure how this worked in the past. //ttt9 Check git log; this was handled for Discogs. Also, AlbumInfoDownloaderDlgImpl
-                    // treats the subject. (Looks like the old interface didn't have multi-volume)
+
+                    const string& strTitle = convStr(mediaObj.value("title").toString());
+                    volumes.emplace_back();
+                    MbVolumeInfo& crtVol = volumes.back();
+                    crtVol.m_strFormat = strFormat;
+                    crtVol.m_strTitle = strTitle;
+                    crtVol.m_nPosition = mediaObj.value("position").toInt();
+
                     const QJsonArray& trackArr = mediaObj.value("tracks").toArray();
                     for (const auto& track: trackArr) {
                         TrackInfo inf;
                         const QJsonObject& trackObj = track.toObject();
                         inf.m_strTitle = convStr(trackObj.value("title").toString());
-                        inf.m_strPos = convStr(trackObj.value(
-                                "number").toString());  //ttt9: There's also "position". TBD if any is optional / which to use
+                        //inf.m_strPos = convStr(trackObj.value("number").toString());  //ttt9: There's also "position". TBD if any is optional / which to use. Keep in mind that the specs for ID3v2 ask for either a number or a number followed by a "/" and the track count. The "number" field could potentially have values like "Side A / 2".
+                        inf.m_strPos = to_string(trackObj.value("position").toInt());
                         const QJsonArray& artistCreditsArr = trackObj.value("artist-credit").toArray();
                         if (!artistCreditsArr.empty()) {
                             inf.m_strArtist = convStr(artistCreditsArr[0].toObject().value("name").toString());
                         }
 
-                        m_albumInfo.m_vTracks.emplace_back(inf);
+                        crtVol.m_vTracks.emplace_back(inf);
                     }
+                    //ttt0: See if there is any chance the tracks come unsorted, in which case - sort them
+                }
+
+                // First, assign names based on title or format.
+                map<string, vector<MbVolumeInfo*>> namesTitleOrFormat;
+                for (auto& vol : volumes)
+                {
+                    if (!vol.m_strTitle.empty())
+                    {
+                        vol.m_strName = vol.m_strTitle;
+                    }
+                    else if (!vol.m_strFormat.empty())
+                    {
+                        vol.m_strName = vol.m_strFormat;
+                    }
+                    else
+                    {
+                        vol.m_strName = "Disc"; // Not necessarily right, but it will usually be hidden
+                    }
+                    namesTitleOrFormat[vol.m_strName].emplace_back(&vol);
+                }
+
+                // Then, where there are duplicates, assign names based on title AND format (when both exist).
+                map<string, vector<MbVolumeInfo*>> namesTitleAndFormat;
+                for (auto& e : namesTitleOrFormat)
+                {
+                    if (e.second.size() < 2)
+                    {
+                        continue;
+                    }
+                    for (auto& pVol : e.second)
+                    {
+                        if (!pVol->m_strTitle.empty())
+                        {
+                            pVol->m_strName = pVol->m_strTitle + (pVol->m_strFormat.empty() ? "" : " - " + pVol->m_strFormat);
+                        }
+                        else if (!pVol->m_strFormat.empty())
+                        {
+                            pVol->m_strName = pVol->m_strFormat;
+                        }
+                        else
+                        {
+                            pVol->m_strName = "Disc"; // Not necessarily right, but it will usually be hidden
+                        }
+                        namesTitleAndFormat[pVol->m_strName].emplace_back(pVol);
+                    }
+                }
+
+                // If there are still duplicates, sort by position and assign a name based on the sort order (position is global, but in each group we start from 1)
+                map<string, vector<MbVolumeInfo*>> namesTitleAndFormatAndPos;
+                for (auto& e : namesTitleAndFormat)
+                {
+                    if (e.second.size() < 2)
+                    {
+                        continue;
+                    }
+                    sort(e.second.begin(), e.second.end(), [](MbVolumeInfo* p1, MbVolumeInfo* p2){ return p1->m_nPosition < p2->m_nPosition; });
+                    for (int i = 0; i < cSize(e.second); i++)
+                    {
+                        e.second[i]->m_strName += " " + to_string(i + 1);
+                    }
+                }
+
+                // Finally, sort volumes by name
+                sort(volumes.begin(), volumes.end(), [](const MbVolumeInfo& vol1, const MbVolumeInfo& vol2) { return vol1.m_strName < vol2.m_strName; });
+
+                // And copy them to WebAlbumInfoBase
+                for (const auto& vol : volumes)
+                {
+                    m_albumInfo.m_vVolumes.emplace_back(vol.m_strName, vol.m_vTracks);
                 }
             }
 
@@ -273,7 +369,7 @@ public:
                             m_albumInfo.m_strAmazonLink = url;
                         }
                         else if (type == "cover art link") //ttt9: This is a guess based on how other fields changed from v1,
-                        // but it doesn't seem to work. There seems to be dedicated service and API: https://musicbrainz.org/doc/Cover_Art_Archive/API
+                        // but it doesn't seem to work. All tested URLs were to Amazon or Discogs. There seems to be dedicated service and API: https://musicbrainz.org/doc/Cover_Art_Archive/API
                         {
                             if (beginsWith(url, "https://") || beginsWith(url, "http://"))
                             {
@@ -297,11 +393,15 @@ public:
                 }
             }
 
-            // Add artist info to each track, to the extent that it doesn't already have the album's artists
-            for (int i = 0, n = cSize(m_albumInfo.m_vTracks); i < n; ++i)
+            // Add artist info to each track, to the extent that it doesn't already have the album's artists.
+            // Populate m_albumInfo.m_vpTracks
+            for (auto& vol : m_albumInfo.m_vVolumes)
             {
-                TrackInfo& t (m_albumInfo.m_vTracks[i]);
-                addList(t.m_strArtist, m_albumInfo.m_strArtist);
+                for (auto& trk : vol.m_vTracks)
+                {
+                    addList(trk.m_strArtist, m_albumInfo.m_strArtist);
+                    m_albumInfo.m_vpTracks.emplace_back(&trk);
+                }
             }
         }
         /*catch (const exception& ex)
@@ -309,7 +409,7 @@ public:
             m_qstrError = MusicBrainzDownloader::tr("JSON expected field not found: %1").arg(ex.what());
             return false;
         }*/
-
+        //ttt9: Make sure we always return a volume, which has at least 1 track. Simplifies the code and if it happens it is due to a bug in MP3 Diags or MusicBrainz
         return true;
     }
 
@@ -329,7 +429,8 @@ public:
     //dest.m_strGenre = m_strGenre; // !!! missing
     dest.m_strReleased = m_strReleased;
     //dest.m_strNotes; // !!! missing
-    dest.m_vTracks = m_vTracks;
+    dest.m_vVolumes = m_vVolumes;
+    dest.m_vpTracks = m_vpTracks;
     dest.m_eVarArtists = m_eVarArtists;
 
     dest.m_strSourceName = MusicBrainzDownloader::SOURCE_NAME; // Discogs, MusicBrainz, ... ; needed by MainFormDlgImpl;
@@ -367,17 +468,18 @@ MusicBrainzDownloader::MusicBrainzDownloader(QWidget* pParent, SessionSettings& 
 
     m_pViewAtAmazonL->setText(getAmazonText());
 
+    //ttt9: See which of these don't need to be hidden, based on how Discogs works
     m_pGenreE->hide(); m_pGenreL->hide();
     m_pAlbumNotesM->hide();
 
-    m_pVolumeL->hide(); m_pVolumeCbB->hide();
+    //m_pVolumeL->hide(); m_pVolumeCbB->hide();
 
     m_pStyleL->hide(); m_pStyleCbB->hide();
 
     m_pImgSizeL->setMinimumHeight(m_pImgSizeL->height()*2);
 
     m_pModel = new WebDwnldModel(*this, *m_pTrackListG); // !!! in a way these would make sense to be in the base constructor, but that would cause calls to pure virtual methods
-    m_pTrackListG->setModel(m_pModel); //ttt9 Make sure to call decreaseRowHeaderFont() and setHeaderColor(). Same for Discogs
+    m_pTrackListG->setModel(m_pModel);  //ttt9 Make sure to call decreaseRowHeaderFont() and setHeaderColor(). Same for Discogs
 
     connect(m_pSearchB, SIGNAL(clicked()), this, SLOT(on_m_pSearchB_clicked()));
 

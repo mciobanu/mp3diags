@@ -56,7 +56,7 @@ using namespace Discogs;
  */
 
 
-ostream& operator<<(ostream& out, const DiscogsAlbumInfo& inf)
+ostream& operator<<(ostream& out, const DiscogsAlbumInfo& inf) //ttt0: Too similar to "ostream& operator<<(ostream& out, const AlbumInfo& inf)"
 {
     out << "id: \"" << inf.m_strId << "\", artist: \"" << inf.m_strArtist << "\", title: \"" << inf.m_strTitle << "\", composer: \"" << inf.m_strComposer << "\", format: \"" << inf.m_strFormat << "\", genre: \"" << inf.m_strGenre << "\", style: \"" << inf.m_strStyle << "\", released: \"" << inf.m_strReleased << "\"\n\nnotes: " << inf.m_strNotes << "\n\nimages:\n";
 
@@ -65,10 +65,17 @@ ostream& operator<<(ostream& out, const DiscogsAlbumInfo& inf)
         out << inf.m_vstrImageNames[i] << endl;
     }
 
-    out << "\ntracks:" << endl;
-    for (int i = 0, n = cSize(inf.m_vTracks); i < n; ++i)
+    for (const auto& vol : inf.m_vVolumes)
     {
-        out << "pos: \"" << inf.m_vTracks[i].m_strPos << "\", artist: \"" << inf.m_vTracks[i].m_strArtist << "\", title: \"" << inf.m_vTracks[i].m_strTitle << "\", composer: \"" << inf.m_vTracks[i].m_strComposer << "\"" << endl;
+        if (inf.m_vVolumes.size() > 1)
+        {
+            out << "\nvolume:" << vol.m_strName << endl;
+        }
+        out << "\ntracks:" << endl;
+        for (const auto& trk : vol.m_vTracks)
+        {
+            out << "pos: \"" << trk.m_strPos << "\", artist: \"" << trk.m_strArtist << "\", title: \"" << trk.m_strTitle << "\", composer: \"" << trk.m_strComposer << "\"" << endl;
+        }
     }
 
     return out;
@@ -508,7 +515,8 @@ struct AlbumJsonHandler : public JsonHandler
     dest.m_strGenre = getGenre();
     dest.m_strReleased = m_strReleased;
     dest.m_strNotes = m_strNotes;
-    dest.m_vTracks = m_vTracks;
+    dest.m_vVolumes = m_vVolumes;
+    dest.m_vpTracks = m_vpTracks;
     //dest.m_eVarArtists  // !!! missing
 
     dest.m_strSourceName = DiscogsDownloader::SOURCE_NAME; // Discogs, MusicBrainz, ... ; needed by MainFormDlgImpl;

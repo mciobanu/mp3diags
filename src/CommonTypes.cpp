@@ -209,10 +209,17 @@ ostream& operator<<(ostream& out, const AlbumInfo& inf)
         out << inf.m_vstrImageNames[i] << endl;
     }*/
 
-    out << "\ntracks:" << endl;
-    for (int i = 0, n = cSize(inf.m_vTracks); i < n; ++i)
+    for (const auto& vol : inf.m_vVolumes)
     {
-        out << "pos: \"" << inf.m_vTracks[i].m_strPos << "\", artist: \"" << inf.m_vTracks[i].m_strArtist << "\", title: \"" << inf.m_vTracks[i].m_strTitle << "\", composer: \"" << inf.m_vTracks[i].m_strComposer << "\"" << endl;
+        if (inf.m_vVolumes.size() > 1)
+        {
+            out << "\nvolume:" << vol.m_strName << endl;
+        }
+        out << "\ntracks:" << endl;
+        for (const auto& trk : vol.m_vTracks)
+        {
+            out << "pos: \"" << trk.m_strPos << "\", artist: \"" << trk.m_strArtist << "\", title: \"" << trk.m_strTitle << "\", composer: \"" << trk.m_strComposer << "\"" << endl;
+        }
     }
 
     return out;

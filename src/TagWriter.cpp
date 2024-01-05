@@ -256,9 +256,9 @@ TrackTextReader::TrackTextReader(SongInfoParser::TrackTextParser* pTrackTextPars
 WebReader::WebReader(const AlbumInfo& albumInfo, int nTrackNo) : m_strType(albumInfo.m_strSourceName)
 {
     //if (nTrackNo >= cSize(albumInfo.m_vTracks)) { return; }
-    CB_ASSERT (0 <= nTrackNo && nTrackNo < cSize(albumInfo.m_vTracks));
+    CB_ASSERT (0 <= nTrackNo && nTrackNo < cSize(albumInfo.m_vpTracks));
 
-    const TrackInfo& ti (albumInfo.m_vTracks[nTrackNo]);
+    const TrackInfo& ti (*albumInfo.m_vpTracks[nTrackNo]);
     m_strTitle = ti.m_strTitle;
     m_strArtist = ti.m_strArtist; //(ti.m_strArtist.empty() ? albumInfo.m_strArtist : ti.m_strArtist);
     m_strTrackNumber = ti.m_strPos;
@@ -752,7 +752,7 @@ void Mp3HandlerTagData::refreshReaders()
         else if (inf.m_strName == WebReader::getClassDisplayName())
         {
             const AlbumInfo& albumInfo (m_pTagWriter->getAlbumInfo(inf.m_nPos));
-            if (m_nCrtPos < cSize(albumInfo.m_vTracks))
+            if (m_nCrtPos < cSize(albumInfo.m_vpTracks))
             {
                 m_vWebReaders.push_back(WebReader(albumInfo, m_nCrtPos));
                 m_vpTagReaders.push_back(&m_vWebReaders.back());

@@ -94,6 +94,14 @@ struct TrackInfo
 };
 
 
+struct VolumeInfo
+{
+    std::string m_strName;
+    std::vector<TrackInfo> m_vTracks;
+
+    VolumeInfo(std::string strName, const std::vector<TrackInfo>& vTracks) : m_strName(std::move(strName)), m_vTracks(vTracks) {}
+};
+
 struct AlbumInfo
 {
     std::string m_strTitle;
@@ -105,7 +113,8 @@ struct AlbumInfo
     std::string m_strNotes;
     enum VarArtists { VA_NOT_SUPP, VA_SINGLE, VA_VARIOUS };
     VarArtists m_eVarArtists;
-    std::vector<TrackInfo> m_vTracks;
+    std::vector<VolumeInfo> m_vVolumes;
+    std::vector<TrackInfo*> m_vpTracks; // Just a flattened m_vVolumes, with no ownership for pointers. Helps with TagWriter and other things
 
     std::string m_strSourceName; // Discogs, MusicBrainz, ... ; needed by MainFormDlgImpl;
     ImageInfo m_imageInfo; // a copy of an image in m_pCommonData->m_imageColl;

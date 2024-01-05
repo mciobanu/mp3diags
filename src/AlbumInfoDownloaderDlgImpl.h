@@ -49,7 +49,8 @@ struct WebAlbumInfoBase
     std::string m_strTitle;
     std::string m_strArtist;
     std::string m_strReleased;
-    std::vector<TrackInfo> m_vTracks; // make sure they come in proper order
+    std::vector<VolumeInfo> m_vVolumes;
+    std::vector<TrackInfo*> m_vpTracks; // Just a flattened m_vVolumes, with no ownership for pointers. Helps with the grid and other things
 
     std::vector<std::string> m_vstrImageNames; // for Discogs - IDs; for MusicBrainz - full URLs
 
@@ -61,6 +62,13 @@ struct WebAlbumInfoBase
     AlbumInfo::VarArtists m_eVarArtists;
 
     virtual void copyTo(AlbumInfo& dest) = 0;
+
+    /**
+     * Looks at the total number of tracks and at those in the first volume, in an attempt to be more useful
+     */
+    bool checkTrackCountMatch(int nExpected) const;
+
+    int getTotalTrackCount() const;
 };
 
 

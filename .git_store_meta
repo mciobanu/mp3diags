@@ -275,7 +275,7 @@ src/Debug.ui	f	2012-01-02T15:03:56Z
 src/DirFilterDlgImpl.cpp	f	2024-01-04T15:07:01Z
 src/DirFilterDlgImpl.h	f	2024-01-04T15:17:29Z
 src/DirFilter.ui	f	2012-01-02T15:16:36Z
-src/DiscogsDownloader.cpp	f	2023-12-23T06:39:50Z
+src/DiscogsDownloader.cpp	f	2024-01-05T07:27:38Z
 src/DiscogsDownloader.h	f	2023-12-23T07:50:04Z
 src/DoubleList.cpp	f	2023-12-19T20:59:30Z
 src/DoubleList.h	f	2023-12-17T20:48:08Z
@@ -391,7 +391,7 @@ src/MpegStream.cpp	f	2023-12-08T07:54:25Z
 src/MpegStream.h	f	2014-11-14T12:06:08Z
 src/MultiLineTvDelegate.cpp	f	2023-12-19T08:55:00Z
 src/MultiLineTvDelegate.h	f	2023-12-17T20:47:11Z
-src/MusicBrainzDownloader.cpp	f	2024-01-04T19:00:21Z
+src/MusicBrainzDownloader.cpp	f	2024-01-05T07:57:27Z
 src/MusicBrainzDownloader.h	f	2023-12-23T07:52:00Z
 src/NoteFilterDlgImpl.cpp	f	2024-01-04T18:40:31Z
 src/NoteFilterDlgImpl.h	f	2009-09-11T14:47:51Z

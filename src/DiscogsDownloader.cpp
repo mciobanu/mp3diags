@@ -27,7 +27,6 @@
 #include  "DiscogsDownloader.h"
 
 #include  "Helpers.h"
-#include  "SimpleSaxHandler.h"
 #include  "StoredSettings.h"
 
 ////#include  <iostream> //ttt remove
@@ -89,7 +88,7 @@ namespace Discogs
             result
                 uri
 */
-struct SearchXmlHandler : public SimpleSaxHandler<SearchXmlHandler>
+struct SearchXmlHandler
 {
 #if 0
     SearchXmlHandler(DiscogsDownloader& dlg) : SimpleSaxHandler<SearchXmlHandler>("resp"), m_dlg(dlg), m_bIsRelease(false)
@@ -199,7 +198,7 @@ struct SearchJsonHandler : public JsonHandler
                             name
                             role
 */
-struct AlbumXmlHandler : public SimpleSaxHandler<AlbumXmlHandler>
+struct AlbumXmlHandler
 {
 #if 0
     AlbumXmlHandler(DiscogsAlbumInfo& albumInfo) : SimpleSaxHandler<AlbumXmlHandler>("resp"), m_albumInfo(albumInfo)

@@ -453,5 +453,16 @@ void decreaseRowHeaderFont(QTableView&);
  */
 void setHeaderColor(QTableView* pTableView);
 
+
+//======================================================================================================
+//======================================================================================================
+//======================================================================================================
+
+class QNetworkRequest;
+
+void setMp3DiagsUserAgent(QNetworkRequest& request);
+void setFirefoxUserAgent(QNetworkRequest& request);
+void setAcceptGzip(QNetworkRequest& request);
+
 #endif // ifndef HelpersH
 

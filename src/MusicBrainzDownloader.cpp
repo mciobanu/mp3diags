@@ -20,7 +20,6 @@
  ***************************************************************************/
 
 
-#include  "QHttp"
 #include  <QDesktopServices>
 
 #ifndef WIN32
@@ -660,17 +659,6 @@ LAST_STEP("MusicBrainzDownloader::on_m_pSearchB_clicked");
 namespace
 {
 
-void setUserAgent(QNetworkRequest& request)
-{
-    request.setRawHeader("User-Agent", "Mp3Diags/1.5 ( https://mp3diags.sourceforge.net/ )");
-    //header.setValue("User-Agent", "Firefox 52");
-}
-
-void setAcceptGzip(QNetworkRequest& request)
-{
-    request.setRawHeader("Accept-Encoding", "gzip");
-}
-
 QString buildUrl(const string& strPathAndQuery)
 {
     return QString("http://") + HOST + convStr(strPathAndQuery); // no good reason to use https
@@ -696,7 +684,7 @@ LAST_STEP("MusicBrainzDownloader::loadNextPage");
     QUrl url (buildUrl(m_strQuery) + QString("&fmt=json&limit=%1&offset=%2").arg(LIMIT).arg(m_nLastLoadedEntry + 1));
 
     QNetworkRequest req (url);
-    setUserAgent(req);
+    setMp3DiagsUserAgent(req);
     setAcceptGzip(req);
 
     delay();
@@ -792,7 +780,7 @@ LAST_STEP("MusicBrainzDownloader::requestAlbum");
 
     QUrl url (buildUrl(s));
     QNetworkRequest req (url);
-    setUserAgent(req);
+    setMp3DiagsUserAgent(req);
     setAcceptGzip(req);
 
     delay();
@@ -820,9 +808,8 @@ LAST_STEP("MusicBrainzDownloader::requestImage");
 
     QUrl url (convStr(strUrl));
     QNetworkRequest req (url);
-    //setUserAgent(req);
-    //req.setRawHeader("User-Agent", "Mp3Diags/1.5 ( https://mp3diags.sourceforge.net/ )");
-    req.setRawHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0"); //ttt9: review. The thing is, some sites (e.g. Amazon) won't accept an unknown user agent
+    //setMp3DiagsUserAgent(req);
+    setFirefoxUserAgent(req); //ttt9: review. The thing is, some sites (e.g. Amazon) won't accept an unknown user agent
     req.setTransferTimeout(5 * 1000); // 5 seconds //ttt0: try to get rid of this. It only exists because for unknown hosts the request usually doesn't return immediately, but gets stuck until it times out
 
     delay(); // probably not needed, because doesn't seem that MusicBrainz would want to store images

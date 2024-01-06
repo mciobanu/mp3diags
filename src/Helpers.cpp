@@ -33,6 +33,7 @@
 
 #ifndef WIN32
     #include  <QDir>
+    #include  <QNetworkRequest>
     #include  <sys/utsname.h>
     #include  <unistd.h>
 #else
@@ -1770,5 +1771,28 @@ void setHeaderColor(QTableView* pTableView)
 
 //ttt1 maybe switch to new spec, lower-case for exe name, package, and icons
 
+
+
+
+
+//=============================================================================================
+//=============================================================================================
+//=============================================================================================
+
+void setMp3DiagsUserAgent(QNetworkRequest& request)
+{
+    request.setRawHeader("User-Agent", "Mp3Diags/1.5 ( https://mp3diags.sourceforge.net/ )");
+    //header.setValue("User-Agent", "Firefox 52");
+}
+
+void setFirefoxUserAgent(QNetworkRequest& request)
+{
+    request.setRawHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0");
+}
+
+void setAcceptGzip(QNetworkRequest& request)
+{
+    request.setRawHeader("Accept-Encoding", "gzip");
+}
 
 

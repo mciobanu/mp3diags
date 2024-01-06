@@ -30,7 +30,6 @@
     #include  <ctime>
 #endif
 
-#include  "QHttp"
 #include  <QMessageBox>
 #include  <QBuffer>
 #include  <QPainter>

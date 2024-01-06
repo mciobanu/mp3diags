@@ -249,7 +249,7 @@ src/aaa-info.txt	f	2023-12-19T20:49:49Z
 src/AboutDlgImpl.cpp	f	2023-12-12T19:20:41Z
 src/AboutDlgImpl.h	f	2009-07-17T15:02:37Z
 src/About.ui	f	2011-06-15T19:56:47Z
-src/AlbumInfoDownloaderDlgImpl.cpp	f	2024-01-06T20:13:54Z
+src/AlbumInfoDownloaderDlgImpl.cpp	f	2024-01-06T21:04:07Z
 src/AlbumInfoDownloaderDlgImpl.h	f	2024-01-06T14:44:41Z
 src/AlbumInfoDownloader.ui	f	2024-01-06T14:25:07Z
 src/ApeStream.cpp	f	2014-11-12T17:36:59Z
@@ -297,8 +297,8 @@ src/fstream_unicode.cpp	f	2014-11-12T16:10:31Z
 src/fstream_unicode.h	f	2014-01-16T13:37:36Z
 src/FullSizeImgDlg.cpp	f	2023-12-07T19:18:03Z
 src/FullSizeImgDlg.h	f	2009-11-28T07:25:00Z
-src/Helpers.cpp	f	2024-01-06T20:52:52Z
-src/Helpers.h	f	2024-01-04T08:05:22Z
+src/Helpers.cpp	f	2024-01-06T21:29:40Z
+src/Helpers.h	f	2024-01-06T21:28:49Z
 src/Id3Transf.cpp	f	2012-03-03T20:24:37Z
 src/Id3Transf.h	f	2012-03-03T14:27:44Z
 src/Id3V230Stream.cpp	f	2023-12-08T20:25:14Z
@@ -391,7 +391,7 @@ src/MpegStream.cpp	f	2023-12-08T07:54:25Z
 src/MpegStream.h	f	2014-11-14T12:06:08Z
 src/MultiLineTvDelegate.cpp	f	2023-12-19T08:55:00Z
 src/MultiLineTvDelegate.h	f	2023-12-17T20:47:11Z
-src/MusicBrainzDownloader.cpp	f	2024-01-06T21:01:23Z
+src/MusicBrainzDownloader.cpp	f	2024-01-06T21:28:49Z
 src/MusicBrainzDownloader.h	f	2023-12-23T07:52:00Z
 src/NoteFilterDlgImpl.cpp	f	2024-01-04T18:40:31Z
 src/NoteFilterDlgImpl.h	f	2009-09-11T14:47:51Z

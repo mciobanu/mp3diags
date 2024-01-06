@@ -270,17 +270,17 @@ public:
 
                     const QJsonArray& trackArr = mediaObj.value("tracks").toArray();
                     for (const auto& track: trackArr) {
-                        TrackInfo inf;
+                        TrackInfo trk;
                         const QJsonObject& trackObj = track.toObject();
-                        inf.m_strTitle = convStr(trackObj.value("title").toString());
-                        //inf.m_strPos = convStr(trackObj.value("number").toString());  //ttt0: Review if "position" is better or if any is optional / which to use. Keep in mind that the specs for ID3v2 ask for either a number or a number followed by a "/" and the track count. The "number" field could potentially have values like "Side A / 2". On the albums that were explored, both fields had the same value, except that one is string and one is number
-                        inf.m_strPos = to_string(trackObj.value("position").toInt());
+                        trk.m_strTitle = convStr(trackObj.value("title").toString());
+                        //trk.m_strPos = convStr(trackObj.value("number").toString());  //ttt0: Review if "position" is better or if any is optional / which to use. Keep in mind that the specs for ID3v2 ask for either a number or a number followed by a "/" and the track count. The "number" field could potentially have values like "Side A / 2". On the albums that were explored, both fields had the same value, except that one is string and one is number
+                        trk.m_strPos = to_string(trackObj.value("position").toInt());
                         const QJsonArray& artistCreditsArr = trackObj.value("artist-credit").toArray();
                         if (!artistCreditsArr.empty()) {
-                            inf.m_strArtist = convStr(artistCreditsArr[0].toObject().value("name").toString());
+                            trk.m_strArtist = convStr(artistCreditsArr[0].toObject().value("name").toString());
                         }
 
-                        crtVol.m_vTracks.emplace_back(inf);
+                        crtVol.m_vTracks.emplace_back(trk);
                     }
                     //ttt0: See if there is any chance the tracks come unsorted, in which case - sort them
                 }
@@ -396,13 +396,15 @@ public:
             }
 
             // Add artist info to each track, to the extent that it doesn't already have the album's artists.
-            // Populate m_albumInfo.m_vpTracks
+            // Populate m_albumInfo.m_vpTracks.
+            // Set volume names for tracks
             for (auto& vol : m_albumInfo.m_vVolumes)
             {
                 for (auto& trk : vol.m_vTracks)
                 {
                     addList(trk.m_strArtist, m_albumInfo.m_strArtist);
                     m_albumInfo.m_vpTracks.emplace_back(&trk);
+                    trk.m_strVolume = vol.m_strName;
                 }
             }
         }

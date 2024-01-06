@@ -69,6 +69,8 @@ struct WebAlbumInfoBase
     bool checkTrackCountMatch(int nExpected) const;
 
     int getTotalTrackCount() const;
+
+    bool isMultiVolume() const { return m_vVolumes.size() > 1; }
 };
 
 

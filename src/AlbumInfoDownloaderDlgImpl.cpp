@@ -947,7 +947,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::reloadGui");
     }
 }
 
-//ttt9: Add the volume to the grid
+
 
 /*override*/ void AlbumInfoDownloaderDlgImpl::updateTrackList()
 {
@@ -1109,7 +1109,8 @@ WebDwnldModel::WebDwnldModel(AlbumInfoDownloaderDlgImpl& dwnld, QTableView& grid
 
 /*override*/ int WebDwnldModel::columnCount(const QModelIndex&) const
 {
-    return m_dwnld.getColumnCount();
+    const WebAlbumInfoBase* p (m_dwnld.getCrtAlbum());
+    return m_dwnld.getColumnCount() + (p != nullptr && p->isMultiVolume() ? 1 : 0);
 }
 
 
@@ -1131,12 +1132,14 @@ WebDwnldModel::WebDwnldModel(AlbumInfoDownloaderDlgImpl& dwnld, QTableView& grid
 
     const TrackInfo& t (*p->m_vpTracks[i]);
     string s;
-    switch (j)
+    int pos = j + (p->isMultiVolume() ? 0 : 1);
+    switch (pos)
     {
-    case 0: s = t.m_strPos; break;
-    case 1: s = t.m_strTitle; break;
-    case 2: s = t.m_strArtist; break;
-    case 3: s = t.m_strComposer; break;
+    case 0: s = t.m_strVolume; break;
+    case 1: s = t.m_strPos; break;
+    case 2: s = t.m_strTitle; break;
+    case 3: s = t.m_strArtist; break;
+    case 4: s = t.m_strComposer; break;
     default:
         CB_ASSERT (false);
     }
@@ -1165,15 +1168,15 @@ WebDwnldModel::WebDwnldModel(AlbumInfoDownloaderDlgImpl& dwnld, QTableView& grid
     if (nRole != Qt::DisplayRole) { return QVariant(); }
     if (Qt::Horizontal == eOrientation)
     {
-        switch (nSection)
+        CB_ASSERT(nSection >= 0);
+        const char* headers[] = {"Volume", "Pos", "Title", "Artist", "Composer"};
+        const WebAlbumInfoBase* p = m_dwnld.getCrtAlbum();
+        if (p == nullptr || !p->isMultiVolume())
         {
-        case 0: return tr("Pos");
-        case 1: return tr("Title");
-        case 2: return tr("Artist");
-        case 3: return tr("Composer");
-        default:
-            CB_ASSERT (false);
+            nSection++;
         }
+        CB_ASSERT(nSection <= 4);
+        return tr(headers[nSection]);
     }
 
     return nSection + 1;

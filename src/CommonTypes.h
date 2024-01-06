@@ -86,6 +86,7 @@ private:
 struct TrackInfo
 {
     TrackInfo() : m_dRating(-1) {}
+    std::string m_strVolume;
     std::string m_strTitle;
     std::string m_strArtist;
     std::string m_strPos;

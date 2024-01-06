@@ -202,7 +202,8 @@ public:
                     m_albumInfo.m_strAsin = convStr(qstrAsin);
                     m_albumInfo.m_vstrImageNames.push_back(
                             //"https://imagQQes.aQQmazon.com/images/P/" + m_albumInfo.m_strAsin +
-                            "https://images.amazon.com/images/P/" + m_albumInfo.m_strAsin +
+                            //"https://images.amazon.com/images/P/" + m_albumInfo.m_strAsin +
+                            "http://images.amazon.com/images/P/" + m_albumInfo.m_strAsin +  //ttt0: Perhaps use HTTPS, but keep in mind that simply doing it prevents images from being loaded on Wondows. It seems to need OpenSSL - https://forum.qt.io/topic/95700/qsslsocket-tls-initialization-failed/6
                             ".01.LZZZZZZZ.jpg"); // ttt2 "01" is country code for US, perhaps try others //ttt2 perhaps check for duplicates
                 }
             }

@@ -946,7 +946,7 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::reloadGui");
         m_pImgSizeL->setText(convStr(albumInfo.m_vstrImageInfo[m_nCrtImage]));
     }
 }
-//ttt9: Make the "volume" dropdown wider (load "the wall" to see how it looks like)
+
 //ttt9: Add the volume to the grid
 
 /*override*/ void AlbumInfoDownloaderDlgImpl::updateTrackList()

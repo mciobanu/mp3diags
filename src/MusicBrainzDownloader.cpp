@@ -221,8 +221,10 @@ public:
                     const QString& s = artistsArr[0].toObject().value("artist").toObject().value(
                             "name").toString(); //ttt9: Review [0] here and elsewhere, where we just look at the first entry
                     if (0 == s.compare("VaRiOuS Artists", Qt::CaseInsensitive)) {
-                        m_albumInfo.m_eVarArtists = AlbumInfo::VA_VARIOUS;  //ttt9: test this
+                        // An example is "84cf5248-25f8-4105-b8d0-f94d7213ef71", and it can be easiest tested by overwriting the search results
+                        m_albumInfo.m_eVarArtists = AlbumInfo::VA_VARIOUS;
                     } else {
+                        m_albumInfo.m_eVarArtists = AlbumInfo::VA_SINGLE; // Doesn't really matter, as the same code gets executed for both VA_NOT_SUPP, which is the default, and VA_SINGLE. It's just for consistency.
                         m_albumInfo.m_strArtist = convStr(s);
                     }
                 }
@@ -271,7 +273,7 @@ public:
                         TrackInfo inf;
                         const QJsonObject& trackObj = track.toObject();
                         inf.m_strTitle = convStr(trackObj.value("title").toString());
-                        //inf.m_strPos = convStr(trackObj.value("number").toString());  //ttt9: There's also "position". TBD if any is optional / which to use. Keep in mind that the specs for ID3v2 ask for either a number or a number followed by a "/" and the track count. The "number" field could potentially have values like "Side A / 2".
+                        //inf.m_strPos = convStr(trackObj.value("number").toString());  //ttt0: Review if "position" is better or if any is optional / which to use. Keep in mind that the specs for ID3v2 ask for either a number or a number followed by a "/" and the track count. The "number" field could potentially have values like "Side A / 2". On the albums that were explored, both fields had the same value, except that one is string and one is number
                         inf.m_strPos = to_string(trackObj.value("position").toInt());
                         const QJsonArray& artistCreditsArr = trackObj.value("artist-credit").toArray();
                         if (!artistCreditsArr.empty()) {
@@ -409,7 +411,21 @@ public:
             m_qstrError = MusicBrainzDownloader::tr("JSON expected field not found: %1").arg(ex.what());
             return false;
         }*/
-        //ttt9: Make sure we always return a volume, which has at least 1 track. Simplifies the code and if it happens it is due to a bug in MP3 Diags or MusicBrainz
+
+        {
+            // Make sure we always return a volume, which has at least 1 track. Simplifies the code and if it happens it is due to a bug in MP3 Diags or MusicBrainz
+            if (m_albumInfo.m_vVolumes.empty())
+            {
+                VolumeInfo fakeVolume{"fake volume", vector<TrackInfo>()};
+                m_albumInfo.m_vVolumes.emplace_back(fakeVolume);
+            }
+            vector<TrackInfo>& vTracks = m_albumInfo.m_vVolumes[0].m_vTracks;
+            if (vTracks.empty())
+            {
+                vTracks.emplace_back();
+                vTracks.back().m_strTitle = "fake title";
+            }
+        }
         return true;
     }
 
@@ -479,7 +495,7 @@ MusicBrainzDownloader::MusicBrainzDownloader(QWidget* pParent, SessionSettings& 
     m_pImgSizeL->setMinimumHeight(m_pImgSizeL->height()*2);
 
     m_pModel = new WebDwnldModel(*this, *m_pTrackListG); // !!! in a way these would make sense to be in the base constructor, but that would cause calls to pure virtual methods
-    m_pTrackListG->setModel(m_pModel);  //ttt9 Make sure to call decreaseRowHeaderFont() and setHeaderColor(). Same for Discogs
+    m_pTrackListG->setModel(m_pModel);
 
     connect(m_pSearchB, SIGNAL(clicked()), this, SLOT(on_m_pSearchB_clicked()));
 
@@ -814,7 +830,7 @@ LAST_STEP("MusicBrainzDownloader::requestImage");
     //QNetworkReply::NetworkError error = pReply->error();
     //const string& errStr = pReply->errorString().toStdString();
     m_spNetworkReplies.insert(pReply);
-    // With a breakpoint here (or several lines above) and an incorrect URL, the request more often than not used to finish with a "Host imagqqes.aqqmazon.com not found", rather than hanging until timing out. Threading didn't seem to be the issue, as everything happens on the UI thread. However, after making some changes that shouldn't matter and reverting them on 2023.12.30-13:00, this is no longer the case. Other breakpoints maybe mattered as well, but they were restored too. Trying to reproduce the issue in a standalone program (TestNetworkAccessManager) led to "mostly timeout" behavior, but once it returned immediately with "host not found". The workaround was to add setTransferTimeout().  //ttt9: Try to understand what's going on, in particular try TestNetworkAccessManager with Qt6
+    // With an incorrect URL, the request more often than not used to hang for a long time until timing out. With a breakpoint here (or several lines above) and the same incorrect URL, after stepping through the code a little it quite often finished immediately with a "Host imagqqes.aqqmazon.com not found". This wasn't really consistent, but it still was somehow reliable. After some simple and apparently irrelevant changes this stopped happening and the hang now seems to happen all the time. The reason is unclear for the initial behavior, and the current one. Threading didn't seem to be the issue, as everything happens on the UI thread. Other breakpoints maybe mattered as well, but they were restored too. Trying to reproduce the issue in a standalone program (TestNetworkAccessManager) led to "mostly timeout" behavior, but once it returned immediately with "host not found", in "Run" mode (not "Debug", so there was no breakpoint. The workaround was to add setTransferTimeout().  //ttt9: Try to understand what's going on, in particular try TestNetworkAccessManager with Qt6
     //qDebug("%d, MusicBrainzDownloader::requestImage: added request and waiting reply for %p - %s", __LINE__, pReply, qPrintable(url.toString()));
     // qDebug("%d, %s, MusicBrainzDownloader::requestImage: added request and waiting reply for %p - %s", __LINE__, getCurrentThreadInfo().c_str(), pReply, qPrintable(url.toString()));
 

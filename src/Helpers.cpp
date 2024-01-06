@@ -794,10 +794,10 @@ Ideally a modal dialog should minimize its parent. If that's not possible, it sh
     Qt::WindowFlags getNoResizeWndFlags() { return Qt::WindowTitleHint; }
 #else
     Qt::WindowFlags getMainWndFlags() {
-		return Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint;
-	} // minimize, maximize, no "what's this"
+        return Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint;
+    } // minimize, maximize, no "what's this"
     Qt::WindowFlags getDialogWndFlags() { return Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint; } // minimize, no "what's this"
-    Qt::WindowFlags getNoResizeWndFlags() { return Qt::WindowTitleHint; } // no "what's this" // ttt2 review if we want Qt::WindowCloseButtonHint
+    Qt::WindowFlags getNoResizeWndFlags() { return Qt::WindowTitleHint | Qt::WindowCloseButtonHint; } // no "what's this"
 #endif
 
 

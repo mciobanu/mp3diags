@@ -249,7 +249,7 @@ src/aaa-info.txt	f	2023-12-19T20:49:49Z
 src/AboutDlgImpl.cpp	f	2023-12-12T19:20:41Z
 src/AboutDlgImpl.h	f	2009-07-17T15:02:37Z
 src/About.ui	f	2011-06-15T19:56:47Z
-src/AlbumInfoDownloaderDlgImpl.cpp	f	2024-01-06T15:12:25Z
+src/AlbumInfoDownloaderDlgImpl.cpp	f	2024-01-06T20:13:54Z
 src/AlbumInfoDownloaderDlgImpl.h	f	2024-01-06T14:44:41Z
 src/AlbumInfoDownloader.ui	f	2024-01-06T14:25:07Z
 src/ApeStream.cpp	f	2014-11-12T17:36:59Z
@@ -450,9 +450,9 @@ src/Transformation.h	f	2014-11-12T11:16:17Z
 src/Translation.cpp	f	2023-11-30T20:31:37Z
 src/Translation.h	f	2012-03-04T06:52:32Z
 src/translations/autoTransl/MixedCase.cpp	f	2012-02-29T21:51:40Z
-src/translations/mp3diags_cs.ts	f	2024-01-04T18:52:08Z
-src/translations/mp3diags_de_DE.ts	f	2024-01-04T18:53:40Z
-src/translations/mp3diags_fr_FR.ts	f	2024-01-04T18:54:18Z
+src/translations/mp3diags_cs.ts	f	2024-01-06T20:14:05Z
+src/translations/mp3diags_de_DE.ts	f	2024-01-06T20:14:05Z
+src/translations/mp3diags_fr_FR.ts	f	2024-01-06T20:15:01Z
 src/UniqueNotesModel.cpp	f	2024-01-04T18:28:43Z
 src/UniqueNotesModel.h	f	2009-05-06T07:33:22Z
 src/Version.cpp	f	2013-03-31T22:31:45Z

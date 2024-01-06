@@ -1165,18 +1165,18 @@ WebDwnldModel::WebDwnldModel(AlbumInfoDownloaderDlgImpl& dwnld, QTableView& grid
 
 /*override*/ QVariant WebDwnldModel::headerData(int nSection, Qt::Orientation eOrientation, int nRole /* = Qt::DisplayRole*/) const
 {
+    static QString headers[] = {tr("Volume"), tr("Pos"), tr("Title"), tr("Artist"), tr("Composer")};
     if (nRole != Qt::DisplayRole) { return QVariant(); }
     if (Qt::Horizontal == eOrientation)
     {
         CB_ASSERT(nSection >= 0);
-        const char* headers[] = {"Volume", "Pos", "Title", "Artist", "Composer"};
         const WebAlbumInfoBase* p = m_dwnld.getCrtAlbum();
         if (p == nullptr || !p->isMultiVolume())
         {
             nSection++;
         }
         CB_ASSERT(nSection <= 4);
-        return tr(headers[nSection]);
+        return headers[nSection];
     }
 
     return nSection + 1;

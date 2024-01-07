@@ -940,7 +940,7 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
 
         m_pFilesG->setHorizontalHeader(new FileHeaderView(m_pCommonData, m_pFilesG));
 
-        m_pFilesG->horizontalHeader()->setMinimumSectionSize(CELL_WIDTH); //ttt9: Review if this rearrangement of setting the sizes on 2023.12.19 had any negative impact
+        m_pFilesG->horizontalHeader()->setMinimumSectionSize(CELL_WIDTH);
         m_pFilesG->horizontalHeader()->setDefaultSectionSize(CELL_WIDTH);
         m_pFilesG->verticalHeader()->setMinimumSectionSize(CELL_HEIGHT);
         m_pFilesG->verticalHeader()->setDefaultSectionSize(CELL_HEIGHT);
@@ -3682,7 +3682,7 @@ Note the use of QLibraryInfo::location() to locate the Qt translations. Develope
 
 //ttt2 ID3V2 frame TBPM should be numeric - see: 20 Rimsky-Korsakov - Flight of the Bumblebee from Tsar Sultan.mp3
 
-//ttt0 https://sourceforge.net/projects/mp3diags/forums/forum/947206/topic/6884554 - use http://coverartarchive.org/
+//ttt9 https://sourceforge.net/projects/mp3diags/forums/forum/947206/topic/6884554 - use http://coverartarchive.org/
 
 //ttt2 when processing a file (e.g. deleting a stream) the program will tend to scroll the file view so that file is the last; it should stay where it was.
 
@@ -3724,3 +3724,5 @@ Note the use of QLibraryInfo::location() to locate the Qt translations. Develope
 //ttt1 https://sourceforge.net/p/mp3diags/tickets/3106/   /d/test_mp3/1/tmp4/tmp2/NoImageInApe/
 
 //ttt1 https://sourceforge.net/p/mp3diags/discussion/947206/thread/42d8f51a/?limit=25#e8a5
+
+//ttt9: See about timestamps: https://stackoverflow.com/questions/27290965/qdebug-console-output-with-timestamp

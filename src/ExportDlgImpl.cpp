@@ -794,3 +794,4 @@ bool ExportDlgImpl::exportAsXml(const std::string& strFileName) //ttt1 XML is no
     return (bool)out;
 }
 
+//ttt9 if there is no extension, one should be added when clicking on radio buttons (or not, review)

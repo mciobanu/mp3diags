@@ -54,3 +54,15 @@ In Windows, as of 2023.12.19 the headers and the cells are both white and there'
 things are confusing. As such, function setHeaderColor() was added. Its relation with decreaseRowHeaderFont() and
 is not clear, as documented in DoubleList::DoubleList(), where order is essential (not 100% sure the same is true
 everywhere).
+
+====================
+
+HTTPS
+
+OpenSSL is needed. In Linux, it is probably installed by default. On Windows, it isn't. There's a variant that comes
+with Qt, but it only works with the latest Qt (i.e. Qt 6.x), while the Qt tool allows the installation of Qt 5.x.
+
+In main, there's a call to sslLibraryBuildVersionString(), which can be used to figure out what Qt actually wants,
+which can then be installed from https://slproweb.com/products/Win32OpenSSL.html
+
+There is a short program for tests at cpp/TestHttps01

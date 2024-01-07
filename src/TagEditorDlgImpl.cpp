@@ -1987,3 +1987,5 @@ A less important performance issue is in ImageInfoPanelWdgImpl::ImageInfoPanelWd
 */
 
 //ttt2 in tag editor: magnify image for one album, Ctrl+C, go to another album, Ctrl+V -> format error
+
+//ttt9: Look at support for WEBP images

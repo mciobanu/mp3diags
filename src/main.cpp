@@ -970,7 +970,9 @@ int cmdlineMain(const po::variables_map& options)
 
     return cmdLineAnalyzer.run() ? 0 : 1;
 }
-
+//ttt0: Default vertical space for streams & notes in main window is too small; OTOH it's the same with 1.2.03 on Windows
+//ttt9: See about encoding in /d/test_mp3/1/tmp2/crt_test/martin/dj/ -  Uses character with code 0x82, which probably means e with some accent in some encoding. However, Latin-1, Windows-1250, Windows-1252, ISO 8859-15 don't seem to have anything like this at 0x82
+//          export AAB=`ls` ;  printf %s "$AAB" | od -An -vtx1
 /*
 
 ttt1 CLI-friendly function restructuring:

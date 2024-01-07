@@ -37,6 +37,12 @@ using namespace Discogs;
 
 
 /*
+ * curl https://api.discogs.com/database/search?q==Nirvana&key=HmWOVcfrQlgwVAOCsTMW&secret=kVLVXqSoVBDASrhcacvkSsvUAYUcXKyU
+ *
+ * curl "https://api.discogs.com/database/search?q=Nirvana" -H "Authorization: Discogs key=HmWOVcfrQlgwVAOCsTMW, secret=kVLVXqSoVBDASrhcacvkSsvUAYUcXKyU"
+ *
+ * curl "https://api.discogs.com/database/search?artist=coldplay" -H "Authorization: Discogs key=HmWOVcfrQlgwVAOCsTMW, secret=kVLVXqSoVBDASrhcacvkSsvUAYUcXKyU"
+ *
  * 2014.07.17
  *
  * Old search endpoint: http://api.discogs.com/search?q=Rammstein&f=xml

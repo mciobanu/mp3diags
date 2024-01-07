@@ -533,8 +533,8 @@ LAST_STEP("AlbumInfoDownloaderDlgImpl::setImageType");
 void AlbumInfoDownloaderDlgImpl::onRequestFinished(QNetworkReply* pReply)
 {
 LAST_STEP("AlbumInfoDownloaderDlgImpl::onRequestFinished");
-    const string& strUrl = pReply->request().url().toString().toStdString();
-    const string& strErr = pReply->error() != QNetworkReply::NetworkError::NoError ? pReply->errorString().toStdString() : "no error";
+    //const string& strUrl = pReply->request().url().toString().toStdString();
+    //const string& strErr = pReply->error() != QNetworkReply::NetworkError::NoError ? pReply->errorString().toStdString() : "no error";
     //qDebug("%d, AlbumInfoDownloaderDlgImpl::onRequestFinished(%p): %s / %s", __LINE__, pReply, strUrl.c_str(), strErr.c_str());
     // qDebug("%d, %s, AlbumInfoDownloaderDlgImpl::onRequestFinished(%p): %s / %s", __LINE__, getCurrentThreadInfo().c_str(), pReply, strUrl.c_str(), strErr.c_str());
 

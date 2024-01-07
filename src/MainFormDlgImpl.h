@@ -26,6 +26,8 @@
 #include  <memory>
 
 #include  <QDialog>
+#include  <QNetworkReply>
+#include  <QNetworkAccessManager>
 
 #include  "ui_MainForm.h"
 
@@ -110,9 +112,8 @@ public slots:
     void onHelp();
 
     void onMenuHovered(QAction*);
-    void onNewVersionQueryFinished(int, bool);
+    void onRequestFinished(QNetworkReply*);
     void onNewVersionQueryFinished2(); // needed because some bug in Qt4.3.1, 4.4.3 and some others, resulting in a segfault if onNewVersionQueryFinished() lasts 14 seconds or more
-    void readResponseHeader(const QHttpResponseHeader&);
 
     void onMainGridRightClick();
 
@@ -189,10 +190,10 @@ private:
     void showExternalTools();
     bool askConfirm(const std::deque<const Mp3Handler*>& vpHandlers, const QString& qstrAction);
 
-    QHttp* m_pQHttp;
+    QNetworkAccessManager m_networkAccessManager;
     QString m_qstrNewVer; // needed by onNewVersionQueryFinished2()
 
-    int m_nGlobalX, m_nGlobalY; // needed so fixCurrentNote() can be called on a timer, rather than directly (which seems to guarantee that tooltips are shown for menus in Linux; with a direct call it's sort of random; well, right-clicking on a non-current cell rather than left click followed by right click incresases the odds of the tooltips not being shown)
+    int m_nGlobalX, m_nGlobalY; // needed so fixCurrentNote() can be called on a timer, rather than directly (which seems to guarantee that tooltips are shown for menus in Linux; with a direct call it's sort of random; well, right-clicking on a non-current cell rather than left click followed by right click increases the odds of the tooltips not being shown)
 
 signals:
     void tagEditorClosed();

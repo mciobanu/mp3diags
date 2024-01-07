@@ -800,7 +800,7 @@ void listKnownFormats()
 
 
 
-MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisibleSessBtn) : QDialog(0, getMainWndFlags()), m_settings(strSession), m_nLastKey(0)/*, m_settings("Ciobi", "Mp3Diags_v01")*/ /*, m_nPrevTabIndex(-1), m_bTagEdtWasEntered(false)*/, m_pCommonData(0), m_strSession(strSession), m_bShowMaximized(false), m_nScanWidth(0), m_pQHttp(0), m_nGlobalX(0), m_nGlobalY(0)
+MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisibleSessBtn) : QDialog(0, getMainWndFlags()), m_settings(strSession), m_nLastKey(0)/*, m_settings("Ciobi", "Mp3Diags_v01")*/ /*, m_nPrevTabIndex(-1), m_bTagEdtWasEntered(false)*/, m_pCommonData(0), m_strSession(strSession), m_bShowMaximized(false), m_nScanWidth(0), m_nGlobalX(0), m_nGlobalY(0)
 {
 //int x (2); CB_ASSERT(x > 4);
 //CB_ASSERT("345" == "ab");
@@ -809,6 +809,8 @@ MainFormDlgImpl::MainFormDlgImpl(const string& strSession, bool bDefaultForVisib
 
     s_pGlobalDlg = 0;
     setupUi(this);
+
+    connect(&m_networkAccessManager, &QNetworkAccessManager::finished, this, &MainFormDlgImpl::onRequestFinished);
 
     //listKnownFormats(); // ttt2 sizes for many formats seem way too low (e.g. "MPEG-1 Layer I, 44100Hz 32000bps" or "MPEG-2 Layer III, 22050Hz 8000bps")
 
@@ -2873,47 +2875,47 @@ void MainFormDlgImpl::checkForNewVersion() // returns immediately; when the requ
 
     m_pCommonData->m_timeLastNewVerCheck = QDateTime(QDateTime::currentDateTime());
 
-    m_pQHttp = new QHttp (this);
 
-    connect(m_pQHttp, SIGNAL(requestFinished(int, bool)), this, SLOT(onNewVersionQueryFinished(int, bool)));
-    //connect(m_pQHttp, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)), this, SLOT(readResponseHeader(const QHttpResponseHeader&)));
-
-    m_pQHttp->setHost("mp3diags.sourceforge.net");
-    //http://mp3diags.sourceforge.net/010_getting_the_program.html
-    QHttpRequestHeader header ("GET", QString(getWebBranch()) + "/version.txt"); header.setValue("Host", "mp3diags.sourceforge.net");
-    //QHttpRequestHeader header ("GET", "/mciobanu/mp3diags/010_getting_the_program.html"); header.setValue("Host", "web.clicknet.ro");
-    m_pQHttp->request(header);
+    QUrl url (QString("https://mp3diags.sourceforge.net") + getWebBranch() + "/version.txt");  //ttt9: Plain HTTP doesn't work, and HTTPS needs OpenSSL on Windows
+    QNetworkRequest req (url);
+    //setMp3DiagsUserAgent(req);
+    setFirefoxUserAgent(req); //ttt9: Review (vs. MP3Dgs)
+    QNetworkReply* pReply = m_networkAccessManager.get(req);
 }
 //mp3diags.sourceforge.net/010_getting_the_program.html
 //web.clicknet.ro/mciobanu/mp3diags/010_getting_the_program.html
 
-void MainFormDlgImpl::readResponseHeader(const QHttpResponseHeader& h)
-{
-    qDebug("status %d", h.statusCode());
-}
 
 
 
+void MainFormDlgImpl::onRequestFinished(QNetworkReply* pReply) {
+    /*const string& strUrl = pReply->request().url().toString().toStdString();
+    const string& strErr =
+            pReply->error() != QNetworkReply::NetworkError::NoError ? pReply->errorString().toStdString() : "no error";
+    qDebug("%d, %s, MainFormDlgImpl::onRequestFinished(%p): %s / %s", __LINE__, getCurrentThreadInfo().c_str(), pReply,
+           strUrl.c_str(), strErr.c_str());*/
 
-void MainFormDlgImpl::onNewVersionQueryFinished(int /*nId*/, bool bError)
-{
-    if (bError)
-    { //ttt2 log something, tell user after a while
-        qDebug("HTTP error");
+    pReply->deleteLater();
+
+    if (pReply->error() != QNetworkReply::NetworkError::NoError)
+    {
+        const string& err = convStr(pReply->errorString());
+        qDebug("HTTP error: %s", err.c_str());
         return;
     }
 
-    qint64 nAv (m_pQHttp->bytesAvailable());
+    qint64 nAv (pReply->bytesAvailable());
+    //qDebug("got %lld bytes", nAv);
     if (0 == nAv)
     {
         // !!! JUST return; empty responses come for no identifiable requests and they should be just ignored
         return;
     }
 
-    QByteArray b (m_pQHttp->readAll());
+    QByteArray b (pReply->readAll());
     CB_ASSERT (b.size() == nAv);
 
-    qDebug("ver: %s", b.constData());
+    qDebug("version at SourceForge: %s", b.constData());
 
     m_qstrNewVer = b;
     m_qstrNewVer = m_qstrNewVer.trimmed();
@@ -2927,18 +2929,6 @@ void MainFormDlgImpl::onNewVersionQueryFinished(int /*nId*/, bool bError)
     {
         return;
     }
-
-#if 0
-    //const int WAIT (15); //crashes
-    //const int WAIT (12); // doesn't crash
-    const int WAIT (14); //crashes
-#ifndef WIN32
-    qDebug("wait %d seconds", WAIT); sleep(WAIT); showCritical(this, "resume", "resume resume resume resume resume"); // crashes
-    //ttt2 see if this crash affects discogs dwnld //??? why doesn't crash if no message is shown?
-#else
-    //Sleep(WAIT*1000); // Qt 4.5 doesn't seem to crash
-#endif
-#endif
 
     QTimer::singleShot(1, this, SLOT(onNewVersionQueryFinished2()));
 }

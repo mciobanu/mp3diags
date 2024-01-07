@@ -396,8 +396,23 @@ To uninstall the program, see the corresponding section at the <a href="#uninsta
                     <li>Run the downloaded file and log in</li>
                     <li>Choose Qt 5, e.g. 5.15.2. Deselect MingW and other options, but keep MSVC 2019 (note that
                         2022 wasn't available at the time of this writing, but it's supposed to be compatible),
-                        CMake, and Ninja</li>
+                        CMake, Ninja, and the OpenSSL binaries</li>
                     <li>Proceed with the install</li>
+                </ol>
+            </td>
+        </tr>
+
+        <tr>
+            <td>OpenSSL binaries</td>
+            <td>
+                <ol>
+                    <li>Go to <a href="https://slproweb.com/products/Win32OpenSSL.html"
+                                 onClick="javascript: pageTracker._trackPageview('/openSSL');">slproweb.com</a>
+                        and get the current <i>Light</i> installable for version 1.1 (which is 1.1.1w as of this writing),
+                        either MSI or EXE. (Qt comes with its own copy of OpenSSL, but that isn't suitable for MP3
+                        Diags, because it is not compatible with Qt 5, but only with Qt 6.)
+                    </li>
+                    <li>Install the downloaded file. (You probably don't want to copy anything to the Windows System folder.)</li>
                 </ol>
             </td>
         </tr>
@@ -420,6 +435,7 @@ To uninstall the program, see the corresponding section at the <a href="#uninsta
                 <li><span class="Code">ZLIB_ROOT</span> contains the folders <span class="Code">include</span> and <span class="Code">lib</span></li>
                 <li><span class="Code">Qt5_ROOT</span> contains the folders <span class="Code">include</span>,
                     <span class="Code">lib</span>, <span class="Code">mkspecs</span>, <span class="Code">translations</span>, ...</li>
+                <li><span class="Code">OpenSSL_BIN</span> contains the files <span class="Code">libssl-1_1-x64.dll</span> and <span class="Code">libcrypto-1_1-x64.dll</span></li>
             </ul>
         </li>
     </ol>

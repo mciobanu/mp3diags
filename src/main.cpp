@@ -38,7 +38,7 @@
 #include  <QSettings>
 #include  <QFileInfo>
 #include  <QMessageBox>
-#include  <QFileInfo>
+#include  <QSslSocket>
 #include  <QDir>
 
 #include  "MainFormDlgImpl.h"
@@ -1047,6 +1047,10 @@ int main(int argc, char *argv[])
     o << 12345.78;
     cout << o.str() << endl;
     printf("%f\n", 12345.78);//*/
+
+    qDebug() << "OpenSSL enabled:" << QSslSocket::supportsSsl();
+    qDebug() << "OpenSSL build version: " << QSslSocket::sslLibraryBuildVersionString();
+    qDebug() << "OpenSSL runtime version: " << QSslSocket::sslLibraryVersionString();
 
     void (*nh)() = set_new_handler(newHandler);
     if (0 != nh) { cerr << "previous new handler: " << (void*)nh << endl; }

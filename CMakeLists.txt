@@ -60,6 +60,13 @@ if(WIN32)
         message(FATAL_ERROR "You must set the Qt5_ROOT environment variable")
     endif()
     string(REGEX REPLACE "\\\\" "/" Qt5_ROOT "$ENV{Qt5_ROOT}") # extract environment variable to a proper variable to use later to call windeployqt
+
+    # OpenSSL is not "needed". As of January 2024, the only code that doesn't work without it is the checking for a newer MP3
+    # Diags version, because SourceForge redirects http traffic to https. The rest of the code uses http, and things work without OpenSSL.
+    if(NOT DEFINED ENV{OpenSSL_BIN})
+        message(FATAL_ERROR "You must either set the OpenSSL_BIN environment variable or change CMakeLists.txt to remove references to it")
+    endif()
+    string(REGEX REPLACE "\\\\" "/" OpenSSL_BIN "$ENV{OpenSSL_BIN}") # extract environment variable to a proper variable to use later to copy OpenSSL DLLs
 endif()
 
 
@@ -341,6 +348,22 @@ if(WIN32) # ttt0 review these  #ttt0 see about MSVC rather than OS
     #    COMMAND ${CMAKE_COMMAND} -E copy "${BOOST_PROG_OPT_DLL}" ${BUILD_TYPE}/dist
     #)
     file(COPY "${BOOST_PROG_OPT_DLL}" DESTINATION .)
+
+    file(GLOB LIB_CRYPTO_DLL "${OpenSSL_BIN}/libcrypto-*.dll")
+    message(STATUS "LIB_CRYPTO_DLL: ${LIB_CRYPTO_DLL}")
+    if(EXISTS "${LIB_CRYPTO_DLL}")
+        file(COPY "${LIB_CRYPTO_DLL}" DESTINATION .)
+    else ()
+        message(WARNING, "Couldn't find file libcrypto-*.dll, which will prevent OpenSSL from working")
+    endif ()
+
+    file(GLOB LIB_SSL_DLL "${OpenSSL_BIN}/libssl-*.dll")
+    message(STATUS "LIB_SSL_DLL: ${LIB_SSL_DLL}")
+    if(EXISTS "${LIB_SSL_DLL}")
+        file(COPY "${LIB_SSL_DLL}" DESTINATION .)
+    else ()
+        message(WARNING, "Couldn't find file libssl-*.dll, which will prevent OpenSSL from working")
+    endif ()
 
     SET(LICENSES boost gplv2 gplv3 "lgpl-2.1" lgplv3 zlib)
     message(STATUS "CMAKE_CURRENT_BINARY_DIR: ${CMAKE_CURRENT_BINARY_DIR}")

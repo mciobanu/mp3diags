@@ -19,7 +19,8 @@
             "environment": {
                 "Boost_ROOT": "C:\\local\\boost_1_83_0",
                 "ZLIB_ROOT": "C:\\local\\zlib_13",
-                "Qt5_ROOT": "C:\\Qt\\5.15.2\\msvc2019_64"
+                "Qt5_ROOT": "C:\\Qt\\5.15.2\\msvc2019_64",
+                "OpenSSL_BIN": "C:\\Program Files\\OpenSSL-Win64\\bin"
             }
         },
         {

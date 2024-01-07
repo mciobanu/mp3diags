@@ -22,7 +22,6 @@
 
 #include  <map>
 
-#include  "QHttp"
 
 #include  "DiscogsDownloader.h"
 
@@ -725,6 +724,7 @@ LAST_STEP("DiscogsDownloader::reloadGui");
 //http://api.discogs.com/release/1565272?f=xml vs http://www.discogs.com/release/1565272?f=xml&api_key=f51e9c8f6c
 void DiscogsDownloader::requestAlbum(int nAlbum)
 {
+#if 0
 LAST_STEP("DiscogsDownloader::requestAlbum");
     //ttt8 CB_ASSERT (!m_pQHttp->hasPendingRequests()); //ttt1 triggered according to mail (Nov 2, 2009, 2:31 PM - Qt 4.5.2; there is something in the 4.5.3 change log at http://qt.nokia.com/developer/changes/changes-4.5.3 about duplicate HTTP requests, but according to http://www.qtcentre.org/forum/f-qt-programming-2/t-qhttp-response-content-25255-post121265.html it only affected QNetworkAccessManager, which is a replacement for QHttp, so this is probably not related)
 
@@ -739,11 +739,13 @@ LAST_STEP("DiscogsDownloader::requestAlbum");
     //ttt8 m_pQHttp->request(header);
     //cout << "sent album " << m_vAlbums[nAlbum].m_strId << " - " << m_pQHttp->request(header) << endl;
     addNote(AlbumInfoDownloaderDlgImpl::tr("getting album info ..."));
+#endif
 }
 
 //http://api.discogs.com/image/R-1565272-1228883740.jpeg vs http://www.discogs.com/image/R-1565272-1228883740.jpeg?api_key=f51e9c8f6c
 void DiscogsDownloader::requestImage(int nAlbum, int nImage)
 {
+#if 0
 LAST_STEP("DiscogsDownloader::requestImage");
     //ttt8 CB_ASSERT (!m_pQHttp->hasPendingRequests());
     m_nLoadingAlbum = nAlbum;
@@ -762,6 +764,7 @@ LAST_STEP("DiscogsDownloader::requestImage");
     //ttt8 m_pQHttp->request(header);
     //cout << "sent img " <<  m_vAlbums[nAlbum].m_vstrImageNames[nImage] << " - " << m_pQHttp->request(header) << endl;
     addNote(AlbumInfoDownloaderDlgImpl::tr("getting image ..."));
+#endif
 }
 
 

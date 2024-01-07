@@ -210,9 +210,6 @@ set(PROJECT_SOURCE_FILES
         src/PaletteDlgImpl.cpp
         src/PaletteDlgImpl.h
         src/Patterns.ui
-        src/QHttp
-        src/QHttpRequestHeader
-        src/QHttpResponseHeader
         src/RenamerPatternsDlgImpl.cpp
         src/RenamerPatternsDlgImpl.h
         src/Scan.ui

@@ -696,7 +696,6 @@ LAST_STEP("MusicBrainzDownloader::loadNextPage");
     qDebug("%d, MusicBrainzDownloader::loadNextPage: added request and waiting reply for %p - %s", __LINE__, pReply, qPrintable(url.toString()));
     //2023.12.30-13:00 qDebug("%d, %s, MusicBrainzDownloader::loadNextPage: added request and waiting reply for %p - %s", __LINE__, getCurrentThreadInfo().c_str(), pReply, qPrintable(url.toString()));
 
-    //cout << "sent search " << m_pQHttp->request(header) << " for page " << (m_nLastLoadedPage + 1) << endl;
     //addNote("QQQ req " + url.toString());
 }
 
@@ -770,7 +769,6 @@ LAST_STEP("MusicBrainzDownloader::reloadGui");
 void MusicBrainzDownloader::requestAlbum(int nAlbum)
 {
 LAST_STEP("MusicBrainzDownloader::requestAlbum");
-    //CB_ASSERT (!m_pQHttp->hasPendingRequests() && !m_pImageQHttp->hasPendingRequests());  // ttt1 triggered: https://sourceforge.net/p/mp3diags/tickets/36/ ?? perhaps might happen when MB returns errors ; see also DiscogsDownloader::requestAlbum
     CB_ASSERT (m_spNetworkReplies.empty());
 
     m_nLoadingAlbum = nAlbum;
@@ -788,7 +786,6 @@ LAST_STEP("MusicBrainzDownloader::requestAlbum");
     m_spNetworkReplies.insert(pReply);
     //qDebug("%d, MusicBrainzDownloader::requestAlbum: added request and waiting reply for %p - %s", __LINE__, pReply, qPrintable(url.toString()));
     //qDebug("%d, %s, MusicBrainzDownloader::requestAlbum: added request and waiting reply for %p - %s", __LINE__, getCurrentThreadInfo().c_str(), pReply, qPrintable(url.toString()));
-    //cout << "sent album " << m_vAlbums[nAlbum].m_strId << " - " << m_pQHttp->request(header) << endl;
     addNote(AlbumInfoDownloaderDlgImpl::tr("getting album info ..."));
     //addNote("QQQ req " + convStr(s));
 }
@@ -813,7 +810,6 @@ LAST_STEP("MusicBrainzDownloader::requestImage");
     req.setTransferTimeout(5 * 1000); // 5 seconds //ttt0: try to get rid of this. It only exists because for unknown hosts the request usually doesn't return immediately, but gets stuck until it times out
 
     delay(); // probably not needed, because doesn't seem that MusicBrainz would want to store images
-    //connect(m_pImageQHttp, SIGNAL(requestFinished(int, bool)), this, SLOT(onRequestFinished(int, bool)));
     //qDebug("host: %s, path: %s", url.host().toLatin1().constData(), url.path().toLatin1().constData());
     //qDebug("%s", strUrl.c_str());
     QNetworkReply* pReply = m_networkAccessManager.get(req);

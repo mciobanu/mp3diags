@@ -136,10 +136,7 @@ Widgets.h \
  FullSizeImgDlg.h \
  Version.h \
     Translation.h \
-    CbException.h \
-    QHttp \
-    QHttpRequestHeader \
-    QHttpResponseHeader
+    CbException.h
 
 FORMS += About.ui \
 AlbumInfoDownloader.ui \

@@ -39,8 +39,6 @@ class ModifInfoToolButton;
 class TagWriter;
 class QScrollArea;
 class QStackedLayout;
-class QHttp;
-class QHttpResponseHeader;
 class QPoint;
 
 struct FileEnumerator;

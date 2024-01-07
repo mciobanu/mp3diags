@@ -38,9 +38,6 @@
 #include  <QToolTip>
 #include  <QSettings>
 #include  <QTime>
-#include  "QHttp"
-#include  "QHttpRequestHeader"
-#include  "QHttpResponseHeader"
 #include  <QDesktopServices>
 #include  <QProcess>
 

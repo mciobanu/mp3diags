@@ -33,7 +33,6 @@
 
 #ifndef WIN32
     #include  <QDir>
-    #include  <QNetworkRequest>
     #include  <sys/utsname.h>
     #include  <unistd.h>
 #else
@@ -45,6 +44,7 @@
 #include  <QWidget>
 #include  <QUrl>
 #include  <QFileInfo>
+#include  <QNetworkRequest>
 #include  <QDir>
 #include  <QSettings>
 #include  <QProcess>

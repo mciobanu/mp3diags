@@ -246,9 +246,9 @@ README.md	f	2023-12-13T07:38:48Z
 Rebuild-Transl-_ts-Files.sh	f	2024-01-04T12:04:07Z
 Release.txt	f	2023-11-28T14:53:47Z
 src/aaa-info.txt	f	2024-01-07T17:22:50Z
-src/AboutDlgImpl.cpp	f	2024-01-07T13:01:04Z
+src/AboutDlgImpl.cpp	f	2024-01-07T21:14:47Z
 src/AboutDlgImpl.h	f	2009-07-17T15:02:37Z
-src/About.ui	f	2011-06-15T19:56:47Z
+src/About.ui	f	2024-01-07T21:09:06Z
 src/AlbumInfoDownloaderDlgImpl.cpp	f	2024-01-07T13:01:04Z
 src/AlbumInfoDownloaderDlgImpl.h	f	2024-01-06T14:44:41Z
 src/AlbumInfoDownloader.ui	f	2024-01-06T14:25:07Z
@@ -366,11 +366,13 @@ src/images/undo_settings.svg	f	2008-01-04T23:54:32Z
 src/images/va_sa.svg	f	2009-09-25T10:03:46Z
 src/images/va_va.svg	f	2009-09-25T10:02:22Z
 src/images/zoom-in.png	f	2007-10-14T17:13:53Z
+src/licences/apache-2.0.txt	f	2024-01-07T17:55:43Z
 src/licences/boost.txt	f	2009-05-14T11:43:17Z
 src/licences/gplv2.txt	f	2008-11-14T09:24:24Z
 src/licences/gplv3.txt	f	2008-11-14T09:24:29Z
 src/licences/lgpl-2.1.txt	f	2009-05-14T11:38:15Z
 src/licences/lgplv3.txt	f	2008-11-14T09:24:41Z
+src/licences/openssl-1.txt	f	2024-01-07T17:54:59Z
 src/licences/zlib.txt	f	2009-05-14T11:42:40Z
 src/LogModel.cpp	f	2014-11-13T15:57:59Z
 src/LogModel.h	f	2009-05-06T07:30:16Z
@@ -380,7 +382,7 @@ src/main.cpp	f	2024-01-07T17:40:48Z
 src/MainFormDlgImpl.cpp	f	2024-01-07T17:42:05Z
 src/MainFormDlgImpl.h	f	2024-01-07T17:31:53Z
 src/MainForm.ui	f	2011-07-30T12:34:43Z
-src/Mp3Diags.qrc	f	2012-02-05T19:46:04Z
+src/Mp3Diags.qrc	f	2024-01-07T21:11:06Z
 src/Mp3Manip.cpp	f	2023-12-07T08:42:40Z
 src/Mp3Manip.h	f	2023-12-09T17:51:01Z
 src/Mp3TransformThread.cpp	f	2023-12-07T08:40:32Z
@@ -447,9 +449,9 @@ src/Transformation.h	f	2014-11-12T11:16:17Z
 src/Translation.cpp	f	2023-11-30T20:31:37Z
 src/Translation.h	f	2012-03-04T06:52:32Z
 src/translations/autoTransl/MixedCase.cpp	f	2012-02-29T21:51:40Z
-src/translations/mp3diags_cs.ts	f	2024-01-06T20:14:05Z
-src/translations/mp3diags_de_DE.ts	f	2024-01-06T20:14:05Z
-src/translations/mp3diags_fr_FR.ts	f	2024-01-06T20:15:01Z
+src/translations/mp3diags_cs.ts	f	2024-01-07T21:13:59Z
+src/translations/mp3diags_de_DE.ts	f	2024-01-07T21:13:59Z
+src/translations/mp3diags_fr_FR.ts	f	2024-01-07T21:13:59Z
 src/UniqueNotesModel.cpp	f	2024-01-04T18:28:43Z
 src/UniqueNotesModel.h	f	2009-05-06T07:33:22Z
 src/Version.cpp	f	2013-03-31T22:31:45Z

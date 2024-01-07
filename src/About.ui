@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1080</width>
+    <width>1258</width>
     <height>703</height>
    </rect>
   </property>
@@ -50,7 +50,6 @@
         <property name="font">
          <font>
           <pointsize>19</pointsize>
-          <weight>75</weight>
           <italic>false</italic>
           <bold>true</bold>
          </font>
@@ -67,7 +66,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QTabWidget" name="tabWidget">
+    <widget class="QTabWidget" name="m_pMainTabWidget">
      <property name="currentIndex">
       <number>0</number>
      </property>
@@ -176,12 +175,32 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="tab_9">
+      <attribute name="title">
+       <string>Apache 2.0 (for OpenSSL)</string>
+      </attribute>
+      <layout class="QHBoxLayout">
+       <item>
+        <widget class="QTextBrowser" name="m_pApacheM"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_10">
+      <attribute name="title">
+       <string>OpenSSL 1</string>
+      </attribute>
+      <layout class="QHBoxLayout">
+       <item>
+        <widget class="QTextBrowser" name="m_pOpenSsl1M"/>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
    <item>
     <widget class="QWidget" name="widget_3" native="true">
      <layout class="QHBoxLayout">
-      <property name="margin">
+      <property name="margin" stdset="0">
        <number>0</number>
       </property>
       <item>

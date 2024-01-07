@@ -70,5 +70,7 @@
         <file>licences/lgpl-2.1.txt</file>
         <file>licences/boost.txt</file>
         <file>licences/zlib.txt</file>
+        <file>licences/apache-2.0.txt</file>
+        <file>licences/openssl-1.txt</file>
     </qresource>
 </RCC>

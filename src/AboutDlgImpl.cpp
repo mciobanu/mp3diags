@@ -22,6 +22,7 @@
 
 #include  <QFile>
 #include  <QAction>
+#include  <QSslSocket>
 
 #include  "AboutDlgImpl.h"
 
@@ -50,6 +51,12 @@ AboutDlgImpl::AboutDlgImpl(QWidget* pParent /* = 0*/) : QDialog(pParent, getDial
     pal.setColor(QPalette::Base, pal.color(QPalette::Disabled, QPalette::Window));
 
     m_pMainTextM->setPalette(pal);
+
+    const QString& qstrSslBuildVer = QSslSocket::sslLibraryBuildVersionString();
+    bool sslV1 = qstrSslBuildVer.contains("OpenSSL 1.");
+    QString licenseUrl = sslV1 ?
+            "<a href=\"https://www.openssl.org/source/license-openssl-ssleay.txt\">the OpenSSL License and the original SSLeay</a>"
+            : "<a href=\"https://www.openssl.org/source/apache-license-2.0.txt";
 /*
 <a href=\"DDDDDDDDDDDDD\">NNNNNNNNNNNNNN</a>
 */
@@ -62,9 +69,14 @@ AboutDlgImpl::AboutDlgImpl(QWidget* pParent /* = 0*/) : QDialog(pParent, getDial
         "<p style=\"margin-bottom:8px; margin-top:1px; \">" + AboutDlgImpl::tr("Distributed under %1").arg("<a href=\"https://www.gnu.org/licenses/gpl-2.0.html#TOC1\">GPL V2</a>") + "</p>"
         "<p style=\"margin-bottom:8px; margin-top:1px; \">" + AboutDlgImpl::tr("Using %1, released under %2").arg("<a href=\"https://www.qt.io\">Qt</a>").arg("<a href=\"https://www.gnu.org/licenses/lgpl-2.1.html\">LGPL 2.1</a>") + "</p>"
         "<p style=\"margin-bottom:8px; margin-top:1px; \">" + AboutDlgImpl::tr("Using %1, released under the %2zlib License%3").arg("<a href=\"https://www.zlib.net/\">zlib</a>").arg("<a href=\"https://www.zlib.net/zlib_license.html\">").arg("</a>") + "</p>"
-        "<p style=\"margin-bottom:8px; margin-top:1px; \">" + AboutDlgImpl::tr("Using %1 and %2, distributed under the %3Boost Software License%4").arg("<a href=\"https://www.boost.org/libs/serialization\">Boost Serialization</a>").arg("<a href=\"https://www.boost.org/libs/program_options\">Boost Program Options</a>").arg("<a href=\"https://www.boost.org/users/license.html\">").arg("</a>") + "</p>"
+        "<p style=\"margin-bottom:8px; margin-top:1px; \">" + AboutDlgImpl::tr("Using %1 and %2, distributed under the %3Boost Software License%4").arg("<a href=\"https://www.boost.org/libs/serialization\">Boost Serialization</a>").arg("<a href=\"https://www.boost.org/libs/program_options\">Boost Program Options</a>").arg("<a href=\"https://www.boost.org/users/license.html\">").arg("</a>") + "</p>" +
+
+        (sslV1 ?
+        "<p style=\"margin-bottom:8px; margin-top:1px; \">" + AboutDlgImpl::tr("Using %1 for secure internet connections, released under the OpenSSL License and the original SSLeay License, available %2here%3").arg("<a href=\"https://www.openssl.org/\">OpenSSL</a>", "<a href=\"https://www.openssl.org/source/license-openssl-ssleay.txt\">", "</a>") + "</p>"
+        : "<p style=\"margin-bottom:8px; margin-top:1px; \">" + AboutDlgImpl::tr("Using %1 for secure internet connections, released under the %2Apache License v2.0%3").arg("<a href=\"https://www.openssl.org/\">OpenSSL</a>", "<a href=\"https://www.openssl.org/source/apache-license-2.0.txt\">", "</a>") + "</p>") +
+
         "<p style=\"margin-bottom:8px; margin-top:1px; \">" + AboutDlgImpl::tr("Using original and modified icons from the %1 for %2, distributed under %3LGPL V3%4").arg("<a href=\"https://www.iconarchive.com/show/oxygen-icons-by-oxygen-icons.org.html\">Oxygen Project</a>").arg("<a href=\"https://www.kde.org/\">KDE 4</a>").arg("<a href=\"https://www.gnu.org/licenses/lgpl.html\">").arg("</a>") + "</p>"
-        "<p style=\"margin-bottom:8px; margin-top:1px; \">" + AboutDlgImpl::tr("Using web services provided by %1 to retrieve album data").arg("<a href=\"https://www.discogs.com/\">Discogs</a>") + "</p>"
+        //"<p style=\"margin-bottom:8px; margin-top:1px; \">" + AboutDlgImpl::tr("Using web services provided by %1 to retrieve album data").arg("<a href=\"https://www.discogs.com/\">Discogs</a>") + "</p>"
         "<p style=\"margin-bottom:8px; margin-top:1px; \">" + AboutDlgImpl::tr("Using web services provided by %1 to retrieve album data").arg("<a href=\"https://musicbrainz.org/\">MusicBrainz</a>") + "</p>"
 #ifdef _MSC_VER
         "<p style=\"margin-bottom:8px; margin-top:1px; \">" + AboutDlgImpl::tr("Built with %1 and using %2 libraries").arg("<a href=\"https://visualstudio.microsoft.com/vs/community/\">Visual Studio Community</a>").arg("<a href=\"https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist\">Microsoft Visual C++ Redistributable</a>") + "</p>"
@@ -83,7 +95,10 @@ AboutDlgImpl::AboutDlgImpl(QWidget* pParent /* = 0*/) : QDialog(pParent, getDial
     initText(m_pLgplV21M, ":/licences/lgpl-2.1.txt");
     initText(m_pBoostM, ":/licences/boost.txt");
     initText(m_pZlibM, ":/licences/zlib.txt");
+    initText(m_pOpenSsl1M, ":/licences/openssl-1.txt");
+    initText(m_pApacheM, ":/licences/apache-2.0.txt");
 
+    m_pMainTabWidget->setTabVisible(8 + (sslV1 ? 0 : 1), false);
     m_pSysInfoM->setText(getSystemInfo());
 
     m_pMainTextM->setFocus();

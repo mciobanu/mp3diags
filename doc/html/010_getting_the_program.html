@@ -95,12 +95,10 @@
 </div>
 
 <div class="FreeNormalText RegFnt ChpCol2">
-    There are both source files and binaries, for several Linux platforms, as well as for 32bit Windows. On this page
-    there are all the links to the current packages. If you need some older version, you can go to the
+    On this page there are links to both source files and for 64-bit Windows and binaries. Binaries for other platforms
+    can be found on external pages or inside package managers. If you need some older version, you can go to the
     <a href="https://sourceforge.net/projects/mp3diags/filesQQQBRANCH_SLQQQ/" onClick="javascript: pageTracker._trackPageview('/files');">main download page</a>
-    at SourceForge. The packaged Linux binaries that I provide are built and hosted by the
-    <a href="https://build.opensuse.org/" onClick="javascript: pageTracker._trackPageview('/obs');">openSUSE Build Service</a>.
-    There are also "generic Linux binaries", which I build on my own computer.
+    at SourceForge.
 </div>
 
 <div class="NormalText RegFnt ChpCol2">
@@ -261,11 +259,11 @@ You can download MP3Diags.tar.gz from
 <table border="1" cellpadding="3" cellspacing="1" class="TableText RegFnt ChpCol1">
     <tr>
         <td> <b>Generic names</b> </td>
-        <td> C++ compiler, Qt5 development, ZLib development, Boost development, Qt5 SVG, GIF and JPEG plugins (if they are separate packages) </td>
+        <td> C++ compiler, Qt5 development, CMake, ZLib development, Boost development, Qt5 SVG, GIF and JPEG plugins (if they are separate packages) </td>
     </tr>
     <tr>
         <td> <b>Distribution specific names</b> </td>
-        <td> g++, gcc-c++, libqt5-devel, libqt5-svg, qt-devel, zlib-devel, zlib1g-dev, boost-devel, libboost1.xx-dev, make </td>
+        <td> g++, gcc-c++, libqt5-devel, cmake, make, libqt5-svg, qt-devel, zlib-devel, zlib1g-dev, boost-devel, libboost1.xx-dev</td>
     </tr>
 </table>
 </div>
@@ -396,7 +394,7 @@ To uninstall the program, see the corresponding section at the <a href="#uninsta
                     <li>Run the downloaded file and log in</li>
                     <li>Choose Qt 5, e.g. 5.15.2. Deselect MingW and other options, but keep MSVC 2019 (note that
                         2022 wasn't available at the time of this writing, but it's supposed to be compatible),
-                        CMake, Ninja, and the OpenSSL binaries</li>
+                        CMake, and Ninja</li>
                     <li>Proceed with the install</li>
                 </ol>
             </td>
@@ -567,7 +565,7 @@ To uninstall the program, see the corresponding section at the <a href="#uninsta
 <div class="NormalText RegFnt ChpCol2">
 There is a pretty standard Windows installer, as well as a zip archive with the executable and the DLLs it needs. Either one of these should be OK:
 <ul>
-    <li> <a href="https://sourceforge.net/projects/mp3diags/filesQQQBRANCH_SLQQQ/mp3diags-windows-setup/MP3DiagsSetupQQQBRANCH_DQQQ.exe" onClick="javascript: pageTracker._trackPageview('/files/setup');">Windows 64bit installer</a> (if the link doesn't work, there's a copy at my ISP, <a href="http://web.clicknet.ro/mciobanu/mp3diagsQQQBRANCH_SLQQQ/MP3DiagsSetupQQQBRANCH_DQQQ-QQQVERQQQ.exe" onClick="javascript: pageTracker._trackPageview('/clicknet/setup');">here</a>) </li>
+    <li> <a href="https://sourceforge.net/projects/mp3diags/filesQQQBRANCH_SLQQQ/mp3diags-windows-setup/MP3DiagsSetupQQQBRANCH_DQQQ.exe" onClick="javascript: pageTracker._trackPageview('/files/setup');">Windows 64-bit installer</a></li>
     <li> <a href="https://sourceforge.net/projects/mp3diags/filesQQQBRANCH_SLQQQ/mp3diags-windows-exe/MP3DiagsExeQQQBRANCH_DQQQ.zip" onClick="javascript: pageTracker._trackPageview('/files/exe');">Zip archive with Windows 64bit executable and required DLLs</a>. Note that you also need the Visual Studio redistributables, but they may be already installed, as other programs need them to. If not, you can get them from <a href="https://aka.ms/vs/17/release/vc_redist.x64.exe">Microsoft</a>. </li>
 </ul>
 </div>
@@ -610,25 +608,15 @@ Unknown publisher
 
 <div class="NormalText RegFnt ChpCol1">
     Starting with version 0.99.06.043, "generic" Linux executables were provided. They were supposed to work on any
-    recent distribution on x86 or x86_64 CPUs but very limited testing was done. The point of having them is to make
-    it easier for more people to run MP3 Diags. Please share your experience if you try them. Note that running these
-    alternatively with pre-packaged MP3 Diags might lead to the MP3 files being rescanned, due to a different
-    serialization library.
+    recent distribution on x86 or x86_64 CPUs but very limited testing was done.
 </div>
 
 <div class="NormalText RegFnt ChpCol1">
-    At some point in time I stopped provided them and nobody complained, so I never resumed building them. Older versions
+    At some point in time I stopped providing them and nobody complained, so I never resumed building them. Older versions
     can be found <a href="https://sourceforge.net/projects/mp3diags/filesQQQBRANCH_SLQQQ/mp3diags-linux-bin/">here</a>.
 
-    Even though they are quite old, it's not a huge deal provided that they get started, as there were no major features
+    Even though they are quite old, it's not a huge deal, provided that they run, as there were no major features
     or bad bug fixes after that.
-</div>
-
-<div class="NormalText RegFnt ChpCol1">
-    If you use these, you'll have to make sure that you have the correct dependencies. All you'll need to add is
-    probably Qt 5. If on your distribution the SVG support in Qt 5 is packaged separately, as it is on Debian-based
-    distributions, you'll need to add that as well. Note that the program will run without SVG, but the buttons will
-    have no icons in such a case. If you have KDE 5.x you probably don't need to add anything.
 </div>
 
 <div class="NormalText RegFnt ChpCol1">

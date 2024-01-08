@@ -13,26 +13,14 @@ Installation
 ------------
 
 In most cases it's easier to use pre-built binaries, which are available for
-Windows and for several other operating systems, including major Linux distributions. More details can be found in the
-[main download page](https://mp3diags.sourceforge.net/unstable/010_getting_the_program.html).
+Windows and for several other operating systems, including major Linux distributions. 
 
+Still, building from sources shouldn't be a huge deal.
 
-When building from sources, the build instructions for official releases are outdated, but can be used as a starting point. They are:
-* [Building on Windows](https://mp3diags.sourceforge.net/unstable/010_getting_the_program.html#sourceWindows) (see below
-  about using `CMake`, though, as it works better, at least on Windows 10, where it works out of the box)
-* [Building on Linux / others](https://mp3diags.sourceforge.net/unstable/010_getting_the_program.html#sourceGeneric)
+The details for the official release can be found in the
+[main download page](https://mp3diags.sourceforge.net/unstable/010_getting_the_program.html), 
+while the build instructions for the code in the git repository can be seen at
+[htmlpreview.github.io](https://htmlpreview.github.io/?https://github.com/mciobanu/mp3diags/blob/master/doc/html/010_getting_the_program.html).
 
-Support for `CMake` was added in October 2023, and improved after that. As it is not yet part of an official release,
-it is only available when cloning the repository at [GitHub](https://github.com/mciobanu/mp3diags/tree/master)
-or [SourceForge](https://sourceforge.net/p/mp3diags/code-git/ci/master/tree/).
-Build instructions can be seen at
-[htmlpreview.github.io](https://htmlpreview.github.io/?https://github.com/mciobanu/mp3diags/blob/master/doc/html/010_getting_the_program.html)
-for now. They will be moved back to SourceForge once a new official release is created.
-
-**Important note:** If building on Windows or if using `CMake`, get the latest code from git (either
-`BuildMp3Diags.hta` or `CMakeLists.txt`), as there have been some fixes to the build files after `MP3Diags.tar.gz`
-and `MP3Diags-1.4.01.tar.gz` were built.
-
-[comment]: <> (ttt9 remove in next version)
-
-**Note**: No build was attempted on Windows 11 yet, but `CMake` is expected to work.
+**Note**: The Windows build is currently done on Windows 10. 
+No build was attempted on Windows 11 yet, but `CMake` is expected to work.

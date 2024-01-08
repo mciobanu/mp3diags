@@ -6,9 +6,9 @@ BuildBz2.sh	f	2014-01-19T14:46:02Z
 Build-CMake-VS2022.cmd	f	2023-12-04T08:26:23Z
 BuildMp3Diags.hta	f	2023-11-28T08:51:22Z
 Build.sh	f	2019-04-06T08:36:24Z
-changelogDeb.txt	f	2023-11-28T14:52:05Z
-changelogRpm.txt	f	2023-11-28T14:53:47Z
-changelog.txt	f	2023-11-28T14:51:30Z
+changelogDeb.txt	f	2024-01-08T19:46:19Z
+changelogRpm.txt	f	2024-01-08T19:46:19Z
+changelog.txt	f	2024-01-08T19:46:19Z
 CMakeLists.2009.txt	f	2009-09-25T14:27:54Z
 CMakeLists.txt	f	2024-01-07T17:29:41Z
 CMakePresets.json	f	2024-01-07T13:01:04Z

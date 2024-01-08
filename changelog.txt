@@ -1,5 +1,13 @@
-30.11.2023 - 1.5.03
-- Added CMake build
+09.01.2024 - 1.5.03
+- Fixed an issue that caused crashes when using external drives on Windows
+- Added summary window for file scan errors
+- Made MusicBrainz work
+- Added support for MPEG 2.5
+- Various UI fixes (colors, font size, close buttons, ...)
+- Scale down large images when previewing them
+- Better handling of large file names in Windows
+- Switched build to CMake
+- Updated build instructions
 
 ---------------------------------------------------------------------------
 

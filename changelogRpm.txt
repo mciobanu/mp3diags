@@ -1,6 +1,14 @@
-* Fri Dec 01 2023 Marian Ciobanu <ciobi07@users.sourceforge.net> 1.5.03
+* Tue Jan 09 2024 Marian Ciobanu <ciobi07@users.sourceforge.net> 1.5.03
 
-- Added CMake build
+- Fixed an issue that caused crashes when using external drives on Windows
+- Added summary window for file scan errors
+- Made MusicBrainz work
+- Added support for MPEG 2.5
+- Various UI fixes (colors, font size, close buttons, ...)
+- Scale down large images when previewing them
+- Better handling of large file names in Windows
+- Switched build to CMake
+- Updated build instructions
 
 * Wed Sep 01 2021 Marian Ciobanu <ciobi07@users.sourceforge.net> 1.5.02
 

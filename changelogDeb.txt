@@ -1,8 +1,16 @@
 mp3diags (1.5.03) testing; urgency=low
 
-  * Added CMake build
+  * Fixed an issue that caused crashes when using external drives on Windows
+  * Added summary window for file scan errors
+  * Made MusicBrainz work
+  * Added support for MPEG 2.5
+  * Various UI fixes (colors, font size, close buttons, ...)
+  * Scale down large images when previewing them
+  * Better handling of large file names in Windows
+  * Switched build to CMake
+  * Updated build instructions
 
- -- Marian Ciobanu <mp3diags@gmail.com>  Fri, 1 Dec 2023 22:00:00 +0200
+ -- Marian Ciobanu <mp3diags@gmail.com>  Tue, 9 Jan 2024 22:00:00 +0200
 
 mp3diags (1.5.02) testing; urgency=low
 

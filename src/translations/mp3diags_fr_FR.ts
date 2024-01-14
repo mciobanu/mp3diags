@@ -56,12 +56,12 @@
     <message>
         <location filename="../About.ui" line="180"/>
         <source>Apache 2.0 (for OpenSSL)</source>
-        <translation type="unfinished"></translation>
+        <translation>Apache 2.0 (pour OpenSSL)</translation>
     </message>
     <message>
         <location filename="../About.ui" line="190"/>
         <source>OpenSSL 1</source>
-        <translation type="unfinished"></translation>
+        <translation>OpenSSL 1</translation>
     </message>
     <message>
         <location filename="../About.ui" line="222"/>
@@ -122,17 +122,17 @@
         <location filename="../AboutDlgImpl.cpp" line="72"/>
         <source>Using %1 and %2, distributed under the %3Boost Software License%4</source>
         <translatorcomment>I am not sure if license names should really be translated...</translatorcomment>
-        <translation type="unfinished">Ce logiciel utilise %1 et %2, publié sous %3licence logiciel Boost%4</translation>
+        <translation>Ce logiciel utilise %1 et %2, publiés sous %3licence logiciel Boost%4</translation>
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="75"/>
         <source>Using %1 for secure internet connections, released under the OpenSSL License and the original SSLeay License, available %2here%3</source>
-        <translation type="unfinished"></translation>
+        <translation>Ce logiciel utilise %1 pour effectuer des connexions sécurisées, publié sous licence OpenSSL et licence SSLeay originale, disponible %2ici%3</translation>
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="76"/>
         <source>Using %1 for secure internet connections, released under the %2Apache License v2.0%3</source>
-        <translation type="unfinished"></translation>
+        <translation>Ce logiciel utilise %1 pour effectuer des connexions sécurisées, publié sous licence %2Apache v2.0%3</translation>
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="78"/>
@@ -147,7 +147,7 @@
     <message>
         <location filename="../AboutDlgImpl.cpp" line="82"/>
         <source>Built with %1 and using %2 libraries</source>
-        <translation type="unfinished"></translation>
+        <translation>Développé avec %1 en utilisant les bibliothèques %2</translation>
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="84"/>
@@ -347,7 +347,7 @@
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="218"/>
         <source>You must specify at least an artist or an album</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous devez spécifier au moins un artiste ou un album</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="285"/>
@@ -431,7 +431,8 @@
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="611"/>
         <source>
 Recompressed to: %1kB, %2x%3</source>
-        <translation>Recompressé à : %1 ko, %2x%3</translation>
+        <translation>
+Recompressé à : %1 ko, %2x%3</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="615"/>
@@ -865,7 +866,7 @@ Erreur: %1</translation>
     <message>
         <location filename="../Config.ui" line="1477"/>
         <source>If the audio bitrate falls below these limits, warnings are generated. For VBR a low bitrate is less of an indicatior of poor quality, because if the signal is simple there&apos;s no need for higher bitrates. </source>
-        <translation>Si le débit audio passe en dessous de ces limites, des avertissements sont générés. Pour le VBR, un faible débit n&apos;indique pas forcément une mauvaise qualité, car si le signal est simple un débit élevé n&apos;est pas nécessaire.</translation>
+        <translation>Si le débit audio passe en dessous de ces limites, des avertissements sont générés. Pour le VBR, un faible débit n&apos;indique pas forcément une mauvaise qualité, car si le signal est simple un débit élevé n&apos;est pas nécessaire. </translation>
     </message>
     <message>
         <location filename="../Config.ui" line="1490"/>
@@ -885,12 +886,12 @@ Erreur: %1</translation>
     <message>
         <location filename="../Config.ui" line="1555"/>
         <source>Joint Stereo CBR</source>
-        <translation>CBR Joint Stereo</translation>
+        <translation>CBR Stéréo Combiné</translation>
     </message>
     <message>
         <location filename="../Config.ui" line="1569"/>
         <source>Dual Channel CBR</source>
-        <translation>CBR canal double</translation>
+        <translation>CBR Canal Double</translation>
     </message>
     <message>
         <location filename="../Config.ui" line="1583"/>
@@ -900,12 +901,12 @@ Erreur: %1</translation>
     <message>
         <location filename="../Config.ui" line="1609"/>
         <source>Joint Stereo VBR</source>
-        <translation>VBR Joint stereo</translation>
+        <translation>VBR Stéréo Combiné</translation>
     </message>
     <message>
         <location filename="../Config.ui" line="1635"/>
         <source>Dual Channel VBR</source>
-        <translation>VBR canal double</translation>
+        <translation>VBR Canal Double</translation>
     </message>
     <message>
         <location filename="../Config.ui" line="1691"/>
@@ -1445,12 +1446,12 @@ Une police soulignée est utilisée afin de pouvoir voir les espaces</translatio
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="81"/>
         <source>Action</source>
-        <translation type="unfinished">Action</translation>
+        <translation>Action</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="81"/>
         <source>Description</source>
-        <translation type="unfinished">Description</translation>
+        <translation>Description</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="122"/>
@@ -1478,7 +1479,7 @@ Une police soulignée est utilisée afin de pouvoir voir les espaces</translatio
     <message>
         <location filename="../DataStream.cpp" line="74"/>
         <source>begins with: </source>
-        <translation>commence par :</translation>
+        <translation>commence par : </translation>
     </message>
     <message>
         <location filename="../DataStream.cpp" line="224"/>
@@ -1508,7 +1509,7 @@ Une police soulignée est utilisée afin de pouvoir voir les espaces</translatio
     <message>
         <location filename="../DataStream.h" line="346"/>
         <source>Unreadable</source>
-        <translation type="unfinished"></translation>
+        <translation>Illisible</translation>
     </message>
     <message>
         <location filename="../MpegFrame.cpp" line="238"/>
@@ -1610,22 +1611,22 @@ Une police soulignée est utilisée afin de pouvoir voir les espaces</translatio
     <message>
         <location filename="../MpegStream.cpp" line="900"/>
         <source> frame count=</source>
-        <translation>nb trames=</translation>
+        <translation> nb trames=</translation>
     </message>
     <message>
         <location filename="../MpegStream.cpp" line="901"/>
         <source> byte count=</source>
-        <translation>nb octets=</translation>
+        <translation> nb octets=</translation>
     </message>
     <message>
         <location filename="../MpegStream.cpp" line="902"/>
         <source> TOC present</source>
-        <translation>TOC présente</translation>
+        <translation> TOC présente</translation>
     </message>
     <message>
         <location filename="../MpegStream.cpp" line="903"/>
         <source> quality=</source>
-        <translation>qualité=</translation>
+        <translation> qualité=</translation>
     </message>
     <message>
         <location filename="../MpegStream.h" line="91"/>
@@ -1783,7 +1784,7 @@ Un nouveau scan sera nécessaire.</translation>
     <message>
         <location filename="../DirFilterDlgImpl.cpp" line="92"/>
         <source>Folder</source>
-        <translation type="unfinished">Dossier</translation>
+        <translation>Dossier</translation>
     </message>
     <message>
         <location filename="../DirFilterDlgImpl.cpp" line="198"/>
@@ -2512,12 +2513,12 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
     <message>
         <location filename="../Id3V230Stream.cpp" line="78"/>
         <source>ID3V2.3.0 frame with negative size.</source>
-        <translation type="unfinished"></translation>
+        <translation>Trame ID3V2.3.0 avec une taille négative.</translation>
     </message>
     <message>
         <location filename="../Id3V230Stream.cpp" line="79"/>
         <source>ID3V2.3.0 frame too long.</source>
-        <translation type="unfinished"></translation>
+        <translation>Trame ID3V2.3.0 trop longue.</translation>
     </message>
     <message>
         <location filename="../Id3V230Stream.cpp" line="83"/>
@@ -3117,7 +3118,11 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
 You may want to check again the list and add any notes that you want to ignore.
 
 (If you didn&apos;t change the settings file manually, this is probably due to a code enhancement that makes some notes no longer needed, and you can safely ignore this message.)</source>
-        <translation type="unfinished"></translation>
+        <translation>
+
+Vous voudrez peut-être revérifier la liste et y ajouter les notes que vous souhaitez ignorer.
+
+(Si vous n&apos;avez pas modifié le fichier de configuration à la main, ceci est probablement dû à une amélioration du code qui fait que certaines notes ne sont plus nécessaires, et vous pouvez ignorer ce message.)</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="850"/>
@@ -3252,7 +3257,7 @@ You may want to check again the list and add any notes that you want to ignore.
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="1755"/>
         <source>Issues encountered while scanning the requested folders</source>
-        <translation type="unfinished"></translation>
+        <translation>Des problèmes ont été rencontrés en scannant les dossiers demandés</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="1755"/>
@@ -3262,12 +3267,12 @@ You may want to check again the list and add any notes that you want to ignore.
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2334"/>
         <source>&lt;p&gt;Rebuilding VBR data in Xing / LAME headers can destroy gapless playing information, causing albums that are supposed to be gapless to be played with short gaps between tracks.&lt;/p&gt;&lt;p&gt;Note that this shouldn&apos;t matter for regular, non-gapless, albums.&lt;/p&gt;&lt;p&gt;Proceed?&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;La reconstruction des données VBR dans les en-têtes Xing / LAME peut supprimer les données pour la lecture en continu, ce qui pour des albums censés être lus en continu causera leur lecture avec de courtes pauses entre chaque piste.&lt;/p&gt;&lt;p&gt;Ceci ne devrait pas poser problème pour des albums classiques, non pensés pour une lecture en continu.&lt;/p&gt;&lt;p&gt;Poursuivre ?&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2356"/>
         <source>&lt;p&gt;Removing Xing / LAME headers destroys gapless playing information, causing albums that are supposed to be gapless to be played with short gaps between tracks.&lt;/p&gt;&lt;p&gt;Note that this shouldn&apos;t matter for regular, non-gapless, albums.&lt;/p&gt;&lt;p&gt;Proceed?&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;La suppression des en-têtes Xing / LAME supprime les données pour la lecture en continu, ce qui pour des albums censés être lus en continu causera leur lecture avec de courtes pauses entre chaque piste.&lt;/p&gt;&lt;p&gt;Ceci ne devrait pas poser problème pour des albums classiques, non pensés pour une lecture en continu.&lt;/p&gt;&lt;p&gt;Poursuivre ?&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2840"/>
@@ -3280,7 +3285,7 @@ You may want to check again the list and add any notes that you want to ignore.
         <source>An error occured while loading the MP3 information. Your files will be rescanned.
 
 %1</source>
-        <translation type="unfinished">Une erreur s&apos;est produite pendant le chargement des informations MP3. Vos fichiers vont être scannés à nouveau.
+        <translation>Une erreur s&apos;est produite pendant le chargement des informations MP3. Vos fichiers vont être scannés à nouveau.
 
 %1</translation>
     </message>
@@ -3690,22 +3695,22 @@ Arrêt...</translation>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="1694"/>
         <source>File not found: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier non trouvé : %1</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="1697"/>
         <source>Cannot open file: %1, which seems to be under a folder that is a shortcut. Note that folder shortcuts are not supported, but you can use symbolic links instead.</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible d&apos;ouvrir le fichier : %1, qui semble se trouver dans un dossier qui est un raccourci. Veuillez noter que les raccourcis vers des dossiers ne sont pas supportés, mais vous pouvez en revanche utiliser des liens symboliques.</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="1706"/>
         <source>File name too long: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom de fichier trop long : %1</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="1710"/>
         <source>Scan exception for file: %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Exception lors du scan du fichier : %1 : %2</translation>
     </message>
 </context>
 <context>
@@ -3724,7 +3729,13 @@ Arrêt...</translation>
 %2
 
 Processing aborted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Une erreur s&apos;est produite lors du traitement du fichier suivant :
+
+%1
+
+%2
+
+Traitement annulé.</translation>
     </message>
     <message>
         <location filename="../Mp3TransformThread.cpp" line="743"/>
@@ -3798,7 +3809,7 @@ Traitement annulé.</translation>
         <location filename="../MusicBrainzDownloader.cpp" line="83"/>
         <location filename="../MusicBrainzDownloader.cpp" line="189"/>
         <source>JSON parse error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur de parsing JSON : %1</translation>
     </message>
     <message>
         <location filename="../MusicBrainzDownloader.cpp" line="481"/>
@@ -3926,7 +3937,7 @@ Traitement annulé.</translation>
     <message>
         <location filename="../Notes.h" line="215"/>
         <source>Xing header included in audio frame count. This is probably best ignored, as most players are fine with it and the fix erases potentially important information, like gapless playing information or the table of contents.</source>
-        <translation type="unfinished"></translation>
+        <translation>En-tête Xing inclus dans le décompte de trames audio. Il vaut mieux ignorer ceci, étant donné que cela ne dérange pas la plupart des lecteurs et que la correction efface des données potentiellement importantes, telles que les informations de lecture en continu ou la table des matières.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="218"/>
@@ -4076,7 +4087,7 @@ Traitement annulé.</translation>
     <message>
         <location filename="../Notes.h" line="252"/>
         <source>Found image encoded as progressive JPEG. Some players might be incompatible with it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Image encodée en JPEG progressif détectée. Certains lecteurs peuvent ne pas être compatibles.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="255"/>
@@ -4116,17 +4127,17 @@ Traitement annulé.</translation>
     <message>
         <location filename="../Notes.h" line="262"/>
         <source>Invalid ID3V2.3.0 frame. Frame size is negative.</source>
-        <translation type="unfinished"></translation>
+        <translation>Trame ID3V2.3.0 non valide. La taille de trame est négative.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="263"/>
         <source>Invalid ID3V2.3.0 frame. Maximum supported size is 64 MB.</source>
-        <translation type="unfinished"></translation>
+        <translation>Trame ID3V2.3.0 non valide. La taille maximum supportée est de 64 Mo.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="264"/>
         <source>ID3V2.3.0 frame is larger than usual, possibly wasting space.</source>
-        <translation type="unfinished"></translation>
+        <translation>La trame ID3V2.3.0 est inhabituellement grande, et gaspille peut-être de l&apos;espace.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="267"/>
@@ -4386,7 +4397,7 @@ Traitement annulé.</translation>
     <message>
         <location filename="../Notes.h" line="335"/>
         <source>An error occurred while reading the file, so it wasn&apos;t fully processed. This usually happens when reading from external drives or USB sticks, in which case a workaround might be to copy the files to an internal drive.</source>
-        <translation type="unfinished"></translation>
+        <translation>Une erreur s&apos;est produite lors de la lecture du fichier, il n&apos;a donc pas pu être complètement traité. Ceci se produit généralement lors de la lecture depuis un disque dur externe ou une clé USB, auquel cas un contournement peut être de copier au préalable les fichiers sur un disque interne.</translation>
     </message>
     <message>
         <location filename="../Notes.cpp" line="386"/>
@@ -6281,7 +6292,7 @@ Durée d&apos;exécution : %2</translation>
     <message>
         <location filename="../StructuralTransformation.h" line="197"/>
         <source>Sometimes the number of frames in an audio stream is different from the number of frames in a preceding Xing (or Lame) header, usually because the audio stream was damaged. It&apos;s probably best for the Xing header to be removed in this case. If the audio is VBR, you may want to try &quot;Repair VBR data&quot; first. (If the number of frames specified in the Xing header is the number of audio frames + 1, the header won&apos;t be removed, as this is an old bug in some encoders and players know how to deal with it.)</source>
-        <translation type="unfinished">Il arrive que le nombre de trames dans un flux audio diffère de celui de l&apos;en-tête Xing (ou Lame) qui le précède, souvent parce que le flux audio a été endommagé. Il est probablement souhaitable dans ce cas de supprimer l&apos;en-tête Xing. Si l&apos;audio est en VBR, vous souhaiterez peut-être essayer d&apos;abord &quot;Réparer les données VBR&quot;. (If the number of frames specified in the Xing header is the number of audio frames + 1, the header won&apos;t be removed, as this is an old bug in some encoders and players know how to deal with it.)</translation>
+        <translation>Il arrive que le nombre de trames dans un flux audio diffère de celui de l&apos;en-tête Xing (ou Lame) qui le précède, souvent parce que le flux audio a été endommagé. Il est probablement souhaitable dans ce cas de supprimer l&apos;en-tête Xing. Si l&apos;audio est en VBR, vous souhaiterez peut-être essayer d&apos;abord de &quot;Réparer les données VBR&quot;. (Si le nombre de trames indiqué dans l&apos;en-tête Xing est le nombre de trames audio + 1, l&apos;en-tête ne sera pas supprimé, car il s&apos;agit d&apos;un ancien bogue dans certains encodeurs que les lecteurs savent gérer.)</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="199"/>
@@ -6291,12 +6302,12 @@ Durée d&apos;exécution : %2</translation>
     <message>
         <location filename="../StructuralTransformation.h" line="216"/>
         <source>Removes Xing or LAME streams from files encoded using CBR.</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprime les flux Xing ou LAME des fichiers encodés en CBR.</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="218"/>
         <source>Remove Xing or LAME streams from CBR files</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer les flux Xing ou LAME des fichiers CBR</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="233"/>
@@ -6331,22 +6342,22 @@ Durée d&apos;exécution : %2</translation>
     <message>
         <location filename="../StructuralTransformation.h" line="266"/>
         <source>Removes all Xing streams.</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprime tous les flux Xing.</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="268"/>
         <source>Remove all Xing streams</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer tous les flux Xing</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="277"/>
         <source>Removes all LAME streams.</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprime tous les flux LAME.</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="279"/>
         <source>Remove all LAME streams</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer tous les flux LAME</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="291"/>
@@ -6417,12 +6428,14 @@ Durée d&apos;exécution : %2</translation>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="147"/>
         <source>Action</source>
-        <translation type="unfinished">Action</translation>
+        <translatorcomment>Action</translatorcomment>
+        <translation>Action</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="147"/>
         <source>Description</source>
-        <translation type="unfinished">Description</translation>
+        <translatorcomment>Description</translatorcomment>
+        <translation>Description</translation>
     </message>
     <message>
         <location filename="../ConfigDlgImpl.cpp" line="191"/>
@@ -6450,7 +6463,7 @@ Durée d&apos;exécution : %2</translation>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="1167"/>
         <source>Volume</source>
-        <translation type="unfinished">Volume</translation>
+        <translation>Volume</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="1167"/>

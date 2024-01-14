@@ -65,6 +65,7 @@ public:
     std::string getRawUtf8String() const;
 
     bool isTxxx() const;
+    bool isGenre() const;
     std::string getReadableName() const; // normally returns m_szName, but if it has invalid characters (<=32 or >=127), returns a hex representation
 
     void writeUnsynch(std::ostream& out) const; // copies the frame to out, removing the unsynch bytes if they are present

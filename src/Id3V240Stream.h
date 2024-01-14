@@ -45,6 +45,8 @@ private:
     void load(NoteColl& notes, std::istream& in, std::streampos posNext, bool bHasUnsynch);
     void load(NoteColl& notes, std::istream& in, std::streampos posNext);
 
+    static std::string cleanUpGenre(const std::string& s);
+
 private:
     friend class boost::serialization::access;
     Id3V240Frame() {} // serialization-only constructor

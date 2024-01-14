@@ -23,6 +23,7 @@
 #include  "Id3V240Stream.h"
 
 #include  "Helpers.h"
+#include  "MpegStream.h"
 
 
 using namespace std;
@@ -340,7 +341,15 @@ http://id3.org/id3v2.4.0-structure
 
 
 // may return multiple null characters; it's the job of getUtf8String() to deal with them;
-// chars after the first null are considered comments (or after the second null, for TXXX), so the nulls are replaced with commas, except for those at the end of the string (which are removed) and the first null in TXXX;
+// chars after the first null are considered comments (or after the second null, for TXXX), so t
+// The nulls are replaced with commas, except for those at the end of the string (which are removed) and the first null
+// in TXXX, to try to accommodate the idea that text fields might have multiple values in 2.4.0, but a single value in 2.3.0
+//
+// https://web.archive.org/web/20180402231546/http://id3.org/id3v2.4.0-frames - "All text information frames supports
+// multiple strings, stored as a null separated list"
+//
+// Additionally, TCON frames (used for genre) are further processed to replace numerical genres from ID3V1 with textual
+// ones, and to remove duplicates
 string Id3V240Frame::getUtf8StringImpl() const
 {
     if ('T' != m_szName[0])
@@ -355,7 +364,7 @@ string Id3V240Frame::getUtf8StringImpl() const
     // 2008.07.12 - on a second thought - throw but call this on the constructor, where it can be logged properly; if it worked on the constructor it should work later too
     CB_CHECK (m_nMemDataSize > 0, NotId3V2Frame);
     Id3V2FrameDataLoader wrp (*this);
-    const char* pData (wrp.getData()); //ttt2 from http://www.id3.org/id3v2.4.0-frames - All text information frames supports multiple strings, stored as a null separated list
+    const char* pData (wrp.getData());
 
     string s;
 
@@ -422,9 +431,77 @@ string Id3V240Frame::getUtf8StringImpl() const
         }
     }
 
+    if (isGenre())
+    {
+        s = cleanUpGenre(s);
+    }
+
     return s;
 }
 
+
+/**
+ * Takes a range string (which may contain several genres separated by commas, and numerical genres) and converts
+ * numerical to textual genres, also eliminating the duplicates. Also trims the names, adding and removing spaces
+ * as needed
+ */
+/*static*/ string Id3V240Frame::cleanUpGenre(const string& s)
+{
+    //ttt0: Review how genre is used in general, looking at what is acceptable / preferable / ..., like
+    // using a "/" in decodeGenre(). Probably something along the lines of:
+    //      - A song can have multiple genres
+    //      - Genres get translated from numerical to textual
+    //      - Genres are displayed as separated by ", "
+    //      - Genre names must start with a letter
+    //      - Comma is a separator, so it cannot be included in a genre's name
+    //      - If saving to 2.4.0 ever gets implemented, we replace commas with nulls, as per specs
+    //      - These should be done consistently for both 2.3.0 and 2.4.0. Note that 2.3.0 doesn't seem to allow more
+    //          than 1 textual genre, and, when using numerical genres, regular text should be considered a refinement
+    //          of the numerical genre, not a genre on its own, so a comma should not be inserted in front of them
+    vector<string> origGenres = split(s, ",");
+    vector<string> finalGenres;
+    for (const auto& genre : origGenres)
+    {
+        string g (genre);
+        trim(g);
+        while (!g.empty() && !isalnum(g[0]))
+        {
+            g.erase(0, 1);
+        }
+        if (g.empty())
+        {
+            continue;
+        }
+        if (isdigit(g[0]))
+        {
+            bool allDigits = true;
+            for (size_t k = 1, n = g.size(); k < n; k++)
+            {
+                if (!isdigit(g[k]))
+                {
+                    allDigits = false;
+                    break;
+                }
+            }
+            if (allDigits)
+            {
+                int numG = stoi(g);
+                string txtG (getId3V1Genre(numG));
+                if (!txtG.empty())
+                {
+                    g = txtG;
+                    //ttt0: Have some note for this
+                }
+            }
+        }
+        const auto& it = find(finalGenres.begin(), finalGenres.end(), g);  //ttt0: Perhaps case-insensitive
+        if (it == finalGenres.end())
+        {
+            finalGenres.emplace_back(g);
+        }
+    }
+    return join(finalGenres, ", ");
+}
 
 
 /*override*/ bool Id3V240Frame::discardOnChange() const

@@ -1315,9 +1315,9 @@ int Id3V1Stream::getCommSize() const
 
 const char* getId3V1Genre(int n)
 {
-    if (n <= 0 || n > 147) { return ""; }
+    if (n <= 0 || n >= 192) { return ""; }
 
-    static const char* aGenres [148] =
+    static const char* aGenres [192] =
     {
         "Blues",  //ttt0 review transl - probably not, as ID3V2 is more important but hard to translate
         "Classic Rock",
@@ -1474,7 +1474,53 @@ const char* getId3V1Genre(int n)
         "Trash Meta",
         "Anime",
         "Jpop",
-        "Synthpop"
+        "Synthpop",
+
+        //94 - bf
+        "Christmas",
+        "Art rock",
+        "Baroque",
+        "Bhangra",
+        "Big beat",
+        "Breakbeat",
+        "Chillout",
+        "Downtempo",
+        "Dub",
+        "EBM",
+        "Eclectic",
+        "Electro",
+        "Electroclash",
+        "Emo",
+        "Experimental",
+        "Garage",
+        "Global",
+        "IDM",
+        "Illbient",
+        "Industro-Goth",
+        "Jam Band",
+        "Krautrock",
+        "Leftfield",
+        "Lounge",
+        "Math rock",
+        "New romantic",
+        "Nu-breakz",
+        "Post-punk",
+        "Post-rock",
+        "Psytrance",
+        "Shoegaze",
+        "Space rock",
+        "Trop rock",
+        "World music",
+        "Neoclassical",
+        "Audiobook",
+        "Audio theatre",
+        "Neue Deutsche Welle",
+        "Podcast",
+        "Indie rock",
+        "G-Funk",
+        "Dubstep",
+        "Garage rock",
+        "Psybient",
     };
 
     return aGenres[n];

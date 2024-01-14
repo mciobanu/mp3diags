@@ -2872,11 +2872,10 @@ void MainFormDlgImpl::checkForNewVersion() // returns immediately; when the requ
 
     m_pCommonData->m_timeLastNewVerCheck = QDateTime(QDateTime::currentDateTime());
 
-
-    QUrl url (QString("https://mp3diags.sourceforge.net") + getWebBranch() + "/version.txt");  //ttt9: Plain HTTP doesn't work, and HTTPS needs OpenSSL on Windows
+    QUrl url (QString("https://mp3diags.sourceforge.net") + getWebBranch() + "/version.txt");
     QNetworkRequest req (url);
-    //setMp3DiagsUserAgent(req);
-    setFirefoxUserAgent(req); //ttt9: Review (vs. MP3Dgs)
+    setMp3DiagsUserAgent(req);
+    //setFirefoxUserAgent(req);
     QNetworkReply* pReply = m_networkAccessManager.get(req);
 }
 //mp3diags.sourceforge.net/010_getting_the_program.html

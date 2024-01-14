@@ -521,6 +521,23 @@ string join(const vector<string>& vec, const char* szSep)
 }
 
 
+vector<string> split(const std::string& s, const string& strSep)
+{
+    size_t j = 0;
+    vector<string> res;
+    while (true)
+    {
+        size_t k = s.find(strSep, j);
+        if (k == string::npos)
+        {
+            res.emplace_back(s.substr(j));
+            return res;
+        }
+        res.emplace_back(s.substr(j, k - j));
+        j = k + 1;
+    }
+}
+
 
 
 streampos getSize(istream& in)

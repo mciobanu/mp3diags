@@ -554,7 +554,7 @@ Erreur: %1</translation>
     <message>
         <location filename="../ApeStream.cpp" line="191"/>
         <source>Tag missing header or footer.</source>
-        <translation>Tag avec en-tête ou &apos;footer&apos;.</translation>
+        <translation>Tag avec en-tête ou &apos;footer&apos; manquant.</translation>
     </message>
 </context>
 <context>
@@ -2059,7 +2059,7 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
         <location filename="../ExportDlgImpl.cpp" line="325"/>
         <source>EWST</source>
         <comment>the letters are the initials of the 4 severity levels: Error, Warning, Support, Trace</comment>
-        <translatorcomment>ces lettres sont les initiales des 4 niveaux de garvité : Erreur, Avertissement, Support, Trace</translatorcomment>
+        <translatorcomment>ces lettres sont les initiales des 4 niveaux de gravité : Erreur, Avertissement, Support, Trace</translatorcomment>
         <translation>EAST</translation>
     </message>
     <message>
@@ -3682,7 +3682,7 @@ Arrêt...</translation>
     <message>
         <location filename="../main.cpp" line="425"/>
         <source>Folder &quot;%1&quot; doesn&apos;t exist. The program will exit ...</source>
-        <translation>Le fichier &quot;%1&quot; n&apos;existe pas. Le programme va s&apos;arrêter...</translation>
+        <translation>Le dossier &quot;%1&quot; n&apos;existe pas. Le programme va s&apos;arrêter...</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="464"/>
@@ -4989,7 +4989,7 @@ Ceci est supposé être un fichier qui n&apos;existe pas encore. Vous n&apos;ave
     <message>
         <location filename="../SessionsDlgImpl.cpp" line="424"/>
         <source>Do you really want to erase the current session?</source>
-        <translation>Voulez-vous vraiemnt effacer la session courante ?</translation>
+        <translation>Voulez-vous vraiment effacer la session courante ?</translation>
     </message>
     <message>
         <location filename="../SessionsDlgImpl.cpp" line="424"/>
@@ -5489,7 +5489,7 @@ correspondante(s) de l&apos;onglet &quot;Autres&quot;</translation>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1776"/>
         <source>If your current folder fits one of these cases or you simply have consistently named files that you would prefer to use as a source of track info, you may want to take a look at the tag editor&apos;s patterns, at %1</source>
-        <translation>Si le dossier actuel est dans un tel cas ou si vous avez nommé de façon cohérente les fichiers pour les utiliser comme source d&apos;infos sur les pistes, les motifs de l&apos;éditeur de tags sur %1 peuvennt vous être utiles</translation>
+        <translation>Si le dossier actuel est dans un tel cas ou si vous avez nommé de façon cohérente les fichiers pour les utiliser comme source d&apos;infos sur les pistes, les motifs de l&apos;éditeur de tags sur %1 peuvent vous être utiles</translation>
     </message>
     <message>
         <location filename="../TagEditorDlgImpl.cpp" line="1776"/>

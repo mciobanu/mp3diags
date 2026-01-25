@@ -491,10 +491,6 @@ Hata: %1</translation>
         <translation>sonuç alındı</translation>
     </message>
     <message>
-        <source>Couldn&apos;t process the search result. (Usually this means that the server is busy, so trying later might work.)</source>
-        <translation type="vanished">Arama sonucu işlenemedi. (Bu, genelde sunucunun meşgul olduğu anlamına gelir yani daha sonra tekrar denemek işe yarayabilir.)</translation>
-    </message>
-    <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="810"/>
         <source>No results found</source>
         <translation>Hiçbir sonuç bulunamadı</translation>
@@ -502,11 +498,7 @@ Hata: %1</translation>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="820"/>
         <source>album info received</source>
-        <translation>albüm bilgisi alındı</translation>
-    </message>
-    <message>
-        <source>Couldn&apos;t process the album information. (Usually this means that the server is busy, so trying later might work.)</source>
-        <translation type="vanished">Albüm bilgileri işlenemedi. (Bu, genelde sunucunun meşgul olduğu manasına gelir yani daha sonra tekrar denemek işe yarayabilir.)</translation>
+        <translation>albüm bilgileri alındı</translation>
     </message>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="843"/>
@@ -642,7 +634,6 @@ Hata: %1</translation>
         <location filename="../Config.ui" line="1145"/>
         <location filename="../Config.ui" line="1239"/>
         <source>...</source>
-        <translatorcomment>...</translatorcomment>
         <translation>...</translation>
     </message>
     <message>
@@ -1569,34 +1560,6 @@ Altı çizili bir yazı tipi, boşlukların görünmesine izin vermek için kull
         <translation>Tek kanal</translation>
     </message>
     <message>
-        <source>Not an MPEG frame. Synch missing.</source>
-        <translation type="vanished">Bir MPEG çerçevesi değil. Eşleşme eksik.</translation>
-    </message>
-    <message>
-        <source>Not an MPEG frame. Unsupported version (2.5).</source>
-        <translation type="vanished">Bir MPEG çerçevesi değil. Desteklenmeyen sürüm (2.5).</translation>
-    </message>
-    <message>
-        <source>Not an MPEG frame. Invalid version.</source>
-        <translation type="vanished">Bir MPEG çerçevesi değil. Geçersiz sürüm.</translation>
-    </message>
-    <message>
-        <source>Not an MPEG frame. Invalid layer.</source>
-        <translation type="vanished">Bir MPEG çerçevesi değil. Geçersiz katman (layer).</translation>
-    </message>
-    <message>
-        <source>Not an MPEG frame. Invalid bitrate.</source>
-        <translation type="vanished">Bir MPEG çerçevesi değil. Geçersiz hız.</translation>
-    </message>
-    <message>
-        <source>Not an MPEG frame. Invalid frequency for MPEG1.</source>
-        <translation type="vanished">Bir MPEG çerçevesi değil. MPEG1 için geçersiz frekans.</translation>
-    </message>
-    <message>
-        <source>Not an MPEG frame. Invalid frequency for MPEG2.</source>
-        <translation type="vanished">Bir MPEG çerçevesi değil. MPEG2 için geçersiz frekans.</translation>
-    </message>
-    <message>
         <location filename="../Helpers.cpp" line="372"/>
         <source>%1 %2%3%4%5%6Hz%7%8bps%9CRC=%10%11length %12 (0x%13)%14padding=%15</source>
         <translation>%1 %2%3%4%5%6Hz%7%8bps%9CRC=%10%11süre %12 (0x%13)%14dolgu=%15</translation>
@@ -1777,8 +1740,7 @@ listesinde görüntülenir.
 Şıkkın işaretli olmadığı zaman izleme notlarının dosya
 analizi esnasında dikkate alınmayacaklarını, yani bu şıkkı
 sonradan işaretlerseniz bunun onları görüntülemeyeceğini
-unutmayın.
-Yeni bir analiz gerekecektir.</translation>
+unutmayın. Götüntülenmeleri için yeni bir analiz gerekecektir.</translation>
     </message>
     <message>
         <location filename="../DebugDlgImpl.cpp" line="150"/>
@@ -1817,6 +1779,11 @@ Yeni bir analiz gerekecektir.</translation>
 <context>
     <name>DirFilterDlgImpl</name>
     <message>
+        <location filename="../DirFilterDlgImpl.cpp" line="92"/>
+        <source>Folder</source>
+        <translation>Dizin</translation>
+    </message>
+    <message>
         <location filename="../DirFilterDlgImpl.cpp" line="198"/>
         <source>&lt;all folders&gt;</source>
         <translation>&lt;tüm dizinler&gt;</translation>
@@ -1845,11 +1812,6 @@ Yeni bir analiz gerekecektir.</translation>
         <location filename="../DirFilterDlgImpl.cpp" line="305"/>
         <source>Restore lists to the configuration they had when the window was open</source>
         <translation>Listeleri pencere açıkken mevcut olan yapılandırmaya geri al</translation>
-    </message>
-    <message>
-        <location filename="../DirFilterDlgImpl.cpp" line="92"/>
-        <source>Folder</source>
-        <translation>Dizin</translation>
     </message>
 </context>
 <context>
@@ -2094,6 +2056,7 @@ Bu, göreli yollar içeren M3U dosyaları oluşturmak için faydalıdır.</trans
         <location filename="../ExportDlgImpl.cpp" line="325"/>
         <source>EWST</source>
         <comment>the letters are the initials of the 4 severity levels: Error, Warning, Support, Trace</comment>
+        <translatorcomment>Hata, Uyarı, Destek, İz</translatorcomment>
         <translation>HUDİ</translation>
     </message>
     <message>
@@ -2542,10 +2505,6 @@ Bu, göreli yollar içeren M3U dosyaları oluşturmak için faydalıdır.</trans
         <location filename="../Id3V230Stream.cpp" line="109"/>
         <source>Truncated ID3V2.3.0 tag.</source>
         <translation>Kesik ID3V2.3.0 etiketi.</translation>
-    </message>
-    <message>
-        <source>Broken ID3V2.3.0 tag.</source>
-        <translation type="vanished">Hasarlı ID3V2.3.0 etiketi.</translation>
     </message>
     <message>
         <location filename="../Id3V230Stream.cpp" line="78"/>
@@ -3146,12 +3105,13 @@ Bu, göreli yollar içeren M3U dosyaları oluşturmak için faydalıdır.</trans
         <translation>&quot;Dikkate alınmayan notlar&quot; listesi ayarlamasında hata</translation>
     </message>
     <message>
+        <location filename="../MainFormDlgImpl.cpp" line="649"/>
         <source>
 
 You may want to check again the list and add any notes that you want to ignore.
 
-(If you didn&apos;t change the settings file manually, this is probably due to a code enhanement that makes some notes no longer needed, and you can safely ignore this message.)</source>
-        <translation type="vanished">
+If you didn&apos;t change the settings file manually, this is probably due to a code enhancement that makes some notes no longer needed, and you can safely ignore this message.)</source>
+        <translation>
 
 Listeyi tekrar kontrol edip görmezden gelmek istediğiniz notları ekleyebilirsiniz.
 
@@ -3288,6 +3248,26 @@ Listeyi tekrar kontrol edip görmezden gelmek istediğiniz notları ekleyebilirs
         <translation>MP3 dosyaları taranıyor</translation>
     </message>
     <message>
+        <location filename="../MainFormDlgImpl.cpp" line="1755"/>
+        <source>Issues encountered while scanning the requested folders</source>
+        <translation>Des problèmes ont été rencontrés en scannant les dossiers demandés</translation>
+    </message>
+    <message>
+        <location filename="../MainFormDlgImpl.cpp" line="1755"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <location filename="../MainFormDlgImpl.cpp" line="2334"/>
+        <source>&lt;p&gt;Rebuilding VBR data in Xing / LAME headers can destroy gapless playing information, causing albums that are supposed to be gapless to be played with short gaps between tracks.&lt;/p&gt;&lt;p&gt;Note that this shouldn&apos;t matter for regular, non-gapless, albums.&lt;/p&gt;&lt;p&gt;Proceed?&lt;/p&gt;</source>
+        <translation>&lt;p&gt;VBR verilerini Xing / LAME başlıklarında tekrar oluşturmak aralıksız çalma bilgilerini imha edebilir, ki bu aralıksız çalınması beklenen albümlerin parçalar arasında kısa aralıklarla çalınmalarına sebep olabilir.&lt;/p&gt;&lt;p&gt;Bunun olağan, aralıksız olmayan albümler için bir sorun teşkil etmeyeceğini unutmayın.&lt;/p&gt;&lt;p&gt;Devam edilsin mi?&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location filename="../MainFormDlgImpl.cpp" line="2356"/>
+        <source>&lt;p&gt;Removing Xing / LAME headers destroys gapless playing information, causing albums that are supposed to be gapless to be played with short gaps between tracks.&lt;/p&gt;&lt;p&gt;Note that this shouldn&apos;t matter for regular, non-gapless, albums.&lt;/p&gt;&lt;p&gt;Proceed?&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Xing / LAME başlıklarının kaldırılmaları aralıksız çalma bilgilerini imha eder, ki bu aralıksız çalınması beklenen albümlerin parçalar arasında kısa aralıklarla çalınmalarına sebep olabilir.&lt;/p&gt;&lt;p&gt;Bunun olağan, aralıksız olmayan albümler için bir sorun teşkil etmeyeceğini unutmayın.&lt;/p&gt;&lt;p&gt;Devam edilsin mi?&lt;/p&gt;</translation>
+    </message>
+    <message>
         <location filename="../MainFormDlgImpl.cpp" line="2840"/>
         <location filename="../MainFormDlgImpl.cpp" line="2967"/>
         <source>Info</source>
@@ -3301,29 +3281,6 @@ Listeyi tekrar kontrol edip görmezden gelmek istediğiniz notları ekleyebilirs
         <translation>MP3 bilgilerinin yüklenmeleri esnasında bir hata meydana geldi. Dosyalarınız tekrar taranacaktır.
 
 %1</translation>
-    </message>
-    <message>
-        <location filename="../MainFormDlgImpl.cpp" line="649"/>
-        <source>
-
-You may want to check again the list and add any notes that you want to ignore.
-
-(If you didn&apos;t change the settings file manually, this is probably due to a code enhancement that makes some notes no longer needed, and you can safely ignore this message.)</source>
-        <translation>
-
-Listeyi tekrasr kontrol etmek ve dikkate almamak istediğiniz notları eklemek isteyebilirsiniz.
-
-(Eğer yapılandırma dosyasını el ile değiştirmediyseniz bu, muhtemelen bazı notları artık fuzuli kılan bir kod iyileştirmesinden kaynaklanmaktadır ve bu mesajı güvenle görmezden gelebilirsiniz.)</translation>
-    </message>
-    <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1755"/>
-        <source>Issues encountered while scanning the requested folders</source>
-        <translation>İstenen dizinlerin taranması esnasında sorunlarla karşılaşıldı</translation>
-    </message>
-    <message>
-        <location filename="../MainFormDlgImpl.cpp" line="1755"/>
-        <source>OK</source>
-        <translation>Tamam</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="1931"/>
@@ -3452,7 +3409,7 @@ Exiting ...</source>
         <source>No file is selected, therefore no transformations can be applied.
 
 Exiting ...</source>
-        <translation>Hiçbir dosya seçilmiş, dolayısıyla hiçbir dönüştürme uygulanamaz.
+        <translation>Hiçbir dosya seçilmemiş, dolayısıyla hiçbir dönüştürme uygulanamaz.
 
 Çıkılıyor ...</translation>
     </message>
@@ -3465,16 +3422,6 @@ Exiting ...</source>
         <location filename="../MainFormDlgImpl.cpp" line="2309"/>
         <source>and the other %1 selected files</source>
         <translation>ve seçili diğer %1 dosya</translation>
-    </message>
-    <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2334"/>
-        <source>&lt;p&gt;Rebuilding VBR data in Xing / LAME headers can destroy gapless playing information, causing albums that are supposed to be gapless to be played with short gaps between tracks.&lt;/p&gt;&lt;p&gt;Note that this shouldn&apos;t matter for regular, non-gapless, albums.&lt;/p&gt;&lt;p&gt;Proceed?&lt;/p&gt;</source>
-        <translation>&lt;p&gt;VBR verilerini Xing / LAME başlıklarında tekrar oluşturmak aralıksız çalma bilgilerini imha edebilir, ki bu aralıksız çalınması beklenen albümlerin parçalar arasında kısa aralıklarla çalınmalarına sebep olabilir.&lt;/p&gt;&lt;p&gt;Bunun olağan, aralıksız olmayan albümler için bir sorun teşkil etmeyeceğini unutmayın.&lt;/p&gt;&lt;p&gt;Devam edilsin mi?&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2356"/>
-        <source>&lt;p&gt;Removing Xing / LAME headers destroys gapless playing information, causing albums that are supposed to be gapless to be played with short gaps between tracks.&lt;/p&gt;&lt;p&gt;Note that this shouldn&apos;t matter for regular, non-gapless, albums.&lt;/p&gt;&lt;p&gt;Proceed?&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Xing / LAME başlıklarının kaldırılmaları aralıksız çalma bilgilerini imha eder, ki bu aralıksız çalınması beklenen albümlerin parçalar arasında kısa aralıklarla çalınmalarına sebep olabilir.&lt;/p&gt;&lt;p&gt;Bunun olağan, aralıksız olmayan albümler için bir sorun teşkil etmeyeceğini unutmayın.&lt;/p&gt;&lt;p&gt;Devam edilsin mi?&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2376"/>
@@ -3872,10 +3819,6 @@ Processing aborted.</source>
         <location filename="../MusicBrainzDownloader.cpp" line="746"/>
         <source>&lt;a href=&quot;%1&quot;&gt;view at %2&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;%1&quot;&gt;%2 konumunda görüntüleyin&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;a href=&quot;%1&quot;&gt;view at amazon.com&lt;/a&gt;</source>
-        <translation type="vanished">&lt;a href=&quot;%1&quot;&gt;amazon.com konumunda görüntüle&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -4378,7 +4321,7 @@ Processing aborted.</source>
     <message>
         <location filename="../Notes.h" line="319"/>
         <source>Invalid Ape tag. Header expected but footer found.</source>
-        <translation>Geçersiz Ape etiketi.Başlık bekleniyordu ancak altbilgi bulundu.</translation>
+        <translation>Geçersiz Ape etiketi. Başlık bekleniyordu ancak altbilgi bulundu.</translation>
     </message>
     <message>
         <location filename="../Notes.h" line="320"/>
@@ -4543,458 +4486,6 @@ Processing aborted.</source>
         <location filename="../Notes.cpp" line="42"/>
         <source>&lt;Placeholder for a note that can no longer be found, most likely as a result of a software upgrade. You should rescan the file.&gt;</source>
         <translation>&lt;Büyük ihtimalle yazılım güncellemesinin bir sonucu olarak bulunamayan bir not için yer tutucu. Dosyayı tekrar taramanız tavsiye edilir.&gt;</translation>
-    </message>
-    <message>
-        <source>ERROR</source>
-        <translation type="vanished">HATA</translation>
-    </message>
-    <message>
-        <source>WARNING</source>
-        <translation type="vanished">İKAZ</translation>
-    </message>
-    <message>
-        <source>SUPPORT</source>
-        <translation type="vanished">DESTEK</translation>
-    </message>
-    <message>
-        <source>Two MPEG audio streams found, but a file should have exactly one.</source>
-        <translation type="vanished">İki MPEG akışı tespit edildi, ancak bir dosya tam olarak tek bir akışa sahip olabilir.</translation>
-    </message>
-    <message>
-        <source>Low quality MPEG audio stream. (What is considered &quot;low quality&quot; can be changed in the configuration dialog, under &quot;Quality thresholds&quot;.)</source>
-        <translation type="vanished">Düşük kaliteli MPEG akışı (&quot;düşük kalite&quot; olarak neyin kabul edileceği yapılandırmadaki &quot;Kalite eşikleri&quot; sekmesinde değiştirilebilir.)</translation>
-    </message>
-    <message>
-        <source>No MPEG audio stream found.</source>
-        <translation type="vanished">Hiçbir MPEG ses akışı bulunamadı.</translation>
-    </message>
-    <message>
-        <source>VBR with audio streams other than MPEG1 Layer III might work incorrectly.</source>
-        <translation type="vanished">MPEG1 Layer III dışındaki VBR ses akışları yanlış çalışabilir.</translation>
-    </message>
-    <message>
-        <source>Incomplete MPEG frame at the end of an MPEG stream.</source>
-        <translation type="vanished">MPEG akışının sonunda tamamlanmamış bir MPEG çerçevesi.</translation>
-    </message>
-    <message>
-        <source>Valid frame with a different version found after an MPEG stream.</source>
-        <translation type="vanished">Bir MPEG akışından sonra başka sürümlü, geçerli bir çerçeve bulundu.</translation>
-    </message>
-    <message>
-        <source>Valid frame with a different layer found after an MPEG stream.</source>
-        <translation type="vanished">Bir MPEG akışından sonra geçerli ama değişik bir layer (katmanlı) çerçeve bulundu.</translation>
-    </message>
-    <message>
-        <source>Valid frame with a different channel mode found after an MPEG stream.</source>
-        <translation type="vanished">Bir MPEG akışından sonra geçerli ama farklı bir kanal kipinde çerçeve bulundu.</translation>
-    </message>
-    <message>
-        <source>Valid frame with a different frequency found after an MPEG stream.</source>
-        <translation type="vanished">Bir MPEG akışından sonra geçerli ama farklı bir frekansı olan bir çerçeve bulundu.</translation>
-    </message>
-    <message>
-        <source>Valid frame with a different CRC policy found after an MPEG stream.</source>
-        <translation type="vanished">Bir MPEG akışından sonra geçerli ama farklı bir CRC politikası olan bir çerçeve bulundu.</translation>
-    </message>
-    <message>
-        <source>Invalid MPEG stream. Stream has fewer than 10 frames.</source>
-        <translation type="vanished">Geçersiz MPEG akışı. Akış, 10&apos;dan az çerçeve barındırmaktadır.</translation>
-    </message>
-    <message>
-        <source>Invalid MPEG stream. First frame has different bitrate than the rest.</source>
-        <translation type="vanished">Geçersiz MPEG akışı. İlk çerçevenin bir hızı diğerlerinden farklıdır.</translation>
-    </message>
-    <message>
-        <source>No normalization undo information found. The song is probably not normalized by MP3Gain or a similar program. As a result, it may sound too loud or too quiet when compared to songs from other albums.</source>
-        <translation type="vanished">Normalleştirmeyi geri almak için hiçbir veri bulunamadı. Şarkı, muhtemelen MP3Gain veya benzer bir program tarafından normalleştirilmemiştir. Bunun sonucu olarak, diğer albümlerin şarkılarıyla karşılaştırıldığında sesi çok yüksek veya çok düşük olabilir.</translation>
-    </message>
-    <message>
-        <source>Found audio stream in an encoding other than &quot;MPEG-1 Layer 3&quot; or &quot;MPEG-2 Layer 3.&quot; While MP3 Diags understands such streams, very few tests were run on files containing them (because they are not supposed to be found inside files with the &quot;.mp3&quot; extension), so there is a bigger chance of something going wrong while processing them.</source>
-        <translation type="vanished">&quot;MPEG 1 Layer 3&quot; veya &quot;MPEG 2 Layer 3&quot; kodlamasından farklı kodlamalı bir ses akışı bulundu. MP3 Diags böyle akışları anlasa dahi, bunları içeren dosyalar ile çok az deneme yapılmıştır (çünkü &quot;.mp3&quot; uzantısını kullanan dosyalar içinde bulunmaları beklenmez), yani onları işlerken bir şeylerin yolunda gitmemesi ihtimali daha yüksektir.</translation>
-    </message>
-    <message>
-        <source>Two Lame headers found, but a file should have at most one of them.</source>
-        <translation type="vanished">İki Lame başlığı bulundu, ancak bir dosyanın bunlardan sadece bir başlık bulundurması beklenir.</translation>
-    </message>
-    <message>
-        <source>Xing header seems added by Mp3Fixer, which makes the first frame unusable and causes a 16-byte unknown or null stream to be detected next.</source>
-        <translation type="vanished">Xing başlığı Mp3Fixer tarafından eklenmiş gibi görünüyor, bu program ilk çerçeveyi kullanılamaz hâle getirir ve ardından 16 baytlık bilinmeyen veya boş bir akışın bulunmasına sebep olur.</translation>
-    </message>
-    <message>
-        <source>Frame count mismatch between the Xing header and the audio stream.</source>
-        <translation type="vanished">Xing başlığı ile ses akışı arasında çerçeve sayısı uyuşmazlığı.</translation>
-    </message>
-    <message>
-        <source>Two Xing headers found, but a file should have at most one of them.</source>
-        <translation type="vanished">İki Xing başlığı tespit edildi, ancak her bir dosyanın sadece tek böyle başlığı bulunmalıdır.</translation>
-    </message>
-    <message>
-        <source>The Xing header should be located immediately before the MPEG audio stream.</source>
-        <translation type="vanished">Xing başlığının ses akışından hemen sonra konumlanması gerekir.</translation>
-    </message>
-    <message>
-        <source>The Xing header should be compatible with the MPEG audio stream, meaning that their MPEG version, layer and frequency must be equal.</source>
-        <translation type="vanished">Xing başlığı ile MPEG ses akışının uyumlu olması gerekir, yani MPEG sürümü, katmanı ve frekansının eşit olmaları gereklidir.</translation>
-    </message>
-    <message>
-        <source>The MPEG audio stream uses VBR but a Xing header wasn&apos;t found. This will confuse some players, which won&apos;t be able to display the song duration or to seek.</source>
-        <translation type="vanished">MPEG ses akışı VBR kullanıyor fakat hiçbir Xing başlığı bulunamadı. Bu, bazı oynatıcıları şaşırtabilir ve bunlar şarkı süresini görüntülemeyebilir veya arama yapamayabilirler.</translation>
-    </message>
-    <message>
-        <source>Xing header included in audio frame count. This is probably best ignored, as most players are fine with it and the fix erases potentially important information, like gapless playing information or the table of contents.</source>
-        <translation type="vanished">Xing başlığı ses çerçeve sayısına dahil edilmiş. En iyisi muhtemelen bunu görmezden gelmektir, çünkü oynatıcıların çoğunluğu için sorun yaratmaz ve düzeltme potansiyel olarak arasız çalma bilgileri veya içerik tablosu gibi önemli bilgileri silebilir.</translation>
-    </message>
-    <message>
-        <source>Two VBRI headers found, but a file should have at most one of them.</source>
-        <translation type="vanished">İki VBRI başlığı bulundu, ancak her bir dosyanın en çok bir başlık bulundurması gerekir.</translation>
-    </message>
-    <message>
-        <source>VBRI headers aren&apos;t well supported by some players. They should be replaced by Xing headers.</source>
-        <translation type="vanished">VBRI başlıkları bazı oynatıcılar tarafından iyi desteklenmezler. Bunların yerine Xing başlıkları konulması tercih edilmelidir.</translation>
-    </message>
-    <message>
-        <source>VBRI header found alongside Xing header. The VBRI header should probably be removed.</source>
-        <translation type="vanished">VBRI ve Xing başlıkları tespit edildi. Muhtemelen VBRI başlığını kaldırmak gereklidir.</translation>
-    </message>
-    <message>
-        <source>Invalid ID3V2 frame. File too short.</source>
-        <translation type="vanished">Geçersiz ID3V2 çerçevesi. Dosya çok kısa.</translation>
-    </message>
-    <message>
-        <source>Invalid frame name in ID3V2 tag.</source>
-        <translation type="vanished">ID3V2 etiketindeki çerçeve ismi geçersiz.</translation>
-    </message>
-    <message>
-        <source>Flags in the first flag group that are supposed to always be 0 are set to 1. They will be ignored.</source>
-        <translation type="vanished">Daima 0 değerinde olmaları beklenen ilk bayrak grubundaki bayraklar 1 değerine ayarlanmışlardır. Dikkate alınmayacaklar.</translation>
-    </message>
-    <message>
-        <source>Flags in the second flag group that are supposed to always be 0 are set to 1. They will be ignored.</source>
-        <translation type="vanished">Daima 0 değerinde olmaları beklenen ikinci bayrak grubundaki bayraklar 1 değerine ayarlanmışlardır. Dikkate alınmayacaklar.</translation>
-    </message>
-    <message>
-        <source>Error decoding the value of a text frame while reading an Id3V2 Stream.</source>
-        <translation type="vanished">ID3V2 akışı okunurken bir metin çerçevesinin kodlamasını açma esnasında hata.</translation>
-    </message>
-    <message>
-        <source>ID3V2 tag has text frames using Latin-1 encoding that contain characters with a code above 127. While this is valid, those frames may have their content set or displayed incorrectly by software that uses the local code page instead of Latin-1. Conversion to Unicode (UTF16) is recommended.</source>
-        <translation type="vanished">ID3V2 etiketi, 127&apos;den yüksek kod içeren Latin 1 kodlaması ile metin çerçeveleri bulundurmaktadır. Her ne kadar bu geçerli olsa dahi, bu çerçevelerin içeriği Latin 1 yerine yerel kod sayfası kullanan yazılımlar tarafından yanlış ayarlanabilir veya görüntülenebilir. Unikod&apos;a (UTF16) dönüştürme tavsiye edilir.</translation>
-    </message>
-    <message>
-        <source>Empty genre frame (TCON) found.</source>
-        <translation type="vanished">Boş tür çerçevesi (TCON) tespit edildi.</translation>
-    </message>
-    <message>
-        <source>Multiple frame instances found, but only the first one will be used.</source>
-        <translation type="vanished">Birçok çerçeve örneklemesi tespit edildi, fakat sadece ilki kullanılacaktır.</translation>
-    </message>
-    <message>
-        <source>The padding in the ID3V2 tag is too large, wasting space. (Large padding improves the tag editor saving speed, if fast saving is enabled, so you may want to delay compacting the tag until after you&apos;re done with the tag editor.)</source>
-        <translation type="vanished">ID3V2 etiketindeki dolgu çok büyük, bu da yer israfına yol açıyor. (Eğer hızlı kayıt etkinleştirildiyse büyük dolgular etiket düzenleyici kayıt sürelerini iyileştirir, dolayısıyla dolguyu sıkıştırmayı etiket düzenleyiciyle işiniz bitene kadar ertelemeyi tercih edebilirsiniz.)</translation>
-    </message>
-    <message>
-        <source>Unsupported ID3V2 version.</source>
-        <translation type="vanished">Desteklenmeyen ID3V2 sürümü.</translation>
-    </message>
-    <message>
-        <source>Unsupported ID3V2 tag. Unsupported flag.</source>
-        <translation type="vanished">Desteklenmeyen ID3V2 etiketi. Desteklenmeyen bayrak.</translation>
-    </message>
-    <message>
-        <source>Unsupported value for Flags1 in ID3V2 frame. (This may also indicate that the file contains garbage where it was supposed to be zero.)</source>
-        <translation type="vanished">ID3V2 çerçevesinde desteklenmeyen Flags1 değeri. (Bu, aynı zamanda sıfır olması gereken yerlerde yanlış veriler içerdiği anlamına gelebilir.)</translation>
-    </message>
-    <message>
-        <source>Unsupported value for Flags2 in ID3V2 frame. (This may also indicate that the file contains garbage where it was supposed to be zero.)</source>
-        <translation type="vanished">ID3V2 çerçevesinde desteklenmeyen Flags2 değeri. (Bu, aynı zamanda sıfır olması gereken yerlerde yanlış veriler içerdiği anlamına gelebilir.)</translation>
-    </message>
-    <message>
-        <source>Multiple instances of the POPM frame found in ID3V2 tag. The current version discards all the instances except the first when processing this tag.</source>
-        <translation type="vanished">ID3V2 etiketinde POPM çerçevesinin birçok örneklemesi tespit edildi. Güncel sürüm bu etiketi işlerken ilk örnekleme dışındakileri kaldıracaktır.</translation>
-    </message>
-    <message>
-        <source>ID3V2 tag contains no frames, which is invalid. This note will disappear once you add track information in the tag editor.</source>
-        <translation type="vanished">ID3V2 etiketi hiçbir çerçeve içermemektedir, ki bu geçersizdir. Bu not, etiket düzenleyicide parça bilgisi eklediğinizde kalkacaktır.</translation>
-    </message>
-    <message>
-        <source>ID3V2 tag contains an empty text frame, which is invalid.</source>
-        <translation type="vanished">ID3V2 etiketi boş bir metin çerçevesi içermektedir, ki bu geçersizdir.</translation>
-    </message>
-    <message>
-        <source>ID3V2 tag doesn&apos;t have an APIC frame (which is used to store images).</source>
-        <translation type="vanished">ID3V2 etiketi APIC çerçevesi içermemektedir (resim saklamak için kullanılır).</translation>
-    </message>
-    <message>
-        <source>ID3V2 tag has an APIC frame (which is used to store images), but the image couldn&apos;t be loaded.</source>
-        <translation type="vanished">ID3V2 etiketi bir APIC çerçevesi içermektedir (resim saklamak için kullanılır), fakat resim yüklenemedi.</translation>
-    </message>
-    <message>
-        <source>ID3V2 tag has at least one valid APIC frame (which is used to store images), but no frame has a type that is associated with an album cover.</source>
-        <translation type="vanished">ID3V2 etiketi en az geçerli bir APIC çerçevesi bulundurmaktadır (resim saklamak için kullanılır), fakat hiçbir çerçevenin türü bir albüm kapağı ile ilişkili değildir.</translation>
-    </message>
-    <message>
-        <source>Error loading image in APIC frame.</source>
-        <translation type="vanished">APIC çerçevesindeki resmin yüklenmesinde hata.</translation>
-    </message>
-    <message>
-        <source>Error loading image in APIC frame. The frame is too short anyway to have space for an image.</source>
-        <translation type="vanished">APIC çerçevesindeki resmin yüklenmesinde hata. Zaten bu çerçeve bir resim içermek için çok küçük.</translation>
-    </message>
-    <message>
-        <source>ID3V2 tag has multiple APIC frames with the same picture type.</source>
-        <translation type="vanished">ID3V2 etiketi, aynı resim türü içeren birden fazla APIC çerçevesi bulunduruyor.</translation>
-    </message>
-    <message>
-        <source>ID3V2 tag has multiple APIC frames. While this is valid, players usually use only one of them to display an image, discarding the others.</source>
-        <translation type="vanished">ID3V2 etiketi birden fazla APIC çerçevesine sahiptir. Bu geçerlidir ancak oynatıcılar genelde resim görüntülemek için sadece bir tanesini kullanıp diğerlerini dikkate almazlar.</translation>
-    </message>
-    <message>
-        <source>Unsupported text encoding for APIC frame in ID3V2 tag.</source>
-        <translation type="vanished">ID3V2 etiketi içinde APIC çerçevesi için desteklenmeyen metin kodlaması.</translation>
-    </message>
-    <message>
-        <source>APIC frame uses a link to a file as a MIME Type, which is not supported.</source>
-        <translation type="vanished">APIC çerçevesi, MIME Tipi olarak bir dosyaya bağlantı kullanmaktadır, ki bu desteklenmemektedir.</translation>
-    </message>
-    <message>
-        <source>Picture description is ignored in the current version.</source>
-        <translation type="vanished">Güncel sürümde resimlerin tanımlamaları dikkate alınmaz.</translation>
-    </message>
-    <message>
-        <source>No ID3V2.3.0 tag found, although this is the most popular tag for storing song information.</source>
-        <translation type="vanished">Hiçbir ID3V2.3.0 etiketi tespit edilemedi, halbuki bu, parçalara dair bilgi saklamak için en popüler etikettir.</translation>
-    </message>
-    <message>
-        <source>Two ID3V2.3.0 tags found, but a file should have at most one of them.</source>
-        <translation type="vanished">İki ID3V2.3.0 etiketi tespit edildi, ancak bir dosyanın bunlardan en çok bir etikete sahip olması gerekir.</translation>
-    </message>
-    <message>
-        <source>Both ID3V2.3.0 and ID3V2.4.0 tags found, but there should be only one of them.</source>
-        <translation type="vanished">Hem ID3V2.3.0 hem de ID3V2.4.0 etiketleri tespit edildi, ancak ikisinden sadece birisinin mevcut olması gerekir.</translation>
-    </message>
-    <message>
-        <source>The ID3V2.3.0 tag should be the first tag in a file.</source>
-        <translation type="vanished">ID3V2.3.0 etiketi dosyanın ilk etiketi olmalıdır.</translation>
-    </message>
-    <message>
-        <source>ID3V2.3.0 tag contains a text frame encoded as UTF-8, which is valid in ID3V2.4.0 but not in ID3V2.3.0.</source>
-        <translation type="vanished">ID3V2.3.0 etiketi UTF-8 ile kodlanmış metin çerçevesi içermektedir, bu ID3V2.4.0 için geçerlidir fakat ID3V2.3.0 için geçersizdir.</translation>
-    </message>
-    <message>
-        <source>Unsupported value of text frame while reading an Id3V2 Stream.</source>
-        <translation type="vanished">ID3V2 akışı okunurken desteklenmeyen metin çerçevesi değeri.</translation>
-    </message>
-    <message>
-        <source>Invalid ID3V2.3.0 frame. Incorrect frame size or file too short.</source>
-        <translation type="vanished">Geçersiz ID3V2.3.0 çerçevesi. Yanlış çerçeve boyutu veya çok küçük dosya boyutu.</translation>
-    </message>
-    <message>
-        <source>Two ID3V2.4.0 tags found, but a file should have at most one of them.</source>
-        <translation type="vanished">İki ID3V2.4.0 etiketi tespit edildi, ancak bir dosyanın böyle en çok bir etikete sahip olması beklenir..</translation>
-    </message>
-    <message>
-        <source>Invalid ID3V2.4.0 frame. Incorrect frame size or file too short.</source>
-        <translation type="vanished">Geçersiz ID3V2.4.0 çerçevesi. Yanlış çerçeve boyutu veya çok küçük dosya boyutu.</translation>
-    </message>
-    <message>
-        <source>Invalid ID3V2.4.0 frame. Frame size is supposed to be stored as a synchsafe integer, which uses only 7 bits in a byte, but the size uses all 8 bits, as in ID3V2.3.0. This will confuse some applications</source>
-        <translation type="vanished">Geçersiz ID3V2.4.0 çerçevesi. Çerçeve boyutunun &quot;synchsafe&quot; tamsayı olarak saklanması beklenir, ki bu bir baytta sadece 7 bit kullanır, fakat boyut ID3V2.3.0 için olduğu gibi tüm 8 biti kullanmaktadır. Bu, bazı uygulamaları karıştırır</translation>
-    </message>
-    <message>
-        <source>Deprecated TYER frame found in 2.4.0 tag alongside a TDRC frame.</source>
-        <translation type="vanished">2.4.0 etiketinde TDRC çerçevesinin yanında kullanımdan kaldırılmış eski TYER çerçevesi bulundu.</translation>
-    </message>
-    <message>
-        <source>Deprecated TYER frame found in 2.4.0 tag. It&apos;s supposed to be replaced by a TDRC frame.</source>
-        <translation type="vanished">2.4.0 etiketinde kullanımdan kaldırılmış eski TYER çerçevesi bulundu. Bunun yerine bir TDRC çerçevesi konması beklenir.</translation>
-    </message>
-    <message>
-        <source>Deprecated TDAT frame found in 2.4.0 tag alongside a TDRC frame.</source>
-        <translation type="vanished">2.4.0 etiketinde TDRC çerçevesinin yanında kullanımdan kaldırılmış eski TDAT çerçevesi bulundu.</translation>
-    </message>
-    <message>
-        <source>Deprecated TDAT frame found in 2.4.0 tag. It&apos;s supposed to be replaced by a TDRC frame.</source>
-        <translation type="vanished">2.4.0 etiketinde kullanımdan kaldırılmış eski TDAT çerçevesi bulundu. Bunun yerine bir TDRC çerçevesi konması beklenir.</translation>
-    </message>
-    <message>
-        <source>Invalid ID3V2.4.0 frame. Mismatched Data length indicator. Frame value is probably incorrect</source>
-        <translation type="vanished">Geçersiz ID3V2.4.0 çerçevesi. Veri uzunluğu göstergesi uyuşmuyor. Çerçeve değeri muhtemelen yanlıştır</translation>
-    </message>
-    <message>
-        <source>Invalid ID3V2.4.0 frame. Incorrect unsynchronization bit.</source>
-        <translation type="vanished">Geçersiz ID3V2.4.0 çerçevesi. Yanlış eşleşme biti.</translation>
-    </message>
-    <message>
-        <source>Unsupported value of text frame while reading an Id3V2.4.0 stream. It may be using an unsupported text encoding.</source>
-        <translation type="vanished">ID3V2.4.0 akışı okunurken desteklenmeyen metin çerçeve değeri. Desteklenmeyen bir metin kodlaması kullanıyor olabilir.</translation>
-    </message>
-    <message>
-        <source>The only supported tag found that is capable of storing song information is ID3V1, which has pretty limited capabilities.</source>
-        <translation type="vanished">Şarlı bilgisi saklama kabiliyetine sahip tespit edilen tek etiket ID3V1&apos;dir, ki kapasiteleri oldukça sınırlıdır.</translation>
-    </message>
-    <message>
-        <source>The ID3V1 tag should be located after the MPEG audio stream.</source>
-        <translation type="vanished">ID3V1 etiketinin MPEG ses akışından hemen sonra konumlanması gerekir.</translation>
-    </message>
-    <message>
-        <source>Invalid ID3V1 tag. File too short.</source>
-        <translation type="vanished">Geçersiz ID3V1 etiketi. Dosya çok kısa.</translation>
-    </message>
-    <message>
-        <source>Two ID3V1 tags found, but a file should have at most one of them.</source>
-        <translation type="vanished">İki ID3V1 etiketi tespit edildi, ancak bir dosyanın böyle en çok bir etikete sahip olması beklenir.</translation>
-    </message>
-    <message>
-        <source>ID3V1 tag contains fields padded with spaces alongside fields padded with zeroes. The standard only allows zeroes, but some tools use spaces. Even so, zero-padding and space-padding shouldn&apos;t be mixed.</source>
-        <translation type="vanished">ID3V1 etiketi boşluklarla ve bunların yanında sıfırlarla dolgulanmış alanlar içermektedir. Standart, sadece sıfırlara izin verir, fakat bazı araçlar boşluklar kullanır. Her durumda sıfır dolgularıyla boşluk dolguları karıştırılmamalıdır.</translation>
-    </message>
-    <message>
-        <source>ID3V1 tag contains fields that are padded with spaces mixed with zeroes. The standard only allows zeroes, but some tools use spaces. Even so, one character should be used for padding for the whole tag.</source>
-        <translation type="vanished">ID3V1 etiketi boşluklarla ve bunların yanında sıfırlarla dolgulanmış alanlar içermektedir. Standart, sadece sıfırlara izin verir, fakat bazı araçlar boşluklar kullanır. Her durumda bütün etiketi dolgulamak için tek bir karakter kullanılmalıdır.</translation>
-    </message>
-    <message>
-        <source>Invalid ID3V1 tag. Invalid characters in Name field.</source>
-        <translation type="vanished">Geçersiz ID3V1 etiketi. İsim alanında geçersiz karakterler.</translation>
-    </message>
-    <message>
-        <source>Invalid ID3V1 tag. Invalid characters in Artist field.</source>
-        <translation type="vanished">Geçersiz ID3V1 etiketi. Sanatçı alanında geçersiz karakterler.</translation>
-    </message>
-    <message>
-        <source>Invalid ID3V1 tag. Invalid characters in Album field.</source>
-        <translation type="vanished">Geçersiz ID3V1 etiketi. Albüm alanında geçersiz karakterler.</translation>
-    </message>
-    <message>
-        <source>Invalid ID3V1 tag. Invalid characters in Year field.</source>
-        <translation type="vanished">Geçersiz ID3V1 etiketi. Sene alanında geçersiz karakterler.</translation>
-    </message>
-    <message>
-        <source>Invalid ID3V1 tag. Invalid characters in Comment field.</source>
-        <translation type="vanished">Geçersiz ID3V1 etiketi. Yorum alanında geçersiz karakterler.</translation>
-    </message>
-    <message>
-        <source>Broken stream found.</source>
-        <translation type="vanished">Hasarlı akış tespit edildi.</translation>
-    </message>
-    <message>
-        <source>Broken stream found. Since other streams follow, it is possible that players and tools will have problems using the file. Removing the stream is recommended.</source>
-        <translation type="vanished">Hasarlı akış tespit edildi. Başka akışlar takip ettiğinden dolayı oynatıcıların ve araçların bu dosyayı kullanmakta sorun yaşamaları muhtemeldir. Akışın kaldırılması tavsiye edilir.</translation>
-    </message>
-    <message>
-        <source>Truncated MPEG stream found. The cause for this seems to be that the file was truncated.</source>
-        <translation type="vanished">Kesik MPEG akışı tespit edildi. Bunun sebebi dosyanın kesik olması gibi görünüyor.</translation>
-    </message>
-    <message>
-        <source>Truncated MPEG stream found. Since other streams follow, it is possible that players and tools will have problems using the file. Removing the stream or padding it with 0 to reach its declared size is strongly recommended.</source>
-        <translation type="vanished">Kesik MPEG akışı tespit edildi. Başka akışlar takip ettiğinden dolayı oynatıcıların ve araçların bu dosyayı kullanmakta sorun yaşamaları muhtemeldir. Akışın kaldırılması veya beyan edilen boyuta ulaşıncaya dek 0 ile dolgulanması hararetle tavsiye edilir.</translation>
-    </message>
-    <message>
-        <source>Not enough remaining bytes to create an UnknownDataStream.</source>
-        <translation type="vanished">Bilinmeyen veri akışı (UnknownDataStream) oluşturmak için kalan bayt sayısı yetersiz.</translation>
-    </message>
-    <message>
-        <source>Unknown stream found.</source>
-        <translation type="vanished">Bilinmeyen akış tespit edildi.</translation>
-    </message>
-    <message>
-        <source>Unknown stream found. Since other streams follow, it is possible that players and tools will have problems using the file. Removing the stream is recommended.</source>
-        <translation type="vanished">Bilinmeyen akış tespit edildi. Başka akışlar takip ettiğinden dolayı oynatıcıların ve araçların bu dosyayı kullanmakta sorun yaşamaları muhtemeldir. Akışın kaldırılması tavsiye edilir.</translation>
-    </message>
-    <message>
-        <source>File contains null streams.</source>
-        <translation type="vanished">Dosya boş akışlar içermektedir.</translation>
-    </message>
-    <message>
-        <source>Invalid Lyrics stream tag. File too short.</source>
-        <translation type="vanished">Geçersiz Şarkı Sözleri akış etiketi. Dosya çok kısa.</translation>
-    </message>
-    <message>
-        <source>Two Lyrics tags found, but only one is supported.</source>
-        <translation type="vanished">İki Şarkı Sözleri etiketi tespit edildi, ancak sadece bir tanesi desteklenmektedir.</translation>
-    </message>
-    <message>
-        <source>Invalid Lyrics stream tag. Unexpected characters found.</source>
-        <translation type="vanished">Geçersiz Şarkı Sözleri akış etiketi. Beklenmeyen karakterler tespit edildi.</translation>
-    </message>
-    <message>
-        <source>Multiple fields with the same name were found in a Lyrics tag, but only one is supported.</source>
-        <translation type="vanished">Şarkı Sözleri etiketinde aynı isimli birçok alan tespit edildi, ancak sadece bir tanesi desteklenmektedir.</translation>
-    </message>
-    <message>
-        <source>Currently INF fields in Lyrics tags are not fully supported.</source>
-        <translation type="vanished">Güncel olarak Şarkı Sözleri etiketlerinde INF alanları tam olarak desteklenmemektedir.</translation>
-    </message>
-    <message>
-        <source>Invalid Ape Item. File too short.</source>
-        <translation type="vanished">Geçersiz Ape unsuru. Dosya çok kısa.</translation>
-    </message>
-    <message>
-        <source>Ape Item seems too big. Although the size may be any 32-bit integer, 256 bytes should be enough in practice. If this note is determined to be incorrect, it will be removed in the future.</source>
-        <translation type="vanished">Ape unsuru çok büyük gibi görünüyor. Her ne kadar boyut 32 bit üzerinde herhangi bir tamsayı olabilse dahi, pratikte 256 baytın yeterli olması beklenir. Bu not yanlış ise gelecekte kaldırılacaktır.</translation>
-    </message>
-    <message>
-        <source>Invalid Ape Item. Terminator not found for item name.</source>
-        <translation type="vanished">Geçersiz Ape unsuru. Unsur ismi için sonlandırıcı bulunamadı.</translation>
-    </message>
-    <message>
-        <source>Invalid Ape tag. Header expected but footer found.</source>
-        <translation type="vanished">Geçersiz Ape etiketi.Başlık bekleniyordu ancak altbilgi bulundu.</translation>
-    </message>
-    <message>
-        <source>Not an Ape tag. File too short.</source>
-        <translation type="vanished">Ape etiketi değil. Dosya çok kısa.</translation>
-    </message>
-    <message>
-        <source>Invalid Ape tag. Footer expected but header found.</source>
-        <translation type="vanished">Geçersiz Ape etiketi. Altbilgi bekleniyordu fakat başlık bulundu.</translation>
-    </message>
-    <message>
-        <source>Invalid Ape tag. Mismatch between header and footer.</source>
-        <translation type="vanished">Geçersiz Ape etiketi. Başlık ile altbilgi arasında tutarsızlık var.</translation>
-    </message>
-    <message>
-        <source>Two Ape tags found, but only one is supported.</source>
-        <translation type="vanished">İki Ape etiketi tespit edildi, ancak sadece bir tanesi desteklenir.</translation>
-    </message>
-    <message>
-        <source>Ape item flags not supported.</source>
-        <translation type="vanished">Ape unsurunun bayrakları desteklenmemektedir.</translation>
-    </message>
-    <message>
-        <source>Unsupported Ape tag. Currently a missing header or footer are not supported.</source>
-        <translation type="vanished">Desteklenmeyen Ape etiketi. Güncel olarak eksik bir başlık veya altbilgi desteklenmemektedir.</translation>
-    </message>
-    <message>
-        <source>The file seems to have been changed in the (short) time that passed between parsing it and the initial search for pictures. If you think that&apos;s not the case, report a bug.</source>
-        <translation type="vanished">Dosya, ayrıştırılması ve ilk resim araması arasında geçen (kısa) süre içinde değiştirilmiş gibi görünüyor. Eğer bunun böyle olmadığını düşünüyorsanız, bir hata raporunda bulunun.</translation>
-    </message>
-    <message>
-        <source>No supported tag found that is capable of storing song information.</source>
-        <translation type="vanished">Şarkı bilgisi saklama kabiliyetine sahip hiçbir etiket tespit edilemedi.</translation>
-    </message>
-    <message>
-        <source>Too many TRACE notes added. The rest will be discarded.</source>
-        <translation type="vanished">Çok fazla TRACE notu eklendi. Geri kalanlar dikkate alınmayacaktır.</translation>
-    </message>
-    <message>
-        <source>Too many notes added. The rest will be discarded.</source>
-        <translation type="vanished">Çok fazla not eklendi. Geri kalanlar dikkate alınmayacaktır.</translation>
-    </message>
-    <message>
-        <source>Too many streams found. Aborting processing.</source>
-        <translation type="vanished">Çok fazla akış tespit edildi. İşleyiş iptal ediliyor.</translation>
-    </message>
-    <message>
-        <source>Unsupported stream found. It may be supported in the future if there&apos;s a real need for it.</source>
-        <translation type="vanished">Desteklenmeyen akış tespit edildi. Gelecekte, gerçekten ihtiyaç duyulması halinde desteklenebilir.</translation>
-    </message>
-    <message>
-        <source>The file was saved using the &quot;fast&quot; option. While this improves the saving speed, it may leave the notes in an inconsistent state, so you should rescan the file.</source>
-        <translation type="vanished">Dosya &quot;hızlı&quot; seçeneği kullanılarak kaydedilmiştir. Bu, her ne kadar kayıt süresini iyileştirse dahi, notları tutarsız bir durumda bırakabilir; dolayısıyla dosyayı tekrar taramanız tavsiye edilir.</translation>
-    </message>
-    <message>
-        <source>An error occurred while reading the file, so it wasn&apos;t fully processed. This usually happens when reading from external drives or USB sticks, in which case a workaround might be to copy the files to an internal drive.</source>
-        <translation type="vanished">Dosya okunurken bir hata meydana geldi, dolayısıyla tamamen işlenemedi. Bu genelde harici sürücülerden veya USB belleklerden okunurken meydana gelir, bu durumda geçici bir çözüm olarak dosyaları dahili bir sürücüye kopyalamak düşünülebilir.</translation>
     </message>
 </context>
 <context>
@@ -6004,38 +5495,6 @@ kutucukları işaretlemeniz gerekmektedir</translation>
 <context>
     <name>TagEdtPatternsDlgImpl</name>
     <message>
-        <source>%n	track number
-%a	artist
-%t	title
-%b	album
-%y	year
-%g	genre
-%r	rating (a lowercase letter)
-%c	composer
-%i	ignored
-
-To include the special characters &quot;%&quot;, &quot;[&quot;, &quot;]&quot; and &quot;%1&quot;, preced them by a &quot;%&quot;: &quot;%%&quot;, &quot;%[&quot;, &quot;%]&quot; and &quot;%%1&quot;
-
-For a pattern to be considered a &quot;file pattern&quot; (as opposed to a &quot;table pattern&quot;), it must contain at least a &quot;%1&quot;, even if you don&apos;t care about what&apos;s in the file&apos;s parent directory (see the fourth predefined pattern for an example.)
-
-Leading and trailing spaces are removed automatically from unbound fields after matching, so &quot;-[ ]%t&quot; is equivalent to &quot;-%t&quot; (but &quot;-[ ]%n&quot; is not equivalent to &quot;-%n&quot;, because %n is a fixed format field). However, all non-optional characters matter in the matching phase, including spaces.</source>
-        <translation type="vanished">%n	parça numarası
-%a	sanatçı
-%t	başlık
-%b	albüm
-%y	sene
-%g	tür
-%r	not (bir küçük harf)
-%c	bestekâr
-%i	dikkate alınmaz
-
-&quot;%&quot;, &quot;[&quot;, &quot;]&quot; et &quot;%1&quot; özel karakterleri dahil etmek için onları bir &quot;%&quot;: &quot;%%&quot;, &quot;%[&quot;, &quot;%]&quot; ve &quot;%%1&quot; ön eki ile kullanın
-
-Bir örüntünün &quot;dosya örüntüsü&quot; olarak kabul edilmesi için (tablo örüntüsüne zıt olarak), en az bir &quot;%1&quot; içermesi gerekir, üst dizinin içeriği sizin için önemli olmasa dahi (mesela ön tanımlı dördüncü örüntüye bakın.)
-
-Eşleştirmeden sonra, bağlı olmayan alanlardaki baştaki ve sondaki boşluklar otomatik olarak kaldırılır, bu nedenle &quot;-[ ]%t&quot; &quot;-%t&quot; ile eşdeğerdir (ancak &quot;-[ ]%n&quot; &quot;-%n&quot; ile eşdeğer değildir, çünkü %n sabit biçimli bir alandır). Bununla birlikte, boşluklar da dahil olmak üzere, isteğe bağlı olmayan tüm karakterler eşleştirme aşamasında önemlidir.</translation>
-    </message>
-    <message>
         <location filename="../TagEdtPatternsDlgImpl.cpp" line="53"/>
         <source>%n	track number
 %a	artist
@@ -6786,7 +6245,7 @@ Toplam süre: %1
     <message>
         <location filename="../StructuralTransformation.h" line="128"/>
         <source>Remove null streams</source>
-        <translation>Tüm boş akışları kaldır</translation>
+        <translation>Boş akışları kaldır</translation>
     </message>
     <message>
         <location filename="../StructuralTransformation.h" line="139"/>
@@ -6994,6 +6453,11 @@ Toplam süre: %1
     <name>WebDwnldModel</name>
     <message>
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="1167"/>
+        <source>Volume</source>
+        <translation>Ses düzeyi</translation>
+    </message>
+    <message>
+        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="1167"/>
         <source>Pos</source>
         <translation>Konum</translation>
     </message>
@@ -7011,11 +6475,6 @@ Toplam süre: %1
         <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="1167"/>
         <source>Composer</source>
         <translation>Bestekâr</translation>
-    </message>
-    <message>
-        <location filename="../AlbumInfoDownloaderDlgImpl.cpp" line="1167"/>
-        <source>Volume</source>
-        <translation>Ses düzeyi</translation>
     </message>
 </context>
 </TS>

@@ -6,7 +6,7 @@
     <message>
         <location filename="../About.ui" line="14"/>
         <source>About MP3 Diags</source>
-        <translation>A propos de MP3 Diags</translation>
+        <translation>À propos de MP3 Diags</translation>
     </message>
     <message>
         <location filename="../About.ui" line="58"/>
@@ -152,7 +152,7 @@
     <message>
         <location filename="../AboutDlgImpl.cpp" line="84"/>
         <source>Home page and documentation: %1</source>
-        <translation>Site web et documentation: %1</translation>
+        <translation>Site web et documentation : %1</translation>
     </message>
     <message>
         <location filename="../AboutDlgImpl.cpp" line="85"/>
@@ -1076,7 +1076,7 @@ Erreur: %1</translation>
     <message>
         <location filename="../Config.ui" line="2488"/>
         <source>Tag editor</source>
-        <translation>Editeur de tags</translation>
+        <translation>Éditeur de tags</translation>
     </message>
     <message>
         <location filename="../Config.ui" line="2509"/>
@@ -2131,7 +2131,7 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
     <message>
         <location filename="../ExternalToolDlgImpl.cpp" line="318"/>
         <source>Stopping &quot;%1&quot; may leave the files in an inconsistent state or may prevent temporary files from being deleted. Are you sure you want to abort &quot;%1&quot;?</source>
-        <translation>Arrêter &quot;%1&quot; peut laisser les fichiers dans un état inexploitable ou empêcher la suppression de fichiers temporaires. Etes-vous sûr de vouloir interrompre &quot;%1&quot; ?</translation>
+        <translation>Arrêter &quot;%1&quot; peut laisser les fichiers dans un état inexploitable ou empêcher la suppression de fichiers temporaires. Êtes-vous sûr de vouloir interrompre &quot;%1&quot; ?</translation>
     </message>
     <message>
         <location filename="../ExternalToolDlgImpl.cpp" line="318"/>
@@ -2256,7 +2256,7 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
     <message>
         <location filename="../FileRenamer.ui" line="177"/>
         <source>Edit patterns</source>
-        <translation>Editer les motifs</translation>
+        <translation>Éditer les motifs</translation>
     </message>
     <message>
         <location filename="../FileRenamer.ui" line="180"/>
@@ -2957,7 +2957,7 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
     <message>
         <location filename="../MainForm.ui" line="738"/>
         <source>Tag editor</source>
-        <translation>Editeur de tags</translation>
+        <translation>Éditeur de tags</translation>
     </message>
     <message>
         <location filename="../MainForm.ui" line="776"/>
@@ -2992,7 +2992,7 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
     <message>
         <location filename="../MainForm.ui" line="981"/>
         <source>About</source>
-        <translation>A propos</translation>
+        <translation>À propos</translation>
     </message>
     <message>
         <location filename="../MainForm.ui" line="1046"/>
@@ -3445,7 +3445,7 @@ Arrêt...</translation>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2379"/>
         <source>Apply an empty transformation list to all the files shown in the file list? (Note that even if no transformations are performed, the files may still be moved, renamed or erased, based on the current settings.)</source>
-        <translation>Appilquer une liste de transformations vide à tous les fichiers présents dans la liste ? (Veuillez noter que même si aucune transformation n&apos;est effectuée, les fichiers peuvent cependant être déplacés, renommés ou effacés selon les paramètres actuels.)</translation>
+        <translation>Appliquer une liste de transformations vide à tous les fichiers présents dans la liste ? (Veuillez noter que même si aucune transformation n&apos;est effectuée, les fichiers peuvent cependant être déplacés, renommés ou effacés selon les paramètres actuels.)</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2383"/>
@@ -5183,7 +5183,7 @@ Ceci est supposé être un fichier qui n&apos;existe pas encore. Vous n&apos;ave
     <message>
         <location filename="../TagEditor.ui" line="14"/>
         <source>MP3 Diags - Tag editor</source>
-        <translation>MP3 Diags - Editeur de tags</translation>
+        <translation>MP3 Diags - Éditeur de tags</translation>
     </message>
     <message>
         <location filename="../TagEditor.ui" line="47"/>
@@ -5319,7 +5319,7 @@ Ceci est supposé être un fichier qui n&apos;existe pas encore. Vous n&apos;ave
     <message>
         <location filename="../TagEditor.ui" line="608"/>
         <source>Edit file patterns</source>
-        <translation>Editer les motifs fichier</translation>
+        <translation>Éditer les motifs fichier</translation>
     </message>
     <message>
         <location filename="../TagEditor.ui" line="611"/>

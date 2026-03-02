@@ -3725,3 +3725,9 @@ Note the use of QLibraryInfo::location() to locate the Qt translations. Develope
 //ttt1 https://sourceforge.net/p/mp3diags/discussion/947206/thread/42d8f51a/?limit=25#e8a5
 
 //ttt9: See about timestamps: https://stackoverflow.com/questions/27290965/qdebug-console-output-with-timestamp
+
+//ttt0 This takes a long time to read, especially on Windows: /d/test_mp3/1/tmp4/tmp2/gerald-herzog/04 - The Japanese Zen Monastery.mp3. Perhaps test for nulls first, as presumably no valid stream starts with 0
+
+//ttt0 See about links in Windows - see reply on 2024.05.26
+
+//ttt0 See about ASCII and long file names in Windows (mail on 2025.08.21 + reply)

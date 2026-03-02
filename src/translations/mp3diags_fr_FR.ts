@@ -1568,18 +1568,18 @@ Une police soulignée est utilisée afin de pouvoir voir les espaces</translatio
         <translation>%1 %2%3%4%5%6Hz%7%8bps%9CRC=%10%11longueur %12 (0x%13)%14bourrage=%15</translation>
     </message>
     <message>
-        <location filename="../Id3V2Stream.cpp" line="700"/>
+        <location filename="../Id3V2Stream.cpp" line="706"/>
         <location filename="../MpegFrame.cpp" line="258"/>
         <source>padding=</source>
         <translation>bourrage=</translation>
     </message>
     <message>
-        <location filename="../Id3V2Stream.cpp" line="700"/>
+        <location filename="../Id3V2Stream.cpp" line="706"/>
         <source>unsynch=</source>
         <translation>désynchro=</translation>
     </message>
     <message>
-        <location filename="../Id3V2Stream.cpp" line="700"/>
+        <location filename="../Id3V2Stream.cpp" line="706"/>
         <source>frames</source>
         <translation>trames</translation>
     </message>
@@ -2444,7 +2444,7 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
 <context>
     <name>FixedAddrRemover</name>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3020"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3019"/>
         <source>Remove stream %1 at address 0x%2</source>
         <translation>Supprime le flux %1 à l&apos;adresse 0x%2</translation>
     </message>
@@ -2467,12 +2467,12 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
         <translation>Attendre la fin de l&apos;outil externe, garder la fenêtre ouverte</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1469"/>
+        <location filename="../Helpers.cpp" line="1486"/>
         <source>These settings cannot currently be changed. In order to make changes you should probably run the program as an administrator.</source>
         <translation>Ces paramètres ne peuvent pas être modifiés actuellement. Pour effectuer des modifications, vous devez lancer le programme en tant qu&apos;administrateur.</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1546"/>
+        <location filename="../Helpers.cpp" line="1563"/>
         <source>Platform not supported</source>
         <translation>Plate-forme non supportée</translation>
     </message>
@@ -2570,45 +2570,45 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
 <context>
     <name>Id3V240Frame</name>
     <message>
-        <location filename="../Id3V240Stream.cpp" line="180"/>
+        <location filename="../Id3V240Stream.cpp" line="181"/>
         <source>Truncated ID3V2.4.0 tag.</source>
         <translation>Tag ID3V2.4.0 tronqué.</translation>
     </message>
     <message>
-        <location filename="../Id3V240Stream.cpp" line="196"/>
-        <location filename="../Id3V240Stream.cpp" line="200"/>
+        <location filename="../Id3V240Stream.cpp" line="197"/>
+        <location filename="../Id3V240Stream.cpp" line="201"/>
         <source>ID3V2.4.0 tag containing a frame with an invalid name: %1.</source>
         <translation>Tag ID3V2.4.0 contenant une trame avec un nom non valide : %1.</translation>
     </message>
     <message>
-        <location filename="../Id3V240Stream.cpp" line="209"/>
         <location filename="../Id3V240Stream.cpp" line="210"/>
+        <location filename="../Id3V240Stream.cpp" line="211"/>
         <source>ID3V2.4.0 tag containing a frame with an unsupported flag.</source>
         <translation>Tag ID3V2.4.0 contenant une trame avec un drapeau non supporté.</translation>
     </message>
     <message>
-        <location filename="../Id3V240Stream.cpp" line="282"/>
+        <location filename="../Id3V240Stream.cpp" line="283"/>
         <source>Broken ID3V2.4.0 tag.</source>
         <translation>Tag ID3V2.4.0 endommagé.</translation>
     </message>
     <message>
-        <location filename="../Id3V240Stream.cpp" line="303"/>
-        <location filename="../Id3V240Stream.cpp" line="315"/>
+        <location filename="../Id3V240Stream.cpp" line="304"/>
+        <location filename="../Id3V240Stream.cpp" line="316"/>
         <source>%1 (Frame: %2)</source>
         <translation>%1 (Trame: %2)</translation>
     </message>
     <message>
-        <location filename="../Id3V240Stream.cpp" line="308"/>
+        <location filename="../Id3V240Stream.cpp" line="309"/>
         <source>INVALID</source>
         <translation>NON VALIDE</translation>
     </message>
     <message>
-        <location filename="../Id3V240Stream.cpp" line="322"/>
+        <location filename="../Id3V240Stream.cpp" line="323"/>
         <source>ID3V2.4.0 tag containing a broken text frame named %1.</source>
         <translation>Tag ID3V2.4.0 contenant une trame de texte endommagée nommée : %1.</translation>
     </message>
     <message>
-        <location filename="../Id3V240Stream.cpp" line="326"/>
+        <location filename="../Id3V240Stream.cpp" line="327"/>
         <source>ID3V2.4.0 tag containing a text frame named %1 using unsupported characters or unsupported text encoding.</source>
         <translation>Tag ID3V2.4.0 contenant une trame de texte nommée %1 utilisant des caractères ou un encodage non supportés.</translation>
     </message>
@@ -2616,7 +2616,7 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
 <context>
     <name>Id3V240Stream</name>
     <message>
-        <location filename="../Id3V240Stream.cpp" line="457"/>
+        <location filename="../Id3V240Stream.cpp" line="534"/>
         <source>ID3V2 tag with unsupported flag.</source>
         <translatorcomment>Translation of flag is uncertain.</translatorcomment>
         <translation>Tag ID3V2 comportant un drapeau non supporté.</translation>
@@ -2705,7 +2705,7 @@ Ceci est utile pour créer des fichiers M3U contenant des chemins relatifs.</tra
 <context>
     <name>Id3V2StreamBase</name>
     <message>
-        <location filename="../Id3V2Stream.cpp" line="1459"/>
+        <location filename="../Id3V2Stream.cpp" line="1465"/>
         <source>%1 (Frame: %2)</source>
         <translation>%1 (Trame: %2)</translation>
     </message>
@@ -3210,7 +3210,7 @@ Vous voudrez peut-être revérifier la liste et y ajouter les notes que vous sou
         <location filename="../MainFormDlgImpl.cpp" line="2521"/>
         <location filename="../MainFormDlgImpl.cpp" line="2557"/>
         <location filename="../MainFormDlgImpl.cpp" line="2731"/>
-        <location filename="../MainFormDlgImpl.cpp" line="3452"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3451"/>
         <location filename="../main.cpp" line="425"/>
         <location filename="../main.cpp" line="464"/>
         <source>Error</source>
@@ -3276,7 +3276,7 @@ Vous voudrez peut-être revérifier la liste et y ajouter les notes que vous sou
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2840"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2967"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2966"/>
         <source>Info</source>
         <translation>Information</translation>
     </message>
@@ -3382,7 +3382,7 @@ Vous voudrez peut-être revérifier la liste et y ajouter les notes que vous sou
         <location filename="../MainFormDlgImpl.cpp" line="2334"/>
         <location filename="../MainFormDlgImpl.cpp" line="2356"/>
         <location filename="../MainFormDlgImpl.cpp" line="2417"/>
-        <location filename="../MainFormDlgImpl.cpp" line="3499"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3498"/>
         <source>Confirm</source>
         <translation>Confirmer</translation>
     </message>
@@ -3502,7 +3502,7 @@ Arrêt...</translation>
         <location filename="../MainFormDlgImpl.cpp" line="2334"/>
         <location filename="../MainFormDlgImpl.cpp" line="2356"/>
         <location filename="../MainFormDlgImpl.cpp" line="2417"/>
-        <location filename="../MainFormDlgImpl.cpp" line="3499"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3498"/>
         <source>&amp;Yes</source>
         <translation>&amp;Oui</translation>
     </message>
@@ -3510,7 +3510,7 @@ Arrêt...</translation>
         <location filename="../MainFormDlgImpl.cpp" line="2334"/>
         <location filename="../MainFormDlgImpl.cpp" line="2356"/>
         <location filename="../MainFormDlgImpl.cpp" line="2417"/>
-        <location filename="../MainFormDlgImpl.cpp" line="3499"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3498"/>
         <source>&amp;No</source>
         <translation>&amp;Non</translation>
     </message>
@@ -3592,7 +3592,7 @@ Arrêt...</translation>
     </message>
     <message>
         <location filename="../MainFormDlgImpl.cpp" line="2856"/>
-        <location filename="../MainFormDlgImpl.cpp" line="2968"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2967"/>
         <source>Disable checking for new versions</source>
         <translation>Ne pas vérifier les nouvelles versions</translation>
     </message>
@@ -3602,80 +3602,80 @@ Arrêt...</translation>
         <translation>Vérifier les nouvelles versions</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2944"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2943"/>
         <source>Version %1 has been published. You are running %2. You can see what&apos;s new in %3. A more technical list with changes can be seen in %4.</source>
         <translation>La version %1 vient d&apos;être publiée. Vous exécutez %2. Vous pouvez consulter les nouveautés sur %3. Une liste plus technique avec les modifications se trouve dans %4.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2948"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2947"/>
         <source>the %1MP3 Diags blog%2</source>
         <comment>arguments are HTML elements</comment>
         <translation>le %1blog de MP3 Diags%2</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2952"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2951"/>
         <source>the %1change log%2</source>
         <comment>arguments are HTML elements</comment>
         <translation>le %1journal des modifications%2</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2959"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2958"/>
         <source>This notification is about the availability of the source code. Binaries may or may not be available at this time, depending on your particular platform.</source>
         <translation>Cette notification concerne la disponibilité du code source. Les versions compilées peuvent selon votre plate-forme ne pas être encore disponibles.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2962"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2961"/>
         <source>You should review the changes and decide if you want to upgrade or not.</source>
         <translation>Vous devriez regarder les modifications et décidez si vous souhaitez ou non mettre à jour.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2963"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2962"/>
         <source>Note: if you want to upgrade, you should %1close MP3 Diags%2 first.</source>
         <comment>arguments are HTML elements</comment>
         <translation>Note : si vous souhaitez mettre à jour, vous devez d&apos;abord %1fermer MP3 Diags%2.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2964"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2963"/>
         <source>Choose what do you want to do:</source>
         <translation>Choisissez ce que vous souhaitez faire :</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2968"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2967"/>
         <source>Just close this message</source>
         <translation>Fermer simplement ce message</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="2968"/>
+        <location filename="../MainFormDlgImpl.cpp" line="2967"/>
         <source>Don&apos;t tell me about version %1 again</source>
         <translation>Ne plus m&apos;informer concernant la version %1</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3377"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3376"/>
         <source>Open containing folder ...</source>
         <translation>Ouvrir le dossier contenant ...</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3423"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3422"/>
         <source>Run &quot;%1&quot; on %2?</source>
         <translation>Exécuter &quot;%1&quot; sur %2 ?</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3452"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3451"/>
         <source>Cannot start process. Check that the executable name and the parameters are correct.</source>
         <translation>Impossible de démarrer le processus. Vérifiez que le nom de l&apos;exécutable ainsi que les paramètres sont corrects.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3488"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3487"/>
         <source>%1 and %2</source>
         <translation>%1 et %2</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3492"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3491"/>
         <source>%1, %2 and %3</source>
         <translation>%1, %2 et %3</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3496"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3495"/>
         <source>%1, %2 and %3 other files</source>
         <translation>%1, %2 et %3 autres fichiers</translation>
     </message>
@@ -5056,42 +5056,42 @@ Ceci est supposé être un fichier qui n&apos;existe pas encore. Vous n&apos;ave
 <context>
     <name>ShellIntegrator</name>
     <message>
-        <location filename="../Helpers.cpp" line="1200"/>
+        <location filename="../Helpers.cpp" line="1217"/>
         <source>%1 - %2</source>
         <translation>%1 - %2</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1282"/>
+        <location filename="../Helpers.cpp" line="1299"/>
         <source>Error setting up shell integration</source>
         <translation>Erreur lors de la configuration de l&apos;intégration au shell</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1282"/>
+        <location filename="../Helpers.cpp" line="1299"/>
         <source>It appears that setting up shell integration didn&apos;t complete successfully. You might have to configure it manually.</source>
         <translation>Il semble que la configuration de l&apos;intégration au shell ne se soit pas terminée correctement. Vous aurez sans doute à la configurer manuellement.</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1283"/>
+        <location filename="../Helpers.cpp" line="1300"/>
         <source>This message will not be shown again until the program is restarted, even if more errors occur.</source>
         <translation>Ce message n&apos;apparaîtra plus jusqu&apos;au redémarrage du programme, même si d&apos;autres erreurs se produisent.</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1284"/>
+        <location filename="../Helpers.cpp" line="1301"/>
         <source>O&amp;K</source>
         <translation>O&amp;K</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1304"/>
+        <location filename="../Helpers.cpp" line="1321"/>
         <source>temporary folder</source>
         <translation>dossier temporaire</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1305"/>
+        <location filename="../Helpers.cpp" line="1322"/>
         <source>hidden folder</source>
         <translation>dossier caché</translation>
     </message>
     <message>
-        <location filename="../Helpers.cpp" line="1306"/>
+        <location filename="../Helpers.cpp" line="1323"/>
         <source>visible folder</source>
         <translation>dossier visible</translation>
     </message>
@@ -5596,7 +5596,7 @@ Les espaces de début et de fin sont automatiquement supprimés des champs non l
     <message>
         <location filename="../ApeStream.cpp" line="161"/>
         <location filename="../Id3V230Stream.cpp" line="213"/>
-        <location filename="../Id3V240Stream.cpp" line="348"/>
+        <location filename="../Id3V240Stream.cpp" line="357"/>
         <source>&lt;non-text value&gt;</source>
         <translation>&lt;valeur non texte&gt;</translation>
     </message>
@@ -6175,12 +6175,12 @@ Durée d&apos;exécution : %2</translation>
         <translation>Supprimer les flux sélectionnés</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3025"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3024"/>
         <source>Removes specified stream.</source>
         <translation>Supprime le flux spécifié.</translation>
     </message>
     <message>
-        <location filename="../MainFormDlgImpl.cpp" line="3027"/>
+        <location filename="../MainFormDlgImpl.cpp" line="3026"/>
         <source>Remove specified stream</source>
         <translation>Supprimer le flux spécifié</translation>
     </message>

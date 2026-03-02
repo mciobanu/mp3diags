@@ -246,7 +246,7 @@ README.md	f	2024-01-08T19:23:06Z
 Rebuild-Transl-_ts-Files.sh	f	2024-01-04T12:04:07Z
 Release.txt	f	2023-11-28T14:53:47Z
 src/aaa-info.txt	f	2024-01-07T17:22:50Z
-src/AboutDlgImpl.cpp	f	2024-01-07T21:14:47Z
+src/AboutDlgImpl.cpp	f	2026-03-02T20:51:44Z
 src/AboutDlgImpl.h	f	2009-07-17T15:02:37Z
 src/About.ui	f	2024-01-07T21:09:06Z
 src/AlbumInfoDownloaderDlgImpl.cpp	f	2024-01-07T13:01:04Z
@@ -449,9 +449,9 @@ src/Transformation.h	f	2014-11-12T11:16:17Z
 src/Translation.cpp	f	2023-11-30T20:31:37Z
 src/Translation.h	f	2012-03-04T06:52:32Z
 src/translations/autoTransl/MixedCase.cpp	f	2012-02-29T21:51:40Z
-src/translations/mp3diags_cs.ts	f	2024-01-07T21:13:59Z
-src/translations/mp3diags_de_DE.ts	f	2024-01-07T21:13:59Z
-src/translations/mp3diags_fr_FR.ts	f	2024-01-07T21:13:59Z
+src/translations/mp3diags_cs.ts	f	2026-03-02T20:45:56Z
+src/translations/mp3diags_de_DE.ts	f	2026-03-02T20:48:04Z
+src/translations/mp3diags_fr_FR.ts	f	2026-03-02T20:51:10Z
 src/UniqueNotesModel.cpp	f	2024-01-04T18:28:43Z
 src/UniqueNotesModel.h	f	2009-05-06T07:33:22Z
 src/Version.cpp	f	2013-03-31T22:31:45Z
